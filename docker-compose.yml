@@ -9,11 +9,11 @@ services:
     ports:
       - '80:4200'
     volumes:
-      - vms-frontend-sync:/app:nocopy
+      - app-sync:/app:nocopy
       - node_modules:/app/node_modules
       
       
 volumes:
-  vms-frontend-sync:
+  app-sync:
     external: true
   node_modules:
