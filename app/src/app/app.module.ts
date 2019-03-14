@@ -26,9 +26,12 @@ import { AppComponent } from './app.component';
 import { reducers, metaReducers } from './app-reducer';
 import { environment } from '../environments/environment';
 
+/* Modules */
 import { CoreModule } from './core/core.module';
+import { MapModule } from './modules/map/map.module';
 
 /* Effects */
+import { AssetEffects } from './data/asset/asset.effects';
 import { AuthEffects } from './data/auth/auth.effects';
 
 /* Services */
@@ -54,10 +57,11 @@ import { TestComponent } from './test/test.component';
 
 
     HttpClientModule,
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, AssetEffects]),
     BrowserAnimationsModule,
     MDBBootstrapModule.forRoot(),
     CoreModule,
+    MapModule
   ],
   providers: [],
   bootstrap: [AppComponent]

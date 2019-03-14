@@ -7,11 +7,13 @@ import { AuthGuard } from './core/guards/auth.guard';
 // Layouts
 import { DefaultLayoutComponent } from './core/layouts/default/default.component';
 import { LoginLayoutComponent } from './core/layouts/login/login.component';
+import { FullLayoutComponent } from './core/layouts/full/full.component';
 
 
 // Core-pages
 import { LoginComponent } from './core/pages/login/login.component';
 import { UnauthorizedComponent } from './core/pages/unauthorized/unauthorized.component';
+import { RealtimeComponent } from './modules/map/pages/realtime/realtime.component';
 
 const routes: Routes = [
   {
@@ -21,6 +23,14 @@ const routes: Routes = [
     children: [
       { path: '', component: TestComponent, pathMatch: 'full'},
       { path: 'test', component: TestComponent, pathMatch: 'full'},
+    ]
+  },
+  {
+    path: '',
+    component: FullLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'map/realtime', component: RealtimeComponent, pathMatch: 'full'}
     ]
   },
   {

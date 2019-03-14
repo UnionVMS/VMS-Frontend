@@ -29,6 +29,7 @@
     "angular-bootstrap-md": "^7.4.2",
     "chart.js": "^2.5.0",
     "core-js": "^2.5.4",
+    "event-source-polyfill": "^1.0.5",
     "hammerjs": "^2.0.8",
     "jwt-decode": "^2.2.0",
     "ngrx-store-localstorage": "^7.0.0",
