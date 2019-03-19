@@ -6,7 +6,7 @@ export const getAuthState = createFeatureSelector<State>('auth');
 export const getAuthToken = createSelector(
   getAuthState,
   (state: State) => {
-    if(state.user !== null) {
+    if (state.user !== null) {
       return state.user.jwtToken.raw;
     }
     return null;
@@ -16,8 +16,7 @@ export const getAuthToken = createSelector(
 export const isLoggedIn = createSelector(
   getAuthState,
   (state: State) => {
-    console.warn(state.user);
-    if(
+    if (
       state.user !== null &&
       typeof state.user.data !== 'undefined' &&
       typeof state.user.data.username !== 'undefined'
@@ -26,4 +25,4 @@ export const isLoggedIn = createSelector(
     }
     return false;
   }
-)
+);

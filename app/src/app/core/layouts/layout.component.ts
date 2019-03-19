@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getRouterData } from '../../data/router/router.selectors'
+import { getRouterData } from '../../data/router/router.selectors';
 import { Subscription } from 'rxjs';
 
 @Component({

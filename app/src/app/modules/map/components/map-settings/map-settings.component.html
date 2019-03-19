@@ -1,0 +1,8 @@
+<div class="content-container">
+  <ng-template [ngIf]="!hidePanel">
+    <div class="toggle-names" (click)="toggleNames()">Toggle names</div>
+    <div class="toggle-speeds" (click)="toggleSpeeds()">Toggle speeds</div>
+    <div (click)="hidePanel = !hidePanel">Hide</div>
+  </ng-template>
+  <div *ngIf="hidePanel" (click)="hidePanel = !hidePanel">Show</div>
+</div>

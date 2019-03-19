@@ -1,4 +1,27 @@
-<div id="map-container">
-  <div id="map"></div>
-  <map-assets [assets]="assets" [map]="map"></map-assets>
+<div class="realtime-container">
+  <div class="map-container">
+    <div id="realtime-map"></div>
+    <map-assets
+      [assets]="assets"
+      [map]="map"
+      [namesVisible]="(mapSettings$ | async).namesVisible"
+      [speedsVisible]="(mapSettings$ | async).speedsVisible"
+      [selectAsset]="selectAsset"
+    ></map-assets>
+  </div>
+  <map-settings
+    [mapSettings]="mapSettings$ | async"
+    [setVisibilityForAssetNames]="setVisibilityForAssetNames"
+    [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
+  ></map-settings>
+  <asset-panel
+    *ngIf="(selectedAsset$|async).fullAsset !== undefined"
+    [asset]="selectedAsset$|async"
+    [getAssetTrack]="getAssetTrack"
+  ></asset-panel>
+  <map-tracks
+    [assetTracks]="assetTracks$|async"
+    [map]="map"
+    [mapZoom]="mapZoom"
+  ></map-tracks>
 </div>

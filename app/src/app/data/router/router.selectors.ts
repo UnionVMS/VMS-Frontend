@@ -6,18 +6,18 @@ export const getRouterState = createFeatureSelector('router');
 export const getActivatedRoute = createSelector(
   getRouterState,
   (routerState: any) => {
-    if(typeof routerState !== 'undefined') {
+    if (typeof routerState !== 'undefined') {
       return routerState.state;
     }
   }
-)
+);
 
 export const getRouterData = createSelector(
   getActivatedRoute,
   (activatedRoute: ActivatedRoute) => {
-    if(typeof activatedRoute !== 'undefined' && typeof activatedRoute.root.firstChild !== 'undefined') {
+    if (typeof activatedRoute !== 'undefined' && typeof activatedRoute.root.firstChild !== 'undefined') {
       return activatedRoute.root.firstChild.data;
     }
     return {};
   }
-)
+);

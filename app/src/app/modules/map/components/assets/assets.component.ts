@@ -1,17 +1,17 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AssetReducer, AssetActions, AssetSelectors } from '../../../../data/asset';
+import { deg2rad, intToRGB, hashCode } from '../../../../helpers';
 
 import Map from 'ol/Map';
-import {Fill, RegularShape, Stroke, Style, Circle as CircleStyle, Icon } from 'ol/style.js';
+import {Fill, Stroke, Style, Icon, Text } from 'ol/style.js';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import Polygon from 'ol/geom/Polygon';
 import { fromLonLat } from 'ol/proj';
-import GeoJSON from 'ol/format/GeoJSON.js';
-import MultiPoint from 'ol/geom/MultiPoint.js';
+import Select from 'ol/interaction/Select.js';
+
 
 
 @Component({
@@ -19,17 +19,22 @@ import MultiPoint from 'ol/geom/MultiPoint.js';
   templateUrl: './assets.component.html',
   styleUrls: ['./assets.component.scss']
 })
-export class AssetsComponent implements OnInit, OnDestroy {
+export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() assets: Array<AssetReducer.Asset>;
   @Input() map: Map;
+  @Input() namesVisible: boolean;
+  @Input() speedsVisible: boolean;
+  @Input() selectAsset: Function;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
-  private layerTitle: string = "Asset Layer";
+  private layerTitle = 'Asset Layer';
+  private namesWereVisibleLastRerender: boolean;
+  private speedsWereVisibleLastRerender: boolean;
+  private selection: Select;
 
   ngOnInit() {
-
     this.vectorSource = new VectorSource();
     this.vectorLayer = new VectorLayer({
       title: this.layerTitle,
@@ -37,6 +42,14 @@ export class AssetsComponent implements OnInit, OnDestroy {
       renderBuffer: 200
     });
     this.map.addLayer(this.vectorLayer);
+    this.selection = new Select();
+    this.map.addInteraction(this.selection);
+    this.selection.on('select', (event) => {
+      if (typeof event.selected[0] !== 'undefined') {
+        this.selectAsset(event.selected[0].id_);
+        console.warn(event.selected[0].id_);
+      }
+    });
 
     this.vectorSource.addFeatures(this.assets.map((asset) => this.createFeatureFromAsset(asset)));
 
@@ -44,64 +57,13 @@ export class AssetsComponent implements OnInit, OnDestroy {
     this.vectorLayer.getSource().refresh();
   }
 
-  deg2rad(degrees) {
-    return Math.sin(degrees * Math.PI / 180);
-  }
-
-  radToDeg(rad) {
-      return (180.0 * (rad / Math.PI));
-  }
-
-  intToRGB(i) {
-    var c = (i & 0x00FFFFFF)
-        .toString(16)
-        .toUpperCase();
-
-    return "00000".substring(0, 6 - c.length) + c;
-  }
-
-  hashCode(str) { // java String#hashCode
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return hash;
-  }
-
-  createFeatureFromAsset(asset: AssetReducer.Asset) {
-    const assetFeature = new Feature(new Point(fromLonLat([asset.location.longitude, asset.location.latitude])));
-    const stroke = new Stroke({color: 'black', width: 2});
-    const fill = new Fill({color: 'green'});
-
-    const assetStyle = new Style({
-      image: new Icon({
-        src: '/assets/arrow_640_rotated_4p.png',
-        scale: 0.8,
-        rotation: Math.PI,
-        color: "#" + this.intToRGB(this.hashCode(asset.asset))
-      }),
-    });
-
-    assetFeature.setStyle(assetStyle);
-    assetFeature.getStyle().getImage().setOpacity(1);
-    assetFeature.getStyle().getImage().setRotation(this.deg2rad(asset.heading));
-    assetFeature.setId(asset.asset);
-    return assetFeature;
-  }
-
-  updateFeatureFromAsset(assetFeature: Feature, asset: AssetReducer.Asset) {
-    assetFeature.setGeometry(new Point(fromLonLat([asset.location.longitude, asset.location.latitude])));
-    assetFeature.getStyle().getImage().setRotation(this.deg2rad(asset.heading));
-    return assetFeature;
-  }
-
   ngOnChanges() {
     // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
-    if(typeof this.vectorSource !== 'undefined') {
+    if (typeof this.vectorSource !== 'undefined') {
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
           const assetFeature = this.vectorSource.getFeatureById(asset.asset);
-          if(assetFeature !== null) {
+          if (assetFeature !== null) {
             this.updateFeatureFromAsset(assetFeature, asset);
           } else {
             acc.push(this.createFeatureFromAsset(asset));
@@ -111,10 +73,87 @@ export class AssetsComponent implements OnInit, OnDestroy {
       );
       this.vectorLayer.getSource().changed();
       this.vectorLayer.getSource().refresh();
+      this.namesWereVisibleLastRerender = this.namesVisible;
+      this.speedsWereVisibleLastRerender = this.speedsVisible;
     }
   }
 
   ngOnDestroy() {
-
+    this.map.removeLayer(this.vectorLayer);
   }
+
+  createFeatureFromAsset(asset: AssetReducer.Asset) {
+    const assetFeature = new Feature(new Point(fromLonLat([
+      asset.microMove.location.longitude, asset.microMove.location.latitude
+    ])));
+
+    const styleProperties: any = {
+      image: new Icon({
+        src: '/assets/arrow_640_rotated_4p.png',
+        scale: 0.8,
+        color: '#' + intToRGB(hashCode(asset.asset))
+      })
+    };
+    if (this.namesVisible || this.speedsVisible) {
+      styleProperties.text = this.getTextStyleForName(asset);
+    }
+
+    const assetStyle = new Style(styleProperties);
+
+    assetFeature.setStyle(assetStyle);
+    assetFeature.getStyle().getImage().setOpacity(1);
+    assetFeature.getStyle().getImage().setRotation(deg2rad(asset.microMove.heading));
+    assetFeature.setId(asset.asset);
+    return assetFeature;
+  }
+
+  updateFeatureFromAsset(assetFeature: Feature, asset: AssetReducer.Asset) {
+    assetFeature.setGeometry(new Point(fromLonLat([
+      asset.microMove.location.longitude, asset.microMove.location.latitude
+    ])));
+    assetFeature.getStyle().getImage().setRotation(deg2rad(asset.microMove.heading));
+    if (
+      this.namesWereVisibleLastRerender !== this.namesVisible ||
+      this.speedsWereVisibleLastRerender !== this.speedsVisible
+    ) {
+      if (this.namesVisible || this.speedsVisible) {
+        assetFeature.getStyle().setText(this.getTextStyleForName(asset));
+      } else {
+        assetFeature.getStyle().setText(null);
+      }
+    }
+    return assetFeature;
+  }
+
+  getTextStyleForName(asset: AssetReducer.Asset) {
+    let text = null;
+    let offsetY = -15;
+    if (this.namesVisible) {
+      text = asset.assetName;
+    }
+    if (this.speedsVisible) {
+      if (text !== null) {
+        text += '\n' + asset.microMove.speed.toFixed(2) + ' kts';
+        offsetY = -22;
+      } else {
+        text = asset.microMove.speed.toFixed(2) + ' kts';
+      }
+    }
+
+    return new Text({
+      font: '13px Calibri,sans-serif',
+      fill: new Fill({ color: '#000' }),
+      stroke: new Stroke({
+        color: '#fff',
+        width: 2
+      }),
+      offsetY,
+      // offsetY: -15,
+      // get the text from the feature - `this` is ol.Feature
+      // and show only under certain resolution
+      // text: map.getView().getZoom() > 12 ? this.get('description') : ''
+      text
+    });
+  }
+
 }

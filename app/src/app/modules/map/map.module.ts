@@ -6,7 +6,9 @@ import { RealtimeComponent } from './pages/realtime/realtime.component';
 
 /* Components */
 import { AssetsComponent } from './components/assets/assets.component';
-
+import { AssetPanelComponent } from './components/asset-panel/asset-panel.component';
+import { MapSettingsComponent } from './components/map-settings/map-settings.component';
+import { TracksComponent } from './components/tracks/tracks.component';
 
 @NgModule({
   imports: [
@@ -14,7 +16,10 @@ import { AssetsComponent } from './components/assets/assets.component';
   ],
   declarations: [
     RealtimeComponent,
-    AssetsComponent
+    AssetsComponent,
+    AssetPanelComponent,
+    MapSettingsComponent,
+    TracksComponent,
   ],
   providers: [
   ]

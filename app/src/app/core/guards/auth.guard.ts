@@ -12,10 +12,11 @@ import { AuthSelectors } from '../../data/auth';
 
 @Injectable()
 export class AuthGuard implements CanActivate, OnDestroy {
-  private isLoggedIn: boolean = false;
+  private isLoggedIn = false;
   private isLoggedInSubscription: Subscription;
   constructor(private store: Store<any>, private router: Router) {
-    this.isLoggedInSubscription = this.store.select(AuthSelectors.isLoggedIn).subscribe((isLoggedIn: boolean) => this.isLoggedIn = isLoggedIn);
+    this.isLoggedInSubscription = this.store.select(AuthSelectors.isLoggedIn)
+      .subscribe((isLoggedIn: boolean) => this.isLoggedIn = isLoggedIn);
   }
 
   ngOnDestroy() {
@@ -23,7 +24,7 @@ export class AuthGuard implements CanActivate, OnDestroy {
   }
 
   canActivate(): boolean|UrlTree {
-    if(this.isLoggedIn) {
+    if (this.isLoggedIn) {
       return true;
     } else {
       return this.router.createUrlTree(['/unauthorized']);

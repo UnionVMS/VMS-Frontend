@@ -1,0 +1,20 @@
+<div class="content-container">
+  <ng-template [ngIf]="!hidePanel">
+    <div>Name: {{asset.fullAsset.name}}</div>
+    <div>Ircs: {{asset.fullAsset.ircs}}</div>
+    <div>Mmsi: {{asset.fullAsset.mmsi}}</div>
+    <div>Speed: {{asset.currentPosition.microMove.speed.toFixed(2)}}</div>
+    <div>Heading: {{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
+    <div>Flagstate: {{asset.fullAsset.flagstate}}</div>
+    <div>ExternalMarking: {{asset.fullAsset.externalMarking}}</div>
+    <div>LengthOverAll: {{asset.fullAsset.lengthOverAll}}</div>
+    <div>LicenceType: {{asset.fullAsset.licenceType}}</div>
+    <div>VesselType: {{asset.fullAsset.VesselType}}</div>
+
+    <div>OrgNr: {{asset.fullAsset.prodOrgCode}}</div>
+    <div>OrgNamn: {{asset.fullAsset.prodOrgName}}</div>
+    <button (click)="hidePanel = !hidePanel">Hide</button>
+    <button (click)="getAssetTrack(asset.fullAsset.historyId, asset.currentPosition.microMove.guid)">Track</button>
+  </ng-template>
+  <div *ngIf="hidePanel" (click)="hidePanel = !hidePanel">Show</div>
+</div>

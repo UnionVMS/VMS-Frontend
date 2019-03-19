@@ -1,7 +1,24 @@
-#map-container {
-  height: calc(100% - 100px);
-}
+.realtime-container {
+  height: calc(100% - 56px);
+  .map-container {
+    height: 100%;
+    #realtime-map {
+      height: 100%;
+    }
+  }
 
-#map {
-  height: 100%;
+  map-settings {
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  asset-panel {
+    position: fixed;
+    left: 0px;
+    top: 55px;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.5);
+    border-right: 2px solid #000000;
+  }
 }

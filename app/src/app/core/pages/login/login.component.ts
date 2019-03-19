@@ -16,15 +16,14 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.store.select(AuthSelectors.isLoggedIn).subscribe(isLoggedIn => {
-      if(isLoggedIn) {
-        this.router.navigate(['/map/realtime'])
+      if (isLoggedIn) {
+        this.router.navigate(['/map/realtime']);
       }
     });
   }
 
   submitLogin(username: string, password: string) {
-    console.warn(username, password);
-    this.store.dispatch(new AuthActions.Login({ username: username, password: password }));
+    this.store.dispatch(new AuthActions.Login({ username, password }));
     return false;
   }
 
