@@ -1,8 +1,15 @@
 <div class="content-container">
   <ng-template [ngIf]="!hidePanel">
-    <div class="toggle-names" (click)="toggleNames()">Toggle names</div>
-    <div class="toggle-speeds" (click)="toggleSpeeds()">Toggle speeds</div>
-    <div (click)="hidePanel = !hidePanel">Hide</div>
+    <map-viewports
+      [map]="map"
+      [mapSettings]="mapSettings"
+      [saveViewport]="saveViewport"
+    ></map-viewports>
+    <button (click)="toggleFlags()">Toggle flags</button>
+    <button (click)="toggleTracks()">Toggle tracks</button>
+    <button (click)="toggleNames()">Toggle names</button>
+    <button (click)="toggleSpeeds()">Toggle speeds</button>
+    <button (click)="hidePanel = !hidePanel">Hide</button>
   </ng-template>
-  <div *ngIf="hidePanel" (click)="hidePanel = !hidePanel">Show</div>
+  <button *ngIf="hidePanel" (click)="hidePanel = !hidePanel">Show</button>
 </div>

@@ -7,12 +7,18 @@
       [namesVisible]="(mapSettings$ | async).namesVisible"
       [speedsVisible]="(mapSettings$ | async).speedsVisible"
       [selectAsset]="selectAsset"
+      [registerOnClickFunction]="registerOnClickFunction"
+      [unregisterOnClickFunction]="unregisterOnClickFunction"
     ></map-assets>
   </div>
   <map-settings
     [mapSettings]="mapSettings$ | async"
     [setVisibilityForAssetNames]="setVisibilityForAssetNames"
     [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
+    [setVisibilityForFlags]="setVisibilityForFlags"
+    [setVisibilityForTracks]="setVisibilityForTracks"
+    [map]="map"
+    [saveViewport]="saveViewport"
   ></map-settings>
   <asset-panel
     *ngIf="(selectedAsset$|async).fullAsset !== undefined"
@@ -20,8 +26,21 @@
     [getAssetTrack]="getAssetTrack"
   ></asset-panel>
   <map-tracks
+    *ngIf="(mapSettings$|async).tracksVisible"
     [assetTracks]="assetTracks$|async"
     [map]="map"
     [mapZoom]="mapZoom"
+    [registerOnClickFunction]="registerOnClickFunction"
+    [unregisterOnClickFunction]="unregisterOnClickFunction"
+    [addPositionForInspection]="addPositionForInspection"
+    [positionsForInspection]="positionsForInspection$|async"
   ></map-tracks>
+  <map-flagstates
+    *ngIf="(mapSettings$|async).flagsVisible"
+    [assets]="assets"
+    [map]="map"
+  ></map-flagstates>
+  <track-panel
+    [positions]="positionsForInspection$|async"
+  ></track-panel>
 </div>

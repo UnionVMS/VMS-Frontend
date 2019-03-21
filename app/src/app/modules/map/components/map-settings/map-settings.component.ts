@@ -9,6 +9,10 @@ export class MapSettingsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() mapSettings;
   @Input() setVisibilityForAssetNames;
   @Input() setVisibilityForAssetSpeeds;
+  @Input() setVisibilityForTracks;
+  @Input() setVisibilityForFlags;
+  @Input() map;
+  @Input() saveViewport;
 
   private hidePanel = false;
 
@@ -26,5 +30,11 @@ export class MapSettingsComponent implements OnInit, OnDestroy, OnChanges {
   }
   toggleSpeeds() {
     this.setVisibilityForAssetSpeeds(!this.mapSettings.speedsVisible);
+  }
+  toggleFlags() {
+    this.setVisibilityForFlags(!this.mapSettings.flagsVisible);
+  }
+  toggleTracks() {
+    this.setVisibilityForTracks(!this.mapSettings.tracksVisible);
   }
 }

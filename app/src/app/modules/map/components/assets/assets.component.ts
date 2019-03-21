@@ -12,8 +12,6 @@ import Point from 'ol/geom/Point';
 import { fromLonLat } from 'ol/proj';
 import Select from 'ol/interaction/Select.js';
 
-
-
 @Component({
   selector: 'map-assets',
   templateUrl: './assets.component.html',
@@ -26,6 +24,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() namesVisible: boolean;
   @Input() speedsVisible: boolean;
   @Input() selectAsset: Function;
+  @Input() registerOnClickFunction: Function;
+  @Input() unregisterOnClickFunction: Function;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -42,12 +42,12 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       renderBuffer: 200
     });
     this.map.addLayer(this.vectorLayer);
-    this.selection = new Select();
-    this.map.addInteraction(this.selection);
-    this.selection.on('select', (event) => {
-      if (typeof event.selected[0] !== 'undefined') {
+    this.registerOnClickFunction(this.layerTitle, (event) => {
+      if (
+        typeof event.selected[0] !== 'undefined' &&
+        this.vectorSource.getFeatureById(event.selected[0].id_) !== null
+      ) {
         this.selectAsset(event.selected[0].id_);
-        console.warn(event.selected[0].id_);
       }
     });
 
@@ -79,6 +79,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
+    this.unregisterOnClickFunction(this.layerTitle);
     this.map.removeLayer(this.vectorLayer);
   }
 
@@ -127,14 +128,14 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
   getTextStyleForName(asset: AssetReducer.Asset) {
     let text = null;
-    let offsetY = -15;
+    let offsetY = 20;
     if (this.namesVisible) {
       text = asset.assetName;
     }
     if (this.speedsVisible) {
       if (text !== null) {
         text += '\n' + asset.microMove.speed.toFixed(2) + ' kts';
-        offsetY = -22;
+        offsetY = 30;
       } else {
         text = asset.microMove.speed.toFixed(2) + ' kts';
       }

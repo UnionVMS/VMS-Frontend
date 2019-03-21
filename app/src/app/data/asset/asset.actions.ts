@@ -12,6 +12,7 @@ export enum ActionTypes {
   SetFullAsset = '[Asset] Set full asset',
   GetAssetTrack = '[Asset] Get asset track',
   SetAssetTrack = '[Asset] Set asset track',
+  AddPositionForInspection = '[Asset] Add position for inspection',
 }
 
 export class SubscribeToMovements implements Action {
@@ -55,5 +56,10 @@ export class GetAssetTrack implements Action {
 
 export class SetAssetTrack implements Action {
   readonly type = ActionTypes.SetAssetTrack;
+  constructor(public payload: any) {}
+}
+
+export class AddPositionForInspection implements Action {
+  readonly type = ActionTypes.AddPositionForInspection;
   constructor(public payload: any) {}
 }

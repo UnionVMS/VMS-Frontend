@@ -1,0 +1,42 @@
+.content-container {
+  position: fixed;
+  margin: auto;
+  right: 0;
+  left: 0;
+  width: 600px;
+  bottom: 0px;
+  background: rgba(0, 0, 0, 0.5);
+  border-right: 2px solid #000000;
+  border-left: 2px solid #000000;
+  border-top: 2px solid #000000;
+
+  // background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+  overflow-y: scroll;
+
+  -ms-overflow-style: none;  // IE 10+
+  overflow: -moz-scrollbars-none;  // Firefox
+  &::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+
+  .btn.hide {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    padding: 1px 5px;
+    margin: 0;
+  }
+
+  .track-table {
+    margin-bottom: 0px;
+    th, td {
+      padding: 0 5px;
+    }
+  }
+
+  div {
+    cursor: pointer;
+  }
+}

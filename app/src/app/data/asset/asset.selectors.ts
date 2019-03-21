@@ -37,3 +37,8 @@ export const extendedDataForSelectedAsset = createSelector(
     };
   }
 );
+
+export const getPositionsForInspection = createSelector(
+  getAssetState,
+  (state: State) => state.positionsForInspection
+)

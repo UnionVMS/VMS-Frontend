@@ -1,0 +1,29 @@
+<div class="content-container {{hidePanel ? 'hidden' : ''}}">
+  <ng-template [ngIf]="!hidePanel">
+    <button class="hide btn btn-primary" (click)="hidePanel = !hidePanel">Hide</button>
+    <table class="table track-table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Long</th>
+          <th>Lat</th>
+          <th>Heading</th>
+          <th>Speed</th>
+          <th>Time</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let positionKey of positionKeys()">
+          <td>{{positionKey}}</td>
+          <td>{{positions[positionKey].location.longitude.toFixed(4)}}</td>
+          <td>{{positions[positionKey].location.latitude.toFixed(4)}}</td>
+          <td>{{positions[positionKey].heading.toFixed(2)}}</td>
+          <td>{{positions[positionKey].speed.toFixed(2)}}</td>
+          <td>{{getFormatedDate(positions[positionKey].timestamp)}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>
+<div *ngIf="hidePanel" (click)="hidePanel = !hidePanel">Show</div>

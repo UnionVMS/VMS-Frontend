@@ -5,10 +5,9 @@ import { Action } from '@ngrx/store';
 export enum ActionTypes {
   SetVisibilityForAssetNames = '[MapSettings] Set visiblity for asset names',
   SetVisibilityForAssetSpeeds = '[MapSettings] Set visiblity for asset speeds',
-  // UnsubscribeToMovements = '[Asset] Unsubscribe to movements',
-  // AssetMoved = '[Asset] Moved',
-  // AssetsMoved = '[Asset] Multiple moves',
-  // FailedToSubscribeToMovements = '[Asset] Failed to subscribe to movements',
+  SetVisibilityForFlags = '[MapSettings] Set visiblity for flags',
+  SetVisibilityForTracks = '[MapSettings] Set visiblity for tracks',
+  SaveViewport = '[MapSettings] Save viewport',
 }
 
 export class SetVisibilityForAssetNames implements Action {
@@ -19,6 +18,21 @@ export class SetVisibilityForAssetNames implements Action {
 export class SetVisibilityForAssetSpeeds implements Action {
   readonly type = ActionTypes.SetVisibilityForAssetSpeeds;
   constructor(public payload: boolean) {}
+}
+
+export class SetVisibilityForFlags implements Action {
+  readonly type = ActionTypes.SetVisibilityForFlags;
+  constructor(public payload: boolean) {}
+}
+
+export class SetVisibilityForTracks implements Action {
+  readonly type = ActionTypes.SetVisibilityForTracks;
+  constructor(public payload: boolean) {}
+}
+
+export class SaveViewport implements Action {
+  readonly type = ActionTypes.SaveViewport;
+  constructor(public payload: any) {}
 }
 //
 // export class UnsubscribeToMovements implements Action {
