@@ -21,12 +21,10 @@
     display: none;  // Safari and Chrome
   }
 
-  .btn.hide {
+  ui-button-close {
     position: absolute;
     top: 5px;
     right: 10px;
-    padding: 1px 5px;
-    margin: 0;
   }
 
   .track-table {
@@ -39,4 +37,14 @@
   div {
     cursor: pointer;
   }
+}
+
+.show-button {
+  position: fixed;
+  margin: auto;
+  right: 0;
+  left: 0;
+  width: 3em;
+  padding: 6px 10px;
+  bottom: 0px;
 }

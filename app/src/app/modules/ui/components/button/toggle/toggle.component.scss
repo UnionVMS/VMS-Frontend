@@ -1,0 +1,123 @@
+/* The toggle - the box around the slider */
+.toggle {
+  position: relative;
+  display: block;
+  cursor: pointer;
+
+  /* The slider */
+  .slider {
+    width: 57px;
+    height: 24px;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    display: inline-block;
+    position: relative;
+    float: right;
+
+    &:before, &:after {
+      text-align: center;
+      font-weight: 500;
+      // color: @color;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: absolute;
+      transition: opacity .25s;
+    }
+    &:before {
+      content: 'On';
+      left: 10px;
+      top: 5px;
+      opacity: 0;
+    }
+    &:after {
+      content: 'Off';
+      opacity: 1;
+      right: 6px;
+      top: 5px;
+    }
+
+    .handle {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 4px;
+      bottom: 3px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    /* Rounded sliders */
+    &.round {
+      border-radius: 34px;
+    }
+
+    &.round .handle {
+      border-radius: 50%;
+    }
+  }
+
+  /* Hide default HTML checkbox */
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  input:checked + .slider {
+    background-color: #2196F3;
+    &:before {
+      opacity: 1;
+      -webkit-transform: opacity 0.25s;
+      -ms-transform: opacity 0.25s;
+      transform: opacity 0.25s;
+    }
+    &:after {
+      opacity: 0;
+      -webkit-transform: opacity 0.25s;
+      -ms-transform: opacity 0.25s;
+      transform: opacity 0.25s;
+    }
+    .handle {
+      -webkit-transform: translateX(31px);
+      -ms-transform: translateX(31px);
+      transform: translateX(31px);
+    }
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+
+  &.big {
+    height: 34px;
+    .label {
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 34px;
+    }
+    .slider {
+      height: 34px;
+      width: 65px;
+
+      &:before {
+        left: 10px;
+        top: 10px;
+      }
+      &:after {
+        right: 6px;
+        top: 10px;
+      }
+
+      .handle {
+        height: 26px;
+        width: 26px;
+        bottom: 4px;
+      }
+
+    }
+  }
+}

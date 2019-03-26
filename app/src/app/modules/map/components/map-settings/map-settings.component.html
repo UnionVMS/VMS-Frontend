@@ -1,15 +1,31 @@
-<div class="content-container">
-  <ng-template [ngIf]="!hidePanel">
-    <map-viewports
-      [map]="map"
-      [mapSettings]="mapSettings"
-      [saveViewport]="saveViewport"
-    ></map-viewports>
-    <button (click)="toggleFlags()">Toggle flags</button>
-    <button (click)="toggleTracks()">Toggle tracks</button>
-    <button (click)="toggleNames()">Toggle names</button>
-    <button (click)="toggleSpeeds()">Toggle speeds</button>
-    <button (click)="hidePanel = !hidePanel">Hide</button>
-  </ng-template>
-  <button *ngIf="hidePanel" (click)="hidePanel = !hidePanel">Show</button>
+<div class="content-container" *ngIf="!hidePanel">
+  <ui-button-close [clickFunction]="toggleVisibility"></ui-button-close>
+  <map-viewports
+    [map]="map"
+    [mapSettings]="mapSettings"
+    [saveViewport]="saveViewport"
+  ></map-viewports>
+  <ui-button-toggle
+    [label]="'Flags'"
+    [value]="mapSettings.flagsVisible"
+    [switchFunction]="toggleFlags"
+  ></ui-button-toggle>
+  <ui-button-toggle
+    [label]="'Tracks'"
+    [value]="mapSettings.tracksVisible"
+    [switchFunction]="toggleTracks"
+  ></ui-button-toggle>
+  <ui-button-toggle
+    [label]="'Names'"
+    [value]="mapSettings.namesVisible"
+    [switchFunction]="toggleNames"
+  ></ui-button-toggle>
+  <ui-button-toggle
+    [label]="'Speeds'"
+    [value]="mapSettings.speedsVisible"
+    [switchFunction]="toggleSpeeds"
+  ></ui-button-toggle>
 </div>
+<button class="show-button btn btn-primary" *ngIf="hidePanel" (click)="hidePanel = !hidePanel">
+  <i class="fas fa-chevron-left"></i>
+</button>

@@ -4,7 +4,7 @@ import { AssetReducer, AssetActions, AssetSelectors } from '../../../../data/ass
 import { deg2rad, intToRGB, hashCode } from '../../../../helpers';
 
 import Map from 'ol/Map';
-import { Stroke, Style, Icon, Fill } from 'ol/style.js';
+import { Stroke, Style, Icon, Fill, Text } from 'ol/style.js';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { LineString, Point } from 'ol/geom';
@@ -120,7 +120,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
   updateArrowFeatures(assetTrack: AssetReducer.AssetTrack) {
     const positionsForInspectionKeyedWithGuid = Object.keys(this.positionsForInspection).reduce((acc, positionKey) => {
-      acc[this.positionsForInspection[positionKey].guid] = this.positionsForInspection[positionKey];
+      acc[this.positionsForInspection[positionKey].guid] = { ...this.positionsForInspection[positionKey], key: positionKey };
       return acc;
     }, {});
     const newFeatureArrows = assetTrack.tracks.reduce((acc, movement, index) => {
@@ -128,15 +128,34 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       if(arrowFeature === null) {
         acc.push(this.createArrowFeature(assetTrack.assetId, movement));
       } else {
-        const inspectionFeature = this.vectorSource.getFeatureById('guid_' + movement.guid + '_inspection');
+        const arrowFeatureStyle = arrowFeature.getStyle();
         if (typeof positionsForInspectionKeyedWithGuid[movement.guid] !== 'undefined') {
-          if (inspectionFeature === null) {
-            // Create inspection feature!
+          if (!Array.isArray(arrowFeatureStyle)) {
+            const markerStyle = new Style({
+              image: new Icon({
+                src: './assets/flags/mini/icon.png',
+                anchor: [0.5, 1.1],
+                rotateWithView: true,
+                color: "#000000",
+                opacity: 0.75
+              }),
+              text: new Text({
+                font: '13px Calibri,sans-serif',
+                fill: new Fill({ color: '#FFFFFF' }),
+                stroke: new Stroke({
+                  color: '#FFFFFF',
+                  width: 2
+                }),
+                offsetY: -22,
+                text: positionsForInspectionKeyedWithGuid[movement.guid].key
+              })
+            });
+            arrowFeature.setStyle([arrowFeatureStyle, markerStyle]);
           }
           this.hideArrowDependingOnZoomLevel(arrowFeature, this.mapZoom, index, true);
         } else {
-          if (inspectionFeature !== null) {
-            // remove inspection feature!
+          if (Array.isArray(arrowFeatureStyle)) {
+            arrowFeature.setStyle(arrowFeatureStyle[0]);
           }
           this.hideArrowDependingOnZoomLevel(arrowFeature, this.mapZoom, index);
         }
@@ -147,34 +166,33 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   hideArrowDependingOnZoomLevel(arrowFeature, mapZoomLevel, index, forceShow = false) {
+    const arrowFeatureStyle = arrowFeature.getStyle();
+    let opacity = 0;
     if (forceShow) {
-      arrowFeature.getStyle().getImage().setOpacity(1);
+      opacity = 1;
     } else if (mapZoomLevel < 8) {
-      if(index % 40 !== 0) {
-        arrowFeature.getStyle().getImage().setOpacity(0);
-      } else {
-        arrowFeature.getStyle().getImage().setOpacity(1);
+      if(index % 40 === 0) {
+        opacity = 1;
       }
     } else if (mapZoomLevel < 10) {
-      if(index % 16 !== 0) {
-        arrowFeature.getStyle().getImage().setOpacity(0);
-      } else {
-        arrowFeature.getStyle().getImage().setOpacity(1);
+      if(index % 16 === 0) {
+        opacity = 1;
       }
     } else if (mapZoomLevel < 12) {
-      if(index % 6 !== 0) {
-        arrowFeature.getStyle().getImage().setOpacity(0);
-      } else {
-        arrowFeature.getStyle().getImage().setOpacity(1);
+      if(index % 6 === 0) {
+        opacity = 1;
       }
     } else if (mapZoomLevel < 14) {
-      if(index % 2 !== 0) {
-        arrowFeature.getStyle().getImage().setOpacity(0);
-      } else {
-        arrowFeature.getStyle().getImage().setOpacity(1);
+      if(index % 2 === 0) {
+        opacity = 1;
       }
     } else {
-      arrowFeature.getStyle().getImage().setOpacity(1);
+      opacity = 1;
+    }
+    if(Array.isArray(arrowFeatureStyle)) {
+      arrowFeatureStyle.map((style) => style.getImage().setOpacity(opacity));
+    } else {
+      arrowFeatureStyle.getImage().setOpacity(opacity);
     }
   }
 

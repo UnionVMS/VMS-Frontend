@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AssetReducer, AssetActions, AssetSelectors } from '../../../../data/asset';
 import { deg2rad, intToRGB, hashCode } from '../../../../helpers';
+import getContryISO2 from 'country-iso-3-to-2';
 
 import Map from 'ol/Map';
 import {Fill, Stroke, Style, Icon, Text } from 'ol/style.js';
@@ -25,6 +26,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
   private layerTitle = 'Flagstate Layer';
+  private flagCanvasByCountry: any = {};
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -73,24 +75,23 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     const flagFeature = new Feature(new Point(fromLonLat([
       asset.microMove.location.longitude, asset.microMove.location.latitude
     ])));
-    const flagState = this.getFlagStateImageName(asset.flagstate);
     const flagStyle = new Style({
       image: new Icon({
-        src: './assets/flags/mini/' + flagState + '.png',
-        anchor: [0.5, 2.4],
+        img: this.getImage(getContryISO2(asset.flagstate).toLowerCase()),
+        imgSize: [16, 12],
+        anchor: [0.5, 2.6],
         rotateWithView: true
       })
     });
     const markerStyle = new Style({
       image: new Icon({
-        src: './assets/flags/mini/icon.png',
+        src: './assets/flags/icon.png',
         anchor: [0.5, 1.1],
         rotateWithView: true,
         color: "#FFFFFF",
         opacity: 0.75
       })
     });
-
 
     flagFeature.setStyle([markerStyle, flagStyle]);
     flagFeature.setId('flag_' + asset.asset);
@@ -104,19 +105,20 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     return assetFeature;
   }
 
-  getFlagStateImageName(flagState) {
-    if (flagState === 'SWE') {
-      return 'sv';
-    } else if (flagState === 'DNK') {
-      return 'dk';
-    } else if (flagState === 'NOR') {
-      return 'no';
-    } else if (flagState === 'FIN') {
-      return 'fi';
-    } else if (flagState === 'UNK') {
-      return 'eu';
+  getImage(countryCode) {
+    if(typeof this.flagCanvasByCountry[countryCode] === 'undefined') {
+      const canvas = document.createElement('canvas');
+      canvas.setAttribute("width", "16");
+      canvas.setAttribute("height", "12");
+      const ctx = canvas.getContext("2d");
+      const img = new Image();
+      img.onload = function() {
+          ctx.drawImage(img, 0, 0, 16, 12);
+      }
+      img.src = `./assets/flags/4x3/${countryCode}.svg`;
+      this.flagCanvasByCountry[countryCode] = canvas;
     }
-  };
-
+    return this.flagCanvasByCountry[countryCode];
+  }
 
 }

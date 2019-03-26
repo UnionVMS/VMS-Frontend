@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'map-settings',
   templateUrl: './map-settings.component.html',
   styleUrls: ['./map-settings.component.scss']
 })
-export class MapSettingsComponent implements OnInit, OnDestroy, OnChanges {
+export class MapSettingsComponent {
   @Input() mapSettings;
   @Input() setVisibilityForAssetNames;
   @Input() setVisibilityForAssetSpeeds;
@@ -15,26 +15,22 @@ export class MapSettingsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() saveViewport;
 
   private hidePanel = false;
-
-  ngOnInit() {
+  private toggleVisibility: Function = () => {
+    this.hidePanel = !this.hidePanel;
   }
 
-  ngOnChanges() {
-  }
-
-  ngOnDestroy() {
-  }
-
-  toggleNames() {
+  private toggleNames: Function = () => {
     this.setVisibilityForAssetNames(!this.mapSettings.namesVisible);
   }
-  toggleSpeeds() {
+  private toggleSpeeds: Function = () => {
     this.setVisibilityForAssetSpeeds(!this.mapSettings.speedsVisible);
   }
-  toggleFlags() {
+  private toggleFlags: Function = () => {
     this.setVisibilityForFlags(!this.mapSettings.flagsVisible);
   }
-  toggleTracks() {
+  private toggleTracks: Function = () => {
     this.setVisibilityForTracks(!this.mapSettings.tracksVisible);
   }
+
+
 }

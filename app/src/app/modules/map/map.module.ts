@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+/* Modules */
+import { UIModule } from '../ui/ui.module';
+
 /* Pages */
 import { RealtimeComponent } from './pages/realtime/realtime.component';
 
@@ -14,9 +17,11 @@ import { MapViewportsComponent } from './components/map-viewports/map-viewports.
 import { TracksComponent } from './components/tracks/tracks.component';
 import { TrackPanelComponent } from './components/track-panel/track-panel.component';
 
+
 @NgModule({
   imports: [
     CommonModule,
+    UIModule,
   ],
   declarations: [
     RealtimeComponent,
@@ -28,8 +33,6 @@ import { TrackPanelComponent } from './components/track-panel/track-panel.compon
     MapViewportsComponent,
     TracksComponent,
     TrackPanelComponent
-  ],
-  providers: [
   ]
 })
 

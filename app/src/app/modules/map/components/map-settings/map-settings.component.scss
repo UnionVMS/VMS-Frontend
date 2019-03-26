@@ -2,6 +2,7 @@
   color: white;
   padding: 10px;
   overflow-y: scroll;
+  background: rgba(0, 0, 0, 0.5);
 
   -ms-overflow-style: none;  // IE 10+
   overflow: -moz-scrollbars-none;  // Firefox
@@ -13,4 +14,19 @@
     cursor: pointer;
     display: block;
   }
+
+  map-viewports {
+    padding-top: 5px;
+    margin-bottom: 5px;
+    display: block;
+    clear: both;
+  }
+
+  ui-button-close {
+    float: right;
+  }
+}
+
+.show-button {
+  padding: 6px 12px;
 }

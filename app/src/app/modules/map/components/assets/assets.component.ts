@@ -33,6 +33,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private namesWereVisibleLastRerender: boolean;
   private speedsWereVisibleLastRerender: boolean;
   private selection: Select;
+  private assetSpeedsPreviouslyRendered: { [key: string]: string } = {};
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -115,7 +116,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     assetFeature.getStyle().getImage().setRotation(deg2rad(asset.microMove.heading));
     if (
       this.namesWereVisibleLastRerender !== this.namesVisible ||
-      this.speedsWereVisibleLastRerender !== this.speedsVisible
+      this.speedsWereVisibleLastRerender !== this.speedsVisible ||
+      ( this.speedsVisible && this.assetSpeedsPreviouslyRendered[asset.asset] !== asset.microMove.speed.toFixed(2))
     ) {
       if (this.namesVisible || this.speedsVisible) {
         assetFeature.getStyle().setText(this.getTextStyleForName(asset));
@@ -139,6 +141,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       } else {
         text = asset.microMove.speed.toFixed(2) + ' kts';
       }
+      this.assetSpeedsPreviouslyRendered[asset.asset] = asset.microMove.speed.toFixed(2);
     }
 
     return new Text({

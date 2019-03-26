@@ -1,6 +1,6 @@
 <div class="content-container {{hidePanel ? 'hidden' : ''}}">
   <ng-template [ngIf]="!hidePanel">
-    <button class="hide btn btn-primary" (click)="hidePanel = !hidePanel">Hide</button>
+    <ui-button-close [clickFunction]="toggleVisibility"></ui-button-close>
     <table class="table track-table">
       <thead>
         <tr>
@@ -26,4 +26,6 @@
     </table>
   </ng-template>
 </div>
-<div *ngIf="hidePanel" (click)="hidePanel = !hidePanel">Show</div>
+<button class="show-button btn btn-primary" *ngIf="hidePanel" (click)="hidePanel = !hidePanel">
+  <i class="fas fa-chevron-up"></i>
+</button>
