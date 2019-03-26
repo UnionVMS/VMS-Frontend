@@ -1,8 +1,11 @@
+@import '~/app/src/app/variables.scss';
+
 .content-container {
+  display: grid;
   color: white;
   padding: 10px;
   overflow-y: scroll;
-  background: rgba(0, 0, 0, 0.5);
+  background: $map_overlay_background;
 
   -ms-overflow-style: none;  // IE 10+
   overflow: -moz-scrollbars-none;  // Firefox
@@ -10,10 +13,10 @@
     display: none;  // Safari and Chrome
   }
 
-  button {
-    cursor: pointer;
-    display: block;
-  }
+  // button {
+  //   cursor: pointer;
+  //   display: block;
+  // }
 
   map-viewports {
     padding-top: 5px;
@@ -22,9 +25,10 @@
     clear: both;
   }
 
-  ui-button-close {
-    float: right;
+  .hide-button-wrapper {
+    justify-self: center;
   }
+
 }
 
 .show-button {

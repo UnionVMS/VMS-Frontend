@@ -1,20 +1,70 @@
-<div class="content-container">
-  <ng-template [ngIf]="!hidePanel">
-    <div>Name: {{asset.fullAsset.name}}</div>
-    <div>Ircs: {{asset.fullAsset.ircs}}</div>
-    <div>Mmsi: {{asset.fullAsset.mmsi}}</div>
-    <div>Speed: {{asset.currentPosition.microMove.speed.toFixed(2)}}</div>
-    <div>Heading: {{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
-    <div>Flagstate: {{asset.fullAsset.flagStateCode}}</div>
-    <div>ExternalMarking: {{asset.fullAsset.externalMarking}}</div>
-    <div>LengthOverAll: {{asset.fullAsset.lengthOverAll}}</div>
-    <div>LicenceType: {{asset.fullAsset.licenceType}}</div>
-    <div>VesselType: {{asset.fullAsset.VesselType}}</div>
+<div class="content-container" *ngIf="!hidePanel">
+  <div class="asset-information">
+    <fieldset *ngIf="asset.fullAsset.name">
+      <legend>Name</legend>
+      <div>{{asset.fullAsset.name}}</div>
+    </fieldset>
+    <fieldset *ngIf="asset.fullAsset.ircs">
+      <legend>Ircs</legend>
+      <div>{{asset.fullAsset.ircs}}</div>
+    </fieldset>
+    <fieldset *ngIf="asset.fullAsset.mmsi">
+      <legend>Mmsi</legend>
+      <div>{{asset.fullAsset.mmsi}}</div>
+    </fieldset>
+    <fieldset *ngIf="asset.currentPosition.microMove.speed">
+      <legend>Speed</legend>
+      <div>{{asset.currentPosition.microMove.speed.toFixed(2)}}</div>
+    </fieldset>
+    <fieldset *ngIf="asset.currentPosition.microMove.heading">
+      <legend>Heading</legend>
+      <div>{{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
+    </fieldset>
+    <fieldset *ngIf="asset.fullAsset.flagStateCode">
+      <legend>Flagstate</legend>
+      <div>{{asset.fullAsset.flagStateCode}}</div>
+    </fieldset>
+    <fieldset *ngIf="asset.fullAsset.externalMarking">
+      <legend>ExternalMarking</legend>
+      <div>{{asset.fullAsset.externalMarking}}</div>
+    </fieldset>
+    <fieldset *ngIf="asset.fullAsset.lengthOverAll">
+      <legend>LengthOverAll</legend>
+      <div>{{asset.fullAsset.lengthOverAll}}</div>
+    </fieldset>
+    <fieldset *ngIf="asset.fullAsset.licenceType">
+      <legend>LicenceType</legend>
+      <div>{{asset.fullAsset.licenceType}}</div>
+    </fieldset>
+    <fieldset *ngIf="asset.fullAsset.VesselType">
+      <legend>VesselType</legend>
+      <div>{{asset.fullAsset.VesselType}}</div>
+    </fieldset>
 
-    <div>OrgNr: {{asset.fullAsset.prodOrgCode}}</div>
-    <div>OrgNamn: {{asset.fullAsset.prodOrgName}}</div>
-    <button (click)="hidePanel = !hidePanel">Hide</button>
-    <button (click)="getAssetTrack(asset.fullAsset.historyId, asset.currentPosition.microMove.guid)">Track</button>
-  </ng-template>
-  <div *ngIf="hidePanel" (click)="hidePanel = !hidePanel">Show</div>
+    <fieldset *ngIf="asset.fullAsset.prodOrgCode">
+      <legend>OrgNr</legend>
+      <div>{{asset.fullAsset.prodOrgCode}}</div>
+    </fieldset>
+    <fieldset *ngIf="asset.fullAsset.prodOrgName">
+      <legend>OrgNamn</legend>
+      <div>{{asset.fullAsset.prodOrgName}}</div>
+    </fieldset>
+  </div>
+  <div class="asset-buttons">
+    <button
+      class="btn btn-default"
+      (click)="getAssetTrack(asset.fullAsset.historyId, asset.currentPosition.microMove.guid)"
+    >Track</button>
+    <button
+      class="btn btn-default"
+      (click)="getAssetTrack(asset.fullAsset.historyId, asset.currentPosition.microMove.guid)"
+    >Untrack</button>
+    <button class="btn btn-default">Forecast</button>
+  </div>
+  <div class="hide-button-wrapper">
+    <button class="hide-button btn btn-primary" (click)="hidePanel = !hidePanel">Minimize</button>
+  </div>
 </div>
+<button class="show-button btn btn-primary" *ngIf="hidePanel" (click)="hidePanel = !hidePanel">
+  <i class="fas fa-chevron-right"></i>
+</button>

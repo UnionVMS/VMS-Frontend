@@ -45,86 +45,87 @@ export interface State {
 const initialState: State = {
   selectedAsset: null,
   fullAssets: {},
-  // assets: {},
+  assets: {},
   assetTracks: {},
-  assets: {
-    '65860e1e-44d1-40b1-93bf-c76309db0823': {
-      microMove: {
-        location: {
-          longitude: 18.277466666666665,
-          latitude: 57.63371666666667
-        },
-        heading: 199,
-        guid: 'aa006541-216d-4a21-82be-26d773d83fa8',
-        timestamp: '2019-03-15T10:19:30.063Z',
-        speed: 0
-      },
-      asset: '65860e1e-44d1-40b1-93bf-c76309db0823',
-      flagstate: 'UNK',
-      assetName: 'Unknown ship: 1686'
-    },
-    'ac8d0e48-2eb6-412e-8434-8faf91b8e02a': {
-      microMove: {
-        location: {
-          longitude: 11.617801666666667,
-          latitude: 57.772841666666665
-        },
-        heading: 267.5,
-        guid: '718e4d7b-3003-45ca-8316-3f8e7d746bc9',
-        timestamp: '2019-03-15T10:19:57.395Z',
-        speed: 0
-      },
-      asset: 'ac8d0e48-2eb6-412e-8434-8faf91b8e02a',
-      flagstate: 'SWE',
-      assetName: 'ROSSÖ'
-    },
-    // 'ea52a248-4f98-4b91-afde-c4f47ac2b953': {
-    //   microMove: {
-    //     location: {
-    //       longitude: 11.618536666666667,
-    //       latitude: 57.75817
-    //     },
-    //     heading: 50.099998474121094,
-    //     guid: '2983a7df-69cf-47a8-b56a-2441bd48901f',
-    //     timestamp: '2019-03-15T10:19:57.398Z',
-    //     speed: 4.900000095367432
-    //   },
-    //   asset: 'ea52a248-4f98-4b91-afde-c4f47ac2b953',
-    //   flagstate: 'UNK',
-    //   assetName: 'Unknown ship: 960'
-    // },
-    // '6f21d2e6-4bb6-4cbe-a734-34590b8e9803': {
-    //   microMove: {
-    //     location: {
-    //       longitude: 11.956285000000001,
-    //       latitude: 57.705891666666666
-    //     },
-    //     heading: 311.70001220703125,
-    //     guid: 'e32746f4-e983-4412-943a-3e1e8608497d',
-    //     timestamp: '2019-03-15T10:19:59.424Z',
-    //     speed: 0.10000000149011612
-    //   },
-    //   asset: '6f21d2e6-4bb6-4cbe-a734-34590b8e9803',
-    //   flagstate: 'UNK',
-    //   assetName: 'Unknown ship: 746'
-    // }
-  },
-  positionsForInspection: {
-    1: {
-      guid: "355da120-540c-43aa-ad95-1996ac7f2737",
-      heading: 339.3999938964844,
-      location: {longitude: 11.880608333333333, latitude: 56.785495},
-      speed: 10,
-      timestamp: "2019-03-18T22:11:24.408Z"
-    },
-    3: {
-      guid: "c1757c1a-3d8c-425f-a73a-aae2a9294a9c",
-      heading: 339.3999938964844,
-      location: {longitude: 11.732553333333334, latitude: 57.02675},
-      speed: 10,
-      timestamp: "2019-03-18T23:42:26.493Z"
-    }
-  }
+  positionsForInspection: {}
+  // assets: {
+  //   '65860e1e-44d1-40b1-93bf-c76309db0823': {
+  //     microMove: {
+  //       location: {
+  //         longitude: 18.277466666666665,
+  //         latitude: 57.63371666666667
+  //       },
+  //       heading: 199,
+  //       guid: 'aa006541-216d-4a21-82be-26d773d83fa8',
+  //       timestamp: '2019-03-15T10:19:30.063Z',
+  //       speed: 0
+  //     },
+  //     asset: '65860e1e-44d1-40b1-93bf-c76309db0823',
+  //     flagstate: 'UNK',
+  //     assetName: 'Unknown ship: 1686'
+  //   },
+  //   'ac8d0e48-2eb6-412e-8434-8faf91b8e02a': {
+  //     microMove: {
+  //       location: {
+  //         longitude: 11.617801666666667,
+  //         latitude: 57.772841666666665
+  //       },
+  //       heading: 267.5,
+  //       guid: '718e4d7b-3003-45ca-8316-3f8e7d746bc9',
+  //       timestamp: '2019-03-15T10:19:57.395Z',
+  //       speed: 0
+  //     },
+  //     asset: 'ac8d0e48-2eb6-412e-8434-8faf91b8e02a',
+  //     flagstate: 'SWE',
+  //     assetName: 'ROSSÖ'
+  //   },
+  //   // 'ea52a248-4f98-4b91-afde-c4f47ac2b953': {
+  //   //   microMove: {
+  //   //     location: {
+  //   //       longitude: 11.618536666666667,
+  //   //       latitude: 57.75817
+  //   //     },
+  //   //     heading: 50.099998474121094,
+  //   //     guid: '2983a7df-69cf-47a8-b56a-2441bd48901f',
+  //   //     timestamp: '2019-03-15T10:19:57.398Z',
+  //   //     speed: 4.900000095367432
+  //   //   },
+  //   //   asset: 'ea52a248-4f98-4b91-afde-c4f47ac2b953',
+  //   //   flagstate: 'UNK',
+  //   //   assetName: 'Unknown ship: 960'
+  //   // },
+  //   // '6f21d2e6-4bb6-4cbe-a734-34590b8e9803': {
+  //   //   microMove: {
+  //   //     location: {
+  //   //       longitude: 11.956285000000001,
+  //   //       latitude: 57.705891666666666
+  //   //     },
+  //   //     heading: 311.70001220703125,
+  //   //     guid: 'e32746f4-e983-4412-943a-3e1e8608497d',
+  //   //     timestamp: '2019-03-15T10:19:59.424Z',
+  //   //     speed: 0.10000000149011612
+  //   //   },
+  //   //   asset: '6f21d2e6-4bb6-4cbe-a734-34590b8e9803',
+  //   //   flagstate: 'UNK',
+  //   //   assetName: 'Unknown ship: 746'
+  //   // }
+  // },
+  // positionsForInspection: {
+  //   1: {
+  //     guid: "355da120-540c-43aa-ad95-1996ac7f2737",
+  //     heading: 339.3999938964844,
+  //     location: {longitude: 11.880608333333333, latitude: 56.785495},
+  //     speed: 10,
+  //     timestamp: "2019-03-18T22:11:24.408Z"
+  //   },
+  //   3: {
+  //     guid: "c1757c1a-3d8c-425f-a73a-aae2a9294a9c",
+  //     heading: 339.3999938964844,
+  //     location: {longitude: 11.732553333333334, latitude: 57.02675},
+  //     speed: 10,
+  //     timestamp: "2019-03-18T23:42:26.493Z"
+  //   }
+  // }
 };
 
 const speedSegments = {
@@ -207,6 +208,13 @@ export function assetReducer(state = initialState, action: Action) {
           [key]: action.payload
         }
       };
+      case ActionTypes.RemovePositionForInspection:
+        const positionsForInspection = { ...state.positionsForInspection };
+        delete positionsForInspection[action.payload];
+        console.warn(positionsForInspection);
+        return { ...state,
+          positionsForInspection: positionsForInspection
+        };
     default:
       return state;
   }

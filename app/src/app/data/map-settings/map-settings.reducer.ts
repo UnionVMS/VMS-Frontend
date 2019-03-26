@@ -15,8 +15,8 @@ export interface State {
 }
 
 const initialState: State = {
-  flagsVisible: true,
-  tracksVisible: false,
+  flagsVisible: false,
+  tracksVisible: true,
   namesVisible: false,
   speedsVisible: false,
   viewports: {},

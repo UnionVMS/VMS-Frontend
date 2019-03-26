@@ -8,17 +8,16 @@ import { formatDate } from '../../../../helpers';
 })
 export class TrackPanelComponent {
   @Input() positions: any;
+  @Input() removePositionForInspection: Function;
 
-  private hidePanel = false;
+  private hidePanel = true;
   private toggleVisibility: Function = () => {
     this.hidePanel = !this.hidePanel;
   }
 
-
   positionKeys() {
     return Object.keys(this.positions);
   }
-
 
   getFormatedDate(date) {
     return formatDate(date);

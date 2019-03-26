@@ -1,5 +1,7 @@
+@import '~/app/src/app/variables.scss';
+
 .realtime-container {
-  height: calc(100% - 56px);
+  height: calc(100% - #{$offset_for_header});
   .map-container {
     height: 100%;
     #realtime-map {
@@ -15,9 +17,7 @@
   asset-panel {
     position: fixed;
     left: 0px;
-    top: 55px;
+    top: $offset_for_header;
     bottom: 0px;
-    background: rgba(0, 0, 0, 0.5);
-    border-right: 2px solid #000000;
   }
 }

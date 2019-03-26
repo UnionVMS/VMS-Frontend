@@ -35,6 +35,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private onClickFunctions: { [name: string]: Function } = {};
 
   private addPositionForInspection: Function;
+  private removePositionForInspection: Function;
   private saveViewport: Function;
   private setVisibilityForAssetNames: Function;
   private setVisibilityForAssetSpeeds: Function;
@@ -74,6 +75,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new AssetActions.GetAssetTrack({ assetId, movementGuid }));
     this.addPositionForInspection = (track) =>
       this.store.dispatch(new AssetActions.AddPositionForInspection(track));
+    this.removePositionForInspection = (inspectionId) =>
+      this.store.dispatch(new AssetActions.RemovePositionForInspection(inspectionId));
   }
 
   ngOnInit() {

@@ -1,8 +1,13 @@
+@import '~/app/src/app/variables.scss';
+
 .content-container {
-  // background: rgba(0, 0, 0, 0.5);
+  display: grid;
   color: white;
-  padding: 10px;
+  padding: $medium_distance;
   overflow-y: scroll;
+  background: $map_overlay_background;
+  border-right: 2px solid #000000;
+  height: 100%;
 
   -ms-overflow-style: none;  // IE 10+
   overflow: -moz-scrollbars-none;  // Firefox
@@ -10,7 +15,34 @@
     display: none;  // Safari and Chrome
   }
 
-  div {
-    cursor: pointer;
+  .asset-information {
+    fieldset {
+      border-top: 1px solid #FFFFFF;
+      legend {
+        font-weight: bold;
+        padding: 0px $small_distance;
+        margin-left: $small_distance;
+        width: fit-content;
+        font-size: $default_font_size;
+      }
+      div {
+        margin-left: calc(#{$small_distance} * 2);
+      }
+    }
   }
+
+  .asset-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hide-button-wrapper {
+    align-self: end;
+    justify-self: center;
+  }
+}
+
+.show-button {
+  width: 3em;
+  padding: 6px 10px;
 }

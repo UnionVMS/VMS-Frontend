@@ -10,4 +10,7 @@ export class AssetPanelComponent {
   @Input() getAssetTrack;
 
   private hidePanel = false;
+  private toggleVisibility: Function = () => {
+    this.hidePanel = !this.hidePanel;
+  }
 }

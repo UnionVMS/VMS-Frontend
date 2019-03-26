@@ -1,5 +1,4 @@
 <div class="content-container" *ngIf="!hidePanel">
-  <ui-button-close [clickFunction]="toggleVisibility"></ui-button-close>
   <map-viewports
     [map]="map"
     [mapSettings]="mapSettings"
@@ -25,6 +24,9 @@
     [value]="mapSettings.speedsVisible"
     [switchFunction]="toggleSpeeds"
   ></ui-button-toggle>
+  <div class="hide-button-wrapper">
+    <button class="hide-button btn btn-primary" (click)="hidePanel = !hidePanel">Minimize</button>
+  </div>
 </div>
 <button class="show-button btn btn-primary" *ngIf="hidePanel" (click)="hidePanel = !hidePanel">
   <i class="fas fa-chevron-left"></i>

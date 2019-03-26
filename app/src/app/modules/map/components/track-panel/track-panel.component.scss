@@ -1,3 +1,5 @@
+@import '~/app/src/app/variables.scss';
+
 .content-container {
   position: fixed;
   margin: auto;
@@ -5,14 +7,13 @@
   left: 0;
   width: 600px;
   bottom: 0px;
-  background: rgba(0, 0, 0, 0.5);
+  background: $map_overlay_background;
   border-right: 2px solid #000000;
   border-left: 2px solid #000000;
   border-top: 2px solid #000000;
 
-  // background: rgba(0, 0, 0, 0.5);
   color: white;
-  padding: 10px;
+  padding: $medium_distance;
   overflow-y: scroll;
 
   -ms-overflow-style: none;  // IE 10+
@@ -23,14 +24,14 @@
 
   ui-button-close {
     position: absolute;
-    top: 5px;
-    right: 10px;
+    top: $small_distance;
+    right: $medium_distance;
   }
 
   .track-table {
     margin-bottom: 0px;
     th, td {
-      padding: 0 5px;
+      padding: 0 $small_distance;
     }
   }
 

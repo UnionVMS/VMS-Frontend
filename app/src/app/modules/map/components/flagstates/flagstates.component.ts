@@ -53,7 +53,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     if (typeof this.vectorSource !== 'undefined') {
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
-          const assetFeature = this.vectorSource.getFeatureById(asset.asset);
+          const assetFeature = this.vectorSource.getFeatureById('flag_' + asset.asset);
           if (assetFeature !== null) {
             this.updateFeatureFromAsset(assetFeature, asset);
           } else if (asset.flagstate !== 'UNK') {

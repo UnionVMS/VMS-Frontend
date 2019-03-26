@@ -21,6 +21,13 @@
 //   font-family: Arial, Helvetica, sans-serif;
 // }
 
+@import '~/app/src/app/variables.scss';
+
+* {
+  font-size: $default_font_size;
+}
+
+
 html, body { height: 100%; }
 
 .hidden {

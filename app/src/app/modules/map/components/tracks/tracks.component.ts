@@ -133,7 +133,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
           if (!Array.isArray(arrowFeatureStyle)) {
             const markerStyle = new Style({
               image: new Icon({
-                src: './assets/flags/mini/icon.png',
+                src: './assets/flags/icon.png',
                 anchor: [0.5, 1.1],
                 rotateWithView: true,
                 color: "#000000",
