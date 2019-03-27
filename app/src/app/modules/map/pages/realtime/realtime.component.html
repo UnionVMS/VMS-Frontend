@@ -24,6 +24,7 @@
     *ngIf="(selectedAsset$|async).fullAsset !== undefined"
     [asset]="selectedAsset$|async"
     [getAssetTrack]="getAssetTrack"
+    [untrackAsset]="untrackAsset"
   ></asset-panel>
   <map-tracks
     *ngIf="(mapSettings$|async).tracksVisible"

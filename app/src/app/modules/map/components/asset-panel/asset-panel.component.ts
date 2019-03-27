@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 export class AssetPanelComponent {
   @Input() asset;
   @Input() getAssetTrack;
+  @Input() untrackAsset;
 
   private hidePanel = false;
   private toggleVisibility: Function = () => {

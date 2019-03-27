@@ -41,6 +41,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private setVisibilityForAssetSpeeds: Function;
   private selectAsset: Function;
   private getAssetTrack: Function;
+  private untrackAsset: Function;
   private setVisibilityForTracks: Function;
   private setVisibilityForFlags: Function;
   private registerOnClickFunction: Function;
@@ -73,6 +74,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new AssetActions.SelectAsset(assetId));
     this.getAssetTrack = (assetId, movementGuid) =>
       this.store.dispatch(new AssetActions.GetAssetTrack({ assetId, movementGuid }));
+    this.untrackAsset = (assetId) =>
+      this.store.dispatch(new AssetActions.UntrackAsset(assetId));
     this.addPositionForInspection = (track) =>
       this.store.dispatch(new AssetActions.AddPositionForInspection(track));
     this.removePositionForInspection = (inspectionId) =>

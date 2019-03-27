@@ -1,0 +1,2 @@
+All the flags in the folder 4x3 and 1x1 where taken from the project flag-icon-css by lipis on Github which at the time of copying have a MIT License.
+License can be found here: https://github.com/lipis/flag-icon-css/blob/3180cec8e4368fc9802ae8a0dcba774688da9f27/LICENSE

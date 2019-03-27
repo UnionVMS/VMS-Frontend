@@ -30,6 +30,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
   private layerTitle = 'Tracks Layer';
+  private renderedAssetIds: Array<string> = [];
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -67,7 +68,18 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges() {
     // // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
     if (typeof this.vectorSource !== 'undefined') {
+      const newRenderedAssetIds = [];
+      this.renderedAssetIds.map((assetId) => {
+        if(!this.assetTracks.find((assetTrack) => assetTrack.assetId === assetId)) {
+          this.removeTrack(assetId);
+        } else {
+          newRenderedAssetIds.push(assetId);
+        }
+      });
       const features = this.assetTracks.reduce((acc, assetTrack) => {
+        if(newRenderedAssetIds.indexOf(assetTrack.assetId) === -1) {
+          newRenderedAssetIds.push(assetTrack.assetId);
+        }
         acc = acc.concat(this.updateArrowFeatures(assetTrack));
         return acc.concat(assetTrack.lineSegments.reduce((lineSegments, lineSegment, index) => {
           const segmentFeature = this.vectorSource.getFeatureById(assetTrack.assetId + '_' + index);
@@ -82,12 +94,21 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       this.vectorSource.addFeatures(features);
       this.vectorLayer.getSource().changed();
       this.vectorLayer.getSource().refresh();
+      this.renderedAssetIds = newRenderedAssetIds;
     }
   }
 
   ngOnDestroy() {
     this.unregisterOnClickFunction(this.layerTitle);
     this.map.removeLayer(this.vectorLayer);
+  }
+
+  removeTrack(assetId: string) {
+    this.vectorSource.getFeatures().map((feature) => {
+      if(feature.getId().includes(assetId)) {
+        this.vectorSource.removeFeature(feature);
+      }
+    });
   }
 
   createLineSegments(assetTrack: AssetReducer.AssetTrack) {

@@ -200,6 +200,10 @@ export function assetReducer(state = initialState, action: Action) {
         ...state.assetTracks,
         [action.payload.assetId]: { ...action.payload, lineSegments }
       }}
+    case ActionTypes.UntrackAsset:
+      const assetTracks = { ...state.assetTracks };
+      delete assetTracks[action.payload];
+      return { ...state, assetTracks: assetTracks };
     case ActionTypes.AddPositionForInspection:
       const positionsForInspectionKeys = Object.keys(state.positionsForInspection).map(key => parseInt(key));
       const key = positionsForInspectionKeys.length === 0 ? 1 : positionsForInspectionKeys[positionsForInspectionKeys.length - 1] + 1;
@@ -211,7 +215,6 @@ export function assetReducer(state = initialState, action: Action) {
       case ActionTypes.RemovePositionForInspection:
         const positionsForInspection = { ...state.positionsForInspection };
         delete positionsForInspection[action.payload];
-        console.warn(positionsForInspection);
         return { ...state,
           positionsForInspection: positionsForInspection
         };

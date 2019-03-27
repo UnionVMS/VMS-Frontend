@@ -34,6 +34,11 @@
   .asset-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    height: 100px;
+    button {
+      height: 16px;
+      box-sizing: content-box;
+    }
   }
 
   .hide-button-wrapper {
@@ -45,4 +50,6 @@
 .show-button {
   width: 3em;
   padding: 6px 10px;
+  bottom: 0px;
+  position: fixed;
 }
