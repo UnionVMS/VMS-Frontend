@@ -7,6 +7,7 @@ export enum ActionTypes {
   SetVisibilityForAssetSpeeds = '[MapSettings] Set visiblity for asset speeds',
   SetVisibilityForFlags = '[MapSettings] Set visiblity for flags',
   SetVisibilityForTracks = '[MapSettings] Set visiblity for tracks',
+  SetVisibilityForForecast = '[MapSettings] Set visiblity for forecast',
   SaveViewport = '[MapSettings] Save viewport',
 }
 
@@ -29,6 +30,12 @@ export class SetVisibilityForTracks implements Action {
   readonly type = ActionTypes.SetVisibilityForTracks;
   constructor(public payload: boolean) {}
 }
+
+export class SetVisibilityForForecast implements Action {
+  readonly type = ActionTypes.SetVisibilityForForecast;
+  constructor(public payload: boolean) {}
+}
+
 
 export class SaveViewport implements Action {
   readonly type = ActionTypes.SaveViewport;

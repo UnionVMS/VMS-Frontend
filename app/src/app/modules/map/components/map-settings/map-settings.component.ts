@@ -11,6 +11,9 @@ export class MapSettingsComponent {
   @Input() setVisibilityForAssetSpeeds;
   @Input() setVisibilityForTracks;
   @Input() setVisibilityForFlags;
+  @Input() setVisibilityForForecast;
+  @Input() clearForecasts;
+  @Input() clearTracks;
   @Input() map;
   @Input() saveViewport;
 
@@ -31,6 +34,7 @@ export class MapSettingsComponent {
   private toggleTracks: Function = () => {
     this.setVisibilityForTracks(!this.mapSettings.tracksVisible);
   }
-
-
+  private toggleForecast: Function = () => {
+    this.setVisibilityForForecast(!this.mapSettings.forecastsVisible);
+  }
 }

@@ -33,6 +33,12 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
       renderBuffer: 200
     });
     this.map.addLayer(this.vectorLayer);
+    Object.keys(this.assets).map(assetId => {
+      this.renderedAssetIds.push(assetId);
+      this.drawFuturePosition(this.assets[assetId]);
+    });
+    this.vectorLayer.getSource().changed();
+    this.vectorLayer.getSource().refresh();
   }
 
   ngOnChanges() {

@@ -17,6 +17,9 @@
     [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
     [setVisibilityForFlags]="setVisibilityForFlags"
     [setVisibilityForTracks]="setVisibilityForTracks"
+    [setVisibilityForForecast]="setVisibilityForForecast"
+    [clearTracks]="clearTracks"
+    [clearForecasts]="clearForecasts"
     [map]="map"
     [saveViewport]="saveViewport"
   ></map-settings>
@@ -49,6 +52,7 @@
     [removePositionForInspection]="removePositionForInspection"
   ></track-panel>
   <map-asset-forecast
+    *ngIf="(mapSettings$|async).forecastsVisible"
     [map]="map"
     [assets]="forecasts$|async"
   ></map-asset-forecast>

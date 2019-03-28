@@ -37,11 +37,14 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   private addForecast: Function;
   private addPositionForInspection: Function;
+  private clearForecasts: Function;
+  private clearTracks: Function;
   private removePositionForInspection: Function;
   private removeForecast: Function;
   private saveViewport: Function;
   private setVisibilityForAssetNames: Function;
   private setVisibilityForAssetSpeeds: Function;
+  private setVisibilityForForecast: Function;
   private selectAsset: Function;
   private getAssetTrack: Function;
   private untrackAsset: Function;
@@ -74,6 +77,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new MapSettingsActions.SetVisibilityForTracks(visible));
     this.setVisibilityForFlags = (visible) =>
       this.store.dispatch(new MapSettingsActions.SetVisibilityForFlags(visible));
+    this.setVisibilityForForecast = (forecasts) =>
+      this.store.dispatch(new MapSettingsActions.SetVisibilityForForecast(forecasts));
     this.selectAsset = (assetId) =>
       this.store.dispatch(new AssetActions.SelectAsset(assetId));
     this.getAssetTrack = (assetId, movementGuid) =>
@@ -88,6 +93,10 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new AssetActions.AddForecast(assetId));
     this.removeForecast = (assetId) =>
       this.store.dispatch(new AssetActions.RemoveForecast(assetId));
+    this.clearForecasts = () =>
+      this.store.dispatch(new AssetActions.ClearForecasts());
+    this.clearTracks = () =>
+      this.store.dispatch(new AssetActions.ClearTracks());
   }
 
   ngOnInit() {

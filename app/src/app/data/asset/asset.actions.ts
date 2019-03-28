@@ -7,6 +7,8 @@ export enum ActionTypes {
   AddPositionForInspection = '[Asset] Add position for inspection',
   AssetMoved = '[Asset] Moved',
   AssetsMoved = '[Asset] Multiple moves',
+  ClearForecasts = '[Asset] Clear forecasts',
+  ClearTracks = '[Asset] Clear tracks',
   FailedToSubscribeToMovements = '[Asset] Failed to subscribe to movements',
   GetAssetTrack = '[Asset] Get asset track',
   RemoveForecast = '[Asset] Remove forecast',
@@ -86,4 +88,12 @@ export class AddForecast implements Action {
 export class RemoveForecast implements Action {
   readonly type = ActionTypes.RemoveForecast;
   constructor(public payload: any) {}
+}
+
+export class ClearForecasts implements Action {
+  readonly type = ActionTypes.ClearForecasts;
+}
+
+export class ClearTracks implements Action {
+  readonly type = ActionTypes.ClearTracks;
 }

@@ -19,8 +19,9 @@ const initialState: State = {
   tracksVisible: true,
   namesVisible: false,
   speedsVisible: false,
+  forecastsVisible: true,
   viewports: {},
-};
+}
 
 export function mapSettingsReducer(state = initialState, action: Action) {
   switch (action.type) {
@@ -32,6 +33,8 @@ export function mapSettingsReducer(state = initialState, action: Action) {
       return { ...state, flagsVisible: action.payload };
     case ActionTypes.SetVisibilityForTracks:
       return { ...state, tracksVisible: action.payload };
+    case ActionTypes.SetVisibilityForForecast:
+      return { ...state, forecastsVisible: action.payload };
     case ActionTypes.SaveViewport:
       return { ...state, viewports: {
         ...state.viewports,
