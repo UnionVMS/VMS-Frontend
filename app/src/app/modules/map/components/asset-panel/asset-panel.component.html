@@ -50,7 +50,44 @@
       <div>{{asset.fullAsset.prodOrgName}}</div>
     </fieldset>
   </div>
-  <div class="asset-buttons">
+  <div class="toggle-buttons">
+    <ui-button-toggle
+      [label]="'Track'"
+      [value]="tracksIsVisible()"
+      [switchFunction]="toggleTracks"
+    ></ui-button-toggle>
+    <ui-button-toggle
+      [label]="'Forecast'"
+      [value]="forecastIsVisible()"
+      [switchFunction]="toggleForecast"
+    ></ui-button-toggle>
+  </div>
+  <!-- <div class="asset-buttons-block">
+
+      <button
+        *ngIf="!tracksIsVisible()"
+        class="btn btn-default"
+        (click)="getAssetTrack(asset.fullAsset.historyId, asset.currentPosition.microMove.guid)"
+      >Track</button>
+      <button
+        *ngIf="tracksIsVisible()"
+        class="btn btn-default"
+        (click)="untrackAsset(asset.fullAsset.historyId)"
+      >Untrack</button>
+
+      <button
+        *ngIf="!forecastIsVisible()"
+        class="btn btn-default"
+        (click)="addForecast(asset.fullAsset.historyId)"
+      >Forecast</button>
+      <button
+        *ngIf="forecastIsVisible()"
+        class="btn btn-default"
+        (click)="removeForecast(asset.fullAsset.historyId)"
+      >Remove Forecast</button>
+
+  </div> -->
+  <!--<div class="asset-buttons">
     <button
       class="btn btn-default"
       (click)="getAssetTrack(asset.fullAsset.historyId, asset.currentPosition.microMove.guid)"
@@ -59,8 +96,15 @@
       class="btn btn-default"
       (click)="untrackAsset(asset.fullAsset.historyId)"
     >Untrack</button>
-    <button class="btn btn-default">Forecast</button>
-  </div>
+    <button
+      class="btn btn-default"
+      (click)="addForecast(asset.fullAsset.historyId)"
+    >Forecast</button>
+    <button
+      class="btn btn-default"
+      (click)="removeForecast(asset.fullAsset.historyId)"
+    >Remove Forecast</button>
+  </div>-->
   <div class="hide-button-wrapper">
     <button class="hide-button btn btn-primary" (click)="hidePanel = !hidePanel">Minimize</button>
   </div>

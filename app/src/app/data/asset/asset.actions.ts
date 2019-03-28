@@ -3,17 +3,19 @@ import { Asset } from './asset.reducer';
 
 
 export enum ActionTypes {
-  SubscribeToMovements = '[Asset] Subscribe to movements',
-  UnsubscribeToMovements = '[Asset] Unsubscribe to movements',
+  AddForecast = '[Asset] Add forecast',
+  AddPositionForInspection = '[Asset] Add position for inspection',
   AssetMoved = '[Asset] Moved',
   AssetsMoved = '[Asset] Multiple moves',
   FailedToSubscribeToMovements = '[Asset] Failed to subscribe to movements',
+  GetAssetTrack = '[Asset] Get asset track',
+  RemoveForecast = '[Asset] Remove forecast',
+  RemovePositionForInspection = '[Asset] Remove position for inspection',
+  SubscribeToMovements = '[Asset] Subscribe to movements',
   SelectAsset = '[Asset] Select asset',
   SetFullAsset = '[Asset] Set full asset',
-  GetAssetTrack = '[Asset] Get asset track',
   SetAssetTrack = '[Asset] Set asset track',
-  AddPositionForInspection = '[Asset] Add position for inspection',
-  RemovePositionForInspection = '[Asset] Remove position for inspection',
+  UnsubscribeToMovements = '[Asset] Unsubscribe to movements',
   UntrackAsset = '[Asset] Untrack asset.',
 }
 
@@ -73,5 +75,15 @@ export class AddPositionForInspection implements Action {
 
 export class RemovePositionForInspection implements Action {
   readonly type = ActionTypes.RemovePositionForInspection;
+  constructor(public payload: any) {}
+}
+
+export class AddForecast implements Action {
+  readonly type = ActionTypes.AddForecast;
+  constructor(public payload: any) {}
+}
+
+export class RemoveForecast implements Action {
+  readonly type = ActionTypes.RemoveForecast;
   constructor(public payload: any) {}
 }

@@ -39,6 +39,7 @@ export interface State {
   fullAssets: { [uid: string]: Asset };
   assets: { [uid: string]: Asset };
   assetTracks: { [assetId: string]: AssetTrack };
+  forecasts: Array<string>;
   positionsForInspection: any;
 }
 
@@ -47,6 +48,7 @@ const initialState: State = {
   fullAssets: {},
   assets: {},
   assetTracks: {},
+  forecasts: [],
   positionsForInspection: {}
   // assets: {
   //   '65860e1e-44d1-40b1-93bf-c76309db0823': {
@@ -166,6 +168,12 @@ export function assetReducer(state = initialState, action: Action) {
         }
       });
       return newState;
+    case ActionTypes.AddForecast:
+      return { ...state, forecasts: [
+        ...state.forecasts, action.payload
+      ].filter((v, i, a) => a.indexOf(v) === i)};
+    case ActionTypes.RemoveForecast:
+      return { ...state, forecasts: state.forecasts.filter(assetId => assetId !== action.payload)};
     case ActionTypes.SetFullAsset:
       return { ...state, fullAssets: {
         ...state.fullAssets,
@@ -212,12 +220,12 @@ export function assetReducer(state = initialState, action: Action) {
           [key]: action.payload
         }
       };
-      case ActionTypes.RemovePositionForInspection:
-        const positionsForInspection = { ...state.positionsForInspection };
-        delete positionsForInspection[action.payload];
-        return { ...state,
-          positionsForInspection: positionsForInspection
-        };
+    case ActionTypes.RemovePositionForInspection:
+      const positionsForInspection = { ...state.positionsForInspection };
+      delete positionsForInspection[action.payload];
+      return { ...state,
+        positionsForInspection: positionsForInspection
+      };
     default:
       return state;
   }

@@ -38,6 +38,15 @@ export const extendedDataForSelectedAsset = createSelector(
   }
 );
 
+export const getForecasts = createSelector(
+  getAssetState,
+  (state: State) =>
+    state.forecasts.reduce((acc, assetId) => {
+      acc[assetId] = state.assets[assetId];
+      return acc;
+    }, {})
+)
+
 export const getPositionsForInspection = createSelector(
   getAssetState,
   (state: State) => state.positionsForInspection

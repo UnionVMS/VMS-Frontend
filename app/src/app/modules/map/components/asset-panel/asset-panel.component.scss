@@ -31,6 +31,10 @@
     }
   }
 
+  .toggle-buttons {
+    font-weight: bold;
+  }
+
   .asset-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -38,6 +42,16 @@
     button {
       height: 16px;
       box-sizing: content-box;
+    }
+  }
+  .asset-buttons-block {
+    display: grid;
+    grid-template-columns: 1fr;
+    button {
+      height: 16px;
+      box-sizing: content-box;
+      width: 90px;
+      justify-self: center;
     }
   }
 

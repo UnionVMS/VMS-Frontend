@@ -14,8 +14,7 @@ import Collection from 'ol/Collection';
 
 @Component({
   selector: 'map-tracks',
-  templateUrl: './tracks.component.html',
-  styleUrls: ['./tracks.component.scss']
+  template: '',
 })
 export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 

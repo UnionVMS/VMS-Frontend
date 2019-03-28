@@ -5,18 +5,16 @@ import { deg2rad, intToRGB, hashCode } from '../../../../helpers';
 import getContryISO2 from 'country-iso-3-to-2';
 
 import Map from 'ol/Map';
-import {Fill, Stroke, Style, Icon, Text } from 'ol/style.js';
+import { Style, Icon } from 'ol/style.js';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { fromLonLat } from 'ol/proj';
-import Select from 'ol/interaction/Select.js';
 
 @Component({
   selector: 'map-flagstates',
-  templateUrl: './flagstates.component.html',
-  styleUrls: ['./flagstates.component.scss']
+  template: '',
 })
 export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -39,7 +37,10 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
 
     this.vectorSource.addFeatures(this.assets.reduce((features, asset) => {
       if (asset.flagstate !== 'UNK') {
-        features.push(this.createFeatureFromAsset(asset));
+        const flagFeature = this.createFeatureFromAsset(asset);
+        if(flagFeature !== false) {
+          features.push(flagFeature);
+        }
       }
       return features;
     }, []));
@@ -57,7 +58,10 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
           if (assetFeature !== null) {
             this.updateFeatureFromAsset(assetFeature, asset);
           } else if (asset.flagstate !== 'UNK') {
-            acc.push(this.createFeatureFromAsset(asset));
+            const flagFeature = this.createFeatureFromAsset(asset);
+            if(flagFeature !== false) {
+              acc.push(flagFeature);
+            }
           }
           return acc;
         }, [])
@@ -72,6 +76,9 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   createFeatureFromAsset(asset: AssetReducer.Asset) {
+    if(typeof getContryISO2(asset.flagstate) === 'undefined') {
+      return false;
+    }
     const flagFeature = new Feature(new Point(fromLonLat([
       asset.microMove.location.longitude, asset.microMove.location.latitude
     ])));

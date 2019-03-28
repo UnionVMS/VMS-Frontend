@@ -28,14 +28,14 @@
     &:before {
       content: 'On';
       left: 10px;
-      top: 5px;
+      top: 4px;
       opacity: 0;
     }
     &:after {
       content: 'Off';
       opacity: 1;
       right: 6px;
-      top: 5px;
+      top: 4px;
     }
 
     .handle {

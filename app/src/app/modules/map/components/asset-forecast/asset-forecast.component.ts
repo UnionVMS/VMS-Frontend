@@ -1,0 +1,112 @@
+import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AssetReducer, AssetActions, AssetSelectors } from '../../../../data/asset';
+import { deg2rad, intToRGB, hashCode, destinationPoint } from '../../../../helpers';
+
+import Map from 'ol/Map';
+import { Style, Icon } from 'ol/style.js';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import { fromLonLat } from 'ol/proj';
+
+@Component({
+  selector: 'map-asset-forecast',
+  template: '',
+})
+export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
+
+  @Input() assets: Array<AssetReducer.Asset>;
+  @Input() map: Map;
+
+  private vectorSource: VectorSource;
+  private vectorLayer: VectorLayer;
+  private layerTitle = 'Asset Destinations Layer';
+  private renderedAssetIds: Array<string> = [];
+
+  ngOnInit() {
+    this.vectorSource = new VectorSource();
+    this.vectorLayer = new VectorLayer({
+      title: this.layerTitle,
+      source: this.vectorSource,
+      renderBuffer: 200
+    });
+    this.map.addLayer(this.vectorLayer);
+  }
+
+  ngOnChanges() {
+    // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
+    if (typeof this.vectorSource !== 'undefined') {
+      const newRenderedAssetIds = [];
+      this.renderedAssetIds.map((assetId) => {
+        if(!Object.keys(this.assets).find((currentAssetId) => currentAssetId === assetId)) {
+          this.removeForecast(assetId);
+        } else {
+          newRenderedAssetIds.push(assetId);
+        }
+      });
+      Object.keys(this.assets).map(assetId => {
+        if(newRenderedAssetIds.indexOf(assetId) === -1) {
+          newRenderedAssetIds.push(assetId);
+        }
+        this.drawFuturePosition(this.assets[assetId]);
+      });
+      this.vectorLayer.getSource().changed();
+      this.vectorLayer.getSource().refresh();
+      this.renderedAssetIds = newRenderedAssetIds;
+    }
+  }
+
+  ngOnDestroy() {
+    this.map.removeLayer(this.vectorLayer);
+  }
+
+  removeForecast(assetId) {
+    this.vectorSource.getFeatures().map((feature) => {
+      if(feature.getId().includes(assetId)) {
+        this.vectorSource.removeFeature(feature);
+      }
+    });
+  }
+
+  drawFuturePosition(asset: AssetReducer.Asset) {
+    const speed = asset.microMove.speed * 1.852; // km
+    const futureFeatures: Array<Feature> = [];
+
+    for (let i = 0; i < 2; i++) {
+      const futurePosition = destinationPoint(
+        asset.microMove.location.latitude,
+        asset.microMove.location.longitude,
+        speed * ((i+1) * 500),
+        asset.microMove.heading
+      );
+      const position = new Point(fromLonLat( [futurePosition[1], futurePosition[0]] ));
+      const id = 'futurePos_' + i + '_' + asset.asset;
+      const cachedFeature = this.vectorSource.getFeatureById(id);
+
+      if (cachedFeature == null) {
+        const futureFeature = new Feature(position);
+        futureFeature.setStyle(new Style({
+          image: new Icon({
+            src: '/assets/angle_up.png',
+            scale: 0.8,
+            color: '#' + intToRGB(hashCode(asset.asset))
+          })
+        }));
+        futureFeature.setId(id);
+        this.vectorSource.addFeature(futureFeature);
+        futureFeatures[i] = futureFeature;
+      } else {
+        cachedFeature.setGeometry(position);
+        futureFeatures[i] = cachedFeature;
+      }
+    }
+
+    const dx = futureFeatures[1].getGeometry().getCoordinates()[1] - futureFeatures[0].getGeometry().getCoordinates()[1];
+    const dy = futureFeatures[1].getGeometry().getCoordinates()[0] - futureFeatures[0].getGeometry().getCoordinates()[0];
+    const rot = Math.atan2(dy, dx);
+    futureFeatures[0].getStyle().getImage().setRotation(rot);
+    futureFeatures[1].getStyle().getImage().setRotation(rot);
+  }
+}

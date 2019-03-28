@@ -23,8 +23,11 @@
   <asset-panel
     *ngIf="(selectedAsset$|async).fullAsset !== undefined"
     [asset]="selectedAsset$|async"
+    [forecasts]="forecasts$|async"
     [getAssetTrack]="getAssetTrack"
     [untrackAsset]="untrackAsset"
+    [addForecast]="addForecast"
+    [removeForecast]="removeForecast"
   ></asset-panel>
   <map-tracks
     *ngIf="(mapSettings$|async).tracksVisible"
@@ -45,4 +48,8 @@
     [positions]="positionsForInspection$|async"
     [removePositionForInspection]="removePositionForInspection"
   ></track-panel>
+  <map-asset-forecast
+    [map]="map"
+    [assets]="forecasts$|async"
+  ></map-asset-forecast>
 </div>

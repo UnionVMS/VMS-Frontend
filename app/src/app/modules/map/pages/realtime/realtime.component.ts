@@ -26,6 +26,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private selectedAsset$: any;
   private assetTracks$: Observable<any>;
   private positionsForInspection$: Observable<any>;
+  private forecasts$: Observable<any>;
   private selection: Select;
 
   private assets: Array<AssetReducer.Asset>;
@@ -34,8 +35,10 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private mapZoom = 6;
   private onClickFunctions: { [name: string]: Function } = {};
 
+  private addForecast: Function;
   private addPositionForInspection: Function;
   private removePositionForInspection: Function;
+  private removeForecast: Function;
   private saveViewport: Function;
   private setVisibilityForAssetNames: Function;
   private setVisibilityForAssetSpeeds: Function;
@@ -57,6 +60,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.selectedAsset$ = this.store.select(AssetSelectors.extendedDataForSelectedAsset);
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.positionsForInspection$ = this.store.select(AssetSelectors.getPositionsForInspection);
+    this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
   }
 
   mapDispatchToProps() {
@@ -80,6 +84,10 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new AssetActions.AddPositionForInspection(track));
     this.removePositionForInspection = (inspectionId) =>
       this.store.dispatch(new AssetActions.RemovePositionForInspection(inspectionId));
+    this.addForecast = (assetId) =>
+      this.store.dispatch(new AssetActions.AddForecast(assetId));
+    this.removeForecast = (assetId) =>
+      this.store.dispatch(new AssetActions.RemoveForecast(assetId));
   }
 
   ngOnInit() {

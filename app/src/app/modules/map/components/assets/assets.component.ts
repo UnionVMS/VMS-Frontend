@@ -4,7 +4,7 @@ import { AssetReducer, AssetActions, AssetSelectors } from '../../../../data/ass
 import { deg2rad, intToRGB, hashCode } from '../../../../helpers';
 
 import Map from 'ol/Map';
-import {Fill, Stroke, Style, Icon, Text } from 'ol/style.js';
+import { Fill, Stroke, Style, Icon, Text } from 'ol/style.js';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Feature from 'ol/Feature';
@@ -14,8 +14,7 @@ import Select from 'ol/interaction/Select.js';
 
 @Component({
   selector: 'map-assets',
-  templateUrl: './assets.component.html',
-  styleUrls: ['./assets.component.scss']
+  template: '',
 })
 export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -117,7 +116,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     if (
       this.namesWereVisibleLastRerender !== this.namesVisible ||
       this.speedsWereVisibleLastRerender !== this.speedsVisible ||
-      ( this.speedsVisible && this.assetSpeedsPreviouslyRendered[asset.asset] !== asset.microMove.speed.toFixed(2))
+      (this.speedsVisible && this.assetSpeedsPreviouslyRendered[asset.asset] !== asset.microMove.speed.toFixed(2))
     ) {
       if (this.namesVisible || this.speedsVisible) {
         assetFeature.getStyle().setText(this.getTextStyleForName(asset));

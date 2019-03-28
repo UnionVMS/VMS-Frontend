@@ -9,7 +9,7 @@ import { RealtimeComponent } from './pages/realtime/realtime.component';
 
 /* Components */
 import { AssetsComponent } from './components/assets/assets.component';
-import { AssetDestinationsComponent } from './components/asset-destinations/asset-destinations.component';
+import { AssetForecastComponent } from './components/asset-forecast/asset-forecast.component';
 import { AssetPanelComponent } from './components/asset-panel/asset-panel.component';
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
 import { MapSettingsComponent } from './components/map-settings/map-settings.component';
@@ -26,7 +26,7 @@ import { TrackPanelComponent } from './components/track-panel/track-panel.compon
   declarations: [
     RealtimeComponent,
     AssetsComponent,
-    AssetDestinationsComponent,
+    AssetForecastComponent,
     AssetPanelComponent,
     FlagstatesComponent,
     MapSettingsComponent,

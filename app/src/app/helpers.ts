@@ -5,7 +5,7 @@ export const formatDate = (datetime) => {
 }
 
 export const deg2rad = (degrees) => {
-  return Math.sin(degrees * Math.PI / 180);
+  return degrees * Math.PI / 180;
 }
 
 export const radToDeg = (rad) => {
