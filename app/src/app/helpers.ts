@@ -1,7 +1,8 @@
 export const formatDate = (datetime) => {
   const date = new Date(datetime);
-  const iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)
-  return iso[1] + ' ' + iso[2];
+  const iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  let result = iso[1] + ' ' + iso[2];
+  return result;
 }
 
 export const deg2rad = (degrees) => {
@@ -34,15 +35,18 @@ export const hashCode = (str) => { // java String#hashCode
 *
 * @param   {number} lat - initial latitude in decimal degrees (eg. 50.123)
 * @param   {number} lon - initial longitude in decimal degrees (e.g. -4.321)
-* @param   {number} distance - Distance travelled (metres).
+* @param   {number} speed - Distance travelled / hour (metres).
+* @param   {number} time - Traveltime in minutes.
 * @param   {number} bearing - Initial bearing (in degrees from north).
 * @returns {array} destination point as [latitude,longitude] (e.g. [50.123, -4.321])
 *
 * @example
 *     var p = destinationPoint(51.4778, -0.0015, 7794, 300.7); // 51.5135°N, 000.0983°W
 */
-export const destinationPoint = (lat, lon, distance, bearing) => {
+export const destinationPoint = (lat, lon, speed, time, bearing) => {
    const radius = 6371e3; // (Mean) radius of earth
+
+   const distance = speed * (time / 60);
 
    const toRadians = function(v) { return v * Math.PI / 180; };
    const toDegrees = function(v) { return v * 180 / Math.PI; };

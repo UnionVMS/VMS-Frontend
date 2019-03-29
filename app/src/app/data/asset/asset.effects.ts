@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, empty, isObservable, defer } from 'rxjs';
-import { map, mergeMap, catchError, withLatestFrom, bufferTime, filter, tap } from 'rxjs/operators';
+import { map, mergeMap, flatMap, catchError, withLatestFrom, bufferTime, filter } from 'rxjs/operators';
 import jwtDecode from 'jwt-decode';
 
 import { AuthReducer, AuthSelectors } from '../auth';
+import { MapSettingsReducer, MapSettingsSelectors } from '../map-settings';
 
-import { ActionTypes, SetFullAsset, AssetsMoved, SetAssetTrack } from './asset.actions';
+import { ActionTypes, SetFullAsset, AssetsMoved, SetAssetTrack, TrimTracksThatPassedTimeCap } from './asset.actions';
 import { Asset } from './asset.reducer';
 import { AssetService } from './asset.service';
 
@@ -47,6 +48,15 @@ export class AssetEffects {
           }
         }),
         filter(val => val !== null),
+        withLatestFrom(this.store$.select(MapSettingsSelectors.getTracksMinuteCap)),
+        map(([assetAction, tracksMinuteCap]: Array<any>) => {
+          const listOfActions = [assetAction];
+          if(tracksMinuteCap !== null) {
+            listOfActions.push(new TrimTracksThatPassedTimeCap({ unixtime: (Date.now() - (tracksMinuteCap * 60 * 1000))}));
+          }
+          return listOfActions;
+        }),
+        flatMap(action => action),
         catchError((err) => of({ type: ActionTypes.FailedToSubscribeToMovements, payload: err }))
       );
     })
@@ -71,6 +81,19 @@ export class AssetEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.getAssetTrack(authToken, action.payload.movementGuid).pipe(
+        map((assetTrack: any) => {
+          return new SetAssetTrack({ tracks: assetTrack, assetId: action.payload.assetId, visible: true });
+        })
+      );
+    })
+  );
+
+  @Effect()
+  selectAssetTrackFromTimeObserver$ = this.actions$.pipe(
+    ofType(ActionTypes.GetAssetTrackFromTime),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.assetService.getAssetTrackFromTime(authToken, action.payload.assetId, action.payload.datetime).pipe(
         map((assetTrack: any) => {
           return new SetAssetTrack({ tracks: assetTrack, assetId: action.payload.assetId, visible: true });
         })

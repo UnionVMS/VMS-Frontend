@@ -30,6 +30,8 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   private vectorLayer: VectorLayer;
   private layerTitle = 'Tracks Layer';
   private renderedAssetIds: Array<string> = [];
+  private renderedFeatureIds: Array<string> = [];
+  private currentRenderFeatureIds: Array<String> = [];
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -41,7 +43,9 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     this.map.addLayer(this.vectorLayer);
     this.vectorSource.addFeatures(
       this.assetTracks.reduce((features, assetTrack) => {
-        features = features.concat(this.createLineSegments(assetTrack));
+        features = features.concat(
+          assetTrack.lineSegments.map((segment, index) => this.createLineSegment(assetTrack.assetId, segment, index))
+        );
         return features.concat(this.createArrowFeatures(assetTrack));
       }, [])
     );
@@ -68,6 +72,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     // // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
     if (typeof this.vectorSource !== 'undefined') {
       const newRenderedAssetIds = [];
+      // Check if assets still have tracks.
       this.renderedAssetIds.map((assetId) => {
         if(!this.assetTracks.find((assetTrack) => assetTrack.assetId === assetId)) {
           this.removeTrack(assetId);
@@ -75,22 +80,29 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
           newRenderedAssetIds.push(assetId);
         }
       });
+      this.currentRenderFeatureIds = [];
       const features = this.assetTracks.reduce((acc, assetTrack) => {
         if(newRenderedAssetIds.indexOf(assetTrack.assetId) === -1) {
           newRenderedAssetIds.push(assetTrack.assetId);
         }
-        acc = acc.concat(this.updateArrowFeatures(assetTrack));
+        const newArrowFeatures = this.updateArrowFeatures(assetTrack);
+        this.currentRenderFeatureIds.concat(newArrowFeatures.map(feature => feature.getId()));
+        acc = acc.concat(newArrowFeatures);
         return acc.concat(assetTrack.lineSegments.reduce((lineSegments, lineSegment, index) => {
-          const segmentFeature = this.vectorSource.getFeatureById(assetTrack.assetId + '_' + index);
+          const lineSegmentId = 'line_segment_' + assetTrack.assetId + '_' + index;
+          this.currentRenderFeatureIds.push(lineSegmentId);
+          const segmentFeature = this.vectorSource.getFeatureById(lineSegmentId);
           if (segmentFeature !== null) {
             this.updateLineSegment(segmentFeature, lineSegment);
             return lineSegments;
           } else {
-            return lineSegments.concat(this.createLineSegments(assetTrack));
+            lineSegments.push(this.createLineSegment(assetTrack.assetId, lineSegment, index));
+            return lineSegments;
           }
         }, []));
       }, []);
       this.vectorSource.addFeatures(features);
+      this.removeDeletedFeatures();
       this.vectorLayer.getSource().changed();
       this.vectorLayer.getSource().refresh();
       this.renderedAssetIds = newRenderedAssetIds;
@@ -102,26 +114,39 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     this.map.removeLayer(this.vectorLayer);
   }
 
-  removeTrack(assetId: string) {
-    this.vectorSource.getFeatures().map((feature) => {
-      if(feature.getId().includes(assetId)) {
+  removeDeletedFeatures() {
+    const featuresToDelete = this.renderedFeatureIds.filter(value => this.currentRenderFeatureIds.indexOf(value) === -1);
+    this.vectorSource.getFeatures().map(feature => {
+      const featureId = feature.getId();
+      if(featuresToDelete.indexOf(featureId) !== -1) {
         this.vectorSource.removeFeature(feature);
+        this.renderedFeatureIds.splice(this.renderedFeatureIds.indexOf(featureId), 1);
       }
     });
   }
 
-  createLineSegments(assetTrack: AssetReducer.AssetTrack) {
-    return assetTrack.lineSegments.map((segment, index) => {
-      const segmentFeature = new Feature(new LineString(segment.positions.map(
-        position => fromLonLat([position.longitude, position.latitude])
-      )));
-      segmentFeature.setId(assetTrack.assetId + "_" + index);
-      segmentFeature.setStyle(new Style({
-        fill: new Fill({ color: segment.color }),
-        stroke: new Stroke({ color: segment.color, width: 2 })
-      }))
-      return segmentFeature;
+  removeTrack(assetId: string) {
+    this.vectorSource.getFeatures().map((feature) => {
+      const featureId = feature.getId();
+      if(featureId.includes(assetId)) {
+        this.vectorSource.removeFeature(feature);
+        this.renderedFeatureIds.splice(this.renderedFeatureIds.indexOf(featureId), 1);
+      }
     });
+  }
+
+  createLineSegment(assetId, segment, index) {
+    const segmentFeature = new Feature(new LineString(segment.positions.map(
+      position => fromLonLat([position.longitude, position.latitude])
+    )));
+    const id = 'line_segment_' + assetId + "_" + index
+    segmentFeature.setId(id);
+    this.renderedFeatureIds.push(id);
+    segmentFeature.setStyle(new Style({
+      fill: new Fill({ color: segment.color }),
+      stroke: new Stroke({ color: segment.color, width: 2 })
+    }))
+    return segmentFeature;
   }
 
   updateLineSegment(lineSegmentFeature: Feature, lineSegment: AssetReducer.LineSegment) {
@@ -144,7 +169,9 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       return acc;
     }, {});
     const newFeatureArrows = assetTrack.tracks.reduce((acc, movement, index) => {
-      const arrowFeature = this.vectorSource.getFeatureById('assetId_' + assetTrack.assetId + '_guid_' + movement.guid);
+      const arrowFeatureId = 'assetId_' + assetTrack.assetId + '_guid_' + movement.guid;
+      this.currentRenderFeatureIds.push(arrowFeatureId);
+      const arrowFeature = this.vectorSource.getFeatureById(arrowFeatureId);
       if(arrowFeature === null) {
         acc.push(this.createArrowFeature(assetTrack.assetId, movement));
       } else {
@@ -228,7 +255,9 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       })
     }));
     arrowFeature.getStyle().getImage().setRotation(deg2rad(movement.heading));
-    arrowFeature.setId('assetId_' + assetId + '_guid_' + movement.guid);
+    const id = 'assetId_' + assetId + '_guid_' + movement.guid;
+    arrowFeature.setId(id);
+    this.renderedFeatureIds.push(id);
     return arrowFeature;
   }
 

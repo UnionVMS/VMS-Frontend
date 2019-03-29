@@ -45,8 +45,10 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private setVisibilityForAssetNames: Function;
   private setVisibilityForAssetSpeeds: Function;
   private setVisibilityForForecast: Function;
+  private setTracksMinuteCap: Function;
   private selectAsset: Function;
   private getAssetTrack: Function;
+  private getAssetTrackFromTime: Function;
   private untrackAsset: Function;
   private setVisibilityForTracks: Function;
   private setVisibilityForFlags: Function;
@@ -79,10 +81,14 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new MapSettingsActions.SetVisibilityForFlags(visible));
     this.setVisibilityForForecast = (forecasts) =>
       this.store.dispatch(new MapSettingsActions.SetVisibilityForForecast(forecasts));
+    this.setTracksMinuteCap = (minutes) =>
+      this.store.dispatch(new MapSettingsActions.SetTracksMinuteCap(minutes));
     this.selectAsset = (assetId) =>
       this.store.dispatch(new AssetActions.SelectAsset(assetId));
     this.getAssetTrack = (assetId, movementGuid) =>
       this.store.dispatch(new AssetActions.GetAssetTrack({ assetId, movementGuid }));
+    this.getAssetTrackFromTime = (assetId, datetime) =>
+      this.store.dispatch(new AssetActions.GetAssetTrackFromTime({ assetId, datetime}));
     this.untrackAsset = (assetId) =>
       this.store.dispatch(new AssetActions.UntrackAsset(assetId));
     this.addPositionForInspection = (track) =>

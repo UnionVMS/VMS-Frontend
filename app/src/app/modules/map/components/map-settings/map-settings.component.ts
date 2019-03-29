@@ -12,6 +12,7 @@ export class MapSettingsComponent {
   @Input() setVisibilityForTracks;
   @Input() setVisibilityForFlags;
   @Input() setVisibilityForForecast;
+  @Input() setTracksMinuteCap;
   @Input() clearForecasts;
   @Input() clearTracks;
   @Input() map;
@@ -21,6 +22,7 @@ export class MapSettingsComponent {
   private toggleVisibility: Function = () => {
     this.hidePanel = !this.hidePanel;
   }
+
 
   private toggleNames: Function = () => {
     this.setVisibilityForAssetNames(!this.mapSettings.namesVisible);
@@ -36,5 +38,12 @@ export class MapSettingsComponent {
   }
   private toggleForecast: Function = () => {
     this.setVisibilityForForecast(!this.mapSettings.forecastsVisible);
+  }
+  private setTracksMinuteCapFunction: Function = (event) => {
+    let minutes = parseInt(event.target.value);
+    if(event.target.value.length === 0) {
+      minutes = null;
+    }
+    this.setTracksMinuteCap(minutes);
   }
 }

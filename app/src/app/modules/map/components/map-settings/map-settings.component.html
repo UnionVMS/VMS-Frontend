@@ -31,6 +31,10 @@
   ></ui-button-toggle>
   <button class="hide-button btn btn-default" (click)="clearTracks()">Clear tracks</button>
   <button class="hide-button btn btn-default" (click)="clearForecasts()">Clear forecasts</button>
+  <fieldset>
+    <legend>Cap tracks in minutes</legend>
+    <input type="number" (keyup)="setTracksMinuteCapFunction($event)">
+  </fieldset>
   <div class="hide-button-wrapper">
     <button class="hide-button btn btn-primary" (click)="hidePanel = !hidePanel">Minimize</button>
   </div>

@@ -17,7 +17,6 @@ import { MapViewportsComponent } from './components/map-viewports/map-viewports.
 import { TracksComponent } from './components/tracks/tracks.component';
 import { TrackPanelComponent } from './components/track-panel/track-panel.component';
 
-
 @NgModule({
   imports: [
     CommonModule,

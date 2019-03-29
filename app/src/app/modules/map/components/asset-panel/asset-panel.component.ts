@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { formatDate } from '../../../../helpers';
 
 @Component({
   selector: 'asset-panel',
@@ -8,17 +9,25 @@ import { Component, Input } from '@angular/core';
 export class AssetPanelComponent {
   @Input() asset;
   @Input() getAssetTrack;
+  @Input() getAssetTrackFromTime;
   @Input() untrackAsset;
   @Input() addForecast;
   @Input() removeForecast;
   @Input() forecasts;
+  @Input() tracksMinuteCap;
 
   private hidePanel = false;
   private toggleTracks: Function = () => {
     if(this.tracksIsVisible()) {
       this.untrackAsset(this.asset.fullAsset.historyId);
-    } else {
+    } else if(this.tracksMinuteCap === null) {
       this.getAssetTrack(this.asset.fullAsset.historyId, this.asset.currentPosition.microMove.guid);
+    } else {
+      const tracksMillisecondCap = this.tracksMinuteCap * 60 * 1000;
+      this.getAssetTrackFromTime(
+        this.asset.fullAsset.historyId,
+        formatDate(Date.now() - tracksMillisecondCap)
+      );
     }
   }
   private toggleForecast: Function = () => {

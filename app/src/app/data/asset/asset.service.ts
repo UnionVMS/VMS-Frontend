@@ -72,6 +72,19 @@ export class AssetService {
     );
   }
 
+  // /unionvms/rest/movement//microMovementListAfterForAsset/{id}/{timestamp}
+  getAssetTrackFromTime(authToken: string, movementGuid: string, datetime: string) {
+    // const datetime = "2019-03-28 12:00:00 +0100";
+    return this.http.get(
+      environment.baseApiUrl + `movement/rest/movement/microMovementListAfterForAsset/${movementGuid}/${datetime}`, {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
   getAssetInformation(authToken: string, assetId: string) {
     return this.http.get(
       environment.baseApiUrl + 'asset/rest/asset/' + assetId

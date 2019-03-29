@@ -18,6 +18,7 @@
     [setVisibilityForFlags]="setVisibilityForFlags"
     [setVisibilityForTracks]="setVisibilityForTracks"
     [setVisibilityForForecast]="setVisibilityForForecast"
+    [setTracksMinuteCap]="setTracksMinuteCap"
     [clearTracks]="clearTracks"
     [clearForecasts]="clearForecasts"
     [map]="map"
@@ -28,9 +29,11 @@
     [asset]="selectedAsset$|async"
     [forecasts]="forecasts$|async"
     [getAssetTrack]="getAssetTrack"
+    [getAssetTrackFromTime]="getAssetTrackFromTime"
     [untrackAsset]="untrackAsset"
     [addForecast]="addForecast"
     [removeForecast]="removeForecast"
+    [tracksMinuteCap]="(mapSettings$|async).tracksMinuteCap"
   ></asset-panel>
   <map-tracks
     *ngIf="(mapSettings$|async).tracksVisible"

@@ -8,6 +8,7 @@ export enum ActionTypes {
   SetVisibilityForFlags = '[MapSettings] Set visiblity for flags',
   SetVisibilityForTracks = '[MapSettings] Set visiblity for tracks',
   SetVisibilityForForecast = '[MapSettings] Set visiblity for forecast',
+  SetTracksMinuteCap = '[MapSettings] Set tracks minute cap',
   SaveViewport = '[MapSettings] Save viewport',
 }
 
@@ -36,22 +37,12 @@ export class SetVisibilityForForecast implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class SetTracksMinuteCap implements Action {
+  readonly type = ActionTypes.SetTracksMinuteCap;
+  constructor(public payload: boolean) {}
+}
 
 export class SaveViewport implements Action {
   readonly type = ActionTypes.SaveViewport;
   constructor(public payload: any) {}
 }
-//
-// export class UnsubscribeToMovements implements Action {
-//   readonly type = ActionTypes.UnsubscribeToMovements;
-// }
-//
-// export class AssetMoved implements Action {
-//   readonly type = ActionTypes.AssetMoved;
-//
-//   constructor(public payload: Asset) {}
-// }
-//
-// export class FailedToSubscribeToMovements implements Action {
-//   readonly type = ActionTypes.SubscribeToMovements;
-// }

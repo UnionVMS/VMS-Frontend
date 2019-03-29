@@ -11,6 +11,7 @@ export enum ActionTypes {
   ClearTracks = '[Asset] Clear tracks',
   FailedToSubscribeToMovements = '[Asset] Failed to subscribe to movements',
   GetAssetTrack = '[Asset] Get asset track',
+  GetAssetTrackFromTime = '[Asset] Get asset track from time',
   RemoveForecast = '[Asset] Remove forecast',
   RemovePositionForInspection = '[Asset] Remove position for inspection',
   SubscribeToMovements = '[Asset] Subscribe to movements',
@@ -19,6 +20,7 @@ export enum ActionTypes {
   SetAssetTrack = '[Asset] Set asset track',
   UnsubscribeToMovements = '[Asset] Unsubscribe to movements',
   UntrackAsset = '[Asset] Untrack asset.',
+  TrimTracksThatPassedTimeCap = '[Asset] Trim tracks that passed time cap',
 }
 
 export class SubscribeToMovements implements Action {
@@ -60,6 +62,11 @@ export class GetAssetTrack implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetAssetTrackFromTime implements Action {
+  readonly type = ActionTypes.GetAssetTrackFromTime;
+  constructor(public payload: any) {}
+}
+
 export class SetAssetTrack implements Action {
   readonly type = ActionTypes.SetAssetTrack;
   constructor(public payload: any) {}
@@ -96,4 +103,12 @@ export class ClearForecasts implements Action {
 
 export class ClearTracks implements Action {
   readonly type = ActionTypes.ClearTracks;
+}
+
+interface TrimTracksThatPassedTimeCapPayload {
+  unixtime: number;
+}
+export class TrimTracksThatPassedTimeCap implements Action {
+  readonly type = ActionTypes.TrimTracksThatPassedTimeCap;
+  constructor(public payload: TrimTracksThatPassedTimeCapPayload) {}
 }

@@ -77,14 +77,15 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   drawFuturePosition(asset: AssetReducer.Asset) {
-    const speed = asset.microMove.speed * 1.852; // km
+    const speed = asset.microMove.speed * 1852; // nautical miles/h to km/h
     const futureFeatures: Array<Feature> = [];
-
     for (let i = 0; i < 2; i++) {
+      const minutes = 30 * (i+1);
       const futurePosition = destinationPoint(
         asset.microMove.location.latitude,
         asset.microMove.location.longitude,
-        speed * ((i+1) * 500),
+        speed,
+        minutes,
         asset.microMove.heading
       );
       const position = new Point(fromLonLat( [futurePosition[1], futurePosition[0]] ));
