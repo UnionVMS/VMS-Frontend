@@ -14,12 +14,15 @@ To get docker-sync to run correctly you need to use __Ubuntu for Windows__ and t
 
 Once all the prerequisites is installed, open the project folder with your terminal of choice (unless you're on windows, then you need to use Ubuntu for Windows).
 
-Run the following commands:  
+Start by creating an environment file:
+```
+cp app/src/environments/environment.example.ts app/src/environments/environment.dev.ts
+```
+
+Inital run to do the inital npm install:
 ```
 docker-sync start
-cd docker
-docker-compose --file docker-compose-init.yml up --build
-cd ..
+cd docker && docker-compose --file docker-compose-init.yml up --build && cd ..
 ``` 
 
 ### Running the code
