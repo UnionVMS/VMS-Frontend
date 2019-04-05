@@ -19,6 +19,7 @@
     [setVisibilityForTracks]="setVisibilityForTracks"
     [setVisibilityForForecast]="setVisibilityForForecast"
     [setTracksMinuteCap]="setTracksMinuteCap"
+    [setForecastInterval]="setForecastInterval"
     [clearTracks]="clearTracks"
     [clearForecasts]="clearForecasts"
     [map]="map"
@@ -58,5 +59,6 @@
     *ngIf="(mapSettings$|async).forecastsVisible"
     [map]="map"
     [assets]="forecasts$|async"
+    [forecastInterval]="(mapSettings$|async).forecastInterval"
   ></map-asset-forecast>
 </div>

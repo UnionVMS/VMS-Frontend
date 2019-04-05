@@ -50,13 +50,14 @@ export class AssetEffects {
         filter(val => val !== null),
         withLatestFrom(this.store$.select(MapSettingsSelectors.getTracksMinuteCap)),
         map(([assetAction, tracksMinuteCap]: Array<any>) => {
-          const listOfActions = [assetAction];
+          const listOfActions: Array<object> = [assetAction];
           if(tracksMinuteCap !== null) {
             listOfActions.push(new TrimTracksThatPassedTimeCap({ unixtime: (Date.now() - (tracksMinuteCap * 60 * 1000))}));
           }
           return listOfActions;
         }),
-        flatMap(action => action),
+        //@ts-ignore
+        flatMap( (action, index): object => action ),
         catchError((err) => of({ type: ActionTypes.FailedToSubscribeToMovements, payload: err }))
       );
     })

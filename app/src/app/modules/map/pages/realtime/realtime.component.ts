@@ -46,6 +46,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private setVisibilityForAssetSpeeds: Function;
   private setVisibilityForForecast: Function;
   private setTracksMinuteCap: Function;
+  private setForecastInterval: Function;
   private selectAsset: Function;
   private getAssetTrack: Function;
   private getAssetTrackFromTime: Function;
@@ -103,6 +104,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new AssetActions.ClearForecasts());
     this.clearTracks = () =>
       this.store.dispatch(new AssetActions.ClearTracks());
+    this.setForecastInterval = (forecastTimeLength) =>
+      this.store.dispatch(new MapSettingsActions.SetForecastInterval(forecastTimeLength));
   }
 
   ngOnInit() {

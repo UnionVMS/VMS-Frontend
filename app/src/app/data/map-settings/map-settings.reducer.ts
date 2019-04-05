@@ -12,6 +12,7 @@ export interface State {
   namesVisible: boolean;
   speedsVisible: boolean;
   forecastsVisible: boolean;
+  forecastInterval: number|null;
   tracksMinuteCap: number|null;
   viewports: { [key: number]: Viewport };
 }
@@ -22,6 +23,7 @@ const initialState: State = {
   namesVisible: false,
   speedsVisible: false,
   forecastsVisible: true,
+  forecastInterval: null,
   tracksMinuteCap: null,
   viewports: {},
 }
@@ -40,6 +42,8 @@ export function mapSettingsReducer(state = initialState, action: Action) {
       return { ...state, forecastsVisible: action.payload };
     case ActionTypes.SetTracksMinuteCap:
       return { ...state, tracksMinuteCap: action.payload };
+    case ActionTypes.SetForecastInterval:
+      return { ...state, forecastInterval: action.payload }
     case ActionTypes.SaveViewport:
       return { ...state, viewports: {
         ...state.viewports,

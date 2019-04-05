@@ -19,6 +19,7 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() assets: Array<AssetReducer.Asset>;
   @Input() map: Map;
+  @Input() forecastInterval: number;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -79,8 +80,9 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
   drawFuturePosition(asset: AssetReducer.Asset) {
     const speed = asset.microMove.speed * 1852; // nautical miles/h to km/h
     const futureFeatures: Array<Feature> = [];
+    const forecastInterval = this.forecastInterval === null ? 30 : this.forecastInterval;
     for (let i = 0; i < 2; i++) {
-      const minutes = 30 * (i+1);
+      const minutes = forecastInterval * (i+1);
       const futurePosition = destinationPoint(
         asset.microMove.location.latitude,
         asset.microMove.location.longitude,

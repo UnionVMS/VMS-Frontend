@@ -17,6 +17,7 @@ export class MapSettingsComponent {
   @Input() clearTracks;
   @Input() map;
   @Input() saveViewport;
+  @Input() setForecastInterval;
 
   private hidePanel = false;
   private toggleVisibility: Function = () => {
@@ -45,5 +46,12 @@ export class MapSettingsComponent {
       minutes = null;
     }
     this.setTracksMinuteCap(minutes);
+  }
+  private setForecastIntervalFunction: Function = (event) => {
+    let minutes = parseInt(event.target.value);
+    if(event.target.value.length === 0) {
+      minutes = null;
+    }
+    this.setForecastInterval(minutes);
   }
 }
