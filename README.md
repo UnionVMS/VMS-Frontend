@@ -7,9 +7,12 @@ A open source vessel monitoring system written in Angular.
  - Docker-compose
  - Docker-sync
 
+#### Running on windows
+To get docker-sync to run correctly you need to use __Ubuntu for Windows__ and thus you need to connect your __Docker__ for windows to __Docker__ inside __Ubuntu for Windows__ using the setting `Expose daemon` on __Docker__ in windows.
+
 ### Installation guide
 
-Once all the prerequisite is installed, open the project folder with your terminal of choice (unless you're on windows, then you need to use Ubuntu for Windows).
+Once all the prerequisites is installed, open the project folder with your terminal of choice (unless you're on windows, then you need to use Ubuntu for Windows).
 
 Run the following commands:  
 ```
