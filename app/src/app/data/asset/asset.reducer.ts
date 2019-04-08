@@ -76,22 +76,22 @@ const speedSegments = {
 };
 const speeds = Object.keys(speedSegments).map(speed => parseInt(speed));
 
-export function assetReducer(state = initialState, action: Action) {
-  switch (action.type) {
+export function assetReducer(state = initialState, { type, payload }) {
+  switch (type) {
     case ActionTypes.AssetMoved:
       return { ...state, assets: {
         ...state.assets,
-        [action.payload.asset]: action.payload
+        [payload.asset]: payload
       } };
 
     case ActionTypes.AssetsMoved:
       const newState = { ...state, assets: {
         ...state.assets,
-        ...action.payload
+        ...payload
       } };
-      Object.keys(action.payload).map((assetId) => {
+      Object.keys(payload).map((assetId) => {
         if(typeof newState.assetTracks[assetId] !== 'undefined') {
-          newState.assetTracks[assetId].tracks.push(action.payload[assetId].microMove);
+          newState.assetTracks[assetId].tracks.push(payload[assetId].microMove);
           const lineSegments = newState.assetTracks[assetId].lineSegments;
           const lastSegment = lineSegments[lineSegments.length - 1];
           const segmentSpeed = speeds.find((speed) => newState.assets[assetId].microMove.speed < speed);
@@ -112,7 +112,7 @@ export function assetReducer(state = initialState, action: Action) {
       const newAssetTracks = Object.keys(state.assetTracks).reduce((assetTracks, assetId) => {
         const assetTrack = state.assetTracks[assetId];
         const indexOfFirstPositionAfterGivenTime = assetTrack.tracks.findIndex(
-          track => new Date(track.timestamp).getTime() > action.payload.unixtime
+          track => new Date(track.timestamp).getTime() > payload.unixtime
         );
         if(indexOfFirstPositionAfterGivenTime > 0) {
           assetTrack.tracks = assetTrack.tracks.slice(indexOfFirstPositionAfterGivenTime);
@@ -138,11 +138,11 @@ export function assetReducer(state = initialState, action: Action) {
 
     case ActionTypes.AddForecast:
       return { ...state, forecasts: [
-        ...state.forecasts, action.payload
+        ...state.forecasts, payload
       ].filter((v, i, a) => a.indexOf(v) === i)};
 
     case ActionTypes.RemoveForecast:
-      return { ...state, forecasts: state.forecasts.filter(assetId => assetId !== action.payload)};
+      return { ...state, forecasts: state.forecasts.filter(assetId => assetId !== payload)};
 
     case ActionTypes.ClearForecasts:
       return { ...state, forecasts: [] };
@@ -150,14 +150,14 @@ export function assetReducer(state = initialState, action: Action) {
     case ActionTypes.SetFullAsset:
       return { ...state, fullAssets: {
         ...state.fullAssets,
-        [action.payload.historyId]: action.payload
+        [payload.historyId]: payload
       }};
 
     case ActionTypes.SelectAsset:
-      return { ...state, selectedAsset: action.payload };
+      return { ...state, selectedAsset: payload };
 
     case ActionTypes.SetAssetTrack:
-      const lineSegments = action.payload.tracks.reduce((lineSegments, position) => {
+      const lineSegments = payload.tracks.reduce((lineSegments, position) => {
         const lastSegment = lineSegments[lineSegments.length - 1];
         const segmentSpeed = speeds.find((speed) => position.speed < speed);
         if (lineSegments.length === 0) {
@@ -181,12 +181,12 @@ export function assetReducer(state = initialState, action: Action) {
       }, []);
       return { ...state, assetTracks: {
         ...state.assetTracks,
-        [action.payload.assetId]: { ...action.payload, lineSegments }
+        [payload.assetId]: { ...payload, lineSegments }
       }}
 
     case ActionTypes.UntrackAsset:
       const assetTracks = { ...state.assetTracks };
-      delete assetTracks[action.payload];
+      delete assetTracks[payload];
       return { ...state, assetTracks: assetTracks };
 
     case ActionTypes.ClearTracks:
@@ -197,13 +197,13 @@ export function assetReducer(state = initialState, action: Action) {
       const key = positionsForInspectionKeys.length === 0 ? 1 : positionsForInspectionKeys[positionsForInspectionKeys.length - 1] + 1;
       return { ...state,
         positionsForInspection: { ...state.positionsForInspection,
-          [key]: action.payload
+          [key]: payload
         }
       };
 
     case ActionTypes.RemovePositionForInspection:
       const positionsForInspection = { ...state.positionsForInspection };
-      delete positionsForInspection[action.payload];
+      delete positionsForInspection[payload];
       return { ...state,
         positionsForInspection: positionsForInspection
       };

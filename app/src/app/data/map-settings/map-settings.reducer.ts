@@ -28,26 +28,26 @@ const initialState: State = {
   viewports: {},
 }
 
-export function mapSettingsReducer(state = initialState, action: Action) {
-  switch (action.type) {
+export function mapSettingsReducer(state = initialState, { type, payload }) {
+  switch (type) {
     case ActionTypes.SetVisibilityForAssetNames:
-      return { ...state, namesVisible: action.payload };
+      return { ...state, namesVisible: payload };
     case ActionTypes.SetVisibilityForAssetSpeeds:
-      return { ...state, speedsVisible: action.payload };
+      return { ...state, speedsVisible: payload };
     case ActionTypes.SetVisibilityForFlags:
-      return { ...state, flagsVisible: action.payload };
+      return { ...state, flagsVisible: payload };
     case ActionTypes.SetVisibilityForTracks:
-      return { ...state, tracksVisible: action.payload };
+      return { ...state, tracksVisible: payload };
     case ActionTypes.SetVisibilityForForecast:
-      return { ...state, forecastsVisible: action.payload };
+      return { ...state, forecastsVisible: payload };
     case ActionTypes.SetTracksMinuteCap:
-      return { ...state, tracksMinuteCap: action.payload };
+      return { ...state, tracksMinuteCap: payload };
     case ActionTypes.SetForecastInterval:
-      return { ...state, forecastInterval: action.payload }
+      return { ...state, forecastInterval: payload }
     case ActionTypes.SaveViewport:
       return { ...state, viewports: {
         ...state.viewports,
-        [action.payload.key]: action.payload.viewport
+        [payload.key]: payload.viewport
       }};
     default:
       return state;

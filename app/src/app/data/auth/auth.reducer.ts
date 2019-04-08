@@ -23,10 +23,10 @@ const initialState: State = {
   user: null,
 };
 
-export function authReducer(state = initialState, action: Action) {
-  switch (action.type) {
+export function authReducer(state = initialState, { type, payload }) {
+  switch (type) {
     case ActionTypes.LoginSuccess:
-      return { ...state, user: { ...state.user, ...action.payload } };
+      return { ...state, user: { ...state.user, ...payload } };
 
     case ActionTypes.LoginFail:
       return { ...state };
