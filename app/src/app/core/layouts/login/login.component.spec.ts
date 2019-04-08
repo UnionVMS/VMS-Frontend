@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { DefaultLayoutComponent } from './default.component';
+import { LoginLayoutComponent } from './login.component';
 
 // For MDB Angular Free
 import {
@@ -9,7 +9,7 @@ import {
   InputsModule, IconsModule
 } from 'angular-bootstrap-md';
 
-describe('DefaultLayoutComponent', () => {
+describe('LoginLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -19,13 +19,13 @@ describe('DefaultLayoutComponent', () => {
         NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
         InputsModule, IconsModule
       ],
-      declarations: [ DefaultLayoutComponent ]
+      declarations: [ LoginLayoutComponent ]
     })
     .compileComponents();
   }));
 
   function setup() {
-    const fixture = TestBed.createComponent(DefaultLayoutComponent);
+    const fixture = TestBed.createComponent(LoginLayoutComponent);
     const component = fixture.componentInstance;
     return { fixture , component };
   }
@@ -48,8 +48,6 @@ describe('DefaultLayoutComponent', () => {
     const links = layoutElement.querySelectorAll('mdb-navbar a');
     expect(links[0].textContent).toBe("VMS");
     expect(links[1].textContent).toContain("Home");
-    expect(links[2].textContent).toContain("Test");
-    expect(links[3].textContent).toContain("Kartan");
   });
 
   it('should have a continer with router-outlet in it', () => {

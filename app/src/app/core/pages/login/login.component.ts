@@ -5,8 +5,7 @@ import { AuthReducer, AuthActions, AuthSelectors } from '../../../data/auth';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
   username: string;

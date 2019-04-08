@@ -5,7 +5,10 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "paths": {
+      "@testing/*": ["src/testing-utils/*"]
+    }
   },
   "files": [
     "test.ts",

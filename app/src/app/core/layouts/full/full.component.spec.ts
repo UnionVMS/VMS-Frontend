@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { DefaultLayoutComponent } from './default.component';
+import { FullLayoutComponent } from './full.component';
 
 // For MDB Angular Free
 import {
@@ -9,7 +9,7 @@ import {
   InputsModule, IconsModule
 } from 'angular-bootstrap-md';
 
-describe('DefaultLayoutComponent', () => {
+describe('FullLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -19,13 +19,13 @@ describe('DefaultLayoutComponent', () => {
         NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
         InputsModule, IconsModule
       ],
-      declarations: [ DefaultLayoutComponent ]
+      declarations: [ FullLayoutComponent ]
     })
     .compileComponents();
   }));
 
   function setup() {
-    const fixture = TestBed.createComponent(DefaultLayoutComponent);
+    const fixture = TestBed.createComponent(FullLayoutComponent);
     const component = fixture.componentInstance;
     return { fixture , component };
   }
@@ -52,10 +52,10 @@ describe('DefaultLayoutComponent', () => {
     expect(links[3].textContent).toContain("Kartan");
   });
 
-  it('should have a continer with router-outlet in it', () => {
+  it('should have a router-outlet', () => {
     const { fixture } = setup();
     const layoutElement: HTMLElement = fixture.nativeElement;
-    const routerOutlet = layoutElement.querySelector('.container router-outlet');
+    const routerOutlet = layoutElement.querySelector('router-outlet');
     expect(routerOutlet).not.toBeNull();
   });
 });
