@@ -5,15 +5,15 @@ export const formatDate = (datetime) => {
   return result;
 }
 
-export const deg2rad = (degrees) => {
+export const deg2rad = (degrees: number) => {
   return degrees * Math.PI / 180;
 }
 
-export const radToDeg = (rad) => {
+export const radToDeg = (rad: number) => {
   return (180.0 * (rad / Math.PI));
 }
 
-export const intToRGB = (i) => {
+export const intToRGB = (i: number) => {
   const c = (i & 0x00FFFFFF)
       .toString(16)
       .toUpperCase();
@@ -21,7 +21,7 @@ export const intToRGB = (i) => {
   return '00000'.substring(0, 6 - c.length) + c;
 }
 
-export const hashCode = (str) => { // java String#hashCode
+export const hashCode = (str: String) => { // java String#hashCode
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -43,7 +43,7 @@ export const hashCode = (str) => { // java String#hashCode
 * @example
 *     var p = destinationPoint(51.4778, -0.0015, 7794, 300.7); // 51.5135°N, 000.0983°W
 */
-export const destinationPoint = (lat, lon, speed, time, bearing) => {
+export const destinationPoint = (lat: number, lon: number, speed: number, time: number, bearing: number) => {
    const radius = 6371e3; // (Mean) radius of earth
 
    const distance = speed * (time / 60);

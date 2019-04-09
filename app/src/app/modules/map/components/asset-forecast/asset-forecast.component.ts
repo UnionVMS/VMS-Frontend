@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AssetReducer, AssetActions, AssetSelectors } from '../../../../data/asset';
-import { deg2rad, intToRGB, hashCode, destinationPoint } from '../../../../helpers';
+import { intToRGB, hashCode, destinationPoint } from '../../../../helpers';
 
 import Map from 'ol/Map';
 import { Style, Icon } from 'ol/style.js';
