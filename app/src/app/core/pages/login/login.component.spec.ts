@@ -1,11 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
-// import { StoreModule } from '@ngrx/store';
-// import { reducers, metaReducers } from '../../../app-reducer';
 import { Store } from '@ngrx/store';
-import { TestStore } from '@testing/TestStore';
+import { TestingModule } from '@testing/Utils';
 
 import { LoginComponent } from './login.component';
 
@@ -20,27 +19,28 @@ import {
 
 describe('LoginComponent', () => {
 
+  const mockRouter = { navigate: jasmine.createSpy('navigate')};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
       imports: [
-        RouterTestingModule,
-        // StoreModule.forRoot(reducers, { metaReducers }),
+        TestingModule,
+        // RouterTestingModule.withRoutes([
+        //   { path: 'map/realtime' , component: LoginComponent }
+        // ]),
         /* MDB Imports: */
         NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
         InputsModule, IconsModule
       ],
       providers: [
-        { provide: Store, useClass: TestStore }   // use test store instead of ngrx store
+        // { provide: RouterTestingModule, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter }
       ]
     })
     .compileComponents();
   }));
 
-  // beforeEach(inject([Store], (testStore: TestStore<TodosState>) => {
-  //   store = testStore;                            // save store reference for use in tests
-  //   store.setState({ }); // set default state
-  // }));
 
   function setup() {
     const fixture = TestBed.createComponent(LoginComponent);
@@ -53,7 +53,7 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should dispatch AuthActions.Login on submit', () => {
+  it('should dispatch AuthActions.Login on submit and redirect', () => {
     const { fixture, component } = setup();
     const store = TestBed.get(Store);
     // console.warn(component.store);
@@ -70,15 +70,24 @@ describe('LoginComponent', () => {
     usernameElement.nativeElement.value = username;
     passwordElement.nativeElement.value = password;
 
+    expect(dispatchSpy).toHaveBeenCalledTimes(0);
+
     submitElement.triggerEventHandler('click', null);
 
     expect(dispatchSpy).toHaveBeenCalledTimes(1);
     expect(dispatchSpy).toHaveBeenCalledWith(
       new AuthActions.Login({ username, password })
     );
+  });
 
-    // expect()
-    // expect(component).toBeTruthy();
+  it('should redirect from login component on succesfull login.', () => {
+    const { component } = setup();
+    const router = TestBed.get(Router);
+    const store = TestBed.get(Store);
+    store.setState({ auth: { user: null } });
+    component.ngOnInit();
+    store.setState({ auth: { user: { data: { username: 'Username123' } } } });
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/map/realtime']);
   });
 
 });

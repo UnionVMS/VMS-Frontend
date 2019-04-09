@@ -7,7 +7,7 @@
       "node"
     ],
     "paths": {
-      "@testing/*": ["src/testing-utils/*"]
+      "@testing/*": ["src/testing/*"]
     }
   },
   "files": [
