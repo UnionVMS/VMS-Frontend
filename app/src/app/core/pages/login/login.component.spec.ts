@@ -14,8 +14,6 @@ import { CheckboxModule } from 'angular-bootstrap-md';
 
 describe('LoginComponent', () => {
 
-  const mockRouter = { navigate: jasmine.createSpy('navigate')};
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
@@ -24,7 +22,7 @@ describe('LoginComponent', () => {
         CheckboxModule
       ],
       providers: [
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: { navigate: () => {} } }
       ]
     })
     .compileComponents();
@@ -71,10 +69,12 @@ describe('LoginComponent', () => {
     const { component } = setup();
     const router = TestBed.get(Router);
     const store = TestBed.get(Store);
+    const navigateSpy = spyOn(router, 'navigate');
+
     store.setState({ auth: { user: null } });
     component.ngOnInit();
     store.setState({ auth: { user: { data: { username: 'Username123' } } } });
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/map/realtime']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/map/realtime']);
   });
 
 });

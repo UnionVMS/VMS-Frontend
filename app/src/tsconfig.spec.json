@@ -7,6 +7,7 @@
       "node"
     ],
     "paths": {
+      "@data/*": ["src/app/data/*"],
       "@testing/*": ["src/testing/*"]
     }
   },
