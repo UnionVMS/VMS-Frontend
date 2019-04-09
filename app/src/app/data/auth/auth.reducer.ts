@@ -19,7 +19,7 @@ export interface State {
   user: User|null;
 }
 
-const initialState: State = {
+export const initialState: State = {
   user: null,
 };
 
@@ -28,7 +28,7 @@ export function authReducer(state = initialState, { type, payload }) {
     case ActionTypes.LoginSuccess:
       return { ...state, user: { ...state.user, ...payload } };
 
-    case ActionTypes.LoginFail:
+    case ActionTypes.LoginFailed:
       return { ...state };
 
     default:

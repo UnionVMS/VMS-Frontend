@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { map, mergeMap, concatMap, catchError } from 'rxjs/operators';
 import jwtDecode from 'jwt-decode';
 
-import { ActionTypes, LoginSuccess } from './auth.actions';
+import { ActionTypes, LoginSuccess, LoginFailed } from './auth.actions';
 import { AuthService } from './auth.service';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class AuthEffects {
                 data: { username: tokenDecoded.userName }
               });
             }),
-            catchError((err) => of({ type: ActionTypes.LoginFail, payload: err }))
+            catchError((err) => of(new LoginFailed({ error: err })))
           );
       })
     );
