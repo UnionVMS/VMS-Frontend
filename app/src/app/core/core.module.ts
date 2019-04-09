@@ -16,7 +16,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { DefaultLayoutComponent } from './layouts/default/default.component';
 import { LoginLayoutComponent } from './layouts/login/login.component';
 import { FullLayoutComponent } from './layouts/full/full.component';
-import { LayoutComponent } from './layouts/layout.component';
 
 // Pages
 import { LoginComponent } from './pages/login/login.component';
@@ -34,7 +33,6 @@ import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.compone
     DefaultLayoutComponent,
     LoginLayoutComponent,
     FullLayoutComponent,
-    LayoutComponent,
     LoginComponent,
     UnauthorizedComponent,
   ],

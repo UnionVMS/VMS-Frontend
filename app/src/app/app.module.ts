@@ -54,8 +54,6 @@ import { TestComponent } from './test/test.component';
     }),
     StoreRouterConnectingModule.forRoot(),
     AppRoutingModule,
-
-
     HttpClientModule,
     EffectsModule.forRoot([AuthEffects, AssetEffects]),
     BrowserAnimationsModule,
