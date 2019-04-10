@@ -21,8 +21,8 @@ import { MapViewportsComponent } from '../../components/map-viewports/map-viewpo
 import { TracksComponent } from '../../components/tracks/tracks.component';
 import { TrackPanelComponent } from '../../components/track-panel/track-panel.component';
 
-import { AssetReducer } from '@data/asset';
-import { MapSettingsReducer } from '@data/map-settings';
+import { AssetReducer, AssetActions } from '@data/asset';
+import { MapSettingsReducer, MapSettingsActions } from '@data/map-settings';
 
 
 describe('RealtimeComponent', () => {
@@ -299,6 +299,235 @@ describe('RealtimeComponent', () => {
       expect(forecasts).toEqual({ [testBoat.asset]: testBoat });
       forecastsSubscription.unsubscribe();
     });
+
+  });
+
+  describe('mapDispatchToProps', () => {
+    function mapDispatchToPropsSetup() {
+      const { component } = setup();
+      const store = TestBed.get(Store);
+      const dispatchSpy = spyOn(store, 'dispatch');
+      component.mapDispatchToProps();
+      return { component, dispatchSpy };
+    }
+
+    it('should dispatch MapSettingsActions.SaveViewport when saveViewport is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['saveViewport']('key', { viewport: 'object-stuff' });
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new MapSettingsActions.SaveViewport({key: 'key', viewport: { viewport: 'object-stuff' }})
+      );
+    });
+
+    it('should dispatch MapSettingsActions.SetVisibilityForAssetNames when setVisibilityForAssetNames is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['setVisibilityForAssetNames'](true);
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new MapSettingsActions.SetVisibilityForAssetNames(true)
+      );
+    });
+
+    it('should dispatch MapSettingsActions.SetVisibilityForAssetSpeeds when setVisibilityForAssetSpeeds is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['setVisibilityForAssetSpeeds'](true);
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new MapSettingsActions.SetVisibilityForAssetSpeeds(true)
+      );
+    });
+
+    it('should dispatch MapSettingsActions.SetVisibilityForTracks when setVisibilityForTracks is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['setVisibilityForTracks'](true);
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new MapSettingsActions.SetVisibilityForTracks(true)
+      );
+    });
+
+    it('should dispatch MapSettingsActions.SetVisibilityForFlags when setVisibilityForFlags is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['setVisibilityForFlags'](true);
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new MapSettingsActions.SetVisibilityForFlags(true)
+      );
+    });
+
+    it('should dispatch MapSettingsActions.SetVisibilityForForecast when setVisibilityForForecast is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['setVisibilityForForecast'](true);
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new MapSettingsActions.SetVisibilityForForecast(true)
+      );
+    });
+
+    it('should dispatch MapSettingsActions.SetTracksMinuteCap when setTracksMinuteCap is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['setTracksMinuteCap'](10);
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new MapSettingsActions.SetTracksMinuteCap(10)
+      );
+    });
+
+    it('should dispatch AssetActions.SelectAsset when selectAsset is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['selectAsset']('asset-id');
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new AssetActions.SelectAsset('asset-id')
+      );
+    });
+
+    it('should dispatch AssetActions.GetAssetTrack when getAssetTrack is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['getAssetTrack']('asset-id', 'movement-guid');
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new AssetActions.GetAssetTrack({ assetId: 'asset-id', movementGuid: 'movement-guid' })
+      );
+    });
+
+    it('should dispatch AssetActions.GetAssetTrackFromTime when getAssetTrackFromTime is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      const datetime = new Date(Date.now());
+      component['getAssetTrackFromTime']('asset-id', datetime);
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new AssetActions.GetAssetTrackFromTime({ assetId: 'asset-id', datetime: datetime })
+      );
+    });
+
+    it('should dispatch AssetActions.UntrackAsset when untrackAsset is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['untrackAsset']('asset-id');
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new AssetActions.UntrackAsset('asset-id')
+      );
+    });
+
+    it('should dispatch AssetActions.AddPositionForInspection when addPositionForInspection is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['addPositionForInspection']({track: 'object-Stuff'});
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new AssetActions.AddPositionForInspection({track: 'object-Stuff'})
+      );
+    });
+
+    it('should dispatch AssetActions.RemovePositionForInspection when removePositionForInspection is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['removePositionForInspection']('track-id');
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new AssetActions.RemovePositionForInspection('track-id')
+      );
+    });
+
+    it('should dispatch AssetActions.AddForecast when addForecast is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['addForecast']('asset-id');
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new AssetActions.AddForecast('asset-id')
+      );
+    });
+
+    it('should dispatch AssetActions.RemoveForecast when removeForecast is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['removeForecast']('asset-id');
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new AssetActions.RemoveForecast('asset-id')
+      );
+    });
+
+    it('should dispatch AssetActions.ClearForecasts when clearForecasts is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['clearForecasts']();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new AssetActions.ClearForecasts()
+      );
+    });
+
+    it('should dispatch AssetActions.clearTracks when clearTracks is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['clearTracks']();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new AssetActions.ClearTracks()
+      );
+    });
+
+    it('should dispatch MapSettingsActions.SetForecastInterval when setForecastInterval is called.', () => {
+      const { component, dispatchSpy } = mapDispatchToPropsSetup();
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component['setForecastInterval'](11);
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new MapSettingsActions.SetForecastInterval(11)
+      );
+    });
+
 
   });
 
