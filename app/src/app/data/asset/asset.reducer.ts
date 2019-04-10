@@ -43,7 +43,7 @@ export interface State {
   positionsForInspection: any;
 }
 
-const initialState: State = {
+export const initialState: State = {
   selectedAsset: null,
   fullAssets: {},
   assets: {

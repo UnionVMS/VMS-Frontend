@@ -139,7 +139,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.assetSubscription.unsubscribe();
+    if(this.assetSubscription !== undefined) {
+      this.assetSubscription.unsubscribe();
+    }
     this.store.dispatch(new AssetActions.UnsubscribeToMovements());
   }
 

@@ -151,10 +151,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         width: 2
       }),
       offsetY,
-      // offsetY: -15,
-      // get the text from the feature - `this` is ol.Feature
-      // and show only under certain resolution
-      // text: map.getView().getZoom() > 12 ? this.get('description') : ''
       text
     });
   }

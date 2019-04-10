@@ -17,7 +17,7 @@ export interface State {
   viewports: { [key: number]: Viewport };
 }
 
-const initialState: State = {
+export const initialState: State = {
   flagsVisible: false,
   tracksVisible: true,
   namesVisible: false,

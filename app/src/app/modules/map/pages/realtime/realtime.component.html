@@ -2,6 +2,7 @@
   <div class="map-container">
     <div id="realtime-map"></div>
     <map-assets
+      *ngIf="registerOnClickFunction !== undefined"
       [assets]="assets"
       [map]="map"
       [namesVisible]="(mapSettings$ | async).namesVisible"
