@@ -55,6 +55,15 @@
 							<arguments>install</arguments>
 						</configuration>
 					</execution>
+          <execution>
+            <id>npm sync version</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>version ${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}.${project.artifact.selectedVersion.incrementalVersion}</arguments>
+            </configuration>
+          </execution>
 					<execution>
 						<id>npm test</id>
 						<goals>
