@@ -10,7 +10,7 @@ export class TrackPanelComponent {
   @Input() positions: any;
   @Input() removePositionForInspection: Function;
 
-  private hidePanel = true;
+  public hidePanel = true;
   private toggleVisibility: Function = () => {
     this.hidePanel = !this.hidePanel;
   }

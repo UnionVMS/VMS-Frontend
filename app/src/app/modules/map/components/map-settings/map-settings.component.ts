@@ -19,7 +19,7 @@ export class MapSettingsComponent {
   @Input() saveViewport;
   @Input() setForecastInterval;
 
-  private hidePanel = false;
+  public hidePanel = false;
   private toggleVisibility: Function = () => {
     this.hidePanel = !this.hidePanel;
   }

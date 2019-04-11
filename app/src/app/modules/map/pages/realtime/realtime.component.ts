@@ -22,38 +22,41 @@ import { MapSettingsActions, MapSettingsSelectors } from '../../../../data/map-s
 })
 export class RealtimeComponent implements OnInit, OnDestroy {
 
-  private mapSettings$: Observable<any>;
-  private selectedAsset$: any;
-  private assetTracks$: Observable<any>;
-  private positionsForInspection$: Observable<any>;
-  private forecasts$: Observable<any>;
-  private selection: Select;
+  public mapSettings$: Observable<any>;
+  public positionsForInspection$: Observable<any>;
+  public selectedAsset$: any;
+
+  public map: Map;
+
+  public addForecast: Function;
+  public addPositionForInspection: Function;
+  public clearForecasts: Function;
+  public clearTracks: Function;
+  public registerOnClickFunction: Function;
+  public saveViewport: Function;
+  public setForecastInterval: Function;
+  public setVisibilityForAssetNames: Function;
+  public setVisibilityForAssetSpeeds: Function;
+  public setVisibilityForForecast: Function;
+  public setVisibilityForTracks: Function;
+  public setVisibilityForFlags: Function;
+  public setTracksMinuteCap: Function;
+  public removePositionForInspection: Function;
 
   private assets: Array<AssetReducer.Asset>;
   private assetSubscription: Subscription;
-  private map: Map;
   private mapZoom = 6;
   private onClickFunctions: { [name: string]: Function } = {};
 
-  private addForecast: Function;
-  private addPositionForInspection: Function;
-  private clearForecasts: Function;
-  private clearTracks: Function;
-  private removePositionForInspection: Function;
-  private removeForecast: Function;
-  private saveViewport: Function;
-  private setVisibilityForAssetNames: Function;
-  private setVisibilityForAssetSpeeds: Function;
-  private setVisibilityForForecast: Function;
-  private setTracksMinuteCap: Function;
-  private setForecastInterval: Function;
-  private selectAsset: Function;
+  private assetTracks$: Observable<any>;
+  private forecasts$: Observable<any>;
+  private selection: Select;
+
   private getAssetTrack: Function;
   private getAssetTrackFromTime: Function;
+  private removeForecast: Function;
+  private selectAsset: Function;
   private untrackAsset: Function;
-  private setVisibilityForTracks: Function;
-  private setVisibilityForFlags: Function;
-  private registerOnClickFunction: Function;
   private unregisterOnClickFunction: Function;
 
   constructor(private store: Store<AssetReducer.State>) { }

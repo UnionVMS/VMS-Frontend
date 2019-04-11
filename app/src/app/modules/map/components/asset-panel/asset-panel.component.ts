@@ -16,7 +16,7 @@ export class AssetPanelComponent {
   @Input() forecasts;
   @Input() tracksMinuteCap;
 
-  private hidePanel = false;
+  public hidePanel = false;
   private toggleTracks: Function = () => {
     if(this.tracksIsVisible()) {
       this.untrackAsset(this.asset.fullAsset.historyId);
