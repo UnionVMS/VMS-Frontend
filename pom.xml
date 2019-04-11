@@ -61,7 +61,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>test</arguments>
+							<arguments>test -- --watch=false</arguments>
 						</configuration>
 					</execution>
 					<execution>
