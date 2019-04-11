@@ -26,6 +26,11 @@
               "src/favicon.ico",
               "src/assets"
             ],
+            "stylePreprocessorOptions" : {
+              "includePaths" : [
+                "src/app"
+              ]
+            },
             "styles": [
               "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss",
               "node_modules/@fortawesome/fontawesome-free/scss/solid.scss",
@@ -112,6 +117,11 @@
               "node_modules/angular-bootstrap-md/scss/mdb-free.scss",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions" : {
+              "includePaths" : [
+                "src/app"
+              ]
+            },
             "scripts": [
               "node_modules/chart.js/dist/Chart.js",
               "node_modules/hammerjs/hammer.min.js"

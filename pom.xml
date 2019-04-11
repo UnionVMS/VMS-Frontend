@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>fish.focus.maven</groupId>
+		<artifactId>focus-pom</artifactId>
+		<version>1.19</version>
+		<relativePath />
+	</parent>
+	<groupId>eu.europa.ec.fisheries.uvms</groupId>
+	<artifactId>vms-web</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>vms-web</name>
+	<packaging>war</packaging>
+
+	<properties>
+		<scm.connection>scm:git:https://github.com/UnionVMS/VMS-Frontend.git</scm.connection>
+	</properties>
+
+	<build>
+		<finalName>${project.name}</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.github.eirslett</groupId>
+					<artifactId>frontend-maven-plugin</artifactId>
+					<version>1.7.5</version>
+					<configuration>
+						<nodeVersion>v10.15.3</nodeVersion>
+						<npmVersion>6.4.0</npmVersion>
+						<workingDirectory>${basedir}/app</workingDirectory>
+						<installDirectory>${basedir}</installDirectory>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm test</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>test -- --watch=false</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm run build</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<warName>${project.artifactId}</warName>
+					<webResources>
+						<resource>
+							<directory>${basedir}/app/dist/vms-frontend</directory>
+							<filtering>true</filtering>
+						</resource>
+						<resource>
+                            <directory>${basedir}/webContent</directory>
+                        	<filtering>true</filtering>
+                        </resource>
+					</webResources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<scm>
+		<connection>${scm.connection}</connection>
+		<tag>HEAD</tag>
+	</scm>
+
+</project>
