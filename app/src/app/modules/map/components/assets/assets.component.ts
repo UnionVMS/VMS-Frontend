@@ -22,9 +22,11 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() map: Map;
   @Input() namesVisible: boolean;
   @Input() speedsVisible: boolean;
+  // tslint:disable:ban-types
   @Input() selectAsset: Function;
   @Input() registerOnClickFunction: Function;
   @Input() unregisterOnClickFunction: Function;
+  // tslint:enable:ban-types
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;

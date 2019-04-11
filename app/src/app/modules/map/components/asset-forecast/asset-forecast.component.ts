@@ -82,7 +82,7 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
     const futureFeatures: Array<Feature> = [];
     const forecastInterval = this.forecastInterval === null ? 30 : this.forecastInterval;
     for (let i = 0; i < 2; i++) {
-      const minutes = forecastInterval * (i+1);
+      const minutes = forecastInterval * (i + 1);
       const futurePosition = destinationPoint(
         asset.microMove.location.latitude,
         asset.microMove.location.longitude,

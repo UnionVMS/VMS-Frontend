@@ -46,10 +46,10 @@ describe('DefaultLayoutComponent', () => {
     const { fixture } = setup();
     const layoutElement: HTMLElement = fixture.nativeElement;
     const links = layoutElement.querySelectorAll('mdb-navbar a');
-    expect(links[0].textContent).toBe("VMS");
-    expect(links[1].textContent).toContain("Home");
-    expect(links[2].textContent).toContain("Test");
-    expect(links[3].textContent).toContain("Kartan");
+    expect(links[0].textContent).toBe('VMS');
+    expect(links[1].textContent).toContain('Home');
+    expect(links[2].textContent).toContain('Test');
+    expect(links[3].textContent).toContain('Kartan');
   });
 
   it('should have a continer with router-outlet in it', () => {

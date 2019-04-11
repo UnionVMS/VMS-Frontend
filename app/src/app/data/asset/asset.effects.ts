@@ -56,7 +56,7 @@ export class AssetEffects {
           }
           return listOfActions;
         }),
-        //@ts-ignore
+        // tslint:disable-next-line:no-shadowed-variable
         flatMap( (action, index): object => action ),
         catchError((err) => of({ type: ActionTypes.FailedToSubscribeToMovements, payload: err }))
       );

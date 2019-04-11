@@ -95,7 +95,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
         src: './assets/flags/icon.png',
         anchor: [0.5, 1.1],
         rotateWithView: true,
-        color: "#FFFFFF",
+        color: '#FFFFFF',
         opacity: 0.75
       })
     });
@@ -115,13 +115,13 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
   getImage(countryCode) {
     if(typeof this.flagCanvasByCountry[countryCode] === 'undefined') {
       const canvas = document.createElement('canvas');
-      canvas.setAttribute("width", "16");
-      canvas.setAttribute("height", "12");
-      const ctx = canvas.getContext("2d");
+      canvas.setAttribute('width', '16');
+      canvas.setAttribute('height', '12');
+      const ctx = canvas.getContext('2d');
       const img = new Image();
-      img.onload = function() {
+      img.onload = () => {
           ctx.drawImage(img, 0, 0, 16, 12);
-      }
+      };
       img.src = `./assets/flags/4x3/${countryCode}.svg`;
       this.flagCanvasByCountry[countryCode] = canvas;
     }

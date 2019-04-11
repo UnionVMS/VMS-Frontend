@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'full-layout-component',
+  selector: 'core-full-layout-component',
   templateUrl: './full.component.html',
 })
 

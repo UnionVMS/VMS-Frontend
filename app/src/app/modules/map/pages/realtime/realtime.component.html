@@ -26,7 +26,7 @@
     [map]="map"
     [saveViewport]="saveViewport"
   ></map-settings>
-  <asset-panel
+  <map-asset-panel
     *ngIf="(selectedAsset$|async).fullAsset !== undefined"
     [asset]="selectedAsset$|async"
     [forecasts]="forecasts$|async"
@@ -36,7 +36,7 @@
     [addForecast]="addForecast"
     [removeForecast]="removeForecast"
     [tracksMinuteCap]="(mapSettings$|async).tracksMinuteCap"
-  ></asset-panel>
+  ></map-asset-panel>
   <map-tracks
     *ngIf="(mapSettings$|async).tracksVisible"
     [assetTracks]="assetTracks$|async"

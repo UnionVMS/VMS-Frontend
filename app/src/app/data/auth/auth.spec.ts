@@ -13,6 +13,7 @@ describe('AuthReducer', () => {
 
   const loginPayload = {
     jwtToken: {
+      // tslint:disable-next-line:max-line-length
       raw: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJ1c20vYXV0aGVudGljYXRpb24iLCJpc3MiOiJ1c20iLCJzdWIiOiJhdXRoZW50aWNhdGlvbiIsImlhdCI6MTU1NDgxOTQxMywiZXhwIjoxNTU0ODIzMzAyLCJ1c2VyTmFtZSI6InZtc191c2VyIn0.6lLd-GQOtz4VhkAYqWeCLr7_OaMXI4F9JpSj6eaeCNU',
       decoded: {
         jti: 'usm/authentication',

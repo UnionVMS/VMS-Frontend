@@ -20,35 +20,35 @@ export class MapSettingsComponent {
   @Input() setForecastInterval;
 
   public hidePanel = false;
-  private toggleVisibility: Function = () => {
+  private toggleVisibility = (): void => {
     this.hidePanel = !this.hidePanel;
   }
 
 
-  private toggleNames: Function = () => {
+  private toggleNames = (): void => {
     this.setVisibilityForAssetNames(!this.mapSettings.namesVisible);
   }
-  private toggleSpeeds: Function = () => {
+  private toggleSpeeds = (): void => {
     this.setVisibilityForAssetSpeeds(!this.mapSettings.speedsVisible);
   }
-  private toggleFlags: Function = () => {
+  private toggleFlags = (): void => {
     this.setVisibilityForFlags(!this.mapSettings.flagsVisible);
   }
-  private toggleTracks: Function = () => {
+  private toggleTracks = (): void => {
     this.setVisibilityForTracks(!this.mapSettings.tracksVisible);
   }
-  private toggleForecast: Function = () => {
+  private toggleForecast = (): void => {
     this.setVisibilityForForecast(!this.mapSettings.forecastsVisible);
   }
-  private setTracksMinuteCapFunction: Function = (event) => {
-    let minutes = parseInt(event.target.value);
+  private setTracksMinuteCapFunction = (event): void => {
+    let minutes = parseInt(event.target.value, 10);
     if(event.target.value.length === 0) {
       minutes = null;
     }
     this.setTracksMinuteCap(minutes);
   }
-  private setForecastIntervalFunction: Function = (event) => {
-    let minutes = parseInt(event.target.value);
+  private setForecastIntervalFunction = (event): void => {
+    let minutes = parseInt(event.target.value, 10);
     if(event.target.value.length === 0) {
       minutes = null;
     }

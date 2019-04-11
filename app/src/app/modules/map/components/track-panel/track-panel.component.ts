@@ -2,16 +2,17 @@ import { Component, Input } from '@angular/core';
 import { formatDate } from '../../../../helpers';
 
 @Component({
-  selector: 'track-panel',
+  selector: 'map-track-panel',
   templateUrl: './track-panel.component.html',
   styleUrls: ['./track-panel.component.scss']
 })
 export class TrackPanelComponent {
   @Input() positions: any;
+  // tslint:disable-next-line:ban-types
   @Input() removePositionForInspection: Function;
 
   public hidePanel = true;
-  private toggleVisibility: Function = () => {
+  private toggleVisibility = (): void => {
     this.hidePanel = !this.hidePanel;
   }
 

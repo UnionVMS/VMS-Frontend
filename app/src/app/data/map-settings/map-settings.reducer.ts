@@ -26,7 +26,7 @@ export const initialState: State = {
   forecastInterval: null,
   tracksMinuteCap: null,
   viewports: {},
-}
+};
 
 export function mapSettingsReducer(state = initialState, { type, payload }) {
   switch (type) {
@@ -43,7 +43,7 @@ export function mapSettingsReducer(state = initialState, { type, payload }) {
     case ActionTypes.SetTracksMinuteCap:
       return { ...state, tracksMinuteCap: payload };
     case ActionTypes.SetForecastInterval:
-      return { ...state, forecastInterval: payload }
+      return { ...state, forecastInterval: payload };
     case ActionTypes.SaveViewport:
       return { ...state, viewports: {
         ...state.viewports,

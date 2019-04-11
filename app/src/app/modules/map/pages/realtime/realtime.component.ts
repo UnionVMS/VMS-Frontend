@@ -28,6 +28,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   public map: Map;
 
+  // tslint:disable:ban-types
   public addForecast: Function;
   public addPositionForInspection: Function;
   public clearForecasts: Function;
@@ -42,22 +43,26 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public setVisibilityForFlags: Function;
   public setTracksMinuteCap: Function;
   public removePositionForInspection: Function;
+  // tslint:enable:ban-types
 
   private assets: Array<AssetReducer.Asset>;
   private assetSubscription: Subscription;
   private mapZoom = 6;
+  // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
 
   private assetTracks$: Observable<any>;
   private forecasts$: Observable<any>;
   private selection: Select;
 
+  // tslint:disable:ban-types
   private getAssetTrack: Function;
   private getAssetTrackFromTime: Function;
   private removeForecast: Function;
   private selectAsset: Function;
   private untrackAsset: Function;
   private unregisterOnClickFunction: Function;
+  // tslint:enable:ban-types
 
   constructor(private store: Store<AssetReducer.State>) { }
 
@@ -155,7 +160,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
     this.unregisterOnClickFunction = (name) => {
       delete this.onClickFunctions[name];
-    }
+    };
 
     this.selection = new Select();
     this.map.addInteraction(this.selection);

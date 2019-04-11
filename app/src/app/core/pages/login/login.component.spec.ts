@@ -49,8 +49,8 @@ describe('LoginComponent', () => {
     const passwordElement = fixture.debugElement.query(By.css('input#loginFormPassword'));
     const submitElement = fixture.debugElement.query(By.css('button'));
 
-    const username = "Username123";
-    const password = "Password123";
+    const username = 'Username123';
+    const password = 'Password123';
 
     usernameElement.nativeElement.value = username;
     passwordElement.nativeElement.value = password;

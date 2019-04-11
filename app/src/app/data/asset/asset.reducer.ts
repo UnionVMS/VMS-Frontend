@@ -31,7 +31,7 @@ export interface AssetTrack {
   tracks: Array<Movement>;
   visible: boolean;
   assetId: string;
-  lineSegments: Array<LineSegment>
+  lineSegments: Array<LineSegment>;
 }
 
 export interface State {
@@ -58,7 +58,7 @@ const speedSegments = {
   12: '#FFA500',
   100000: '#FF0000'
 };
-const speeds = Object.keys(speedSegments).map(speed => parseInt(speed));
+const speeds = Object.keys(speedSegments).map(speed => parseInt(speed, 10));
 
 export function assetReducer(state = initialState, { type, payload }) {
   switch (type) {
@@ -76,6 +76,7 @@ export function assetReducer(state = initialState, { type, payload }) {
       Object.keys(payload).map((assetId) => {
         if(typeof newState.assetTracks[assetId] !== 'undefined') {
           newState.assetTracks[assetId].tracks.push(payload[assetId].microMove);
+          // tslint:disable-next-line:no-shadowed-variable
           const lineSegments = newState.assetTracks[assetId].lineSegments;
           const lastSegment = lineSegments[lineSegments.length - 1];
           const segmentSpeed = speeds.find((speed) => newState.assets[assetId].microMove.speed < speed);
@@ -93,6 +94,7 @@ export function assetReducer(state = initialState, { type, payload }) {
       return newState;
 
     case ActionTypes.TrimTracksThatPassedTimeCap:
+      // tslint:disable-next-line:no-shadowed-variable
       const newAssetTracks = Object.keys(state.assetTracks).reduce((assetTracks, assetId) => {
         const assetTrack = state.assetTracks[assetId];
         const indexOfFirstPositionAfterGivenTime = assetTrack.tracks.findIndex(
@@ -101,6 +103,7 @@ export function assetReducer(state = initialState, { type, payload }) {
         if(indexOfFirstPositionAfterGivenTime > 0) {
           assetTrack.tracks = assetTrack.tracks.slice(indexOfFirstPositionAfterGivenTime);
           let positionsLeftToRemove = indexOfFirstPositionAfterGivenTime;
+          // tslint:disable-next-line:no-shadowed-variable
           assetTrack.lineSegments = assetTrack.lineSegments.reduce((lineSegments, lineSegment) => {
             if(positionsLeftToRemove === 0) {
               lineSegments.push(lineSegment);
@@ -141,6 +144,7 @@ export function assetReducer(state = initialState, { type, payload }) {
       return { ...state, selectedAsset: payload };
 
     case ActionTypes.SetAssetTrack:
+      // tslint:disable-next-line:no-shadowed-variable
       const lineSegments = payload.tracks.reduce((lineSegments, position) => {
         const lastSegment = lineSegments[lineSegments.length - 1];
         const segmentSpeed = speeds.find((speed) => position.speed < speed);
@@ -166,18 +170,19 @@ export function assetReducer(state = initialState, { type, payload }) {
       return { ...state, assetTracks: {
         ...state.assetTracks,
         [payload.assetId]: { ...payload, lineSegments }
-      }}
+      }};
 
     case ActionTypes.UntrackAsset:
       const assetTracks = { ...state.assetTracks };
       delete assetTracks[payload];
-      return { ...state, assetTracks: assetTracks };
+      return { ...state, assetTracks };
 
     case ActionTypes.ClearTracks:
-      return { ...state, assetTracks: {}, positionsForInspection: {} }
+      return { ...state, assetTracks: {}, positionsForInspection: {} };
 
     case ActionTypes.AddPositionForInspection:
-      const positionsForInspectionKeys = Object.keys(state.positionsForInspection).map(key => parseInt(key));
+      // tslint:disable-next-line:no-shadowed-variable
+      const positionsForInspectionKeys = Object.keys(state.positionsForInspection).map(key => parseInt(key, 10));
       const key = positionsForInspectionKeys.length === 0 ? 1 : positionsForInspectionKeys[positionsForInspectionKeys.length - 1] + 1;
       return { ...state,
         positionsForInspection: { ...state.positionsForInspection,
@@ -189,7 +194,7 @@ export function assetReducer(state = initialState, { type, payload }) {
       const positionsForInspection = { ...state.positionsForInspection };
       delete positionsForInspection[payload];
       return { ...state,
-        positionsForInspection: positionsForInspection
+        positionsForInspection
       };
 
     default:

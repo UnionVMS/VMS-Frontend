@@ -24,7 +24,7 @@ import { TrackPanelComponent } from '../../components/track-panel/track-panel.co
 import { AssetReducer, AssetActions } from '@data/asset';
 import { MapSettingsReducer, MapSettingsActions } from '@data/map-settings';
 
-
+/* tslint:disable:no-string-literal */
 describe('RealtimeComponent', () => {
 
   beforeEach(async(() => {
@@ -72,13 +72,13 @@ describe('RealtimeComponent', () => {
           latitude: 65.15318167666667
         },
         heading: 189,
-        guid: "4eea28b6-0844-4a6b-f5be-6b655a4e0343",
-        timestamp: "2019-05-02T09:04:58Z",
+        guid: '4eea28b6-0844-4a6b-f5be-6b655a4e0343',
+        timestamp: '2019-05-02T09:04:58Z',
         speed: 11.2,
       },
-      asset: "ba498d76-ecd1-486a-9302-728367b237a7",
-      flagstate: "GBR",
-      assetName: "Test boat"
+      asset: 'ba498d76-ecd1-486a-9302-728367b237a7',
+      flagstate: 'GBR',
+      assetName: 'Test boat'
     };
 
     const baseAssetTracks = {
@@ -162,7 +162,7 @@ describe('RealtimeComponent', () => {
       store.setState(currentState);
       component.mapStateToProps();
 
-      expect(component["assets"]).not.toEqual([testBoat]);
+      expect(component['assets']).not.toEqual([testBoat]);
       store.setState({
         ...currentState,
         asset: {
@@ -172,7 +172,7 @@ describe('RealtimeComponent', () => {
           }
         }
       });
-      expect(component["assets"]).toEqual([testBoat]);
+      expect(component['assets']).toEqual([testBoat]);
     });
 
     it('should update mapSettings when state is updated.', () => {
@@ -184,8 +184,7 @@ describe('RealtimeComponent', () => {
       component.mapStateToProps();
 
       let mapSettings;
-      const mapSettingsSubscription =
-        component['mapSettings$'].subscribe(newMapSettings => mapSettings = newMapSettings);
+      const mapSettingsSubscription = component.mapSettings$.subscribe(newMapSettings => mapSettings = newMapSettings);
       expect(mapSettings).toEqual(MapSettingsReducer.initialState);
       expect(mapSettings.flagsVisible).toBeFalsy();
       store.setState({
@@ -209,7 +208,7 @@ describe('RealtimeComponent', () => {
 
       let selectedAsset;
       const selectedAssetSubscription =
-        component['selectedAsset$'].subscribe(newSelectedAsset => selectedAsset = newSelectedAsset);
+        component.selectedAsset$.subscribe(newSelectedAsset => selectedAsset = newSelectedAsset);
       expect(selectedAsset).toEqual({ fullAsset: undefined, assetTracks: undefined, currentPosition: undefined });
       currentState = { ...currentState, asset: {
         ...currentState.asset, selectedAsset: testBoat.asset, assets: { [testBoat.asset]: testBoat}
@@ -247,7 +246,7 @@ describe('RealtimeComponent', () => {
       component.mapStateToProps();
 
       const basePositionsForInspection = {
-        '1': {
+        1: {
           location: {
             longitude: 17.976566666666667,
             latitude: 56.5789
@@ -257,7 +256,7 @@ describe('RealtimeComponent', () => {
           timestamp: '2019-03-31T05:48:30Z',
           speed: 19.5
         },
-        '2': {
+        2: {
           location: {
             longitude: 18.029166666666665,
             latitude: 56.59851666666667
@@ -271,7 +270,7 @@ describe('RealtimeComponent', () => {
 
       let positionsForInspection;
       const positionsForInspectionSubscription =
-        component['positionsForInspection$'].subscribe(newPositionsForInspection => positionsForInspection = newPositionsForInspection);
+        component.positionsForInspection$.subscribe(newPositionsForInspection => positionsForInspection = newPositionsForInspection);
       expect(positionsForInspection).toEqual({});
       currentState = { ...currentState, asset: {
         ...currentState.asset, positionsForInspection: basePositionsForInspection
@@ -315,7 +314,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['saveViewport']('key', { viewport: 'object-stuff' });
+      component.saveViewport('key', { viewport: 'object-stuff' });
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -327,7 +326,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['setVisibilityForAssetNames'](true);
+      component.setVisibilityForAssetNames(true);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -339,7 +338,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['setVisibilityForAssetSpeeds'](true);
+      component.setVisibilityForAssetSpeeds(true);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -351,7 +350,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['setVisibilityForTracks'](true);
+      component.setVisibilityForTracks(true);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -363,7 +362,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['setVisibilityForFlags'](true);
+      component.setVisibilityForFlags(true);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -375,7 +374,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['setVisibilityForForecast'](true);
+      component.setVisibilityForForecast(true);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -387,7 +386,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['setTracksMinuteCap'](10);
+      component.setTracksMinuteCap(10);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -428,7 +427,7 @@ describe('RealtimeComponent', () => {
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new AssetActions.GetAssetTrackFromTime({ assetId: 'asset-id', datetime: datetime })
+        new AssetActions.GetAssetTrackFromTime({ assetId: 'asset-id', datetime })
       );
     });
 
@@ -448,7 +447,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['addPositionForInspection']({track: 'object-Stuff'});
+      component.addPositionForInspection({track: 'object-Stuff'});
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -460,7 +459,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['removePositionForInspection']('track-id');
+      component.removePositionForInspection('track-id');
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -472,7 +471,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['addForecast']('asset-id');
+      component.addForecast('asset-id');
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -496,7 +495,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['clearForecasts']();
+      component.clearForecasts();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -508,7 +507,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['clearTracks']();
+      component.clearTracks();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -520,7 +519,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['setForecastInterval'](11);
+      component.setForecastInterval(11);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(

@@ -18,6 +18,7 @@ import Collection from 'ol/Collection';
 })
 export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
+  // tslint:disable:ban-types
   @Input() assetTracks: Array<any>;
   @Input() addPositionForInspection: Function;
   @Input() positionsForInspection: any;
@@ -25,13 +26,14 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   @Input() mapZoom: number;
   @Input() registerOnClickFunction: Function;
   @Input() unregisterOnClickFunction: Function;
+  // tslint:enable:ban-types
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
   private layerTitle = 'Tracks Layer';
   private renderedAssetIds: Array<string> = [];
   private renderedFeatureIds: Array<string> = [];
-  private currentRenderFeatureIds: Array<String> = [];
+  private currentRenderFeatureIds: Array<string> = [];
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -58,8 +60,10 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       ) {
         event.selected[0].id_.split('assetId_')[1].split('_guid_');
         const [ assetId, guid ] = event.selected[0].id_.split('assetId_')[1].split('_guid_');
+        /* tslint:disable:no-shadowed-variable */
         const assetTrack = this.assetTracks.find((assetTrack) => assetTrack.assetId === assetId);
         const track = assetTrack.tracks.find((track) => track.guid === guid);
+        /* tslint:enable:no-shadowed-variable */
         this.addPositionForInspection(track);
       }
     });
@@ -139,13 +143,13 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     const segmentFeature = new Feature(new LineString(segment.positions.map(
       position => fromLonLat([position.longitude, position.latitude])
     )));
-    const id = 'line_segment_' + assetId + "_" + index
+    const id = 'line_segment_' + assetId + ' ' + index;
     segmentFeature.setId(id);
     this.renderedFeatureIds.push(id);
     segmentFeature.setStyle(new Style({
       fill: new Fill({ color: segment.color }),
       stroke: new Stroke({ color: segment.color, width: 2 })
-    }))
+    }));
     return segmentFeature;
   }
 
@@ -183,7 +187,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
                 src: './assets/flags/icon.png',
                 anchor: [0.5, 1.1],
                 rotateWithView: true,
-                color: "#000000",
+                color: '#000000',
                 opacity: 0.75
               }),
               text: new Text({

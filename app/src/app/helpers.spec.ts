@@ -19,22 +19,22 @@ describe('Helpers', () => {
   describe('deg2rad', () => {
     it('should return the correct radians.', () => {
       expect(deg2rad(180)).toBe(Math.PI);
-      expect(deg2rad(360)).toBe(2*Math.PI);
+      expect(deg2rad(360)).toBe(2 * Math.PI);
       expect(deg2rad(-180)).toBe(-Math.PI);
-      expect(deg2rad(-90)).toBe(-Math.PI/2);
-      expect(deg2rad(450)).toBe(2*Math.PI + Math.PI/2);
-      expect(deg2rad(451)).not.toBe(2*Math.PI + Math.PI/2);
+      expect(deg2rad(-90)).toBe(-Math.PI / 2);
+      expect(deg2rad(450)).toBe(2 * Math.PI + Math.PI / 2);
+      expect(deg2rad(451)).not.toBe(2 * Math.PI + Math.PI / 2);
     });
   });
 
   describe('radToDeg', () => {
     it('should return the correct degrees.', () => {
       expect(radToDeg(Math.PI)).toBe(180);
-      expect(radToDeg(2*Math.PI)).toBe(360);
+      expect(radToDeg(2 * Math.PI)).toBe(360);
       expect(radToDeg(-Math.PI)).toBe(-180);
-      expect(radToDeg(-Math.PI/2)).toBe(-90);
-      expect(radToDeg(2*Math.PI + Math.PI/2)).toBe(450);
-      expect(radToDeg(2*Math.PI + Math.PI/2)).not.toBe(451);
+      expect(radToDeg(-Math.PI / 2)).toBe(-90);
+      expect(radToDeg(2 * Math.PI + Math.PI / 2)).toBe(450);
+      expect(radToDeg(2 * Math.PI + Math.PI / 2)).not.toBe(451);
     });
   });
 
@@ -51,10 +51,10 @@ describe('Helpers', () => {
 
   describe('hashCode', () => {
     it('should return the correct integer.', () => {
-      expect(hashCode("This is a test")).toBe(5708935621);
-      expect(hashCode("A2bala ala")).toBe(2300926075);
-      expect(hashCode("")).toBe(0);
-      expect(hashCode("a")).toBe(97);
+      expect(hashCode('This is a test')).toBe(5708935621);
+      expect(hashCode('A2bala ala')).toBe(2300926075);
+      expect(hashCode('')).toBe(0);
+      expect(hashCode('a')).toBe(97);
     });
   });
 

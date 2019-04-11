@@ -46,7 +46,7 @@ describe('AuthGuard', () => {
     store.setState({ auth: { user: { data: { username: 'Username123' } } } });
     expect(authGuard.canActivate()).toBeTruthy();
     expect(createUrlTreeSpy).toHaveBeenCalledTimes(1);
-  })
+  });
 
   it('should unsubscribe on destory', () => {
     const { store, router, authGuard } = setup();

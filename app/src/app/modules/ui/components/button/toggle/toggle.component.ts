@@ -6,8 +6,10 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./toggle.component.scss']
 })
 export class ToggleButtonComponent {
+  // tslint:disable:ban-types
   @Input() label: string;
   @Input() value: boolean;
   @Input() switchFunction: Function;
   @Input() size: string;
+  // tslint:enable:ban-types
 }

@@ -8,4 +8,4 @@ export const getTracksMinuteCap = createSelector(
   (state: State) => {
     return state.tracksMinuteCap;
   }
-)
+);

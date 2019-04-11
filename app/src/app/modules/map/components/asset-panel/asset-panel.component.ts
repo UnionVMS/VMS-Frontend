@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { formatDate } from '../../../../helpers';
 
 @Component({
-  selector: 'asset-panel',
+  selector: 'map-asset-panel',
   templateUrl: './asset-panel.component.html',
   styleUrls: ['./asset-panel.component.scss']
 })
@@ -17,7 +17,7 @@ export class AssetPanelComponent {
   @Input() tracksMinuteCap;
 
   public hidePanel = false;
-  private toggleTracks: Function = () => {
+  private toggleTracks = (): void => {
     if(this.tracksIsVisible()) {
       this.untrackAsset(this.asset.fullAsset.historyId);
     } else if(this.tracksMinuteCap === null) {
@@ -30,21 +30,21 @@ export class AssetPanelComponent {
       );
     }
   }
-  private toggleForecast: Function = () => {
+  private toggleForecast = (): void => {
     if(this.forecastIsVisible()) {
       this.removeForecast(this.asset.fullAsset.historyId);
     } else {
       this.addForecast(this.asset.fullAsset.historyId);
     }
   }
-  private toggleVisibility: Function = () => {
+  private toggleVisibility = (): void => {
     this.hidePanel = !this.hidePanel;
   }
 
-  private tracksIsVisible: Function = (): boolean => {
+  private tracksIsVisible = (): boolean => {
     return typeof this.asset.assetTracks !== 'undefined';
   }
-  private forecastIsVisible: Function = (): boolean => {
+  private forecastIsVisible = (): boolean => {
     return Object.keys(this.forecasts).indexOf(this.asset.fullAsset.historyId) !== -1;
   }
 }

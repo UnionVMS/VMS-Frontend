@@ -45,9 +45,9 @@ export const getForecasts = createSelector(
       acc[assetId] = state.assets[assetId];
       return acc;
     }, {})
-)
+);
 
 export const getPositionsForInspection = createSelector(
   getAssetState,
   (state: State) => state.positionsForInspection
-)
+);
