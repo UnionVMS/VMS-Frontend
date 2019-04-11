@@ -52,10 +52,10 @@
     [assets]="assets"
     [map]="map"
   ></map-flagstates>
-  <track-panel
+  <map-track-panel
     [positions]="positionsForInspection$|async"
     [removePositionForInspection]="removePositionForInspection"
-  ></track-panel>
+  ></map-track-panel>
   <map-asset-forecast
     *ngIf="(mapSettings$|async).forecastsVisible"
     [map]="map"
