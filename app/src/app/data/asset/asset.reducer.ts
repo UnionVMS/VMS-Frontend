@@ -46,23 +46,7 @@ export interface State {
 export const initialState: State = {
   selectedAsset: null,
   fullAssets: {},
-  assets: {
-    "dd498d76-ecd1-486a-9302-7283677c57a7": {
-      microMove: {
-        location: {
-          longitude: 23.17778,
-          latitude: 65.15318166666667
-        },
-        heading: 185,
-        guid: "4eea28b6-0844-4a1b-85be-6b655a0e0343",
-        timestamp: "2019-04-02T09:04:58Z",
-        speed: 10.5,
-      },
-      asset: "dd498d76-ecd1-486a-9302-7283677c57a7",
-      flagstate: "GBR",
-      assetName: "OSTERBOTTEN"
-    }
-  },
+  assets: {},
   assetTracks: {},
   forecasts: [],
   positionsForInspection: {}
