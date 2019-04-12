@@ -123,6 +123,7 @@
 
 	<scm>
 		<connection>${scm.connection}</connection>
+        <developerConnection>${scm.connection}</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
