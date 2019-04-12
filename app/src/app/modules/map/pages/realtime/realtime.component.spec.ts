@@ -530,4 +530,52 @@ describe('RealtimeComponent', () => {
 
   });
 
+  describe('Initialization', () => {
+    function initializationSetup() {
+      const { component } = setup();
+      const store = TestBed.get(Store);
+      const currentState = { asset: AssetReducer.initialState, mapSettings: MapSettingsReducer.initialState };
+      store.setState(currentState);
+      component.ngOnInit();
+      return { component, store, currentState };
+    }
+
+    it('should initialize a map and respond to move events', () => {
+      const { component } = initializationSetup();
+
+      expect(component['mapZoom']).toEqual(6);
+
+      component.map.getView().setZoom(2);
+      expect(component['mapZoom']).toEqual(6);
+      component.map.dispatchEvent({
+        type: 'moveend'
+      });
+      expect(component['mapZoom']).toEqual(2);
+    });
+
+    it('should mount and unmount selection functions', () => {
+      const { component } = initializationSetup();
+
+      let run = 0;
+      component.registerOnClickFunction('test', (event) => {
+        run += 1;
+      });
+      component['selection'].dispatchEvent({
+        type: 'select',
+        selected: [],
+        deselected: []
+      });
+
+      expect(run).toEqual(1);
+      component['unregisterOnClickFunction']('test');
+      component['selection'].dispatchEvent({
+        type: 'select',
+        selected: [],
+        deselected: []
+      });
+      expect(run).toEqual(1);
+    });
+
+  });
+
 });
