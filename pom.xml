@@ -36,23 +36,23 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <workingDirectory>${basedir}</workingDirectory>
-          <completionGoals>clean verify scm:checkin</completionGoals>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-scm-plugin</artifactId>
-        <version>1.11.2</version>
-        <configuration>
-          <message>[maven-scm-plugin] update package.json version</message>
-          <includes>app/package.json</includes>
-        </configuration>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<workingDirectory>${basedir}</workingDirectory>
+					<completionGoals>clean verify scm:checkin</completionGoals>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.11.2</version>
+				<configuration>
+					<message>[maven-scm-plugin] update package.json version</message>
+					<includes>app/package.json</includes>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
@@ -72,15 +72,15 @@
 							<arguments>install</arguments>
 						</configuration>
 					</execution>
-          <execution>
-            <id>npm sync version</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>version ${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}.${project.artifact.selectedVersion.incrementalVersion}</arguments>
-            </configuration>
-          </execution>
+					<execution>
+						<id>npm sync version</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>version ${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}.${project.artifact.selectedVersion.incrementalVersion}</arguments>
+						</configuration>
+					</execution>
 					<execution>
 						<id>npm test</id>
 						<goals>
@@ -112,9 +112,9 @@
 							<filtering>true</filtering>
 						</resource>
 						<resource>
-                            <directory>${basedir}/webContent</directory>
-                        	<filtering>true</filtering>
-                        </resource>
+							<directory>${basedir}/webContent</directory>
+							<filtering>true</filtering>
+						</resource>
 					</webResources>
 				</configuration>
 			</plugin>
