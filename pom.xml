@@ -51,6 +51,29 @@
 					<includes>app/package.json</includes>
 				</configuration>
 			</plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>copy-environment-file</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/app/src/environments</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>webContent</directory>
+                  <include>*.ts</include>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
@@ -111,6 +134,7 @@
 						</resource>
 						<resource>
 							<directory>${basedir}/webContent</directory>
+              <include>*.xml</include>
 							<filtering>true</filtering>
 						</resource>
 					</webResources>
