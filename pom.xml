@@ -134,7 +134,7 @@
 						</resource>
 						<resource>
 							<directory>${basedir}/webContent</directory>
-              <include>*.xml</include>
+              <include>**/*.xml</include>
 							<filtering>true</filtering>
 						</resource>
 					</webResources>
