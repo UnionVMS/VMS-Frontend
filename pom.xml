@@ -76,7 +76,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>version ${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}.${project.artifact.selectedVersion.incrementalVersion}</arguments>
+							<arguments>version ${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}.${project.artifact.selectedVersion.incrementalVersion} --allow-same-version</arguments>
 						</configuration>
 					</execution>
 					<execution>
