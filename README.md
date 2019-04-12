@@ -1,3 +1,5 @@
+https://jenkins.focus.fish/buildStatus/icon?job=VMS-Frontend
+
 # VMS-Frontend
 A open source vessel monitoring system written in Angular.
 
