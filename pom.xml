@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>fish.focus.maven</groupId>
@@ -10,7 +8,7 @@
 	</parent>
 	<groupId>eu.europa.ec.fisheries.uvms</groupId>
 	<artifactId>vms-web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.6-SNAPSHOT</version>
 	<name>vms-web</name>
 	<packaging>war</packaging>
 
@@ -37,6 +35,46 @@
 		</pluginManagement>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<workingDirectory>${basedir}</workingDirectory>
+					<completionGoals>clean verify scm:checkin</completionGoals>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.11.2</version>
+				<configuration>
+					<message>[maven-scm-plugin] update package.json version</message>
+					<includes>app/package.json</includes>
+				</configuration>
+			</plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>copy-environment-file</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/app/src/environments</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>webContent</directory>
+                  <include>*.ts</include>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
 				<executions>
@@ -53,6 +91,15 @@
 						</goals>
 						<configuration>
 							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm sync version</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>version ${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}.${project.artifact.selectedVersion.incrementalVersion} --allow-same-version</arguments>
 						</configuration>
 					</execution>
 					<execution>
@@ -86,9 +133,10 @@
 							<filtering>true</filtering>
 						</resource>
 						<resource>
-                            <directory>${basedir}/webContent</directory>
-                        	<filtering>true</filtering>
-                        </resource>
+							<directory>${basedir}/webContent</directory>
+              <include>**/*.xml</include>
+							<filtering>true</filtering>
+						</resource>
 					</webResources>
 				</configuration>
 			</plugin>
@@ -97,6 +145,7 @@
 
 	<scm>
 		<connection>${scm.connection}</connection>
+        <developerConnection>${scm.connection}</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
