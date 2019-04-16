@@ -4,7 +4,9 @@
     "outDir": "../out-tsc/app",
     "types": [],
     "paths": {
-      "@data/*": ["src/app/data/*"]
+      "@data/*": ["src/app/data/*"],
+      "@app/*": ["src/app/*"],
+      "@modules/*": ["src/app/modules/*"]
     }
   },
   "exclude": [

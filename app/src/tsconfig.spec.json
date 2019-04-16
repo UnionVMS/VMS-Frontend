@@ -8,7 +8,9 @@
     ],
     "paths": {
       "@data/*": ["src/app/data/*"],
-      "@testing/*": ["src/testing/*"]
+      "@testing/*": ["src/testing/*"],
+      "@app/*": ["src/app/*"],
+      "@modules/*": ["src/app/modules/*"]
     }
   },
   "files": [
