@@ -12,8 +12,8 @@ import { fromLonLat } from 'ol/proj';
 
 import { EventSourcePolyfill } from 'event-source-polyfill';
 
-import { AssetReducer, AssetActions, AssetSelectors } from '../../../../data/asset';
-import { MapSettingsActions, MapSettingsSelectors } from '../../../../data/map-settings';
+import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { MapSettingsActions, MapSettingsSelectors } from '@data/map-settings';
 
 @Component({
   selector: 'map-realtime',
@@ -45,7 +45,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public removePositionForInspection: Function;
   // tslint:enable:ban-types
 
-  private assets: Array<AssetReducer.Asset>;
+  private assets: Array<AssetInterfaces.Asset>;
   private assetSubscription: Subscription;
   private mapZoom = 6;
   // tslint:disable-next-line:ban-types
@@ -64,7 +64,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private unregisterOnClickFunction: Function;
   // tslint:enable:ban-types
 
-  constructor(private store: Store<AssetReducer.State>) { }
+  constructor(private store: Store<AssetInterfaces.State>) { }
 
   mapStateToProps() {
     this.assetSubscription = this.store.select(AssetSelectors.getAssets).subscribe((assets) => {

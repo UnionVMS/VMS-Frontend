@@ -1,4 +1,4 @@
-import { Asset } from '../asset.reducer';
+import { Asset } from '../asset.interfaces';
 
 const AssetStub: Asset = {
   microMove: {

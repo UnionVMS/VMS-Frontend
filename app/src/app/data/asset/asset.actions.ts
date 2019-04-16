@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Asset } from './asset.reducer';
+import { Asset } from './asset.interfaces';
 
 
 export enum ActionTypes {

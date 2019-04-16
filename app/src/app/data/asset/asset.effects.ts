@@ -9,7 +9,7 @@ import { AuthReducer, AuthSelectors } from '../auth';
 import { MapSettingsReducer, MapSettingsSelectors } from '../map-settings';
 
 import { ActionTypes, SetFullAsset, AssetsMoved, SetAssetTrack, TrimTracksThatPassedTimeCap } from './asset.actions';
-import { Asset } from './asset.reducer';
+import { Asset } from './asset.interfaces';
 import { AssetService } from './asset.service';
 
 @Injectable()

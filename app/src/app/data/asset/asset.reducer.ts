@@ -1,49 +1,8 @@
 import { Action } from '@ngrx/store';
 import { ActionTypes } from './asset.actions';
+import * as Interfaces from './asset.interfaces';
 
-export interface Position {
-  longitude: number;
-  latitude: number;
-}
-
-export interface Movement {
-  location: Position;
-  heading: number;
-  guid: string;
-  timestamp: string;
-  speed: number;
-}
-
-export interface Asset {
-  microMove: Movement;
-  asset: string;
-  flagstate: string;
-  assetName: string;
-}
-
-export interface LineSegment {
-  speed: number;
-  positions: Array<Position>;
-  color: string;
-}
-
-export interface AssetTrack {
-  tracks: Array<Movement>;
-  visible: boolean;
-  assetId: string;
-  lineSegments: Array<LineSegment>;
-}
-
-export interface State {
-  selectedAsset: string|null;
-  fullAssets: { [uid: string]: Asset };
-  assets: { [uid: string]: Asset };
-  assetTracks: { [assetId: string]: AssetTrack };
-  forecasts: Array<string>;
-  positionsForInspection: any;
-}
-
-export const initialState: State = {
+export const initialState: Interfaces.State = {
   selectedAsset: null,
   fullAssets: {},
   assets: {},

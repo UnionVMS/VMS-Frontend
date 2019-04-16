@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AssetReducer, AssetActions, AssetSelectors } from '../../../../data/asset';
-import { deg2rad, intToRGB, hashCode } from '../../../../helpers';
+import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { deg2rad, intToRGB, hashCode } from '@app/helpers';
 
 import Map from 'ol/Map';
 import { Stroke, Style, Icon, Fill, Text } from 'ol/style.js';
@@ -153,13 +153,13 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     return segmentFeature;
   }
 
-  updateLineSegment(lineSegmentFeature: Feature, lineSegment: AssetReducer.LineSegment) {
+  updateLineSegment(lineSegmentFeature: Feature, lineSegment: AssetInterfaces.LineSegment) {
     lineSegmentFeature.setGeometry(new LineString(
       lineSegment.positions.map(position => fromLonLat([position.longitude, position.latitude]))
     ));
   }
 
-  createArrowFeatures(assetTrack: AssetReducer.AssetTrack) {
+  createArrowFeatures(assetTrack: AssetInterfaces.AssetTrack) {
     return assetTrack.tracks.map((movement, index) => {
       const arrowFeature = this.createArrowFeature(assetTrack.assetId, movement);
       this.hideArrowDependingOnZoomLevel(arrowFeature, this.mapZoom, index);
@@ -167,7 +167,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  updateArrowFeatures(assetTrack: AssetReducer.AssetTrack) {
+  updateArrowFeatures(assetTrack: AssetInterfaces.AssetTrack) {
     const positionsForInspectionKeyedWithGuid = Object.keys(this.positionsForInspection).reduce((acc, positionKey) => {
       acc[this.positionsForInspection[positionKey].guid] = { ...this.positionsForInspection[positionKey], key: positionKey };
       return acc;
@@ -247,7 +247,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  createArrowFeature(assetId: string, movement: AssetReducer.Movement) {
+  createArrowFeature(assetId: string, movement: AssetInterfaces.Movement) {
     const arrowFeature = new Feature(new Point(fromLonLat([
       movement.location.longitude, movement.location.latitude
     ])));

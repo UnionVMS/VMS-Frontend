@@ -9,13 +9,13 @@ import { environment } from '../environments/environment';
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { localStorageSync } from 'ngrx-store-localstorage';
 
-import * as AssetReducer from './data/asset/asset.reducer';
+import { AssetReducer, AssetInterfaces } from './data/asset/';
 import * as AuthReducer from './data/auth/auth.reducer';
 import * as MapSettingsReducer from './data/map-settings/map-settings.reducer';
 
 
 export interface State {
-  asset: AssetReducer.State;
+  asset: AssetInterfaces.State;
   auth: AuthReducer.State;
   mapSettings: MapSettingsReducer.State;
   router: RouterReducerState;

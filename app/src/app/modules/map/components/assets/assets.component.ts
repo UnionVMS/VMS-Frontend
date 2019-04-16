@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AssetReducer, AssetActions, AssetSelectors } from '../../../../data/asset';
+import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers';
 
 import Map from 'ol/Map';
@@ -18,7 +18,7 @@ import Select from 'ol/interaction/Select.js';
 })
 export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetReducer.Asset>;
+  @Input() assets: Array<AssetInterfaces.Asset>;
   @Input() map: Map;
   @Input() namesVisible: boolean;
   @Input() speedsVisible: boolean;
@@ -85,7 +85,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     this.map.removeLayer(this.vectorLayer);
   }
 
-  createFeatureFromAsset(asset: AssetReducer.Asset) {
+  createFeatureFromAsset(asset: AssetInterfaces.Asset) {
     const assetFeature = new Feature(new Point(fromLonLat([
       asset.microMove.location.longitude, asset.microMove.location.latitude
     ])));
@@ -110,7 +110,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     return assetFeature;
   }
 
-  updateFeatureFromAsset(assetFeature: Feature, asset: AssetReducer.Asset) {
+  updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.Asset) {
     assetFeature.setGeometry(new Point(fromLonLat([
       asset.microMove.location.longitude, asset.microMove.location.latitude
     ])));
@@ -129,7 +129,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     return assetFeature;
   }
 
-  getTextStyleForName(asset: AssetReducer.Asset) {
+  getTextStyleForName(asset: AssetInterfaces.Asset) {
     let text = null;
     let offsetY = 20;
     if (this.namesVisible) {

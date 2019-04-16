@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { formatDate } from '../../../../helpers';
+import { formatDate } from '@app/helpers';
+import { AssetInterfaces } from '@data/asset';
 
 @Component({
   selector: 'map-asset-panel',
@@ -7,14 +8,19 @@ import { formatDate } from '../../../../helpers';
   styleUrls: ['./asset-panel.component.scss']
 })
 export class AssetPanelComponent {
-  @Input() asset;
-  @Input() getAssetTrack;
-  @Input() getAssetTrackFromTime;
-  @Input() untrackAsset;
-  @Input() addForecast;
-  @Input() removeForecast;
-  @Input() forecasts;
-  @Input() tracksMinuteCap;
+  @Input() asset: {
+    fullAsset: AssetInterfaces.FullAsset,
+    assetTracks: AssetInterfaces.AssetTrack
+    currentPosition: AssetInterfaces.Asset
+  };
+
+  @Input() getAssetTrack: (historyId: string, movementGuid: string) => void;
+  @Input() getAssetTrackFromTime: (historyId: string, date: string) => void;
+  @Input() untrackAsset: (historyId: string) => void;
+  @Input() addForecast: (historyId: string) => void;
+  @Input() removeForecast: (historyId: string) => void;
+  @Input() forecasts: {};
+  @Input() tracksMinuteCap: number;
 
   public hidePanel = false;
   private toggleTracks = (): void => {

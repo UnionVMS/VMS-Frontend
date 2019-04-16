@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { State } from './asset.reducer';
+import { State } from './asset.interfaces';
 
 export const getAssetState = createFeatureSelector<State>('asset');
 

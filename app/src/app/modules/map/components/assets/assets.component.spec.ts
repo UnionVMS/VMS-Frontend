@@ -1,18 +1,11 @@
 import { async, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { By } from '@angular/platform-browser';
+
 import { deg2rad } from '@app/helpers';
-
 import { fromLonLat } from 'ol/proj';
-
-import { Store } from '@ngrx/store';
 import { TestingModule } from '@testing/Utils';
 
-import { AssetsComponent } from '../../components/assets/assets.component';
+import { AssetsComponent } from './assets.component';
 import AssetStub from '@data/asset/stubs/asset.stub';
-
-// import { AssetReducer, AssetActions } from '@data/asset';
-// import { MapSettingsReducer, MapSettingsActions } from '@data/map-settings';
 
 /* tslint:disable:no-string-literal */
 describe('AssetsComponent', () => {
@@ -23,9 +16,6 @@ describe('AssetsComponent', () => {
       ],
       declarations: [
         AssetsComponent
-      ],
-      providers: [
-        { provide: Router, useValue: { navigate: () => {} } }
       ]
     })
     .compileComponents();
