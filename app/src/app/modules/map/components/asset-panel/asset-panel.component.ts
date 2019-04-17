@@ -10,7 +10,7 @@ import { AssetInterfaces } from '@data/asset';
 export class AssetPanelComponent {
   @Input() asset: {
     fullAsset: AssetInterfaces.FullAsset,
-    assetTracks: AssetInterfaces.AssetTrack
+    assetTracks: AssetInterfaces.AssetTrack,
     currentPosition: AssetInterfaces.Asset
   };
 
@@ -23,16 +23,22 @@ export class AssetPanelComponent {
   @Input() tracksMinuteCap: number;
 
   public hidePanel = false;
+
+  // Extracting this code to separete function so we can override this code in unit-tests.
+  private getTracksMillisecondCap() {
+    const tracksMillisecondCap = this.tracksMinuteCap * 60 * 1000;
+    return formatDate(Date.now() - tracksMillisecondCap);
+  }
+
   private toggleTracks = (): void => {
     if(this.tracksIsVisible()) {
       this.untrackAsset(this.asset.fullAsset.historyId);
     } else if(this.tracksMinuteCap === null) {
       this.getAssetTrack(this.asset.fullAsset.historyId, this.asset.currentPosition.microMove.guid);
     } else {
-      const tracksMillisecondCap = this.tracksMinuteCap * 60 * 1000;
       this.getAssetTrackFromTime(
         this.asset.fullAsset.historyId,
-        formatDate(Date.now() - tracksMillisecondCap)
+        this.getTracksMillisecondCap()
       );
     }
   }
