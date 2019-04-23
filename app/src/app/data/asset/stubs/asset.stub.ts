@@ -3,8 +3,8 @@ import { Asset } from '../asset.interfaces';
 const AssetStub: Asset = {
   microMove: {
     location: {
-      longitude: 23.17178,
-      latitude: 65.15318167666667
+      longitude: 23.17178167666667,
+      latitude:  65.15318167666667
     },
     heading: 189,
     guid: '4eea28b6-0844-4a6b-f5be-6b655a4e0343',
