@@ -28,7 +28,7 @@ export const reducers: ActionReducerMap<State> = {
 
 
 export function saveJwtTokenToStorage(reducer: ActionReducer<any>): ActionReducer<any> {
-  return (state, action) => {
+  return (state, action: any) => {
     if(action.type === AuthActions.ActionTypes.LoginSuccess) {
       window.localStorage.authToken = action.payload.jwtToken.raw;
     }

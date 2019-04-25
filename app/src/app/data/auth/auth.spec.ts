@@ -11,7 +11,7 @@ describe('AuthReducer', () => {
     });
   });
 
-  const loginPayload = {
+  const authState = {
     jwtToken: {
       // tslint:disable-next-line:max-line-length
       raw: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJ1c20vYXV0aGVudGljYXRpb24iLCJpc3MiOiJ1c20iLCJzdWIiOiJhdXRoZW50aWNhdGlvbiIsImlhdCI6MTU1NDgxOTQxMywiZXhwIjoxNTU0ODIzMzAyLCJ1c2VyTmFtZSI6InZtc191c2VyIn0.6lLd-GQOtz4VhkAYqWeCLr7_OaMXI4F9JpSj6eaeCNU',
@@ -20,7 +20,7 @@ describe('AuthReducer', () => {
         iss: 'usm',
         sub: 'authentication',
         iat: 1554819413,
-        exp: 1554821213,
+        exp: 1554823302,
         userName: 'vms_user'
       }
     },
@@ -31,9 +31,9 @@ describe('AuthReducer', () => {
 
   describe('ActionTypes.LoginSuccess', () => {
     it('should return a acceptable user object.', () => {
-      const state = AuthReducer.authReducer(undefined, new AuthActions.LoginSuccess(loginPayload));
+      const state = AuthReducer.authReducer(undefined, new AuthActions.LoginSuccess(authState.jwtToken.raw));
 
-      expect(state).toEqual({ user: loginPayload });
+      expect(state).toEqual({ user: authState });
     });
   });
 
