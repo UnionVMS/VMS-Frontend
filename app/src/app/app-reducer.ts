@@ -7,12 +7,10 @@ import {
 } from '@ngrx/store';
 import { environment } from '../environments/environment';
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
-import { localStorageSync } from 'ngrx-store-localstorage';
 
 import { AssetReducer, AssetInterfaces } from './data/asset/';
-import * as AuthReducer from './data/auth/auth.reducer';
+import { AuthReducer, AuthActions } from './data/auth/';
 import * as MapSettingsReducer from './data/map-settings/map-settings.reducer';
-
 
 export interface State {
   asset: AssetInterfaces.State;
@@ -29,12 +27,17 @@ export const reducers: ActionReducerMap<State> = {
 };
 
 
-export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-  return localStorageSync({rehydrate: true, keys: [{auth: ['user']}]})(reducer);
-}
+export function saveJwtTokenToStorage(reducer: ActionReducer<any>): ActionReducer<any> {
+  return (state, action) => {
+    if(action.type === AuthActions.ActionTypes.LoginSuccess) {
+      window.localStorage.authToken = action.payload.jwtToken.raw;
+    }
 
+    return reducer(state, action);
+  };
+}
 
 export const metaReducers: MetaReducer<State>[] =
   environment.production
-    ? [localStorageSyncReducer]
-    : [localStorageSyncReducer];
+    ? [saveJwtTokenToStorage]
+    : [saveJwtTokenToStorage];

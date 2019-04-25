@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import jwtDecode from 'jwt-decode';
 
 export enum ActionTypes {
   Login         = '[Auth] Login',
@@ -14,8 +15,14 @@ export class Login implements Action {
 
 export class LoginSuccess implements Action {
   readonly type = ActionTypes.LoginSuccess;
-
-  constructor(public payload: any) {}
+  public payload;
+  constructor(jwtToken: string) {
+    const tokenDecoded = jwtDecode(jwtToken);
+    this.payload = {
+      jwtToken: { raw: jwtToken, decoded: tokenDecoded },
+      data: { username: tokenDecoded.userName }
+    };
+  }
 }
 
 export class LoginFailed implements Action {

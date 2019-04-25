@@ -49,7 +49,7 @@ import { TestComponent } from './test/test.component';
     BrowserModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
+      maxAge: 25, // Retains last 25 states2
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
     StoreRouterConnectingModule.forRoot(),

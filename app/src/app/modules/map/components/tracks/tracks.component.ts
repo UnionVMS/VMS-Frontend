@@ -143,7 +143,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     const segmentFeature = new Feature(new LineString(segment.positions.map(
       position => fromLonLat([position.longitude, position.latitude])
     )));
-    const id = 'line_segment_' + assetId + ' ' + index;
+    const id = 'line_segment_' + assetId + '_' + index;
     segmentFeature.setId(id);
     this.renderedFeatureIds.push(id);
     segmentFeature.setStyle(new Style({
