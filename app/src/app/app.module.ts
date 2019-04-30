@@ -29,6 +29,7 @@ import { environment } from '../environments/environment';
 /* Modules */
 import { CoreModule } from './core/core.module';
 import { MapModule } from './modules/map/map.module';
+import { AssetModule } from './modules/asset/asset.module';
 
 /* Effects */
 import { AssetEffects } from './data/asset/asset.effects';
@@ -59,7 +60,8 @@ import { TestComponent } from './test/test.component';
     BrowserAnimationsModule,
     MDBBootstrapModule.forRoot(),
     CoreModule,
-    MapModule
+    MapModule,
+    AssetModule
   ],
   providers: [],
   bootstrap: [AppComponent]

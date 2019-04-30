@@ -21,6 +21,12 @@ export enum ActionTypes {
   UnsubscribeToMovements = '[Asset] Unsubscribe to movements',
   UntrackAsset = '[Asset] Untrack asset.',
   TrimTracksThatPassedTimeCap = '[Asset] Trim tracks that passed time cap',
+
+  GetAssetList = '[Asset] Get list'
+}
+
+export class GetAssetList implements Action {
+  readonly type = ActionTypes.GetAssetList;
 }
 
 export class SubscribeToMovements implements Action {

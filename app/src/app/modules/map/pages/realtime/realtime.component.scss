@@ -14,7 +14,12 @@
     right: 0px;
     bottom: 0px;
   }
-  asset-panel {
+  map-asset-search {
+    position: fixed;
+    right: 0px;
+    top: $offset_for_header;
+  }
+  map-asset-panel {
     position: fixed;
     left: 0px;
     top: $offset_for_header;

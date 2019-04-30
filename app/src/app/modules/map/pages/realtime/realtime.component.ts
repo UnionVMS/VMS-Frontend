@@ -43,6 +43,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public setVisibilityForFlags: Function;
   public setTracksMinuteCap: Function;
   public removePositionForInspection: Function;
+  public setSearchQuery: Function;
   // tslint:enable:ban-types
 
   private assets: Array<AssetInterfaces.Asset>;
@@ -114,6 +115,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new AssetActions.ClearTracks());
     this.setForecastInterval = (forecastTimeLength) =>
       this.store.dispatch(new MapSettingsActions.SetForecastInterval(forecastTimeLength));
+    this.setSearchQuery = (searchQuery) =>
+      console.warn(`Searching for ${searchQuery}`);
   }
 
   ngOnInit() {

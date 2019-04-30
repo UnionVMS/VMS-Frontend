@@ -12,6 +12,9 @@
       [unregisterOnClickFunction]="unregisterOnClickFunction"
     ></map-assets>
   </div>
+  <map-asset-search
+    [inputSearchFunction]="setSearchQuery"
+  ></map-asset-search>
   <map-settings
     [mapSettings]="mapSettings$ | async"
     [setVisibilityForAssetNames]="setVisibilityForAssetNames"

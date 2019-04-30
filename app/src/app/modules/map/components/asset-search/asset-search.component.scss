@@ -1,0 +1,21 @@
+@import 'variables.scss';
+
+.content-container {
+  display: grid;
+  color: white;
+  padding: 10px;
+  overflow-y: scroll;
+  background: $map_overlay_background;
+  grid-template-columns: 1fr auto;
+  grid-gap: 10px;
+
+  -ms-overflow-style: none;  // IE 10+
+  overflow: -moz-scrollbars-none;  // Firefox
+  &::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+
+  label {
+    margin: 0.25rem 0;
+  }
+}

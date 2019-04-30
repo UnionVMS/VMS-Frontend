@@ -13,7 +13,12 @@ import { FullLayoutComponent } from './core/layouts/full/full.component';
 // Core-pages
 import { LoginComponent } from './core/pages/login/login.component';
 import { UnauthorizedComponent } from './core/pages/unauthorized/unauthorized.component';
+
+// Map-pages
 import { RealtimeComponent } from './modules/map/pages/realtime/realtime.component';
+
+// Asset-pages
+import { ListComponent as AssetListComponent } from './modules/asset/pages/list/list.component';
 
 const routes: Routes = [
   {
@@ -22,6 +27,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', component: TestComponent, pathMatch: 'full'},
+      { path: 'asset', component: AssetListComponent, pathMatch: 'full'},
       { path: 'test', component: TestComponent, pathMatch: 'full'},
     ]
   },

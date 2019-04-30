@@ -21,6 +21,15 @@ export class AssetEffects {
   ) {}
 
   @Effect()
+  assetGetListObserver$ = this.actions$.pipe(
+    ofType(ActionTypes.GetAssetList),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.assetService.listAssets(authToken);
+    })
+  );
+
+  @Effect()
   assetMovementUnsubscribeObserver$ = this.actions$.pipe(
     ofType(ActionTypes.UnsubscribeToMovements),
     mergeMap((action) => {
