@@ -10,8 +10,9 @@ export class AssetSearchComponent {
   // tslint:disable-next-line:ban-types
   @Input() inputSearchFunction: Function;
 
-  searchQuery = '';
-  private searchKeyUp = (event): void => {
+  public searchQuery = '';
+
+  public searchKeyUp = (event): void => {
     if (event.key === 'Enter') {
       this.inputSearchFunction(this.searchQuery);
     }
