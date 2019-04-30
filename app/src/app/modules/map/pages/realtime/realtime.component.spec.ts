@@ -4,10 +4,10 @@ import { By } from '@angular/platform-browser';
 
 import { Store } from '@ngrx/store';
 import { TestingModule } from '@testing/Utils';
+import { FormsModule } from '@angular/forms';
 
 /* Modules */
 import { UIModule } from '../../../ui/ui.module';
-
 
 import { RealtimeComponent } from './realtime.component';
 
@@ -15,6 +15,7 @@ import { RealtimeComponent } from './realtime.component';
 import { AssetsComponent } from '../../components/assets/assets.component';
 import { AssetForecastComponent } from '../../components/asset-forecast/asset-forecast.component';
 import { AssetPanelComponent } from '../../components/asset-panel/asset-panel.component';
+import { AssetSearchComponent } from '../../components/asset-search/asset-search.component';
 import { FlagstatesComponent } from '../../components/flagstates/flagstates.component';
 import { MapSettingsComponent } from '../../components/map-settings/map-settings.component';
 import { MapViewportsComponent } from '../../components/map-viewports/map-viewports.component';
@@ -34,12 +35,14 @@ describe('RealtimeComponent', () => {
       imports: [
         TestingModule,
         UIModule,
+        FormsModule,
       ],
       declarations: [
         RealtimeComponent,
         AssetsComponent,
         AssetForecastComponent,
         AssetPanelComponent,
+        AssetSearchComponent,
         FlagstatesComponent,
         MapSettingsComponent,
         MapViewportsComponent,

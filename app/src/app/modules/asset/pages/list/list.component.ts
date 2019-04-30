@@ -18,9 +18,9 @@ export class ListComponent implements OnInit, OnDestroy {
   mapDispatchToProps() {}
 
   ngOnInit() {
-    console.warn("---");
+    console.warn('---');
     this.store.dispatch(new AssetActions.GetAssetList());
-    console.warn("---");
+    console.warn('---');
   }
 
   ngOnDestroy() {}
