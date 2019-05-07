@@ -33,7 +33,7 @@
     [saveViewport]="saveViewport"
   ></map-settings>
   <map-asset-panel
-    *ngIf="(selectedAsset$|async).fullAsset !== undefined"
+    *ngIf="(selectedAsset$|async).asset !== undefined"
     [asset]="selectedAsset$|async"
     [forecasts]="forecasts$|async"
     [getAssetTrack]="getAssetTrack"
@@ -65,7 +65,7 @@
   <map-asset-forecast
     *ngIf="(mapSettings$|async).forecastsVisible"
     [map]="map"
-    [assets]="forecasts$|async"
+    [assetMovements]="forecasts$|async"
     [forecastInterval]="(mapSettings$|async).forecastInterval"
   ></map-asset-forecast>
 </div>

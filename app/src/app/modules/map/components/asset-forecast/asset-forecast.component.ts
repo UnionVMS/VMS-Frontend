@@ -17,7 +17,7 @@ import { fromLonLat } from 'ol/proj';
 })
 export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetInterfaces.AssetMovement>;
+  @Input() assetMovements: Array<AssetInterfaces.AssetMovement>;
   @Input() map: Map;
   @Input() forecastInterval: number;
 
@@ -34,9 +34,9 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
       renderBuffer: 200
     });
     this.map.addLayer(this.vectorLayer);
-    Object.keys(this.assets).map(assetId => {
+    Object.keys(this.assetMovements).map(assetId => {
       this.renderedAssetIds.push(assetId);
-      this.drawFuturePosition(this.assets[assetId]);
+      this.drawFuturePosition(this.assetMovements[assetId]);
     });
     this.vectorLayer.getSource().changed();
     this.vectorLayer.getSource().refresh();
@@ -47,17 +47,17 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
     if (typeof this.vectorSource !== 'undefined') {
       const newRenderedAssetIds = [];
       this.renderedAssetIds.map((assetId) => {
-        if(!Object.keys(this.assets).find((currentAssetId) => currentAssetId === assetId)) {
+        if(!Object.keys(this.assetMovements).find((currentAssetId) => currentAssetId === assetId)) {
           this.removeForecast(assetId);
         } else {
           newRenderedAssetIds.push(assetId);
         }
       });
-      Object.keys(this.assets).map(assetId => {
+      Object.keys(this.assetMovements).map(assetId => {
         if(newRenderedAssetIds.indexOf(assetId) === -1) {
           newRenderedAssetIds.push(assetId);
         }
-        this.drawFuturePosition(this.assets[assetId]);
+        this.drawFuturePosition(this.assetMovements[assetId]);
       });
       this.vectorLayer.getSource().changed();
       this.vectorLayer.getSource().refresh();

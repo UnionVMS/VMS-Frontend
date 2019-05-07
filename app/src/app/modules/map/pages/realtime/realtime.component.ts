@@ -23,7 +23,11 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   public mapSettings$: Observable<any>;
   public positionsForInspection$: Observable<any>;
-  public selectedAsset$: any;
+  public selectedAsset$: Observable<{
+    asset: AssetInterfaces.Asset,
+    assetTracks: AssetInterfaces.AssetTrack,
+    currentPosition: AssetInterfaces.AssetMovement
+  }>;
 
   public map: Map;
 

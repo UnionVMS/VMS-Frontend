@@ -4,8 +4,8 @@ import * as Interfaces from './asset.interfaces';
 
 export const initialState: Interfaces.State = {
   selectedAsset: null,
-  fullAssets: {},
   assets: {},
+  assetMovements: {},
   assetTracks: {},
   forecasts: [],
   positionsForInspection: {},
@@ -30,14 +30,14 @@ export function assetReducer(state = initialState, { type, payload }) {
       return { ...state, filterQuery: payload.filterQuery };
 
     case ActionTypes.AssetMoved:
-      return { ...state, assets: {
-        ...state.assets,
+      return { ...state, assetMovements: {
+        ...state.assetMovements,
         [payload.asset]: payload
       } };
 
     case ActionTypes.AssetsMoved:
-      const newState = { ...state, assets: {
-        ...state.assets,
+      const newState = { ...state, assetMovements: {
+        ...state.assetMovements,
         ...payload
       } };
       Object.keys(payload).map((assetId) => {
@@ -46,13 +46,13 @@ export function assetReducer(state = initialState, { type, payload }) {
           // tslint:disable-next-line:no-shadowed-variable
           const lineSegments = newState.assetTracks[assetId].lineSegments;
           const lastSegment = lineSegments[lineSegments.length - 1];
-          const segmentSpeed = speeds.find((speed) => newState.assets[assetId].microMove.speed < speed);
+          const segmentSpeed = speeds.find((speed) => newState.assetMovements[assetId].microMove.speed < speed);
           // Add the last position in last segment eiter way so there is no spaces in the draw line.
-          lastSegment.positions.push(newState.assets[assetId].microMove.location);
+          lastSegment.positions.push(newState.assetMovements[assetId].microMove.location);
           if (lastSegment.speed !== segmentSpeed) {
             lineSegments.push({
               speed: segmentSpeed,
-              positions: [newState.assets[assetId].microMove.location],
+              positions: [newState.assetMovements[assetId].microMove.location],
               color: speedSegments[segmentSpeed]
             });
           }
@@ -102,8 +102,8 @@ export function assetReducer(state = initialState, { type, payload }) {
       return { ...state, forecasts: [] };
 
     case ActionTypes.SetFullAsset:
-      return { ...state, fullAssets: {
-        ...state.fullAssets,
+      return { ...state, assets: {
+        ...state.assets,
         [payload.historyId]: payload
       }};
 

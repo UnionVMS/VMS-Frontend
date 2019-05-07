@@ -85,7 +85,7 @@ describe('RealtimeComponent', () => {
         ...currentState,
         asset: {
           ...currentState.asset,
-          assets: {
+          assetMovements: {
             [AssetStub.asset]: AssetStub
           }
         }
@@ -96,7 +96,7 @@ describe('RealtimeComponent', () => {
     it('should update mapSettings when state is updated.', () => {
       const { component } = setup();
       const store = TestBed.get(Store);
-      const currentState = { asset: { assets: {}}, mapSettings: MapSettingsReducer.initialState };
+      const currentState = { asset: { assetMovements: {}}, mapSettings: MapSettingsReducer.initialState };
 
       store.setState(currentState);
       component.mapStateToProps();
@@ -127,12 +127,12 @@ describe('RealtimeComponent', () => {
       let selectedAsset;
       const selectedAssetSubscription =
         component.selectedAsset$.subscribe(newSelectedAsset => selectedAsset = newSelectedAsset);
-      expect(selectedAsset).toEqual({ fullAsset: undefined, assetTracks: undefined, currentPosition: undefined });
+      expect(selectedAsset).toEqual({ asset: undefined, assetTracks: undefined, currentPosition: undefined });
       currentState = { ...currentState, asset: {
-        ...currentState.asset, selectedAsset: AssetStub.asset, assets: { [AssetStub.asset]: AssetStub}
+        ...currentState.asset, selectedAsset: AssetStub.asset, assetMovements: { [AssetStub.asset]: AssetStub}
       } };
       store.setState(currentState);
-      expect(selectedAsset).toEqual({ fullAsset: undefined, assetTracks: undefined, currentPosition: AssetStub });
+      expect(selectedAsset).toEqual({ asset: undefined, assetTracks: undefined, currentPosition: AssetStub });
       selectedAssetSubscription.unsubscribe();
     });
 
@@ -210,7 +210,7 @@ describe('RealtimeComponent', () => {
       const forecastsSubscription = component['forecasts$'].subscribe(newForecasts => forecasts = newForecasts);
       expect(forecasts).toEqual({});
       currentState = { ...currentState, asset: {
-        ...currentState.asset, forecasts: [AssetStub.asset], assets: { [AssetStub.asset]: AssetStub }
+        ...currentState.asset, forecasts: [AssetStub.asset], assetMovements: { [AssetStub.asset]: AssetStub }
       } };
       store.setState(currentState);
       expect(forecasts).toEqual({ [AssetStub.asset]: AssetStub });

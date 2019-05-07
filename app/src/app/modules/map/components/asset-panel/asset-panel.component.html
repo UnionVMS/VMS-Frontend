@@ -1,16 +1,16 @@
 <div class="content-container" *ngIf="!hidePanel">
   <div class="asset-information">
-    <fieldset *ngIf="asset.fullAsset.name">
+    <fieldset *ngIf="asset.asset.name">
       <legend>Name</legend>
-      <div>{{asset.fullAsset.name}}</div>
+      <div>{{asset.asset.name}}</div>
     </fieldset>
-    <fieldset *ngIf="asset.fullAsset.ircs">
+    <fieldset *ngIf="asset.asset.ircs">
       <legend>Ircs</legend>
-      <div>{{asset.fullAsset.ircs}}</div>
+      <div>{{asset.asset.ircs}}</div>
     </fieldset>
-    <fieldset *ngIf="asset.fullAsset.mmsi">
+    <fieldset *ngIf="asset.asset.mmsi">
       <legend>Mmsi</legend>
-      <div>{{asset.fullAsset.mmsi}}</div>
+      <div>{{asset.asset.mmsi}}</div>
     </fieldset>
     <fieldset *ngIf="asset.currentPosition.microMove.speed">
       <legend>Speed</legend>
@@ -20,34 +20,34 @@
       <legend>Heading</legend>
       <div>{{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
     </fieldset>
-    <fieldset *ngIf="asset.fullAsset.flagStateCode">
+    <fieldset *ngIf="asset.asset.flagStateCode">
       <legend>Flagstate</legend>
-      <div>{{asset.fullAsset.flagStateCode}}</div>
+      <div>{{asset.asset.flagStateCode}}</div>
     </fieldset>
-    <fieldset *ngIf="asset.fullAsset.externalMarking">
+    <fieldset *ngIf="asset.asset.externalMarking">
       <legend>ExternalMarking</legend>
-      <div>{{asset.fullAsset.externalMarking}}</div>
+      <div>{{asset.asset.externalMarking}}</div>
     </fieldset>
-    <fieldset *ngIf="asset.fullAsset.lengthOverAll">
+    <fieldset *ngIf="asset.asset.lengthOverAll">
       <legend>LengthOverAll</legend>
-      <div>{{asset.fullAsset.lengthOverAll}}</div>
+      <div>{{asset.asset.lengthOverAll}}</div>
     </fieldset>
-    <fieldset *ngIf="asset.fullAsset.licenceType">
+    <fieldset *ngIf="asset.asset.licenceType">
       <legend>LicenceType</legend>
-      <div>{{asset.fullAsset.licenceType}}</div>
+      <div>{{asset.asset.licenceType}}</div>
     </fieldset>
-    <fieldset *ngIf="asset.fullAsset.VesselType">
+    <fieldset *ngIf="asset.asset.VesselType">
       <legend>VesselType</legend>
-      <div>{{asset.fullAsset.VesselType}}</div>
+      <div>{{asset.asset.VesselType}}</div>
     </fieldset>
 
-    <fieldset *ngIf="asset.fullAsset.prodOrgCode">
+    <fieldset *ngIf="asset.asset.prodOrgCode">
       <legend>OrgNr</legend>
-      <div>{{asset.fullAsset.prodOrgCode}}</div>
+      <div>{{asset.asset.prodOrgCode}}</div>
     </fieldset>
-    <fieldset *ngIf="asset.fullAsset.prodOrgName">
+    <fieldset *ngIf="asset.asset.prodOrgName">
       <legend>OrgNamn</legend>
-      <div>{{asset.fullAsset.prodOrgName}}</div>
+      <div>{{asset.asset.prodOrgName}}</div>
     </fieldset>
   </div>
   <div class="toggle-buttons">
@@ -67,42 +67,42 @@
       <button
         *ngIf="!tracksIsVisible()"
         class="btn btn-default"
-        (click)="getAssetTrack(asset.fullAsset.historyId, asset.currentPosition.microMove.guid)"
+        (click)="getAssetTrack(asset.asset.historyId, asset.currentPosition.microMove.guid)"
       >Track</button>
       <button
         *ngIf="tracksIsVisible()"
         class="btn btn-default"
-        (click)="untrackAsset(asset.fullAsset.historyId)"
+        (click)="untrackAsset(asset.asset.historyId)"
       >Untrack</button>
 
       <button
         *ngIf="!forecastIsVisible()"
         class="btn btn-default"
-        (click)="addForecast(asset.fullAsset.historyId)"
+        (click)="addForecast(asset.asset.historyId)"
       >Forecast</button>
       <button
         *ngIf="forecastIsVisible()"
         class="btn btn-default"
-        (click)="removeForecast(asset.fullAsset.historyId)"
+        (click)="removeForecast(asset.asset.historyId)"
       >Remove Forecast</button>
 
   </div> -->
   <!--<div class="asset-buttons">
     <button
       class="btn btn-default"
-      (click)="getAssetTrack(asset.fullAsset.historyId, asset.currentPosition.microMove.guid)"
+      (click)="getAssetTrack(asset.asset.historyId, asset.currentPosition.microMove.guid)"
     >Track</button>
     <button
       class="btn btn-default"
-      (click)="untrackAsset(asset.fullAsset.historyId)"
+      (click)="untrackAsset(asset.asset.historyId)"
     >Untrack</button>
     <button
       class="btn btn-default"
-      (click)="addForecast(asset.fullAsset.historyId)"
+      (click)="addForecast(asset.asset.historyId)"
     >Forecast</button>
     <button
       class="btn btn-default"
-      (click)="removeForecast(asset.fullAsset.historyId)"
+      (click)="removeForecast(asset.asset.historyId)"
     >Remove Forecast</button>
   </div>-->
   <div class="hide-button-wrapper">

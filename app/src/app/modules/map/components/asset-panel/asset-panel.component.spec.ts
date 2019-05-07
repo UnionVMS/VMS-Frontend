@@ -30,7 +30,7 @@ describe('AssetPanelComponent', () => {
     const component = fixture.componentInstance;
 
     component.asset = {
-      fullAsset: FullAssetStub,
+      asset: FullAssetStub,
       assetTracks: AssetTrackStub,
       currentPosition: AssetStub
     };
@@ -60,7 +60,7 @@ describe('AssetPanelComponent', () => {
     expect(untrackAssetSpy).toHaveBeenCalledTimes(0);
     component['toggleTracks']();
     expect(untrackAssetSpy).toHaveBeenCalledTimes(1);
-    expect(untrackAssetSpy).toHaveBeenCalledWith(component.asset.fullAsset.historyId);
+    expect(untrackAssetSpy).toHaveBeenCalledWith(component.asset.asset.historyId);
 
     component['getTracksMillisecondCap'] = () => formatDate(1555490596000 - component.tracksMinuteCap * 60 * 1000);
 
@@ -69,7 +69,7 @@ describe('AssetPanelComponent', () => {
     component['toggleTracks']();
     expect(getAssetTrackFromTimeSpy).toHaveBeenCalledTimes(1);
     expect(getAssetTrackFromTimeSpy).toHaveBeenCalledWith(
-      component.asset.fullAsset.historyId, component['getTracksMillisecondCap']()
+      component.asset.asset.historyId, component['getTracksMillisecondCap']()
     );
 
     component.tracksMinuteCap = null;
@@ -77,7 +77,7 @@ describe('AssetPanelComponent', () => {
     component['toggleTracks']();
     expect(getAssetTrackSpy).toHaveBeenCalledTimes(1);
     expect(getAssetTrackSpy).toHaveBeenCalledWith(
-      component.asset.fullAsset.historyId, component.asset.currentPosition.microMove.guid
+      component.asset.asset.historyId, component.asset.currentPosition.microMove.guid
     );
   });
 
@@ -89,14 +89,14 @@ describe('AssetPanelComponent', () => {
     expect(addForecastSpy).toHaveBeenCalledTimes(0);
     component['toggleForecast']();
     expect(addForecastSpy).toHaveBeenCalledTimes(1);
-    expect(addForecastSpy).toHaveBeenCalledWith(component.asset.fullAsset.historyId);
+    expect(addForecastSpy).toHaveBeenCalledWith(component.asset.asset.historyId);
 
-    component.forecasts = { [component.asset.fullAsset.historyId]: {}};
+    component.forecasts = { [component.asset.asset.historyId]: {}};
 
     expect(removeForecastSpy).toHaveBeenCalledTimes(0);
     component['toggleForecast']();
     expect(removeForecastSpy).toHaveBeenCalledTimes(1);
-    expect(removeForecastSpy).toHaveBeenCalledWith(component.asset.fullAsset.historyId);
+    expect(removeForecastSpy).toHaveBeenCalledWith(component.asset.asset.historyId);
   });
 
   it('should correctly toggle visibility', () => {

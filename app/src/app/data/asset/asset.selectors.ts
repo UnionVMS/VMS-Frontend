@@ -5,9 +5,9 @@ export const getAssetState = createFeatureSelector<State>('asset');
 
 export const getAssets = createSelector(
   getAssetState,
-  (state: State) => Object.keys(state.assets)
-    .filter(key => state.assets[key].assetName.toLowerCase().indexOf(state.filterQuery.toLowerCase()) !== -1)
-    .map(key => state.assets[key])
+  (state: State) => Object.keys(state.assetMovements)
+    .filter(key => state.assetMovements[key].assetName.toLowerCase().indexOf(state.filterQuery.toLowerCase()) !== -1)
+    .map(key => state.assetMovements[key])
 );
 
 export const getAssetTracks = createSelector(
@@ -23,7 +23,7 @@ export const getVisibleAssetTracks = createSelector(
 export const getCurrentPositionOfSelectedAsset = createSelector(
   getAssetState,
   (state: State) => {
-    return state.assets[state.selectedAsset];
+    return state.assetMovements[state.selectedAsset];
   }
 );
 
@@ -31,7 +31,7 @@ export const extendedDataForSelectedAsset = createSelector(
   getAssetState, getCurrentPositionOfSelectedAsset,
   (state: State, currentPosition) => {
     return {
-      fullAsset: state.fullAssets[state.selectedAsset],
+      asset: state.assets[state.selectedAsset],
       assetTracks: state.assetTracks[state.selectedAsset],
       currentPosition
     };
@@ -42,7 +42,7 @@ export const getForecasts = createSelector(
   getAssetState,
   (state: State) =>
     state.forecasts.reduce((acc, assetId) => {
-      acc[assetId] = state.assets[assetId];
+      acc[assetId] = state.assetMovements[assetId];
       return acc;
     }, {})
 );
@@ -59,8 +59,8 @@ export const getSearchAutocomplete = createSelector(
       return [];
     }
 
-    return Object.keys(state.assets)
-      .filter(key => state.assets[key].assetName.toLowerCase().indexOf(state.searchQuery.toLowerCase()) !== -1)
-      .map(key => state.assets[key]);
+    return Object.keys(state.assetMovements)
+      .filter(key => state.assetMovements[key].assetName.toLowerCase().indexOf(state.searchQuery.toLowerCase()) !== -1)
+      .map(key => state.assetMovements[key]);
   }
 );

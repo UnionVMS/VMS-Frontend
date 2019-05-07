@@ -91,8 +91,8 @@ export interface AssetTrack {
 
 export interface State {
   selectedAsset: string|null;
-  fullAssets: { [uid: string]: Asset };
-  assets: { [uid: string]: AssetMovement };
+  assets: { [uid: string]: Asset };
+  assetMovements: { [uid: string]: AssetMovement };
   assetTracks: { [assetId: string]: AssetTrack };
   forecasts: Array<string>;
   positionsForInspection: any;

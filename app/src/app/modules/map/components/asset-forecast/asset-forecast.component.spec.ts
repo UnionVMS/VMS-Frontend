@@ -8,8 +8,6 @@ import { TestingModule } from '@testing/Utils';
 
 import { AssetForecastComponent } from './asset-forecast.component';
 import AssetStub from '@data/asset/stubs/asset.stub';
-import FullAssetStub from '@data/asset/stubs/fullAsset.stub';
-import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
 
 /* tslint:disable:no-string-literal */
 describe('AssetForecastComponent', () => {
@@ -29,7 +27,7 @@ describe('AssetForecastComponent', () => {
     const fixture = TestBed.createComponent(AssetForecastComponent);
     const component = fixture.componentInstance;
 
-    component.assets = [AssetStub];
+    component.assetMovements = [AssetStub];
     component.map = { removeLayer: (layerName) => {} };
     component.forecastInterval = 30;
 
@@ -136,7 +134,7 @@ describe('AssetForecastComponent', () => {
 
   it('should update correctly', () => {
     const { component } = setup();
-    component.assets = [];
+    component.assetMovements = [];
     let features = [];
     component['vectorSource'] = {
       getFeatureById: (featureId) => {
@@ -172,7 +170,7 @@ describe('AssetForecastComponent', () => {
     component.ngOnChanges();
     expect(features.length).toEqual(0);
 
-    component.assets = [AssetStub];
+    component.assetMovements = [AssetStub];
     component.ngOnChanges();
     expect(features.length).toEqual(2);
 
@@ -180,7 +178,7 @@ describe('AssetForecastComponent', () => {
     component.ngOnChanges();
     expect(features.length).toEqual(2);
 
-    component.assets = [];
+    component.assetMovements = [];
     component.ngOnChanges();
     expect(features.length).toEqual(0);
   });

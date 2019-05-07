@@ -9,7 +9,7 @@ import { AssetInterfaces } from '@data/asset';
 })
 export class AssetPanelComponent {
   @Input() asset: {
-    fullAsset: AssetInterfaces.Asset,
+    asset: AssetInterfaces.Asset,
     assetTracks: AssetInterfaces.AssetTrack,
     currentPosition: AssetInterfaces.AssetMovement
   };
@@ -32,21 +32,21 @@ export class AssetPanelComponent {
 
   private toggleTracks = (): void => {
     if(this.tracksIsVisible()) {
-      this.untrackAsset(this.asset.fullAsset.historyId);
+      this.untrackAsset(this.asset.asset.historyId);
     } else if(this.tracksMinuteCap === null) {
-      this.getAssetTrack(this.asset.fullAsset.historyId, this.asset.currentPosition.microMove.guid);
+      this.getAssetTrack(this.asset.asset.historyId, this.asset.currentPosition.microMove.guid);
     } else {
       this.getAssetTrackFromTime(
-        this.asset.fullAsset.historyId,
+        this.asset.asset.historyId,
         this.getTracksMillisecondCap()
       );
     }
   }
   private toggleForecast = (): void => {
     if(this.forecastIsVisible()) {
-      this.removeForecast(this.asset.fullAsset.historyId);
+      this.removeForecast(this.asset.asset.historyId);
     } else {
-      this.addForecast(this.asset.fullAsset.historyId);
+      this.addForecast(this.asset.asset.historyId);
     }
   }
   private toggleVisibility = (): void => {
@@ -57,6 +57,6 @@ export class AssetPanelComponent {
     return typeof this.asset.assetTracks !== 'undefined';
   }
   private forecastIsVisible = (): boolean => {
-    return Object.keys(this.forecasts).indexOf(this.asset.fullAsset.historyId) !== -1;
+    return Object.keys(this.forecasts).indexOf(this.asset.asset.historyId) !== -1;
   }
 }
