@@ -13,7 +13,10 @@
     ></map-assets>
   </div>
   <map-asset-search
-    [inputSearchFunction]="setSearchQuery"
+    [autocompleteFunction]="searchAutocomplete"
+    [autocompleteResult]="searchAutocompleteAsset$ | async"
+    [centerMapOnPosition]="centerMapOnPosition"
+    [filterFunction]="filterAssets"
   ></map-asset-search>
   <map-settings
     [mapSettings]="mapSettings$ | async"

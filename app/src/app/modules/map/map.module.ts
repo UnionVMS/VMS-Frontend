@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
 /* Modules */
 import { UIModule } from '../ui/ui.module';
@@ -25,6 +26,10 @@ import { TrackPanelComponent } from './components/track-panel/track-panel.compon
     CommonModule,
     UIModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   declarations: [
     RealtimeComponent,

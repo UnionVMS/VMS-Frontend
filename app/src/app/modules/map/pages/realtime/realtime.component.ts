@@ -43,7 +43,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public setVisibilityForFlags: Function;
   public setTracksMinuteCap: Function;
   public removePositionForInspection: Function;
-  public setSearchQuery: Function;
+  public searchAutocomplete: Function;
+  public filterAssets: Function;
   // tslint:enable:ban-types
 
   private assets: Array<AssetInterfaces.Asset>;
@@ -54,6 +55,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   private assetTracks$: Observable<any>;
   private forecasts$: Observable<any>;
+  private searchAutocompleteAsset$: Observable<any>;
   private selection: Select;
 
   // tslint:disable:ban-types
@@ -63,6 +65,11 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private selectAsset: Function;
   private untrackAsset: Function;
   private unregisterOnClickFunction: Function;
+  // tslint:enable:ban-types
+
+  // Map functions to props:
+  // tslint:disable:ban-types
+  private centerMapOnPosition: Function;
   // tslint:enable:ban-types
 
   constructor(private store: Store<AssetInterfaces.State>) { }
@@ -76,6 +83,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.positionsForInspection$ = this.store.select(AssetSelectors.getPositionsForInspection);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
+    this.searchAutocompleteAsset$ = this.store.select(AssetSelectors.getSearchAutocomplete);
   }
 
   mapDispatchToProps() {
@@ -115,8 +123,21 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new AssetActions.ClearTracks());
     this.setForecastInterval = (forecastTimeLength) =>
       this.store.dispatch(new MapSettingsActions.SetForecastInterval(forecastTimeLength));
-    this.setSearchQuery = (searchQuery) =>
-      console.warn(`Searching for ${searchQuery}`);
+    this.searchAutocomplete = (searchQuery) =>
+      this.store.dispatch(new AssetActions.SetAutocompleteQuery({searchQuery}));
+    this.filterAssets = (filterQuery) => {
+      return this.store.dispatch(new AssetActions.SetFilterQuery({filterQuery}));
+    };
+  }
+
+  mapFunctionsToProps() {
+    this.centerMapOnPosition = (position) => {
+      console.warn(fromLonLat([position.longitude, position.latitude]));
+      if(this.mapZoom < 10) {
+        this.mapZoom = 10;
+      }
+      this.map.getView().animate({zoom: this.mapZoom, center: fromLonLat([position.longitude, position.latitude])});
+    };
   }
 
   ngOnInit() {
@@ -147,6 +168,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
     this.mapStateToProps();
     this.mapDispatchToProps();
+    this.mapFunctionsToProps();
   }
 
   ngOnDestroy() {

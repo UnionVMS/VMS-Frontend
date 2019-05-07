@@ -8,7 +8,9 @@ export const initialState: Interfaces.State = {
   assets: {},
   assetTracks: {},
   forecasts: [],
-  positionsForInspection: {}
+  positionsForInspection: {},
+  searchQuery: '',
+  filterQuery: '',
 };
 
 const speedSegments = {
@@ -21,6 +23,12 @@ const speeds = Object.keys(speedSegments).map(speed => parseInt(speed, 10));
 
 export function assetReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case ActionTypes.SetAutocompleteQuery:
+      return { ...state, searchQuery: payload.searchQuery };
+
+    case ActionTypes.SetFilterQuery:
+      return { ...state, filterQuery: payload.filterQuery };
+
     case ActionTypes.AssetMoved:
       return { ...state, assets: {
         ...state.assets,

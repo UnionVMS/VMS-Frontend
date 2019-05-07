@@ -21,8 +21,21 @@ export enum ActionTypes {
   UnsubscribeToMovements = '[Asset] Unsubscribe to movements',
   UntrackAsset = '[Asset] Untrack asset.',
   TrimTracksThatPassedTimeCap = '[Asset] Trim tracks that passed time cap',
+  SetAutocompleteQuery = '[Asset] Set autocomplete query',
+  SetFilterQuery = '[Asset] Set Filter Query',
+
 
   GetAssetList = '[Asset] Get list'
+}
+
+export class SetAutocompleteQuery implements Action {
+  readonly type = ActionTypes.SetAutocompleteQuery;
+  constructor(public payload: any) {}
+}
+
+export class SetFilterQuery implements Action {
+  readonly type = ActionTypes.SetFilterQuery;
+  constructor(public payload: any) {}
 }
 
 export class GetAssetList implements Action {

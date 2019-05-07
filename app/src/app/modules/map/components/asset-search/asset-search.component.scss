@@ -4,9 +4,8 @@
   display: grid;
   color: white;
   padding: 10px;
-  overflow-y: scroll;
   background: $map_overlay_background;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr auto 1fr auto;
   grid-gap: 10px;
 
   -ms-overflow-style: none;  // IE 10+
@@ -18,4 +17,5 @@
   label {
     margin: 0.25rem 0;
   }
+
 }

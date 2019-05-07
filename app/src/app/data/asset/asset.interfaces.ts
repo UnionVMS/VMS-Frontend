@@ -96,4 +96,6 @@ export interface State {
   assetTracks: { [assetId: string]: AssetTrack };
   forecasts: Array<string>;
   positionsForInspection: any;
+  searchQuery: string;
+  filterQuery: string;
 }

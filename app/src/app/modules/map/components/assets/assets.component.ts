@@ -35,6 +35,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private speedsWereVisibleLastRerender: boolean;
   private selection: Select;
   private assetSpeedsPreviouslyRendered: { [key: string]: string } = {};
+  private renderedAssetIds: Array<string> = [];
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -53,7 +54,10 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       }
     });
 
-    this.vectorSource.addFeatures(this.assets.map((asset) => this.createFeatureFromAsset(asset)));
+    this.vectorSource.addFeatures(this.assets.map((asset) => {
+      this.renderedAssetIds.push(asset.asset);
+      return this.createFeatureFromAsset(asset);
+    }));
 
     this.vectorLayer.getSource().changed();
     this.vectorLayer.getSource().refresh();
@@ -62,8 +66,19 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges() {
     // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
     if (typeof this.vectorSource !== 'undefined') {
+      const newRenderedAssetIds = [];
+      this.renderedAssetIds.map((assetId) => {
+        if(!this.assets.find((asset) => asset.asset === assetId)) {
+          this.removeAsset(assetId);
+        } else {
+          newRenderedAssetIds.push(assetId);
+        }
+      });
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
+          if(newRenderedAssetIds.indexOf(asset.asset) === -1) {
+            newRenderedAssetIds.push(asset.asset);
+          }
           const assetFeature = this.vectorSource.getFeatureById(asset.asset);
           if (assetFeature !== null) {
             this.updateFeatureFromAsset(assetFeature, asset);
@@ -77,12 +92,21 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       this.vectorLayer.getSource().refresh();
       this.namesWereVisibleLastRerender = this.namesVisible;
       this.speedsWereVisibleLastRerender = this.speedsVisible;
+      this.renderedAssetIds = newRenderedAssetIds;
     }
   }
 
   ngOnDestroy() {
     this.unregisterOnClickFunction(this.layerTitle);
     this.map.removeLayer(this.vectorLayer);
+  }
+
+  removeAsset(assetId) {
+    this.vectorSource.getFeatures().map((feature) => {
+      if(feature.getId().includes(assetId)) {
+        this.vectorSource.removeFeature(feature);
+      }
+    });
   }
 
   createFeatureFromAsset(asset: AssetInterfaces.Asset) {

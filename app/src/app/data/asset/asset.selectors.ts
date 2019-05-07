@@ -5,9 +5,9 @@ export const getAssetState = createFeatureSelector<State>('asset');
 
 export const getAssets = createSelector(
   getAssetState,
-  (state: State) => {
-    return Object.keys(state.assets).map(key => state.assets[key]);
-  }
+  (state: State) => Object.keys(state.assets)
+    .filter(key => state.assets[key].assetName.toLowerCase().indexOf(state.filterQuery.toLowerCase()) !== -1)
+    .map(key => state.assets[key])
 );
 
 export const getAssetTracks = createSelector(
@@ -50,4 +50,17 @@ export const getForecasts = createSelector(
 export const getPositionsForInspection = createSelector(
   getAssetState,
   (state: State) => state.positionsForInspection
+);
+
+export const getSearchAutocomplete = createSelector(
+  getAssetState,
+  (state: State) => {
+    if(state.searchQuery.length < 2) {
+      return [];
+    }
+
+    return Object.keys(state.assets)
+      .filter(key => state.assets[key].assetName.toLowerCase().indexOf(state.searchQuery.toLowerCase()) !== -1)
+      .map(key => state.assets[key]);
+  }
 );

@@ -4,10 +4,11 @@ import { By } from '@angular/platform-browser';
 
 import { Store } from '@ngrx/store';
 import { TestingModule } from '@testing/Utils';
-import { FormsModule } from '@angular/forms';
 
 /* Modules */
 import { UIModule } from '../../../ui/ui.module';
+import { FormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material';
 
 import { RealtimeComponent } from './realtime.component';
 
@@ -36,6 +37,7 @@ describe('RealtimeComponent', () => {
         TestingModule,
         UIModule,
         FormsModule,
+        MatAutocompleteModule,
       ],
       declarations: [
         RealtimeComponent,
