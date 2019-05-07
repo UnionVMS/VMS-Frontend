@@ -58,7 +58,6 @@ export const getSearchAutocomplete = createSelector(
     if(state.searchQuery.length < 2) {
       return [];
     }
-
     return Object.keys(state.assetMovements)
       .filter(key => state.assetMovements[key].assetName.toLowerCase().indexOf(state.searchQuery.toLowerCase()) !== -1)
       .map(key => state.assetMovements[key]);

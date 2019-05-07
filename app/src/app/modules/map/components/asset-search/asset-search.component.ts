@@ -66,7 +66,7 @@ export class AssetSearchComponent implements OnChanges {
         return acc;
       }, this.searchResults);
       if(this.searchResults.length !== lastIndex + 1) {
-        this.searchResults = this.searchResults.slice(0, lastIndex);
+        this.searchResults = this.searchResults.slice(0, lastIndex + 1);
       }
     }
   }
