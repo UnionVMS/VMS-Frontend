@@ -5,9 +5,18 @@ export const getAssetState = createFeatureSelector<State>('asset');
 
 export const getAssets = createSelector(
   getAssetState,
-  (state: State) => Object.keys(state.assetMovements)
-    .filter(key => state.assetMovements[key].assetName.toLowerCase().indexOf(state.filterQuery.toLowerCase()) !== -1)
-    .map(key => state.assetMovements[key])
+  (state: State) => {
+    // If filterQuery starts with !, invert the search.
+    if(state.filterQuery.indexOf('!') === 0) {
+      const filterQuery = state.filterQuery.substring(1);
+      return Object.keys(state.assetMovements)
+        .filter(key => state.assetMovements[key].assetName.toLowerCase().indexOf(filterQuery.toLowerCase()) === -1)
+        .map(key => state.assetMovements[key]);
+    }
+    return Object.keys(state.assetMovements)
+      .filter(key => state.assetMovements[key].assetName.toLowerCase().indexOf(state.filterQuery.toLowerCase()) !== -1)
+      .map(key => state.assetMovements[key]);
+  }
 );
 
 export const getAssetTracks = createSelector(
