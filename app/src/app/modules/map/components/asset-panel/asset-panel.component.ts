@@ -11,7 +11,7 @@ export class AssetPanelComponent {
   @Input() asset: {
     fullAsset: AssetInterfaces.FullAsset,
     assetTracks: AssetInterfaces.AssetTrack,
-    currentPosition: AssetInterfaces.Asset
+    currentPosition: AssetInterfaces.AssetMovement
   };
 
   @Input() getAssetTrack: (historyId: string, movementGuid: string) => void;

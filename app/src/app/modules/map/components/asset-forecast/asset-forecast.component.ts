@@ -17,7 +17,7 @@ import { fromLonLat } from 'ol/proj';
 })
 export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetInterfaces.Asset>;
+  @Input() assets: Array<AssetInterfaces.AssetMovement>;
   @Input() map: Map;
   @Input() forecastInterval: number;
 
@@ -77,7 +77,7 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  drawFuturePosition(asset: AssetInterfaces.Asset) {
+  drawFuturePosition(asset: AssetInterfaces.AssetMovement) {
     const speed = asset.microMove.speed * 1852; // nautical miles/h to km/h
     const futureFeatures: Array<Feature> = [];
     const forecastInterval = this.forecastInterval === null ? 30 : this.forecastInterval;

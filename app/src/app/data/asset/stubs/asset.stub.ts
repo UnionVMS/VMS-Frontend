@@ -1,6 +1,6 @@
-import { Asset } from '../asset.interfaces';
+import { AssetMovement } from '../asset.interfaces';
 
-const AssetStub: Asset = {
+const AssetStub: AssetMovement = {
   microMove: {
     location: {
       longitude: 23.17178167666667,

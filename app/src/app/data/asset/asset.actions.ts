@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Asset } from './asset.interfaces';
+import { AssetMovement } from './asset.interfaces';
 
 
 export enum ActionTypes {
@@ -53,13 +53,13 @@ export class UnsubscribeToMovements implements Action {
 export class AssetMoved implements Action {
   readonly type = ActionTypes.AssetMoved;
 
-  constructor(public payload: Asset) {}
+  constructor(public payload: AssetMovement) {}
 }
 
 export class AssetsMoved implements Action {
   readonly type = ActionTypes.AssetsMoved;
 
-  constructor(public payload: Array<Asset>) {}
+  constructor(public payload: Array<AssetMovement>) {}
 }
 
 export class FailedToSubscribeToMovements implements Action {

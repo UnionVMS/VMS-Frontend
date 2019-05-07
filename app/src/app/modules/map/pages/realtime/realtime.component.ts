@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
-import { IconsModule } from 'angular-bootstrap-md';
 import Select from 'ol/interaction/Select.js';
 
 import Map from 'ol/Map';
@@ -47,7 +46,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public filterAssets: Function;
   // tslint:enable:ban-types
 
-  private assets: Array<AssetInterfaces.Asset>;
+  private assets: Array<AssetInterfaces.AssetMovement>;
   private assetSubscription: Subscription;
   private mapZoom = 6;
   // tslint:disable-next-line:ban-types

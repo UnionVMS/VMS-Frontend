@@ -11,7 +11,7 @@ export interface Movement {
   speed: number;
 }
 
-export interface Asset {
+export interface AssetMovement {
   microMove: Movement;
   asset: string;
   flagstate: string;
@@ -92,7 +92,7 @@ export interface AssetTrack {
 export interface State {
   selectedAsset: string|null;
   fullAssets: { [uid: string]: FullAsset };
-  assets: { [uid: string]: Asset };
+  assets: { [uid: string]: AssetMovement };
   assetTracks: { [assetId: string]: AssetTrack };
   forecasts: Array<string>;
   positionsForInspection: any;

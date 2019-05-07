@@ -18,7 +18,7 @@ import Select from 'ol/interaction/Select.js';
 })
 export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetInterfaces.Asset>;
+  @Input() assets: Array<AssetInterfaces.AssetMovement>;
   @Input() map: Map;
   @Input() namesVisible: boolean;
   @Input() speedsVisible: boolean;
@@ -109,7 +109,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  createFeatureFromAsset(asset: AssetInterfaces.Asset) {
+  createFeatureFromAsset(asset: AssetInterfaces.AssetMovement) {
     const assetFeature = new Feature(new Point(fromLonLat([
       asset.microMove.location.longitude, asset.microMove.location.latitude
     ])));
@@ -134,7 +134,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     return assetFeature;
   }
 
-  updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.Asset) {
+  updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovement) {
     assetFeature.setGeometry(new Point(fromLonLat([
       asset.microMove.location.longitude, asset.microMove.location.latitude
     ])));
@@ -153,7 +153,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     return assetFeature;
   }
 
-  getTextStyleForName(asset: AssetInterfaces.Asset) {
+  getTextStyleForName(asset: AssetInterfaces.AssetMovement) {
     let text = null;
     let offsetY = 20;
     if (this.namesVisible) {

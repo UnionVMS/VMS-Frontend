@@ -18,7 +18,7 @@ import { fromLonLat } from 'ol/proj';
 })
 export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetInterfaces.Asset>;
+  @Input() assets: Array<AssetInterfaces.AssetMovement>;
   @Input() map: Map;
 
   private vectorSource: VectorSource;
@@ -75,7 +75,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     this.map.removeLayer(this.vectorLayer);
   }
 
-  createFeatureFromAsset(asset: AssetInterfaces.Asset) {
+  createFeatureFromAsset(asset: AssetInterfaces.AssetMovement) {
     if(typeof getContryISO2(asset.flagstate) === 'undefined') {
       return false;
     }
@@ -105,7 +105,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     return flagFeature;
   }
 
-  updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.Asset) {
+  updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovement) {
     assetFeature.setGeometry(new Point(fromLonLat([
       asset.microMove.location.longitude, asset.microMove.location.latitude
     ])));

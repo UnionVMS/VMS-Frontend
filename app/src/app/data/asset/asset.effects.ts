@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, empty, isObservable, defer } from 'rxjs';
+import { of, empty } from 'rxjs';
 import { map, mergeMap, flatMap, catchError, withLatestFrom, bufferTime, filter } from 'rxjs/operators';
-import jwtDecode from 'jwt-decode';
 
 import { AuthReducer, AuthSelectors } from '../auth';
-import { MapSettingsReducer, MapSettingsSelectors } from '../map-settings';
+import { MapSettingsSelectors } from '../map-settings';
 
 import { ActionTypes, SetFullAsset, AssetsMoved, SetAssetTrack, TrimTracksThatPassedTimeCap } from './asset.actions';
-import { Asset } from './asset.interfaces';
 import { AssetService } from './asset.service';
 
 @Injectable()

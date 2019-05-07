@@ -14,7 +14,7 @@ export class AssetSearchComponent implements OnChanges {
   @Input() centerMapOnPosition: Function;
   @Input() filterFunction: Function;
   // tslint:enable:ban-types
-  @Input() autocompleteResult: Array<AssetInterfaces.Asset>;
+  @Input() autocompleteResult: Array<AssetInterfaces.AssetMovement>;
 
   public filterQuery = '';
   public searchResults = [];
