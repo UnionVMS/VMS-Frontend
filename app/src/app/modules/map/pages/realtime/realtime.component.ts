@@ -135,7 +135,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   mapFunctionsToProps() {
     this.centerMapOnPosition = (position) => {
-      console.warn(fromLonLat([position.longitude, position.latitude]));
       if(this.mapZoom < 10) {
         this.mapZoom = 10;
       }
