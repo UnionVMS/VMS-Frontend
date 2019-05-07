@@ -9,7 +9,7 @@ import { AssetInterfaces } from '@data/asset';
 })
 export class AssetPanelComponent {
   @Input() asset: {
-    fullAsset: AssetInterfaces.FullAsset,
+    fullAsset: AssetInterfaces.Asset,
     assetTracks: AssetInterfaces.AssetTrack,
     currentPosition: AssetInterfaces.AssetMovement
   };

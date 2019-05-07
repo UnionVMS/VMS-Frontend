@@ -18,7 +18,7 @@ export interface AssetMovement {
   assetName: string;
 }
 
-export interface FullAsset {
+export interface Asset {
   id: string;
   historyId: string;
   ircsIndicator: any;
@@ -91,7 +91,7 @@ export interface AssetTrack {
 
 export interface State {
   selectedAsset: string|null;
-  fullAssets: { [uid: string]: FullAsset };
+  fullAssets: { [uid: string]: Asset };
   assets: { [uid: string]: AssetMovement };
   assetTracks: { [assetId: string]: AssetTrack };
   forecasts: Array<string>;

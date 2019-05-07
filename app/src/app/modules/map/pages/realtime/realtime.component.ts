@@ -54,7 +54,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   private assetTracks$: Observable<any>;
   private forecasts$: Observable<any>;
-  private searchAutocompleteAsset$: Observable<any>;
+  public searchAutocompleteAsset$: Observable<any>;
   private selection: Select;
 
   // tslint:disable:ban-types
@@ -68,7 +68,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   // Map functions to props:
   // tslint:disable:ban-types
-  private centerMapOnPosition: Function;
+  public centerMapOnPosition: Function;
   // tslint:enable:ban-types
 
   constructor(private store: Store<AssetInterfaces.State>) { }
