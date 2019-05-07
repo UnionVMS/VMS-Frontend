@@ -43,30 +43,34 @@ export class AssetSearchComponent implements OnChanges {
 
   ngOnChanges() {
     if (typeof this.autocompleteResult !== 'undefined') {
-      let lastIndex = 0;
-      this.searchResults = this.autocompleteResult.sort((a, b) => {
-        const nameA = a.assetName.toUpperCase(); // ignore upper and lowercase
-        const nameB = b.assetName.toUpperCase(); // ignore upper and lowercase
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-        // names must be equal
-        return 0;
-      }).reduce((acc, asset, index) => {
-        if(index >= 10) {
+      if(this.autocompleteResult.length === 0) {
+        this.searchResults = [];
+      } else {
+        let lastIndex = 0;
+        this.searchResults = this.autocompleteResult.sort((a, b) => {
+          const nameA = a.assetName.toUpperCase(); // ignore upper and lowercase
+          const nameB = b.assetName.toUpperCase(); // ignore upper and lowercase
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          // names must be equal
+          return 0;
+        }).reduce((acc, asset, index) => {
+          if(index >= 10) {
+            return acc;
+          }
+          if (typeof acc[index] === 'undefined' || acc[index].id !== asset.asset) {
+            acc[index] = { id: asset.asset, value: asset.assetName };
+          }
+          lastIndex = index;
           return acc;
+        }, this.searchResults);
+        if (this.searchResults.length !== lastIndex + 1) {
+          this.searchResults = this.searchResults.slice(0, lastIndex + 1);
         }
-        if (typeof acc[index] === 'undefined' || acc[index].id !== asset.asset) {
-          acc[index] = { id: asset.asset, value: asset.assetName };
-        }
-        lastIndex = index;
-        return acc;
-      }, this.searchResults);
-      if(this.searchResults.length !== lastIndex + 1) {
-        this.searchResults = this.searchResults.slice(0, lastIndex + 1);
       }
     }
   }
