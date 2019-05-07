@@ -5,7 +5,7 @@ import { fromLonLat } from 'ol/proj';
 import { TestingModule } from '@testing/Utils';
 
 import { AssetsComponent } from './assets.component';
-import AssetStub from '@data/asset/stubs/asset.stub';
+import AssetMovementStub from '@data/asset/stubs/assetMovement.stub';
 
 /* tslint:disable:no-string-literal */
 describe('AssetsComponent', () => {
@@ -43,45 +43,45 @@ describe('AssetsComponent', () => {
     const { component } = setup();
     component.namesVisible = true;
     component.speedsVisible = false;
-    let text = component.getTextStyleForName(AssetStub);
-    expect(text.getText()).toEqual(AssetStub.assetName);
+    let text = component.getTextStyleForName(AssetMovementStub);
+    expect(text.getText()).toEqual(AssetMovementStub.assetName);
     expect(text.getOffsetY()).toEqual(20);
 
     component.speedsVisible = true;
-    text = component.getTextStyleForName(AssetStub);
-    expect(text.getText()).toEqual(AssetStub.assetName + '\n' + AssetStub.microMove.speed.toFixed(2) + ' kts');
+    text = component.getTextStyleForName(AssetMovementStub);
+    expect(text.getText()).toEqual(AssetMovementStub.assetName + '\n' + AssetMovementStub.microMove.speed.toFixed(2) + ' kts');
     expect(text.getOffsetY()).toEqual(30);
 
     component.namesVisible = false;
-    text = component.getTextStyleForName(AssetStub);
-    expect(text.getText()).toEqual(AssetStub.microMove.speed.toFixed(2) + ' kts');
+    text = component.getTextStyleForName(AssetMovementStub);
+    expect(text.getText()).toEqual(AssetMovementStub.microMove.speed.toFixed(2) + ' kts');
     expect(text.getOffsetY()).toEqual(20);
   });
 
   it('should create feature from asset correctly', () => {
     const { component } = setup();
 
-    const feature = component.createFeatureFromAsset(AssetStub);
-    expect(feature.getId()).toEqual(AssetStub.asset);
+    const feature = component.createFeatureFromAsset(AssetMovementStub);
+    expect(feature.getId()).toEqual(AssetMovementStub.asset);
     expect(feature.getGeometry().getCoordinates()).toEqual(fromLonLat([
-      AssetStub.microMove.location.longitude, AssetStub.microMove.location.latitude
+      AssetMovementStub.microMove.location.longitude, AssetMovementStub.microMove.location.latitude
     ]));
-    expect(feature.getStyle().getImage().getRotation()).toEqual(deg2rad(AssetStub.microMove.heading));
+    expect(feature.getStyle().getImage().getRotation()).toEqual(deg2rad(AssetMovementStub.microMove.heading));
 
     const textStyle = feature.getStyle().getText();
-    expect(textStyle.getText()).toEqual(AssetStub.microMove.speed.toFixed(2) + ' kts');
+    expect(textStyle.getText()).toEqual(AssetMovementStub.microMove.speed.toFixed(2) + ' kts');
     expect(textStyle.getOffsetY()).toEqual(20);
   });
 
   it('should create feature from asset correctly', () => {
     const { component } = setup();
 
-    const feature = component.createFeatureFromAsset(AssetStub);
-    const updatedAsset = { ...AssetStub,
+    const feature = component.createFeatureFromAsset(AssetMovementStub);
+    const updatedAsset = { ...AssetMovementStub,
       microMove: {
-        ...AssetStub.microMove,
+        ...AssetMovementStub.microMove,
         location: {
-          ...AssetStub.microMove.location,
+          ...AssetMovementStub.microMove.location,
           longitude: 11.11
         },
         heading: 2
@@ -131,7 +131,7 @@ describe('AssetsComponent', () => {
     component.map.addLayer = (layer) => {};
     let registeredFunction = (event): void => {};
     component.registerOnClickFunction = (name, func) => registeredFunction = func;
-    component.assets = [AssetStub];
+    component.assets = [AssetMovementStub];
     const addLayerSpy = spyOn(component.map, 'addLayer');
     expect(addLayerSpy).toHaveBeenCalledTimes(0);
     component.ngOnInit();
@@ -140,11 +140,11 @@ describe('AssetsComponent', () => {
     expect(selectAssetSpy).toHaveBeenCalledTimes(0);
     registeredFunction({
       type: 'select',
-      selected: [{ id_: AssetStub.asset }],
+      selected: [{ id_: AssetMovementStub.asset }],
       deselected: []
     });
     expect(selectAssetSpy).toHaveBeenCalledTimes(1);
-    expect(selectAssetSpy).toHaveBeenCalledWith(AssetStub.asset);
+    expect(selectAssetSpy).toHaveBeenCalledWith(AssetMovementStub.asset);
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
   });
 
@@ -154,14 +154,14 @@ describe('AssetsComponent', () => {
     component.registerOnClickFunction = (name, func) => {};
     component.ngOnInit();
 
-    component.assets = [AssetStub];
+    component.assets = [AssetMovementStub];
     expect(component['vectorSource'].getFeatures().length).toEqual(0);
     component.ngOnChanges();
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
-    const fastAsset = { ...AssetStub,  microMove: { ...AssetStub.microMove, speed: 12.7 } };
+    const fastAsset = { ...AssetMovementStub,  microMove: { ...AssetMovementStub.microMove, speed: 12.7 } };
     component.assets = [fastAsset];
     expect(component['vectorSource'].getFeatures()[0].getStyle().getText().getText())
-      .toEqual(AssetStub.microMove.speed.toFixed(2) + ' kts');
+      .toEqual(AssetMovementStub.microMove.speed.toFixed(2) + ' kts');
     component.ngOnChanges();
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
     expect(component['vectorSource'].getFeatures()[0].getStyle().getText().getText())

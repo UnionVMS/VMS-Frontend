@@ -24,7 +24,7 @@ import { TracksComponent } from '../../components/tracks/tracks.component';
 import { TrackPanelComponent } from '../../components/track-panel/track-panel.component';
 
 import { AssetReducer, AssetActions } from '@data/asset';
-import AssetStub from '@data/asset/stubs/asset.stub';
+import AssetMovementStub from '@data/asset/stubs/assetMovement.stub';
 import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
 import { MapSettingsReducer, MapSettingsActions } from '@data/map-settings';
 
@@ -80,17 +80,17 @@ describe('RealtimeComponent', () => {
       store.setState(currentState);
       component.mapStateToProps();
 
-      expect(component['assets']).not.toEqual([AssetStub]);
+      expect(component['assets']).not.toEqual([AssetMovementStub]);
       store.setState({
         ...currentState,
         asset: {
           ...currentState.asset,
           assetMovements: {
-            [AssetStub.asset]: AssetStub
+            [AssetMovementStub.asset]: AssetMovementStub
           }
         }
       });
-      expect(component['assets']).toEqual([AssetStub]);
+      expect(component['assets']).toEqual([AssetMovementStub]);
     });
 
     it('should update mapSettings when state is updated.', () => {
@@ -129,10 +129,10 @@ describe('RealtimeComponent', () => {
         component.selectedAsset$.subscribe(newSelectedAsset => selectedAsset = newSelectedAsset);
       expect(selectedAsset).toEqual({ asset: undefined, assetTracks: undefined, currentPosition: undefined });
       currentState = { ...currentState, asset: {
-        ...currentState.asset, selectedAsset: AssetStub.asset, assetMovements: { [AssetStub.asset]: AssetStub}
+        ...currentState.asset, selectedAsset: AssetMovementStub.asset, assetMovements: { [AssetMovementStub.asset]: AssetMovementStub}
       } };
       store.setState(currentState);
-      expect(selectedAsset).toEqual({ asset: undefined, assetTracks: undefined, currentPosition: AssetStub });
+      expect(selectedAsset).toEqual({ asset: undefined, assetTracks: undefined, currentPosition: AssetMovementStub });
       selectedAssetSubscription.unsubscribe();
     });
 
@@ -210,10 +210,10 @@ describe('RealtimeComponent', () => {
       const forecastsSubscription = component['forecasts$'].subscribe(newForecasts => forecasts = newForecasts);
       expect(forecasts).toEqual({});
       currentState = { ...currentState, asset: {
-        ...currentState.asset, forecasts: [AssetStub.asset], assetMovements: { [AssetStub.asset]: AssetStub }
+        ...currentState.asset, forecasts: [AssetMovementStub.asset], assetMovements: { [AssetMovementStub.asset]: AssetMovementStub }
       } };
       store.setState(currentState);
-      expect(forecasts).toEqual({ [AssetStub.asset]: AssetStub });
+      expect(forecasts).toEqual({ [AssetMovementStub.asset]: AssetMovementStub });
       forecastsSubscription.unsubscribe();
     });
 

@@ -6,8 +6,8 @@ import { UIModule } from '@app/modules/ui/ui.module';
 import { formatDate } from '@app/helpers';
 
 import { AssetPanelComponent } from './asset-panel.component';
+import AssetMovementStub from '@data/asset/stubs/assetMovement.stub';
 import AssetStub from '@data/asset/stubs/asset.stub';
-import FullAssetStub from '@data/asset/stubs/fullAsset.stub';
 import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
 
 /* tslint:disable:no-string-literal */
@@ -30,9 +30,9 @@ describe('AssetPanelComponent', () => {
     const component = fixture.componentInstance;
 
     component.asset = {
-      asset: FullAssetStub,
+      asset: AssetStub,
       assetTracks: AssetTrackStub,
-      currentPosition: AssetStub
+      currentPosition: AssetMovementStub
     };
 
     component.getAssetTrack = (historyId: string, movementGuid: string) => {};

@@ -7,7 +7,7 @@ import { destinationPoint } from '@app/helpers';
 import { TestingModule } from '@testing/Utils';
 
 import { AssetForecastComponent } from './asset-forecast.component';
-import AssetStub from '@data/asset/stubs/asset.stub';
+import AssetMovementStub from '@data/asset/stubs/assetMovement.stub';
 
 /* tslint:disable:no-string-literal */
 describe('AssetForecastComponent', () => {
@@ -27,7 +27,7 @@ describe('AssetForecastComponent', () => {
     const fixture = TestBed.createComponent(AssetForecastComponent);
     const component = fixture.componentInstance;
 
-    component.assetMovements = [AssetStub];
+    component.assetMovements = [AssetMovementStub];
     component.map = { removeLayer: (layerName) => {} };
     component.forecastInterval = 30;
 
@@ -49,10 +49,10 @@ describe('AssetForecastComponent', () => {
       getFeatureById: featureId => savedFeatures[featureId],
       addFeature: feature => { savedFeatures[feature.getId()] = feature; }
     };
-    component.drawFuturePosition(AssetStub);
-    const id = 'futurePos_0_' + AssetStub.asset;
+    component.drawFuturePosition(AssetMovementStub);
+    const id = 'futurePos_0_' + AssetMovementStub.asset;
     const coordinates = savedFeatures[id].getGeometry().getCoordinates();
-    const id2 = 'futurePos_1_' + AssetStub.asset;
+    const id2 = 'futurePos_1_' + AssetMovementStub.asset;
     const coordinates2 = savedFeatures[id2].getGeometry().getCoordinates();
     expect(coordinates).toEqual([2575618.876426982, 9624472.214963332]);
     const imageRotation = savedFeatures[id].getStyle().getImage().getRotation();
@@ -60,8 +60,8 @@ describe('AssetForecastComponent', () => {
     const lonLat = toLonLat(coordinates);
 
     component.drawFuturePosition({
-      ...AssetStub,
-      microMove: { ...AssetStub.microMove,
+      ...AssetMovementStub,
+      microMove: { ...AssetMovementStub.microMove,
         location: {
           longitude: lonLat[0],
           latitude: lonLat[1]
@@ -76,9 +76,9 @@ describe('AssetForecastComponent', () => {
       .toEqual(cord2LonLat[1].toFixed(4));
 
     component.drawFuturePosition({
-      ...AssetStub,
-      microMove: { ...AssetStub.microMove,
-        heading: (AssetStub.microMove.heading + 180) % 360,
+      ...AssetMovementStub,
+      microMove: { ...AssetMovementStub.microMove,
+        heading: (AssetMovementStub.microMove.heading + 180) % 360,
         location: {
           longitude: lonLat[0],
           latitude: lonLat[1]
@@ -87,13 +87,13 @@ describe('AssetForecastComponent', () => {
     });
     const returningPosition = toLonLat(savedFeatures[id].getGeometry().getCoordinates());
     expect(returningPosition[0].toFixed(3))
-      .toEqual(AssetStub.microMove.location.longitude.toFixed(3));
+      .toEqual(AssetMovementStub.microMove.location.longitude.toFixed(3));
     expect(returningPosition[1].toFixed(4))
-      .toEqual(AssetStub.microMove.location.latitude.toFixed(4));
+      .toEqual(AssetMovementStub.microMove.location.latitude.toFixed(4));
 
     component.forecastInterval = null;
-    component.drawFuturePosition(AssetStub);
-    const coordinatesWithDefaultInterval = savedFeatures['futurePos_0_' + AssetStub.asset].getGeometry().getCoordinates();
+    component.drawFuturePosition(AssetMovementStub);
+    const coordinatesWithDefaultInterval = savedFeatures['futurePos_0_' + AssetMovementStub.asset].getGeometry().getCoordinates();
     expect(coordinatesWithDefaultInterval).toEqual([2575618.876426982, 9624472.214963332]);
   });
 
@@ -107,7 +107,7 @@ describe('AssetForecastComponent', () => {
     component.ngOnInit();
     expect(addLayerSpy).toHaveBeenCalledTimes(1);
     expect(drawFuturePositionSpy).toHaveBeenCalledTimes(1);
-    expect(drawFuturePositionSpy).toHaveBeenCalledWith(AssetStub);
+    expect(drawFuturePositionSpy).toHaveBeenCalledWith(AssetMovementStub);
   });
 
   it('should remove track correctly', () => {
@@ -115,7 +115,7 @@ describe('AssetForecastComponent', () => {
     let features = [];
     for (let i = 0; i < 2; i++) {
       const feature = new Feature();
-      feature.setId('futurePos_' + i + '_' + AssetStub.asset);
+      feature.setId('futurePos_' + i + '_' + AssetMovementStub.asset);
       features.push(feature);
     }
 
@@ -128,7 +128,7 @@ describe('AssetForecastComponent', () => {
     expect(features.length).toEqual(2);
     component.removeForecast('asdsad-a-a-a-');
     expect(features.length).toEqual(2);
-    component.removeForecast(AssetStub.asset);
+    component.removeForecast(AssetMovementStub.asset);
     expect(features.length).toEqual(0);
   });
 
@@ -170,7 +170,7 @@ describe('AssetForecastComponent', () => {
     component.ngOnChanges();
     expect(features.length).toEqual(0);
 
-    component.assetMovements = [AssetStub];
+    component.assetMovements = [AssetMovementStub];
     component.ngOnChanges();
     expect(features.length).toEqual(2);
 

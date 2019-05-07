@@ -5,8 +5,8 @@ import { TestingModule } from '@testing/Utils';
 import { deg2rad } from '@app/helpers';
 
 import { TracksComponent } from './tracks.component';
+import AssetMovementStub from '@data/asset/stubs/assetMovement.stub';
 import AssetStub from '@data/asset/stubs/asset.stub';
-import FullAssetStub from '@data/asset/stubs/fullAsset.stub';
 import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
 
 /* tslint:disable:no-string-literal */
