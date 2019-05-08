@@ -5,6 +5,7 @@ import { AssetMovement } from './asset.interfaces';
 export enum ActionTypes {
   AddForecast = '[Asset] Add forecast',
   AddPositionForInspection = '[Asset] Add position for inspection',
+  AddAssets = '[Asset] Add assets',
   AssetMoved = '[Asset] Moved',
   AssetsMoved = '[Asset] Multiple moves',
   ClearForecasts = '[Asset] Clear forecasts',
@@ -69,6 +70,11 @@ export class FailedToSubscribeToMovements implements Action {
 export class SelectAsset implements Action {
   readonly type = ActionTypes.SelectAsset;
   constructor(public payload: string) {}
+}
+
+export class AddAssets implements Action {
+  readonly type = ActionTypes.AddAssets;
+  constructor(public payload: any) {}
 }
 
 export class SetFullAsset implements Action {

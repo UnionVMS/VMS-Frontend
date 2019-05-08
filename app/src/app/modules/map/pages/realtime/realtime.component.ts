@@ -78,7 +78,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AssetInterfaces.State>) { }
 
   mapStateToProps() {
-    this.assetSubscription = this.store.select(AssetSelectors.getAssets).subscribe((assets) => {
+    this.assetSubscription = this.store.select(AssetSelectors.getAssetMovements).subscribe((assets) => {
       this.assets = assets;
     });
     this.mapSettings$ = this.store.select(MapSettingsSelectors.getMapSettingsState);

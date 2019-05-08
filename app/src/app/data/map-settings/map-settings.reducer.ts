@@ -23,8 +23,8 @@ export const initialState: State = {
   namesVisible: false,
   speedsVisible: false,
   forecastsVisible: true,
-  forecastInterval: null,
-  tracksMinuteCap: null,
+  forecastInterval: 30,
+  tracksMinuteCap: 200,
   viewports: {},
 };
 

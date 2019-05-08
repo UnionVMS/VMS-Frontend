@@ -92,7 +92,6 @@ export class AssetService {
   }
 
   listAssets(authToken) {
-    console.warn('--- Up in here!');
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/list/`,
       {},

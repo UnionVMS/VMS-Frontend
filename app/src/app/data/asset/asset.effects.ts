@@ -7,7 +7,9 @@ import { map, mergeMap, flatMap, catchError, withLatestFrom, bufferTime, filter 
 import { AuthReducer, AuthSelectors } from '../auth';
 import { MapSettingsSelectors } from '../map-settings';
 
-import { ActionTypes, SetFullAsset, AssetsMoved, SetAssetTrack, TrimTracksThatPassedTimeCap } from './asset.actions';
+import {
+  ActionTypes, SetFullAsset, AssetsMoved, SetAssetTrack, TrimTracksThatPassedTimeCap, AddAssets
+} from './asset.actions';
 import { AssetService } from './asset.service';
 
 @Injectable()
@@ -23,7 +25,16 @@ export class AssetEffects {
     ofType(ActionTypes.GetAssetList),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.listAssets(authToken);
+      return this.assetService.listAssets(authToken).pipe(
+        map((response: any) => {
+          return new AddAssets({
+            assets: response.assetList.reduce((acc, asset) => {
+              acc[asset.historyId] = asset;
+              return acc;
+            }, {})
+          });
+        })
+      );
     })
   );
 

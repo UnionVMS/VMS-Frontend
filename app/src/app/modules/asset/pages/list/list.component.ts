@@ -13,14 +13,18 @@ export class ListComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<AssetInterfaces.State>) { }
 
-  mapStateToProps() {}
+  private assets$: Observable<AssetInterfaces.Asset[]>;
+
+  mapStateToProps() {
+    this.assets$ = this.store.select(AssetSelectors.getAssets);
+  }
 
   mapDispatchToProps() {}
 
   ngOnInit() {
-    console.warn('---');
     this.store.dispatch(new AssetActions.GetAssetList());
-    console.warn('---');
+    this.mapStateToProps();
+    this.mapDispatchToProps();
   }
 
   ngOnDestroy() {}

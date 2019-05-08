@@ -1,1 +1,4 @@
 <h1>HEJEJEJEJEJEJE</h1>
+<ul>
+  <li *ngFor="let asset of (assets$ | async)">{{asset.name}} - {{asset.ircs}} - {{asset.mmsi}}</li>
+</ul>

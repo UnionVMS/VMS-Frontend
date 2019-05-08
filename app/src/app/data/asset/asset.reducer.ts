@@ -101,6 +101,12 @@ export function assetReducer(state = initialState, { type, payload }) {
     case ActionTypes.ClearForecasts:
       return { ...state, forecasts: [] };
 
+    case ActionTypes.AddAssets:
+      return { ...state, assets: {
+        ...state.assets,
+        ...payload.assets
+      }};
+
     case ActionTypes.SetFullAsset:
       return { ...state, assets: {
         ...state.assets,
