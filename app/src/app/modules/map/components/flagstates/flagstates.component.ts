@@ -25,6 +25,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
   private vectorLayer: VectorLayer;
   private layerTitle = 'Flagstate Layer';
   private flagCanvasByCountry: any = {};
+  private renderedAssetIds: Array<string> = [];
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -39,6 +40,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
       if (asset.flagstate !== 'UNK') {
         const flagFeature = this.createFeatureFromAsset(asset);
         if(flagFeature !== false) {
+          this.renderedAssetIds.push(asset.asset);
           features.push(flagFeature);
         }
       }
@@ -52,14 +54,28 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges() {
     // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
     if (typeof this.vectorSource !== 'undefined') {
+      const newRenderedAssetIds = [];
+      this.renderedAssetIds.map((assetId) => {
+        if(!this.assets.find((asset) => asset.asset === assetId)) {
+          this.removeFeature(assetId);
+        } else {
+          newRenderedAssetIds.push(assetId);
+        }
+      });
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
           const assetFeature = this.vectorSource.getFeatureById('flag_' + asset.asset);
           if (assetFeature !== null) {
+            if(newRenderedAssetIds.indexOf(asset.asset) === -1) {
+              newRenderedAssetIds.push(asset.asset);
+            }
             this.updateFeatureFromAsset(assetFeature, asset);
           } else if (asset.flagstate !== 'UNK') {
             const flagFeature = this.createFeatureFromAsset(asset);
             if(flagFeature !== false) {
+              if(newRenderedAssetIds.indexOf(asset.asset) === -1) {
+                newRenderedAssetIds.push(asset.asset);
+              }
               acc.push(flagFeature);
             }
           }
@@ -68,11 +84,20 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
       );
       this.vectorLayer.getSource().changed();
       this.vectorLayer.getSource().refresh();
+      this.renderedAssetIds = newRenderedAssetIds;
     }
   }
 
   ngOnDestroy() {
     this.map.removeLayer(this.vectorLayer);
+  }
+
+  removeFeature(assetId) {
+    this.vectorSource.getFeatures().map((feature) => {
+      if(feature.getId().includes(assetId)) {
+        this.vectorSource.removeFeature(feature);
+      }
+    });
   }
 
   createFeatureFromAsset(asset: AssetInterfaces.AssetMovement) {

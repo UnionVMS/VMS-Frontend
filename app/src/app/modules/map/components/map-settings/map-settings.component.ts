@@ -43,14 +43,14 @@ export class MapSettingsComponent {
   private setTracksMinuteCapFunction = (event): void => {
     let minutes = parseInt(event.target.value, 10);
     if(event.target.value.length === 0) {
-      minutes = null;
+      minutes = 200;
     }
     this.setTracksMinuteCap(minutes);
   }
   private setForecastIntervalFunction = (event): void => {
     let minutes = parseInt(event.target.value, 10);
     if(event.target.value.length === 0) {
-      minutes = null;
+      minutes = 30;
     }
     this.setForecastInterval(minutes);
   }

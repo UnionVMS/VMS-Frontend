@@ -89,6 +89,12 @@ export interface AssetTrack {
   lineSegments: Array<LineSegment>;
 }
 
+export interface AssetFilterQuery {
+  type: string;
+  values: Array<string>;
+  inverse: boolean;
+}
+
 export interface State {
   selectedAsset: string|null;
   assets: { [uid: string]: Asset };
@@ -97,5 +103,5 @@ export interface State {
   forecasts: Array<string>;
   positionsForInspection: any;
   searchQuery: string;
-  filterQuery: string;
+  filterQuery: Array<AssetFilterQuery>;
 }

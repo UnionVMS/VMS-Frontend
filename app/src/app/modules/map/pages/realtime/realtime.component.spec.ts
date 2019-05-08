@@ -96,7 +96,7 @@ describe('RealtimeComponent', () => {
     it('should update mapSettings when state is updated.', () => {
       const { component } = setup();
       const store = TestBed.get(Store);
-      const currentState = { asset: { assetMovements: {}}, mapSettings: MapSettingsReducer.initialState };
+      const currentState = { asset: { assetMovements: {}, filterQuery: [] }, mapSettings: MapSettingsReducer.initialState };
 
       store.setState(currentState);
       component.mapStateToProps();

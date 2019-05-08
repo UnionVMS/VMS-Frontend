@@ -21,9 +21,29 @@ export class AssetSearchComponent implements OnChanges {
   public searchQuery = '';
 
   filterKeyUp = (event) => {
-    this.filterFunction(this.filterQuery);
+    const filterQuery = this.filterQuery.split(';');
+    this.filterFunction(filterQuery.map(queryPart => {
+      queryPart = queryPart.trim();
+      const queryObject: AssetInterfaces.AssetFilterQuery = {
+        type: 'name',
+        values: [],
+        inverse: false,
+      };
+      if(queryPart.indexOf('/f ') === 0) {
+        queryObject.type = 'flagstate';
+        queryPart = queryPart.substring(3);
+      }
+      if(queryPart.indexOf('/') === 0) {
+        return queryObject;
+      }
+      if(queryPart.indexOf('!') === 0) {
+        queryObject.inverse = true;
+        queryPart = queryPart.substring(1);
+      }
+      queryObject.values = queryPart.split(',').map(value => value.trim()).filter(value => value.length > 0);
+      return queryObject;
+    }).filter(queryObject => queryObject.values.length > 0));
   }
-
 
   searchKeyUp = (event) => {
     if (
@@ -31,7 +51,14 @@ export class AssetSearchComponent implements OnChanges {
       event.key !== 'ArrowUp' && event.key !== 'ArrowDown' &&
       event.key !== 'ArrowLeft' && event.key !== 'ArrowRight'
     ) {
-      this.autocompleteFunction(this.searchQuery);
+      if(this.searchQuery.indexOf('/c') !== 0) {
+        this.autocompleteFunction(this.searchQuery);
+      }
+    } else if(event.key === 'Enter' && this.searchQuery.match(/^(\/c)\s*(\-?\d+(\.\d+)?),?\s*(\-?\d+(\.\d+)?)$/)) {
+      const searchQueryParts = this.searchQuery.split(/^(\/c)\s*(\-?\d+(\.\d+)?),?\s*(\-?\d+(\.\d+)?)$/);
+      const latitude = parseFloat(searchQueryParts[2]);
+      const longitude = parseFloat(searchQueryParts[4]);
+      this.centerMapOnPosition({ longitude, latitude });
     }
   }
 
