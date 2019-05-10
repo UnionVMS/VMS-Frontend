@@ -9,6 +9,7 @@ export interface Movement {
   guid: string;
   timestamp: string;
   speed: number;
+  source: string;
 }
 
 export interface AssetMovement {
