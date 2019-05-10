@@ -130,7 +130,6 @@
 					<webResources>
 						<resource>
 							<directory>${basedir}/app/dist/vms-frontend</directory>
-							<filtering>true</filtering>
 						</resource>
 						<resource>
 							<directory>${basedir}/webContent</directory>
