@@ -21,7 +21,7 @@ export class AssetSearchComponent implements OnChanges {
   public searchQuery = '';
 
   filterKeyUp = (event) => {
-    const filterQuery = this.filterQuery.split(';');
+    const filterQuery = this.filterQuery.split('&');
     this.filterFunction(filterQuery.map(queryPart => {
       queryPart = queryPart.trim();
       const queryObject: AssetInterfaces.AssetFilterQuery = {

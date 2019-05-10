@@ -116,7 +116,7 @@ export class AssetEffects {
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.getAssetTrackFromTime(authToken, action.payload.assetId, action.payload.datetime).pipe(
         map((assetTrack: any) => {
-          return new SetAssetTrack({ tracks: assetTrack, assetId: action.payload.assetId, visible: true });
+          return new SetAssetTrack({ tracks: assetTrack.reverse(), assetId: action.payload.assetId, visible: true });
         })
       );
     })

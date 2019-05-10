@@ -1,0 +1,14 @@
+import { Component, Input } from '@angular/core';
+import { formatDate } from '../../../../helpers';
+
+@Component({
+  selector: 'map-information-panel',
+  templateUrl: './information-panel.component.html',
+  styleUrls: ['./information-panel.component.scss']
+})
+export class InformationPanelComponent {
+  public hidePanel = true;
+  private toggleVisibility = (): void => {
+    this.hidePanel = !this.hidePanel;
+  }
+}
