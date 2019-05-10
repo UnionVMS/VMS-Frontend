@@ -10,6 +10,7 @@ const AssetMovementStub: AssetMovement = {
     guid: '4eea28b6-0844-4a6b-f5be-6b655a4e0343',
     timestamp: '2019-05-02T09:04:58Z',
     speed: 11.2,
+    source: 'AIS',
   },
   asset: 'ba498d76-ecd1-486a-9302-728367b237a7',
   flagstate: 'GBR',
