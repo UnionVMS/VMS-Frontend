@@ -7,7 +7,7 @@
   right: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - #{$offset_for_header});
   top: $offset_for_header;
   background: $map_overlay_background;
   border-right: 2px solid #000000;

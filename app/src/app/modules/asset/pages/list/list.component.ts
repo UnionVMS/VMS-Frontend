@@ -14,10 +14,10 @@ export class ListComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<AssetInterfaces.State>) { }
 
-  private assets$: Observable<AssetInterfaces.Asset[]>;
-  private initialDataLoaded = false;
-  private initialDataLoadedSubscription: Subscription;
-  private displayedColumns: string[] = ['name', 'ircs', 'mmsi'];
+  public assets$: Observable<AssetInterfaces.Asset[]>;
+  public initialDataLoaded = false;
+  public initialDataLoadedSubscription: Subscription;
+  public displayedColumns: string[] = ['name', 'ircs', 'mmsi'];
 
   mapStateToProps() {
     this.assets$ = this.store.select(AssetSelectors.getAssets);

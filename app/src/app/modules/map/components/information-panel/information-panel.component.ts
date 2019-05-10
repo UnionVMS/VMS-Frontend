@@ -8,7 +8,7 @@ import { formatDate } from '../../../../helpers';
 })
 export class InformationPanelComponent {
   public hidePanel = true;
-  private toggleVisibility = (): void => {
+  public toggleVisibility = (): void => {
     this.hidePanel = !this.hidePanel;
   }
 }
