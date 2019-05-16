@@ -13,8 +13,6 @@ export class AssetService {
 
   constructor(private http: HttpClient) {}
 
-  // track/microMovement/byMovementGUID
-
   subscribeToMovements(authToken: string) {
     this.movementEventSource = new EventSourcePolyfill(environment.baseApiUrl + 'movement/rest/sseV2/subscribe', {
       headers: {
@@ -61,9 +59,10 @@ export class AssetService {
     );
   }
 
+  // /unionvms/movement/rest/micro/track/movement/{guid}
   getAssetTrack(authToken: string, movementGuid: string) {
     return this.http.get(
-      environment.baseApiUrl + 'movement/rest/track/microMovement/byMovementGUID/' + movementGuid, {
+      environment.baseApiUrl + 'movement/rest/micro/track/movement/' + movementGuid, {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
@@ -72,11 +71,11 @@ export class AssetService {
     );
   }
 
-  // /unionvms/rest/movement//microMovementListAfterForAsset/{id}/{timestamp}
-  getAssetTrackFromTime(authToken: string, movementGuid: string, datetime: string) {
+  // /unionvms/movement/rest/micro/track/asset/{id}/{timestamp}
+  getAssetTrackFromTime(authToken: string, assetHistoryId: string, datetime: string) {
     // const datetime = "2019-03-28 12:00:00 +0100";
     return this.http.get(
-      environment.baseApiUrl + `movement/rest/movement/microMovementListAfterForAsset/${movementGuid}/${datetime}`, {
+      environment.baseApiUrl + `movement/rest/micro/track/asset/${assetHistoryId}/${datetime}`, {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
