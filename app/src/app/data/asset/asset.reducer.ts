@@ -110,7 +110,7 @@ export function assetReducer(state = initialState, { type, payload }) {
     case ActionTypes.SetFullAsset:
       return { ...state, assets: {
         ...state.assets,
-        [payload.historyId]: payload
+        [payload.id]: payload
       }};
 
     case ActionTypes.SelectAsset:
