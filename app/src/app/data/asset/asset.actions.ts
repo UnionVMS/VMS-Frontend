@@ -26,7 +26,8 @@ export enum ActionTypes {
   SetFilterQuery = '[Asset] Set Filter Query',
 
 
-  GetAssetList = '[Asset] Get list'
+  GetAssetList = '[Asset] Get list',
+  SetAssetList = '[Asset] Set list'
 }
 
 export class SetAutocompleteQuery implements Action {
@@ -39,8 +40,13 @@ export class SetFilterQuery implements Action {
   constructor(public payload: any) {}
 }
 
+interface GetAssetListPayload {
+  pageSize: number;
+}
 export class GetAssetList implements Action {
   readonly type = ActionTypes.GetAssetList;
+
+  constructor(public payload: GetAssetListPayload) {}
 }
 
 export class SubscribeToMovements implements Action {
@@ -74,6 +80,11 @@ export class SelectAsset implements Action {
 
 export class AddAssets implements Action {
   readonly type = ActionTypes.AddAssets;
+  constructor(public payload: any) {}
+}
+
+export class SetAssetList implements Action {
+  readonly type = ActionTypes.SetAssetList;
   constructor(public payload: any) {}
 }
 

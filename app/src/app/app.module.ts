@@ -30,6 +30,7 @@ import { environment } from '../environments/environment';
 import { CoreModule } from './core/core.module';
 import { MapModule } from './modules/map/map.module';
 import { AssetModule } from './modules/asset/asset.module';
+import { SettingsModule } from './modules/settings/settings.module';
 
 /* Effects */
 import { AssetEffects } from './data/asset/asset.effects';
@@ -61,7 +62,8 @@ import { TestComponent } from './test/test.component';
     MDBBootstrapModule.forRoot(),
     CoreModule,
     MapModule,
-    AssetModule
+    AssetModule,
+    SettingsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

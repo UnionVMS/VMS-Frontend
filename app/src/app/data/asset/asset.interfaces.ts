@@ -19,6 +19,12 @@ export interface AssetMovement {
   assetName: string;
 }
 
+export interface AssetList {
+  resultPages: { [page: number]: Array<string> };
+  totalNumberOfPages: number;
+  pageSize: number;
+}
+
 export interface Asset {
   id: string;
   historyId: string;
@@ -96,9 +102,25 @@ export interface AssetFilterQuery {
   inverse: boolean;
 }
 
+export interface CurrentAssetList {
+  listIdentifier: string;
+  currentPage: number;
+}
+
+export interface ShipStaticProperties {
+  flagstate: string;
+  assetName: string;
+  shipType: string;
+  ircs: string;
+  cfr: string;
+  externalMarking: string;
+}
+
 export interface State {
   selectedAsset: string|null;
   assets: { [uid: string]: Asset };
+  assetLists: { [identifier: string]: AssetList };
+  currentAssetList: CurrentAssetList;
   assetMovements: { [uid: string]: AssetMovement };
   assetTracks: { [assetId: string]: AssetTrack };
   forecasts: Array<string>;

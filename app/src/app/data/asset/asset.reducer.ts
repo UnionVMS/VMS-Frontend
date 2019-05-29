@@ -5,6 +5,8 @@ import * as Interfaces from './asset.interfaces';
 export const initialState: Interfaces.State = {
   selectedAsset: null,
   assets: {},
+  assetLists: {},
+  currentAssetList: null,
   assetMovements: {},
   assetTracks: {},
   forecasts: [],
@@ -106,6 +108,30 @@ export function assetReducer(state = initialState, { type, payload }) {
         ...state.assets,
         ...payload.assets
       }};
+
+    case ActionTypes.SetAssetList:
+      const identifier = `ps${payload.searchParams.pageSize}`;
+      return { ...state,
+        assets: {
+          ...state.assets,
+          ...payload.assets
+        },
+        assetLists: {
+          ...state.assetLists,
+          [identifier]: {
+            resultPages: {
+              ...state.assetLists.resultPages,
+              [payload.currentPage]: Object.keys(payload.assets)
+            },
+            totalNumberOfPages: payload.totalNumberOfPages,
+            pageSize: payload.searchParams.pageSize
+          }
+        },
+        currentAssetList: {
+          listIdentifier: identifier,
+          currentPage: payload.currentPage
+        }
+      };
 
     case ActionTypes.SetFullAsset:
       return { ...state, assets: {

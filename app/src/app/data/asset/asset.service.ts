@@ -15,6 +15,12 @@ export class AssetService {
 
   // track/microMovement/byMovementGUID
 
+  getInitalAssetMovements(authToken: string) {
+    return this.http.get(
+      environment.baseApiUrl + 'movement/rest/micro/latest'
+    );
+  }
+
   subscribeToMovements(authToken: string) {
     this.movementEventSource = new EventSourcePolyfill(environment.baseApiUrl + 'movement/rest/sseV2/subscribe', {
       headers: {
@@ -91,7 +97,8 @@ export class AssetService {
     );
   }
 
-  listAssets(authToken) {
+  listAssets(authToken, requestParams) {
+    console.warn(`RequestParams we should send when it's implemented: `, requestParams);
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/list/`,
       {},

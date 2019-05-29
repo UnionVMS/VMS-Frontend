@@ -10,6 +10,18 @@ export const getAssets = createSelector(
   }
 );
 
+export const getCurrentAssetList = createSelector(
+  getAssetState,
+  (state: State) => {
+    const currentList = state.assetLists[state.currentAssetList.listIdentifier];
+    if(typeof currentList !== 'undefined') {
+      return currentList.resultPages[state.currentAssetList.currentPage].map(key => state.assets[key]);
+    }
+
+    return [];
+  }
+);
+
 export const getAssetMovements = createSelector(
   getAssetState,
   (state: State) => {
