@@ -33,11 +33,11 @@
   <button class="hide-button btn btn-default" (click)="clearForecasts()">Clear forecasts</button>
   <fieldset>
     <legend>Cap tracks (min)</legend>
-    <input type="number" placeholder="200" (keyup)="setTracksMinuteCapFunction($event)">
+    <input type="number" placeholder="200" (keyup)="setTracksMinuteCapFunction($event)" [(ngModel)]="mapSettings.tracksMinuteCap">
   </fieldset>
   <fieldset>
     <legend>Forecast interval (min)</legend>
-    <input type="number" placeholder="30" (keyup)="setForecastIntervalFunction($event)">
+    <input type="number" placeholder="30" (keyup)="setForecastIntervalFunction($event)" [(ngModel)]="mapSettings.forecastInterval">
   </fieldset>
   <div class="hide-button-wrapper">
     <button class="hide-button btn btn-primary" (click)="hidePanel = !hidePanel">Minimize</button>

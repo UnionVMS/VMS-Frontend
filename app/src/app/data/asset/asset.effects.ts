@@ -56,16 +56,21 @@ export class AssetEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return merge(
-        // this.assetService.getInitalAssetMovements(authToken).pipe(map((val) => {
-        //   console.warn(val);
+        // this.assetService.getInitalAssetMovements(authToken).pipe(map((assetMovements) => {
+        //   console.warn(assetMovements);
+        //   return new AssetsMoved(assetMovements.asset.reduce((acc, assetMovement) => {
+        //     return { ...acc,
+        //       [assetMovement.asset]: assetMovement
+        //     };
+        //   }, {}));
         // })),
         this.assetService.subscribeToMovements(authToken).pipe(
           bufferTime(1000),
-          map((assets: Array<any>) => {
-            if (assets.length !== 0) {
-              return new AssetsMoved(assets.reduce((acc, asset) => {
+          map((assetMovements: Array<any>) => {
+            if (assetMovements.length !== 0) {
+              return new AssetsMoved(assetMovements.reduce((acc, assetMovement) => {
                 return { ...acc,
-                  [asset.asset]: asset
+                  [assetMovement.asset]: assetMovement
                 };
               }, {}));
             } else {

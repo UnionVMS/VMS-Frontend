@@ -1,10 +1,17 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { State } from './map-settings.reducer';
+import { State } from './map-settings.interfaces';
 
-export const getMapSettingsState = createFeatureSelector<State>('mapSettings');
+const getMapSettingsStateObject = createFeatureSelector<State>('mapSettings');
+
+export const getMapSettingsState = createSelector(
+  getMapSettingsStateObject,
+  (state: State) => {
+    return { ...state };
+  }
+);
 
 export const getTracksMinuteCap = createSelector(
-  getMapSettingsState,
+  getMapSettingsStateObject,
   (state: State) => {
     return state.tracksMinuteCap;
   }

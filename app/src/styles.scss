@@ -43,6 +43,11 @@ html, body { height: 100%; }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.container > * > h1 {
+  margin-top: $medium_distance;
+}
+
+
 @media (min-width: 1620px) {
   .container {
     max-width: 1600px;

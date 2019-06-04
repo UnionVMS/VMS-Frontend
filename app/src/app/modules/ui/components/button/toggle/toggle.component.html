@@ -1,4 +1,4 @@
-<label class="toggle {{size}}">
+<label class="toggle {{size}}{{stacked ? 'stacked' : ''}}">
   <span class="label">{{label}}</span>
   <input type="checkbox" [checked]="value" (change)="switchFunction()">
   <span class="slider round">

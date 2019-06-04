@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '@app/app-reducer';
 import { AuthActions } from '@data/auth/';
+import { MapSettingsActions } from '@data/map-settings/';
 import jwtDecode from 'jwt-decode';
 
 @Component({
@@ -30,5 +31,11 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new AuthActions.LoginSuccess(window.localStorage.authToken));
       }
     }
+
+    if (typeof window.localStorage.mySettings !== 'undefined') {
+      const settings = JSON.parse(window.localStorage.mySettings);
+      this.store.dispatch(new MapSettingsActions.ReplaceSettings(settings.mapSettings));
+    }
+
   }
 }

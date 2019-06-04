@@ -1,7 +1,4 @@
-export interface Position {
-  longitude: number;
-  latitude: number;
-}
+import { Position } from '../generic.interfaces';
 
 export interface Movement {
   location: Position;

@@ -20,6 +20,9 @@ import { RealtimeComponent } from './modules/map/pages/realtime/realtime.compone
 // Asset-pages
 import { ListComponent as AssetListComponent } from './modules/asset/pages/list/list.component';
 
+// Settings-pages
+import { UserSettingsComponent } from './modules/settings/pages/user-settings/user-settings.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -27,6 +30,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', component: TestComponent, pathMatch: 'full'},
+      { path: 'settings/user', component: UserSettingsComponent, pathMatch: 'full'},
       { path: 'asset', component: AssetListComponent, pathMatch: 'full'},
       { path: 'test', component: TestComponent, pathMatch: 'full'},
     ]

@@ -5,8 +5,8 @@
       *ngIf="registerOnClickFunction !== undefined"
       [assets]="assets"
       [map]="map"
-      [namesVisible]="(mapSettings$ | async).namesVisible"
-      [speedsVisible]="(mapSettings$ | async).speedsVisible"
+      [namesVisible]="mapSettings.namesVisible"
+      [speedsVisible]="mapSettings.speedsVisible"
       [selectAsset]="selectAsset"
       [registerOnClickFunction]="registerOnClickFunction"
       [unregisterOnClickFunction]="unregisterOnClickFunction"
@@ -19,7 +19,7 @@
     [filterFunction]="filterAssets"
   ></map-asset-search>
   <map-settings
-    [mapSettings]="mapSettings$ | async"
+    [mapSettings]="mapSettings"
     [setVisibilityForAssetNames]="setVisibilityForAssetNames"
     [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
     [setVisibilityForFlags]="setVisibilityForFlags"
@@ -41,10 +41,10 @@
     [untrackAsset]="untrackAsset"
     [addForecast]="addForecast"
     [removeForecast]="removeForecast"
-    [tracksMinuteCap]="(mapSettings$|async).tracksMinuteCap"
+    [tracksMinuteCap]="mapSettings.tracksMinuteCap"
   ></map-asset-panel>
   <map-tracks
-    *ngIf="(mapSettings$|async).tracksVisible"
+    *ngIf="mapSettings.tracksVisible"
     [assetTracks]="assetTracks$|async"
     [map]="map"
     [mapZoom]="mapZoom"
@@ -54,7 +54,7 @@
     [positionsForInspection]="positionsForInspection$|async"
   ></map-tracks>
   <map-flagstates
-    *ngIf="(mapSettings$|async).flagsVisible"
+    *ngIf="mapSettings.flagsVisible"
     [assets]="assets"
     [map]="map"
   ></map-flagstates>
@@ -64,9 +64,9 @@
     [removePositionForInspection]="removePositionForInspection"
   ></map-track-panel>
   <map-asset-forecast
-    *ngIf="(mapSettings$|async).forecastsVisible"
+    *ngIf="mapSettings.forecastsVisible"
     [map]="map"
     [assetMovements]="forecasts$|async"
-    [forecastInterval]="(mapSettings$|async).forecastInterval"
+    [forecastInterval]="mapSettings.forecastInterval"
   ></map-asset-forecast>
 </div>

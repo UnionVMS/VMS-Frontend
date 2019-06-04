@@ -12,7 +12,7 @@ import { fromLonLat } from 'ol/proj';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
-import { MapSettingsActions, MapSettingsSelectors } from '@data/map-settings';
+import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
 
 @Component({
   selector: 'map-realtime',
@@ -21,7 +21,8 @@ import { MapSettingsActions, MapSettingsSelectors } from '@data/map-settings';
 })
 export class RealtimeComponent implements OnInit, OnDestroy {
 
-  public mapSettings$: Observable<any>;
+  public mapSettings: MapSettingsInterfaces.State;
+  public mapSettingsSubscription: Subscription;
   public positionsForInspection$: Observable<any>;
   public selectedAsset$: Observable<{
     asset: AssetInterfaces.Asset,
@@ -75,18 +76,21 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public centerMapOnPosition: Function;
   // tslint:enable:ban-types
 
-  constructor(private store: Store<AssetInterfaces.State>) { }
+  constructor(private store: Store<any>) { }
 
   mapStateToProps() {
     this.assetSubscription = this.store.select(AssetSelectors.getAssetMovements).subscribe((assets) => {
       this.assets = assets;
     });
-    this.mapSettings$ = this.store.select(MapSettingsSelectors.getMapSettingsState);
     this.selectedAsset$ = this.store.select(AssetSelectors.extendedDataForSelectedAsset);
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.positionsForInspection$ = this.store.select(AssetSelectors.getPositionsForInspection);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
     this.searchAutocompleteAsset$ = this.store.select(AssetSelectors.getSearchAutocomplete);
+    this.mapSettingsSubscription = this.store.select(MapSettingsSelectors.getMapSettingsState).subscribe((mapSettings) => {
+      console.warn(mapSettings);
+      this.mapSettings = mapSettings;
+    });
   }
 
   mapDispatchToProps() {
@@ -143,7 +147,11 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.mapStateToProps();
+    this.mapDispatchToProps();
     this.store.dispatch(new AssetActions.SubscribeToMovements());
+    this.mapZoom = this.mapSettings.startZoomLevel;
+    console.warn(this.mapSettings);
     this.map = new Map({
       target: 'realtime-map',
       layers: [
@@ -154,7 +162,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
         })
       ],
       view: new View({
-        center: fromLonLat([14.1047925, 57.6806116]),
+        center: fromLonLat([this.mapSettings.startPosition.longitude, this.mapSettings.startPosition.latitude]),
         zoom: this.mapZoom
       })
     });
@@ -168,14 +176,15 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.mapStateToProps();
-    this.mapDispatchToProps();
     this.mapFunctionsToProps();
   }
 
   ngOnDestroy() {
     if(this.assetSubscription !== undefined) {
       this.assetSubscription.unsubscribe();
+    }
+    if(this.mapSettingsSubscription !== undefined) {
+      this.mapSettingsSubscription.unsubscribe();
     }
     this.store.dispatch(new AssetActions.UnsubscribeToMovements());
   }

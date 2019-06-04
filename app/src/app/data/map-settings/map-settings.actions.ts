@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-// import { Asset } from './map-settings.reducer';
+import { State } from './map-settings.interfaces';
 
 
 export enum ActionTypes {
@@ -11,6 +11,7 @@ export enum ActionTypes {
   SetTracksMinuteCap = '[MapSettings] Set tracks minute cap',
   SetForecastInterval = '[MapSettings] Set forecast interval',
   SaveViewport = '[MapSettings] Save viewport',
+  ReplaceSettings = '[MapSettings] Replace settings',
 }
 
 export class SetVisibilityForAssetNames implements Action {
@@ -51,4 +52,9 @@ export class SetForecastInterval implements Action {
 export class SaveViewport implements Action {
   readonly type = ActionTypes.SaveViewport;
   constructor(public payload: any) {}
+}
+
+export class ReplaceSettings implements Action {
+  readonly type = ActionTypes.ReplaceSettings;
+  constructor(public payload: State) {}
 }

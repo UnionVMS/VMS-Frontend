@@ -103,10 +103,8 @@ describe('RealtimeComponent', () => {
       store.setState(currentState);
       component.mapStateToProps();
 
-      let mapSettings;
-      const mapSettingsSubscription = component.mapSettings$.subscribe(newMapSettings => mapSettings = newMapSettings);
-      expect(mapSettings).toEqual(MapSettingsReducer.initialState);
-      expect(mapSettings.flagsVisible).toBeFalsy();
+      expect(component.mapSettings).toEqual(MapSettingsReducer.initialState);
+      expect(component.mapSettings.flagsVisible).toBeFalsy();
       store.setState({
         ...currentState,
         mapSettings: {
@@ -114,8 +112,8 @@ describe('RealtimeComponent', () => {
           flagsVisible: true
         }
       });
-      mapSettingsSubscription.unsubscribe();
-      expect(mapSettings.flagsVisible).toBeTruthy();
+      // mapSettingsSubscription.unsubscribe();
+      expect(component.mapSettings.flagsVisible).toBeTruthy();
     });
 
     it('should update selectedAsset when state is updated.', () => {

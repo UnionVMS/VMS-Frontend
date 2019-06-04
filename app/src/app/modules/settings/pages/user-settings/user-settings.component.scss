@@ -1,0 +1,35 @@
+@import 'variables.scss';
+
+fieldset {
+  border-top: 1px solid #000;
+  margin-top: $large_distance;
+  padding: $medium_distance;
+  legend {
+    font-size: 90%;
+    font-weight: bold;
+    padding: $small_distance;
+    width: auto;
+  }
+
+  mat-form-field {
+    display: block;
+  }
+
+  .map-toggle-buttons {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(150px, 1fr));
+    margin-bottom: $medium_distance;
+  }
+
+  .map-starting-positions, .map-limits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: $medium_distance;
+  }
+}
+
+fieldset.button-block {
+  button {
+    margin-right: $medium_distance;
+  }
+}

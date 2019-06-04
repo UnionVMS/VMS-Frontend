@@ -10,12 +10,12 @@ import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 
 import { AssetReducer, AssetInterfaces } from './data/asset/';
 import { AuthReducer, AuthActions } from './data/auth/';
-import * as MapSettingsReducer from './data/map-settings/map-settings.reducer';
+import { MapSettingsReducer, MapSettingsInterfaces } from './data/map-settings/';
 
 export interface State {
   asset: AssetInterfaces.State;
   auth: AuthReducer.State;
-  mapSettings: MapSettingsReducer.State;
+  mapSettings: MapSettingsInterfaces.State;
   router: RouterReducerState;
 }
 

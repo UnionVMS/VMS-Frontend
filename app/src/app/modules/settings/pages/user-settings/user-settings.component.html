@@ -1,0 +1,77 @@
+<h1>Settings</h1>
+
+<fieldset>
+  <legend>Map default settings:</legend>
+  <div class="map-toggle-buttons">
+    <ui-button-toggle
+      [label]="'Show flags'"
+      [value]="mapSettings.flagsVisible"
+      [switchFunction]="toggleFlags"
+      [stacked]="true"
+    ></ui-button-toggle>
+    <ui-button-toggle
+      [label]="'Show tracks'"
+      [value]="mapSettings.tracksVisible"
+      [switchFunction]="toggleTracks"
+      [stacked]="true"
+    ></ui-button-toggle>
+    <ui-button-toggle
+      [label]="'Show names'"
+      [value]="mapSettings.namesVisible"
+      [switchFunction]="toggleNames"
+      [stacked]="true"
+    ></ui-button-toggle>
+    <ui-button-toggle
+      [label]="'Show speeds'"
+      [value]="mapSettings.speedsVisible"
+      [switchFunction]="toggleSpeeds"
+      [stacked]="true"
+    ></ui-button-toggle>
+    <ui-button-toggle
+      [label]="'Show forecasts'"
+      [value]="mapSettings.forecastsVisible"
+      [switchFunction]="toggleForecasts"
+      [stacked]="true"
+    ></ui-button-toggle>
+  </div>
+
+  <mat-form-field>
+    <input matInput placeholder="Start zoom level" [(ngModel)]="mapSettings.startZoomLevel">
+  </mat-form-field>
+
+  <div class="map-starting-positions">
+    <mat-form-field>
+      <input matInput placeholder="Start latitude" [(ngModel)]="mapSettings.startPosition.latitude">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Start longitude" [(ngModel)]="mapSettings.startPosition.longitude">
+    </mat-form-field>
+  </div>
+
+  <div class="map-limits">
+    <mat-form-field>
+      <input matInput placeholder="Track length (min)" [(ngModel)]="mapSettings.tracksMinuteCap">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Forecast interval (min)" [(ngModel)]="mapSettings.forecastInterval">
+    </mat-form-field>
+  </div>
+
+
+  <!-- <mat-form-field>
+    <textarea matInput placeholder="Textarea"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Select">
+      <mat-option value="option">Option</mat-option>
+    </mat-select>
+  </mat-form-field> -->
+</fieldset>
+
+<fieldset class="button-block">
+  <button mat-raised-button color="primary" type="button" (click)="save()">Save settings</button>
+  <button mat-stroked-button color="warn" type="button" (click)="resetToDefault()">Reset to default</button>
+</fieldset>

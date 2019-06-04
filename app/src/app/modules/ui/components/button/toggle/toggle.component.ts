@@ -11,5 +11,6 @@ export class ToggleButtonComponent {
   @Input() value: boolean;
   @Input() switchFunction: Function;
   @Input() size: string;
+  @Input() stacked: boolean;
   // tslint:enable:ban-types
 }

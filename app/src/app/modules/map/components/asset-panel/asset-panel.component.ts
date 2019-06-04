@@ -14,11 +14,11 @@ export class AssetPanelComponent {
     currentPosition: AssetInterfaces.AssetMovement
   };
 
-  @Input() getAssetTrack: (historyId: string, movementGuid: string) => void;
-  @Input() getAssetTrackFromTime: (historyId: string, date: string) => void;
-  @Input() untrackAsset: (historyId: string) => void;
-  @Input() addForecast: (historyId: string) => void;
-  @Input() removeForecast: (historyId: string) => void;
+  @Input() getAssetTrack: (assetId: string, movementGuid: string) => void;
+  @Input() getAssetTrackFromTime: (assetId: string, date: string) => void;
+  @Input() untrackAsset: (assetId: string) => void;
+  @Input() addForecast: (assetId: string) => void;
+  @Input() removeForecast: (assetId: string) => void;
   @Input() forecasts: {};
   @Input() tracksMinuteCap: number;
 
@@ -32,21 +32,21 @@ export class AssetPanelComponent {
 
   private toggleTracks = (): void => {
     if(this.tracksIsVisible()) {
-      this.untrackAsset(this.asset.asset.historyId);
+      this.untrackAsset(this.asset.asset.id);
     } else if(this.tracksMinuteCap === null) {
-      this.getAssetTrack(this.asset.asset.historyId, this.asset.currentPosition.microMove.guid);
+      this.getAssetTrack(this.asset.asset.id, this.asset.currentPosition.microMove.guid);
     } else {
       this.getAssetTrackFromTime(
-        this.asset.asset.historyId,
+        this.asset.asset.id,
         this.getTracksMillisecondCap()
       );
     }
   }
   private toggleForecast = (): void => {
     if(this.forecastIsVisible()) {
-      this.removeForecast(this.asset.asset.historyId);
+      this.removeForecast(this.asset.asset.id);
     } else {
-      this.addForecast(this.asset.asset.historyId);
+      this.addForecast(this.asset.asset.id);
     }
   }
   private toggleVisibility = (): void => {
@@ -57,6 +57,6 @@ export class AssetPanelComponent {
     return typeof this.asset.assetTracks !== 'undefined';
   }
   private forecastIsVisible = (): boolean => {
-    return Object.keys(this.forecasts).indexOf(this.asset.asset.historyId) !== -1;
+    return Object.keys(this.forecasts).indexOf(this.asset.asset.id) !== -1;
   }
 }

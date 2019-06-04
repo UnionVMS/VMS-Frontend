@@ -1,23 +1,8 @@
 import { Action } from '@ngrx/store';
 import { ActionTypes } from './map-settings.actions';
+import * as Interfaces from './map-settings.interfaces';
 
-export interface Viewport {
-  zoom: number;
-  center: Array<number>;
-}
-
-export interface State {
-  flagsVisible: boolean;
-  tracksVisible: boolean;
-  namesVisible: boolean;
-  speedsVisible: boolean;
-  forecastsVisible: boolean;
-  forecastInterval: number|null;
-  tracksMinuteCap: number|null;
-  viewports: { [key: number]: Viewport };
-}
-
-export const initialState: State = {
+export const initialState: Interfaces.State = {
   flagsVisible: false,
   tracksVisible: true,
   namesVisible: false,
@@ -26,9 +11,15 @@ export const initialState: State = {
   forecastInterval: 30,
   tracksMinuteCap: 200,
   viewports: {},
+  startZoomLevel: 6,
+  startPosition: {
+    latitude: 57.6806116,
+    longitude: 14.1047925
+  }
 };
 
 export function mapSettingsReducer(state = initialState, { type, payload }) {
+  console.warn(type, payload);
   switch (type) {
     case ActionTypes.SetVisibilityForAssetNames:
       return { ...state, namesVisible: payload };
@@ -49,6 +40,11 @@ export function mapSettingsReducer(state = initialState, { type, payload }) {
         ...state.viewports,
         [payload.key]: payload.viewport
       }};
+    case ActionTypes.ReplaceSettings:
+      return {
+        ...state,
+        ...payload
+      };
     default:
       return state;
   }
