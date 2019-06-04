@@ -37,7 +37,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     this.map.addLayer(this.vectorLayer);
 
     this.vectorSource.addFeatures(this.assets.reduce((features, asset) => {
-      if (asset.assetEssentials.flagstate !== 'UNK') {
+      if (typeof asset.assetEssentials !== 'undefined' && asset.assetEssentials.flagstate !== 'UNK') {
         const flagFeature = this.createFeatureFromAsset(asset);
         if(flagFeature !== false) {
           this.renderedAssetIds.push(asset.assetEssentials.assetId);
@@ -56,7 +56,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     if (typeof this.vectorSource !== 'undefined') {
       const newRenderedAssetIds = [];
       this.renderedAssetIds.map((assetId) => {
-        if(!this.assets.find((asset) => asset.assetEssentials.assetId === assetId)) {
+        if(!this.assets.find((asset) => asset.assetMovement.asset === assetId)) {
           this.removeFeature(assetId);
         } else {
           newRenderedAssetIds.push(assetId);
@@ -64,19 +64,21 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
       });
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
-          const assetFeature = this.vectorSource.getFeatureById('flag_' + asset.assetEssentials.assetId);
-          if (assetFeature !== null) {
-            if(newRenderedAssetIds.indexOf(asset.assetEssentials.assetId) === -1) {
-              newRenderedAssetIds.push(asset.assetEssentials.assetId);
-            }
-            this.updateFeatureFromAsset(assetFeature, asset.assetMovement);
-          } else if (asset.assetEssentials.flagstate !== 'UNK') {
-            const flagFeature = this.createFeatureFromAsset(asset);
-            if(flagFeature !== false) {
+          if(typeof asset.assetEssentials !== 'undefined') {
+            const assetFeature = this.vectorSource.getFeatureById('flag_' + asset.assetEssentials.assetId);
+            if (assetFeature !== null) {
               if(newRenderedAssetIds.indexOf(asset.assetEssentials.assetId) === -1) {
                 newRenderedAssetIds.push(asset.assetEssentials.assetId);
               }
-              acc.push(flagFeature);
+              this.updateFeatureFromAsset(assetFeature, asset.assetMovement);
+            } else if (asset.assetEssentials.flagstate !== 'UNK') {
+              const flagFeature = this.createFeatureFromAsset(asset);
+              if(flagFeature !== false) {
+                if(newRenderedAssetIds.indexOf(asset.assetEssentials.assetId) === -1) {
+                  newRenderedAssetIds.push(asset.assetEssentials.assetId);
+                }
+                acc.push(flagFeature);
+              }
             }
           }
           return acc;

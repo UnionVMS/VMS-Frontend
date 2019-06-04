@@ -62,7 +62,7 @@ export class AssetEffects {
             observer.next(
               new AssetsMoved(assetMovements.microMovements.reduce((acc, assetMovement) => {
                 return { ...acc,
-                  [assetMovement.asset]: assetMovement
+                  [assetMovement.asset]: { ...assetMovement, asset: assetMovement }
                 };
               }, {}))
             );

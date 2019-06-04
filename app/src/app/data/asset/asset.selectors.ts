@@ -33,6 +33,9 @@ export const getAssetMovements = createSelector(
           columnName = 'flagstate';
         }
         assetMovementKeys = assetMovementKeys.filter(key => {
+          if(typeof state.assetsEssentials[key] === 'undefined') {
+            return false;
+          }
           const valueToCheck = state.assetsEssentials[key][columnName].toLowerCase();
           if(query.inverse) {
             return query.values.reduce((acc, value) => {

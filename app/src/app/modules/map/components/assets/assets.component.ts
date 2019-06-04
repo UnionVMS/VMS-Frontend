@@ -55,7 +55,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.vectorSource.addFeatures(this.assets.map((asset) => {
-      this.renderedAssetIds.push(asset.assetEssentials.assetId);
+      this.renderedAssetIds.push(asset.assetMovement.asset);
       return this.createFeatureFromAsset(asset);
     }));
 
@@ -68,7 +68,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     if (typeof this.vectorSource !== 'undefined') {
       const newRenderedAssetIds = [];
       this.renderedAssetIds.map((assetId) => {
-        if(!this.assets.find((asset) => asset.assetEssentials.assetId === assetId)) {
+        if(!this.assets.find((asset) => asset.assetMovement.asset === assetId)) {
           this.removeAsset(assetId);
         } else {
           newRenderedAssetIds.push(assetId);
@@ -76,10 +76,10 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       });
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
-          if(newRenderedAssetIds.indexOf(asset.assetEssentials.assetId) === -1) {
-            newRenderedAssetIds.push(asset.assetEssentials.assetId);
+          if(newRenderedAssetIds.indexOf(asset.assetMovement.asset) === -1) {
+            newRenderedAssetIds.push(asset.assetMovement.asset);
           }
-          const assetFeature = this.vectorSource.getFeatureById(asset.assetEssentials.assetId);
+          const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
           if (assetFeature !== null) {
             this.updateFeatureFromAsset(assetFeature, asset);
           } else {
@@ -120,7 +120,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       image: new Icon({
         src: '/assets/arrow_640_rotated_4p.png',
         scale: 0.8,
-        color: '#' + intToRGB(hashCode(assetEssentials.assetId))
+        color: '#' + intToRGB(hashCode(assetMovement.asset))
       })
     };
     if (this.namesVisible || this.speedsVisible) {
@@ -132,7 +132,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     assetFeature.setStyle(assetStyle);
     assetFeature.getStyle().getImage().setOpacity(1);
     assetFeature.getStyle().getImage().setRotation(deg2rad(assetMovement.microMove.heading));
-    assetFeature.setId(assetEssentials.assetId);
+    assetFeature.setId(assetMovement.asset);
     return assetFeature;
   }
 
@@ -146,7 +146,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       this.speedsWereVisibleLastRerender !== this.speedsVisible ||
       (
         this.speedsVisible &&
-        this.assetSpeedsPreviouslyRendered[asset.assetEssentials.assetId] !== asset.assetMovement.microMove.speed.toFixed(2)
+        this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] !== asset.assetMovement.microMove.speed.toFixed(2)
       )
     ) {
       if (this.namesVisible || this.speedsVisible) {
@@ -171,7 +171,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       } else {
         text = asset.assetMovement.microMove.speed.toFixed(2) + ' kts';
       }
-      this.assetSpeedsPreviouslyRendered[asset.assetEssentials.assetId] = asset.assetMovement.microMove.speed.toFixed(2);
+      this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] = asset.assetMovement.microMove.speed.toFixed(2);
     }
 
     return new Text({
