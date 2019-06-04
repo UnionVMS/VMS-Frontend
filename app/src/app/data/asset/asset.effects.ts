@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, empty, merge } from 'rxjs';
-import { map, mergeMap, flatMap, catchError, withLatestFrom, bufferTime, filter } from 'rxjs/operators';
+import { of, empty, merge, Observable } from 'rxjs';
+import { map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter } from 'rxjs/operators';
 
 import { AuthReducer, AuthSelectors } from '../auth';
 import { MapSettingsSelectors } from '../map-settings';
 
 import {
-  ActionTypes, SetFullAsset, AssetsMoved, SetAssetTrack, TrimTracksThatPassedTimeCap, SetAssetList
+  ActionTypes, SetFullAsset, AssetsMoved, SetAssetTrack, TrimTracksThatPassedTimeCap, SetAssetList,
+  SetEssentialProperties
 } from './asset.actions';
 import { AssetService } from './asset.service';
 
@@ -56,14 +57,25 @@ export class AssetEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return merge(
-        // this.assetService.getInitalAssetMovements(authToken).pipe(map((assetMovements) => {
-        //   console.warn(assetMovements);
-        //   return new AssetsMoved(assetMovements.asset.reduce((acc, assetMovement) => {
-        //     return { ...acc,
-        //       [assetMovement.asset]: assetMovement
-        //     };
-        //   }, {}));
-        // })),
+        this.assetService.getInitalAssetMovements(authToken).pipe(map((assetMovements: any) => {
+          return Observable.create((observer) => {
+            observer.next(
+              new AssetsMoved(assetMovements.microMovements.reduce((acc, assetMovement) => {
+                return { ...acc,
+                  [assetMovement.asset]: assetMovement
+                };
+              }, {}))
+            );
+            observer.next(
+              new SetEssentialProperties(assetMovements.assetList.reduce((acc, assetEssentials) => {
+                return { ...acc,
+                  [assetEssentials.assetId]: assetEssentials
+                };
+              }, {}))
+            );
+            observer.complete();
+          });
+        }), mergeAll()),
         this.assetService.subscribeToMovements(authToken).pipe(
           bufferTime(1000),
           map((assetMovements: Array<any>) => {

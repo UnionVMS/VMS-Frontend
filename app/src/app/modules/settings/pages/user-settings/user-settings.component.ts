@@ -65,7 +65,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     window.localStorage.mySettings = JSON.stringify({
       mapSettings: this.mapSettings
     });
-    console.warn(this.mapSettings);
   }
 
   public resetToDefault = (event) => {

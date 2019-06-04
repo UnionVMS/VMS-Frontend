@@ -3,7 +3,7 @@
     <div id="realtime-map"></div>
     <map-assets
       *ngIf="registerOnClickFunction !== undefined"
-      [assets]="assets"
+      [assets]="assetMovements"
       [map]="map"
       [namesVisible]="mapSettings.namesVisible"
       [speedsVisible]="mapSettings.speedsVisible"
@@ -55,7 +55,7 @@
   ></map-tracks>
   <map-flagstates
     *ngIf="mapSettings.flagsVisible"
-    [assets]="assets"
+    [assets]="assetMovements"
     [map]="map"
   ></map-flagstates>
   <map-information-panel></map-information-panel>

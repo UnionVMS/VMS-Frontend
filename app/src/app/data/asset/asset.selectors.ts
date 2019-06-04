@@ -33,7 +33,7 @@ export const getAssetMovements = createSelector(
           columnName = 'flagstate';
         }
         assetMovementKeys = assetMovementKeys.filter(key => {
-          const valueToCheck = state.assetMovements[key][columnName].toLowerCase();
+          const valueToCheck = state.assetsEssentials[key][columnName].toLowerCase();
           if(query.inverse) {
             return query.values.reduce((acc, value) => {
               if(acc === false) {
@@ -53,7 +53,7 @@ export const getAssetMovements = createSelector(
       });
     }
 
-    return assetMovementKeys.map(key => state.assetMovements[key]);
+    return assetMovementKeys.map(key => ({ assetMovement: state.assetMovements[key], assetEssentials: state.assetsEssentials[key] }));
   }
 );
 
@@ -105,8 +105,8 @@ export const getSearchAutocomplete = createSelector(
     if(state.searchQuery.length < 2) {
       return [];
     }
-    return Object.keys(state.assetMovements)
-      .filter(key => state.assetMovements[key].assetName.toLowerCase().indexOf(state.searchQuery.toLowerCase()) !== -1)
-      .map(key => state.assetMovements[key]);
+    return Object.keys(state.assetsEssentials)
+      .filter(key => state.assetsEssentials[key].assetName.toLowerCase().indexOf(state.searchQuery.toLowerCase()) !== -1)
+      .map(key => ({ assetMovement: state.assetMovements[key], assetEssentials: state.assetsEssentials[key] }));
   }
 );

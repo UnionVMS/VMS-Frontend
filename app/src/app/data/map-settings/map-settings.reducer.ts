@@ -19,7 +19,6 @@ export const initialState: Interfaces.State = {
 };
 
 export function mapSettingsReducer(state = initialState, { type, payload }) {
-  console.warn(type, payload);
   switch (type) {
     case ActionTypes.SetVisibilityForAssetNames:
       return { ...state, namesVisible: payload };

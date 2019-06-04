@@ -5,6 +5,7 @@ import * as Interfaces from './asset.interfaces';
 export const initialState: Interfaces.State = {
   selectedAsset: null,
   assets: {},
+  assetsEssentials: {},
   assetLists: {},
   currentAssetList: null,
   assetMovements: {},
@@ -61,6 +62,12 @@ export function assetReducer(state = initialState, { type, payload }) {
         }
       });
       return newState;
+
+    case ActionTypes.SetEssentialProperties:
+      return { ...state, assetsEssentials: {
+        ...state.assetsEssentials,
+        ...payload
+      } };
 
     case ActionTypes.TrimTracksThatPassedTimeCap:
       // tslint:disable-next-line:no-shadowed-variable

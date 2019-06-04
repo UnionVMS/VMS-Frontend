@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
       }
     } else if(typeof window.localStorage['ngStorage-token'] !== 'undefined') {
       const jwtToken = jwtDecode(window.localStorage['ngStorage-token']);
-      console.warn(new Date(Date.now()), new Date(jwtToken.exp * 1000));
       if(Date.now() > jwtToken.exp * 1000) {
         delete window.localStorage['ngStorage-token'];
       } else {

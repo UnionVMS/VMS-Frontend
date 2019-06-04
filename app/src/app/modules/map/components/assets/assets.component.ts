@@ -18,7 +18,7 @@ import Select from 'ol/interaction/Select.js';
 })
 export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetInterfaces.AssetMovement>;
+  @Input() assets: Array<AssetInterfaces.AssetMovementWithEssentials>;
   @Input() map: Map;
   @Input() namesVisible: boolean;
   @Input() speedsVisible: boolean;
@@ -55,7 +55,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.vectorSource.addFeatures(this.assets.map((asset) => {
-      this.renderedAssetIds.push(asset.asset);
+      this.renderedAssetIds.push(asset.assetEssentials.assetId);
       return this.createFeatureFromAsset(asset);
     }));
 
@@ -68,7 +68,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     if (typeof this.vectorSource !== 'undefined') {
       const newRenderedAssetIds = [];
       this.renderedAssetIds.map((assetId) => {
-        if(!this.assets.find((asset) => asset.asset === assetId)) {
+        if(!this.assets.find((asset) => asset.assetEssentials.assetId === assetId)) {
           this.removeAsset(assetId);
         } else {
           newRenderedAssetIds.push(assetId);
@@ -76,10 +76,10 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       });
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
-          if(newRenderedAssetIds.indexOf(asset.asset) === -1) {
-            newRenderedAssetIds.push(asset.asset);
+          if(newRenderedAssetIds.indexOf(asset.assetEssentials.assetId) === -1) {
+            newRenderedAssetIds.push(asset.assetEssentials.assetId);
           }
-          const assetFeature = this.vectorSource.getFeatureById(asset.asset);
+          const assetFeature = this.vectorSource.getFeatureById(asset.assetEssentials.assetId);
           if (assetFeature !== null) {
             this.updateFeatureFromAsset(assetFeature, asset);
           } else {
@@ -109,16 +109,18 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  createFeatureFromAsset(asset: AssetInterfaces.AssetMovement) {
+  createFeatureFromAsset(asset: AssetInterfaces.AssetMovementWithEssentials) {
+    const assetMovement = asset.assetMovement;
+    const assetEssentials = asset.assetEssentials;
     const assetFeature = new Feature(new Point(fromLonLat([
-      asset.microMove.location.longitude, asset.microMove.location.latitude
+      assetMovement.microMove.location.longitude, assetMovement.microMove.location.latitude
     ])));
 
     const styleProperties: any = {
       image: new Icon({
         src: '/assets/arrow_640_rotated_4p.png',
         scale: 0.8,
-        color: '#' + intToRGB(hashCode(asset.asset))
+        color: '#' + intToRGB(hashCode(assetEssentials.assetId))
       })
     };
     if (this.namesVisible || this.speedsVisible) {
@@ -129,20 +131,23 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
     assetFeature.setStyle(assetStyle);
     assetFeature.getStyle().getImage().setOpacity(1);
-    assetFeature.getStyle().getImage().setRotation(deg2rad(asset.microMove.heading));
-    assetFeature.setId(asset.asset);
+    assetFeature.getStyle().getImage().setRotation(deg2rad(assetMovement.microMove.heading));
+    assetFeature.setId(assetEssentials.assetId);
     return assetFeature;
   }
 
-  updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovement) {
+  updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovementWithEssentials) {
     assetFeature.setGeometry(new Point(fromLonLat([
-      asset.microMove.location.longitude, asset.microMove.location.latitude
+      asset.assetMovement.microMove.location.longitude, asset.assetMovement.microMove.location.latitude
     ])));
-    assetFeature.getStyle().getImage().setRotation(deg2rad(asset.microMove.heading));
+    assetFeature.getStyle().getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
     if (
       this.namesWereVisibleLastRerender !== this.namesVisible ||
       this.speedsWereVisibleLastRerender !== this.speedsVisible ||
-      (this.speedsVisible && this.assetSpeedsPreviouslyRendered[asset.asset] !== asset.microMove.speed.toFixed(2))
+      (
+        this.speedsVisible &&
+        this.assetSpeedsPreviouslyRendered[asset.assetEssentials.assetId] !== asset.assetMovement.microMove.speed.toFixed(2)
+      )
     ) {
       if (this.namesVisible || this.speedsVisible) {
         assetFeature.getStyle().setText(this.getTextStyleForName(asset));
@@ -153,20 +158,20 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     return assetFeature;
   }
 
-  getTextStyleForName(asset: AssetInterfaces.AssetMovement) {
+  getTextStyleForName(asset: AssetInterfaces.AssetMovementWithEssentials) {
     let text = null;
     let offsetY = 20;
     if (this.namesVisible) {
-      text = asset.assetName;
+      text = asset.assetEssentials.assetName;
     }
     if (this.speedsVisible) {
       if (text !== null) {
-        text += '\n' + asset.microMove.speed.toFixed(2) + ' kts';
+        text += '\n' + asset.assetMovement.microMove.speed.toFixed(2) + ' kts';
         offsetY = 30;
       } else {
-        text = asset.microMove.speed.toFixed(2) + ' kts';
+        text = asset.assetMovement.microMove.speed.toFixed(2) + ' kts';
       }
-      this.assetSpeedsPreviouslyRendered[asset.asset] = asset.microMove.speed.toFixed(2);
+      this.assetSpeedsPreviouslyRendered[asset.assetEssentials.assetId] = asset.assetMovement.microMove.speed.toFixed(2);
     }
 
     return new Text({

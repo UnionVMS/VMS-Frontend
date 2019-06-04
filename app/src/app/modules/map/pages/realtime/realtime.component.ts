@@ -51,7 +51,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public filterAssets: Function;
   // tslint:enable:ban-types
 
-  private assets: Array<AssetInterfaces.AssetMovement>;
+  private assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
   private assetSubscription: Subscription;
   private mapZoom = 6;
   // tslint:disable-next-line:ban-types
@@ -80,7 +80,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   mapStateToProps() {
     this.assetSubscription = this.store.select(AssetSelectors.getAssetMovements).subscribe((assets) => {
-      this.assets = assets;
+      this.assetMovements = assets;
     });
     this.selectedAsset$ = this.store.select(AssetSelectors.extendedDataForSelectedAsset);
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
@@ -88,7 +88,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
     this.searchAutocompleteAsset$ = this.store.select(AssetSelectors.getSearchAutocomplete);
     this.mapSettingsSubscription = this.store.select(MapSettingsSelectors.getMapSettingsState).subscribe((mapSettings) => {
-      console.warn(mapSettings);
       this.mapSettings = mapSettings;
     });
   }
@@ -151,7 +150,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.mapDispatchToProps();
     this.store.dispatch(new AssetActions.SubscribeToMovements());
     this.mapZoom = this.mapSettings.startZoomLevel;
-    console.warn(this.mapSettings);
     this.map = new Map({
       target: 'realtime-map',
       layers: [

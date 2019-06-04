@@ -12,8 +12,6 @@ export interface Movement {
 export interface AssetMovement {
   microMove: Movement;
   asset: string;
-  flagstate: string;
-  assetName: string;
 }
 
 export interface AssetList {
@@ -104,7 +102,8 @@ export interface CurrentAssetList {
   currentPage: number;
 }
 
-export interface ShipStaticProperties {
+export interface AssetEssentialProperties {
+  assetId: string;
   flagstate: string;
   assetName: string;
   shipType: string;
@@ -113,9 +112,15 @@ export interface ShipStaticProperties {
   externalMarking: string;
 }
 
+export interface AssetMovementWithEssentials {
+  assetEssentials: AssetEssentialProperties;
+  assetMovement: AssetMovement;
+}
+
 export interface State {
   selectedAsset: string|null;
   assets: { [uid: string]: Asset };
+  assetsEssentials: { [uid: string]: AssetEssentialProperties };
   assetLists: { [identifier: string]: AssetList };
   currentAssetList: CurrentAssetList;
   assetMovements: { [uid: string]: AssetMovement };

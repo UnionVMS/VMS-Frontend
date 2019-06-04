@@ -13,8 +13,6 @@ const AssetMovementStub: AssetMovement = {
     source: 'AIS',
   },
   asset: 'ba498d76-ecd1-486a-9302-728367b237a7',
-  flagstate: 'GBR',
-  assetName: 'Test boat'
 };
 
 export default AssetMovementStub;

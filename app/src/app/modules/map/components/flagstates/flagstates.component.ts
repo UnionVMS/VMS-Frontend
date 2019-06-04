@@ -18,7 +18,7 @@ import { fromLonLat } from 'ol/proj';
 })
 export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetInterfaces.AssetMovement>;
+  @Input() assets: Array<AssetInterfaces.AssetMovementWithEssentials>;
   @Input() map: Map;
 
   private vectorSource: VectorSource;
@@ -37,10 +37,10 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     this.map.addLayer(this.vectorLayer);
 
     this.vectorSource.addFeatures(this.assets.reduce((features, asset) => {
-      if (asset.flagstate !== 'UNK') {
+      if (asset.assetEssentials.flagstate !== 'UNK') {
         const flagFeature = this.createFeatureFromAsset(asset);
         if(flagFeature !== false) {
-          this.renderedAssetIds.push(asset.asset);
+          this.renderedAssetIds.push(asset.assetEssentials.assetId);
           features.push(flagFeature);
         }
       }
@@ -56,7 +56,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     if (typeof this.vectorSource !== 'undefined') {
       const newRenderedAssetIds = [];
       this.renderedAssetIds.map((assetId) => {
-        if(!this.assets.find((asset) => asset.asset === assetId)) {
+        if(!this.assets.find((asset) => asset.assetEssentials.assetId === assetId)) {
           this.removeFeature(assetId);
         } else {
           newRenderedAssetIds.push(assetId);
@@ -64,17 +64,17 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
       });
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
-          const assetFeature = this.vectorSource.getFeatureById('flag_' + asset.asset);
+          const assetFeature = this.vectorSource.getFeatureById('flag_' + asset.assetEssentials.assetId);
           if (assetFeature !== null) {
-            if(newRenderedAssetIds.indexOf(asset.asset) === -1) {
-              newRenderedAssetIds.push(asset.asset);
+            if(newRenderedAssetIds.indexOf(asset.assetEssentials.assetId) === -1) {
+              newRenderedAssetIds.push(asset.assetEssentials.assetId);
             }
-            this.updateFeatureFromAsset(assetFeature, asset);
-          } else if (asset.flagstate !== 'UNK') {
+            this.updateFeatureFromAsset(assetFeature, asset.assetMovement);
+          } else if (asset.assetEssentials.flagstate !== 'UNK') {
             const flagFeature = this.createFeatureFromAsset(asset);
             if(flagFeature !== false) {
-              if(newRenderedAssetIds.indexOf(asset.asset) === -1) {
-                newRenderedAssetIds.push(asset.asset);
+              if(newRenderedAssetIds.indexOf(asset.assetEssentials.assetId) === -1) {
+                newRenderedAssetIds.push(asset.assetEssentials.assetId);
               }
               acc.push(flagFeature);
             }
@@ -100,16 +100,16 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  createFeatureFromAsset(asset: AssetInterfaces.AssetMovement) {
-    if(typeof getContryISO2(asset.flagstate) === 'undefined') {
+  createFeatureFromAsset(asset: AssetInterfaces.AssetMovementWithEssentials) {
+    if(typeof getContryISO2(asset.assetEssentials.flagstate) === 'undefined') {
       return false;
     }
     const flagFeature = new Feature(new Point(fromLonLat([
-      asset.microMove.location.longitude, asset.microMove.location.latitude
+      asset.assetMovement.microMove.location.longitude, asset.assetMovement.microMove.location.latitude
     ])));
     const flagStyle = new Style({
       image: new Icon({
-        img: this.getImage(getContryISO2(asset.flagstate).toLowerCase()),
+        img: this.getImage(getContryISO2(asset.assetEssentials.flagstate).toLowerCase()),
         imgSize: [16, 12],
         anchor: [0.5, 2.6],
         rotateWithView: true
@@ -126,7 +126,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     flagFeature.setStyle([markerStyle, flagStyle]);
-    flagFeature.setId('flag_' + asset.asset);
+    flagFeature.setId('flag_' + asset.assetEssentials.assetId);
     return flagFeature;
   }
 

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { AssetMovement } from './asset.interfaces';
+import { AssetMovement, AssetEssentialProperties } from './asset.interfaces';
 
 
 export enum ActionTypes {
@@ -24,6 +24,7 @@ export enum ActionTypes {
   TrimTracksThatPassedTimeCap = '[Asset] Trim tracks that passed time cap',
   SetAutocompleteQuery = '[Asset] Set autocomplete query',
   SetFilterQuery = '[Asset] Set Filter Query',
+  SetEssentialProperties = '[Asset] Set essential properties',
 
 
   GetAssetList = '[Asset] Get list',
@@ -67,6 +68,11 @@ export class AssetsMoved implements Action {
   readonly type = ActionTypes.AssetsMoved;
 
   constructor(public payload: Array<AssetMovement>) {}
+}
+
+export class SetEssentialProperties implements Action {
+  readonly type = ActionTypes.SetEssentialProperties;
+  constructor(public payload: { [uid: string]: AssetEssentialProperties } ) {}
 }
 
 export class FailedToSubscribeToMovements implements Action {
