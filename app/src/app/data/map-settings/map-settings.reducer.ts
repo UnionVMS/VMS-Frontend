@@ -15,7 +15,8 @@ export const initialState: Interfaces.State = {
   startPosition: {
     latitude: 57.6806116,
     longitude: 14.1047925
-  }
+  },
+  assetColorMethod: 'Random',
 };
 
 export function mapSettingsReducer(state = initialState, { type, payload }) {

@@ -22,6 +22,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() map: Map;
   @Input() namesVisible: boolean;
   @Input() speedsVisible: boolean;
+  @Input() shipColorLogic: string;
   // tslint:disable:ban-types
   @Input() selectAsset: Function;
   @Input() registerOnClickFunction: Function;
@@ -120,7 +121,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       image: new Icon({
         src: '/assets/arrow_640_rotated_4p.png',
         scale: 0.8,
-        color: '#' + intToRGB(hashCode(assetMovement.asset))
+        color: this.getShipColor(asset)
       })
     };
     if (this.namesVisible || this.speedsVisible) {
@@ -134,6 +135,23 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     assetFeature.getStyle().getImage().setRotation(deg2rad(assetMovement.microMove.heading));
     assetFeature.setId(assetMovement.asset);
     return assetFeature;
+  }
+
+  getShipColor(asset) {
+    switch (this.shipColorLogic) {
+      case 'Shiptype':
+        if(typeof asset.assetEssentials === 'undefined' || asset.assetEssentials.shipType === null) {
+          return '#FFFFFF';
+        }
+        return '#' + intToRGB(hashCode(asset.assetEssentials.shipType));
+      case 'Flagstate':
+        if(typeof asset.assetEssentials === 'undefined' || asset.assetEssentials.flagstate === null) {
+          return '#FFFFFF';
+        }
+        return '#' + intToRGB(hashCode(asset.assetEssentials.flagstate));
+      default:
+        return '#' + intToRGB(hashCode(asset.assetMovement.asset));
+    }
   }
 
   updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovementWithEssentials) {

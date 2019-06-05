@@ -34,6 +34,9 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   public mapSettings;
   private mapSettingsSubscription;
 
+  public assetColorMethods = ['Random', 'Shiptype', 'Flagstate'];
+
+
   public toggleFlags = (event) => {
     this.mapSettings.flagsVisible = !this.mapSettings.flagsVisible;
   }

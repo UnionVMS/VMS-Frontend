@@ -16,4 +16,5 @@ export interface State {
   viewports: { [key: number]: Viewport };
   startZoomLevel: number;
   startPosition: Position;
+  assetColorMethod: string;
 }

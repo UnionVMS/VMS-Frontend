@@ -11,21 +11,30 @@ fieldset {
     width: auto;
   }
 
-  mat-form-field {
-    display: block;
+  &.map-settings {
+    mat-form-field {
+      display: block;
+    }
+
+    .map-toggle-buttons {
+      display: grid;
+      grid-template-columns: repeat( auto-fit, minmax(150px, 1fr));
+      margin-bottom: $medium_distance;
+    }
+
+    .map-starting-positions, .map-limits {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: $medium_distance;
+    }
+
+    .map-asset-colors {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
   }
 
-  .map-toggle-buttons {
-    display: grid;
-    grid-template-columns: repeat( auto-fit, minmax(150px, 1fr));
-    margin-bottom: $medium_distance;
-  }
 
-  .map-starting-positions, .map-limits {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: $medium_distance;
-  }
 }
 
 fieldset.button-block {

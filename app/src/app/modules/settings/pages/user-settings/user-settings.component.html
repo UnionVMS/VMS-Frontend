@@ -1,6 +1,6 @@
 <h1>Settings</h1>
 
-<fieldset>
+<fieldset class="map-settings">
   <legend>Map default settings:</legend>
   <div class="map-toggle-buttons">
     <ui-button-toggle
@@ -59,6 +59,15 @@
     </mat-form-field>
   </div>
 
+  <label>Choose ship color logic:</label>
+  <mat-radio-group
+    aria-labelledby="example-radio-group-label"
+    class="map-asset-colors"
+    [(ngModel)]="mapSettings.assetColorMethod">
+    <mat-radio-button class="map-asset-color-button" *ngFor="let assetColorMethod of assetColorMethods" [value]="assetColorMethod">
+      {{assetColorMethod}}
+    </mat-radio-button>
+  </mat-radio-group>
 
   <!-- <mat-form-field>
     <textarea matInput placeholder="Textarea"></textarea>
