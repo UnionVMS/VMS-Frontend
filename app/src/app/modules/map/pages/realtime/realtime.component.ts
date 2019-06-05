@@ -196,7 +196,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       delete this.onClickFunctions[name];
     };
 
-    this.selection = new Select();
+    this.selection = new Select({hitTolerance: 7});
     this.map.addInteraction(this.selection);
     this.selection.on('select', (event) => {
       Object.keys(this.onClickFunctions).map((name) => this.onClickFunctions[name](event));

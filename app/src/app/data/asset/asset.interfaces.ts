@@ -106,10 +106,11 @@ export interface AssetEssentialProperties {
   assetId: string;
   flagstate: string;
   assetName: string;
-  shipType: string;
+  vesselType: string;
   ircs: string;
   cfr: string;
   externalMarking: string;
+  lengthOverAll: number;
 }
 
 export interface AssetMovementWithEssentials {

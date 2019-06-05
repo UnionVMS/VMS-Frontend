@@ -32,6 +32,21 @@ export class AssetSearchComponent implements OnChanges {
       if(queryPart.indexOf('/f ') === 0) {
         queryObject.type = 'flagstate';
         queryPart = queryPart.substring(3);
+      } else if(queryPart.indexOf('/i ') === 0) {
+        queryObject.type = 'ircs';
+        queryPart = queryPart.substring(3);
+      } else if(queryPart.indexOf('/c ') === 0) {
+        queryObject.type = 'cfr';
+        queryPart = queryPart.substring(3);
+      } else if(queryPart.indexOf('/v ') === 0) {
+        queryObject.type = 'vesselType';
+        queryPart = queryPart.substring(3);
+      } else if(queryPart.indexOf('/e ') === 0) {
+        queryObject.type = 'externalMarking';
+        queryPart = queryPart.substring(3);
+      } else if(queryPart.indexOf('/l ') === 0) {
+        queryObject.type = 'lengthOverAll';
+        queryPart = queryPart.substring(3);
       }
       if(queryPart.indexOf('/') === 0) {
         return queryObject;

@@ -23,6 +23,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() namesVisible: boolean;
   @Input() speedsVisible: boolean;
   @Input() shipColorLogic: string;
+  @Input() selectedAsset: any;
   // tslint:disable:ban-types
   @Input() selectAsset: Function;
   @Input() registerOnClickFunction: Function;
@@ -37,6 +38,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private selection: Select;
   private assetSpeedsPreviouslyRendered: { [key: string]: string } = {};
   private renderedAssetIds: Array<string> = [];
+  private previouslySelectedAssetId = '';
+  private i = 0;
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -89,12 +92,46 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
           return acc;
         }, [])
       );
+
+      if(typeof this.selectedAsset.asset !== 'undefined' && this.previouslySelectedAssetId !== this.selectedAsset.asset.id) {
+        const previouslySelectedAssetFeature = this.vectorSource.getFeatureById(this.previouslySelectedAssetId);
+        if(typeof previouslySelectedAssetFeature !== 'undefined' && previouslySelectedAssetFeature !== null) {
+          const previouslySelectedAsset = this.assets.find((asset) => asset.assetEssentials.assetId === this.previouslySelectedAssetId);
+          this.updateImageOnAsset(
+            previouslySelectedAssetFeature,
+            '/assets/arrow_640_rotated_4p.png',
+            this.getShipColor(previouslySelectedAsset),
+            previouslySelectedAsset.assetMovement.microMove.heading
+          );
+        }
+
+        const selectedAsset = this.vectorSource.getFeatureById(this.selectedAsset.asset.id);
+        this.updateImageOnAsset(
+          selectedAsset,
+          '/assets/arrow_640_rotated_4p_selected.png',
+          this.getShipColor({ assetEssentials: this.selectedAsset.asset }),
+          this.selectedAsset.currentPosition.microMove.heading
+        );
+
+        this.previouslySelectedAssetId = this.selectedAsset.asset.id;
+      }
+
       this.vectorLayer.getSource().changed();
       this.vectorLayer.getSource().refresh();
       this.namesWereVisibleLastRerender = this.namesVisible;
       this.speedsWereVisibleLastRerender = this.speedsVisible;
       this.renderedAssetIds = newRenderedAssetIds;
     }
+  }
+
+  updateImageOnAsset(assetFeature, src, color, heading) {
+    assetFeature.getStyle().setImage(new Icon({
+      src,
+      scale: 0.8,
+      color
+    }));
+    assetFeature.getStyle().getImage().setOpacity(1);
+    assetFeature.getStyle().getImage().setRotation(deg2rad(heading));
   }
 
   ngOnDestroy() {
@@ -140,15 +177,43 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   getShipColor(asset) {
     switch (this.shipColorLogic) {
       case 'Shiptype':
-        if(typeof asset.assetEssentials === 'undefined' || asset.assetEssentials.shipType === null) {
+        if(typeof asset.assetEssentials === 'undefined' || asset.assetEssentials.vesselType === null) {
           return '#FFFFFF';
         }
-        return '#' + intToRGB(hashCode(asset.assetEssentials.shipType));
+        return '#' + intToRGB(hashCode(asset.assetEssentials.vesselType));
       case 'Flagstate':
         if(typeof asset.assetEssentials === 'undefined' || asset.assetEssentials.flagstate === null) {
           return '#FFFFFF';
         }
         return '#' + intToRGB(hashCode(asset.assetEssentials.flagstate));
+      case 'Size (length)':
+        if(typeof asset.assetEssentials === 'undefined' || asset.assetEssentials.lengthOverAll === null) {
+          return '#FFFFFF';
+        }
+        let color;
+        if(asset.assetEssentials.lengthOverAll < 20) {
+          color = (Math.round((asset.assetEssentials.lengthOverAll) / 20 * 200) + 55).toString(16).toUpperCase();
+          if(color.length === 1) {
+            color = `0${color}`;
+          }
+          return `#${color}0000`;
+        } else if(asset.assetEssentials.lengthOverAll < 30) {
+          color = (Math.round((asset.assetEssentials.lengthOverAll - 20) / 10 * 200) + 55).toString(16).toUpperCase();
+          if(color.length === 1) {
+            color = `0${color}`;
+          }
+          return `#00${color}00`;
+        } else {
+          color = ((asset.assetEssentials.lengthOverAll - 30) / 10 * 200) + 55;
+          if(color > 255) {
+            color = 255;
+          }
+          color = Math.round(color).toString(16).toUpperCase();
+          if(color.length === 1) {
+            color = `0${color}`;
+          }
+          return `#0000${color}`;
+        }
       default:
         return '#' + intToRGB(hashCode(asset.assetMovement.asset));
     }

@@ -4,6 +4,7 @@
     <map-assets
       *ngIf="registerOnClickFunction !== undefined"
       [assets]="assetMovements"
+      [selectedAsset]="selectedAsset$|async"
       [map]="map"
       [namesVisible]="mapSettings.namesVisible"
       [speedsVisible]="mapSettings.speedsVisible"

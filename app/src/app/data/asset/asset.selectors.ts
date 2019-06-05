@@ -29,11 +29,14 @@ export const getAssetMovements = createSelector(
     if(state.filterQuery.length > 0) {
       state.filterQuery.map(query => {
         let columnName = 'assetName';
-        if(query.type === 'flagstate') {
-          columnName = 'flagstate';
+        if(['flagstate', 'ircs', 'cfr', 'vesselType', 'externalMarking', 'lengthOverAll'].indexOf(query.type) !== -1) {
+          columnName = query.type;
         }
         assetMovementKeys = assetMovementKeys.filter(key => {
           if(typeof state.assetsEssentials[key] === 'undefined') {
+            return false;
+          }
+          if(state.assetsEssentials[key][columnName] === null) {
             return false;
           }
           const valueToCheck = state.assetsEssentials[key][columnName].toLowerCase();
