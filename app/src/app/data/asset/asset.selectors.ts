@@ -39,21 +39,43 @@ export const getAssetMovements = createSelector(
           if(state.assetsEssentials[key][columnName] === null) {
             return false;
           }
-          const valueToCheck = state.assetsEssentials[key][columnName].toLowerCase();
-          if(query.inverse) {
-            return query.values.reduce((acc, value) => {
-              if(acc === false) {
-                return acc;
-              }
-              return valueToCheck.indexOf(value.toLowerCase()) === -1;
-            }, true);
-          } else {
+
+          if(query.isNumber) {
+
             return query.values.reduce((acc, value) => {
               if(acc === true) {
                 return acc;
               }
-              return valueToCheck.indexOf(value.toLowerCase()) !== -1;
+              if(
+                (value.operator === 'less then' && state.assetsEssentials[key][columnName] < value.value) ||
+                (value.operator === 'greater then' && state.assetsEssentials[key][columnName] > value.value) ||
+                (value.operator === 'almost equal' && Math.floor(state.assetsEssentials[key][columnName]) === Math.floor(value.value)) ||
+                (value.operator === 'equal' && state.assetsEssentials[key][columnName] === value.value)
+              ) {
+                return true;
+              } else {
+                return false;
+              }
             }, false);
+
+
+          } else {
+            const valueToCheck = state.assetsEssentials[key][columnName].toLowerCase();
+            if(query.inverse) {
+              return query.values.reduce((acc, value) => {
+                if(acc === false) {
+                  return acc;
+                }
+                return valueToCheck.indexOf(value.toLowerCase()) === -1;
+              }, true);
+            } else {
+              return query.values.reduce((acc, value) => {
+                if(acc === true) {
+                  return acc;
+                }
+                return valueToCheck.indexOf(value.toLowerCase()) !== -1;
+              }, false);
+            }
           }
         });
       });

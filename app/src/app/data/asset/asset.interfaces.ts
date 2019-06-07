@@ -93,8 +93,9 @@ export interface AssetTrack {
 
 export interface AssetFilterQuery {
   type: string;
-  values: Array<string>;
+  values: Array<any>;
   inverse: boolean;
+  isNumber: boolean;
 }
 
 export interface CurrentAssetList {

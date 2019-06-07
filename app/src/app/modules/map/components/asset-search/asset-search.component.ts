@@ -28,6 +28,7 @@ export class AssetSearchComponent implements OnChanges {
         type: 'name',
         values: [],
         inverse: false,
+        isNumber: false
       };
       if(queryPart.indexOf('/f ') === 0) {
         queryObject.type = 'flagstate';
@@ -46,17 +47,42 @@ export class AssetSearchComponent implements OnChanges {
         queryPart = queryPart.substring(3);
       } else if(queryPart.indexOf('/l ') === 0) {
         queryObject.type = 'lengthOverAll';
+        queryObject.isNumber = true;
         queryPart = queryPart.substring(3);
       }
-      if(queryPart.indexOf('/') === 0) {
+
+      if(queryObject.isNumber) {
+
+        queryObject.values = queryPart.split(',')
+          .map(value => value.trim())
+          .filter(value => value.length > 0)
+          .map((value) => {
+            if(value.indexOf('<') !== -1) {
+              return { operator: 'less then', value: value.substring(1) };
+            } else if(value.indexOf('>') !== -1) {
+              return { operator: 'greater then', value: value.substring(1) };
+            } else if(value.indexOf('~') !== -1) {
+              return { operator: 'almost equal', value: value.substring(1) };
+            } else {
+              return { operator: 'equal', value };
+            }
+          }).filter(valueObject => valueObject.value.trim().length > 0)
+          .map(valueObject => {
+            return { ...valueObject, value: parseFloat(valueObject.value) };
+          });
+
+        return queryObject;
+      } else {
+        if(queryPart.indexOf('/') === 0) {
+          return queryObject;
+        }
+        if(queryPart.indexOf('!') === 0) {
+          queryObject.inverse = true;
+          queryPart = queryPart.substring(1);
+        }
+        queryObject.values = queryPart.split(',').map(value => value.trim()).filter(value => value.length > 0);
         return queryObject;
       }
-      if(queryPart.indexOf('!') === 0) {
-        queryObject.inverse = true;
-        queryPart = queryPart.substring(1);
-      }
-      queryObject.values = queryPart.split(',').map(value => value.trim()).filter(value => value.length > 0);
-      return queryObject;
     }).filter(queryObject => queryObject.values.length > 0));
   }
 

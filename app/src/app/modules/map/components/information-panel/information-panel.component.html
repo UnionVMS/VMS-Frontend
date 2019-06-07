@@ -34,15 +34,53 @@
       <u>Special commands:</u><br />
       <div class="special_commands">
         <h4>!</h4>
-        <div>By starting with an exlamation mark the filter will instead try to find any ship <u>not</u> containing the given text.</div>
+        <div>
+          By starting with an exlamation mark the filter will instead try to find any ship <u>not</u> containing the given text.<br />
+          Will only work on searches of type string.
+        </div>
         <h4>/f</h4>
         <div>
           By starting with <b><u>/f</u></b> the filter will instead filter on flagstate.<br />
+          <b>Type:</b> string<br />
           Examples:
           <ul>
             <li><b><u>/f swe</u></b> will give you all swedish ships.</li>
             <li><b><u>/f swe,dnk</u></b> will give you all swedish and danish ships.</li>
             <li><b><u>/f !swe,dnk</u></b> will give you all ships that are not swedish or danish.</li>
+          </ul>
+        </div>
+        <h4>/i</h4>
+        <div>
+          By starting with <b><u>/i</u></b> the filter will instead filter on ircs.<br />
+          <b>Type:</b> string<br />
+        </div>
+        <h4>/c</h4>
+        <div>
+          By starting with <b><u>/c</u></b> the filter will instead filter on cfr.<br />
+          <b>Type:</b> string<br />
+        </div>
+        <h4>/v</h4>
+        <div>
+          By starting with <b><u>/v</u></b> the filter will instead filter on vessel type.<br />
+          <b>Type:</b> string<br />
+        </div>
+        <h4>/e</h4>
+        <div>
+          By starting with <b><u>/e</u></b> the filter will instead filter on external marking.<br />
+          <b>Type:</b> string<br />
+        </div>
+        <h4>/l</h4>
+        <div>
+          By starting with <b><u>/l</u></b> the filter will instead filter on ship length.<br />
+          <b>Type:</b> number<br />
+          Examples:
+          <ul>
+            <li><b><u>/l 9.23</u></b> will give you all ships with the exact length of 9.23 meters.</li>
+            <li><b><u>/l 9</u></b> will give you all ships with the exact length of 9.00 meters.</li>
+            <li><b><u>/f ~9</u></b> will give you all ships that have a length between 9 and 10 meters, i.e. 9, 9.55, 9.99 and so forth.</li>
+            <li><b><u>/f >9</u></b> will give you all ships that have a length above 9 meters, i.e. 10, 19.23, 45.72 and so forth.</li>
+            <li><b><u>/f <9</u></b> will give you all ships that have a length below 9 meters, i.e. 8.99, 7 and so forth.</li>
+            <li><b><u>/f <9,>25</u></b> will give you all ships that have a length below 9 meters or above 25 meters.</li>
           </ul>
         </div>
         <h4>&</h4>
@@ -53,6 +91,7 @@
             <li><b><u>/f swe & ask</u></b> will give you all swedish ships that have ask in the name.</li>
             <li><b><u>ask & /f swe,dnk</u></b> will give you all swedish and danish ships that have ask in the name.</li>
             <li><b><u>!ask & /f swe,dnk</u></b> will give you all swedish and danish ships that dosn't have ask in the name.</li>
+            <li><b><u>/l >10 & /l <20</u></b> will give you all ships that's bigger then 10 meters and smaller then 20 meters.</li>
           </ul>
         </div>
       </div>
