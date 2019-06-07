@@ -93,7 +93,12 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         }, [])
       );
 
-      if(typeof this.selectedAsset.asset !== 'undefined' && this.previouslySelectedAssetId !== this.selectedAsset.asset.id) {
+      // Invert colors for selected asset and change previously selected assets icon back to normal.
+      if(
+        typeof this.selectedAsset !== 'undefined' &&
+        typeof this.selectedAsset.asset !== 'undefined' &&
+        this.previouslySelectedAssetId !== this.selectedAsset.asset.id
+      ) {
         const previouslySelectedAssetFeature = this.vectorSource.getFeatureById(this.previouslySelectedAssetId);
         if(typeof previouslySelectedAssetFeature !== 'undefined' && previouslySelectedAssetFeature !== null) {
           const previouslySelectedAsset = this.assets.find((asset) => asset.assetEssentials.assetId === this.previouslySelectedAssetId);
