@@ -66,7 +66,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private getAssetTrack: Function;
   private getAssetTrackFromTime: Function;
   private removeForecast: Function;
-  private selectAsset: Function;
+  public selectAsset: Function;
   private untrackAsset: Function;
   private unregisterOnClickFunction: Function;
   // tslint:enable:ban-types

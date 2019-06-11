@@ -14,19 +14,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<MapSettingsInterfaces.State>) { }
 
-  // private baseMapSettings = {
-  //   flagsVisible: false,
-  //   tracksVisible: true,
-  //   namesVisible: false,
-  //   speedsVisible: false,
-  //   forecastsVisible: true,
-  //   zoomLevel: 6,
-  //   startPosition: {
-  //     latitude: 57.6806116,
-  //     longitude: 14.1047925
-  //   }
-  // };
-
   // tslint:disable:ban-types
   public save: Function;
   // tslint:enable:ban-types
@@ -90,13 +77,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
-
-    // if (typeof window.localStorage.mySettings !== 'undefined') {
-    //   const settings = JSON.parse(window.localStorage.mySettings);
-    //   this.mapSettings = settings.mapSettings;
-    // } else {
-    //   this.mapSettings = this.baseMapSettings;
-    // }
   }
 
   ngOnDestroy() {

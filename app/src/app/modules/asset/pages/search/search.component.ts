@@ -2,15 +2,19 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { takeWhile, endWith } from 'rxjs/operators';
+// import { countries } from 'i18n-iso-countries';
+// import { enLang } from 'i18n-iso-countries/langs/en.json';
+// countries.registerLocale(enLang);
+// console.log(countries.getAlpha3Codes());
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 
 @Component({
-  selector: 'asset-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  selector: 'asset-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss']
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<AssetInterfaces.State>) { }
 

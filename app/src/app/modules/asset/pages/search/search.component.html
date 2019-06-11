@@ -1,4 +1,29 @@
 <h1>Assets</h1>
+
+<form class="asset-search-form">
+
+  <mat-form-field>
+    <input matInput placeholder="Start zoom level">
+  </mat-form-field>
+
+  <div class="map-starting-positions">
+    <mat-form-field>
+      <input matInput placeholder="Start latitude">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Start longitude">
+    </mat-form-field>
+  </div>
+
+  <div class="map-limits">
+    <mat-form-field>
+      <input matInput placeholder="Track length (min)">
+    </mat-form-field>
+  </div>
+</form>
+
+
 <mat-spinner *ngIf="!initialDataLoaded"></mat-spinner>
 <div class="asset-container mat-elevation-z8" *ngIf="initialDataLoaded">
   <div class="asset-table-container">

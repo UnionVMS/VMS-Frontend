@@ -18,7 +18,7 @@ import { UnauthorizedComponent } from './core/pages/unauthorized/unauthorized.co
 import { RealtimeComponent } from './modules/map/pages/realtime/realtime.component';
 
 // Asset-pages
-import { ListComponent as AssetListComponent } from './modules/asset/pages/list/list.component';
+import { SearchComponent as AssetSearchComponent } from './modules/asset/pages/search/search.component';
 
 // Settings-pages
 import { UserSettingsComponent } from './modules/settings/pages/user-settings/user-settings.component';
@@ -31,7 +31,7 @@ const routes: Routes = [
     children: [
       { path: '', component: TestComponent, pathMatch: 'full'},
       { path: 'settings/user', component: UserSettingsComponent, pathMatch: 'full'},
-      { path: 'asset', component: AssetListComponent, pathMatch: 'full'},
+      { path: 'asset', component: AssetSearchComponent, pathMatch: 'full'},
       { path: 'test', component: TestComponent, pathMatch: 'full'},
     ]
   },
