@@ -33,7 +33,7 @@
     "country-iso-3-to-2": "^1.0.1",
     "event-source-polyfill": "^1.0.5",
     "hammerjs": "^2.0.8",
-    "iso-country-codes": "0.0.5",
+    "i18n-iso-countries": "^4.1.0",
     "jwt-decode": "^2.2.0",
     "ol": "^5.3.1",
     "rxjs": "~6.3.3",
