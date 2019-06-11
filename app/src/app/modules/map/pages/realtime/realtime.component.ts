@@ -132,7 +132,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.searchAutocomplete = (searchQuery) =>
       this.store.dispatch(new AssetActions.SetAutocompleteQuery({searchQuery}));
     this.filterAssets = (filterQuery) => {
-      console.warn(filterQuery);
       return this.store.dispatch(new AssetActions.SetFilterQuery({filterQuery}));
     };
   }

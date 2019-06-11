@@ -12,6 +12,7 @@ export class AssetSearchComponent implements OnChanges {
   // tslint:disable:ban-types
   @Input() autocompleteFunction: Function;
   @Input() centerMapOnPosition: Function;
+  @Input() selectAsset: Function;
   @Input() filterFunction: Function;
   // tslint:enable:ban-types
   @Input() autocompleteResult: Array<AssetInterfaces.AssetMovementWithEssentials>;
@@ -106,6 +107,7 @@ export class AssetSearchComponent implements OnChanges {
   optionSelected = (event) => {
     const selectedId = event.option._element.nativeElement.id;
     const selectedAsset = this.autocompleteResult.find((asset) => asset.assetEssentials.assetId === selectedId);
+    const selectAsset = this.selectAsset(selectedAsset.assetEssentials.assetId);
     this.centerMapOnPosition(selectedAsset.assetMovement.microMove.location);
   }
 
