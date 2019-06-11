@@ -57,7 +57,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public resetToDefault = (event) => {
+  public resetToDefault = () => {
     this.mapSettings = { ...MapSettingsReducer.initialState };
   }
 
