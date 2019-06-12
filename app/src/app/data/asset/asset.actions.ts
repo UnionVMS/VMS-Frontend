@@ -25,10 +25,16 @@ export enum ActionTypes {
   SetAutocompleteQuery = '[Asset] Set autocomplete query',
   SetFilterQuery = '[Asset] Set Filter Query',
   SetEssentialProperties = '[Asset] Set essential properties',
+  SearchAssets = '[Asset] search',
 
 
   GetAssetList = '[Asset] Get list',
   SetAssetList = '[Asset] Set list'
+}
+
+export class SearchAssets implements Action {
+  readonly type = ActionTypes.SearchAssets;
+  constructor(public payload: any) {}
 }
 
 export class SetAutocompleteQuery implements Action {

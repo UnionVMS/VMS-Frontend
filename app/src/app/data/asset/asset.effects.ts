@@ -22,6 +22,27 @@ export class AssetEffects {
   ) {}
 
   @Effect()
+  assetSearchObserver$ = this.actions$.pipe(
+    ofType(ActionTypes.SearchAssets),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.assetService.listAssets(authToken, action.payload).pipe(
+        map((response: any) => {
+          return new SetAssetList({
+            searchParams: action.payload,
+            totalNumberOfPages: response.totalNumberOfPages,
+            currentPage: response.currentPage,
+            assets: response.assetList.reduce((acc, asset) => {
+              acc[asset.historyId] = asset;
+              return acc;
+            }, {})
+          });
+        })
+      );
+    })
+  );
+
+  @Effect()
   assetGetListObserver$ = this.actions$.pipe(
     ofType(ActionTypes.GetAssetList),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),

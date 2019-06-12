@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { version } from '@app/../../package.json';
 
 @Component({
   selector: 'core-login-layout-component',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 
 export class LoginLayoutComponent {
+  public appVersion: string = version;
 }

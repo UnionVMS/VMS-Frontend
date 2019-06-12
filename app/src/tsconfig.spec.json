@@ -11,7 +11,8 @@
       "@testing/*": ["src/testing/*"],
       "@app/*": ["src/app/*"],
       "@modules/*": ["src/app/modules/*"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "files": [
     "test.ts",

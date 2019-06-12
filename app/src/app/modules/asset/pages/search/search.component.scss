@@ -1,3 +1,15 @@
+@import 'variables.scss';
+
+.asset-search-form {
+  display: grid;
+  grid-column-gap: $xxlarge_distance;
+  grid-template-columns: repeat(5, 1fr) auto;
+}
+
 .asset-table-container > table {
   width: 100%;
+}
+
+.load-spinner {
+  margin: 150px auto;
 }

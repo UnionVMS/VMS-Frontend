@@ -1,34 +1,42 @@
-<h1>Assets</h1>
+<h1>Asset serach</h1>
 
-<form class="asset-search-form">
+<div class="asset-search-form">
 
   <mat-form-field>
-    <input matInput placeholder="Start zoom level">
+    <mat-label>Flagstates</mat-label>
+    <!-- [formControl]="searchFlagstates" -->
+    <mat-select [(ngModel)]="assetSearchObject.flagState" multiple>
+      <mat-option *ngFor="let flagstate of flagstates" [value]="flagstate">{{flagstate}}</mat-option>
+    </mat-select>
   </mat-form-field>
 
-  <div class="map-starting-positions">
-    <mat-form-field>
-      <input matInput placeholder="Start latitude">
-    </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="External marking" [(ngModel)]="assetSearchObject.externalMarking">
+  </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="Start longitude">
-    </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Name" [(ngModel)]="assetSearchObject.name">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="CFR" [(ngModel)]="assetSearchObject.cfr">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="IRCS" [(ngModel)]="assetSearchObject.ircs">
+  </mat-form-field>
+
+  <div>
+    <button mat-raised-button color="primary" type="button" (click)="search()">Search</button>
   </div>
-
-  <div class="map-limits">
-    <mat-form-field>
-      <input matInput placeholder="Track length (min)">
-    </mat-form-field>
-  </div>
-</form>
+</div>
 
 
-<mat-spinner *ngIf="!initialDataLoaded"></mat-spinner>
-<div class="asset-container mat-elevation-z8" *ngIf="initialDataLoaded">
+<mat-spinner class="load-spinner" *ngIf="loadingData"></mat-spinner>
+<div class="asset-container mat-elevation-z8" *ngIf="tableReadyForDisplay">
   <div class="asset-table-container">
 
-    <table mat-table [dataSource]="(assets$ | async)" class="example-table"
+    <table mat-table [dataSource]="(assets$ | async)" class="asset-table"
            matSort matSortActive="name" matSortDisableClear matSortDirection="desc">
 
       <!-- name Column -->
@@ -39,31 +47,31 @@
 
       <!-- ircs Column -->
       <ng-container matColumnDef="ircs">
-        <th mat-header-cell *matHeaderCellDef>ircs</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ircs</th>
         <td mat-cell *matCellDef="let row">{{row.ircs}}</td>
       </ng-container>
 
       <!-- mmsi Column -->
       <ng-container matColumnDef="mmsi">
-        <th mat-header-cell *matHeaderCellDef>mmsi</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>mmsi</th>
         <td mat-cell *matCellDef="let row">{{row.mmsi}}</td>
       </ng-container>
 
       <!-- flagstate Column -->
       <ng-container matColumnDef="flagstate">
-        <th mat-header-cell *matHeaderCellDef>F.S.</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>F.S.</th>
         <td mat-cell *matCellDef="let row">{{row.flagStateCode}}</td>
       </ng-container>
 
       <!-- ExternalMarking Column -->
       <ng-container matColumnDef="externalMarking">
-        <th mat-header-cell *matHeaderCellDef>Ext. marking</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Ext. marking</th>
         <td mat-cell *matCellDef="let row">{{row.externalMarking}}</td>
       </ng-container>
 
       <!-- Cfr Column -->
       <ng-container matColumnDef="cfr">
-        <th mat-header-cell *matHeaderCellDef>CFR</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>CFR</th>
         <td mat-cell *matCellDef="let row">{{row.cfr}}</td>
       </ng-container>
 
@@ -77,6 +85,4 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
-
-  <mat-paginator [length]="resultsLength" [pageSize]="30"></mat-paginator>
 </div>
