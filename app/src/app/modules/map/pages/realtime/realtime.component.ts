@@ -53,7 +53,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   private assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
   private assetSubscription: Subscription;
-  private mapZoom = 6;
+  public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
 
