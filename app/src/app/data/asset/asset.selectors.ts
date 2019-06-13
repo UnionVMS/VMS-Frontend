@@ -1,18 +1,39 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { State } from './asset.interfaces';
+import * as AssetInterfaces from './asset.interfaces';
+import { State } from '@app/app-reducer';
 
-export const getAssetState = createFeatureSelector<State>('asset');
+
+export const getAssetState = createFeatureSelector<AssetInterfaces.State>('asset');
+
+export const selectAssets = (state: State) => state.asset.assets;
+export const selectAssetMovements = (state: State) => state.asset.assetMovements;
+export const selectAssetForecasts = (state: State) => state.asset.forecasts;
+export const selectAssetsEssentials = (state: State) => state.asset.assetsEssentials;
+export const selectAssetsTracks = (state: State) => state.asset.assetTracks;
+export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
+export const selectFilterQuery = (state: State) => state.asset.filterQuery;
+export const selectSearchQuery = (state: State) => state.asset.searchQuery;
+export const selectPositionsForInspection = (state: State) => state.asset.positionsForInspection;
+
 
 export const getAssets = createSelector(
   getAssetState,
-  (state: State) => {
+  (state: AssetInterfaces.State) => {
     return Object.keys(state.assets).map(key => state.assets[key]);
   }
 );
 
+export const getNumberOfAssets = createSelector(
+  getAssetState,
+  (state: AssetInterfaces.State) => {
+    return Object.keys(state.assets).length;
+  }
+);
+
+
 export const getCurrentAssetList = createSelector(
   getAssetState,
-  (state: State) => {
+  (state: AssetInterfaces.State) => {
     if(state.currentAssetList === null) {
       return [];
     }
@@ -26,20 +47,26 @@ export const getCurrentAssetList = createSelector(
 );
 
 export const getAssetMovements = createSelector(
-  getAssetState,
-  (state: State) => {
-    let assetMovementKeys = Object.keys(state.assetMovements);
-    if(state.filterQuery.length > 0) {
-      state.filterQuery.map(query => {
+  selectAssetMovements,
+  selectAssetsEssentials,
+  selectFilterQuery,
+  (
+    assetMovements: { [uid: string]: AssetInterfaces.AssetMovement },
+    assetsEssentials: { [uid: string]: AssetInterfaces.AssetEssentialProperties },
+    filterQuery: Array<AssetInterfaces.AssetFilterQuery>
+  ) => {
+    let assetMovementKeys = Object.keys(assetMovements);
+    if(filterQuery.length > 0) {
+      filterQuery.map(query => {
         let columnName = 'assetName';
         if(['flagstate', 'ircs', 'cfr', 'vesselType', 'externalMarking', 'lengthOverAll'].indexOf(query.type) !== -1) {
           columnName = query.type;
         }
         assetMovementKeys = assetMovementKeys.filter(key => {
-          if(typeof state.assetsEssentials[key] === 'undefined') {
+          if(typeof assetsEssentials[key] === 'undefined') {
             return false;
           }
-          if(state.assetsEssentials[key][columnName] === null) {
+          if(assetsEssentials[key][columnName] === null) {
             return false;
           }
 
@@ -50,10 +77,10 @@ export const getAssetMovements = createSelector(
                 return acc;
               }
               if(
-                (value.operator === 'less then' && state.assetsEssentials[key][columnName] < value.value) ||
-                (value.operator === 'greater then' && state.assetsEssentials[key][columnName] > value.value) ||
-                (value.operator === 'almost equal' && Math.floor(state.assetsEssentials[key][columnName]) === Math.floor(value.value)) ||
-                (value.operator === 'equal' && state.assetsEssentials[key][columnName] === value.value)
+                (value.operator === 'less then' && assetsEssentials[key][columnName] < value.value) ||
+                (value.operator === 'greater then' && assetsEssentials[key][columnName] > value.value) ||
+                (value.operator === 'almost equal' && Math.floor(assetsEssentials[key][columnName]) === Math.floor(value.value)) ||
+                (value.operator === 'equal' && assetsEssentials[key][columnName] === value.value)
               ) {
                 return true;
               } else {
@@ -63,7 +90,7 @@ export const getAssetMovements = createSelector(
 
 
           } else {
-            const valueToCheck = state.assetsEssentials[key][columnName].toLowerCase();
+            const valueToCheck = assetsEssentials[key][columnName].toLowerCase();
             if(query.inverse) {
               return query.values.reduce((acc, value) => {
                 if(acc === false) {
@@ -83,61 +110,76 @@ export const getAssetMovements = createSelector(
         });
       });
     }
-
-    return assetMovementKeys.map(key => ({ assetMovement: state.assetMovements[key], assetEssentials: state.assetsEssentials[key] }));
+    return assetMovementKeys.map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] }));
   }
 );
 
 export const getAssetTracks = createSelector(
-  getAssetState,
-  (state: State) => Object.keys(state.assetTracks).map(key => state.assetTracks[key])
+  selectAssetsTracks,
+  (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }) => Object.keys(assetTracks).map(key => assetTracks[key])
 );
 
 export const getVisibleAssetTracks = createSelector(
-  getAssetState,
-  (state: State) => Object.keys(state.assetTracks).map(key => state.assetTracks[key])
+  selectAssetsTracks,
+  (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }) => Object.keys(assetTracks).map(key => assetTracks[key])
 );
 
 export const getCurrentPositionOfSelectedAsset = createSelector(
-  getAssetState,
-  (state: State) => {
-    return state.assetMovements[state.selectedAsset];
+  selectAssetMovements,
+  selectSelectedAsset,
+  (assetMovements: { [uid: string]: AssetInterfaces.AssetMovement }, selectedAsset: string) => {
+    return assetMovements[selectedAsset];
   }
 );
 
 export const extendedDataForSelectedAsset = createSelector(
-  getAssetState, getCurrentPositionOfSelectedAsset,
-  (state: State, currentPosition) => {
+  selectAssets,
+  selectSelectedAsset,
+  selectAssetsTracks,
+  getCurrentPositionOfSelectedAsset,
+  (
+    assets: { [uid: string]: AssetInterfaces.Asset },
+    selectedAsset: string,
+    assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack },
+    currentPosition
+  ) => {
     return {
-      asset: state.assets[state.selectedAsset],
-      assetTracks: state.assetTracks[state.selectedAsset],
+      asset: assets[selectedAsset],
+      assetTracks: assetTracks[selectedAsset],
       currentPosition
     };
   }
 );
 
 export const getForecasts = createSelector(
-  getAssetState,
-  (state: State) =>
-    state.forecasts.reduce((acc, assetId) => {
-      acc[assetId] = state.assetMovements[assetId];
+  selectAssetForecasts,
+  selectAssetMovements,
+  (assetForecasts, assetMovements) =>
+    assetForecasts.reduce((acc, assetId) => {
+      acc[assetId] = assetMovements[assetId];
       return acc;
     }, {})
 );
 
 export const getPositionsForInspection = createSelector(
-  getAssetState,
-  (state: State) => state.positionsForInspection
+  selectPositionsForInspection,
+  (positionsForInspection) => positionsForInspection
 );
 
 export const getSearchAutocomplete = createSelector(
-  getAssetState,
-  (state: State) => {
-    if(state.searchQuery.length < 2) {
+  selectSearchQuery,
+  selectAssetsEssentials,
+  selectAssetMovements,
+  (searchQuery, assetsEssentials, assetMovements) => {
+    if(searchQuery.length < 2) {
       return [];
     }
-    return Object.keys(state.assetsEssentials)
-      .filter(key => state.assetsEssentials[key].assetName.toLowerCase().indexOf(state.searchQuery.toLowerCase()) !== -1)
-      .map(key => ({ assetMovement: state.assetMovements[key], assetEssentials: state.assetsEssentials[key] }));
+    return Object.keys(assetsEssentials)
+      .filter(key =>
+        assetsEssentials[key] !== undefined &&
+        assetsEssentials[key].assetName !== null &&
+        assetsEssentials[key].assetName.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+      )
+      .map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] }));
   }
 );

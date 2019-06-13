@@ -6,6 +6,7 @@
       [assets]="assetMovements"
       [selectedAsset]="selectedAsset$|async"
       [map]="map"
+      [mapZoom]="mapZoom"
       [namesVisible]="mapSettings.namesVisible"
       [speedsVisible]="mapSettings.speedsVisible"
       [selectAsset]="selectAsset"
@@ -47,7 +48,7 @@
     [tracksMinuteCap]="mapSettings.tracksMinuteCap"
   ></map-asset-panel>
   <map-tracks
-    *ngIf="mapSettings.tracksVisible"
+    *ngIf="mapSettings.tracksVisible && mapZoom > 9"
     [assetTracks]="assetTracks$|async"
     [map]="map"
     [mapZoom]="mapZoom"
@@ -57,7 +58,7 @@
     [positionsForInspection]="positionsForInspection$|async"
   ></map-tracks>
   <map-flagstates
-    *ngIf="mapSettings.flagsVisible"
+    *ngIf="mapSettings.flagsVisible && mapZoom > 8"
     [assets]="assetMovements"
     [map]="map"
   ></map-flagstates>
@@ -67,7 +68,7 @@
     [removePositionForInspection]="removePositionForInspection"
   ></map-track-panel>
   <map-asset-forecast
-    *ngIf="mapSettings.forecastsVisible"
+    *ngIf="mapSettings.forecastsVisible && mapZoom > 9"
     [map]="map"
     [assetMovements]="forecasts$|async"
     [forecastInterval]="mapSettings.forecastInterval"

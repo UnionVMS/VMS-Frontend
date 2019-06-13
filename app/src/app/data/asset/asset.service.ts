@@ -117,7 +117,7 @@ export class AssetService {
   listAssets(authToken, requestParams) {
     // console.warn(`RequestParams we should send when it's implemented: `, requestParams);
     return this.http.post(
-      environment.baseApiUrl + `asset/rest/asset/list/?dynamic=false`,
+      environment.baseApiUrl + `asset/rest/asset/list/`,
       requestParams,
       {
         headers: new HttpHeaders({

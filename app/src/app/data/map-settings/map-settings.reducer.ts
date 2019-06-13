@@ -11,10 +11,10 @@ export const initialState: Interfaces.State = {
   forecastInterval: 30,
   tracksMinuteCap: 200,
   viewports: {},
-  startZoomLevel: 6,
+  startZoomLevel: 10,
   startPosition: {
     latitude: 57.6806116,
-    longitude: 14.1047925
+    longitude: 12.1047925
   },
   assetColorMethod: 'Random',
 };

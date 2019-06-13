@@ -43,24 +43,26 @@ export function assetReducer(state = initialState, { type, payload }) {
         ...state.assetMovements,
         ...payload
       } };
-      Object.keys(payload).map((assetId) => {
-        if(typeof newState.assetTracks[assetId] !== 'undefined') {
-          newState.assetTracks[assetId].tracks.push(payload[assetId].microMove);
-          // tslint:disable-next-line:no-shadowed-variable
-          const lineSegments = newState.assetTracks[assetId].lineSegments;
-          const lastSegment = lineSegments[lineSegments.length - 1];
-          const segmentSpeed = speeds.find((speed) => newState.assetMovements[assetId].microMove.speed < speed);
-          // Add the last position in last segment eiter way so there is no spaces in the draw line.
-          lastSegment.positions.push(newState.assetMovements[assetId].microMove.location);
-          if (lastSegment.speed !== segmentSpeed) {
-            lineSegments.push({
-              speed: segmentSpeed,
-              positions: [newState.assetMovements[assetId].microMove.location],
-              color: speedSegments[segmentSpeed]
-            });
+      if(Object.keys(newState.assetTracks).length > 0) {
+        Object.keys(payload).map((assetId) => {
+          if(typeof newState.assetTracks[assetId] !== 'undefined') {
+            newState.assetTracks[assetId].tracks.push(payload[assetId].microMove);
+            // tslint:disable-next-line:no-shadowed-variable
+            const lineSegments = newState.assetTracks[assetId].lineSegments;
+            const lastSegment = lineSegments[lineSegments.length - 1];
+            const segmentSpeed = speeds.find((speed) => newState.assetMovements[assetId].microMove.speed < speed);
+            // Add the last position in last segment eiter way so there is no spaces in the draw line.
+            lastSegment.positions.push(newState.assetMovements[assetId].microMove.location);
+            if (lastSegment.speed !== segmentSpeed) {
+              lineSegments.push({
+                speed: segmentSpeed,
+                positions: [newState.assetMovements[assetId].microMove.location],
+                color: speedSegments[segmentSpeed]
+              });
+            }
           }
-        }
-      });
+        });
+      }
       return newState;
 
     case ActionTypes.SetEssentialProperties:

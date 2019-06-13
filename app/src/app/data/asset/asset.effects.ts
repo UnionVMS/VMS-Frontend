@@ -82,29 +82,26 @@ export class AssetEffects {
           return Observable.create((observer) => {
             observer.next(
               new AssetsMoved(assetMovements.microMovements.reduce((acc, assetMovement) => {
-                return { ...acc,
-                  [assetMovement.asset]: assetMovement
-                };
+                acc[assetMovement.asset] = assetMovement;
+                return acc;
               }, {}))
             );
             observer.next(
               new SetEssentialProperties(assetMovements.assetList.reduce((acc, assetEssentials) => {
-                return { ...acc,
-                  [assetEssentials.assetId]: assetEssentials
-                };
+                acc[assetEssentials.assetId] = assetEssentials;
+                return acc;
               }, {}))
             );
             observer.complete();
           });
         }), mergeAll()),
         this.assetService.subscribeToMovements(authToken).pipe(
-          bufferTime(1000),
+          bufferTime(2000),
           map((assetMovements: Array<any>) => {
             if (assetMovements.length !== 0) {
               return new AssetsMoved(assetMovements.reduce((acc, assetMovement) => {
-                return { ...acc,
-                  [assetMovement.asset]: assetMovement
-                };
+                acc[assetMovement.asset] = assetMovement;
+                return acc;
               }, {}));
             } else {
               return null;

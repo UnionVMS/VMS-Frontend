@@ -4,9 +4,10 @@ import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers';
 
 import Map from 'ol/Map';
-import { Fill, Stroke, Style, Icon, Text } from 'ol/style.js';
+import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style.js';
 import VectorLayer from 'ol/layer/Vector';
-import VectorSource from 'ol/source/Vector';
+// import VectorSource from 'ol/source/Vector';
+import { Cluster, Vector as VectorSource } from 'ol/source.js';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { fromLonLat } from 'ol/proj';
@@ -24,6 +25,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() speedsVisible: boolean;
   @Input() shipColorLogic: string;
   @Input() selectedAsset: any;
+  @Input() mapZoom: number;
   // tslint:disable:ban-types
   @Input() selectAsset: Function;
   @Input() registerOnClickFunction: Function;
@@ -31,22 +33,84 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   // tslint:enable:ban-types
 
   private vectorSource: VectorSource;
+  private clusterSource: Cluster;
   private vectorLayer: VectorLayer;
   private layerTitle = 'Asset Layer';
   private namesWereVisibleLastRerender: boolean;
   private speedsWereVisibleLastRerender: boolean;
   private selection: Select;
   private assetSpeedsPreviouslyRendered: { [key: string]: string } = {};
+  private assetLastUpdateHash: { [assetId: string]: Array<number>} = {};
   private renderedAssetIds: Array<string> = [];
   private previouslySelectedAssetId = '';
-  private i = 0;
+  private styleCache: Array<any> = [];
+
+
+  private displayAsStack = true;
+
+  private counter = 0;
+  private timeCounter = 0;
+  private namesVisibleCalculated: boolean;
+  private speedsVisibleCalculated: boolean;
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
+    // this.clusterSource = new Cluster({
+    //   distance: 16,
+    //   source: this.vectorSource
+    // });
     this.vectorLayer = new VectorLayer({
       title: this.layerTitle,
       source: this.vectorSource,
-      renderBuffer: 200
+      renderBuffer: 200,
+      // style: (feature) => {
+      //   const size = feature.get('features').length;
+      //   if(size === 1) {
+      //     return feature.get('features')[0].getStyle();
+      //   }
+      //   let style;
+      //   if(this.displayAsStack) {
+      //     const firstFeatureInStack = feature.get('features')[0];
+      //     const stackId = firstFeatureInStack.getId();
+      //     style = this.styleCache[stackId];
+      //     if(!style) {
+      //
+      //       style = new Style({
+      //         image: new Icon({
+      //           src: '/assets/arrow_stack.png',
+      //           scale: 0.8,
+      //           color: firstFeatureInStack.getStyle().getImage().getColor(),
+      //         })
+      //       });
+      //       style.getImage().setOpacity(1);
+      //       style.getImage().setRotation(firstFeatureInStack.getStyle().getImage().getRotation());
+      //       this.styleCache[stackId] = style;
+      //     }
+      //   } else {
+      //     style = this.styleCache[size];
+      //     if (!style) {
+      //       style = new Style({
+      //         image: new CircleStyle({
+      //           radius: 10,
+      //           stroke: new Stroke({
+      //             color: '#fff'
+      //           }),
+      //           fill: new Fill({
+      //             color: '#3399CC'
+      //           })
+      //         }),
+      //         text: new Text({
+      //           text: size.toString(),
+      //           fill: new Fill({
+      //             color: '#fff'
+      //           })
+      //         })
+      //       });
+      //     }
+      //     this.styleCache[size] = style;
+      //   }
+      //   return style;
+      // }
     });
     this.map.addLayer(this.vectorLayer);
     this.registerOnClickFunction(this.layerTitle, (event) => {
@@ -67,31 +131,61 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     this.vectorLayer.getSource().refresh();
   }
 
-  ngOnChanges() {
+  async ngOnChanges() {
+    if(this.mapZoom < 10) {
+      this.namesVisibleCalculated = false;
+      this.speedsVisibleCalculated = false;
+    } else {
+      this.namesVisibleCalculated = this.namesVisible;
+      this.speedsVisibleCalculated = this.speedsVisible;
+    }
     // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
     if (typeof this.vectorSource !== 'undefined') {
+      const start = (new Date()).getTime();
       const newRenderedAssetIds = [];
+      const assetIds = this.assets.map((asset) => asset.assetMovement.asset);
+      let reRenderAssets = false;
       this.renderedAssetIds.map((assetId) => {
-        if(!this.assets.find((asset) => asset.assetMovement.asset === assetId)) {
-          this.removeAsset(assetId);
-        } else {
+        if(assetIds.indexOf(assetId) !== -1) {
           newRenderedAssetIds.push(assetId);
+        } else if(!reRenderAssets) {
+          reRenderAssets = true;
         }
       });
+
+      if(reRenderAssets) {
+        // Instead of removing them one by one which triggers recalculations inside open layers after every removal
+        // we clear the entire map of assets and redraw them, this scales linearly instead of exponentialy it appears.
+        this.vectorSource.clear();
+      }
+      this.counter = 0;
+      this.timeCounter = 0;
+      // console.warn('MS1: ', ((new Date()).getTime() - start) );
+      const start2 = (new Date()).getTime();
       this.vectorSource.addFeatures(
-        this.assets.reduce((acc, asset) => {
+        await this.assets.reduce(async (previousPromise, asset) => {
+          const acc = await previousPromise;
           if(newRenderedAssetIds.indexOf(asset.assetMovement.asset) === -1) {
             newRenderedAssetIds.push(asset.assetMovement.asset);
           }
+          if(reRenderAssets) {
+            acc.push(this.createFeatureFromAsset(asset));
+            return acc;
+          }
           const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
           if (assetFeature !== null) {
-            this.updateFeatureFromAsset(assetFeature, asset);
+            await this.updateFeatureFromAsset(assetFeature, asset);
           } else {
             acc.push(this.createFeatureFromAsset(asset));
           }
           return acc;
-        }, [])
+        }, Promise.resolve([]))
       );
+      // console.warn(
+      //   'MS2: ', ((new Date()).getTime() - start2),
+      //   ' - Assets updated: ', this.counter, ' / ', this.assets.length,
+      //   ' - Time per update for processing: ', this.timeCounter / this.counter , ' ms'
+      // );
 
       // Invert colors for selected asset and change previously selected assets icon back to normal.
       if(
@@ -114,7 +208,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         this.updateImageOnAsset(
           selectedAsset,
           '/assets/arrow_640_rotated_4p_selected.png',
-          this.getShipColor({ assetEssentials: this.selectedAsset.asset }),
+          this.getShipColor({ assetEssentials: this.selectedAsset.asset, assetMovement: this.selectedAsset.currentPosition }),
           this.selectedAsset.currentPosition.microMove.heading
         );
 
@@ -123,9 +217,10 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
       this.vectorLayer.getSource().changed();
       this.vectorLayer.getSource().refresh();
-      this.namesWereVisibleLastRerender = this.namesVisible;
-      this.speedsWereVisibleLastRerender = this.speedsVisible;
+      this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
+      this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;
       this.renderedAssetIds = newRenderedAssetIds;
+      // console.warn('-- MS: ', ((new Date()).getTime() - start) );
     }
   }
 
@@ -145,11 +240,10 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   removeAsset(assetId) {
-    this.vectorSource.getFeatures().map((feature) => {
-      if(feature.getId().includes(assetId)) {
-        this.vectorSource.removeFeature(feature);
-      }
-    });
+    const feature = this.vectorSource.getFeatureById(assetId);
+    if(feature) {
+      this.vectorSource.removeFeature(feature);
+    }
   }
 
   createFeatureFromAsset(asset: AssetInterfaces.AssetMovementWithEssentials) {
@@ -166,7 +260,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         color: this.getShipColor(asset)
       })
     };
-    if (this.namesVisible || this.speedsVisible) {
+    if (this.namesVisibleCalculated || this.speedsVisibleCalculated) {
       styleProperties.text = this.getTextStyleForName(asset);
     }
 
@@ -176,6 +270,13 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     assetFeature.getStyle().getImage().setOpacity(1);
     assetFeature.getStyle().getImage().setRotation(deg2rad(assetMovement.microMove.heading));
     assetFeature.setId(assetMovement.asset);
+
+    const currentAssetPosition = [
+      asset.assetMovement.microMove.location.latitude,
+      asset.assetMovement.microMove.location.longitude,
+      asset.assetMovement.microMove.heading
+    ];
+    this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
     return assetFeature;
   }
 
@@ -224,20 +325,38 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovementWithEssentials) {
-    assetFeature.setGeometry(new Point(fromLonLat([
-      asset.assetMovement.microMove.location.longitude, asset.assetMovement.microMove.location.latitude
-    ])));
-    assetFeature.getStyle().getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
+  async updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovementWithEssentials) {
+    const currentAssetPosition = [
+      asset.assetMovement.microMove.location.latitude,
+      asset.assetMovement.microMove.location.longitude,
+      asset.assetMovement.microMove.heading
+    ];
+    const oldStuff = this.assetLastUpdateHash[asset.assetMovement.asset];
+    if(
+      oldStuff === undefined ||
+      oldStuff[0] !== currentAssetPosition[0] || oldStuff[1] !== currentAssetPosition[1] || oldStuff[2] !== currentAssetPosition[2]
+    ) {
+      const start = (new Date()).getTime();
+      this.counter++;
+      assetFeature.setGeometry(new Point(fromLonLat(
+        [asset.assetMovement.microMove.location.longitude, asset.assetMovement.microMove.location.latitude]
+      )));
+      this.timeCounter += ((new Date()).getTime() - start);
+      assetFeature.getStyle().getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
+      this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
+      if(this.counter % 10 === 0) {
+        await Promise.all([new Promise(resolve => setTimeout(resolve, 5))]);
+      }
+    }
     if (
-      this.namesWereVisibleLastRerender !== this.namesVisible ||
-      this.speedsWereVisibleLastRerender !== this.speedsVisible ||
+      this.namesWereVisibleLastRerender !== this.namesVisibleCalculated ||
+      this.speedsWereVisibleLastRerender !== this.speedsVisibleCalculated ||
       (
-        this.speedsVisible &&
+        this.speedsVisibleCalculated &&
         this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] !== asset.assetMovement.microMove.speed.toFixed(2)
       )
     ) {
-      if (this.namesVisible || this.speedsVisible) {
+      if (this.namesVisibleCalculated || this.speedsVisibleCalculated) {
         assetFeature.getStyle().setText(this.getTextStyleForName(asset));
       } else {
         assetFeature.getStyle().setText(null);
@@ -249,10 +368,10 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   getTextStyleForName(asset: AssetInterfaces.AssetMovementWithEssentials) {
     let text = null;
     let offsetY = 20;
-    if (this.namesVisible) {
+    if (this.namesVisibleCalculated && asset.assetEssentials !== undefined) {
       text = asset.assetEssentials.assetName;
     }
-    if (this.speedsVisible) {
+    if (this.speedsVisibleCalculated) {
       if (text !== null) {
         text += '\n' + asset.assetMovement.microMove.speed.toFixed(2) + ' kts';
         offsetY = 30;
@@ -267,7 +386,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       fill: new Fill({ color: '#000' }),
       stroke: new Stroke({
         color: '#fff',
-        width: 2
+        width: 1
       }),
       offsetY,
       text
