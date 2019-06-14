@@ -10,21 +10,10 @@ import { Observable } from 'rxjs';
 export class AssetService {
   private movementEventSource: EventSourcePolyfill;
   private movementObserver$;
+  private assetEventSource: EventSourcePolyfill;
+  private assetObserver$;
 
   constructor(private http: HttpClient) {}
-  //
-  // getInitalAssetMovements(authToken: string) {
-  //   return this.http.post(
-  //     environment.baseApiUrl + 'asset/rest/asset/microAssets',
-  //     ['bc41744b-09ac-45b0-8081-da2f084c2649'],
-  //     {
-  //       headers: new HttpHeaders({
-  //         Authorization: authToken,
-  //         'Cache-Control': 'no-cache'
-  //       })
-  //     }
-  //   );
-  // }
 
   getInitalAssetMovements(authToken: string) {
     return this.http.get(
@@ -62,14 +51,41 @@ export class AssetService {
     });
   }
 
+  subscribeToAssetUpdates(authToken: string) {
+    this.assetEventSource = new EventSourcePolyfill(environment.baseApiUrl + 'asset/rest/sse/subscribe', {
+      headers: {
+        Authorization: authToken,
+        'Cache-Control': 'no-cache'
+      }
+    });
+    const listener = (event) => {
+      if (event.type === 'error') {
+        console.error('Asset event stream: [Error]', event);
+      } else {
+        console.warn('Asset event stream: [' + event.type + '] ', (event.type === 'message' ? event.data : event));
+      }
+    };
+    this.assetEventSource.addEventListener('open', listener);
+    this.assetEventSource.addEventListener('message', listener);
+    this.assetEventSource.addEventListener('error', listener);
+    const that = this;
+    return Observable.create((observer) => {
+      that.assetObserver$ = observer;
+
+      that.assetEventSource.addEventListener('Asset', (asset) => observer.next(JSON.parse(asset.data)));
+    });
+  }
+
   unsubscribeToMovements() {
     this.movementObserver$.complete();
+    this.assetObserver$.complete();
     console.log(
       '-------- We get error here due to the fact that we are closing the connection in ' +
       'the middle of getting new messages.\n' +
       '-------- There seamse to be no way around this and it does not seam to do any harm.'
     );
     this.movementEventSource.close();
+    this.assetEventSource.close();
   }
 
   getAsset(authToken: string, assetId: string) {

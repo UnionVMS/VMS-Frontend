@@ -121,6 +121,20 @@ export class AssetEffects {
           // tslint:disable-next-line:no-shadowed-variable
           flatMap( (action, index): object => action ),
           catchError((err) => of({ type: ActionTypes.FailedToSubscribeToMovements, payload: err }))
+        ),
+        this.assetService.subscribeToAssetUpdates(authToken).pipe(
+          bufferTime(500),
+          map((assetsEssentials: Array<any>) => {
+            if (assetsEssentials.length !== 0) {
+              return new SetEssentialProperties(assetsEssentials.reduce((acc, assetEssentials) => {
+                acc[assetEssentials.assetId] = assetEssentials;
+                return acc;
+              }, {}));
+            } else {
+              return null;
+            }
+          }),
+          filter(val => val !== null)
         )
       );
     })
