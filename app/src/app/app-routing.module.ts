@@ -19,6 +19,7 @@ import { RealtimeComponent } from './modules/map/pages/realtime/realtime.compone
 
 // Asset-pages
 import { SearchComponent as AssetSearchComponent } from './modules/asset/pages/search/search.component';
+import { FormComponent as AssetFormComponent } from './modules/asset/pages/form/form.component';
 
 // Settings-pages
 import { UserSettingsComponent } from './modules/settings/pages/user-settings/user-settings.component';
@@ -31,6 +32,7 @@ const routes: Routes = [
     children: [
       { path: '', component: TestComponent, pathMatch: 'full'},
       { path: 'settings/user', component: UserSettingsComponent, pathMatch: 'full'},
+      { path: 'asset/edit', component: AssetFormComponent, pathMatch: 'full'},
       { path: 'asset', component: AssetSearchComponent, pathMatch: 'full'},
       { path: 'test', component: TestComponent, pathMatch: 'full'},
     ]

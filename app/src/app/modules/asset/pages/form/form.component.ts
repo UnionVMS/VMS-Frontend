@@ -13,11 +13,11 @@ const allFlagstates = Object.keys(getAlpha3Codes());
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 
 @Component({
-  selector: 'asset-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  selector: 'asset-edit',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.scss']
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class FormComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<AssetInterfaces.State>) { }
 
@@ -25,14 +25,23 @@ export class SearchComponent implements OnInit, OnDestroy {
   public loadingData = false;
   public tableReadyForDisplay = false;
   public dataLoadedSubscription: Subscription;
-  public displayedColumns: string[] = ['name', 'ircs', 'mmsi', 'flagstate', 'externalMarking', 'cfr', 'details'];
   public flagstates = allFlagstates.sort();
-  public assetSearchObject = {
-    flagState: [],
+  public assetObject = {
+    flagState: '',
     externalMarking: '',
     name: '',
     cfr: '',
     ircs: '',
+    imo: '',
+    portOfRegistration: '',
+    gearFishingType: '',
+    mmsi: '',
+    licenceType: '',
+    lengthOverAll: '',
+    grossTonnage: '',
+    powerOfMainEngine: '',
+    prodOrgName: '',
+    prodOrgCode: ''
   };
   public search: () => void;
 
@@ -48,20 +57,20 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   mapDispatchToProps() {
     this.search = () => {
-      this.loadingData = true;
-      this.tableReadyForDisplay = false;
-      const searchQuery = Object.keys(this.assetSearchObject).reduce((acc, key) => {
-        console.warn(key, ':', Array.isArray(this.assetSearchObject[key]));
-        if(typeof this.assetSearchObject[key] === 'string' && this.assetSearchObject[key].length > 0) {
-          acc[key] = [this.assetSearchObject[key]];
-        } else if(Array.isArray(this.assetSearchObject[key]) && this.assetSearchObject[key].length > 0) {
-          acc[key] = this.assetSearchObject[key];
-        }
-
-        return acc;
-      }, {});
-
-      this.store.dispatch(new AssetActions.SearchAssets(searchQuery));
+      console.warn(this.assetObject);
+      // this.loadingData = true;
+      // this.tableReadyForDisplay = false;
+      // const searchQuery = Object.keys(this.assetSearchObject).reduce((acc, key) => {
+      //   if(typeof this.assetSearchObject[key] === 'string' && this.assetSearchObject[key].length > 0) {
+      //     acc[key] = [this.assetSearchObject[key]];
+      //   } else if(Array.isArray(this.assetSearchObject[key]) && this.assetSearchObject[key].length > 0) {
+      //     acc[key] = this.assetSearchObject[key];
+      //   }
+      //
+      //   return acc;
+      // }, {});
+      //
+      // this.store.dispatch(new AssetActions.SearchAssets(searchQuery));
     };
   }
 

@@ -73,7 +73,7 @@ export class AssetMoved implements Action {
 export class AssetsMoved implements Action {
   readonly type = ActionTypes.AssetsMoved;
 
-  constructor(public payload: Array<AssetMovement>) {}
+  constructor(public payload: { [assetId: string]: AssetMovement }) {}
 }
 
 export class SetEssentialProperties implements Action {

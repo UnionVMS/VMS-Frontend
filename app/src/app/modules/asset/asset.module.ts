@@ -16,6 +16,7 @@ import { MatRadioModule } from '@angular/material/radio';
 
 
 /* Pages */
+import { FormComponent } from './pages/form/form.component';
 import { SearchComponent } from './pages/search/search.component';
 
 /* Components */
@@ -39,6 +40,7 @@ import { SearchComponent } from './pages/search/search.component';
     MatRadioModule,
   ],
   declarations: [
+    FormComponent,
     SearchComponent
   ]
 })

@@ -42,29 +42,37 @@ import { AuthService } from './data/auth/auth.service';
 /* Components */
 import { TestComponent } from './test/test.component';
 
+
+// declare to variable so we can controll if StoreDevtoolsModule should be imported or not.
+// Event tough it has a logOnly parameter it slows down the webpage conciderably when running the realtime map
+const imports = [
+  BrowserModule,
+  StoreModule.forRoot(reducers, { metaReducers }),
+  StoreRouterConnectingModule.forRoot(),
+  AppRoutingModule,
+  HttpClientModule,
+  EffectsModule.forRoot([AuthEffects, AssetEffects]),
+  BrowserAnimationsModule,
+  MDBBootstrapModule.forRoot(),
+  CoreModule,
+  MapModule,
+  AssetModule,
+  SettingsModule
+];
+
+if(!environment.production && environment.useStoreDevTools) {
+  imports.push(StoreDevtoolsModule.instrument({
+    maxAge: 25, // Retains last 25 states2
+    logOnly: environment.production, // Restrict extension to log-only mode
+  }));
+}
+
 @NgModule({
   declarations: [
     AppComponent,
     TestComponent
   ],
-  imports: [
-    BrowserModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states2
-      logOnly: environment.production, // Restrict extension to log-only mode
-    }),
-    StoreRouterConnectingModule.forRoot(),
-    AppRoutingModule,
-    HttpClientModule,
-    EffectsModule.forRoot([AuthEffects, AssetEffects]),
-    BrowserAnimationsModule,
-    MDBBootstrapModule.forRoot(),
-    CoreModule,
-    MapModule,
-    AssetModule,
-    SettingsModule
-  ],
+  imports,
   providers: [],
   bootstrap: [AppComponent]
 })

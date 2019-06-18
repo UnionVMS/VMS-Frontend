@@ -14,6 +14,32 @@
       [registerOnClickFunction]="registerOnClickFunction"
       [unregisterOnClickFunction]="unregisterOnClickFunction"
     ></map-assets>
+    <map-tracks
+      *ngIf="mapSettings.tracksVisible && mapZoom > 9"
+      [assetTracks]="assetTracks$|async"
+      [map]="map"
+      [mapZoom]="mapZoom"
+      [registerOnClickFunction]="registerOnClickFunction"
+      [unregisterOnClickFunction]="unregisterOnClickFunction"
+      [addPositionForInspection]="addPositionForInspection"
+      [positionsForInspection]="positionsForInspection$|async"
+    ></map-tracks>
+    <map-flagstates
+      *ngIf="mapSettings.flagsVisible && mapZoom > 9"
+      [assets]="assetMovements"
+      [map]="map"
+    ></map-flagstates>
+    <map-information-panel></map-information-panel>
+    <map-track-panel
+      [positions]="positionsForInspection$|async"
+      [removePositionForInspection]="removePositionForInspection"
+    ></map-track-panel>
+    <map-asset-forecast
+      *ngIf="mapSettings.forecastsVisible && mapZoom > 9"
+      [map]="map"
+      [assetMovements]="forecasts$|async"
+      [forecastInterval]="mapSettings.forecastInterval"
+    ></map-asset-forecast>
   </div>
   <map-asset-search
     [autocompleteFunction]="searchAutocomplete"
@@ -47,30 +73,4 @@
     [removeForecast]="removeForecast"
     [tracksMinuteCap]="mapSettings.tracksMinuteCap"
   ></map-asset-panel>
-  <map-tracks
-    *ngIf="mapSettings.tracksVisible && mapZoom > 9"
-    [assetTracks]="assetTracks$|async"
-    [map]="map"
-    [mapZoom]="mapZoom"
-    [registerOnClickFunction]="registerOnClickFunction"
-    [unregisterOnClickFunction]="unregisterOnClickFunction"
-    [addPositionForInspection]="addPositionForInspection"
-    [positionsForInspection]="positionsForInspection$|async"
-  ></map-tracks>
-  <map-flagstates
-    *ngIf="mapSettings.flagsVisible && mapZoom > 8"
-    [assets]="assetMovements"
-    [map]="map"
-  ></map-flagstates>
-  <map-information-panel></map-information-panel>
-  <map-track-panel
-    [positions]="positionsForInspection$|async"
-    [removePositionForInspection]="removePositionForInspection"
-  ></map-track-panel>
-  <map-asset-forecast
-    *ngIf="mapSettings.forecastsVisible && mapZoom > 9"
-    [map]="map"
-    [assetMovements]="forecasts$|async"
-    [forecastInterval]="mapSettings.forecastInterval"
-  ></map-asset-forecast>
 </div>

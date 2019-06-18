@@ -96,7 +96,7 @@ export class AssetEffects {
           });
         }), mergeAll()),
         this.assetService.subscribeToMovements(authToken).pipe(
-          bufferTime(2000),
+          bufferTime(1000),
           map((assetMovements: Array<any>) => {
             if (assetMovements.length !== 0) {
               return new AssetsMoved(assetMovements.reduce((acc, assetMovement) => {

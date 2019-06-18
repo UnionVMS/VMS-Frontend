@@ -41,7 +41,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private selection: Select;
   private assetSpeedsPreviouslyRendered: { [key: string]: string } = {};
   private assetLastUpdateHash: { [assetId: string]: Array<number>} = {};
-  private renderedAssetIds: Array<string> = [];
+  // Instead of an array we use object for faster lookup in ngOnChange loop.
+  private renderedAssetIds: { [ assetId: string]: boolean } = {};
   private previouslySelectedAssetId = '';
   private styleCache: Array<any> = [];
 
@@ -123,7 +124,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.vectorSource.addFeatures(this.assets.map((asset) => {
-      this.renderedAssetIds.push(asset.assetMovement.asset);
+      this.renderedAssetIds[asset.assetMovement.asset] = true;
       return this.createFeatureFromAsset(asset);
     }));
 
@@ -131,7 +132,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     this.vectorLayer.getSource().refresh();
   }
 
-  async ngOnChanges() {
+  ngOnChanges() {
     if(this.mapZoom < 10) {
       this.namesVisibleCalculated = false;
       this.speedsVisibleCalculated = false;
@@ -142,45 +143,66 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
     if (typeof this.vectorSource !== 'undefined') {
       const start = (new Date()).getTime();
-      const newRenderedAssetIds = [];
-      const assetIds = this.assets.map((asset) => asset.assetMovement.asset);
-      let reRenderAssets = false;
-      this.renderedAssetIds.map((assetId) => {
-        if(assetIds.indexOf(assetId) !== -1) {
-          newRenderedAssetIds.push(assetId);
-        } else if(!reRenderAssets) {
-          reRenderAssets = true;
-        }
-      });
+      const assetsToRender = this.assets.reduce((acc, asset) => {
+        acc[asset.assetMovement.asset] = true;
+        return acc;
+      }, {});
+      const reRenderAssets = Object.keys(this.renderedAssetIds).some((assetId) => assetsToRender[assetId] !== true);
 
       if(reRenderAssets) {
+        console.warn('-- Rerendering all assets');
         // Instead of removing them one by one which triggers recalculations inside open layers after every removal
         // we clear the entire map of assets and redraw them, this scales linearly instead of exponentialy it appears.
         this.vectorSource.clear();
       }
+      const newRenderedAssetIds = reRenderAssets ? {} : this.renderedAssetIds;
+
       this.counter = 0;
       this.timeCounter = 0;
       // console.warn('MS1: ', ((new Date()).getTime() - start) );
       const start2 = (new Date()).getTime();
+      let itTime = 0;
+      let updateTime = 0;
+      let createTime = 0;
+      let fetchTime = 0;
+      let preTime = 0;
       this.vectorSource.addFeatures(
-        await this.assets.reduce(async (previousPromise, asset) => {
-          const acc = await previousPromise;
-          if(newRenderedAssetIds.indexOf(asset.assetMovement.asset) === -1) {
-            newRenderedAssetIds.push(asset.assetMovement.asset);
+        this.assets.reduce((acc, asset) => {
+          // const acc = await previousPromise;
+          const start3 = (new Date()).getTime();
+          if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
+            newRenderedAssetIds[asset.assetMovement.asset] = true;
           }
           if(reRenderAssets) {
             acc.push(this.createFeatureFromAsset(asset));
             return acc;
           }
+          preTime += ((new Date()).getTime() - start3);
+
+          const start6 = (new Date()).getTime();
           const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
+          fetchTime += ((new Date()).getTime() - start6);
+
           if (assetFeature !== null) {
-            await this.updateFeatureFromAsset(assetFeature, asset);
+            const start4 = (new Date()).getTime();
+            this.updateFeatureFromAsset(assetFeature, asset);
+            updateTime += ((new Date()).getTime() - start4);
           } else {
+            const start5 = (new Date()).getTime();
             acc.push(this.createFeatureFromAsset(asset));
+            createTime += ((new Date()).getTime() - start5);
           }
+          itTime += ((new Date()).getTime() - start3);
           return acc;
-        }, Promise.resolve([]))
+        }, [])
       );
+      // console.warn(
+      //   'Itteration time:', itTime,
+      //   'ms - Update time: ', updateTime,
+      //   ' ms - createTime: ', createTime,
+      //   ' ms - fetchTime: ', fetchTime,
+      //   ' ms - preTime: ', preTime, ' ms'
+      // );
       // console.warn(
       //   'MS2: ', ((new Date()).getTime() - start2),
       //   ' - Assets updated: ', this.counter, ' / ', this.assets.length,
@@ -195,7 +217,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       ) {
         const previouslySelectedAssetFeature = this.vectorSource.getFeatureById(this.previouslySelectedAssetId);
         if(typeof previouslySelectedAssetFeature !== 'undefined' && previouslySelectedAssetFeature !== null) {
-          const previouslySelectedAsset = this.assets.find((asset) => asset.assetEssentials.assetId === this.previouslySelectedAssetId);
+          const previouslySelectedAsset = this.assets.find((asset) => asset.assetMovement.asset === this.previouslySelectedAssetId);
           this.updateImageOnAsset(
             previouslySelectedAssetFeature,
             '/assets/arrow_640_rotated_4p.png',
@@ -325,7 +347,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  async updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovementWithEssentials) {
+  updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovementWithEssentials) {
     const currentAssetPosition = [
       asset.assetMovement.microMove.location.latitude,
       asset.assetMovement.microMove.location.longitude,
@@ -341,12 +363,12 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       assetFeature.setGeometry(new Point(fromLonLat(
         [asset.assetMovement.microMove.location.longitude, asset.assetMovement.microMove.location.latitude]
       )));
-      this.timeCounter += ((new Date()).getTime() - start);
       assetFeature.getStyle().getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
       this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
-      if(this.counter % 10 === 0) {
-        await Promise.all([new Promise(resolve => setTimeout(resolve, 5))]);
-      }
+      this.timeCounter += ((new Date()).getTime() - start);
+      // if(this.counter % 10 === 0) {
+      //   await Promise.all([new Promise(resolve => setTimeout(resolve, 5))]);
+      // }
     }
     if (
       this.namesWereVisibleLastRerender !== this.namesVisibleCalculated ||
