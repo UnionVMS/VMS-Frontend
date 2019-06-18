@@ -168,7 +168,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       let preTime = 0;
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
-          // const acc = await previousPromise;
           const start3 = (new Date()).getTime();
           if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
             newRenderedAssetIds[asset.assetMovement.asset] = true;
@@ -366,9 +365,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       assetFeature.getStyle().getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
       this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
       this.timeCounter += ((new Date()).getTime() - start);
-      // if(this.counter % 10 === 0) {
-      //   await Promise.all([new Promise(resolve => setTimeout(resolve, 5))]);
-      // }
     }
     if (
       this.namesWereVisibleLastRerender !== this.namesVisibleCalculated ||

@@ -81,7 +81,7 @@ describe('AssetsComponent', () => {
     expect(textStyle.getOffsetY()).toEqual(20);
   });
 
-  it('should create feature from asset correctly', async () => {
+  it('should create feature from asset correctly', () => {
     const { component } = setup();
 
     const feature = component.createFeatureFromAsset(AssetMovementWithEssentialsStub);
@@ -98,7 +98,7 @@ describe('AssetsComponent', () => {
       }
     };
     component['speedsVisibleCalculated'] = false;
-    const updatedFeature = await component.updateFeatureFromAsset(feature, updatedAsset);
+    const updatedFeature = component.updateFeatureFromAsset(feature, updatedAsset);
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
 
@@ -109,14 +109,14 @@ describe('AssetsComponent', () => {
     expect(updatedFeature.getStyle().getImage().getRotation()).toEqual(deg2rad(updatedAsset.assetMovement.microMove.heading));
 
     component['namesVisibleCalculated'] = true;
-    const updatedFeatureWithName = await component.updateFeatureFromAsset(updatedFeature, updatedAsset);
+    const updatedFeatureWithName = component.updateFeatureFromAsset(updatedFeature, updatedAsset);
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
     expect(updatedFeatureWithName.getId()).toEqual(updatedFeature.getId());
     expect(updatedFeatureWithName.getStyle().getText().getText()).toEqual(updatedAsset.assetEssentials.assetName);
 
     component['speedsVisibleCalculated'] = true;
-    const updatedFeatureWithSpeed = await component.updateFeatureFromAsset(updatedFeatureWithName, updatedAsset);
+    const updatedFeatureWithSpeed = component.updateFeatureFromAsset(updatedFeatureWithName, updatedAsset);
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
     expect(updatedFeatureWithSpeed.getId()).toEqual(updatedFeatureWithName.getId());
@@ -131,7 +131,7 @@ describe('AssetsComponent', () => {
         }
       }
     };
-    const updatedFeatureWithExtraSpeed = await component.updateFeatureFromAsset(updatedFeatureWithSpeed, fasterAsset);
+    const updatedFeatureWithExtraSpeed = component.updateFeatureFromAsset(updatedFeatureWithSpeed, fasterAsset);
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
     expect(updatedFeatureWithExtraSpeed.getStyle().getText().getText())
@@ -160,7 +160,7 @@ describe('AssetsComponent', () => {
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
   });
 
-  it('should update correctly', async () => {
+  it('should update correctly', () => {
     const { component } = setup();
     component.map.addLayer = (layer) => {};
     component.registerOnClickFunction = (name, func) => {};
@@ -168,7 +168,7 @@ describe('AssetsComponent', () => {
 
     component.assets = [AssetMovementWithEssentialsStub];
     expect(component['vectorSource'].getFeatures().length).toEqual(0);
-    await component.ngOnChanges();
+    component.ngOnChanges();
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
     const fastAsset = { ...AssetMovementWithEssentialsStub,
       assetMovement: { ...AssetMovementWithEssentialsStub.assetMovement,
@@ -178,7 +178,7 @@ describe('AssetsComponent', () => {
     component.assets = [fastAsset];
     expect(component['vectorSource'].getFeatures()[0].getStyle().getText().getText())
       .toEqual(AssetMovementWithEssentialsStub.assetMovement.microMove.speed.toFixed(2) + ' kts');
-    await component.ngOnChanges();
+    component.ngOnChanges();
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
     expect(component['vectorSource'].getFeatures()[0].getStyle().getText().getText())
       .toEqual(fastAsset.assetMovement.microMove.speed.toFixed(2) + ' kts');
