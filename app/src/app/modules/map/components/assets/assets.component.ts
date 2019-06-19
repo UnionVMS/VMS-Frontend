@@ -12,6 +12,10 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { fromLonLat } from 'ol/proj';
 import Select from 'ol/interaction/Select.js';
+import { getName as getCountryName, registerLocale } from 'i18n-iso-countries';
+// @ts-ignore
+import enLocale from 'i18n-iso-countries/langs/en.json';
+registerLocale(enLocale);
 
 @Component({
   selector: 'map-assets',
@@ -142,7 +146,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }
     // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
     if (typeof this.vectorSource !== 'undefined') {
-      const start = (new Date()).getTime();
       const assetsToRender = this.assets.reduce((acc, asset) => {
         acc[asset.assetMovement.asset] = true;
         return acc;
@@ -159,16 +162,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
       this.counter = 0;
       this.timeCounter = 0;
-      // console.warn('MS1: ', ((new Date()).getTime() - start) );
-      const start2 = (new Date()).getTime();
-      let itTime = 0;
-      let updateTime = 0;
-      let createTime = 0;
-      let fetchTime = 0;
-      let preTime = 0;
+
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
-          const start3 = (new Date()).getTime();
           if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
             newRenderedAssetIds[asset.assetMovement.asset] = true;
           }
@@ -176,37 +172,16 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
             acc.push(this.createFeatureFromAsset(asset));
             return acc;
           }
-          preTime += ((new Date()).getTime() - start3);
-
-          const start6 = (new Date()).getTime();
           const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
-          fetchTime += ((new Date()).getTime() - start6);
 
           if (assetFeature !== null) {
-            const start4 = (new Date()).getTime();
             this.updateFeatureFromAsset(assetFeature, asset);
-            updateTime += ((new Date()).getTime() - start4);
           } else {
-            const start5 = (new Date()).getTime();
             acc.push(this.createFeatureFromAsset(asset));
-            createTime += ((new Date()).getTime() - start5);
           }
-          itTime += ((new Date()).getTime() - start3);
           return acc;
         }, [])
       );
-      // console.warn(
-      //   'Itteration time:', itTime,
-      //   'ms - Update time: ', updateTime,
-      //   ' ms - createTime: ', createTime,
-      //   ' ms - fetchTime: ', fetchTime,
-      //   ' ms - preTime: ', preTime, ' ms'
-      // );
-      // console.warn(
-      //   'MS2: ', ((new Date()).getTime() - start2),
-      //   ' - Assets updated: ', this.counter, ' / ', this.assets.length,
-      //   ' - Time per update for processing: ', this.timeCounter / this.counter , ' ms'
-      // );
 
       // Invert colors for selected asset and change previously selected assets icon back to normal.
       if(
@@ -229,19 +204,34 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         this.updateImageOnAsset(
           selectedAsset,
           '/assets/arrow_640_rotated_4p_selected.png',
-          this.getShipColor({ assetEssentials: this.selectedAsset.asset, assetMovement: this.selectedAsset.currentPosition }),
+          this.getShipColor({
+            assetEssentials: {
+              assetId: this.selectedAsset.asset.id,
+              flagstate: this.selectedAsset.asset.flagStateCode,
+              assetName: this.selectedAsset.asset.name,
+              vesselType: this.selectedAsset.asset.vesselType,
+              ircs: this.selectedAsset.asset.ircs,
+              cfr: this.selectedAsset.asset.cfr,
+              externalMarking: this.selectedAsset.asset.externalMarkin,
+              lengthOverAll: this.selectedAsset.asset.lengthOverAll,
+            },
+            assetMovement: this.selectedAsset.currentPosition
+          }),
           this.selectedAsset.currentPosition.microMove.heading
         );
+
+        // We need to reset position to force rerender of asset.
+        selectedAsset.setGeometry(new Point(fromLonLat([
+          this.selectedAsset.currentPosition.microMove.location.longitude,
+          this.selectedAsset.currentPosition.microMove.location.latitude
+        ])));
 
         this.previouslySelectedAssetId = this.selectedAsset.asset.id;
       }
 
-      this.vectorLayer.getSource().changed();
-      this.vectorLayer.getSource().refresh();
       this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
       this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;
       this.renderedAssetIds = newRenderedAssetIds;
-      // console.warn('-- MS: ', ((new Date()).getTime() - start) );
     }
   }
 
@@ -312,7 +302,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         if(typeof asset.assetEssentials === 'undefined' || asset.assetEssentials.flagstate === null) {
           return '#FFFFFF';
         }
-        return '#' + intToRGB(hashCode(asset.assetEssentials.flagstate));
+        const country = getCountryName(asset.assetEssentials.flagstate, 'en') || asset.assetEssentials.flagstate;
+        return '#' + intToRGB(hashCode(country));
       case 'Size (length)':
         if(typeof asset.assetEssentials === 'undefined' || asset.assetEssentials.lengthOverAll === null) {
           return '#FFFFFF';
