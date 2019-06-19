@@ -20,6 +20,11 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() assets: Array<AssetInterfaces.AssetMovementWithEssentials>;
   @Input() map: Map;
+  // tslint:disable:ban-types
+  @Input() selectAsset: Function;
+  @Input() registerOnClickFunction: Function;
+  @Input() unregisterOnClickFunction: Function;
+  // tslint:enable:ban-types
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -35,7 +40,14 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
       renderBuffer: 200
     });
     this.map.addLayer(this.vectorLayer);
-
+    this.registerOnClickFunction(this.layerTitle, (event) => {
+      if (
+        typeof event.selected[0] !== 'undefined' &&
+        this.vectorSource.getFeatureById(event.selected[0].id_) !== null
+      ) {
+        this.selectAsset(event.selected[0].id_.substring(5));
+      }
+    });
     this.vectorSource.addFeatures(this.assets.reduce((features, asset) => {
       if (typeof asset.assetEssentials !== 'undefined' && asset.assetEssentials.flagstate !== 'UNK') {
         const flagFeature = this.createFeatureFromAsset(asset);
@@ -91,6 +103,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
+    this.unregisterOnClickFunction(this.layerTitle);
     this.map.removeLayer(this.vectorLayer);
   }
 

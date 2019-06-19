@@ -1,7 +1,7 @@
 <div class="content-container">
   <label>Search</label>
-  <div>
-    <input type="text" (keyup)="searchKeyUp($event)" [(ngModel)]="searchQuery" matInput [matAutocomplete]="auto">
+  <div class="search-wrapper">
+    <input type="text" (keyup)="searchKeyUp($event)" [(ngModel)]="searchQuery" [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
       <mat-option *ngFor="let option of searchResults" [value]="option.value" data-id="{{option.id}}">
         {{option.value}}

@@ -25,9 +25,12 @@
       [positionsForInspection]="positionsForInspection$|async"
     ></map-tracks>
     <map-flagstates
-      *ngIf="mapSettings.flagsVisible && mapZoom > 9"
+      *ngIf="mapSettings.flagsVisible && mapZoom > 9 && registerOnClickFunction !== undefined"
       [assets]="assetMovements"
       [map]="map"
+      [selectAsset]="selectAsset"
+      [registerOnClickFunction]="registerOnClickFunction"
+      [unregisterOnClickFunction]="unregisterOnClickFunction"
     ></map-flagstates>
     <map-information-panel></map-information-panel>
     <map-track-panel

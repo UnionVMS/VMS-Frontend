@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { formatDate } from '../../../../helpers';
 import * as AssetInterfaces from '@data/asset/asset.interfaces';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'map-asset-search',
