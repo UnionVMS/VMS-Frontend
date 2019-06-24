@@ -124,17 +124,24 @@ export class AssetService {
     );
   }
 
-  // getAssetInformation(authToken: string, assetId: string) {
-  //   return this.http.get(
-  //     environment.baseApiUrl + 'asset/rest/asset/' + assetId
-  //   );
-  // }
-
   listAssets(authToken, requestParams) {
     // console.warn(`RequestParams we should send when it's implemented: `, requestParams);
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/list/`,
       requestParams,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
+  getAssetEssentialProperties(authToken, listOfAssetIds) {
+    return this.http.post(
+      environment.baseApiUrl + `asset/rest/asset/microAssets`,
+      listOfAssetIds,
       {
         headers: new HttpHeaders({
           Authorization: authToken,

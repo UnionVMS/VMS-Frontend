@@ -46,6 +46,11 @@ export const getCurrentAssetList = createSelector(
   }
 );
 
+export const getAssetsEssentials = createSelector(
+  selectAssetsEssentials,
+  (assetsEssentials) => assetsEssentials
+);
+
 export const getAssetMovements = createSelector(
   selectAssetMovements,
   selectAssetsEssentials,

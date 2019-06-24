@@ -8,6 +8,7 @@ export enum ActionTypes {
   AddAssets = '[Asset] Add assets',
   AssetMoved = '[Asset] Moved',
   AssetsMoved = '[Asset] Multiple moves',
+  CheckForAssetEssentials = '[Asset] Check for essentials',
   ClearForecasts = '[Asset] Clear forecasts',
   ClearTracks = '[Asset] Clear tracks',
   FailedToSubscribeToMovements = '[Asset] Failed to subscribe to movements',
@@ -68,6 +69,12 @@ export class AssetMoved implements Action {
   readonly type = ActionTypes.AssetMoved;
 
   constructor(public payload: AssetMovement) {}
+}
+
+export class CheckForAssetEssentials implements Action {
+  readonly type = ActionTypes.CheckForAssetEssentials;
+
+  constructor(public payload: Array<AssetMovement> ) {}
 }
 
 export class AssetsMoved implements Action {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, empty, merge, Observable } from 'rxjs';
+import { of, EMPTY, merge, Observable } from 'rxjs';
 import { map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter } from 'rxjs/operators';
 
 import { AuthReducer, AuthSelectors } from '../auth';
@@ -9,9 +9,10 @@ import { MapSettingsSelectors } from '../map-settings';
 
 import {
   ActionTypes, SetFullAsset, AssetsMoved, SetAssetTrack, TrimTracksThatPassedTimeCap, SetAssetList,
-  SetEssentialProperties
+  SetEssentialProperties, CheckForAssetEssentials
 } from './asset.actions';
 import { AssetService } from './asset.service';
+import { AssetSelectors, AssetInterfaces } from './';
 
 @Injectable()
 export class AssetEffects {
@@ -68,7 +69,7 @@ export class AssetEffects {
     ofType(ActionTypes.UnsubscribeToMovements),
     mergeMap((action) => {
       this.assetService.unsubscribeToMovements();
-      return empty();
+      return EMPTY;
     })
   );
 
@@ -99,18 +100,20 @@ export class AssetEffects {
           bufferTime(1000),
           map((assetMovements: Array<any>) => {
             if (assetMovements.length !== 0) {
-              return new AssetsMoved(assetMovements.reduce((acc, assetMovement) => {
-                acc[assetMovement.asset] = assetMovement;
-                return acc;
-              }, {}));
+              return [
+                new AssetsMoved(assetMovements.reduce((acc, assetMovement) => {
+                  acc[assetMovement.asset] = assetMovement;
+                  return acc;
+                }, {})),
+                new CheckForAssetEssentials(assetMovements)
+              ];
             } else {
               return null;
             }
           }),
           filter(val => val !== null),
           withLatestFrom(this.store$.select(MapSettingsSelectors.getTracksMinuteCap)),
-          map(([assetAction, tracksMinuteCap]: Array<any>) => {
-            const listOfActions: Array<object> = [assetAction];
+          map(([listOfActions, tracksMinuteCap]: Array<any>) => {
             if(tracksMinuteCap !== null) {
               listOfActions.push(new TrimTracksThatPassedTimeCap({ unixtime: (Date.now() - (tracksMinuteCap * 60 * 1000))}));
             }
@@ -137,6 +140,37 @@ export class AssetEffects {
           filter(val => val !== null)
         )
       );
+    })
+  );
+
+  @Effect()
+  assetEssentialsObserver$ = this.actions$.pipe(
+    ofType(ActionTypes.CheckForAssetEssentials),
+    withLatestFrom(
+      this.store$.select(AuthSelectors.getAuthToken),
+      // tslint:disable-next-line:comment-format
+      //@ts-ignore
+      this.store$.select(AssetSelectors.getAssetsEssentials)
+    ),
+    mergeMap(([action, authToken, currentAssetsEssentials]: Array<any>) => {
+      const assetIdsWithoutEssentials = action.payload.reduce((acc, assetMovement) => {
+        if(currentAssetsEssentials[assetMovement.asset] === undefined) {
+          acc.push(assetMovement.asset);
+        }
+        return acc;
+      }, []);
+      if(assetIdsWithoutEssentials.length > 0) {
+        return this.assetService.getAssetEssentialProperties(
+          authToken, assetIdsWithoutEssentials
+        ).pipe(map((assetsEssentials: Array<AssetInterfaces.AssetEssentialProperties>) => {
+          return new SetEssentialProperties(assetsEssentials.reduce((acc, assetEssentials) => {
+            acc[assetEssentials.assetId] = assetEssentials;
+            return acc;
+          }, {}));
+        }));
+      } else {
+        return EMPTY;
+      }
     })
   );
 
