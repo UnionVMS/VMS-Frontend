@@ -2,21 +2,72 @@
 
 .content-container {
   display: grid;
-  color: white;
-  padding: $medium_distance;
-  overflow-y: scroll;
-  background: $map_overlay_background;
-  border-right: 2px solid #000000;
+  grid-template-rows: auto 1fr;
   height: 100%;
+  width: 100%;
+  color: white;
+  ul {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    li {
+      margin-right: $small_distance;
+      display: inline-block;
+      background: rgba($color_light_turquoise, 0.7);
+      border-top-left-radius: $small_distance;
+      border-top-right-radius: $small_distance;
+      padding: $small_distance $medium_distance;
+      cursor: pointer;
 
-  -ms-overflow-style: none;  // IE 10+
-  overflow: -moz-scrollbars-none;  // Firefox
-  &::-webkit-scrollbar {
-    display: none;  // Safari and Chrome
+      // &:hover {
+      //   color: $color_light_orange;
+      //
+      // }
+
+      span {
+        padding-bottom: 2px;
+        &:hover {
+          color: $color_orange;
+        }
+      }
+
+      &.active {
+        background: $map_overlay_background;
+        span {
+          border-bottom: 3px solid $color_orange;
+        }
+      }
+
+      &:last-child {
+        margin-right: 0px;
+      }
+
+      i.fa-times {
+        margin-left: 2px;
+        &:hover {
+          color: black;
+        }
+      }
+    }
   }
 
+
+
   .asset-information {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: $map_overlay_background;
+    overflow-y: scroll;
+    padding: $medium_distance;
+
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+    &::-webkit-scrollbar {
+      display: none;  // Safari and Chrome
+    }
+
     fieldset {
+      border: none;
       border-top: 1px solid #FFFFFF;
       legend {
         font-weight: bold;
@@ -30,7 +81,10 @@
       }
     }
   }
-
+  .button-block {
+    grid-column-start: 1;
+    grid-column-end: 5;
+  }
   .toggle-buttons {
     font-weight: bold;
   }

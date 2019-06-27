@@ -1,13 +1,15 @@
 <div class="content-container">
-  <label>Search</label>
   <div class="search-wrapper">
-    <input type="text" (keyup)="searchKeyUp($event)" [(ngModel)]="searchQuery" [matAutocomplete]="auto">
+    <mat-form-field>
+      <input matInput placeholder="Search" type="text" (keyup)="searchKeyUp($event)" [(ngModel)]="searchQuery" [matAutocomplete]="auto">
+    </mat-form-field>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
       <mat-option *ngFor="let option of searchResults" [value]="option.value" data-id="{{option.id}}">
         {{option.value}}
       </mat-option>
     </mat-autocomplete>
   </div>
-  <label>Filter</label>
-  <input type="text" [(ngModel)]="filterQuery" (keyup)="filterKeyUp($event)">
+  <mat-form-field>
+    <input matInput placeholder="Filter" [(ngModel)]="filterQuery" (keyup)="filterKeyUp($event)">
+  </mat-form-field>
 </div>

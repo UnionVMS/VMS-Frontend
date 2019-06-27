@@ -7,8 +7,8 @@
   right: 0;
   left: 0;
   width: 100%;
-  height: calc(100% - #{$offset_for_header});
-  top: $offset_for_header;
+  height: calc(100% - #{$navbar_height});
+  top: $navbar_height;
   background: $map_overlay_background;
   border-right: 2px solid #000000;
   border-left: 2px solid #000000;
@@ -60,5 +60,5 @@
   left: 0;
   width: 3em;
   padding: 6px 10px;
-  top: $offset_for_header;
+  top: $navbar_height;
 }

@@ -28,7 +28,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() namesVisible: boolean;
   @Input() speedsVisible: boolean;
   @Input() shipColorLogic: string;
-  @Input() selectedAsset: any;
+  @Input() selectedAssets: any;
   @Input() mapZoom: number;
   // tslint:disable:ban-types
   @Input() selectAsset: Function;
@@ -47,7 +47,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private assetLastUpdateHash: { [assetId: string]: Array<number>} = {};
   // Instead of an array we use object for faster lookup in ngOnChange loop.
   private renderedAssetIds: { [ assetId: string]: boolean } = {};
-  private previouslySelectedAssetId = '';
+  private previouslySelectedAssetIds = [];
   private styleCache: Array<any> = [];
 
 
@@ -183,51 +183,54 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         }, [])
       );
 
+      const currentlySelectedIds = [];
       // Invert colors for selected asset and change previously selected assets icon back to normal.
-      if(
-        typeof this.selectedAsset !== 'undefined' &&
-        typeof this.selectedAsset.asset !== 'undefined' &&
-        this.previouslySelectedAssetId !== this.selectedAsset.asset.id
-      ) {
-        const previouslySelectedAssetFeature = this.vectorSource.getFeatureById(this.previouslySelectedAssetId);
-        if(typeof previouslySelectedAssetFeature !== 'undefined' && previouslySelectedAssetFeature !== null) {
-          const previouslySelectedAsset = this.assets.find((asset) => asset.assetMovement.asset === this.previouslySelectedAssetId);
+      this.selectedAssets.map((selectedAsset) => {
+        currentlySelectedIds.push(selectedAsset.asset.id);
+        if(!this.previouslySelectedAssetIds.some((previousAssetId) => previousAssetId === selectedAsset.asset.id)) {
+          const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
           this.updateImageOnAsset(
-            previouslySelectedAssetFeature,
-            '/assets/arrow_640_rotated_4p.png',
-            this.getShipColor(previouslySelectedAsset),
-            previouslySelectedAsset.assetMovement.microMove.heading
+            selectedAssetFeature,
+            '/assets/arrow_640_rotated_4p_selected.png',
+            this.getShipColor({
+              assetEssentials: {
+                assetId: selectedAsset.asset.id,
+                flagstate: selectedAsset.asset.flagStateCode,
+                assetName: selectedAsset.asset.name,
+                vesselType: selectedAsset.asset.vesselType,
+                ircs: selectedAsset.asset.ircs,
+                cfr: selectedAsset.asset.cfr,
+                externalMarking: selectedAsset.asset.externalMarkin,
+                lengthOverAll: selectedAsset.asset.lengthOverAll,
+              },
+              assetMovement: selectedAsset.currentPosition
+            }),
+            selectedAsset.currentPosition.microMove.heading
           );
+
+          // We need to reset position to force rerender of asset.
+          selectedAssetFeature.setGeometry(new Point(fromLonLat([
+            selectedAsset.currentPosition.microMove.location.longitude,
+            selectedAsset.currentPosition.microMove.location.latitude
+          ])));
         }
+      });
 
-        const selectedAsset = this.vectorSource.getFeatureById(this.selectedAsset.asset.id);
-        this.updateImageOnAsset(
-          selectedAsset,
-          '/assets/arrow_640_rotated_4p_selected.png',
-          this.getShipColor({
-            assetEssentials: {
-              assetId: this.selectedAsset.asset.id,
-              flagstate: this.selectedAsset.asset.flagStateCode,
-              assetName: this.selectedAsset.asset.name,
-              vesselType: this.selectedAsset.asset.vesselType,
-              ircs: this.selectedAsset.asset.ircs,
-              cfr: this.selectedAsset.asset.cfr,
-              externalMarking: this.selectedAsset.asset.externalMarkin,
-              lengthOverAll: this.selectedAsset.asset.lengthOverAll,
-            },
-            assetMovement: this.selectedAsset.currentPosition
-          }),
-          this.selectedAsset.currentPosition.microMove.heading
-        );
-
-        // We need to reset position to force rerender of asset.
-        selectedAsset.setGeometry(new Point(fromLonLat([
-          this.selectedAsset.currentPosition.microMove.location.longitude,
-          this.selectedAsset.currentPosition.microMove.location.latitude
-        ])));
-
-        this.previouslySelectedAssetId = this.selectedAsset.asset.id;
-      }
+      this.previouslySelectedAssetIds.map((previouslySelectedAssetId) => {
+        if(!currentlySelectedIds.some((assetId) => assetId === previouslySelectedAssetId)) {
+          const previouslySelectedAssetFeature = this.vectorSource.getFeatureById(previouslySelectedAssetId);
+          if(typeof previouslySelectedAssetFeature !== 'undefined' && previouslySelectedAssetFeature !== null) {
+            const previouslySelectedAsset = this.assets.find((asset) => asset.assetMovement.asset === previouslySelectedAssetId);
+            this.updateImageOnAsset(
+              previouslySelectedAssetFeature,
+              '/assets/arrow_640_rotated_4p.png',
+              this.getShipColor(previouslySelectedAsset),
+              previouslySelectedAsset.assetMovement.microMove.heading
+            );
+          }
+        }
+      });
+      this.previouslySelectedAssetIds = currentlySelectedIds;
 
       this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
       this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;

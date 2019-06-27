@@ -120,7 +120,7 @@ export interface AssetMovementWithEssentials {
 }
 
 export interface State {
-  selectedAsset: string|null;
+  selectedAssets: Array<string>;
   assets: { [uid: string]: Asset };
   assetsEssentials: { [uid: string]: AssetEssentialProperties };
   assetLists: { [identifier: string]: AssetList };

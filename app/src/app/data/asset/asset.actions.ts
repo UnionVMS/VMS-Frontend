@@ -11,6 +11,7 @@ export enum ActionTypes {
   CheckForAssetEssentials = '[Asset] Check for essentials',
   ClearForecasts = '[Asset] Clear forecasts',
   ClearTracks = '[Asset] Clear tracks',
+  DeselectAsset = '[Asset] Deselect',
   FailedToSubscribeToMovements = '[Asset] Failed to subscribe to movements',
   GetAssetTrack = '[Asset] Get asset track',
   GetAssetTrackFromTime = '[Asset] Get asset track from time',
@@ -94,6 +95,11 @@ export class FailedToSubscribeToMovements implements Action {
 
 export class SelectAsset implements Action {
   readonly type = ActionTypes.SelectAsset;
+  constructor(public payload: string) {}
+}
+
+export class DeselectAsset implements Action {
+  readonly type = ActionTypes.DeselectAsset;
   constructor(public payload: string) {}
 }
 

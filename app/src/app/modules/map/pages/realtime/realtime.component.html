@@ -4,7 +4,7 @@
     <map-assets
       *ngIf="registerOnClickFunction !== undefined"
       [assets]="assetMovements"
-      [selectedAsset]="selectedAsset$|async"
+      [selectedAssets]="selectedAssets$|async"
       [map]="map"
       [mapZoom]="mapZoom"
       [namesVisible]="mapSettings.namesVisible"
@@ -66,8 +66,9 @@
     [saveViewport]="saveViewport"
   ></map-settings>
   <map-asset-panel
-    *ngIf="(selectedAsset$|async).asset !== undefined"
-    [asset]="selectedAsset$|async"
+    *ngIf="(selectedAssets$|async).length > 0"
+    [assets]="selectedAssets$|async"
+    [deselectAsset]="deselectAsset"
     [forecasts]="forecasts$|async"
     [getAssetTrack]="getAssetTrack"
     [getAssetTrackFromTime]="getAssetTrackFromTime"

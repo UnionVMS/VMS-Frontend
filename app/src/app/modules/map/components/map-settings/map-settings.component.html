@@ -1,3 +1,51 @@
+<div class="content-container-minimal">
+  <div class="layer-filter-buttons">
+    <button
+      class="btn btn-primary {{mapSettings.flagsVisible ? 'active' : ''}}"
+      (click)="toggleFlags()"
+      title="{{mapSettings.flagsVisible ? 'Hide flags' : 'Show flags'}}"
+    >
+      <i class="fas fa-flag" alt="Flags"></i>
+    </button>
+    <button
+      class="btn btn-primary {{mapSettings.tracksVisible ? 'active' : ''}}"
+      (click)="toggleTracks()"
+      title="{{mapSettings.tracksVisible ? 'Hide tracks' : 'Show tracks'}}"
+    >
+      <i class="fas fa-angle-double-up"></i>
+    </button>
+    <button
+      class="btn btn-primary {{mapSettings.namesVisible ? 'active' : ''}}"
+      (click)="toggleNames()"
+      title="{{mapSettings.namesVisible ? 'Hide names' : 'Show names'}}"
+    >
+      <i class="fas fa-signature"></i>
+    </button>
+    <button
+      class="btn btn-primary {{mapSettings.speedsVisible ? 'active' : ''}}"
+      (click)="toggleSpeeds()"
+      title="{{mapSettings.speedsVisible ? 'Hide speeds' : 'Show speeds'}}"
+    >
+      <i class="fas fa-tachometer-alt"></i>
+    </button>
+    <button
+      class="btn btn-primary {{mapSettings.forecastsVisible ? 'active' : ''}}"
+      (click)="toggleForecast()"
+      title="{{mapSettings.forecastsVisible ? 'Hide forecasts' : 'Show forecasts'}}"
+    >
+      <i class="fas fa-fast-forward"></i>
+    </button>
+  </div>
+  <div class="viewport-wrapper {{viewportKeys.length > 0 ? 'visible' : ''}}">
+    <b class="headline" *ngIf="viewportKeys.length > 0">Saved Viewports</b>
+    <map-viewports
+      [map]="map"
+      [mapSettings]="mapSettings"
+      [saveViewport]="saveViewport"
+    ></map-viewports>
+  </div>
+</div>
+<!--
 <div class="content-container" *ngIf="!hidePanel">
   <map-viewports
     [map]="map"
@@ -45,4 +93,4 @@
 </div>
 <button class="show-button btn btn-primary" *ngIf="hidePanel" (click)="hidePanel = !hidePanel">
   <i class="fas fa-chevron-left"></i>
-</button>
+</button> -->

@@ -1,4 +1,4 @@
-import { Component, Input, HostListener } from '@angular/core';
+import { Component, Input, HostListener, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'map-viewports',
@@ -6,10 +6,16 @@ import { Component, Input, HostListener } from '@angular/core';
   styleUrls: ['./map-viewports.component.scss']
 })
 
-export class MapViewportsComponent {
+export class MapViewportsComponent implements OnChanges {
   @Input() mapSettings;
   @Input() map;
   @Input() saveViewport;
+
+  public viewportKeys = [];
+
+  ngOnChanges() {
+    this.viewportKeys = Object.keys(this.mapSettings.viewports);
+  }
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {

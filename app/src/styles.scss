@@ -23,10 +23,10 @@
 
 @import 'variables.scss';
 
-* {
+*, ::after, ::before {
   font-size: $default_font_size;
+  box-sizing: border-box;
 }
-
 
 html, body { height: 100%; }
 
@@ -47,6 +47,53 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-top: $medium_distance;
 }
 
+button {
+  -webkit-appearance: button;
+  -webkit-writing-mode: horizontal-tb !important;
+  text-rendering: auto;
+  color: buttontext;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: center;
+  align-items: flex-start;
+  cursor: default;
+  background-color: buttonface;
+  box-sizing: border-box;
+  margin: 0em;
+  font: 400 13.3333px Arial;
+  padding: 1px 6px;
+  border-width: 2px;
+  border-style: outset;
+  border-color: buttonface;
+  border-image: initial;
+}
+
+.btn {
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  transition: color .15s
+    ease-in-out,background-color .15s
+    ease-in-out,border-color .15s
+    ease-in-out,box-shadow .15s
+    ease-in-out;
+}
 
 @media (min-width: 1620px) {
   .container {

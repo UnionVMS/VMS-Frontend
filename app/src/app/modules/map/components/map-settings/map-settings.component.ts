@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'map-settings',
   templateUrl: './map-settings.component.html',
   styleUrls: ['./map-settings.component.scss']
 })
-export class MapSettingsComponent {
+export class MapSettingsComponent implements OnChanges {
   @Input() mapSettings;
   @Input() setVisibilityForAssetNames;
   @Input() setVisibilityForAssetSpeeds;
@@ -20,6 +20,12 @@ export class MapSettingsComponent {
   @Input() setForecastInterval;
 
   public hidePanel = false;
+  public viewportKeys = [];
+
+  ngOnChanges() {
+    this.viewportKeys = Object.keys(this.mapSettings.viewports);
+  }
+
   private toggleVisibility = (): void => {
     this.hidePanel = !this.hidePanel;
   }

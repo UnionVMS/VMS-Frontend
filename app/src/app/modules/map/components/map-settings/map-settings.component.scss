@@ -1,5 +1,45 @@
 @import 'variables.scss';
 
+.content-container-minimal {
+  display: grid;
+  grid-row-gap: $medium_distance;
+
+  .layer-filter-buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: $small_distance;
+    .btn {
+      padding: $small_distance;
+      min-width: $xxlarge_distance;
+
+      &.active {
+        color: white;
+        background-color: $color_light_green;
+      }
+    }
+  }
+
+  .viewport-wrapper.visible {
+    display: grid;
+    color: white;
+    padding: 10px;
+    overflow-y: scroll;
+    background: $map_overlay_background;
+
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+    &::-webkit-scrollbar {
+      display: none;  // Safari and Chrome
+    }
+
+    b.headline {
+      text-decoration: underline;
+      margin-bottom: $small_distance;
+    }
+
+  }
+}
+
 .content-container {
   display: grid;
   color: white;

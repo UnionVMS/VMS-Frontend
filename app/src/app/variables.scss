@@ -1,7 +1,35 @@
-$default_font_size: 14px;
-$offset_for_header: 48px;
+$color_black: #000000;
 
-$map_overlay_background: rgba(0, 0, 0, 0.7);
+$color_cold_dark_gray: #DAE3E6;
+$color_cold_gray: #E9EDED;
+
+$color_dark_turquoise: #005074;
+$color_turquoise: #005F88;
+$color_light_turquoise: #2280A7;
+
+$color_dark_blue: #092D4B;
+$color_blue: #004371;
+
+$color_dark_green: #004038;
+$color_green: #00594F;
+$color_light_green: #3B847B;
+
+$color_dark_orange: #CC340D;
+$color_orange: #E84E0F;
+$color_light_orange: #F3914E;
+
+$color_dark_yellow: #AF981B;
+$color_yellow: #D1B738;
+$color_light_yellow: #E8D186;
+
+$color_warm_dark_gray: #E3DCD5;
+$color_warm_gray: #F0EDE7;
+
+
+$default_font_size: 14px;
+$navbar_height: 45px;
+
+$map_overlay_background: rgba( $color_turquoise, 0.7);
 
 $small_distance: 5px;
 $medium_distance: 10px;

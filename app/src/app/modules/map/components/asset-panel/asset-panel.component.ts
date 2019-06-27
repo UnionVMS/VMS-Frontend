@@ -8,12 +8,13 @@ import { AssetInterfaces } from '@data/asset';
   styleUrls: ['./asset-panel.component.scss']
 })
 export class AssetPanelComponent {
-  @Input() asset: {
+  @Input() assets: Array<{
     asset: AssetInterfaces.Asset,
     assetTracks: AssetInterfaces.AssetTrack,
     currentPosition: AssetInterfaces.AssetMovement
-  };
+  }>;
 
+  @Input() deselectAsset: (assetId: string) => void;
   @Input() getAssetTrack: (assetId: string, movementGuid: string) => void;
   @Input() getAssetTrackFromTime: (assetId: string, date: string) => void;
   @Input() untrackAsset: (assetId: string) => void;
@@ -23,6 +24,7 @@ export class AssetPanelComponent {
   @Input() tracksMinuteCap: number;
 
   public hidePanel = false;
+  public activeAssetTabAsset = null;
 
   // Extracting this code to separete function so we can override this code in unit-tests.
   private getTracksMillisecondCap() {
@@ -30,23 +32,28 @@ export class AssetPanelComponent {
     return formatDate(Date.now() - tracksMillisecondCap);
   }
 
+  private setActive(assetId) {
+    this.activeAssetTabAsset = this.assets.find((asset) => asset.asset.id === assetId);
+    console.warn(this.activeAssetTabAsset);
+  }
+
   private toggleTracks = (): void => {
     if(this.tracksIsVisible()) {
-      this.untrackAsset(this.asset.asset.id);
+      this.untrackAsset(this.activeAssetTabAsset.asset.id);
     } else if(this.tracksMinuteCap === null) {
-      this.getAssetTrack(this.asset.asset.id, this.asset.currentPosition.microMove.guid);
+      this.getAssetTrack(this.activeAssetTabAsset.asset.id, this.activeAssetTabAsset.currentPosition.microMove.guid);
     } else {
       this.getAssetTrackFromTime(
-        this.asset.asset.id,
+        this.activeAssetTabAsset.asset.id,
         this.getTracksMillisecondCap()
       );
     }
   }
   private toggleForecast = (): void => {
     if(this.forecastIsVisible()) {
-      this.removeForecast(this.asset.asset.id);
+      this.removeForecast(this.activeAssetTabAsset.asset.id);
     } else {
-      this.addForecast(this.asset.asset.id);
+      this.addForecast(this.activeAssetTabAsset.asset.id);
     }
   }
   private toggleVisibility = (): void => {
@@ -54,9 +61,9 @@ export class AssetPanelComponent {
   }
 
   private tracksIsVisible = (): boolean => {
-    return typeof this.asset.assetTracks !== 'undefined';
+    return typeof this.activeAssetTabAsset.assetTracks !== 'undefined';
   }
   private forecastIsVisible = (): boolean => {
-    return Object.keys(this.forecasts).indexOf(this.asset.asset.id) !== -1;
+    return Object.keys(this.forecasts).indexOf(this.activeAssetTabAsset.asset.id) !== -1;
   }
 }

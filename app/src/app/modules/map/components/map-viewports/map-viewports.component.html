@@ -1,6 +1,3 @@
 <div class="viewport-container">
-  <button class="btn btn-outline-light btn-sm" (click)="setViewport(1)">1</button>
-  <button class="btn btn-outline-light btn-sm" (click)="setViewport(2)">2</button>
-  <button class="btn btn-outline-light btn-sm" (click)="setViewport(3)">3</button>
-  <button class="btn btn-outline-light btn-sm" (click)="setViewport(4)">4</button>
+  <button *ngFor="let viewportKey of viewportKeys" class="btn btn-outline-light" (click)="setViewport(viewportKey)">{{viewportKey}}</button>
 </div>

@@ -1,56 +1,6 @@
-<div class="appVersion">v {{appVersion}}</div>
-<!--Navbar-->
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo">
-
-    <!-- Navbar brand -->
-    <mdb-navbar-brand><a class="navbar-brand" routerLink="/" routerLinkActive="active">VMS</a></mdb-navbar-brand>
-
-    <!-- Collapsible content -->
-    <links>
-
-        <!-- Links -->
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item" routerLinkActive="active">
-                <a
-                  class="nav-link waves-light"
-                  mdbWavesEffect
-                  routerLink="/asset"
-                >
-                  Assets
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a
-                  class="nav-link waves-light"
-                  mdbWavesEffect
-                  routerLink="/map/realtime"
-                >
-                  Realtime map
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a
-                  class="nav-link waves-light"
-                  mdbWavesEffect
-                  routerLink="/settings/user"
-                >
-                  My Settings
-                </a>
-            </li>
-        </ul>
-        <!-- Links -->
-
-<!-- Search form -->
-        <form class="form-inline waves-light" mdbWavesEffect>
-            <div class="md-form my-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-            </div>
-        </form>
-    </links>
-    <!-- Collapsible content -->
-
-</mdb-navbar>
-<!--/.Navbar-->
+<core-top-menu-component
+  [appVersion]="appVersion"
+></core-top-menu-component>
 
 <div class="container">
   <router-outlet></router-outlet>

@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-// For MDB Angular Free
-import {
-  NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
-  InputsModule, IconsModule, DropdownModule
-} from 'angular-bootstrap-md';
+// // For MDB Angular Free
+// import {
+//   NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
+//   InputsModule, IconsModule, DropdownModule
+// } from 'angular-bootstrap-md';
 
 
 // Guards
@@ -21,13 +21,16 @@ import { FullLayoutComponent } from './layouts/full/full.component';
 import { LoginComponent } from './pages/login/login.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 
+// Components
+import { TopMenuComponent } from './components/top-menu/top-menu.component';
+
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    /* MDB Imports: */
-    NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
-    InputsModule, IconsModule, DropdownModule
+    // /* MDB Imports: */
+    // NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
+    // InputsModule, IconsModule, DropdownModule
   ],
   declarations: [
     DefaultLayoutComponent,
@@ -35,6 +38,7 @@ import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.compone
     FullLayoutComponent,
     LoginComponent,
     UnauthorizedComponent,
+    TopMenuComponent
   ],
   providers: [
     AuthGuard

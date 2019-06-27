@@ -1,11 +1,12 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
 import { formatDate } from '../../../../helpers';
 import * as AssetInterfaces from '@data/asset/asset.interfaces';
 
 @Component({
   selector: 'map-asset-search',
   templateUrl: './asset-search.component.html',
-  styleUrls: ['./asset-search.component.scss']
+  styleUrls: ['./asset-search.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AssetSearchComponent implements OnChanges {
   // tslint:disable:ban-types

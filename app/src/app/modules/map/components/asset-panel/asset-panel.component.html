@@ -1,113 +1,74 @@
 <div class="content-container" *ngIf="!hidePanel">
+  <ul>
+    <li *ngFor="let asset of assets" (click)="setActive(asset.asset.id)" class="{{ activeAssetTabAsset !== null && activeAssetTabAsset.asset.id === asset.asset.id ? 'active' : ''}}">
+      <span>{{asset.asset.name}} <i class="fas fa-times" (click)="deselectAsset(asset.asset.id)"></i></span>
+    </li>
+  </ul>
   <div class="asset-information">
-    <fieldset *ngIf="asset.asset.name">
-      <legend>Name</legend>
-      <div>{{asset.asset.name}}</div>
-    </fieldset>
-    <fieldset *ngIf="asset.asset.ircs">
-      <legend>Ircs</legend>
-      <div>{{asset.asset.ircs}}</div>
-    </fieldset>
-    <fieldset *ngIf="asset.asset.mmsi">
-      <legend>Mmsi</legend>
-      <div>{{asset.asset.mmsi}}</div>
-    </fieldset>
-    <fieldset *ngIf="asset.currentPosition.microMove.speed">
-      <legend>Speed</legend>
-      <div>{{asset.currentPosition.microMove.speed.toFixed(2)}}</div>
-    </fieldset>
-    <fieldset *ngIf="asset.currentPosition.microMove.heading">
-      <legend>Heading</legend>
-      <div>{{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
-    </fieldset>
-    <fieldset *ngIf="asset.asset.flagStateCode">
-      <legend>Flagstate</legend>
-      <div>{{asset.asset.flagStateCode}}</div>
-    </fieldset>
-    <fieldset *ngIf="asset.asset.externalMarking">
-      <legend>ExternalMarking</legend>
-      <div>{{asset.asset.externalMarking}}</div>
-    </fieldset>
-    <fieldset *ngIf="asset.asset.lengthOverAll">
-      <legend>LengthOverAll</legend>
-      <div>{{asset.asset.lengthOverAll}}</div>
-    </fieldset>
-    <fieldset *ngIf="asset.asset.licenceType">
-      <legend>LicenceType</legend>
-      <div>{{asset.asset.licenceType}}</div>
-    </fieldset>
-    <fieldset *ngIf="asset.asset.vesselType">
-      <legend>VesselType</legend>
-      <div>{{asset.asset.vesselType}}</div>
-    </fieldset>
+    <ng-container *ngIf="activeAssetTabAsset !== null">
+      <fieldset *ngIf="activeAssetTabAsset.asset.ircs">
+        <legend>Ircs</legend>
+        <div>{{activeAssetTabAsset.asset.ircs}}</div>
+      </fieldset>
+      <fieldset *ngIf="activeAssetTabAsset.asset.mmsi">
+        <legend>Mmsi</legend>
+        <div>{{activeAssetTabAsset.asset.mmsi}}</div>
+      </fieldset>
+      <fieldset *ngIf="activeAssetTabAsset.currentPosition.microMove.speed !== null">
+        <legend>Speed</legend>
+        <div>{{activeAssetTabAsset.currentPosition.microMove.speed.toFixed(2)}}</div>
+      </fieldset>
+      <fieldset *ngIf="activeAssetTabAsset.currentPosition.microMove.heading !== null">
+        <legend>Heading</legend>
+        <div>{{activeAssetTabAsset.currentPosition.microMove.heading.toFixed(2)}}</div>
+      </fieldset>
+      <fieldset *ngIf="activeAssetTabAsset.asset.flagStateCode">
+        <legend>Flagstate</legend>
+        <div>{{activeAssetTabAsset.asset.flagStateCode}}</div>
+      </fieldset>
+      <fieldset *ngIf="activeAssetTabAsset.asset.externalMarking">
+        <legend>ExternalMarking</legend>
+        <div>{{activeAssetTabAsset.asset.externalMarking}}</div>
+      </fieldset>
+      <fieldset *ngIf="activeAssetTabAsset.asset.lengthOverAll">
+        <legend>LengthOverAll</legend>
+        <div>{{activeAssetTabAsset.asset.lengthOverAll}}</div>
+      </fieldset>
+      <fieldset *ngIf="activeAssetTabAsset.asset.licenceType">
+        <legend>LicenceType</legend>
+        <div>{{activeAssetTabAsset.asset.licenceType}}</div>
+      </fieldset>
+      <fieldset *ngIf="activeAssetTabAsset.asset.vesselType">
+        <legend>VesselType</legend>
+        <div>{{activeAssetTabAsset.asset.vesselType}}</div>
+      </fieldset>
 
-    <fieldset *ngIf="asset.asset.prodOrgCode">
-      <legend>OrgNr</legend>
-      <div>{{asset.asset.prodOrgCode}}</div>
-    </fieldset>
-    <fieldset *ngIf="asset.asset.prodOrgName">
-      <legend>OrgNamn</legend>
-      <div>{{asset.asset.prodOrgName}}</div>
-    </fieldset>
+      <fieldset *ngIf="activeAssetTabAsset.asset.prodOrgCode">
+        <legend>OrgNr</legend>
+        <div>{{activeAssetTabAsset.asset.prodOrgCode}}</div>
+      </fieldset>
+      <fieldset *ngIf="activeAssetTabAsset.asset.prodOrgName">
+        <legend>OrgNamn</legend>
+        <div>{{activeAssetTabAsset.asset.prodOrgName}}</div>
+      </fieldset>
+      <div class="button-block">
+        <ui-button-toggle
+          [label]="'Track'"
+          [value]="tracksIsVisible()"
+          [switchFunction]="toggleTracks"
+        ></ui-button-toggle>
+        <ui-button-toggle
+          [label]="'Forecast'"
+          [value]="forecastIsVisible()"
+          [switchFunction]="toggleForecast"
+        ></ui-button-toggle>
+      </div>
+    </ng-container>
   </div>
-  <div class="toggle-buttons">
-    <ui-button-toggle
-      [label]="'Track'"
-      [value]="tracksIsVisible()"
-      [switchFunction]="toggleTracks"
-    ></ui-button-toggle>
-    <ui-button-toggle
-      [label]="'Forecast'"
-      [value]="forecastIsVisible()"
-      [switchFunction]="toggleForecast"
-    ></ui-button-toggle>
-  </div>
-  <!-- <div class="asset-buttons-block">
-
-      <button
-        *ngIf="!tracksIsVisible()"
-        class="btn btn-default"
-        (click)="getAssetTrack(asset.asset.historyId, asset.currentPosition.microMove.guid)"
-      >Track</button>
-      <button
-        *ngIf="tracksIsVisible()"
-        class="btn btn-default"
-        (click)="untrackAsset(asset.asset.historyId)"
-      >Untrack</button>
-
-      <button
-        *ngIf="!forecastIsVisible()"
-        class="btn btn-default"
-        (click)="addForecast(asset.asset.historyId)"
-      >Forecast</button>
-      <button
-        *ngIf="forecastIsVisible()"
-        class="btn btn-default"
-        (click)="removeForecast(asset.asset.historyId)"
-      >Remove Forecast</button>
-
-  </div> -->
-  <!--<div class="asset-buttons">
-    <button
-      class="btn btn-default"
-      (click)="getAssetTrack(asset.asset.historyId, asset.currentPosition.microMove.guid)"
-    >Track</button>
-    <button
-      class="btn btn-default"
-      (click)="untrackAsset(asset.asset.historyId)"
-    >Untrack</button>
-    <button
-      class="btn btn-default"
-      (click)="addForecast(asset.asset.historyId)"
-    >Forecast</button>
-    <button
-      class="btn btn-default"
-      (click)="removeForecast(asset.asset.historyId)"
-    >Remove Forecast</button>
-  </div>-->
+  <!--
   <div class="hide-button-wrapper">
     <button class="hide-button btn btn-primary" (click)="hidePanel = !hidePanel">Minimize</button>
-  </div>
+  </div> -->
 </div>
 <button class="show-button btn btn-primary" *ngIf="hidePanel" (click)="hidePanel = !hidePanel">
   <i class="fas fa-chevron-right"></i>

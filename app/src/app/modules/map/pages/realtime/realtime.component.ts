@@ -8,6 +8,7 @@ import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import { fromLonLat } from 'ol/proj';
+import { defaults as defaultControls, ScaleLine } from 'ol/control.js';
 
 import { EventSourcePolyfill } from 'event-source-polyfill';
 
@@ -24,11 +25,11 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public mapSettings: MapSettingsInterfaces.State;
   public mapSettingsSubscription: Subscription;
   public positionsForInspection$: Observable<any>;
-  public selectedAsset$: Observable<{
+  public selectedAssets$: Observable<Array<{
     asset: AssetInterfaces.Asset,
     assetTracks: AssetInterfaces.AssetTrack,
     currentPosition: AssetInterfaces.AssetMovement
-  }>;
+  }>>;
 
   public map: Map;
 
@@ -37,6 +38,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public addPositionForInspection: Function;
   public clearForecasts: Function;
   public clearTracks: Function;
+  public deselectAsset: (assetId: string) => void;
   public registerOnClickFunction: Function;
   public saveViewport: Function;
   public setForecastInterval: Function;
@@ -82,7 +84,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.assetSubscription = this.store.select(AssetSelectors.getAssetMovements).subscribe((assets) => {
       this.assetMovements = assets;
     });
-    this.selectedAsset$ = this.store.select(AssetSelectors.extendedDataForSelectedAsset);
+    this.selectedAssets$ = this.store.select(AssetSelectors.extendedDataForSelectedAssets);
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.positionsForInspection$ = this.store.select(AssetSelectors.getPositionsForInspection);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
@@ -93,6 +95,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   }
 
   mapDispatchToProps() {
+    this.deselectAsset = (assetId) =>
+      this.store.dispatch(new AssetActions.DeselectAsset(assetId));
     this.saveViewport = (key, viewport) =>
       this.store.dispatch(new MapSettingsActions.SaveViewport({key, viewport}));
     this.setVisibilityForAssetNames = (visible) =>
@@ -150,7 +154,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.mapDispatchToProps();
     this.store.dispatch(new AssetActions.SubscribeToMovements());
     this.mapZoom = this.mapSettings.startZoomLevel;
+    const scaleLineControl = new ScaleLine();
     this.map = new Map({
+      controls: defaultControls().extend([scaleLineControl]),
       target: 'realtime-map',
       layers: [
         new TileLayer({

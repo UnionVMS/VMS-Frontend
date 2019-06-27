@@ -1,7 +1,7 @@
 @import 'variables.scss';
 
 .realtime-container {
-  height: calc(100% - #{$offset_for_header});
+  height: calc(100% - #{$navbar_height});
   .map-container {
     height: 100%;
     #realtime-map {
@@ -11,18 +11,22 @@
 
   map-settings {
     position: fixed;
-    right: 0px;
-    bottom: 0px;
+    right: $small_distance;
+    top: calc(#{$navbar_height} + 95px);
   }
   map-asset-search {
     position: fixed;
     right: 0px;
-    top: $offset_for_header;
+    top: $navbar_height;
   }
   map-asset-panel {
     position: fixed;
     left: 0px;
-    top: $offset_for_header;
+    height: 40%;
     bottom: 0px;
+    max-width: 50%;
+  }
+  map-track-panel {
+    display: none;
   }
 }

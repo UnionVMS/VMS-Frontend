@@ -3,7 +3,7 @@ import { ActionTypes } from './asset.actions';
 import * as Interfaces from './asset.interfaces';
 
 export const initialState: Interfaces.State = {
-  selectedAsset: null,
+  selectedAssets: [],
   assets: {},
   assetsEssentials: {},
   assetLists: {},
@@ -149,7 +149,10 @@ export function assetReducer(state = initialState, { type, payload }) {
       }};
 
     case ActionTypes.SelectAsset:
-      return { ...state, selectedAsset: payload };
+      return { ...state, selectedAssets: [ ...state.selectedAssets, payload] };
+
+    case ActionTypes.DeselectAsset:
+      return { ...state, selectedAssets: state.selectedAssets.filter((assetId) => assetId !== payload) };
 
     case ActionTypes.SetAssetTrack:
       // tslint:disable-next-line:no-shadowed-variable
