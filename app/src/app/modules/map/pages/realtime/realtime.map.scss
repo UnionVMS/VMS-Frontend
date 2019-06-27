@@ -1,0 +1,35 @@
+/*
+ * This file is being imported by /app/angular.json
+ * The reason for this is that we can't affect open-layers map styles from a component css that angular imports.
+ *
+ * From the Angular documentation:
+ * "Reminder: the styles in the style file apply only to this component.
+ * They are not inherited by any components nested within the template nor by any content projected into the component."
+*/
+.realtime-container .map-container #realtime-map {
+  .ol-scale-line {
+    left: unset;
+    right: 10px;
+  }
+  .ol-zoom {
+    left: unset;
+    right: 5px;
+    top: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 5px;
+
+    &.ol-control {
+      background-color: transparent;
+    }
+
+    button {
+      padding: 5px;
+      min-width: 25px;
+      min-height: 25px;
+      border: 1px solid transparent;
+      font-size: 20px;
+      margin: 0px;
+    }
+  }
+}
