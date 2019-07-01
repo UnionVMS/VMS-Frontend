@@ -36,3 +36,11 @@ $medium_distance: 10px;
 $large_distance: 15px;
 $xlarge_distance: 20px;
 $xxlarge_distance: 25px;
+
+@mixin no-scrollbar {
+  -ms-overflow-style: none;  // IE 10+
+  overflow: -moz-scrollbars-none;  // Firefox
+  &::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+}

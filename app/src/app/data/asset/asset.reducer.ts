@@ -4,6 +4,7 @@ import * as Interfaces from './asset.interfaces';
 
 export const initialState: Interfaces.State = {
   selectedAssets: [],
+  selectedAsset: null,
   assets: {},
   assetsEssentials: {},
   assetLists: {},
@@ -149,7 +150,11 @@ export function assetReducer(state = initialState, { type, payload }) {
       }};
 
     case ActionTypes.SelectAsset:
-      return { ...state, selectedAssets: [ ...state.selectedAssets, payload] };
+      let returnState = { ...state, selectedAsset: payload };
+      if(!state.selectedAssets.some((assetId) => assetId === payload )) {
+        returnState = { ...returnState, selectedAssets: [ ...state.selectedAssets, payload] };
+      }
+      return returnState;
 
     case ActionTypes.DeselectAsset:
       return { ...state, selectedAssets: state.selectedAssets.filter((assetId) => assetId !== payload) };

@@ -2,122 +2,129 @@
 
 .content-container {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-columns: 500px 150px;
+  grid-gap: $medium_distance;
   height: 100%;
   width: 100%;
   color: white;
-  ul {
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
-    li {
-      margin-right: $small_distance;
-      display: inline-block;
-      background: rgba($color_light_turquoise, 0.7);
-      border-top-left-radius: $small_distance;
-      border-top-right-radius: $small_distance;
-      padding: $small_distance $medium_distance;
-      cursor: pointer;
 
-      // &:hover {
-      //   color: $color_light_orange;
-      //
-      // }
-
-      span {
-        padding-bottom: 2px;
-        &:hover {
-          color: $color_orange;
-        }
-      }
-
-      &.active {
-        background: $map_overlay_background;
-        span {
-          border-bottom: 3px solid $color_orange;
-        }
-      }
-
-      &:last-child {
-        margin-right: 0px;
-      }
-
-      i.fa-times {
-        margin-left: 2px;
-        &:hover {
-          color: black;
-        }
-      }
-    }
-  }
-
-
-
-  .asset-information {
+  .information-wrapper {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    background: $map_overlay_background;
-    overflow-y: scroll;
-    padding: $medium_distance;
+    grid-template-rows: auto 1fr;
+    .tabs-wrapper {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      grid-column-gap: $small_distance;
+      & > span {
+        background: $color_cold_dark_gray;
+        color: $color_dark_turquoise;
+        border-top-left-radius: $small_distance;
+        border-top-right-radius: $small_distance;
+        padding: $small_distance $medium_distance;
+        cursor: pointer;
 
-    -ms-overflow-style: none;  // IE 10+
-    overflow: -moz-scrollbars-none;  // Firefox
-    &::-webkit-scrollbar {
-      display: none;  // Safari and Chrome
+        &:hover {
+          // Change this to something better later when we have a UX that can tell us how :D
+          background: $color_light_green;
+        }
+      }
+
+      ul.tabs {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        overflow-x: scroll;
+        white-space: nowrap;
+        @include no-scrollbar();
+        scroll-behavior: smooth;
+
+
+        li {
+          margin-right: $small_distance;
+          display: inline-block;
+          background: rgba($color_light_turquoise, 0.7);
+          border-top-left-radius: $small_distance;
+          border-top-right-radius: $small_distance;
+          padding: $small_distance $medium_distance;
+          cursor: pointer;
+
+          span {
+            padding-bottom: 2px;
+            &:hover {
+              color: $color_orange;
+            }
+          }
+
+          &.active {
+            background: $map_overlay_background;
+            span {
+              border-bottom: 3px solid $color_orange;
+            }
+          }
+
+          &:last-child {
+            margin-right: 0px;
+          }
+
+          i.fa-times {
+            margin-left: 2px;
+            &:hover {
+              color: black;
+            }
+          }
+        }
+      }
     }
 
-    fieldset {
-      border: none;
-      border-top: 1px solid #FFFFFF;
+    .asset-information {
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      background: $map_overlay_background;
+      overflow-y: scroll;
+      padding: $medium_distance;
+
+      -ms-overflow-style: none;  // IE 10+
+      overflow: -moz-scrollbars-none;  // Firefox
+      &::-webkit-scrollbar {
+        display: none;  // Safari and Chrome
+      }
+
       legend {
         font-weight: bold;
-        padding: 0px $small_distance;
-        margin-left: $small_distance;
-        width: fit-content;
         font-size: $default_font_size;
-      }
-      div {
-        margin-left: calc(#{$small_distance} * 2);
+        text-decoration: underline;
       }
     }
   }
-  .button-block {
-    grid-column-start: 1;
-    grid-column-end: 5;
-  }
-  .toggle-buttons {
-    font-weight: bold;
-  }
 
-  .asset-buttons {
+  .button-wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: 100px;
-    button {
-      height: 16px;
-      box-sizing: content-box;
+    grid-template-rows: 1fr auto;
+    grid-row-gap: 5px;
+
+    span {
+      align-self: end;
+      justify-self: start;
+      background-color: rgba(0,60,136,0.5);
+      display: inline-block;
+      padding: $small_distance $medium_distance;
+
+      &:hover {
+        background-color: rgba(0,60,136,0.7);
+      }
+    }
+
+    .button-block {
+      background: $map_overlay_background;
+      padding: $small_distance $medium_distance;
+      display: grid;
+      grid-row-gap: $small_distance;
+      align-self: end;
+
+      ui-button-toggle {
+        display: block;
+        min-height: 24px;
+      }
     }
   }
-  .asset-buttons-block {
-    display: grid;
-    grid-template-columns: 1fr;
-    button {
-      height: 16px;
-      box-sizing: content-box;
-      width: 90px;
-      justify-self: center;
-    }
-  }
-
-  .hide-button-wrapper {
-    align-self: end;
-    justify-self: center;
-  }
-}
-
-.show-button {
-  width: 3em;
-  padding: 6px 10px;
-  bottom: 0px;
-  position: fixed;
 }

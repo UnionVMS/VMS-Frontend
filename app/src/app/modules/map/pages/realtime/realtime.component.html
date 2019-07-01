@@ -68,6 +68,7 @@
   <map-asset-panel
     *ngIf="(selectedAssets$|async).length > 0"
     [assets]="selectedAssets$|async"
+    [selectAsset]="selectAsset"
     [deselectAsset]="deselectAsset"
     [forecasts]="forecasts$|async"
     [getAssetTrack]="getAssetTrack"

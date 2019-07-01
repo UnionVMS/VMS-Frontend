@@ -11,6 +11,7 @@ export const selectAssetForecasts = (state: State) => state.asset.forecasts;
 export const selectAssetsEssentials = (state: State) => state.asset.assetsEssentials;
 export const selectAssetsTracks = (state: State) => state.asset.assetTracks;
 export const selectSelectedAssets = (state: State) => state.asset.selectedAssets;
+export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
 export const selectFilterQuery = (state: State) => state.asset.filterQuery;
 export const selectSearchQuery = (state: State) => state.asset.searchQuery;
 export const selectPositionsForInspection = (state: State) => state.asset.positionsForInspection;
@@ -142,19 +143,22 @@ export const getCurrentPositionOfSelectedAssets = createSelector(
 export const extendedDataForSelectedAssets = createSelector(
   selectAssets,
   selectSelectedAssets,
+  selectSelectedAsset,
   selectAssetsTracks,
   getCurrentPositionOfSelectedAssets,
   (
     assets: { [uid: string]: AssetInterfaces.Asset },
     selectedAssets: Array<string>,
+    selectedAsset: string|null,
     assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack },
     currentPositions
-  ) => selectedAssets.reduce((acc, selectedAsset) => {
+  ) => selectedAssets.reduce((acc, assetId) => {
     if(assets[selectedAsset] !== undefined) {
       acc.push({
-        asset: assets[selectedAsset],
-        assetTracks: assetTracks[selectedAsset],
-        currentPosition: currentPositions[selectedAsset]
+        asset: assets[assetId],
+        assetTracks: assetTracks[assetId],
+        currentPosition: currentPositions[assetId],
+        currentlyShowing: selectedAsset === assetId
       });
     }
     return acc;

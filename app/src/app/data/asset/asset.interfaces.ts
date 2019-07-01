@@ -121,6 +121,7 @@ export interface AssetMovementWithEssentials {
 
 export interface State {
   selectedAssets: Array<string>;
+  selectedAsset: string|null;
   assets: { [uid: string]: Asset };
   assetsEssentials: { [uid: string]: AssetEssentialProperties };
   assetLists: { [identifier: string]: AssetList };

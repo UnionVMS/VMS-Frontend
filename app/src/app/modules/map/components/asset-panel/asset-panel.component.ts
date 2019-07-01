@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef, Renderer2, OnChanges } from '@angular/core';
 import { formatDate } from '@app/helpers';
 import { AssetInterfaces } from '@data/asset';
 
@@ -7,7 +7,7 @@ import { AssetInterfaces } from '@data/asset';
   templateUrl: './asset-panel.component.html',
   styleUrls: ['./asset-panel.component.scss']
 })
-export class AssetPanelComponent {
+export class AssetPanelComponent implements OnChanges {
   @Input() assets: Array<{
     asset: AssetInterfaces.Asset,
     assetTracks: AssetInterfaces.AssetTrack,
@@ -20,11 +20,23 @@ export class AssetPanelComponent {
   @Input() untrackAsset: (assetId: string) => void;
   @Input() addForecast: (assetId: string) => void;
   @Input() removeForecast: (assetId: string) => void;
+  @Input() selectAsset: (assetId: string) => void;
   @Input() forecasts: {};
   @Input() tracksMinuteCap: number;
 
   public hidePanel = false;
-  public activeAssetTabAsset = null;
+  public activeAsset = null;
+  public showButtons = false;
+
+  constructor(private elementRef: ElementRef) { }
+
+  ngOnChanges() {
+    this.activeAsset = this.assets.find((asset) => asset.currentlyShowing) || null;
+  }
+
+  toggleShowButtons() {
+    this.showButtons = !this.showButtons;
+  }
 
   // Extracting this code to separete function so we can override this code in unit-tests.
   private getTracksMillisecondCap() {
@@ -32,38 +44,52 @@ export class AssetPanelComponent {
     return formatDate(Date.now() - tracksMillisecondCap);
   }
 
-  private setActive(assetId) {
-    this.activeAssetTabAsset = this.assets.find((asset) => asset.asset.id === assetId);
-    console.warn(this.activeAssetTabAsset);
+  private scrollTabs(direction) {
+    if(direction === 'left') {
+      this.elementRef.nativeElement.getElementsByClassName('tabs')[0].scrollLeft -= 150;
+    } else if(direction === 'right') {
+      this.elementRef.nativeElement.getElementsByClassName('tabs')[0].scrollLeft += 150;
+    }
   }
 
-  private toggleTracks = (): void => {
-    if(this.tracksIsVisible()) {
-      this.untrackAsset(this.activeAssetTabAsset.asset.id);
+  // We need this because angular templates are worthless, it does not support anonymous functions as parameters...
+  private toggleTracksFactory = (asset) => {
+    return () => this.toggleTracks(asset);
+  }
+
+  private toggleTracks = (asset): void => {
+    if(this.tracksIsVisible(asset)) {
+      this.untrackAsset(asset.asset.Id);
     } else if(this.tracksMinuteCap === null) {
-      this.getAssetTrack(this.activeAssetTabAsset.asset.id, this.activeAssetTabAsset.currentPosition.microMove.guid);
+      this.getAssetTrack(asset.asset.id, asset.currentPosition.microMove.guid);
     } else {
       this.getAssetTrackFromTime(
-        this.activeAssetTabAsset.asset.id,
+        asset.asset.id,
         this.getTracksMillisecondCap()
       );
     }
   }
-  private toggleForecast = (): void => {
-    if(this.forecastIsVisible()) {
-      this.removeForecast(this.activeAssetTabAsset.asset.id);
+
+  // We need this because angular templates are worthless, it does not support anonymous functions as parameters...
+  private toggleForecastFactory = (assetId) => {
+    return () => this.toggleForecast(assetId);
+  }
+
+  private toggleForecast = (assetId): void => {
+    if(this.forecastIsVisible(assetId)) {
+      this.removeForecast(assetId);
     } else {
-      this.addForecast(this.activeAssetTabAsset.asset.id);
+      this.addForecast(assetId);
     }
   }
   private toggleVisibility = (): void => {
     this.hidePanel = !this.hidePanel;
   }
 
-  private tracksIsVisible = (): boolean => {
-    return typeof this.activeAssetTabAsset.assetTracks !== 'undefined';
+  private tracksIsVisible = (asset): boolean => {
+    return typeof asset.assetTracks !== 'undefined';
   }
-  private forecastIsVisible = (): boolean => {
-    return Object.keys(this.forecasts).indexOf(this.activeAssetTabAsset.asset.id) !== -1;
+  private forecastIsVisible = (assetId): boolean => {
+    return Object.keys(this.forecasts).indexOf(assetId) !== -1;
   }
 }
