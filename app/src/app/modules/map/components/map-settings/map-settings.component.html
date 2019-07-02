@@ -1,84 +1,8 @@
-<div class="content-container-minimal">
-  <div class="layer-filter-buttons">
-    <button
-      class="btn btn-primary {{mapSettings.flagsVisible ? 'active' : ''}}"
-      (click)="toggleFlags()"
-      title="{{mapSettings.flagsVisible ? 'Hide flags' : 'Show flags'}}"
-    >
-      <i class="fas fa-flag" alt="Flags"></i>
-    </button>
-    <button
-      class="btn btn-primary {{mapSettings.tracksVisible ? 'active' : ''}}"
-      (click)="toggleTracks()"
-      title="{{mapSettings.tracksVisible ? 'Hide tracks' : 'Show tracks'}}"
-    >
-      <i class="fas fa-angle-double-up"></i>
-    </button>
-    <button
-      class="btn btn-primary {{mapSettings.namesVisible ? 'active' : ''}}"
-      (click)="toggleNames()"
-      title="{{mapSettings.namesVisible ? 'Hide names' : 'Show names'}}"
-    >
-      <i class="fas fa-signature"></i>
-    </button>
-    <button
-      class="btn btn-primary {{mapSettings.speedsVisible ? 'active' : ''}}"
-      (click)="toggleSpeeds()"
-      title="{{mapSettings.speedsVisible ? 'Hide speeds' : 'Show speeds'}}"
-    >
-      <i class="fas fa-tachometer-alt"></i>
-    </button>
-    <button
-      class="btn btn-primary {{mapSettings.forecastsVisible ? 'active' : ''}}"
-      (click)="toggleForecast()"
-      title="{{mapSettings.forecastsVisible ? 'Hide forecasts' : 'Show forecasts'}}"
-    >
-      <i class="fas fa-fast-forward"></i>
-    </button>
-  </div>
-  <div class="viewport-wrapper {{viewportKeys.length > 0 ? 'visible' : ''}}">
-    <b class="headline" *ngIf="viewportKeys.length > 0">Saved Viewports</b>
-    <map-viewports
-      [map]="map"
-      [mapSettings]="mapSettings"
-      [saveViewport]="saveViewport"
-    ></map-viewports>
-  </div>
-</div>
-<!--
 <div class="content-container" *ngIf="!hidePanel">
-  <map-viewports
-    [map]="map"
-    [mapSettings]="mapSettings"
-    [saveViewport]="saveViewport"
-  ></map-viewports>
-  <ui-button-toggle
-    [label]="'Flags'"
-    [value]="mapSettings.flagsVisible"
-    [switchFunction]="toggleFlags"
-  ></ui-button-toggle>
-  <ui-button-toggle
-    [label]="'Tracks'"
-    [value]="mapSettings.tracksVisible"
-    [switchFunction]="toggleTracks"
-  ></ui-button-toggle>
-  <ui-button-toggle
-    [label]="'Names'"
-    [value]="mapSettings.namesVisible"
-    [switchFunction]="toggleNames"
-  ></ui-button-toggle>
-  <ui-button-toggle
-    [label]="'Speeds'"
-    [value]="mapSettings.speedsVisible"
-    [switchFunction]="toggleSpeeds"
-  ></ui-button-toggle>
-  <ui-button-toggle
-    [label]="'Forecasts'"
-    [value]="mapSettings.forecastsVisible"
-    [switchFunction]="toggleForecast"
-  ></ui-button-toggle>
-  <button class="hide-button btn btn-default" (click)="clearTracks()">Clear tracks</button>
-  <button class="hide-button btn btn-default" (click)="clearForecasts()">Clear forecasts</button>
+  <div>
+    <button class="hide-button btn btn-default" (click)="clearTracks()">Clear tracks</button>
+    <button class="hide-button btn btn-default" (click)="clearForecasts()">Clear forecasts</button>
+  </div>
   <fieldset>
     <legend>Cap tracks (min)</legend>
     <input type="number" placeholder="200" (keyup)="setTracksMinuteCapFunction($event)" [(ngModel)]="mapSettings.tracksMinuteCap">
@@ -92,5 +16,5 @@
   </div>
 </div>
 <button class="show-button btn btn-primary" *ngIf="hidePanel" (click)="hidePanel = !hidePanel">
-  <i class="fas fa-chevron-left"></i>
-</button> -->
+  <i class="fas fa-chevron-right"></i>
+</button>

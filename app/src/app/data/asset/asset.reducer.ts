@@ -157,7 +157,12 @@ export function assetReducer(state = initialState, { type, payload }) {
       return returnState;
 
     case ActionTypes.DeselectAsset:
-      return { ...state, selectedAssets: state.selectedAssets.filter((assetId) => assetId !== payload) };
+      let selectedAsset = state.selectedAsset;
+      const selectedAssets = state.selectedAssets.filter((assetId) => assetId !== payload);
+      if(payload === selectedAsset) {
+        selectedAsset = selectedAssets[0];
+      }
+      return { ...state, selectedAssets, selectedAsset };
 
     case ActionTypes.SetAssetTrack:
       // tslint:disable-next-line:no-shadowed-variable

@@ -111,7 +111,7 @@ export class AssetEffects {
               return null;
             }
           }),
-          filter(val => val !== null && false),
+          filter(val => val !== null),
           withLatestFrom(this.store$.select(MapSettingsSelectors.getTracksMinuteCap)),
           map(([listOfActions, tracksMinuteCap]: Array<any>) => {
             if(tracksMinuteCap !== null) {

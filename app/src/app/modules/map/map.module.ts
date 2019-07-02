@@ -17,6 +17,7 @@ import { AssetPanelComponent } from './components/asset-panel/asset-panel.compon
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
+import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
 import { MapSettingsComponent } from './components/map-settings/map-settings.component';
 import { MapViewportsComponent } from './components/map-viewports/map-viewports.component';
 import { TracksComponent } from './components/tracks/tracks.component';
@@ -40,6 +41,7 @@ import { TrackPanelComponent } from './components/track-panel/track-panel.compon
     AssetSearchComponent,
     FlagstatesComponent,
     InformationPanelComponent,
+    LayerFilterComponent,
     MapSettingsComponent,
     MapViewportsComponent,
     TracksComponent,

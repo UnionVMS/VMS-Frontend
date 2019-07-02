@@ -11,7 +11,8 @@ export class AssetPanelComponent implements OnChanges {
   @Input() assets: Array<{
     asset: AssetInterfaces.Asset,
     assetTracks: AssetInterfaces.AssetTrack,
-    currentPosition: AssetInterfaces.AssetMovement
+    currentPosition: AssetInterfaces.AssetMovement,
+    currentlyShowing: boolean
   }>;
 
   @Input() deselectAsset: (assetId: string) => void;
@@ -59,7 +60,7 @@ export class AssetPanelComponent implements OnChanges {
 
   private toggleTracks = (asset): void => {
     if(this.tracksIsVisible(asset)) {
-      this.untrackAsset(asset.asset.Id);
+      this.untrackAsset(asset.asset.id);
     } else if(this.tracksMinuteCap === null) {
       this.getAssetTrack(asset.asset.id, asset.currentPosition.microMove.guid);
     } else {

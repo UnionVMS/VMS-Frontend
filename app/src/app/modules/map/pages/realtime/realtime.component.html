@@ -51,19 +51,22 @@
     [filterFunction]="filterAssets"
     [selectAsset]="selectAsset"
   ></map-asset-search>
-  <map-settings
+  <map-layer-filter
     [mapSettings]="mapSettings"
     [setVisibilityForAssetNames]="setVisibilityForAssetNames"
     [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
     [setVisibilityForFlags]="setVisibilityForFlags"
     [setVisibilityForTracks]="setVisibilityForTracks"
     [setVisibilityForForecast]="setVisibilityForForecast"
+    [map]="map"
+    [saveViewport]="saveViewport"
+  ></map-layer-filter>
+  <map-settings
+    [mapSettings]="mapSettings"
     [setTracksMinuteCap]="setTracksMinuteCap"
     [setForecastInterval]="setForecastInterval"
     [clearTracks]="clearTracks"
     [clearForecasts]="clearForecasts"
-    [map]="map"
-    [saveViewport]="saveViewport"
   ></map-settings>
   <map-asset-panel
     *ngIf="(selectedAssets$|async).length > 0"

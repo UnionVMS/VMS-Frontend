@@ -9,7 +9,7 @@
     }
   }
 
-  map-settings {
+  map-layer-filter {
     position: fixed;
     right: $small_distance;
     top: calc(#{$navbar_height} + 95px);
@@ -22,11 +22,16 @@
   map-asset-panel {
     position: fixed;
     left: 0px;
-    height: 40%;
     bottom: 0px;
-    max-width: 50%;
   }
+
+  map-settings {
+    position: fixed;
+    left: 0;
+    top: calc(#{$navbar_height});
+  }
+
   map-track-panel {
-    display: none;
+    // display: none;
   }
 }

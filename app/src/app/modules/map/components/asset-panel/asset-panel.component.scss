@@ -4,9 +4,9 @@
   display: grid;
   grid-template-columns: 500px 150px;
   grid-gap: $medium_distance;
-  height: 100%;
-  width: 100%;
+  height: 150px;
   color: white;
+  align-self: end;
 
   .information-wrapper {
     display: grid;
