@@ -24,8 +24,8 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   @Input() positionsForInspection: any;
   @Input() map: Map;
   @Input() mapZoom: number;
-  @Input() registerOnClickFunction: Function;
-  @Input() unregisterOnClickFunction: Function;
+  @Input() registerOnSelectFunction: Function;
+  @Input() unregisterOnSelectFunction: Function;
   // tslint:enable:ban-types
 
   private vectorSource: VectorSource;
@@ -52,9 +52,10 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       }, [])
     );
 
-    this.registerOnClickFunction(this.layerTitle, (event) => {
+    this.registerOnSelectFunction(this.layerTitle, (event) => {
       if (
         typeof event.selected[0] !== 'undefined' &&
+        typeof event.selected[0].id_ !== 'undefined' &&
         this.vectorSource.getFeatureById(event.selected[0].id_) !== null &&
         event.selected[0].id_.includes('assetId_')
       ) {
@@ -114,7 +115,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.unregisterOnClickFunction(this.layerTitle);
+    this.unregisterOnSelectFunction(this.layerTitle);
     this.map.removeLayer(this.vectorLayer);
   }
 

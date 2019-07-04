@@ -17,6 +17,7 @@ export const initialState: Interfaces.State = {
     longitude: 12.1047925
   },
   assetColorMethod: 'Shiptype',
+  currentControlPanel: null,
 };
 
 export function mapSettingsReducer(state = initialState, { type, payload }) {
@@ -35,6 +36,8 @@ export function mapSettingsReducer(state = initialState, { type, payload }) {
       return { ...state, tracksMinuteCap: payload };
     case ActionTypes.SetForecastInterval:
       return { ...state, forecastInterval: payload };
+    case ActionTypes.SetCurrentControlPanel:
+      return { ...state, currentControlPanel: payload };
     case ActionTypes.SaveViewport:
       return { ...state, viewports: {
         ...state.viewports,

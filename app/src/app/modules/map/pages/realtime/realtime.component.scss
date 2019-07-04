@@ -12,10 +12,11 @@
   map-layer-filter {
     position: fixed;
     right: $small_distance;
-    top: calc(#{$navbar_height} + 95px);
+    top: calc(#{$navbar_height} + 83px);
   }
-  map-asset-search {
+  map-top-panel {
     position: fixed;
+    left: 0px;
     right: 0px;
     top: $navbar_height;
   }
@@ -25,10 +26,10 @@
     bottom: 0px;
   }
 
-  map-settings {
+  .control-panel {
     position: fixed;
-    left: 0;
-    top: calc(#{$navbar_height});
+    left: $small_distance;
+    top: calc(#{$navbar_height} * 2 + #{$small_distance});
   }
 
   map-track-panel {

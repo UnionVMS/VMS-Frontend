@@ -1,0 +1,26 @@
+<div class="content-container">
+  <div class="panel-config-buttons">
+    <button
+      class="btn {{currentControlPanel === 'map-control-panel' ? 'active' : ''}}"
+      (click)="toggleCurrentControlPanel('map-control-panel')"
+      title="{{currentControlPanel === 'map-control-panel' ? 'Hide control panel' : 'Show control panel'}}"
+    >
+      <i class="fas fa-cog"></i>
+    </button>
+    <button
+      class="btn {{currentControlPanel === 'map-distance-between-points' ? 'active' : ''}}"
+      (click)="toggleCurrentControlPanel('map-distance-between-points')"
+      title="{{currentControlPanel === 'map-distance-between-points' ? 'Stop messuring distance' : 'Messure distance'}}"
+    >
+      <i class="fas fa-pencil-ruler"></i>
+    </button>
+  </div>
+  <div><ng-content></ng-content></div>
+  <map-asset-search
+    [autocompleteFunction]="searchAutocomplete"
+    [autocompleteResult]="autocompleteResult"
+    [centerMapOnPosition]="centerMapOnPosition"
+    [filterFunction]="filterAssets"
+    [selectAsset]="selectAsset"
+  ></map-asset-search>
+</div>

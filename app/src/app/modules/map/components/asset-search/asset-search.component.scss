@@ -4,8 +4,6 @@ map-asset-search {
   .content-container {
     display: grid;
     color: white;
-    padding: 10px;
-    background: $map_overlay_background;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
 
@@ -24,7 +22,7 @@ map-asset-search {
       .mat-form-field-infix {
         background: white;
         margin-top: 6px;
-        padding-top: 0.5em;
+        padding: 4px 0px;
         border-top: none;
       }
       .mat-form-field-wrapper {
@@ -39,11 +37,15 @@ map-asset-search {
       padding-bottom: 0px;
     }
 
+    .mat-form-field-appearance-legacy .mat-form-field-label {
+      top: 1em;
+    }
+
     .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
     .mat-form-field-appearance-legacy.mat-form-field-can-float .mat-form-field-autofill-control:-webkit-autofill+.mat-form-field-label-wrapper .mat-form-field-label {
-      -webkit-transform: translateY(-1.6em) scale(.75) perspective(100px) translateY(0.001px);
-      transform: translateY(-1.6em) scale(.75) perspective(100px) translateY(0.001px);
-      -ms-transform: translateY(-1.6em) scale(.75);
+      -webkit-transform: translateY(-1.3em) scale(.75) perspective(100px) translateY(0.001px);
+      transform: translateY(-1.3em) scale(.75) perspective(100px) translateY(0.001px);
+      -ms-transform: translateY(-1.3em) scale(.75);
       color: white;
     }
 

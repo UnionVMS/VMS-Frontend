@@ -22,8 +22,8 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
   @Input() map: Map;
   // tslint:disable:ban-types
   @Input() selectAsset: Function;
-  @Input() registerOnClickFunction: Function;
-  @Input() unregisterOnClickFunction: Function;
+  @Input() registerOnSelectFunction: Function;
+  @Input() unregisterOnSelectFunction: Function;
   // tslint:enable:ban-types
 
   private vectorSource: VectorSource;
@@ -40,7 +40,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
       renderBuffer: 200
     });
     this.map.addLayer(this.vectorLayer);
-    this.registerOnClickFunction(this.layerTitle, (event) => {
+    this.registerOnSelectFunction(this.layerTitle, (event) => {
       if (
         typeof event.selected[0] !== 'undefined' &&
         this.vectorSource.getFeatureById(event.selected[0].id_) !== null
@@ -103,7 +103,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.unregisterOnClickFunction(this.layerTitle);
+    this.unregisterOnSelectFunction(this.layerTitle);
     this.map.removeLayer(this.vectorLayer);
   }
 

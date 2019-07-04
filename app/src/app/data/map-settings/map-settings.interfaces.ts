@@ -17,4 +17,5 @@ export interface State {
   startZoomLevel: number;
   startPosition: Position;
   assetColorMethod: string;
+  currentControlPanel: string|null;
 }

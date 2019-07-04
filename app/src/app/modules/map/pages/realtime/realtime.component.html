@@ -1,8 +1,19 @@
 <div class="realtime-container">
   <div class="map-container">
     <div id="realtime-map"></div>
+    <map-top-panel
+      [autocompleteFunction]="searchAutocomplete"
+      [autocompleteResult]="searchAutocompleteAsset$ | async"
+      [centerMapOnPosition]="centerMapOnPosition"
+      [filterFunction]="filterAssets"
+      [selectAsset]="selectAsset"
+      [currentControlPanel]="mapSettings.currentControlPanel"
+      [setCurrentControlPanel]="setCurrentControlPanel"
+    >
+      <div id="mouse-position"></div>
+    </map-top-panel>
     <map-assets
-      *ngIf="registerOnClickFunction !== undefined"
+      *ngIf="registerOnSelectFunction !== undefined"
       [assets]="assetMovements"
       [selectedAssets]="selectedAssets$|async"
       [map]="map"
@@ -11,26 +22,26 @@
       [speedsVisible]="mapSettings.speedsVisible"
       [selectAsset]="selectAsset"
       [shipColorLogic]="mapSettings.assetColorMethod"
-      [registerOnClickFunction]="registerOnClickFunction"
-      [unregisterOnClickFunction]="unregisterOnClickFunction"
+      [registerOnSelectFunction]="registerOnSelectFunction"
+      [unregisterOnSelectFunction]="unregisterOnSelectFunction"
     ></map-assets>
     <map-tracks
       *ngIf="mapSettings.tracksVisible && mapZoom > 9"
       [assetTracks]="assetTracks$|async"
       [map]="map"
       [mapZoom]="mapZoom"
-      [registerOnClickFunction]="registerOnClickFunction"
-      [unregisterOnClickFunction]="unregisterOnClickFunction"
+      [registerOnSelectFunction]="registerOnSelectFunction"
+      [unregisterOnSelectFunction]="unregisterOnSelectFunction"
       [addPositionForInspection]="addPositionForInspection"
       [positionsForInspection]="positionsForInspection$|async"
     ></map-tracks>
     <map-flagstates
-      *ngIf="mapSettings.flagsVisible && mapZoom > 9 && registerOnClickFunction !== undefined"
+      *ngIf="mapSettings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"
       [assets]="assetMovements"
       [map]="map"
       [selectAsset]="selectAsset"
-      [registerOnClickFunction]="registerOnClickFunction"
-      [unregisterOnClickFunction]="unregisterOnClickFunction"
+      [registerOnSelectFunction]="registerOnSelectFunction"
+      [unregisterOnSelectFunction]="unregisterOnSelectFunction"
     ></map-flagstates>
     <map-information-panel></map-information-panel>
     <map-track-panel
@@ -44,13 +55,6 @@
       [forecastInterval]="mapSettings.forecastInterval"
     ></map-asset-forecast>
   </div>
-  <map-asset-search
-    [autocompleteFunction]="searchAutocomplete"
-    [autocompleteResult]="searchAutocompleteAsset$ | async"
-    [centerMapOnPosition]="centerMapOnPosition"
-    [filterFunction]="filterAssets"
-    [selectAsset]="selectAsset"
-  ></map-asset-search>
   <map-layer-filter
     [mapSettings]="mapSettings"
     [setVisibilityForAssetNames]="setVisibilityForAssetNames"
@@ -61,13 +65,6 @@
     [map]="map"
     [saveViewport]="saveViewport"
   ></map-layer-filter>
-  <map-settings
-    [mapSettings]="mapSettings"
-    [setTracksMinuteCap]="setTracksMinuteCap"
-    [setForecastInterval]="setForecastInterval"
-    [clearTracks]="clearTracks"
-    [clearForecasts]="clearForecasts"
-  ></map-settings>
   <map-asset-panel
     *ngIf="(selectedAssets$|async).length > 0"
     [assets]="selectedAssets$|async"
@@ -81,4 +78,19 @@
     [removeForecast]="removeForecast"
     [tracksMinuteCap]="mapSettings.tracksMinuteCap"
   ></map-asset-panel>
+  <div class="control-panel">
+    <map-control-panel
+      *ngIf="mapSettings.currentControlPanel === 'map-control-panel'"
+      [mapSettings]="mapSettings"
+      [setTracksMinuteCap]="setTracksMinuteCap"
+      [setForecastInterval]="setForecastInterval"
+      [clearTracks]="clearTracks"
+      [clearForecasts]="clearForecasts"
+    ></map-control-panel>
+    <map-distance-between-points
+      [map]="map"
+      [registerOnClickFunction]="registerOnClickFunction"
+      [active]="mapSettings.currentControlPanel === 'map-distance-between-points'"
+    ></map-distance-between-points>
+  </div>
 </div>

@@ -8,7 +8,8 @@ import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import { fromLonLat } from 'ol/proj';
-import { defaults as defaultControls, ScaleLine } from 'ol/control.js';
+import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/control.js';
+import { format } from 'ol/coordinate.js';
 
 import { EventSourcePolyfill } from 'event-source-polyfill';
 
@@ -39,7 +40,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public clearForecasts: Function;
   public clearTracks: Function;
   public deselectAsset: (assetId: string) => void;
-  public registerOnClickFunction: Function;
   public saveViewport: Function;
   public setForecastInterval: Function;
   public setVisibilityForAssetNames: Function;
@@ -52,12 +52,16 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public searchAutocomplete: Function;
   public filterAssets: Function;
   // tslint:enable:ban-types
+  public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
+  public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
+  public setCurrentControlPanel: (controlPanelName: string|null) => void;
 
   private assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
   private assetSubscription: Subscription;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
+  private onSelectFunctions: { [name: string]: (event) => void } = {};
 
   private assetTracks$: Observable<any>;
   private forecasts$: Observable<any>;
@@ -70,8 +74,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private removeForecast: Function;
   public selectAsset: Function;
   private untrackAsset: Function;
-  private unregisterOnClickFunction: Function;
   // tslint:enable:ban-types
+  private unregisterOnClickFunction: (name: string) => void;
+  private unregisterOnSelectFunction: (name: string) => void;
 
   // Map functions to props:
   // tslint:disable:ban-types
@@ -133,6 +138,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new AssetActions.ClearTracks());
     this.setForecastInterval = (forecastTimeLength) =>
       this.store.dispatch(new MapSettingsActions.SetForecastInterval(forecastTimeLength));
+    this.setCurrentControlPanel = (controlPanelName) =>
+      this.store.dispatch(new MapSettingsActions.SetCurrentControlPanel(controlPanelName));
     this.searchAutocomplete = (searchQuery) =>
       this.store.dispatch(new AssetActions.SetAutocompleteQuery({searchQuery}));
     this.filterAssets = (filterQuery) => {
@@ -155,8 +162,17 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new AssetActions.SubscribeToMovements());
     this.mapZoom = this.mapSettings.startZoomLevel;
     const scaleLineControl = new ScaleLine();
+    const mousePositionControl = new MousePosition({
+      coordinateFormat: (coordinates) => format(coordinates, 'Lat: {y}, Long: {x}', 4),
+      projection: 'EPSG:4326',
+      // comment the following two lines to have the mouse position
+      // be placed within the map.
+      className: 'custom-mouse-position',
+      target: document.getElementById('mouse-position'),
+      undefinedHTML: '&nbsp;'
+    });
     this.map = new Map({
-      controls: defaultControls().extend([scaleLineControl]),
+      controls: defaultControls().extend([scaleLineControl, mousePositionControl]),
       target: 'realtime-map',
       layers: [
         new TileLayer({
@@ -172,7 +188,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     });
 
     this.setupOnClickEvents();
-
     this.map.on('moveend', (event) => {
       const mapZoom = this.map.getView().getZoom();
       if(this.mapZoom !== mapZoom) {
@@ -202,10 +217,22 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       delete this.onClickFunctions[name];
     };
 
+    this.map.on('click', (event) => {
+      Object.values(this.onClickFunctions).map((clickFunction) => clickFunction(event));
+    });
+
+    this.registerOnSelectFunction = (name, onClickFunction) => {
+      this.onSelectFunctions[name] = onClickFunction;
+    };
+
+    this.unregisterOnSelectFunction = (name) => {
+      delete this.onSelectFunctions[name];
+    };
+
     this.selection = new Select({hitTolerance: 7});
     this.map.addInteraction(this.selection);
     this.selection.on('select', (event) => {
-      Object.keys(this.onClickFunctions).map((name) => this.onClickFunctions[name](event));
+      Object.values(this.onSelectFunctions).map((selectFunction) => selectFunction(event));
     });
   }
 }

@@ -60,5 +60,5 @@
   left: 0;
   width: 3em;
   padding: 6px 10px;
-  top: $navbar_height;
+  top: calc(#{$navbar_height} * 2);
 }

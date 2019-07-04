@@ -10,6 +10,7 @@ export enum ActionTypes {
   SetVisibilityForForecast = '[MapSettings] Set visiblity for forecast',
   SetTracksMinuteCap = '[MapSettings] Set tracks minute cap',
   SetForecastInterval = '[MapSettings] Set forecast interval',
+  SetCurrentControlPanel = '[MapSettings] Set current control panel',
   SaveViewport = '[MapSettings] Save viewport',
   ReplaceSettings = '[MapSettings] Replace settings',
 }
@@ -47,6 +48,11 @@ export class SetTracksMinuteCap implements Action {
 export class SetForecastInterval implements Action {
   readonly type = ActionTypes.SetForecastInterval;
   constructor(public payload: number) {}
+}
+
+export class SetCurrentControlPanel implements Action {
+  readonly type = ActionTypes.SetCurrentControlPanel;
+  constructor(public payload: string|null) {}
 }
 
 export class SaveViewport implements Action {

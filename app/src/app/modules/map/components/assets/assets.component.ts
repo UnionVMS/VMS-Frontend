@@ -32,8 +32,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() mapZoom: number;
   // tslint:disable:ban-types
   @Input() selectAsset: Function;
-  @Input() registerOnClickFunction: Function;
-  @Input() unregisterOnClickFunction: Function;
+  @Input() registerOnSelectFunction: Function;
+  @Input() unregisterOnSelectFunction: Function;
   // tslint:enable:ban-types
 
   private vectorSource: VectorSource;
@@ -60,67 +60,16 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
-    // this.clusterSource = new Cluster({
-    //   distance: 16,
-    //   source: this.vectorSource
-    // });
     this.vectorLayer = new VectorLayer({
       title: this.layerTitle,
       source: this.vectorSource,
       renderBuffer: 200,
-      // style: (feature) => {
-      //   const size = feature.get('features').length;
-      //   if(size === 1) {
-      //     return feature.get('features')[0].getStyle();
-      //   }
-      //   let style;
-      //   if(this.displayAsStack) {
-      //     const firstFeatureInStack = feature.get('features')[0];
-      //     const stackId = firstFeatureInStack.getId();
-      //     style = this.styleCache[stackId];
-      //     if(!style) {
-      //
-      //       style = new Style({
-      //         image: new Icon({
-      //           src: '/assets/arrow_stack.png',
-      //           scale: 0.8,
-      //           color: firstFeatureInStack.getStyle().getImage().getColor(),
-      //         })
-      //       });
-      //       style.getImage().setOpacity(1);
-      //       style.getImage().setRotation(firstFeatureInStack.getStyle().getImage().getRotation());
-      //       this.styleCache[stackId] = style;
-      //     }
-      //   } else {
-      //     style = this.styleCache[size];
-      //     if (!style) {
-      //       style = new Style({
-      //         image: new CircleStyle({
-      //           radius: 10,
-      //           stroke: new Stroke({
-      //             color: '#fff'
-      //           }),
-      //           fill: new Fill({
-      //             color: '#3399CC'
-      //           })
-      //         }),
-      //         text: new Text({
-      //           text: size.toString(),
-      //           fill: new Fill({
-      //             color: '#fff'
-      //           })
-      //         })
-      //       });
-      //     }
-      //     this.styleCache[size] = style;
-      //   }
-      //   return style;
-      // }
     });
     this.map.addLayer(this.vectorLayer);
-    this.registerOnClickFunction(this.layerTitle, (event) => {
+    this.registerOnSelectFunction(this.layerTitle, (event) => {
       if (
         typeof event.selected[0] !== 'undefined' &&
+        typeof event.selected[0].id_ !== 'undefined' &&
         this.vectorSource.getFeatureById(event.selected[0].id_) !== null
       ) {
         this.selectAsset(event.selected[0].id_);
@@ -249,7 +198,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.unregisterOnClickFunction(this.layerTitle);
+    this.unregisterOnSelectFunction(this.layerTitle);
     this.map.removeLayer(this.vectorLayer);
   }
 

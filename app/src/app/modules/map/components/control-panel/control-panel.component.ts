@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'map-settings',
-  templateUrl: './map-settings.component.html',
-  styleUrls: ['./map-settings.component.scss']
+  selector: 'map-control-panel',
+  templateUrl: './control-panel.component.html',
+  styleUrls: ['./control-panel.component.scss']
 })
-export class MapSettingsComponent {
+export class ControlPanelComponent {
   @Input() mapSettings;
   @Input() setTracksMinuteCap;
   @Input() clearForecasts;

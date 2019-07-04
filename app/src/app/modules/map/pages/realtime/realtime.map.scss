@@ -6,6 +6,9 @@
  * "Reminder: the styles in the style file apply only to this component.
  * They are not inherited by any components nested within the template nor by any content projected into the component."
 */
+
+@import 'variables.scss';
+
 .realtime-container .map-container #realtime-map {
   .ol-scale-line {
     left: unset;
@@ -14,10 +17,11 @@
   .ol-zoom {
     left: unset;
     right: 5px;
-    top: 60px;
+    top: calc(#{$navbar_height} + #{$small_distance});
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 5px;
+    padding: 0px;
 
     &.ol-control {
       background-color: transparent;
