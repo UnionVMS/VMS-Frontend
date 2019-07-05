@@ -119,6 +119,10 @@ button {
   }
 }
 
+fieldset {
+  border: 0px;
+}
+
 @media (min-width: 1620px) {
   .container {
     max-width: 1600px;

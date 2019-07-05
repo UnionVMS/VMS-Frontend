@@ -2,12 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-// // For MDB Angular Free
-// import {
-//   NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
-//   InputsModule, IconsModule, DropdownModule
-// } from 'angular-bootstrap-md';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -28,9 +24,8 @@ import { TopMenuComponent } from './components/top-menu/top-menu.component';
   imports: [
     CommonModule,
     RouterModule,
-    // /* MDB Imports: */
-    // NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
-    // InputsModule, IconsModule, DropdownModule
+    MatFormFieldModule,
+    MatInputModule,
   ],
   declarations: [
     DefaultLayoutComponent,

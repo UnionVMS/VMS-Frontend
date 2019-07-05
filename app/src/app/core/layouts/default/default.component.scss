@@ -1,11 +1,7 @@
 @import 'variables.scss';
 
-.appVersion {
-  position: absolute;
-  left: $large_distance;
-  top: $large_distance;
-  z-index: 10;
-  color: white;
-  font-size: 80%;
-  font-style: italic;
+.container {
+  max-width: 1080px;
+  margin: 0px auto;
+  padding: 0px;
 }

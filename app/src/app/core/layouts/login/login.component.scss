@@ -1,15 +1,53 @@
 @import 'variables.scss';
 
-.appVersion {
-  position: absolute;
-  left: $large_distance;
-  top: $large_distance;
-  z-index: 10;
+.navbar {
+  background: $color_turquoise;
   color: white;
-  font-size: 80%;
-  font-style: italic;
+  height: $navbar_height;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .navbar-brand-and-version {
+    margin: auto 0px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    .app-version {
+      margin-top: 2px;
+      margin-left: $medium_distance;
+      font-size: 80%;
+      font-style: italic;
+    }
+
+    .navbar-brand {
+      font-weight: bolder;
+    }
+  }
+
+  ul.navbar-nav {
+    a:hover {
+      border-bottom: 1px solid $color_orange;
+    }
+
+    display: inline-block;
+    list-style: none;
+    padding-left: 0px;
+    li.nav-item {
+      display: inline-block;
+      margin-right: $large_distance;
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
 }
 
 .container {
-    height: calc(100% - 56px);
+  padding: $medium_distance $large_distance;
+  height: calc(100% - #{$navbar_height});
 }

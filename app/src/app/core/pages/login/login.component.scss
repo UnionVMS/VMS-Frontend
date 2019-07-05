@@ -1,0 +1,33 @@
+@import 'variables.scss';
+
+app-login {
+  .content-container {
+    display: grid;
+    height: 100%;
+    form {
+      place-self: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: $medium_distance;
+      grid-row-gap: $large_distance;
+      h4 {
+        background: #E84E0F;
+        padding: 10px;
+        color: white;
+        grid-column: 1 / span 2;
+        margin: 0px;
+      }
+
+      .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+        padding: 0px;
+        .mat-form-field-underline {
+          bottom: 0px;
+        }
+      }
+
+      .btn {
+        margin: 0px;
+      }
+    }
+  }
+}

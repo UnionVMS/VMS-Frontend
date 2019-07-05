@@ -1,0 +1,9 @@
+@import 'variables.scss';
+
+.content-container {
+  display: grid;
+  height: 100%;
+  p {
+     place-self: center;
+  }
+}
