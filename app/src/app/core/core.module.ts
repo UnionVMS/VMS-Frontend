@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+import { UIModule } from '@modules/ui/ui.module';
+
 // Guards
 import { AuthGuard } from './guards/auth.guard';
 
@@ -16,6 +18,7 @@ import { FullLayoutComponent } from './layouts/full/full.component';
 // Pages
 import { LoginComponent } from './pages/login/login.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
+import { LogoutComponent } from './pages/logout/logout.component';
 
 // Components
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
@@ -26,6 +29,7 @@ import { TopMenuComponent } from './components/top-menu/top-menu.component';
     RouterModule,
     MatFormFieldModule,
     MatInputModule,
+    UIModule,
   ],
   declarations: [
     DefaultLayoutComponent,
@@ -33,6 +37,7 @@ import { TopMenuComponent } from './components/top-menu/top-menu.component';
     FullLayoutComponent,
     LoginComponent,
     UnauthorizedComponent,
+    LogoutComponent,
     TopMenuComponent
   ],
   providers: [

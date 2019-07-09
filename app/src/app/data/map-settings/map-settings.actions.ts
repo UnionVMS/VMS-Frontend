@@ -13,6 +13,7 @@ export enum ActionTypes {
   SetCurrentControlPanel = '[MapSettings] Set current control panel',
   SaveViewport = '[MapSettings] Save viewport',
   ReplaceSettings = '[MapSettings] Replace settings',
+  SaveSettings = '[MapSettings] API - Save settings',
 }
 
 export class SetVisibilityForAssetNames implements Action {
@@ -62,5 +63,11 @@ export class SaveViewport implements Action {
 
 export class ReplaceSettings implements Action {
   readonly type = ActionTypes.ReplaceSettings;
+  constructor(public payload: State) {
+  }
+}
+
+export class SaveSettings implements Action {
+  readonly type = ActionTypes.SaveSettings;
   constructor(public payload: State) {}
 }

@@ -35,6 +35,7 @@ import { SettingsModule } from './modules/settings/settings.module';
 /* Effects */
 import { AssetEffects } from './data/asset/asset.effects';
 import { AuthEffects } from './data/auth/auth.effects';
+import { MapSettingsEffects } from './data/map-settings/map-settings.effects';
 
 /* Services */
 import { AuthService } from './data/auth/auth.service';
@@ -51,7 +52,7 @@ const imports = [
   StoreRouterConnectingModule.forRoot(),
   AppRoutingModule,
   HttpClientModule,
-  EffectsModule.forRoot([AuthEffects, AssetEffects]),
+  EffectsModule.forRoot([AuthEffects, AssetEffects, MapSettingsEffects]),
   BrowserAnimationsModule,
   MDBBootstrapModule.forRoot(),
   CoreModule,

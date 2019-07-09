@@ -4,7 +4,8 @@ import jwtDecode from 'jwt-decode';
 export enum ActionTypes {
   Login         = '[Auth] Login',
   LoginSuccess  = '[Auth] Login Successfull',
-  LoginFailed     = '[Auth] Login Failed',
+  LoginFailed   = '[Auth] Login Failed',
+  Logout        = '[Auth] Logut',
 }
 
 export class Login implements Action {
@@ -28,4 +29,11 @@ export class LoginSuccess implements Action {
 export class LoginFailed implements Action {
   readonly type = ActionTypes.LoginFailed;
   constructor(public payload: any) {}
+}
+
+export class Logout implements Action {
+  readonly type = ActionTypes.Logout;
+  constructor() {
+    delete window.localStorage.authToken;
+  }
 }

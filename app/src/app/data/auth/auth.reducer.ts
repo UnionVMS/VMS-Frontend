@@ -31,6 +31,9 @@ export function authReducer(state = initialState, { type, payload }) {
     case ActionTypes.LoginFailed:
       return { ...state };
 
+    case ActionTypes.Logout:
+      return { ...state, user: null };
+
     default:
       return state;
   }

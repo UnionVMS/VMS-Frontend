@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -13,6 +13,17 @@ export class AuthService {
     return this.http.post(
       environment.baseApiUrl + 'usm-administration/rest/authenticate',
       { userName: username, password}
+    );
+  }
+
+  getUserContext(authToken: string) {
+    return this.http.get(
+      environment.baseApiUrl + 'usm-administration/rest/userContexts', {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
     );
   }
 }

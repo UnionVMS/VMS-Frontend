@@ -5,7 +5,7 @@
   color: white;
   height: $navbar_height;
   display: grid;
-  grid-template-columns: 120px 1fr;
+  grid-template-columns: 120px 1fr auto;
 
   a {
     color: white;
@@ -48,6 +48,13 @@
         color: $color_orange;
       }
 
+    }
+  }
+
+  ul.navbar-nav.right-bar {
+    padding-right: $large_distance;
+    a {
+      cursor: pointer;
     }
   }
 }

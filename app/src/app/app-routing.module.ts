@@ -13,6 +13,7 @@ import { FullLayoutComponent } from './core/layouts/full/full.component';
 // Core-pages
 import { LoginComponent } from './core/pages/login/login.component';
 import { UnauthorizedComponent } from './core/pages/unauthorized/unauthorized.component';
+import { LogoutComponent } from './core/pages/logout/logout.component';
 
 // Map-pages
 import { RealtimeComponent } from './modules/map/pages/realtime/realtime.component';
@@ -35,6 +36,7 @@ const routes: Routes = [
       { path: 'asset/edit', component: AssetFormComponent, pathMatch: 'full'},
       { path: 'asset', component: AssetSearchComponent, pathMatch: 'full'},
       { path: 'test', component: TestComponent, pathMatch: 'full'},
+      { path: 'logout', component: LogoutComponent, pathMatch: 'full'},
     ]
   },
   {

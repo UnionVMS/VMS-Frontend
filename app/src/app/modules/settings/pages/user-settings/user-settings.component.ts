@@ -45,13 +45,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   }
 
   public saveToLocalstorage = (event) => {
-    // @ts-ignore
-    this.mapSettings.startZoomLevel = parseFloat(this.mapSettings.startZoomLevel);
-    // @ts-ignore
-    this.mapSettings.startPosition.latitude = parseFloat(this.mapSettings.startPosition.latitude);
-    // @ts-ignore
-    this.mapSettings.startPosition.longitude = parseFloat(this.mapSettings.startPosition.longitude);
-
     window.localStorage.mySettings = JSON.stringify({
       mapSettings: this.mapSettings
     });
@@ -69,8 +62,10 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   mapDispatchToProps() {
     this.save = (event) => {
-      this.saveToLocalstorage(event);
-      this.store.dispatch(new MapSettingsActions.ReplaceSettings(this.mapSettings));
+      this.mapSettings.startZoomLevel = parseFloat(this.mapSettings.startZoomLevel);
+      this.mapSettings.startPosition.latitude = parseFloat(this.mapSettings.startPosition.latitude);
+      this.mapSettings.startPosition.longitude = parseFloat(this.mapSettings.startPosition.longitude);
+      this.store.dispatch(new MapSettingsActions.SaveSettings(this.mapSettings));
     };
   }
 
