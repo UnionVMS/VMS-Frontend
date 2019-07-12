@@ -11,11 +11,14 @@ import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { AssetReducer, AssetInterfaces } from './data/asset/';
 import { AuthReducer, AuthActions } from './data/auth/';
 import { MapSettingsReducer, MapSettingsInterfaces } from './data/map-settings/';
+import { MapSavedFiltersReducer, MapSavedFiltersInterfaces } from './data/map-saved-filters/';
+
 
 export interface State {
   asset: AssetInterfaces.State;
   auth: AuthReducer.State;
   mapSettings: MapSettingsInterfaces.State;
+  mapSavedFilters: MapSavedFiltersInterfaces.State;
   router: RouterReducerState;
 }
 
@@ -23,6 +26,7 @@ export const reducers: ActionReducerMap<State> = {
   asset: AssetReducer.assetReducer,
   auth: AuthReducer.authReducer,
   mapSettings: MapSettingsReducer.mapSettingsReducer,
+  mapSavedFilters: MapSavedFiltersReducer.mapSavedFiltersReducer,
   router: routerReducer,
 };
 

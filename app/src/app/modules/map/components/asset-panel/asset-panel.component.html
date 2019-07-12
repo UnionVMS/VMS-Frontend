@@ -63,6 +63,10 @@
     <span *ngIf="!showButtons" class="show-button" (click)="showButtons = true"><i class="fas fa-chevron-right"></i></span>
     <span *ngIf="showButtons" class="hide-button" (click)="showButtons = false"><i class="fas fa-chevron-left"></i></span>
     <div class="button-block" *ngIf="activeAsset && showButtons">
+      <button
+        class="btn btn-small"
+        (click)="goToAsset(activeAsset)"
+      >Go To</button>
       <ui-button-toggle
         [label]="'Track'"
         [value]="tracksIsVisible(activeAsset)"

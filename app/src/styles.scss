@@ -48,14 +48,12 @@ button {
   display: inline-block;
   font-weight: 400;
   text-align: center;
-  white-space: nowrap;
   vertical-align: middle;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   line-height: 1.5;
-  border-radius: .25rem;
   transition: color .15s
     ease-in-out,background-color .15s
     ease-in-out,border-color .15s
@@ -68,11 +66,9 @@ button {
   margin: .375rem;
   border: 0;
   border-radius: .125rem;
-  text-transform: uppercase;
   white-space: normal;
   word-wrap: break-word;
   color: #fff;
-  text-transform: none;
 
   &:active {
     box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
@@ -94,10 +90,58 @@ button {
   }
 }
 
+.btn-small {
+  padding: $small_distance $medium_distance;
+}
+
 fieldset {
   border: 0px;
 }
 
+mat-form-field.no-white-background {
+  color: black;
+  .mat-form-field-infix {
+    background: white;
+    margin-top: 6px;
+    padding: 4px 0px;
+    border-top: none;
+  }
+  .mat-form-field-wrapper {
+      padding-bottom: 0;
+  }
+  .mat-form-field-underline {
+    position: unset;
+    background-color: rgba($color_orange, .42);
+  }
+
+  .mat-form-field-wrapper {
+    padding-bottom: 0px;
+  }
+
+  &.mat-form-field-appearance-legacy .mat-form-field-label {
+    top: 1em;
+  }
+
+  &.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
+  &.mat-form-field-appearance-legacy.mat-form-field-can-float .mat-form-field-autofill-control:-webkit-autofill+.mat-form-field-label-wrapper .mat-form-field-label {
+    -webkit-transform: translateY(-1.3em) scale(.75) perspective(100px) translateY(0.001px);
+    transform: translateY(-1.3em) scale(.75) perspective(100px) translateY(0.001px);
+    -ms-transform: translateY(-1.3em) scale(.75);
+    color: white;
+  }
+}
+
+mat-form-field.white-text {
+  &.mat-focused .mat-form-field-label, .mat-form-field-label {
+    color: white;
+  }
+  .mat-form-field-underline {
+    background-color: rgba(255,255,255,.42);
+    .mat-form-field-ripple {
+      background-color: white;
+    }
+  }
+}
 
 .container {
   margin: 0px auto;

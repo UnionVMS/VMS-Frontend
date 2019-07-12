@@ -1,0 +1,23 @@
+@import 'variables.scss';
+
+.content-container {
+  @include control-panel;
+  grid-row-gap: $medium_distance;
+
+  h4 {
+    margin: 0px;
+  }
+
+  .saved-filters {
+    display: grid;
+    grid-row-gap: $medium_distance;
+  }
+
+  button.btn {
+    padding: $medium_distance $large_distance;
+    background-color: $color_light_green;
+  }
+
+
+
+}

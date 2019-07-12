@@ -77,6 +77,7 @@
     [addForecast]="addForecast"
     [removeForecast]="removeForecast"
     [tracksMinuteCap]="mapSettings.tracksMinuteCap"
+    [centerMapOnPosition]="centerMapOnPosition"
   ></map-asset-panel>
   <div class="control-panel">
     <map-control-panel
@@ -92,5 +93,17 @@
       [registerOnClickFunction]="registerOnClickFunction"
       [active]="mapSettings.currentControlPanel === 'map-distance-between-points'"
     ></map-distance-between-points>
+    <map-saved-filters
+      *ngIf="mapSettings.currentControlPanel === 'map-saved-filters'"
+      [filterQuery]="currentFilterQuery$ | async"
+      [addSavedFilter]="addSavedFilter"
+      [savedFilters]="savedFilters$ | async"
+      [activeFilters]="activeFilterNames$ | async"
+      [activateFilter]="activateSavedFilter"
+      [deactivateFilter]="deactivateSavedFilter"
+    ></map-saved-filters>
+    <map-asset-groups
+      *ngIf="mapSettings.currentControlPanel === 'map-asset-groups'"
+    ></map-asset-groups>
   </div>
 </div>

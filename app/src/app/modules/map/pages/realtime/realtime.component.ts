@@ -15,6 +15,7 @@ import { EventSourcePolyfill } from 'event-source-polyfill';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
+import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersInterfaces } from '@data/map-saved-filters';
 
 @Component({
   selector: 'map-realtime',
@@ -31,6 +32,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     assetTracks: AssetInterfaces.AssetTrack,
     currentPosition: AssetInterfaces.AssetMovement
   }>>;
+  public currentFilterQuery$: Observable<Array<AssetInterfaces.AssetFilterQuery>>;
+  public savedFilters$: Observable<{ [filterName: string]: Array<AssetInterfaces.AssetFilterQuery> }>;
+  public activeFilterNames$: Observable<Array<string>>;
 
   public map: Map;
 
@@ -52,6 +56,10 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public searchAutocomplete: Function;
   public filterAssets: Function;
   // tslint:enable:ban-types
+  public addSavedFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
+  public activateSavedFilter: (filterName: string) => void;
+  public deactivateSavedFilter: (filterName: string) => void;
+
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
@@ -97,9 +105,18 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.mapSettingsSubscription = this.store.select(MapSettingsSelectors.getMapSettingsState).subscribe((mapSettings) => {
       this.mapSettings = mapSettings;
     });
+    this.currentFilterQuery$ = this.store.select(AssetSelectors.selectFilterQuery);
+    this.savedFilters$ = this.store.select(MapSavedFiltersSelectors.getSavedFilters);
+    this.activeFilterNames$ = this.store.select(MapSavedFiltersSelectors.selectActiveFilters);
   }
 
   mapDispatchToProps() {
+    this.addSavedFilter = (filter: MapSavedFiltersInterfaces.SavedFilter) =>
+      this.store.dispatch(new MapSavedFiltersActions.AddSavedFilter(filter));
+    this.activateSavedFilter = (filterName: string) =>
+      this.store.dispatch(new MapSavedFiltersActions.ActivateFilter(filterName));
+    this.deactivateSavedFilter = (filterName: string) =>
+      this.store.dispatch(new MapSavedFiltersActions.DeactivateFilter(filterName));
     this.deselectAsset = (assetId) =>
       this.store.dispatch(new AssetActions.DeselectAsset(assetId));
     this.saveViewport = (key, viewport) =>

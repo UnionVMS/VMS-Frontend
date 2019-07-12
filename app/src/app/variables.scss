@@ -44,3 +44,18 @@ $xxlarge_distance: 25px;
     display: none;  // Safari and Chrome
   }
 }
+
+@mixin control-panel {
+  display: grid;
+  color: $color_black;
+  padding: 10px;
+  overflow-y: scroll;
+  border: 1px solid $map_overlay_background;
+  background: rgba( #FFFFFF , 0.8);
+
+  -ms-overflow-style: none;  // IE 10+
+  overflow: -moz-scrollbars-none;  // Firefox
+  &::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+}

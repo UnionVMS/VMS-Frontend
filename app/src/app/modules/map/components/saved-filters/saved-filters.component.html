@@ -1,0 +1,28 @@
+<div class="content-container" *ngIf="!hidePanel">
+  <h4>Saved filters:</h4>
+  <div class="saved-filters" *ngIf="savedFilterNames.length > 0">
+    <mat-checkbox
+      *ngFor="let savedFilterName of savedFilterNames"
+      (click)="toggleFilter(savedFilterName)"
+    >{{savedFilterName}}</mat-checkbox>
+  </div>
+  <div class="create-new-filter">
+    <button
+      *ngIf="!creatingNewFilter"
+      class="btn"
+      (click)="creatingNewFilter = true"
+    >
+      <i class="fas fa-plus"></i> Create new
+    </button>
+    <mat-form-field *ngIf="creatingNewFilter">
+      <input matInput placeholder="Name" [(ngModel)]="newFilterName">
+    </mat-form-field>
+    <button
+      *ngIf="creatingNewFilter"
+      class="btn btn-small"
+      (click)="saveFilter()"
+    >
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
+</div>

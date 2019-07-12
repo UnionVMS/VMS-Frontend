@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as AssetInterfaces from './asset.interfaces';
 import { State } from '@app/app-reducer';
+import { MapSavedFiltersSelectors } from '@data/map-saved-filters';
 
 
 export const getAssetState = createFeatureSelector<AssetInterfaces.State>('asset');
@@ -56,66 +57,71 @@ export const getAssetMovements = createSelector(
   selectAssetMovements,
   selectAssetsEssentials,
   selectFilterQuery,
+  MapSavedFiltersSelectors.getActiveFilters,
   (
     assetMovements: { [uid: string]: AssetInterfaces.AssetMovement },
     assetsEssentials: { [uid: string]: AssetInterfaces.AssetEssentialProperties },
-    filterQuery: Array<AssetInterfaces.AssetFilterQuery>
+    currentFilterQuery: Array<AssetInterfaces.AssetFilterQuery>,
+    savedFilterQuerys: Array<Array<AssetInterfaces.AssetFilterQuery>>,
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
-    if(filterQuery.length > 0) {
-      filterQuery.map(query => {
-        let columnName = 'assetName';
-        if(['flagstate', 'ircs', 'cfr', 'vesselType', 'externalMarking', 'lengthOverAll'].indexOf(query.type) !== -1) {
-          columnName = query.type;
-        }
-        assetMovementKeys = assetMovementKeys.filter(key => {
-          if(typeof assetsEssentials[key] === 'undefined') {
-            return false;
+    const filterQuerys = [ ...savedFilterQuerys, currentFilterQuery ];
+    filterQuerys.map((filterQuery) => {
+      if(filterQuery.length > 0) {
+        filterQuery.map(query => {
+          let columnName = 'assetName';
+          if(['flagstate', 'ircs', 'cfr', 'vesselType', 'externalMarking', 'lengthOverAll'].indexOf(query.type) !== -1) {
+            columnName = query.type;
           }
-          if(assetsEssentials[key][columnName] === null) {
-            return false;
-          }
+          assetMovementKeys = assetMovementKeys.filter(key => {
+            if(typeof assetsEssentials[key] === 'undefined') {
+              return false;
+            }
+            if(assetsEssentials[key][columnName] === null) {
+              return false;
+            }
 
-          if(query.isNumber) {
-
-            return query.values.reduce((acc, value) => {
-              if(acc === true) {
-                return acc;
-              }
-              if(
-                (value.operator === 'less then' && assetsEssentials[key][columnName] < value.value) ||
-                (value.operator === 'greater then' && assetsEssentials[key][columnName] > value.value) ||
-                (value.operator === 'almost equal' && Math.floor(assetsEssentials[key][columnName]) === Math.floor(value.value)) ||
-                (value.operator === 'equal' && assetsEssentials[key][columnName] === value.value)
-              ) {
-                return true;
-              } else {
-                return false;
-              }
-            }, false);
-
-
-          } else {
-            const valueToCheck = assetsEssentials[key][columnName].toLowerCase();
-            if(query.inverse) {
-              return query.values.reduce((acc, value) => {
-                if(acc === false) {
-                  return acc;
-                }
-                return valueToCheck.indexOf(value.toLowerCase()) === -1;
-              }, true);
-            } else {
+            if(query.isNumber) {
               return query.values.reduce((acc, value) => {
                 if(acc === true) {
                   return acc;
                 }
-                return valueToCheck.indexOf(value.toLowerCase()) !== -1;
+                if(
+                  (value.operator === 'less then' && assetsEssentials[key][columnName] < value.value) ||
+                  (value.operator === 'greater then' && assetsEssentials[key][columnName] > value.value) ||
+                  (value.operator === 'almost equal' && Math.floor(assetsEssentials[key][columnName]) === Math.floor(value.value)) ||
+                  (value.operator === 'equal' && assetsEssentials[key][columnName] === value.value)
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
               }, false);
+
+
+            } else {
+              const valueToCheck = assetsEssentials[key][columnName].toLowerCase();
+              if(query.inverse) {
+                return query.values.reduce((acc, value) => {
+                  if(acc === false) {
+                    return acc;
+                  }
+                  return valueToCheck.indexOf(value.toLowerCase()) === -1;
+                }, true);
+              } else {
+                return query.values.reduce((acc, value) => {
+                  if(acc === true) {
+                    return acc;
+                  }
+                  return valueToCheck.indexOf(value.toLowerCase()) !== -1;
+                }, false);
+              }
             }
-          }
+          });
         });
-      });
-    }
+      }
+    });
+
     return assetMovementKeys.map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] }));
   }
 );

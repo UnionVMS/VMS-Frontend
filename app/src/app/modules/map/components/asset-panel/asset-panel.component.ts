@@ -24,6 +24,7 @@ export class AssetPanelComponent implements OnChanges {
   @Input() selectAsset: (assetId: string) => void;
   @Input() forecasts: {};
   @Input() tracksMinuteCap: number;
+  @Input() centerMapOnPosition: (longAndLat: {}) => void;
 
   public hidePanel = false;
   public activeAsset = null;
@@ -37,6 +38,11 @@ export class AssetPanelComponent implements OnChanges {
 
   toggleShowButtons() {
     this.showButtons = !this.showButtons;
+  }
+
+  goToAsset(asset) {
+    console.warn(asset);
+    this.centerMapOnPosition(asset.currentPosition.microMove.location);
   }
 
   // Extracting this code to separete function so we can override this code in unit-tests.
