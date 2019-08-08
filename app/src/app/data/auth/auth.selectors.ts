@@ -13,6 +13,20 @@ export const getAuthToken = createSelector(
   }
 );
 
+export const getUserName = createSelector(
+  getAuthState,
+  (state: State) => {
+    if (
+      state.user !== null &&
+      typeof state.user.data !== 'undefined' &&
+      typeof state.user.data.username !== 'undefined'
+    ) {
+      return state.user.data.username;
+    }
+    return null;
+  }
+);
+
 export const isLoggedIn = createSelector(
   getAuthState,
   (state: State) => {

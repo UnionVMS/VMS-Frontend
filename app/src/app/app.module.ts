@@ -36,6 +36,7 @@ import { SettingsModule } from './modules/settings/settings.module';
 import { AssetEffects } from './data/asset/asset.effects';
 import { AuthEffects } from './data/auth/auth.effects';
 import { MapSettingsEffects } from './data/map-settings/map-settings.effects';
+import { MapSavedFiltersEffects } from './data/map-saved-filters/map-saved-filters.effects';
 
 /* Services */
 import { AuthService } from './data/auth/auth.service';
@@ -52,7 +53,7 @@ const imports = [
   StoreRouterConnectingModule.forRoot(),
   AppRoutingModule,
   HttpClientModule,
-  EffectsModule.forRoot([AuthEffects, AssetEffects, MapSettingsEffects]),
+  EffectsModule.forRoot([AuthEffects, AssetEffects, MapSettingsEffects, MapSavedFiltersEffects]),
   BrowserAnimationsModule,
   MDBBootstrapModule.forRoot(),
   CoreModule,

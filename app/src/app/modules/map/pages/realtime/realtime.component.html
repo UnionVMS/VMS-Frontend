@@ -104,6 +104,7 @@
     ></map-saved-filters>
     <map-asset-groups
       *ngIf="mapSettings.currentControlPanel === 'map-asset-groups'"
+      [assetGroups]="assetGroups$ | async"
     ></map-asset-groups>
   </div>
 </div>

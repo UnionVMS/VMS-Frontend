@@ -3,11 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { LoginLayoutComponent } from './login.component';
 
-// For MDB Angular Free
-import {
-  NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
-  InputsModule, IconsModule
-} from 'angular-bootstrap-md';
+// Components
+import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
 
 describe('LoginLayoutComponent', () => {
 
@@ -15,11 +12,11 @@ describe('LoginLayoutComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        /* MDB Imports: */
-        NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
-        InputsModule, IconsModule
       ],
-      declarations: [ LoginLayoutComponent ]
+      declarations: [
+        LoginLayoutComponent,
+        TopMenuComponent,
+      ]
     })
     .compileComponents();
   }));
@@ -33,20 +30,6 @@ describe('LoginLayoutComponent', () => {
   it('should create', () => {
     const { component } = setup();
     expect(component).toBeTruthy();
-  });
-
-  it(`should have a navbar`, () => {
-    const { fixture } = setup();
-    const layoutElement: HTMLElement = fixture.nativeElement;
-    const navbar = layoutElement.querySelector('mdb-navbar');
-    expect(navbar).not.toBeNull();
-  });
-
-  it(`should have correct links`, () => {
-    const { fixture } = setup();
-    const layoutElement: HTMLElement = fixture.nativeElement;
-    const links = layoutElement.querySelectorAll('mdb-navbar a');
-    expect(links[0].textContent).toBe('VMS');
   });
 
   it('should have a continer with router-outlet in it', () => {

@@ -10,6 +10,7 @@ export const selectAssets = (state: State) => state.asset.assets;
 export const selectAssetMovements = (state: State) => state.asset.assetMovements;
 export const selectAssetForecasts = (state: State) => state.asset.forecasts;
 export const selectAssetsEssentials = (state: State) => state.asset.assetsEssentials;
+export const selectAssetGroups = (state: State) => state.asset.assetGroups;
 export const selectAssetsTracks = (state: State) => state.asset.assetTracks;
 export const selectSelectedAssets = (state: State) => state.asset.selectedAssets;
 export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
@@ -51,6 +52,11 @@ export const getCurrentAssetList = createSelector(
 export const getAssetsEssentials = createSelector(
   selectAssetsEssentials,
   (assetsEssentials) => assetsEssentials
+);
+
+export const getAssetGroups = createSelector(
+  selectAssetGroups,
+  (assetGroups) => assetGroups
 );
 
 export const getAssetMovements = createSelector(

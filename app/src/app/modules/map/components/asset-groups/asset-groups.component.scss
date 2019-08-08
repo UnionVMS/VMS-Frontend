@@ -2,20 +2,20 @@
 
 .content-container {
   @include control-panel;
+  grid-row-gap: $medium_distance;
 
-  button.btn-default {
-    padding: $medium_distance;
+  h4 {
+    margin: 0px;
   }
 
-  fieldset {
-    border: 0px;
-    border-top: 1px solid #FFFFFF;
-    legend {
-      // font-weight: bold;
-      padding: 0px $small_distance;
-      margin-left: $small_distance;
-      width: fit-content;
-      font-size: $default_font_size;
-    }
+  .asset-groups {
+    display: grid;
+    grid-row-gap: $medium_distance;
   }
+
+  button.btn {
+    padding: $medium_distance $large_distance;
+    background-color: $color_light_green;
+  }
+
 }

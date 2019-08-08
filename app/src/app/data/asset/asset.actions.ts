@@ -13,6 +13,7 @@ export enum ActionTypes {
   ClearTracks = '[Asset] Clear tracks',
   DeselectAsset = '[Asset] Deselect',
   FailedToSubscribeToMovements = '[Asset] Failed to subscribe to movements',
+  GetAssetGroups = '[Asset] Get groups',
   GetAssetTrack = '[Asset] Get asset track',
   GetAssetTrackFromTime = '[Asset] Get asset track from time',
   RemoveForecast = '[Asset] Remove forecast',
@@ -20,6 +21,7 @@ export enum ActionTypes {
   SubscribeToMovements = '[Asset] Subscribe to movements',
   SelectAsset = '[Asset] Select asset',
   SetFullAsset = '[Asset] Set full asset',
+  SetAssetGroups = '[Asset] Set groups',
   SetAssetTrack = '[Asset] Set asset track',
   UnsubscribeToMovements = '[Asset] Unsubscribe to movements',
   UntrackAsset = '[Asset] Untrack asset.',
@@ -47,6 +49,10 @@ export class SetAutocompleteQuery implements Action {
 export class SetFilterQuery implements Action {
   readonly type = ActionTypes.SetFilterQuery;
   constructor(public payload: any) {}
+}
+
+export class GetAssetGroups implements Action {
+  readonly type = ActionTypes.GetAssetGroups;
 }
 
 interface GetAssetListPayload {
@@ -105,6 +111,11 @@ export class DeselectAsset implements Action {
 
 export class AddAssets implements Action {
   readonly type = ActionTypes.AddAssets;
+  constructor(public payload: any) {}
+}
+
+export class SetAssetGroups implements Action {
+  readonly type = ActionTypes.SetAssetGroups;
   constructor(public payload: any) {}
 }
 

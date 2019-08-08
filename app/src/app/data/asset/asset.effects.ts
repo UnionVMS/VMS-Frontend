@@ -9,7 +9,7 @@ import { MapSettingsSelectors } from '../map-settings';
 
 import {
   ActionTypes, SetFullAsset, AssetsMoved, SetAssetTrack, TrimTracksThatPassedTimeCap, SetAssetList,
-  SetEssentialProperties, CheckForAssetEssentials
+  SetEssentialProperties, CheckForAssetEssentials, SetAssetGroups
 } from './asset.actions';
 import { AssetService } from './asset.service';
 import { AssetSelectors, AssetInterfaces } from './';
@@ -72,6 +72,7 @@ export class AssetEffects {
       return EMPTY;
     })
   );
+
 
   @Effect()
   assetMovementSubscribeObserver$ = this.actions$.pipe(
@@ -171,6 +172,22 @@ export class AssetEffects {
       } else {
         return EMPTY;
       }
+    })
+  );
+
+  @Effect()
+  assetGetGroupsObserver$ = this.actions$.pipe(
+    ofType(ActionTypes.GetAssetGroups),
+    withLatestFrom(
+      this.store$.select(AuthSelectors.getAuthToken),
+      this.store$.select(AuthSelectors.getUserName),
+    ),
+    mergeMap(([action, authToken, userName]: Array<any>) => {
+      return this.assetService.getAssetGroups(authToken, userName).pipe(
+        map((response: any) => {
+          return new SetAssetGroups(response);
+        })
+      );
     })
   );
 

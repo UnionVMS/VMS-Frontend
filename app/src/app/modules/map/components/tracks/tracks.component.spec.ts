@@ -27,11 +27,11 @@ describe('AssetForecastComponent', () => {
     const fixture = TestBed.createComponent(TracksComponent);
     const component = fixture.componentInstance;
 
-    component.unregisterOnClickFunction = (layerName) => {};
+    component.unregisterOnSelectFunction = (layerName) => {};
     component.map = {
       removeLayer: (vectorLayer) => {}
     };
-    component.registerOnClickFunction = () => {};
+    component.registerOnSelectFunction = () => {};
     component.mapZoom = 6;
     component.addPositionForInspection = (pos) => {};
     component.assetTracks = [AssetTrackStub];

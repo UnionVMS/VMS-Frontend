@@ -1,3 +1,9 @@
 <div class="content-container" *ngIf="!hidePanel">
   List of asset-groups with checkboxes for showing them.
+  <div class="asset-groups" *ngIf="assetGroups.length > 0">
+    <mat-checkbox
+      *ngFor="let assetGroup of assetGroups"
+      (click)="toggleGroup(assetGroup)"
+    >{{assetGroup.name}}</mat-checkbox>
+  </div>
 </div>

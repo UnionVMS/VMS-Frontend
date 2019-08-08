@@ -6,8 +6,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./asset-groups.component.scss']
 })
 export class AssetGroupsComponent {
-  public hidePanel = false;
-  private toggleVisibility = (): void => {
-    this.hidePanel = !this.hidePanel;
+  @Input() assetGroups: any;
+  private toggleGroup = (assetGroup): void => {
+    console.warn('Blupp blupp!', assetGroup);
   }
 }

@@ -3,6 +3,7 @@ import { ActionTypes } from './asset.actions';
 import * as Interfaces from './asset.interfaces';
 
 export const initialState: Interfaces.State = {
+  assetGroups: {},
   selectedAssets: [],
   selectedAsset: null,
   assets: {},
@@ -118,6 +119,9 @@ export function assetReducer(state = initialState, { type, payload }) {
         ...state.assets,
         ...payload.assets
       }};
+
+    case ActionTypes.SetAssetGroups:
+      return { ...state, assetGroups: payload };
 
     case ActionTypes.SetAssetList:
       const identifier = `ps${payload.searchParams.pageSize}`;

@@ -9,7 +9,7 @@ import { toUTF8Array } from '@app/helpers';
 @Injectable({
   providedIn: 'root'
 })
-export class MapSettingsService {
+export class UserSettingsService {
 
   constructor(private http: HttpClient) {}
 
@@ -25,18 +25,26 @@ export class MapSettingsService {
   }
 
   saveUserPreferences(authToken, preferences) {
-    const preferencesAsString = JSON.stringify(preferences);
-    const arrayBuffer = toUTF8Array(preferencesAsString);
+    return this.saveSetting(authToken, 'VMSFrontend', preferences);
+  }
+
+  saveMapFilters(authToken, filters) {
+    return this.saveSetting(authToken, 'VMSMapFilters', filters);
+  }
+
+  private saveSetting(authToken, applicationName, value) {
+    const valueAsString = JSON.stringify(value);
+    const arrayBuffer = toUTF8Array(valueAsString);
 
     return this.http.put(
       environment.baseApiUrl + `user/rest/user/putPreference`,
       {
         userName: 'vms_admin_se',
-        applicationName: 'VMSFrontend',
+        applicationName,
         roleName: 'AdminAllUVMS',
         scopeName: 'All Vessels',
         optionName: 'settings',
-        optionValue: arrayBuffer// 'Y2VwYQ==' // [ ...Buffer.from() ] // To byte array for some reason...
+        optionValue: arrayBuffer // To byte array for some reason...
       },
       {
         headers: new HttpHeaders({
@@ -46,5 +54,4 @@ export class MapSettingsService {
       }
     );
   }
-
 }

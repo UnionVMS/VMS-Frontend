@@ -3,11 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { DefaultLayoutComponent } from './default.component';
 
-// For MDB Angular Free
-import {
-  NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
-  InputsModule, IconsModule
-} from 'angular-bootstrap-md';
+// Components
+import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
 
 describe('DefaultLayoutComponent', () => {
 
@@ -15,11 +12,11 @@ describe('DefaultLayoutComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        /* MDB Imports: */
-        NavbarModule, WavesModule, ButtonsModule, CheckboxModule,
-        InputsModule, IconsModule
       ],
-      declarations: [ DefaultLayoutComponent ]
+      declarations: [
+        DefaultLayoutComponent,
+        TopMenuComponent
+      ]
     })
     .compileComponents();
   }));
@@ -33,23 +30,6 @@ describe('DefaultLayoutComponent', () => {
   it('should create', () => {
     const { component } = setup();
     expect(component).toBeTruthy();
-  });
-
-  it(`should have a navbar`, () => {
-    const { fixture } = setup();
-    const layoutElement: HTMLElement = fixture.nativeElement;
-    const navbar = layoutElement.querySelector('mdb-navbar');
-    expect(navbar).not.toBeNull();
-  });
-
-  it(`should have correct links`, () => {
-    const { fixture } = setup();
-    const layoutElement: HTMLElement = fixture.nativeElement;
-    const links = layoutElement.querySelectorAll('mdb-navbar a');
-    expect(links[0].textContent).toBe('VMS');
-    expect(links[1].textContent).toContain('Asset');
-    expect(links[2].textContent).toContain('Realtime map');
-    expect(links[3].textContent).toContain('My Settings');
   });
 
   it('should have a continer with router-outlet in it', () => {

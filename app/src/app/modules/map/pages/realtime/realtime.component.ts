@@ -35,6 +35,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public currentFilterQuery$: Observable<Array<AssetInterfaces.AssetFilterQuery>>;
   public savedFilters$: Observable<{ [filterName: string]: Array<AssetInterfaces.AssetFilterQuery> }>;
   public activeFilterNames$: Observable<Array<string>>;
+  public assetGroups$: Observable<any>;
 
   public map: Map;
 
@@ -108,6 +109,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.currentFilterQuery$ = this.store.select(AssetSelectors.selectFilterQuery);
     this.savedFilters$ = this.store.select(MapSavedFiltersSelectors.getSavedFilters);
     this.activeFilterNames$ = this.store.select(MapSavedFiltersSelectors.selectActiveFilters);
+    this.assetGroups$ = this.store.select(AssetSelectors.getAssetGroups);
   }
 
   mapDispatchToProps() {
@@ -177,6 +179,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.mapStateToProps();
     this.mapDispatchToProps();
     this.store.dispatch(new AssetActions.SubscribeToMovements());
+    this.store.dispatch(new AssetActions.GetAssetGroups());
     this.mapZoom = this.mapSettings.startZoomLevel;
     const scaleLineControl = new ScaleLine();
     const mousePositionControl = new MousePosition({

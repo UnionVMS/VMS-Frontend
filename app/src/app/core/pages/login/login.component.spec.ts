@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import { Store } from '@ngrx/store';
 import { TestingModule } from '@testing/Utils';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { LoginComponent } from './login.component';
 
@@ -19,7 +20,8 @@ describe('LoginComponent', () => {
       declarations: [ LoginComponent ],
       imports: [
         TestingModule,
-        CheckboxModule
+        CheckboxModule,
+        MatFormFieldModule,
       ],
       providers: [
         { provide: Router, useValue: { navigate: () => {} } }
