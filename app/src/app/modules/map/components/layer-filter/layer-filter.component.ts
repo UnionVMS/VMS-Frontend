@@ -21,19 +21,19 @@ export class LayerFilterComponent implements OnChanges {
     this.viewportKeys = Object.keys(this.mapSettings.viewports);
   }
 
-  private toggleNames = (): void => {
+  public toggleNames = (): void => {
     this.setVisibilityForAssetNames(!this.mapSettings.namesVisible);
   }
-  private toggleSpeeds = (): void => {
+  public toggleSpeeds = (): void => {
     this.setVisibilityForAssetSpeeds(!this.mapSettings.speedsVisible);
   }
-  private toggleFlags = (): void => {
+  public toggleFlags = (): void => {
     this.setVisibilityForFlags(!this.mapSettings.flagsVisible);
   }
-  private toggleTracks = (): void => {
+  public toggleTracks = (): void => {
     this.setVisibilityForTracks(!this.mapSettings.tracksVisible);
   }
-  private toggleForecast = (): void => {
+  public toggleForecast = (): void => {
     this.setVisibilityForForecast(!this.mapSettings.forecastsVisible);
   }
 }
