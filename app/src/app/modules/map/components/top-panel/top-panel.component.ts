@@ -17,7 +17,7 @@ export class TopPanelComponent {
   @Input() currentControlPanel: string|null;
   @Input() setCurrentControlPanel: (controlPanelName: string|null) => void;
 
-  private toggleCurrentControlPanel(componentName) {
+  public toggleCurrentControlPanel(componentName) {
     this.setCurrentControlPanel(this.currentControlPanel === componentName ? null : componentName);
   }
 }
