@@ -165,7 +165,7 @@ export const extendedDataForSelectedAssets = createSelector(
     assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack },
     currentPositions
   ) => selectedAssets.reduce((acc, assetId) => {
-    if(assets[selectedAsset] !== undefined) {
+    if(assets[assetId] !== undefined) {
       acc.push({
         asset: assets[assetId],
         assetTracks: assetTracks[assetId],

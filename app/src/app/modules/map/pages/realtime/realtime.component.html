@@ -89,6 +89,7 @@
       [clearForecasts]="clearForecasts"
     ></map-control-panel>
     <map-distance-between-points
+      *ngIf="map !== undefined"
       [map]="map"
       [registerOnClickFunction]="registerOnClickFunction"
       [active]="mapSettings.currentControlPanel === 'map-distance-between-points'"

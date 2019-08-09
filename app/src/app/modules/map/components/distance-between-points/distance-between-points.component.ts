@@ -147,7 +147,6 @@ export class DistanceBetweenPointsComponent implements OnInit, OnDestroy, OnChan
     });
     this.vectorSource.clear();
     this.features = [];
-    console.warn('Tjola hopp!');
     // this.vectorSource features
   }
 

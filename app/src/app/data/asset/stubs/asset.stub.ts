@@ -1,7 +1,8 @@
 import { Asset } from '../asset.interfaces';
 
 const AssetStub: Asset = {
-  id: 'a07dafdc-c99c-4b0d-9615-51f9f7719576',
+  // id: 'a07dafdc-c99c-4b0d-9615-51f9f7719576',
+  id: 'ba498d76-ecd1-486a-9302-728367b237a7',
   historyId: '228606aa-c7e3-7bfd-8d7d-a29283ed338b',
   ircsIndicator: null,
   ersIndicator: null,
