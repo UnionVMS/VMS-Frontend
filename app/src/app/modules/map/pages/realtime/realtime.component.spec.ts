@@ -283,7 +283,7 @@ describe('RealtimeComponent', () => {
     });
 
   });
-  // TODO: Rewrite afrer refactoring
+
   describe('mapDispatchToProps', () => {
     function mapDispatchToPropsSetup() {
       const { component } = setup();
