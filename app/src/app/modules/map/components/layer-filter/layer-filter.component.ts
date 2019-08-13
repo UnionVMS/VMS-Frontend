@@ -7,11 +7,11 @@ import { Component, Input, OnChanges } from '@angular/core';
 })
 export class LayerFilterComponent implements OnChanges {
   @Input() mapSettings;
-  @Input() setVisibilityForAssetNames;
-  @Input() setVisibilityForAssetSpeeds;
-  @Input() setVisibilityForTracks;
-  @Input() setVisibilityForFlags;
-  @Input() setVisibilityForForecast;
+  @Input() setVisibilityForAssetNames: (visibility: boolean) => void;
+  @Input() setVisibilityForAssetSpeeds: (visibility: boolean) => void;
+  @Input() setVisibilityForTracks: (visibility: boolean) => void;
+  @Input() setVisibilityForFlags: (visibility: boolean) => void;
+  @Input() setVisibilityForForecast: (visibility: boolean) => void;
   @Input() flagsDisabled: boolean;
   @Input() tracksDisabled: boolean;
   @Input() namesDisabled: boolean;

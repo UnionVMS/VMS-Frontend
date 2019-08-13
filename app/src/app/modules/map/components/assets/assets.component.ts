@@ -30,11 +30,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() shipColorLogic: string;
   @Input() selectedAssets: any;
   @Input() mapZoom: number;
-  // tslint:disable:ban-types
-  @Input() selectAsset: Function;
-  @Input() registerOnSelectFunction: Function;
-  @Input() unregisterOnSelectFunction: Function;
-  // tslint:enable:ban-types
+  @Input() selectAsset: (assetId: string) => void;
+  @Input() registerOnSelectFunction: (key: string, selectFunction: (event) => void) => void;
+  @Input() unregisterOnSelectFunction: (key: string) => void;
 
   private vectorSource: VectorSource;
   private clusterSource: Cluster;
