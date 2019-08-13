@@ -20,11 +20,9 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() assets: Array<AssetInterfaces.AssetMovementWithEssentials>;
   @Input() map: Map;
-  // tslint:disable:ban-types
-  @Input() selectAsset: Function;
-  @Input() registerOnSelectFunction: Function;
-  @Input() unregisterOnSelectFunction: Function;
-  // tslint:enable:ban-types
+  @Input() selectAsset: (assetId: string) => void;
+  @Input() registerOnSelectFunction: (key: string, selectFunction: (event) => void) => void;
+  @Input() unregisterOnSelectFunction: (key: string) => void;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -40,6 +38,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
       renderBuffer: 200
     });
     this.map.addLayer(this.vectorLayer);
+    // You should be able to click on the flag to select the asset (ship).
     this.registerOnSelectFunction(this.layerTitle, (event) => {
       if (
         typeof event.selected[0] !== 'undefined' &&

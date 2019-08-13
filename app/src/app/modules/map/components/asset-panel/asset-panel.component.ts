@@ -41,7 +41,6 @@ export class AssetPanelComponent implements OnChanges {
   }
 
   goToAsset(asset) {
-    console.warn(asset);
     this.centerMapOnPosition(asset.currentPosition.microMove.location);
   }
 

@@ -3,35 +3,40 @@
     <button
       class="btn {{mapSettings.flagsVisible ? 'active' : ''}}"
       (click)="toggleFlags()"
-      title="{{mapSettings.flagsVisible ? 'Hide flags' : 'Show flags'}}"
+      title="{{flagsDisabled ? 'Flags disabled due to zoom-level' : (mapSettings.flagsVisible ? 'Hide flags' : 'Show flags')}}"
+      [disabled]="flagsDisabled"
     >
       <i class="fas fa-flag" alt="Flags"></i>
     </button>
     <button
       class="btn {{mapSettings.tracksVisible ? 'active' : ''}}"
       (click)="toggleTracks()"
-      title="{{mapSettings.tracksVisible ? 'Hide tracks' : 'Show tracks'}}"
+      title="{{tracksDisabled ? 'Tracks disabled due to zoom-level' : (mapSettings.tracksVisible ? 'Hide tracks' : 'Show tracks')}}"
+      [disabled]="tracksDisabled"
     >
       <i class="fas fa-angle-double-up"></i>
     </button>
     <button
       class="btn {{mapSettings.namesVisible ? 'active' : ''}}"
       (click)="toggleNames()"
-      title="{{mapSettings.namesVisible ? 'Hide names' : 'Show names'}}"
+      title="{{namesDisabled ? 'Names disabled due to zoom-level' : (mapSettings.namesVisible ? 'Hide names' : 'Show names')}}"
+      [disabled]="namesDisabled"
     >
       <i class="fas fa-signature"></i>
     </button>
     <button
       class="btn {{mapSettings.speedsVisible ? 'active' : ''}}"
       (click)="toggleSpeeds()"
-      title="{{mapSettings.speedsVisible ? 'Hide speeds' : 'Show speeds'}}"
+      title="{{speedsDisabled ? 'Speeds disabled due to zoom-level' : (mapSettings.speedsVisible ? 'Hide speeds' : 'Show speeds')}}"
+      [disabled]="speedsDisabled"
     >
       <i class="fas fa-tachometer-alt"></i>
     </button>
     <button
       class="btn {{mapSettings.forecastsVisible ? 'active' : ''}}"
       (click)="toggleForecast()"
-      title="{{mapSettings.forecastsVisible ? 'Hide forecasts' : 'Show forecasts'}}"
+      title="{{forecastsDisabled ? 'Forecasts disabled due to zoom-level' : (mapSettings.forecastsVisible ? 'Hide forecasts' : 'Show forecasts')}}"
+      [disabled]="forecastsDisabled"
     >
       <i class="fas fa-fast-forward"></i>
     </button>

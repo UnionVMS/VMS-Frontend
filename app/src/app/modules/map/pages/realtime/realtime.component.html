@@ -62,6 +62,11 @@
     [setVisibilityForFlags]="setVisibilityForFlags"
     [setVisibilityForTracks]="setVisibilityForTracks"
     [setVisibilityForForecast]="setVisibilityForForecast"
+    [flagsDisabled]="mapZoom < 10"
+    [tracksDisabled]="mapZoom < 10"
+    [namesDisabled]="mapZoom < 10"
+    [speedsDisabled]="mapZoom < 10"
+    [forecastsDisabled]="mapZoom < 10"
     [map]="map"
     [saveViewport]="saveViewport"
   ></map-layer-filter>

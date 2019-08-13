@@ -54,7 +54,6 @@ describe('AssetPanelComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // TODO: Rewrite after refactoring
   it('should correctly toggle tracks', () => {
     const { component } = setup();
     const untrackAssetSpy           = spyOn(component, 'untrackAsset');

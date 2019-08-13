@@ -12,6 +12,11 @@ export class LayerFilterComponent implements OnChanges {
   @Input() setVisibilityForTracks;
   @Input() setVisibilityForFlags;
   @Input() setVisibilityForForecast;
+  @Input() flagsDisabled: boolean;
+  @Input() tracksDisabled: boolean;
+  @Input() namesDisabled: boolean;
+  @Input() speedsDisabled: boolean;
+  @Input() forecastsDisabled: boolean;
   @Input() map;
   @Input() saveViewport;
 

@@ -17,6 +17,11 @@
         color: white;
         background-color: $color_light_green;
       }
+
+      &[disabled] {
+        background: $color_cold_gray;
+        color: $color_cold_dark_gray;
+      }
     }
   }
 

@@ -180,11 +180,12 @@ export const extendedDataForSelectedAssets = createSelector(
 export const getForecasts = createSelector(
   selectAssetForecasts,
   selectAssetMovements,
-  (assetForecasts, assetMovements) =>
-    assetForecasts.reduce((acc, assetId) => {
+  (assetForecasts, assetMovements) => {
+    return assetForecasts.reduce((acc, assetId) => {
       acc[assetId] = assetMovements[assetId];
       return acc;
-    }, {})
+    }, {});
+  }
 );
 
 export const getPositionsForInspection = createSelector(
