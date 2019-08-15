@@ -48,11 +48,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private previouslySelectedAssetIds = [];
   private styleCache: Array<any> = [];
 
-
-  private displayAsStack = true;
-
-  private counter = 0;
-  private timeCounter = 0;
   private namesVisibleCalculated: boolean;
   private speedsVisibleCalculated: boolean;
 
@@ -106,9 +101,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         this.vectorSource.clear();
       }
       const newRenderedAssetIds = reRenderAssets ? {} : this.renderedAssetIds;
-
-      this.counter = 0;
-      this.timeCounter = 0;
 
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
@@ -298,14 +290,11 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       oldStuff === undefined ||
       oldStuff[0] !== currentAssetPosition[0] || oldStuff[1] !== currentAssetPosition[1] || oldStuff[2] !== currentAssetPosition[2]
     ) {
-      const start = (new Date()).getTime();
-      this.counter++;
       assetFeature.setGeometry(new Point(fromLonLat(
         [asset.assetMovement.microMove.location.longitude, asset.assetMovement.microMove.location.latitude]
       )));
       assetFeature.getStyle().getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
       this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
-      this.timeCounter += ((new Date()).getTime() - start);
     }
     if (
       this.namesWereVisibleLastRerender !== this.namesVisibleCalculated ||

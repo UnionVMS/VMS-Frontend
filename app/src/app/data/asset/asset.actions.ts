@@ -9,6 +9,7 @@ export enum ActionTypes {
   AssetMoved = '[Asset] Moved',
   AssetsMoved = '[Asset] Multiple moves',
   CheckForAssetEssentials = '[Asset] Check for essentials',
+  ClearAssetGroup = '[Asset] Clear assetgroup',
   ClearForecasts = '[Asset] Clear forecasts',
   ClearTracks = '[Asset] Clear tracks',
   DeselectAsset = '[Asset] Deselect',
@@ -20,6 +21,7 @@ export enum ActionTypes {
   RemovePositionForInspection = '[Asset] Remove position for inspection',
   SubscribeToMovements = '[Asset] Subscribe to movements',
   SelectAsset = '[Asset] Select asset',
+  SetAssetGroup = '[Asset] Set assetgroup',
   SetFullAsset = '[Asset] Set full asset',
   SetAssetGroups = '[Asset] Set groups',
   SetAssetTrack = '[Asset] Set asset track',
@@ -34,6 +36,16 @@ export enum ActionTypes {
 
   GetAssetList = '[Asset] Get list',
   SetAssetList = '[Asset] Set list'
+}
+
+export class ClearAssetGroup implements Action {
+  readonly type = ActionTypes.ClearAssetGroup;
+  constructor(public payload: AssetInterfaces.AssetGroup) {}
+}
+
+export class SetAssetGroup implements Action {
+  readonly type = ActionTypes.SetAssetGroup;
+  constructor(public payload: AssetInterfaces.AssetGroup) {}
 }
 
 export class SearchAssets implements Action {

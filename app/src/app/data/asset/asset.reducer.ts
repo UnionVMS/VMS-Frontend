@@ -4,6 +4,7 @@ import * as Interfaces from './asset.interfaces';
 
 export const initialState: Interfaces.State = {
   assetGroups: {},
+  selectedAssetGroups: [],
   selectedAssets: [],
   selectedAsset: null,
   assets: {},
@@ -28,6 +29,22 @@ const speeds = Object.keys(speedSegments).map(speed => parseInt(speed, 10));
 
 export function assetReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case ActionTypes.ClearAssetGroup:
+      return {
+        ...state,
+        selectedAssetGroups: state.selectedAssetGroups.filter((assetGroup) => assetGroup.id !== payload.id)
+      };
+
+    case ActionTypes.SetAssetGroup: {
+      // tslint:disable:no-shadowed-variable
+      let newState = { ...state };
+      // tslint:enable:no-shadowed-variable
+      if (!state.selectedAssetGroups.some((assetGroup) => assetGroup.id === payload.id)) {
+        newState = { ...state, selectedAssetGroups: [ ...state.selectedAssetGroups, payload ]};
+      }
+      return newState;
+    }
+
     case ActionTypes.SetAutocompleteQuery:
       return { ...state, searchQuery: payload.searchQuery };
 

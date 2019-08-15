@@ -119,8 +119,29 @@ export interface AssetMovementWithEssentials {
   assetMovement: AssetMovement;
 }
 
+export interface AssetGroupField {
+  id: string;
+  key: string;
+  updateTime: string;
+  updatedBy: string;
+  value: string;
+}
+
+export interface AssetGroup {
+  id: string;
+  archived: boolean;
+  dynamic: boolean;
+  global: boolean;
+  name: string;
+  owner: string;
+  updateTime: string;
+  updatedBy: string;
+  assetGroupFields: Array<AssetGroupField>;
+}
+
 export interface State {
-  assetGroups: any;
+  assetGroups: Array<AssetGroup>;
+  selectedAssetGroups: Array<AssetGroup>;
   selectedAssets: Array<string>;
   selectedAsset: string|null;
   assets: { [uid: string]: Asset };

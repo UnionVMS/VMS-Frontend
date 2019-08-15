@@ -111,6 +111,9 @@
     <map-asset-groups
       *ngIf="mapSettings.currentControlPanel === 'map-asset-groups'"
       [assetGroups]="assetGroups$ | async"
+      [selectedAssetGroups]="selectedAssetGroups$ | async"
+      [setAssetGroup]="setAssetGroup"
+      [clearAssetGroup]="clearAssetGroup"
     ></map-asset-groups>
   </div>
 </div>

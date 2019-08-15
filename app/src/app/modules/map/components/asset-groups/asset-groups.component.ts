@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AssetInterfaces } from '@data/asset';
 
 @Component({
   selector: 'map-asset-groups',
@@ -6,8 +7,16 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./asset-groups.component.scss']
 })
 export class AssetGroupsComponent {
-  @Input() assetGroups: any;
+  @Input() assetGroups: Array<AssetInterfaces.AssetGroup>;
+  @Input() selectedAssetGroups: Array<AssetInterfaces.AssetGroup>;
+  @Input() setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
+  @Input() clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
+
   private toggleGroup = (assetGroup): void => {
-    console.warn('Blupp blupp!', assetGroup);
+    if(this.selectedAssetGroups.some((selectedAssetGroup) => selectedAssetGroup.id === assetGroup.id)) {
+      this.clearAssetGroup(assetGroup);
+    } else {
+      this.setAssetGroup(assetGroup);
+    }
   }
 }

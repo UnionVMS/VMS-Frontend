@@ -17,6 +17,7 @@ export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
 export const selectFilterQuery = (state: State) => state.asset.filterQuery;
 export const selectSearchQuery = (state: State) => state.asset.searchQuery;
 export const selectPositionsForInspection = (state: State) => state.asset.positionsForInspection;
+export const selectSelectedAssetGroups = (state: State) => state.asset.selectedAssetGroups;
 
 
 export const getAssets = createSelector(
@@ -32,7 +33,6 @@ export const getNumberOfAssets = createSelector(
     return Object.keys(state.assets).length;
   }
 );
-
 
 export const getCurrentAssetList = createSelector(
   getAssetState,
@@ -59,16 +59,23 @@ export const getAssetGroups = createSelector(
   (assetGroups) => assetGroups
 );
 
+export const getSelectedAssetGroups = createSelector(
+  selectSelectedAssetGroups,
+  (assetGroups) => assetGroups
+);
+
 export const getAssetMovements = createSelector(
   selectAssetMovements,
   selectAssetsEssentials,
   selectFilterQuery,
   MapSavedFiltersSelectors.getActiveFilters,
+  selectSelectedAssetGroups,
   (
     assetMovements: { [uid: string]: AssetInterfaces.AssetMovement },
     assetsEssentials: { [uid: string]: AssetInterfaces.AssetEssentialProperties },
     currentFilterQuery: Array<AssetInterfaces.AssetFilterQuery>,
     savedFilterQuerys: Array<Array<AssetInterfaces.AssetFilterQuery>>,
+    selectedAssetGroups: Array<AssetInterfaces.AssetGroups>,
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
     const filterQuerys = [ ...savedFilterQuerys, currentFilterQuery ];
@@ -127,6 +134,19 @@ export const getAssetMovements = createSelector(
         });
       }
     });
+
+    if(selectedAssetGroups.length > 0) {
+      // Filter on selected assetGroups
+      const selectedAssetIds = selectedAssetGroups.reduce((acc, assetGroup) => {
+        assetGroup.assetGroupFields.map(assetField => {
+          if(acc.indexOf(assetField.value) === -1) {
+            acc.push(assetField.value);
+          }
+        });
+        return acc;
+      }, []);
+      assetMovementKeys = assetMovementKeys.filter(key => selectedAssetIds.indexOf(key) !== -1);
+    }
 
     return assetMovementKeys.map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] }));
   }

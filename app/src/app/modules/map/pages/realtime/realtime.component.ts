@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
-import Select from 'ol/interaction/Select.js';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -10,8 +9,7 @@ import XYZ from 'ol/source/XYZ';
 import { fromLonLat } from 'ol/proj';
 import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/control.js';
 import { format } from 'ol/coordinate.js';
-
-import { EventSourcePolyfill } from 'event-source-polyfill';
+import Select from 'ol/interaction/Select.js';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
@@ -35,7 +33,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public currentFilterQuery$: Observable<Array<AssetInterfaces.AssetFilterQuery>>;
   public savedFilters$: Observable<{ [filterName: string]: Array<AssetInterfaces.AssetFilterQuery> }>;
   public activeFilterNames$: Observable<Array<string>>;
-  public assetGroups$: Observable<any>;
+  public assetGroups$: Observable<Array<AssetInterfaces.AssetGroups>>;
+  public selectedAssetGroups$: Observable<Array<AssetInterfaces.AssetGroups>>;
 
   public map: Map;
 
@@ -59,7 +58,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   // tslint:enable:ban-types
   public addSavedFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
   public activateSavedFilter: (filterName: string) => void;
+  public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public deactivateSavedFilter: (filterName: string) => void;
+  public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
@@ -110,6 +111,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.savedFilters$ = this.store.select(MapSavedFiltersSelectors.getSavedFilters);
     this.activeFilterNames$ = this.store.select(MapSavedFiltersSelectors.selectActiveFilters);
     this.assetGroups$ = this.store.select(AssetSelectors.getAssetGroups);
+    this.selectedAssetGroups$ = this.store.select(AssetSelectors.getSelectedAssetGroups);
   }
 
   mapDispatchToProps() {
@@ -117,10 +119,14 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new MapSavedFiltersActions.AddSavedFilter(filter));
     this.activateSavedFilter = (filterName: string) =>
       this.store.dispatch(new MapSavedFiltersActions.ActivateFilter(filterName));
+    this.clearAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
+      this.store.dispatch(new AssetActions.ClearAssetGroup(assetGroup));
     this.deactivateSavedFilter = (filterName: string) =>
       this.store.dispatch(new MapSavedFiltersActions.DeactivateFilter(filterName));
     this.deselectAsset = (assetId) =>
       this.store.dispatch(new AssetActions.DeselectAsset(assetId));
+    this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
+      this.store.dispatch(new AssetActions.SetAssetGroup(assetGroup));
     this.saveViewport = (key, viewport) =>
       this.store.dispatch(new MapSettingsActions.SaveViewport({key, viewport}));
     this.setVisibilityForAssetNames = (visible) =>
