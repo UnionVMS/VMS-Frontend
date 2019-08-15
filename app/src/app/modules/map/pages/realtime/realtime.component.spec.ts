@@ -125,7 +125,7 @@ describe('RealtimeComponent', () => {
       const store = TestBed.get(Store);
       const currentState = {
         ...baseState,
-        asset: { assetMovements: {}, filterQuery: [] },
+        asset: { assetMovements: {}, filterQuery: [], selectedAssetGroups: [] },
         mapSettings: MapSettingsReducer.initialState,
       };
 
@@ -148,7 +148,11 @@ describe('RealtimeComponent', () => {
     it('should update mapSettings when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
       const store = TestBed.get(Store);
-      const currentState = { ...baseState, asset: { assetMovements: {}, filterQuery: [] }, mapSettings: MapSettingsReducer.initialState };
+      const currentState = {
+        ...baseState,
+        asset: { assetMovements: {}, filterQuery: [], selectedAssetGroups: [] },
+        mapSettings: MapSettingsReducer.initialState
+      };
 
       store.setState(currentState);
       component.mapStateToProps();

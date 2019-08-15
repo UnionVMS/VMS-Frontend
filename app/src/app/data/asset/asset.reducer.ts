@@ -3,7 +3,7 @@ import { ActionTypes } from './asset.actions';
 import * as Interfaces from './asset.interfaces';
 
 export const initialState: Interfaces.State = {
-  assetGroups: {},
+  assetGroups: [],
   selectedAssetGroups: [],
   selectedAssets: [],
   selectedAsset: null,

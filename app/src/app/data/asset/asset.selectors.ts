@@ -75,7 +75,7 @@ export const getAssetMovements = createSelector(
     assetsEssentials: { [uid: string]: AssetInterfaces.AssetEssentialProperties },
     currentFilterQuery: Array<AssetInterfaces.AssetFilterQuery>,
     savedFilterQuerys: Array<Array<AssetInterfaces.AssetFilterQuery>>,
-    selectedAssetGroups: Array<AssetInterfaces.AssetGroups>,
+    selectedAssetGroups: Array<AssetInterfaces.AssetGroup>,
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
     const filterQuerys = [ ...savedFilterQuerys, currentFilterQuery ];

@@ -33,8 +33,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public currentFilterQuery$: Observable<Array<AssetInterfaces.AssetFilterQuery>>;
   public savedFilters$: Observable<{ [filterName: string]: Array<AssetInterfaces.AssetFilterQuery> }>;
   public activeFilterNames$: Observable<Array<string>>;
-  public assetGroups$: Observable<Array<AssetInterfaces.AssetGroups>>;
-  public selectedAssetGroups$: Observable<Array<AssetInterfaces.AssetGroups>>;
+  public assetGroups$: Observable<Array<AssetInterfaces.AssetGroup>>;
+  public selectedAssetGroups$: Observable<Array<AssetInterfaces.AssetGroup>>;
 
   public map: Map;
 

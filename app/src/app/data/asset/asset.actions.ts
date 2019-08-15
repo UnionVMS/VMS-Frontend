@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { AssetMovement, AssetEssentialProperties } from './asset.interfaces';
+import { AssetMovement, AssetEssentialProperties, AssetGroup } from './asset.interfaces';
 
 
 export enum ActionTypes {
@@ -40,12 +40,12 @@ export enum ActionTypes {
 
 export class ClearAssetGroup implements Action {
   readonly type = ActionTypes.ClearAssetGroup;
-  constructor(public payload: AssetInterfaces.AssetGroup) {}
+  constructor(public payload: AssetGroup) {}
 }
 
 export class SetAssetGroup implements Action {
   readonly type = ActionTypes.SetAssetGroup;
-  constructor(public payload: AssetInterfaces.AssetGroup) {}
+  constructor(public payload: AssetGroup) {}
 }
 
 export class SearchAssets implements Action {
