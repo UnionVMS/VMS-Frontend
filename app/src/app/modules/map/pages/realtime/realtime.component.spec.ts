@@ -237,7 +237,8 @@ describe('RealtimeComponent', () => {
           heading: 55,
           guid: '47fc3ee8-dd32-41a9-a733-ffe2021fdaed',
           timestamp: '2019-03-31T05:48:30Z',
-          speed: 19.5
+          speed: 19.5,
+          source: 'AIS'
         },
         2: {
           location: {
@@ -247,7 +248,8 @@ describe('RealtimeComponent', () => {
           heading: 57,
           guid: '0152820f-33f0-4ee1-86a3-a2cd24d1e66c',
           timestamp: '2019-03-31T05:55:00Z',
-          speed: 19.5
+          speed: 19.5,
+          source: 'AIS'
         }
       };
 

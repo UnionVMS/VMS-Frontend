@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { formatDate } from '../../../../helpers';
+import { AssetInterfaces } from '@data/asset';
 
 @Component({
   selector: 'map-track-panel',
@@ -7,9 +8,8 @@ import { formatDate } from '../../../../helpers';
   styleUrls: ['./track-panel.component.scss']
 })
 export class TrackPanelComponent {
-  @Input() positions: any;
-  // tslint:disable-next-line:ban-types
-  @Input() removePositionForInspection: Function;
+  @Input() positions: { [id: number]: AssetInterfaces.Movement };
+  @Input() removePositionForInspection: (inspectionId: string) => void;
 
   public hidePanel = true;
   private toggleVisibility = (): void => {

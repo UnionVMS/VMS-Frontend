@@ -24,7 +24,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   public mapSettings: MapSettingsInterfaces.State;
   public mapSettingsSubscription: Subscription;
-  public positionsForInspection$: Observable<any>;
+  public positionsForInspection$: Observable<{ [id: number]: AssetInterfaces.Movement }>;
   public selectedAssets$: Observable<Array<{
     asset: AssetInterfaces.Asset,
     assetTracks: AssetInterfaces.AssetTrack,
@@ -52,7 +52,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public setVisibilityForTracks: Function;
   public setVisibilityForFlags: Function;
   public setTracksMinuteCap: Function;
-  public removePositionForInspection: Function;
   public searchAutocomplete: Function;
   public filterAssets: Function;
   // tslint:enable:ban-types
@@ -60,6 +59,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public activateSavedFilter: (filterName: string) => void;
   public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public deactivateSavedFilter: (filterName: string) => void;
+  public removePositionForInspection: (inspectionId: string) => void;
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;

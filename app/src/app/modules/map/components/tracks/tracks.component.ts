@@ -18,15 +18,13 @@ import Collection from 'ol/Collection';
 })
 export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
-  // tslint:disable:ban-types
-  @Input() assetTracks: Array<any>;
-  @Input() addPositionForInspection: Function;
-  @Input() positionsForInspection: any;
+  @Input() assetTracks: Array<AssetInterfaces.AssetTrack>;
+  @Input() addPositionForInspection: (track: AssetInterfaces.Movement) => void;
+  @Input() positionsForInspection: { [id: number]: AssetInterfaces.Movement };
   @Input() map: Map;
   @Input() mapZoom: number;
-  @Input() registerOnSelectFunction: Function;
-  @Input() unregisterOnSelectFunction: Function;
-  // tslint:enable:ban-types
+  @Input() registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
+  @Input() unregisterOnSelectFunction: (name: string) => void;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -59,6 +57,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         this.vectorSource.getFeatureById(event.selected[0].id_) !== null &&
         event.selected[0].id_.includes('assetId_')
       ) {
+
         event.selected[0].id_.split('assetId_')[1].split('_guid_');
         const [ assetId, guid ] = event.selected[0].id_.split('assetId_')[1].split('_guid_');
         /* tslint:disable:no-shadowed-variable */
