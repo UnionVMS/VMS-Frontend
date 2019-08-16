@@ -10,6 +10,7 @@
           <th>Heading</th>
           <th>Speed</th>
           <th>Time</th>
+          <th>Source</th>
           <th></th>
         </tr>
       </thead>
@@ -21,6 +22,7 @@
           <td>{{positions[positionKey].heading.toFixed(2)}}</td>
           <td>{{positions[positionKey].speed.toFixed(2)}}</td>
           <td>{{getFormatedDate(positions[positionKey].timestamp)}}</td>
+          <td>{{positions[positionKey].source}}</td>
           <td><i class="fas fa-trash" aria-hidden="true" (click)="removePositionForInspection(positionKey)"></i></td>
         </tr>
       </tbody>
