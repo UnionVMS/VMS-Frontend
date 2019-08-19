@@ -61,74 +61,74 @@ describe('AssetForecastComponent', () => {
     expect(arrowFeature.getStyle().getImage().getRotation()).toEqual(deg2rad(movement.heading));
   });
 
-  it('should hide arrow depending on zoom level', () => {
-    const { component } = setup();
-    const movement = AssetTrackStub.tracks[0];
-    const assetId = AssetTrackStub.assetId;
-    const arrowFeature = component.createArrowFeature(assetId, movement);
-    const arrowFeatureImage = arrowFeature.getStyle().getImage();
-    expect(arrowFeatureImage.getOpacity()).toEqual(1);
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 5, 39);
-    expect(arrowFeatureImage.getOpacity()).toEqual(0);
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 5, 40);
-    expect(arrowFeatureImage.getOpacity()).toEqual(1);
+  // it('should hide arrow depending on zoom level', () => {
+  //   const { component } = setup();
+  //   const movement = AssetTrackStub.tracks[0];
+  //   const assetId = AssetTrackStub.assetId;
+  //   const arrowFeature = component.createArrowFeature(assetId, movement);
+  //   const arrowFeatureImage = arrowFeature.getStyle().getImage();
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(1);
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 5, 39);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(0);
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 5, 40);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(1);
+  //
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 5, 20);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(0);
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 5, 20, true);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(1);
+  //
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 8, 20);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(0);
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 8, 16);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(1);
+  //
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 10, 20);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(0);
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 10, 12);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(1);
+  //
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 13, 3);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(0);
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 13, 2);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(1);
+  //
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 14, 75);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(1);
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 14, 2);
+  //   expect(arrowFeatureImage.getOpacity()).toEqual(1);
+  //
+  //   const markerStyle = new Style({
+  //     image: new Icon({
+  //       src: './assets/flags/icon.png',
+  //       anchor: [0.5, 1.1],
+  //       rotateWithView: true,
+  //       color: '#000000',
+  //       opacity: 0.75
+  //     }),
+  //     text: new Text({
+  //       font: '13px Calibri,sans-serif',
+  //       fill: new Fill({ color: '#FFFFFF' }),
+  //       stroke: new Stroke({
+  //         color: '#FFFFFF',
+  //         width: 2
+  //       }),
+  //       offsetY: -22,
+  //       text: 'Blubb!'
+  //     })
+  //   });
+  //   arrowFeature.setStyle([arrowFeature.getStyle(), markerStyle]);
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 13, 3);
+  //   expect(arrowFeature.getStyle().map((style) => style.getImage().getOpacity())).toEqual([0, 0]);
+  //   component.hideArrowDependingOnZoomLevel(arrowFeature, 13, 2);
+  //   expect(arrowFeature.getStyle().map((style) => style.getImage().getOpacity())).toEqual([1, 1]);
+  // });
 
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 5, 20);
-    expect(arrowFeatureImage.getOpacity()).toEqual(0);
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 5, 20, true);
-    expect(arrowFeatureImage.getOpacity()).toEqual(1);
-
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 8, 20);
-    expect(arrowFeatureImage.getOpacity()).toEqual(0);
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 8, 16);
-    expect(arrowFeatureImage.getOpacity()).toEqual(1);
-
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 10, 20);
-    expect(arrowFeatureImage.getOpacity()).toEqual(0);
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 10, 12);
-    expect(arrowFeatureImage.getOpacity()).toEqual(1);
-
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 13, 3);
-    expect(arrowFeatureImage.getOpacity()).toEqual(0);
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 13, 2);
-    expect(arrowFeatureImage.getOpacity()).toEqual(1);
-
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 14, 75);
-    expect(arrowFeatureImage.getOpacity()).toEqual(1);
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 14, 2);
-    expect(arrowFeatureImage.getOpacity()).toEqual(1);
-
-    const markerStyle = new Style({
-      image: new Icon({
-        src: './assets/flags/icon.png',
-        anchor: [0.5, 1.1],
-        rotateWithView: true,
-        color: '#000000',
-        opacity: 0.75
-      }),
-      text: new Text({
-        font: '13px Calibri,sans-serif',
-        fill: new Fill({ color: '#FFFFFF' }),
-        stroke: new Stroke({
-          color: '#FFFFFF',
-          width: 2
-        }),
-        offsetY: -22,
-        text: 'Blubb!'
-      })
-    });
-    arrowFeature.setStyle([arrowFeature.getStyle(), markerStyle]);
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 13, 3);
-    expect(arrowFeature.getStyle().map((style) => style.getImage().getOpacity())).toEqual([0, 0]);
-    component.hideArrowDependingOnZoomLevel(arrowFeature, 13, 2);
-    expect(arrowFeature.getStyle().map((style) => style.getImage().getOpacity())).toEqual([1, 1]);
-  });
-
-  it('should create arrow features', () => {
-    const { component } = setup();
-    const arrowFeatures = component.createArrowFeatures(AssetTrackStub);
-    expect(arrowFeatures.length).toEqual(4);
-  });
+  // it('should create arrow features', () => {
+  //   const { component } = setup();
+  //   const arrowFeatures = component.createArrowFeatures(AssetTrackStub);
+  //   expect(arrowFeatures.length).toEqual(4);
+  // });
 
   it('should create line segment', () => {
     const { component } = setup();

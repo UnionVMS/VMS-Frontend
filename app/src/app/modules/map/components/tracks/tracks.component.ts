@@ -43,14 +43,28 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       renderBuffer: 200
     });
     this.map.addLayer(this.vectorLayer);
+    const featureArrowsPerHour = {};
     this.vectorSource.addFeatures(
       this.assetTracks.reduce((features, assetTrack) => {
         features = features.concat(
           assetTrack.lineSegments.map((segment, index) => this.createLineSegment(assetTrack.assetId, segment, index))
         );
-        return features.concat(this.createArrowFeatures(assetTrack));
+
+        return features.concat(
+          assetTrack.tracks.map((movement, index) => {
+            const arrowFeature = this.createArrowFeature(assetTrack.assetId, movement);
+            const dateWithHour = movement.timestamp.substring(0, 13);
+            if(typeof featureArrowsPerHour[dateWithHour] === 'undefined') {
+              featureArrowsPerHour[dateWithHour] = [];
+            }
+            featureArrowsPerHour[dateWithHour].push({ feature: arrowFeature, forceShow: false });
+            return arrowFeature;
+          })
+        );
       }, [])
     );
+
+    this.showXArrowsPerHour(featureArrowsPerHour, this.mapZoom);
 
     this.registerOnHoverFunction(this.layerTitle, (event) => {
       if (
@@ -171,14 +185,6 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     lineSegmentFeature.setGeometry(new LineString(
       lineSegment.positions.map(position => fromLonLat([position.longitude, position.latitude]))
     ));
-  }
-
-  createArrowFeatures(assetTrack: AssetInterfaces.AssetTrack) {
-    return assetTrack.tracks.map((movement, index) => {
-      const arrowFeature = this.createArrowFeature(assetTrack.assetId, movement);
-      this.hideArrowDependingOnZoomLevel(arrowFeature, this.mapZoom, index);
-      return arrowFeature;
-    });
   }
 
   updateArrowFeatures(assetTrack: AssetInterfaces.AssetTrack) {
