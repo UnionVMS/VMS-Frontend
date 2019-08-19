@@ -151,7 +151,7 @@ export interface State {
   assetMovements: { [uid: string]: AssetMovement };
   assetTracks: { [assetId: string]: AssetTrack };
   forecasts: Array<string>;
-  positionsForInspection: any;
+  positionsForInspection: { [id: number]: Movement };
   searchQuery: string;
   filterQuery: Array<AssetFilterQuery>;
 }

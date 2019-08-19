@@ -18,9 +18,9 @@ import Collection from 'ol/Collection';
 })
 export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assetTracks: Array<any>;
+  @Input() assetTracks: Array<AssetInterfaces.AssetTrack>;
   @Input() addPositionForInspection: (track: AssetInterfaces.Movement) => void;
-  @Input() positionsForInspection: any;
+  @Input() positionsForInspection: { [id: number]: AssetInterfaces.Movement };
   @Input() map: Map;
   @Input() mapZoom: number;
   @Input() registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
@@ -71,6 +71,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         this.vectorSource.getFeatureById(event.selected[0].id_) !== null &&
         event.selected[0].id_.includes('assetId_')
       ) {
+
         event.selected[0].id_.split('assetId_')[1].split('_guid_');
         const [ assetId, guid ] = event.selected[0].id_.split('assetId_')[1].split('_guid_');
         /* tslint:disable:no-shadowed-variable */
