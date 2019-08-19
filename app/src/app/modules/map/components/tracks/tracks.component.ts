@@ -18,15 +18,15 @@ import Collection from 'ol/Collection';
 })
 export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
-  // tslint:disable:ban-types
   @Input() assetTracks: Array<any>;
-  @Input() addPositionForInspection: Function;
+  @Input() addPositionForInspection: (track: AssetInterfaces.Movement) => void;
   @Input() positionsForInspection: any;
   @Input() map: Map;
   @Input() mapZoom: number;
-  @Input() registerOnSelectFunction: Function;
-  @Input() unregisterOnSelectFunction: Function;
-  // tslint:enable:ban-types
+  @Input() registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
+  @Input() unregisterOnSelectFunction: (name: string) => void;
+  @Input() registerOnHoverFunction: (name: string, hoverFunction: (event) => void) => void;
+  @Input() unregisterOnHoverFunction: (name: string) => void;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -51,6 +51,18 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         return features.concat(this.createArrowFeatures(assetTrack));
       }, [])
     );
+
+    this.registerOnHoverFunction(this.layerTitle, (event) => {
+      if (
+        typeof event.selected[0] !== 'undefined' &&
+        typeof event.selected[0].id_ !== 'undefined'
+      ) {
+        const feature = this.vectorSource.getFeatureById(event.selected[0].id_);
+        if(feature !== null && event.selected[0].id_.includes('assetId_')) {
+          feature.getStyle().getImage().setOpacity(1);
+        }
+      }
+    });
 
     this.registerOnSelectFunction(this.layerTitle, (event) => {
       if (
@@ -173,7 +185,9 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       acc[this.positionsForInspection[positionKey].guid] = { ...this.positionsForInspection[positionKey], key: positionKey };
       return acc;
     }, {});
+    const featureArrowsPerHour = {};
     const newFeatureArrows = assetTrack.tracks.reduce((acc, movement, index) => {
+      let forceShow = false;
       const arrowFeatureId = 'assetId_' + assetTrack.assetId + '_guid_' + movement.guid;
       this.currentRenderFeatureIds.push(arrowFeatureId);
       const arrowFeature = this.vectorSource.getFeatureById(arrowFeatureId);
@@ -182,6 +196,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       } else {
         const arrowFeatureStyle = arrowFeature.getStyle();
         if (typeof positionsForInspectionKeyedWithGuid[movement.guid] !== 'undefined') {
+          // We come here if we have selected the position for inspection.
           if (!Array.isArray(arrowFeatureStyle)) {
             const markerStyle = new Style({
               image: new Icon({
@@ -204,48 +219,61 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
             });
             arrowFeature.setStyle([arrowFeatureStyle, markerStyle]);
           }
-          this.hideArrowDependingOnZoomLevel(arrowFeature, this.mapZoom, index, true);
+          forceShow = true;
         } else {
+          // We come here if we haven't selected the position for inspection.
           if (Array.isArray(arrowFeatureStyle)) {
+            // We do this after we have deselected inspection and we want to remove the indicator above the position.
             arrowFeature.setStyle(arrowFeatureStyle[0]);
           }
-          this.hideArrowDependingOnZoomLevel(arrowFeature, this.mapZoom, index);
         }
+        const dateWithHour = movement.timestamp.substring(0, 13);
+        if(typeof featureArrowsPerHour[dateWithHour] === 'undefined') {
+          featureArrowsPerHour[dateWithHour] = [];
+        }
+        featureArrowsPerHour[dateWithHour].push({ feature: arrowFeature, forceShow });
       }
       return acc;
     }, []);
+
+    this.showXArrowsPerHour(featureArrowsPerHour, this.mapZoom);
+
     return newFeatureArrows;
   }
 
-  hideArrowDependingOnZoomLevel(arrowFeature, mapZoomLevel, index, forceShow = false) {
-    const arrowFeatureStyle = arrowFeature.getStyle();
-    let opacity = 0;
-    if (forceShow) {
-      opacity = 1;
-    } else if (mapZoomLevel < 8) {
-      if(index % 40 === 0) {
-        opacity = 1;
-      }
-    } else if (mapZoomLevel < 10) {
-      if(index % 16 === 0) {
-        opacity = 1;
-      }
-    } else if (mapZoomLevel < 12) {
-      if(index % 6 === 0) {
-        opacity = 1;
-      }
-    } else if (mapZoomLevel < 14) {
-      if(index % 2 === 0) {
-        opacity = 1;
-      }
-    } else {
-      opacity = 1;
+  showXArrowsPerHour(featureArrowsPerHour: {[hourAndDate: string]: Array<any>}, mapZoomLevel) {
+    let showArrowsThisHour = -1;
+    if(mapZoomLevel < 9) {
+      showArrowsThisHour = 1;
+    } else if(mapZoomLevel < 10) {
+      showArrowsThisHour = 2;
+    } else if(mapZoomLevel < 11) {
+      showArrowsThisHour = 4;
+    } else if(mapZoomLevel < 13) {
+      showArrowsThisHour = 7;
+    } else if(mapZoomLevel < 15) {
+      showArrowsThisHour = 9;
+    } else if(mapZoomLevel < 17) {
+      showArrowsThisHour = 11;
     }
-    if(Array.isArray(arrowFeatureStyle)) {
-      arrowFeatureStyle.map((style) => style.getImage().setOpacity(opacity));
-    } else {
-      arrowFeatureStyle.getImage().setOpacity(opacity);
-    }
+
+    Object.values(featureArrowsPerHour).map(arrowFeatures => {
+      const featureShowInterval = Math.ceil(arrowFeatures.length / showArrowsThisHour);
+      arrowFeatures.map((arrowFeature, index) => {
+        const arrowFeatureStyle = arrowFeature.feature.getStyle();
+        // Instead of setting opacity to 0 we set it to a very low number. This allowes OL to detect
+        // hover on the asset, which it doesn't do on invisible objects.
+        let opacity = 0.002;
+        if(arrowFeature.forceShow || showArrowsThisHour === -1 || index % featureShowInterval === 0) {
+          opacity = 1;
+        }
+        if(Array.isArray(arrowFeatureStyle)) {
+          arrowFeatureStyle.map((style) => style.getImage().setOpacity(opacity));
+        } else {
+          arrowFeatureStyle.getImage().setOpacity(opacity);
+        }
+      });
+    });
   }
 
   createArrowFeature(assetId: string, movement: AssetInterfaces.Movement) {

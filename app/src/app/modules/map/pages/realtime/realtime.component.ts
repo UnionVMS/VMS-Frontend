@@ -10,6 +10,7 @@ import { fromLonLat } from 'ol/proj';
 import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/control.js';
 import { format } from 'ol/coordinate.js';
 import Select from 'ol/interaction/Select.js';
+import { click, pointerMove } from 'ol/events/condition.js';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
@@ -64,6 +65,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
+  public registerOnHoverFunction: (name: string, hoverFunction: (event) => void) => void;
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
 
   private assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
@@ -72,11 +74,13 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
   private onSelectFunctions: { [name: string]: (event) => void } = {};
+  private onHoverFunctions: { [name: string]: (event) => void } = {};
 
   private assetTracks$: Observable<any>;
   private forecasts$: Observable<any>;
   public searchAutocompleteAsset$: Observable<any>;
   private selection: Select;
+  private hoverSelection: Select;
 
   // tslint:disable:ban-types
   private getAssetTrack: Function;
@@ -87,6 +91,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   // tslint:enable:ban-types
   private unregisterOnClickFunction: (name: string) => void;
   private unregisterOnSelectFunction: (name: string) => void;
+  private unregisterOnHoverFunction: (name: string) => void;
 
   // Map functions to props:
   // tslint:disable:ban-types
@@ -255,10 +260,30 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       delete this.onSelectFunctions[name];
     };
 
-    this.selection = new Select({hitTolerance: 7});
+    this.selection = new Select({hitTolerance: 7, condition: click });
     this.map.addInteraction(this.selection);
+
     this.selection.on('select', (event) => {
       Object.values(this.onSelectFunctions).map((selectFunction) => selectFunction(event));
     });
+
+    this.registerOnHoverFunction = (name, onHoverFunction) => {
+      this.onHoverFunctions[name] = onHoverFunction;
+    };
+
+    this.unregisterOnHoverFunction = (name) => {
+      delete this.onHoverFunctions[name];
+    };
+
+    this.hoverSelection = new Select({hitTolerance: 3, condition: pointerMove });
+    this.map.addInteraction(this.hoverSelection);
+
+    this.hoverSelection.on('select', (event) => {
+      Object.values(this.onHoverFunctions).map((hoverFunction) => hoverFunction(event));
+    });
+
+    // this.map.on('pointermove', (event) => {
+    //   Object.values(this.onHoverFunctions).map(hoverFunction => hoverFunction(event));
+    // });
   }
 }

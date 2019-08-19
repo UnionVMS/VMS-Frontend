@@ -26,7 +26,7 @@
       [unregisterOnSelectFunction]="unregisterOnSelectFunction"
     ></map-assets>
     <map-tracks
-      *ngIf="mapSettings.tracksVisible && mapZoom > 9"
+      *ngIf="mapSettings.tracksVisible && mapZoom > 5"
       [assetTracks]="assetTracks$|async"
       [map]="map"
       [mapZoom]="mapZoom"
@@ -34,6 +34,8 @@
       [unregisterOnSelectFunction]="unregisterOnSelectFunction"
       [addPositionForInspection]="addPositionForInspection"
       [positionsForInspection]="positionsForInspection$|async"
+      [registerOnHoverFunction]="registerOnHoverFunction"
+      [unregisterOnHoverFunction]="unregisterOnHoverFunction"
     ></map-tracks>
     <map-flagstates
       *ngIf="mapSettings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"
