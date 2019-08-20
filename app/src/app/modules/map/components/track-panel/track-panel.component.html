@@ -1,28 +1,51 @@
+
 <div class="content-container {{hidePanel ? 'hidden' : ''}}">
+
   <ng-template [ngIf]="!hidePanel">
-    <ui-button-close [clickFunction]="toggleVisibility"></ui-button-close>
+    <div class="track-panel-header">
+      <ui-button-close [clickFunction]="toggleVisibility"></ui-button-close>
+      <button class="btnCustomColumn btn btn-primary" (click)="toggleTrackColumnSetting()">
+        <i class="fas fa-columns"></i>
+      </button>
+    </div>
+    <ng-container *ngIf="!showTrackColumnSetting">
+      <!-- <div class="trackColumnSetting">
+        <ul id="trackColumnItems">
+          <li *ngFor="let column of columns">{{ column.columnName }}</li>
+        </ul>
+      </div> -->
+      <div class="button-wrapper">
+        <div class="button-block" *ngIf="activeAsset && showButtons">
+          <legend>Filter columns:</legend>
+          <ui-button-toggle
+            [label]="'Id'"
+            [value]="setColumnSetting(1)"
+            [switchFunction]="toggleTracksFactory(1)"
+          ></ui-button-toggle>
+          <ui-button-toggle
+            [label]="'Forecast'"
+            [value]="forecastIsVisible(activeAsset.asset.id)"
+            [switchFunction]="toggleForecastFactory(activeAsset.asset.id)"
+          ></ui-button-toggle>
+        </div>
+      </div>
+    </ng-container>
     <table class="table track-table">
       <thead>
         <tr>
-          <th>Id</th>
-          <th>Lat</th>
-          <th>Long</th>
-          <th>Heading</th>
-          <th>Speed</th>
-          <th>Time</th>
-          <th>Source</th>
+          <th [hidden]="!column.visible" *ngFor="let column of columns">{{ column.columnName }}</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let positionKey of positionKeys()">
-          <td>{{positionKey}}</td>
-          <td>{{positions[positionKey].location.latitude.toFixed(5)}}</td>
-          <td>{{positions[positionKey].location.longitude.toFixed(5)}}</td>
-          <td>{{positions[positionKey].heading.toFixed(2)}}</td>
-          <td>{{positions[positionKey].speed.toFixed(2)}}</td>
-          <td>{{getFormatedDate(positions[positionKey].timestamp)}}</td>
-          <td>{{positions[positionKey].source}}</td>
+          <td [hidden]="!columns[0].visible">{{positionKey}}</td>
+          <td [hidden]="!columns[1].visible">{{positions[positionKey].location.latitude.toFixed(5)}}</td>
+          <td [hidden]="!columns[2].visible">{{positions[positionKey].location.longitude.toFixed(5)}}</td>
+          <td [hidden]="!columns[3].visible">{{positions[positionKey].heading.toFixed(2)}}</td>
+          <td [hidden]="!columns[4].visible">{{positions[positionKey].speed.toFixed(2)}}</td>
+          <td [hidden]="!columns[5].visible">{{getFormatedDate(positions[positionKey].timestamp)}}</td>
+          <td [hidden]="!columns[6].visible">{{positions[positionKey].source}}</td>
           <td><i class="fas fa-trash" aria-hidden="true" (click)="removePositionForInspection(positionKey)"></i></td>
         </tr>
       </tbody>

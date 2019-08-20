@@ -40,6 +40,37 @@
   }
 }
 
+.button-wrapper {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-row-gap: 5px;
+
+  span {
+    align-self: end;
+    justify-self: start;
+    background-color: rgba(0,60,136,0.5);
+    display: inline-block;
+    padding: $small_distance $medium_distance;
+
+    &:hover {
+      background-color: rgba(0,60,136,0.7);
+    }
+  }
+
+  .button-block {
+    background: $map_overlay_background;
+    padding: $small_distance $medium_distance;
+    display: grid;
+    grid-row-gap: $small_distance;
+    align-self: end;
+
+    ui-button-toggle {
+      display: block;
+      min-height: 24px;
+    }
+  }
+}
+
 .show-button {
   position: fixed;
   margin: auto;
@@ -48,4 +79,35 @@
   width: 3em;
   padding: 6px 10px;
   bottom: 0px;
+}
+
+.btn.btnCustomColumn {
+  position:absolute;
+  right: 30px;
+  top: 0px;
+  padding: 1px 5px;
+  float: right;
+}
+
+.track-panel-header{
+  width: 100%;
+  height: 15px;
+}
+
+.trackColumnSetting{
+  width: 500px;
+  height: 30px;
+  padding: 0px;
+  background-color: $map_overlay_background;
+}
+
+#trackColumnItems {
+  margin: 0px;
+  padding: 3px 8px;
+  list-style: none;
+}
+
+#trackColumnItems li {
+  margin-right: 10px;
+  float: left;
 }
