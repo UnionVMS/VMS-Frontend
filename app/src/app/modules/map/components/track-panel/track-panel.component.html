@@ -1,56 +1,76 @@
+<div class="track-panel-wrapper">
 
-<div class="content-container {{hidePanel ? 'hidden' : ''}}">
+  <div class="trackColumnSetting button-block" *ngIf="!hideTrackColumnSetting">
+    <legend>Filter columns:</legend>
+    <ui-button-toggle
+      [label]="'Id'"
+      [value]="columns[0].visible"
+      [switchFunction]="toggleColumnSetting(0)"
+    ></ui-button-toggle>
+    <ui-button-toggle
+      [label]="'Lat'"
+      [value]="columns[1].visible"
+      [switchFunction]="toggleColumnSetting(1)"
+    ></ui-button-toggle>
+    <ui-button-toggle
+      [label]="'Long'"
+      [value]="columns[2].visible"
+      [switchFunction]="toggleColumnSetting(2)"
+    ></ui-button-toggle>
+    <ui-button-toggle
+      [label]="'Heading'"
+      [value]="columns[3].visible"
+      [switchFunction]="toggleColumnSetting(3)"
+    ></ui-button-toggle>
+    <ui-button-toggle
+      [label]="'Speed'"
+      [value]="columns[4].visible"
+      [switchFunction]="toggleColumnSetting(4)"
+    ></ui-button-toggle>
+    <ui-button-toggle
+      [label]="'Time'"
+      [value]="columns[5].visible"
+      [switchFunction]="toggleColumnSetting(5)"
+    ></ui-button-toggle>
+    <ui-button-toggle
+      [label]="'Source'"
+      [value]="columns[6].visible"
+      [switchFunction]="toggleColumnSetting(6)"
+    ></ui-button-toggle>
+  </div>
 
-  <ng-template [ngIf]="!hidePanel">
-    <div class="track-panel-header">
-      <ui-button-close [clickFunction]="toggleVisibility"></ui-button-close>
-      <button class="btnCustomColumn btn btn-primary" (click)="toggleTrackColumnSetting()">
-        <i class="fas fa-columns"></i>
-      </button>
-    </div>
-    <ng-container *ngIf="!showTrackColumnSetting">
-      <!-- <div class="trackColumnSetting">
-        <ul id="trackColumnItems">
-          <li *ngFor="let column of columns">{{ column.columnName }}</li>
-        </ul>
-      </div> -->
-      <div class="button-wrapper">
-        <div class="button-block" *ngIf="activeAsset && showButtons">
-          <legend>Filter columns:</legend>
-          <ui-button-toggle
-            [label]="'Id'"
-            [value]="setColumnSetting(1)"
-            [switchFunction]="toggleTracksFactory(1)"
-          ></ui-button-toggle>
-          <ui-button-toggle
-            [label]="'Forecast'"
-            [value]="forecastIsVisible(activeAsset.asset.id)"
-            [switchFunction]="toggleForecastFactory(activeAsset.asset.id)"
-          ></ui-button-toggle>
-        </div>
+  <div class="content-container {{hidePanel ? 'hidden' : ''}}">
+
+    <ng-template [ngIf]="!hidePanel">
+      <div class="track-panel-header">
+        <ui-button-close [clickFunction]="toggleVisibility"></ui-button-close>
+        <button class="btnCustomColumn btn btn-primary" (click)="toggleTrackColumnSetting()">
+          <i class="fas fa-filter"></i>
+        </button>
       </div>
-    </ng-container>
-    <table class="table track-table">
-      <thead>
-        <tr>
-          <th [hidden]="!column.visible" *ngFor="let column of columns">{{ column.columnName }}</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let positionKey of positionKeys()">
-          <td [hidden]="!columns[0].visible">{{positionKey}}</td>
-          <td [hidden]="!columns[1].visible">{{positions[positionKey].location.latitude.toFixed(5)}}</td>
-          <td [hidden]="!columns[2].visible">{{positions[positionKey].location.longitude.toFixed(5)}}</td>
-          <td [hidden]="!columns[3].visible">{{positions[positionKey].heading.toFixed(2)}}</td>
-          <td [hidden]="!columns[4].visible">{{positions[positionKey].speed.toFixed(2)}}</td>
-          <td [hidden]="!columns[5].visible">{{getFormatedDate(positions[positionKey].timestamp)}}</td>
-          <td [hidden]="!columns[6].visible">{{positions[positionKey].source}}</td>
-          <td><i class="fas fa-trash" aria-hidden="true" (click)="removePositionForInspection(positionKey)"></i></td>
-        </tr>
-      </tbody>
-    </table>
-  </ng-template>
+
+      <table class="table track-table">
+        <thead>
+          <tr>
+            <th [hidden]="!column.visible" *ngFor="let column of columns">{{ column.columnName }}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let positionKey of positionKeys()">
+            <td [hidden]="!columns[0].visible">{{positionKey}}</td>
+            <td [hidden]="!columns[1].visible">{{positions[positionKey].location.latitude.toFixed(5)}}</td>
+            <td [hidden]="!columns[2].visible">{{positions[positionKey].location.longitude.toFixed(5)}}</td>
+            <td [hidden]="!columns[3].visible">{{positions[positionKey].heading.toFixed(2)}}</td>
+            <td [hidden]="!columns[4].visible">{{positions[positionKey].speed.toFixed(2)}}</td>
+            <td [hidden]="!columns[5].visible">{{getFormatedDate(positions[positionKey].timestamp)}}</td>
+            <td [hidden]="!columns[6].visible">{{positions[positionKey].source}}</td>
+            <td><i class="fas fa-trash" aria-hidden="true" (click)="removePositionForInspection(positionKey)"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-template>
+  </div>
 </div>
 <button class="show-button btn btn-primary" *ngIf="hidePanel" (click)="hidePanel = !hidePanel">
   <i class="fas fa-chevron-up"></i>

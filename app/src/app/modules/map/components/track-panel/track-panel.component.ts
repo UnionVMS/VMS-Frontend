@@ -15,11 +15,11 @@ export class TrackPanelComponent implements OnInit {
 
   public columns: TrackColumn[] = [];
   public hidePanel = true;
-  public showTrackColumnSetting = false;
+  public hideTrackColumnSetting = true;
 
   ngOnInit() {
     this.columns.push({ id: 1, columnName: 'Id', width: 150, visible: true });
-    this.columns.push({ id: 2, columnName: 'Lat', width: 150, visible: false });
+    this.columns.push({ id: 2, columnName: 'Lat', width: 150, visible: true });
     this.columns.push({ id: 3, columnName: 'Long', width: 150, visible: true });
     this.columns.push({ id: 4, columnName: 'Heading', width: 150, visible: true });
     this.columns.push({ id: 5, columnName: 'Speed', width: 150, visible: true });
@@ -32,23 +32,22 @@ export class TrackPanelComponent implements OnInit {
   }
 
   toggleTrackColumnSetting() {
-    this.showTrackColumnSetting = !this.showTrackColumnSetting;
+    this.hideTrackColumnSetting = !this.hideTrackColumnSetting;
   }
 
-  setColumnSetting(id: number) {
-    const selectedItem = this.columns.find(item => item.id === id);
+  private toggleColumnSetting = (idx) => {
+    return () => this.setColumnSetting(idx);
+  }
+
+  private setColumnSetting = (idx): void => {
+    this.columns[idx].visible = !this.columns[idx].visible;
   }
 
   positionKeys() {
-    // console.warn('Check positions: ', this.positions);
     return Object.keys(this.positions);
   }
 
   getFormatedDate(date) {
     return formatDate(date);
   }
-
-  // clickCustomColumns(){
-
-  // }
 }
