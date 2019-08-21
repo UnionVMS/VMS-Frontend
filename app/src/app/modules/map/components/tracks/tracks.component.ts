@@ -242,7 +242,6 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       }
       return acc;
     }, []);
-
     this.showXArrowsPerHour(featureArrowsPerHour, this.mapZoom);
 
     return newFeatureArrows;
