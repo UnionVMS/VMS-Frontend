@@ -6,7 +6,8 @@
     "paths": {
       "@data/*": ["src/app/data/*"],
       "@app/*": ["src/app/*"],
-      "@modules/*": ["src/app/modules/*"]
+      "@modules/*": ["src/app/modules/*"],
+      "@src/*": ["src/*"],
     },
     "resolveJsonModule": true
   },

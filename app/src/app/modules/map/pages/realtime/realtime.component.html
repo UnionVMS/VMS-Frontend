@@ -117,5 +117,10 @@
       [setAssetGroup]="setAssetGroup"
       [clearAssetGroup]="clearAssetGroup"
     ></map-asset-groups>
+    <map-areas
+      *ngIf="(authToken$ | async) !== undefined"
+      [map]="map"
+      [authToken]="authToken$ | async"
+    ></map-areas>
   </div>
 </div>

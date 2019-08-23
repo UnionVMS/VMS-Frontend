@@ -5,7 +5,7 @@ import { Subscription, Observable } from 'rxjs';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
-import XYZ from 'ol/source/XYZ';
+import { XYZ, TileWMS } from 'ol/source';
 import { fromLonLat } from 'ol/proj';
 import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/control.js';
 import { format } from 'ol/coordinate.js';
@@ -13,8 +13,10 @@ import Select from 'ol/interaction/Select.js';
 import { click, pointerMove } from 'ol/events/condition.js';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { AuthSelectors } from '@data/auth';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
 import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+import { MapLayersActions } from '@data/map-layers';
 
 @Component({
   selector: 'map-realtime',
@@ -36,6 +38,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public activeFilterNames$: Observable<Array<string>>;
   public assetGroups$: Observable<Array<AssetInterfaces.AssetGroup>>;
   public selectedAssetGroups$: Observable<Array<AssetInterfaces.AssetGroup>>;
+  public authToken$: Observable<string|null>;
 
   public map: Map;
 
@@ -82,21 +85,17 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private selection: Select;
   private hoverSelection: Select;
 
-  // tslint:disable:ban-types
-  private getAssetTrack: Function;
-  private getAssetTrackFromTime: Function;
-  private removeForecast: Function;
-  public selectAsset: Function;
-  private untrackAsset: Function;
-  // tslint:enable:ban-types
+  private getAssetTrack: (assetId, movementGuid) => void;
+  private getAssetTrackFromTime: (assetId, datetime) => void;
+  private removeForecast: (assetId) => void;
+  public selectAsset: (assetId) => void;
+  private untrackAsset: (assetId) => void;
   private unregisterOnClickFunction: (name: string) => void;
   private unregisterOnSelectFunction: (name: string) => void;
   private unregisterOnHoverFunction: (name: string) => void;
 
   // Map functions to props:
-  // tslint:disable:ban-types
-  public centerMapOnPosition: Function;
-  // tslint:enable:ban-types
+  public centerMapOnPosition: (position) => void;
 
   constructor(private store: Store<any>) { }
 
@@ -117,6 +116,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.activeFilterNames$ = this.store.select(MapSavedFiltersSelectors.selectActiveFilters);
     this.assetGroups$ = this.store.select(AssetSelectors.getAssetGroups);
     this.selectedAssetGroups$ = this.store.select(AssetSelectors.getSelectedAssetGroups);
+    this.authToken$ = this.store.select(AuthSelectors.getAuthToken);
   }
 
   mapDispatchToProps() {
@@ -191,6 +191,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.mapDispatchToProps();
     this.store.dispatch(new AssetActions.SubscribeToMovements());
     this.store.dispatch(new AssetActions.GetAssetGroups());
+    this.store.dispatch(new MapLayersActions.GetAreas());
     this.mapZoom = this.mapSettings.startZoomLevel;
     const scaleLineControl = new ScaleLine();
     const mousePositionControl = new MousePosition({

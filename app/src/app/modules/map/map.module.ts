@@ -11,6 +11,7 @@ import { UIModule } from '../ui/ui.module';
 import { RealtimeComponent } from './pages/realtime/realtime.component';
 
 /* Components */
+import { AreasComponent } from './components/areas/areas.component';
 import { AssetsComponent } from './components/assets/assets.component';
 import { AssetGroupsComponent } from './components/asset-groups/asset-groups.component';
 import { AssetForecastComponent } from './components/asset-forecast/asset-forecast.component';
@@ -40,6 +41,7 @@ import { TrackPanelComponent } from './components/track-panel/track-panel.compon
   ],
   declarations: [
     RealtimeComponent,
+    AreasComponent,
     AssetsComponent,
     AssetGroupsComponent,
     AssetForecastComponent,
