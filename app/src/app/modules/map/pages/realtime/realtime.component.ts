@@ -12,6 +12,7 @@ import { format } from 'ol/coordinate.js';
 import Select from 'ol/interaction/Select.js';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { TrackPanelInterfaces, TrackPanelActions, TrackPanelSelectors } from '@data/track-panel';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
 import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersInterfaces } from '@data/map-saved-filters';
 
@@ -35,6 +36,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public activeFilterNames$: Observable<Array<string>>;
   public assetGroups$: Observable<Array<AssetInterfaces.AssetGroup>>;
   public selectedAssetGroups$: Observable<Array<AssetInterfaces.AssetGroup>>;
+  public trackPanelColumns$: Observable<Array<TrackPanelInterfaces.TrackPanelColumn>>;
+  public selectedTrackPanelColumns$: Observable<Array<number>>;
 
   public map: Map;
 
@@ -58,9 +61,11 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public addSavedFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
   public activateSavedFilter: (filterName: string) => void;
   public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
+  public clearTrackPanelColumn: (trackPanelColumnId: number) => void;
   public deactivateSavedFilter: (filterName: string) => void;
   public removePositionForInspection: (inspectionId: string) => void;
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
+  public setTrackPanelColumn: (trackPanelColumnId: number) => void;
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
@@ -112,6 +117,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.activeFilterNames$ = this.store.select(MapSavedFiltersSelectors.selectActiveFilters);
     this.assetGroups$ = this.store.select(AssetSelectors.getAssetGroups);
     this.selectedAssetGroups$ = this.store.select(AssetSelectors.getSelectedAssetGroups);
+    this.trackPanelColumns$ = this.store.select(TrackPanelSelectors.getTrackPanelColumns);
+    this.selectedTrackPanelColumns$ = this.store.select(TrackPanelSelectors.getSelectedTrackPanelColumns);
   }
 
   mapDispatchToProps() {
@@ -121,12 +128,16 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new MapSavedFiltersActions.ActivateFilter(filterName));
     this.clearAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
       this.store.dispatch(new AssetActions.ClearAssetGroup(assetGroup));
+    this.clearTrackPanelColumn = (trackPanelColumnId: number) =>
+        this.store.dispatch(new TrackPanelActions.ClearTrackPanelColumn(trackPanelColumnId));
     this.deactivateSavedFilter = (filterName: string) =>
       this.store.dispatch(new MapSavedFiltersActions.DeactivateFilter(filterName));
     this.deselectAsset = (assetId) =>
       this.store.dispatch(new AssetActions.DeselectAsset(assetId));
     this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
       this.store.dispatch(new AssetActions.SetAssetGroup(assetGroup));
+    this.setTrackPanelColumn = (trackPanelColumnId: number) =>
+        this.store.dispatch(new TrackPanelActions.SetTrackPanelColumn(trackPanelColumnId));
     this.saveViewport = (key, viewport) =>
       this.store.dispatch(new MapSettingsActions.SaveViewport({key, viewport}));
     this.setVisibilityForAssetNames = (visible) =>

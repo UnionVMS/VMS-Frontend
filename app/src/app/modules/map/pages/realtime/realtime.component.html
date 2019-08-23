@@ -47,6 +47,10 @@
     <map-track-panel
       [positions]="positionsForInspection$|async"
       [removePositionForInspection]="removePositionForInspection"
+      [trackPanelColumns]="trackPanelColumns$ | async"
+      [selectedTrackPanelColumns]="selectedTrackPanelColumns$ | async"
+      [setTrackPanelColumn]="setTrackPanelColumn"
+      [clearTrackPanelColumn]="clearTrackPanelColumn"
     ></map-track-panel>
     <map-asset-forecast
       *ngIf="mapSettings.forecastsVisible && mapZoom > 9"

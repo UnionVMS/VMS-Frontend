@@ -19,7 +19,6 @@ export const selectSearchQuery = (state: State) => state.asset.searchQuery;
 export const selectPositionsForInspection = (state: State) => state.asset.positionsForInspection;
 export const selectSelectedAssetGroups = (state: State) => state.asset.selectedAssetGroups;
 
-
 export const getAssets = createSelector(
   getAssetState,
   (state: AssetInterfaces.State) => {

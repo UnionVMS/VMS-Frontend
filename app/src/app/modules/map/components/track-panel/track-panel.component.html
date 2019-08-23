@@ -3,39 +3,10 @@
   <div class="trackColumnSetting button-block" *ngIf="!hideTrackColumnSetting">
     <legend>Filter columns:</legend>
     <ui-button-toggle
-      [label]="'Id'"
-      [value]="columns[0].visible"
-      [switchFunction]="toggleColumnSetting(0)"
-    ></ui-button-toggle>
-    <ui-button-toggle
-      [label]="'Lat'"
-      [value]="columns[1].visible"
-      [switchFunction]="toggleColumnSetting(1)"
-    ></ui-button-toggle>
-    <ui-button-toggle
-      [label]="'Long'"
-      [value]="columns[2].visible"
-      [switchFunction]="toggleColumnSetting(2)"
-    ></ui-button-toggle>
-    <ui-button-toggle
-      [label]="'Heading'"
-      [value]="columns[3].visible"
-      [switchFunction]="toggleColumnSetting(3)"
-    ></ui-button-toggle>
-    <ui-button-toggle
-      [label]="'Speed'"
-      [value]="columns[4].visible"
-      [switchFunction]="toggleColumnSetting(4)"
-    ></ui-button-toggle>
-    <ui-button-toggle
-      [label]="'Time'"
-      [value]="columns[5].visible"
-      [switchFunction]="toggleColumnSetting(5)"
-    ></ui-button-toggle>
-    <ui-button-toggle
-      [label]="'Source'"
-      [value]="columns[6].visible"
-      [switchFunction]="toggleColumnSetting(6)"
+      [label]="trackPanelColumn.columnName"
+      [value]="isColumnVisible(trackPanelColumn.id)"
+      [switchFunction]="toggleColumnSettingFactory(trackPanelColumn.id)"
+      *ngFor="let trackPanelColumn of trackPanelColumns"
     ></ui-button-toggle>
   </div>
 
@@ -52,19 +23,19 @@
       <table class="table track-table">
         <thead>
           <tr>
-            <th [hidden]="!column.visible" *ngFor="let column of columns">{{ column.columnName }}</th>
+            <th [hidden]="!isColumnVisible(trackPanelColumn.id)" *ngFor="let trackPanelColumn of trackPanelColumns">{{ trackPanelColumn.columnName }}</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let positionKey of positionKeys()">
-            <td [hidden]="!columns[0].visible">{{positionKey}}</td>
-            <td [hidden]="!columns[1].visible">{{positions[positionKey].location.latitude.toFixed(5)}}</td>
-            <td [hidden]="!columns[2].visible">{{positions[positionKey].location.longitude.toFixed(5)}}</td>
-            <td [hidden]="!columns[3].visible">{{positions[positionKey].heading.toFixed(2)}}</td>
-            <td [hidden]="!columns[4].visible">{{positions[positionKey].speed.toFixed(2)}}</td>
-            <td [hidden]="!columns[5].visible">{{getFormatedDate(positions[positionKey].timestamp)}}</td>
-            <td [hidden]="!columns[6].visible">{{positions[positionKey].source}}</td>
+            <td [hidden]="!isColumnVisible(1)">{{positionKey}}</td>
+            <td [hidden]="!isColumnVisible(2)">{{positions[positionKey].location.latitude.toFixed(5)}}</td>
+            <td [hidden]="!isColumnVisible(3)">{{positions[positionKey].location.longitude.toFixed(5)}}</td>
+            <td [hidden]="!isColumnVisible(4)">{{positions[positionKey].heading.toFixed(2)}}</td>
+            <td [hidden]="!isColumnVisible(5)">{{positions[positionKey].speed.toFixed(2)}}</td>
+            <td [hidden]="!isColumnVisible(6)">{{getFormatedDate(positions[positionKey].timestamp)}}</td>
+            <td [hidden]="!isColumnVisible(7)">{{positions[positionKey].source}}</td>
             <td><i class="fas fa-trash" aria-hidden="true" (click)="removePositionForInspection(positionKey)"></i></td>
           </tr>
         </tbody>

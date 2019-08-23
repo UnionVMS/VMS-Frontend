@@ -12,6 +12,7 @@ import { AssetReducer, AssetInterfaces } from './data/asset/';
 import { AuthReducer, AuthActions } from './data/auth/';
 import { MapSettingsReducer, MapSettingsInterfaces } from './data/map-settings/';
 import { MapSavedFiltersReducer, MapSavedFiltersInterfaces } from './data/map-saved-filters/';
+import { TrackPanelReducer, TrackPanelInterfaces } from './data/track-panel/';
 
 
 export interface State {
@@ -19,6 +20,7 @@ export interface State {
   auth: AuthReducer.State;
   mapSettings: MapSettingsInterfaces.State;
   mapSavedFilters: MapSavedFiltersInterfaces.State;
+  trackPanel: TrackPanelInterfaces.State;
   router: RouterReducerState;
 }
 
@@ -27,6 +29,7 @@ export const reducers: ActionReducerMap<State> = {
   auth: AuthReducer.authReducer,
   mapSettings: MapSettingsReducer.mapSettingsReducer,
   mapSavedFilters: MapSavedFiltersReducer.mapSavedFiltersReducer,
+  trackPanel: TrackPanelReducer.trackPanel,
   router: routerReducer,
 };
 
