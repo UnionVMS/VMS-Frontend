@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
-
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
@@ -55,7 +53,6 @@ const imports = [
   HttpClientModule,
   EffectsModule.forRoot([AuthEffects, AssetEffects, MapSettingsEffects, MapSavedFiltersEffects]),
   BrowserAnimationsModule,
-  MDBBootstrapModule.forRoot(),
   CoreModule,
   MapModule,
   AssetModule,
