@@ -10,7 +10,10 @@ import Map from 'ol/Map';
 /* Modules */
 import { UIModule } from '../../../ui/ui.module';
 import { FormsModule } from '@angular/forms';
-import { MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatCheckboxModule } from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { RealtimeComponent } from './realtime.component';
 
