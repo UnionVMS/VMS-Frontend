@@ -19,7 +19,7 @@ export class LogoutComponent implements OnInit {
 
 
   ngOnInit() {
-    this.store.dispatch(new AuthActions.Logout());
+    this.store.dispatch(AuthActions.logout());
     this.isLoggedIn$ = this.store.select(AuthSelectors.isLoggedIn);
   }
 

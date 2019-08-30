@@ -1,40 +1,25 @@
-import { Action } from '@ngrx/store';
-import { ActionTypes } from './auth.actions';
+import { Action, createReducer, on } from '@ngrx/store';
+import * as AuthActions from './auth.actions';
+import * as AuthInterfaces from './auth.interfaces';
 
-export interface UserData {
-  username: string;
-}
-
-export interface JwtTokenData {
-  raw: string;
-  decoded: any;
-}
-
-export interface User {
-  jwtToken: JwtTokenData;
-  data: UserData;
-}
-
-export interface State {
-  user: User|null;
-}
-
-export const initialState: State = {
+export const initialState: AuthInterfaces.State = {
   user: null,
 };
 
-export function authReducer(state = initialState, { type, payload }) {
-  switch (type) {
-    case ActionTypes.LoginSuccess:
-      return { ...state, user: { ...state.user, ...payload } };
-
-    case ActionTypes.LoginFailed:
-      return { ...state };
-
-    case ActionTypes.Logout:
-      return { ...state, user: null };
-
-    default:
-      return state;
-  }
-}
+export const authReducer = createReducer(initialState,
+  on(AuthActions.loginFailed, (state, { error }) => ({
+    ...state,
+  })),
+  on(AuthActions.loginSuccess, (state, { payload: { jwtToken, data } }) => ({
+    ...state,
+    user: {
+      ...state.user,
+      jwtToken,
+      data
+    }
+  })),
+  on(AuthActions.logout, (state) => ({
+    ...state,
+    user: null
+  })),
+);

@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY, merge, Observable } from 'rxjs';
 import { map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter } from 'rxjs/operators';
 
-import { AuthReducer, AuthSelectors } from '../auth';
+import { AuthInterfaces, AuthSelectors } from '../auth';
 import { MapSettingsSelectors } from '../map-settings';
 
 import { AssetService } from './asset.service';
@@ -15,7 +15,7 @@ export class AssetEffects {
   constructor(
     private actions$: Actions,
     private assetService: AssetService,
-    private store$: Store<AuthReducer.State>
+    private store$: Store<AuthInterfaces.State>
   ) {}
 
   @Effect()
@@ -153,7 +153,6 @@ export class AssetEffects {
       this.store$.select(AssetSelectors.getAssetsEssentials)
     ),
     mergeMap(([action, authToken, currentAssetsEssentials]: Array<any>) => {
-      console.warn(action);
       const assetIdsWithoutEssentials = action.assetMovements.reduce((acc, assetMovement) => {
         if(currentAssetsEssentials[assetMovement.asset] === undefined) {
           acc.push(assetMovement.asset);

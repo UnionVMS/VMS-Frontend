@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
       if(Date.now() > jwtToken.exp * 1000) {
         delete window.localStorage.authToken;
       } else {
-        this.store.dispatch(new AuthActions.LoginSuccess(window.localStorage.authToken));
+        this.store.dispatch(AuthActions.loginSuccess({ jwtToken: window.localStorage.authToken }));
       }
     } else if(typeof window.localStorage['ngStorage-token'] !== 'undefined') {
       const jwtToken = jwtDecode(window.localStorage['ngStorage-token']);
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
         delete window.localStorage['ngStorage-token'];
       } else {
         window.localStorage.authToken = window.localStorage['ngStorage-token'].replace(/^\"+|\"+$/g, '');
-        this.store.dispatch(new AuthActions.LoginSuccess(window.localStorage.authToken));
+        this.store.dispatch(AuthActions.loginSuccess({ jwtToken: window.localStorage.authToken }));
       }
     }
 

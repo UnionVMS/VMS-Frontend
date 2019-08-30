@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AuthReducer, AuthActions, AuthSelectors } from '../../../data/auth';
+import { AuthReducer, AuthActions, AuthSelectors, AuthInterfaces } from '../../../data/auth';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   username: string;
   password: string;
 
-  constructor(private store: Store<AuthReducer.State>, private router: Router) { }
+  constructor(private store: Store<AuthInterfaces.State>, private router: Router) { }
 
   ngOnInit() {
     this.store.select(AuthSelectors.isLoggedIn).subscribe(isLoggedIn => {
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   }
 
   submitLogin(username: string, password: string) {
-    this.store.dispatch(new AuthActions.Login({ username, password }));
+    this.store.dispatch(AuthActions.login({ username, password }));
     return false;
   }
 

@@ -29,18 +29,18 @@ describe('AuthReducer', () => {
     }
   };
 
-  describe('ActionTypes.LoginSuccess', () => {
+  describe('AuthActions.loginSuccess', () => {
     it('should return a acceptable user object.', () => {
-      const state = AuthReducer.authReducer(undefined, new AuthActions.LoginSuccess(authState.jwtToken.raw));
+      const state = AuthReducer.authReducer(undefined, AuthActions.loginSuccess({ jwtToken: authState.jwtToken.raw }));
 
       expect(state).toEqual({ user: authState });
     });
   });
 
-  describe('ActionTypes.LoginFailed', () => {
+  describe('AuthActions.loginFailed', () => {
     it('should return a acceptable user object.', () => {
       const { initialState } = AuthReducer;
-      const state = AuthReducer.authReducer(undefined, new AuthActions.LoginFailed({ error: 'failed' }));
+      const state = AuthReducer.authReducer(undefined, AuthActions.loginFailed({ error: 'failed' }));
 
       expect(state).toEqual(initialState);
     });

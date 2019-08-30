@@ -59,7 +59,7 @@ describe('LoginComponent', () => {
 
     expect(dispatchSpy).toHaveBeenCalledTimes(1);
     expect(dispatchSpy).toHaveBeenCalledWith(
-      new AuthActions.Login({ username, password })
+      AuthActions.login({ username, password })
     );
   });
 
