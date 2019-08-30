@@ -386,19 +386,19 @@ describe('RealtimeComponent', () => {
       );
     });
 
-    it('should dispatch AssetActions.SelectAsset when selectAsset is called.', () => {
+    it('should dispatch AssetActions.selectAsset when selectAsset is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['selectAsset']('asset-id');
+      component['selectAsset']({ assetId: 'asset-id' });
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new AssetActions.SelectAsset('asset-id')
+        AssetActions.selectAsset({ assetId: 'asset-id' })
       );
     });
 
-    it('should dispatch AssetActions.GetAssetTrack when getAssetTrack is called.', () => {
+    it('should dispatch AssetActions.getAssetTrack when getAssetTrack is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
@@ -406,11 +406,11 @@ describe('RealtimeComponent', () => {
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new AssetActions.GetAssetTrack({ assetId: 'asset-id', movementGuid: 'movement-guid' })
+        AssetActions.getAssetTrack({ assetId: 'asset-id', movementGuid: 'movement-guid' })
       );
     });
 
-    it('should dispatch AssetActions.GetAssetTrackFromTime when getAssetTrackFromTime is called.', () => {
+    it('should dispatch AssetActions.getAssetTrackFromTime when getAssetTrackFromTime is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
@@ -419,11 +419,11 @@ describe('RealtimeComponent', () => {
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new AssetActions.GetAssetTrackFromTime({ assetId: 'asset-id', datetime })
+        AssetActions.getAssetTrackFromTime({ assetId: 'asset-id', datetime })
       );
     });
 
-    it('should dispatch AssetActions.UntrackAsset when untrackAsset is called.', () => {
+    it('should dispatch AssetActions.untrackAsset when untrackAsset is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
@@ -431,23 +431,23 @@ describe('RealtimeComponent', () => {
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new AssetActions.UntrackAsset('asset-id')
+        AssetActions.untrackAsset({ assetId: 'asset-id' })
       );
     });
 
-    it('should dispatch AssetActions.AddPositionForInspection when addPositionForInspection is called.', () => {
+    it('should dispatch AssetActions.addPositionForInspection when addPositionForInspection is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component.addPositionForInspection({track: 'object-Stuff'});
+      component.addPositionForInspection(AssetMovementWithEssentialsStub.assetMovement.microMove);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new AssetActions.AddPositionForInspection({track: 'object-Stuff'})
+        AssetActions.addPositionForInspection({ positionForInspection: AssetMovementWithEssentialsStub.assetMovement.microMove })
       );
     });
 
-    it('should dispatch AssetActions.RemovePositionForInspection when removePositionForInspection is called.', () => {
+    it('should dispatch AssetActions.removePositionForInspection when removePositionForInspection is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
@@ -455,11 +455,11 @@ describe('RealtimeComponent', () => {
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new AssetActions.RemovePositionForInspection('track-id')
+        AssetActions.removePositionForInspection({inspectionId: 'track-id'})
       );
     });
 
-    it('should dispatch AssetActions.AddForecast when addForecast is called.', () => {
+    it('should dispatch AssetActions.addForecast when addForecast is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
@@ -467,11 +467,11 @@ describe('RealtimeComponent', () => {
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new AssetActions.AddForecast('asset-id')
+        AssetActions.addForecast({ assetId: 'asset-id' })
       );
     });
 
-    it('should dispatch AssetActions.RemoveForecast when removeForecast is called.', () => {
+    it('should dispatch AssetActions.removeForecast when removeForecast is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
@@ -479,11 +479,11 @@ describe('RealtimeComponent', () => {
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new AssetActions.RemoveForecast('asset-id')
+        AssetActions.removeForecast({ assetId: 'asset-id' })
       );
     });
 
-    it('should dispatch AssetActions.ClearForecasts when clearForecasts is called.', () => {
+    it('should dispatch AssetActions.clearForecasts when clearForecasts is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
@@ -491,7 +491,7 @@ describe('RealtimeComponent', () => {
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new AssetActions.ClearForecasts()
+        AssetActions.clearForecasts()
       );
     });
 
@@ -503,7 +503,7 @@ describe('RealtimeComponent', () => {
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new AssetActions.ClearTracks()
+        AssetActions.clearTracks()
       );
     });
 

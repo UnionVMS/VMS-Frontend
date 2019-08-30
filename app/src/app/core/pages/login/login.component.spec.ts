@@ -10,9 +10,6 @@ import { LoginComponent } from './login.component';
 
 import { AuthActions } from '../../../data/auth';
 
-// For MDB Angular Free
-import { CheckboxModule } from 'angular-bootstrap-md';
-
 describe('LoginComponent', () => {
 
   beforeEach(async(() => {
@@ -20,7 +17,6 @@ describe('LoginComponent', () => {
       declarations: [ LoginComponent ],
       imports: [
         TestingModule,
-        CheckboxModule,
         MatFormFieldModule,
       ],
       providers: [

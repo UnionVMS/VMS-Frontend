@@ -1,5 +1,5 @@
-import { Action } from '@ngrx/store';
-import { ActionTypes } from './asset.actions';
+import { Action, createReducer, on } from '@ngrx/store';
+import * as AssetActions from './asset.actions';
 import * as Interfaces from './asset.interfaces';
 
 export const initialState: Interfaces.State = {
@@ -27,219 +27,205 @@ const speedSegments = {
 };
 const speeds = Object.keys(speedSegments).map(speed => parseInt(speed, 10));
 
-export function assetReducer(state = initialState, { type, payload }) {
-  switch (type) {
-    case ActionTypes.ClearAssetGroup:
-      return {
-        ...state,
-        selectedAssetGroups: state.selectedAssetGroups.filter((assetGroup) => assetGroup.id !== payload.id)
-      };
-
-    case ActionTypes.SetAssetGroup: {
-      // tslint:disable:no-shadowed-variable
-      let newState = { ...state };
-      // tslint:enable:no-shadowed-variable
-      if (!state.selectedAssetGroups.some((assetGroup) => assetGroup.id === payload.id)) {
-        newState = { ...state, selectedAssetGroups: [ ...state.selectedAssetGroups, payload ]};
+export const assetReducer = createReducer(initialState,
+  on(AssetActions.addForecast, (state, { assetId }) => ({
+    ...state,
+    forecasts: [
+      ...state.forecasts, assetId
+    ].filter((v, i, a) => a.indexOf(v) === i)
+  })),
+  on(AssetActions.addPositionForInspection, (state, { positionForInspection }) => {
+    const positionsForInspectionKeys = Object.keys(state.positionsForInspection).map(index => parseInt(index, 10));
+    const key = positionsForInspectionKeys.length === 0 ? 1 : positionsForInspectionKeys[positionsForInspectionKeys.length - 1] + 1;
+    return { ...state,
+      positionsForInspection: { ...state.positionsForInspection,
+        [key]: positionForInspection
       }
-      return newState;
+    };
+  }),
+  on(AssetActions.assetMoved, (state, { assetMovement }) => ({
+    ...state,
+    assetMovements: {
+      ...state.assetMovements,
+      [assetMovement.asset]: assetMovement
     }
-
-    case ActionTypes.SetAutocompleteQuery:
-      return { ...state, searchQuery: payload.searchQuery };
-
-    case ActionTypes.SetFilterQuery:
-      return { ...state, filterQuery: payload.filterQuery };
-
-    case ActionTypes.AssetMoved:
-      return { ...state, assetMovements: {
-        ...state.assetMovements,
-        [payload.asset]: payload
-      } };
-
-    case ActionTypes.AssetsMoved:
-      const newState = { ...state, assetMovements: {
-        ...state.assetMovements,
-        ...payload
-      } };
-      if(Object.keys(newState.assetTracks).length > 0) {
-        Object.keys(payload).map((assetId) => {
-          if(typeof newState.assetTracks[assetId] !== 'undefined') {
-            newState.assetTracks[assetId].tracks.push(payload[assetId].microMove);
-            // tslint:disable-next-line:no-shadowed-variable
-            const lineSegments = newState.assetTracks[assetId].lineSegments;
-            const lastSegment = lineSegments[lineSegments.length - 1];
-            const segmentSpeed = speeds.find((speed) => newState.assetMovements[assetId].microMove.speed < speed);
-            // Add the last position in last segment eiter way so there is no spaces in the draw line.
-            lastSegment.positions.push(newState.assetMovements[assetId].microMove.location);
-            if (lastSegment.speed !== segmentSpeed) {
-              lineSegments.push({
-                speed: segmentSpeed,
-                positions: [newState.assetMovements[assetId].microMove.location],
-                color: speedSegments[segmentSpeed]
-              });
-            }
+  })),
+  on(AssetActions.assetsMoved, (state, { assetMovements }) => {
+    const newState = { ...state, assetMovements: {
+      ...state.assetMovements,
+      ...assetMovements
+    } };
+    if(Object.keys(newState.assetTracks).length > 0) {
+      Object.keys(assetMovements).map((assetId) => {
+        if(typeof newState.assetTracks[assetId] !== 'undefined') {
+          newState.assetTracks[assetId].tracks.push(assetMovements[assetId].microMove);
+          // tslint:disable-next-line:no-shadowed-variable
+          const lineSegments = newState.assetTracks[assetId].lineSegments;
+          const lastSegment = lineSegments[lineSegments.length - 1];
+          const segmentSpeed = speeds.find((speed) => newState.assetMovements[assetId].microMove.speed < speed);
+          // Add the last position in last segment eiter way so there is no spaces in the draw line.
+          lastSegment.positions.push(newState.assetMovements[assetId].microMove.location);
+          if (lastSegment.speed !== segmentSpeed) {
+            lineSegments.push({
+              speed: segmentSpeed,
+              positions: [newState.assetMovements[assetId].microMove.location],
+              color: speedSegments[segmentSpeed]
+            });
           }
+        }
+      });
+    }
+    return newState;
+  }),
+  on(AssetActions.clearAssetGroup, (state, { assetGroup }) => ({
+    ...state,
+    selectedAssetGroups: state.selectedAssetGroups.filter((selectedAssetGroup) => selectedAssetGroup.id !== assetGroup.id)
+  })),
+  on(AssetActions.clearForecasts, (state) => ({ ...state, forecasts: [] })),
+  on(AssetActions.clearTracks, (state) => ({ ...state, assetTracks: {}, positionsForInspection: {} })),
+  on(AssetActions.deselectAsset, (state, { assetId }) => {
+    let selectedAsset = state.selectedAsset;
+    const selectedAssets = state.selectedAssets.filter((selectedAssetId) => selectedAssetId !== assetId);
+    if(assetId === selectedAsset) {
+      selectedAsset = selectedAssets[0];
+    }
+    return { ...state, selectedAssets, selectedAsset };
+  }),
+  on(AssetActions.removeForecast, (state, { assetId }) => ({
+    ...state,
+    forecasts: state.forecasts.filter(forecastAssetId => forecastAssetId !== assetId)
+  })),
+  on(AssetActions.removePositionForInspection, (state, { inspectionId }) => {
+    const positionsForInspection = { ...state.positionsForInspection };
+    delete positionsForInspection[inspectionId];
+    return { ...state,
+      positionsForInspection
+    };
+  }),
+  on(AssetActions.selectAsset, (state, { assetId }) => {
+    let returnState = { ...state, selectedAsset: assetId };
+    if(!state.selectedAssets.some((selectedAssetId) => selectedAssetId === assetId )) {
+      returnState = { ...returnState, selectedAssets: [ ...state.selectedAssets, assetId] };
+    }
+    return returnState;
+  }),
+  on(AssetActions.setAssetGroup, (state, { assetGroup }) => {
+    let newState = { ...state };
+    if (!state.selectedAssetGroups.some((selectedAssetGroup) => selectedAssetGroup.id === assetGroup.id)) {
+      newState = { ...state, selectedAssetGroups: [ ...state.selectedAssetGroups, assetGroup ]};
+    }
+    return newState;
+  }),
+  on(AssetActions.setAssetGroups, (state, { assetGroups }) => ({
+    ...state,
+    assetGroups
+  })),
+  on(AssetActions.setAssetList, (state, { searchParams, assets, currentPage, totalNumberOfPages }) => {
+    const identifier = `ps${searchParams.pageSize}`;
+    return { ...state,
+      assets: {
+        ...state.assets,
+        ...assets
+      },
+      assetLists: {
+        ...state.assetLists,
+        [identifier]: {
+          resultPages: {
+            ...state.assetLists.resultPages,
+            [currentPage]: Object.keys(assets)
+          },
+          totalNumberOfPages,
+          pageSize: searchParams.pageSize
+        }
+      },
+      currentAssetList: {
+        listIdentifier: identifier,
+        currentPage
+      }
+    };
+  }),
+  on(AssetActions.setAssetTrack, (state, { tracks, assetId, visible }) => {
+    const finishedLineSegments = tracks.reduce((lineSegments, position) => {
+      const lastSegment = lineSegments[lineSegments.length - 1];
+      const segmentSpeed = speeds.find((speed) => position.speed < speed);
+      if (lineSegments.length === 0) {
+        lineSegments.push({
+          speed: segmentSpeed,
+          positions: [position.location],
+          color: speedSegments[segmentSpeed]
+        });
+      } else if (lastSegment.speed === segmentSpeed) {
+        lastSegment.positions.push(position.location);
+      } else {
+        // Add the last position in both the old segment and the new so there are no spaces in the drawn line.
+        lastSegment.positions.push(position.location);
+        lineSegments.push({
+          speed: segmentSpeed,
+          positions: [position.location],
+          color: speedSegments[segmentSpeed]
         });
       }
-      return newState;
-
-    case ActionTypes.SetEssentialProperties:
-      return { ...state, assetsEssentials: {
-        ...state.assetsEssentials,
-        ...payload
-      } };
-
-    case ActionTypes.TrimTracksThatPassedTimeCap:
-      // tslint:disable-next-line:no-shadowed-variable
-      const newAssetTracks = Object.keys(state.assetTracks).reduce((assetTracks, assetId) => {
-        const assetTrack = state.assetTracks[assetId];
-        const indexOfFirstPositionAfterGivenTime = assetTrack.tracks.findIndex(
-          track => new Date(track.timestamp).getTime() > payload.unixtime
-        );
-        if(indexOfFirstPositionAfterGivenTime > 0) {
-          assetTrack.tracks = assetTrack.tracks.slice(indexOfFirstPositionAfterGivenTime);
-          let positionsLeftToRemove = indexOfFirstPositionAfterGivenTime;
-          // tslint:disable-next-line:no-shadowed-variable
-          assetTrack.lineSegments = assetTrack.lineSegments.reduce((lineSegments, lineSegment) => {
-            if(positionsLeftToRemove === 0) {
-              lineSegments.push(lineSegment);
-            } else if(lineSegment.positions.length < positionsLeftToRemove) {
-              positionsLeftToRemove -= lineSegment.positions.length;
-            } else {
-              lineSegment.positions = lineSegment.positions.filter((position, index) => positionsLeftToRemove < index + 1);
-              lineSegments.push(lineSegment);
-              positionsLeftToRemove = 0;
-            }
-            return lineSegments;
-          }, []);
-        }
-        assetTracks[assetId] = assetTrack;
-        return assetTracks;
-      }, {});
-
-      return { ...state, assetTracks: newAssetTracks };
-
-    case ActionTypes.AddForecast:
-      return { ...state, forecasts: [
-        ...state.forecasts, payload
-      ].filter((v, i, a) => a.indexOf(v) === i)};
-
-    case ActionTypes.RemoveForecast:
-      return { ...state, forecasts: state.forecasts.filter(assetId => assetId !== payload)};
-
-    case ActionTypes.ClearForecasts:
-      return { ...state, forecasts: [] };
-
-    case ActionTypes.AddAssets:
-      return { ...state, assets: {
-        ...state.assets,
-        ...payload.assets
-      }};
-
-    case ActionTypes.SetAssetGroups:
-      return { ...state, assetGroups: payload };
-
-    case ActionTypes.SetAssetList:
-      const identifier = `ps${payload.searchParams.pageSize}`;
-      return { ...state,
-        assets: {
-          ...state.assets,
-          ...payload.assets
-        },
-        assetLists: {
-          ...state.assetLists,
-          [identifier]: {
-            resultPages: {
-              ...state.assetLists.resultPages,
-              [payload.currentPage]: Object.keys(payload.assets)
-            },
-            totalNumberOfPages: payload.totalNumberOfPages,
-            pageSize: payload.searchParams.pageSize
+      return lineSegments;
+    }, []);
+    return { ...state, assetTracks: {
+      ...state.assetTracks,
+      [assetId]: { tracks, assetId, visible, lineSegments: finishedLineSegments }
+    }};
+  }),
+  on(AssetActions.setAutocompleteQuery, (state, { searchQuery }) => ({
+    ...state,
+    searchQuery
+  })),
+  on(AssetActions.setEssentialProperties, (state, { assetEssentialProperties }) => ({
+    ...state,
+    assetsEssentials: {
+      ...state.assetsEssentials,
+      ...assetEssentialProperties
+    }
+  })),
+  on(AssetActions.setFilterQuery, (state, { filterQuery }) => ({
+    ...state,
+    filterQuery
+  })),
+  on(AssetActions.setFullAsset, (state, { asset }) => ({
+    ...state,
+    assets: {
+      ...state.assets,
+      [asset.id]: asset
+    }
+  })),
+  on(AssetActions.trimTracksThatPassedTimeCap, (state, { unixtime }) => {
+    const newAssetTracks = Object.keys(state.assetTracks).reduce((assetTracks, assetId) => {
+      const assetTrack = state.assetTracks[assetId];
+      const indexOfFirstPositionAfterGivenTime = assetTrack.tracks.findIndex(
+        track => new Date(track.timestamp).getTime() > unixtime
+      );
+      if(indexOfFirstPositionAfterGivenTime > 0) {
+        assetTrack.tracks = assetTrack.tracks.slice(indexOfFirstPositionAfterGivenTime);
+        let positionsLeftToRemove = indexOfFirstPositionAfterGivenTime;
+        // tslint:disable-next-line:no-shadowed-variable
+        assetTrack.lineSegments = assetTrack.lineSegments.reduce((lineSegments, lineSegment) => {
+          if(positionsLeftToRemove === 0) {
+            lineSegments.push(lineSegment);
+          } else if(lineSegment.positions.length < positionsLeftToRemove) {
+            positionsLeftToRemove -= lineSegment.positions.length;
+          } else {
+            lineSegment.positions = lineSegment.positions.filter((position, index) => positionsLeftToRemove < index + 1);
+            lineSegments.push(lineSegment);
+            positionsLeftToRemove = 0;
           }
-        },
-        currentAssetList: {
-          listIdentifier: identifier,
-          currentPage: payload.currentPage
-        }
-      };
-
-    case ActionTypes.SetFullAsset:
-      return { ...state, assets: {
-        ...state.assets,
-        [payload.id]: payload
-      }};
-
-    case ActionTypes.SelectAsset:
-      let returnState = { ...state, selectedAsset: payload };
-      if(!state.selectedAssets.some((assetId) => assetId === payload )) {
-        returnState = { ...returnState, selectedAssets: [ ...state.selectedAssets, payload] };
+          return lineSegments;
+        }, []);
       }
-      return returnState;
+      assetTracks[assetId] = assetTrack;
+      return assetTracks;
+    }, {});
 
-    case ActionTypes.DeselectAsset:
-      let selectedAsset = state.selectedAsset;
-      const selectedAssets = state.selectedAssets.filter((assetId) => assetId !== payload);
-      if(payload === selectedAsset) {
-        selectedAsset = selectedAssets[0];
-      }
-      return { ...state, selectedAssets, selectedAsset };
-
-    case ActionTypes.SetAssetTrack:
-      // tslint:disable-next-line:no-shadowed-variable
-      const lineSegments = payload.tracks.reduce((lineSegments, position) => {
-        const lastSegment = lineSegments[lineSegments.length - 1];
-        const segmentSpeed = speeds.find((speed) => position.speed < speed);
-        if (lineSegments.length === 0) {
-          lineSegments.push({
-            speed: segmentSpeed,
-            positions: [position.location],
-            color: speedSegments[segmentSpeed]
-          });
-        } else if (lastSegment.speed === segmentSpeed) {
-          lastSegment.positions.push(position.location);
-        } else {
-          // Add the last position in both the old segment and the new so there are no spaces in the drawn line.
-          lastSegment.positions.push(position.location);
-          lineSegments.push({
-            speed: segmentSpeed,
-            positions: [position.location],
-            color: speedSegments[segmentSpeed]
-          });
-        }
-        return lineSegments;
-      }, []);
-      return { ...state, assetTracks: {
-        ...state.assetTracks,
-        [payload.assetId]: { ...payload, lineSegments }
-      }};
-
-    case ActionTypes.UntrackAsset:
-      const assetTracks = { ...state.assetTracks };
-      delete assetTracks[payload];
-      return { ...state, assetTracks };
-
-    case ActionTypes.ClearTracks:
-      return { ...state, assetTracks: {}, positionsForInspection: {} };
-
-    case ActionTypes.AddPositionForInspection:
-      // tslint:disable-next-line:no-shadowed-variable
-      const positionsForInspectionKeys = Object.keys(state.positionsForInspection).map(key => parseInt(key, 10));
-      const key = positionsForInspectionKeys.length === 0 ? 1 : positionsForInspectionKeys[positionsForInspectionKeys.length - 1] + 1;
-      return { ...state,
-        positionsForInspection: { ...state.positionsForInspection,
-          [key]: payload
-        }
-      };
-
-    case ActionTypes.RemovePositionForInspection:
-      const positionsForInspection = { ...state.positionsForInspection };
-      delete positionsForInspection[payload];
-      return { ...state,
-        positionsForInspection
-      };
-
-    default:
-      return state;
-  }
-}
+    return { ...state, assetTracks: newAssetTracks };
+  }),
+  on(AssetActions.untrackAsset, (state, { assetId }) => {
+    const assetTracks = { ...state.assetTracks };
+    delete assetTracks[assetId];
+    return { ...state, assetTracks };
+  }),
+);

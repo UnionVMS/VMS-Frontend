@@ -61,14 +61,14 @@ export class SearchComponent implements OnInit, OnDestroy {
         return acc;
       }, {});
 
-      this.store.dispatch(new AssetActions.SearchAssets(searchQuery));
+      this.store.dispatch(AssetActions.searchAssets({ requestParams: searchQuery }));
     };
   }
 
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
-    // this.store.dispatch(new AssetActions.GetAssetList({pageSize: 30}));
+    // this.store.dispatch(AssetActions.getAssetList({pageSize: 30}));
   }
 
   ngOnDestroy() {

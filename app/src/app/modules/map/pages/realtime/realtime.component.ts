@@ -125,13 +125,13 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.activateSavedFilter = (filterName: string) =>
       this.store.dispatch(new MapSavedFiltersActions.ActivateFilter(filterName));
     this.clearAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
-      this.store.dispatch(new AssetActions.ClearAssetGroup(assetGroup));
+      this.store.dispatch(AssetActions.clearAssetGroup({assetGroup}));
     this.deactivateSavedFilter = (filterName: string) =>
       this.store.dispatch(new MapSavedFiltersActions.DeactivateFilter(filterName));
     this.deselectAsset = (assetId) =>
-      this.store.dispatch(new AssetActions.DeselectAsset(assetId));
+      this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
-      this.store.dispatch(new AssetActions.SetAssetGroup(assetGroup));
+      this.store.dispatch(AssetActions.setAssetGroup({ assetGroup }));
     this.saveViewport = (key, viewport) =>
       this.store.dispatch(new MapSettingsActions.SaveViewport({key, viewport}));
     this.setVisibilityForAssetNames = (visible) =>
@@ -147,33 +147,33 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.setTracksMinuteCap = (minutes) =>
       this.store.dispatch(new MapSettingsActions.SetTracksMinuteCap(minutes));
     this.selectAsset = (assetId) =>
-      this.store.dispatch(new AssetActions.SelectAsset(assetId));
+      this.store.dispatch(AssetActions.selectAsset(assetId));
     this.getAssetTrack = (assetId, movementGuid) =>
-      this.store.dispatch(new AssetActions.GetAssetTrack({ assetId, movementGuid }));
+      this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementGuid }));
     this.getAssetTrackFromTime = (assetId, datetime) =>
-      this.store.dispatch(new AssetActions.GetAssetTrackFromTime({ assetId, datetime}));
-    this.untrackAsset = (assetId) =>
-      this.store.dispatch(new AssetActions.UntrackAsset(assetId));
+      this.store.dispatch(AssetActions.getAssetTrackFromTime({ assetId, datetime }));
+    this.untrackAsset = (assetId: string) =>
+      this.store.dispatch(AssetActions.untrackAsset({ assetId }));
     this.addPositionForInspection = (track) =>
-      this.store.dispatch(new AssetActions.AddPositionForInspection(track));
+      this.store.dispatch(AssetActions.addPositionForInspection({ positionForInspection: track }));
     this.removePositionForInspection = (inspectionId) =>
-      this.store.dispatch(new AssetActions.RemovePositionForInspection(inspectionId));
-    this.addForecast = (assetId) =>
-      this.store.dispatch(new AssetActions.AddForecast(assetId));
-    this.removeForecast = (assetId) =>
-      this.store.dispatch(new AssetActions.RemoveForecast(assetId));
+      this.store.dispatch(AssetActions.removePositionForInspection({ inspectionId }));
+    this.addForecast = (assetId: string) =>
+      this.store.dispatch(AssetActions.addForecast({ assetId }));
+    this.removeForecast = (assetId: string) =>
+      this.store.dispatch(AssetActions.removeForecast({ assetId }));
     this.clearForecasts = () =>
-      this.store.dispatch(new AssetActions.ClearForecasts());
+      this.store.dispatch(AssetActions.clearForecasts());
     this.clearTracks = () =>
-      this.store.dispatch(new AssetActions.ClearTracks());
+      this.store.dispatch(AssetActions.clearTracks());
     this.setForecastInterval = (forecastTimeLength) =>
       this.store.dispatch(new MapSettingsActions.SetForecastInterval(forecastTimeLength));
     this.setCurrentControlPanel = (controlPanelName) =>
       this.store.dispatch(new MapSettingsActions.SetCurrentControlPanel(controlPanelName));
-    this.searchAutocomplete = (searchQuery) =>
-      this.store.dispatch(new AssetActions.SetAutocompleteQuery({searchQuery}));
+    this.searchAutocomplete = (searchQuery: string) =>
+      this.store.dispatch(AssetActions.setAutocompleteQuery({searchQuery}));
     this.filterAssets = (filterQuery) => {
-      return this.store.dispatch(new AssetActions.SetFilterQuery({filterQuery}));
+      return this.store.dispatch(AssetActions.setFilterQuery({filterQuery}));
     };
   }
 
@@ -189,8 +189,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
-    this.store.dispatch(new AssetActions.SubscribeToMovements());
-    this.store.dispatch(new AssetActions.GetAssetGroups());
+    this.store.dispatch(AssetActions.subscribeToMovements());
+    this.store.dispatch(AssetActions.getAssetGroups());
     this.mapZoom = this.mapSettings.startZoomLevel;
     const scaleLineControl = new ScaleLine();
     const mousePositionControl = new MousePosition({
@@ -236,7 +236,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     if(this.mapSettingsSubscription !== undefined) {
       this.mapSettingsSubscription.unsubscribe();
     }
-    this.store.dispatch(new AssetActions.UnsubscribeToMovements());
+    this.store.dispatch(AssetActions.unsubscribeToMovements());
   }
 
   setupOnClickEvents() {
