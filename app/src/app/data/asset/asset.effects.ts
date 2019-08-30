@@ -23,10 +23,10 @@ export class AssetEffects {
     ofType(AssetActions.searchAssets),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.listAssets(authToken, action.payload.requestParams).pipe(
+      return this.assetService.listAssets(authToken, action.requestParams).pipe(
         map((response: any) => {
           return AssetActions.setAssetList({
-            searchParams: action.payload,
+            searchParams: action.requestParams,
             totalNumberOfPages: response.totalNumberOfPages,
             currentPage: response.currentPage,
             assets: response.assetList.reduce((acc, asset) => {
@@ -44,10 +44,10 @@ export class AssetEffects {
     ofType(AssetActions.getAssetList),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.listAssets(authToken, action.payload).pipe(
+      return this.assetService.listAssets(authToken, { pageSize: action.pageSize } ).pipe(
         map((response: any) => {
           return AssetActions.setAssetList({
-            searchParams: action.payload,
+            searchParams: action.pageSize,
             totalNumberOfPages: response.totalNumberOfPages,
             currentPage: response.currentPage,
             assets: response.assetList.reduce((acc, asset) => {
@@ -153,7 +153,8 @@ export class AssetEffects {
       this.store$.select(AssetSelectors.getAssetsEssentials)
     ),
     mergeMap(([action, authToken, currentAssetsEssentials]: Array<any>) => {
-      const assetIdsWithoutEssentials = action.payload.reduce((acc, assetMovement) => {
+      console.warn(action);
+      const assetIdsWithoutEssentials = action.assetMovements.reduce((acc, assetMovement) => {
         if(currentAssetsEssentials[assetMovement.asset] === undefined) {
           acc.push(assetMovement.asset);
         }
@@ -197,7 +198,7 @@ export class AssetEffects {
     ofType(AssetActions.selectAsset),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.getAsset(authToken, action.payload.assetId).pipe(
+      return this.assetService.getAsset(authToken, action.assetId).pipe(
         map((asset: any) => {
           return AssetActions.setFullAsset({ asset });
         })
@@ -210,9 +211,9 @@ export class AssetEffects {
     ofType(AssetActions.getAssetTrack),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.getAssetTrack(authToken, action.payload.movementGuid).pipe(
+      return this.assetService.getAssetTrack(authToken, action.movementGuid).pipe(
         map((assetTrack: any) => {
-          return ({ tracks: assetTrack, assetId: action.payload.assetId, visible: true });
+          return ({ tracks: assetTrack, assetId: action.assetId, visible: true });
         })
       );
     })
@@ -223,9 +224,9 @@ export class AssetEffects {
     ofType(AssetActions.getAssetTrackFromTime),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.getAssetTrackFromTime(authToken, action.payload.assetId, action.payload.datetime).pipe(
+      return this.assetService.getAssetTrackFromTime(authToken, action.assetId, action.datetime).pipe(
         map((assetTrack: any) => {
-          return AssetActions.setAssetTrack({ tracks: assetTrack.reverse(), assetId: action.payload.assetId, visible: true });
+          return AssetActions.setAssetTrack({ tracks: assetTrack.reverse(), assetId: action.assetId, visible: true });
         })
       );
     })

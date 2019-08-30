@@ -390,7 +390,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['selectAsset']({ assetId: 'asset-id' });
+      component['selectAsset']('asset-id');
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(

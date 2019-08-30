@@ -62,10 +62,14 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   mapDispatchToProps() {
     this.save = (event) => {
-      this.mapSettings.startZoomLevel = parseFloat(this.mapSettings.startZoomLevel);
-      this.mapSettings.startPosition.latitude = parseFloat(this.mapSettings.startPosition.latitude);
-      this.mapSettings.startPosition.longitude = parseFloat(this.mapSettings.startPosition.longitude);
-      this.store.dispatch(new MapSettingsActions.SaveSettings(this.mapSettings));
+      this.store.dispatch(new MapSettingsActions.SaveSettings({
+        ...this.mapSettings,
+        startZoomLevel: parseFloat(this.mapSettings.startZoomLevel),
+        startPosition: {
+          latitude: parseFloat(this.mapSettings.startPosition.latitude),
+          longitude: parseFloat(this.mapSettings.startPosition.longitude)
+        }
+      }));
     };
   }
 

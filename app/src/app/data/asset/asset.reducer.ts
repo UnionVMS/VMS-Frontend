@@ -51,10 +51,13 @@ export const assetReducer = createReducer(initialState,
     }
   })),
   on(AssetActions.assetsMoved, (state, { assetMovements }) => {
-    const newState = { ...state, assetMovements: {
-      ...state.assetMovements,
-      ...assetMovements
-    } };
+    const newState = {
+      ...state,
+      assetMovements: {
+        ...state.assetMovements,
+        ...assetMovements
+      }
+    };
     if(Object.keys(newState.assetTracks).length > 0) {
       Object.keys(assetMovements).map((assetId) => {
         if(typeof newState.assetTracks[assetId] !== 'undefined') {

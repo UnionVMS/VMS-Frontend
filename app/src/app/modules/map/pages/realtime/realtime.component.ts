@@ -147,7 +147,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.setTracksMinuteCap = (minutes) =>
       this.store.dispatch(new MapSettingsActions.SetTracksMinuteCap(minutes));
     this.selectAsset = (assetId) =>
-      this.store.dispatch(AssetActions.selectAsset(assetId));
+      this.store.dispatch(AssetActions.selectAsset({ assetId }));
     this.getAssetTrack = (assetId, movementGuid) =>
       this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementGuid }));
     this.getAssetTrackFromTime = (assetId, datetime) =>
