@@ -19,7 +19,7 @@ export class AuthEffects {
   @Effect()
   login$ = this.actions$.pipe(
     ofType(AuthActions.login),
-    mergeMap((action: Action) => {
+    mergeMap((action: { username: string, password: string, type: string }) => {
       return this.authService.login(action.username, action.password).pipe(
         map((auth: any) => {
           return AuthActions.loginSuccess({ jwtToken: auth.jwtoken });
@@ -32,8 +32,8 @@ export class AuthEffects {
   @Effect()
   getUserContext$ = this.actions$.pipe(
     ofType(AuthActions.loginSuccess),
-    mergeMap((action: Action) => {
-      return this.authService.getUserContext(action.jwtToken.raw).pipe(
+    mergeMap((action: any) => {
+      return this.authService.getUserContext(action.payload.jwtToken.raw).pipe(
         map((context: any) => {
           const mapSettings = context.contextSet.contexts[0].preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSMapSettings'
