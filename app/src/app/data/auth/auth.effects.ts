@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, mergeMap, flatMap, catchError } from 'rxjs/operators';
 
-import { ActionTypes, LoginSuccess, LoginFailed } from './auth.actions';
+import * as AuthActions from './auth.actions';
 import { AuthService } from './auth.service';
 import * as MapSettings from '../map-settings/map-settings.actions';
 import { MapSavedFiltersActions } from '../map-saved-filters/';
@@ -18,21 +18,21 @@ export class AuthEffects {
 
   @Effect()
   login$ = this.actions$.pipe(
-    ofType(ActionTypes.Login),
-    mergeMap((action: Action) => {
-      return this.authService.login(action.payload.username, action.payload.password).pipe(
+    ofType(AuthActions.login),
+    mergeMap((action: { username: string, password: string, type: string }) => {
+      return this.authService.login(action.username, action.password).pipe(
         map((auth: any) => {
-          return new LoginSuccess(auth.jwtoken);
+          return AuthActions.loginSuccess({ jwtToken: auth.jwtoken });
         }),
-        catchError((err) => of(new LoginFailed({ error: err })))
+        catchError((err) => of(AuthActions.loginFailed({ error: err })))
       );
     })
   );
 
   @Effect()
   getUserContext$ = this.actions$.pipe(
-    ofType(ActionTypes.LoginSuccess),
-    mergeMap((action: Action) => {
+    ofType(AuthActions.loginSuccess),
+    mergeMap((action: any) => {
       return this.authService.getUserContext(action.payload.jwtToken.raw).pipe(
         map((context: any) => {
           const mapSettings = context.contextSet.contexts[0].preferences.preferences.find(
@@ -51,7 +51,7 @@ export class AuthEffects {
         //@ts-ignore
         // tslint:disable-next-line:no-shadowed-variable
         flatMap( (action, index): object => action ),
-        catchError((err) => of(new LoginFailed({ error: err })))
+        catchError((err) => of(AuthActions.loginFailed({ error: err })))
       );
     })
   );

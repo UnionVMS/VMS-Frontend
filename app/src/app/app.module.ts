@@ -3,9 +3,8 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
-
 import { StoreModule } from '@ngrx/store';
+import { RouterState } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
@@ -50,8 +49,18 @@ import { TestComponent } from './test/test.component';
 // Event tough it has a logOnly parameter it slows down the webpage conciderably when running the realtime map
 const imports = [
   BrowserModule,
-  StoreModule.forRoot(reducers, { metaReducers }),
-  StoreRouterConnectingModule.forRoot(),
+  StoreModule.forRoot(reducers, {
+    metaReducers,
+    runtimeChecks: {
+      strictStateImmutability: true,
+      strictActionImmutability: true,
+      strictStateSerializability: true,
+      strictActionSerializability: true,
+    }
+  }),
+  StoreRouterConnectingModule.forRoot({
+    routerState: RouterState.Minimal,
+  }),
   AppRoutingModule,
   HttpClientModule,
   EffectsModule.forRoot([
@@ -62,7 +71,6 @@ const imports = [
     MapLayersEffects
   ]),
   BrowserAnimationsModule,
-  MDBBootstrapModule.forRoot(),
   CoreModule,
   MapModule,
   AssetModule,

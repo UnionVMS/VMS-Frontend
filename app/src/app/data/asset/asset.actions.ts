@@ -1,198 +1,146 @@
-import { Action } from '@ngrx/store';
-import { AssetMovement, AssetEssentialProperties, AssetGroup } from './asset.interfaces';
+import { Action, createAction, props } from '@ngrx/store';
+import * as AssetInterfaces from './asset.interfaces';
 
+export const addForecast = createAction(
+  '[Asset] Add forecast',
+  props<{ assetId: string }>()
+);
 
-export enum ActionTypes {
-  AddForecast = '[Asset] Add forecast',
-  AddPositionForInspection = '[Asset] Add position for inspection',
-  AddAssets = '[Asset] Add assets',
-  AssetMoved = '[Asset] Moved',
-  AssetsMoved = '[Asset] Multiple moves',
-  CheckForAssetEssentials = '[Asset] Check for essentials',
-  ClearAssetGroup = '[Asset] Clear assetgroup',
-  ClearForecasts = '[Asset] Clear forecasts',
-  ClearTracks = '[Asset] Clear tracks',
-  DeselectAsset = '[Asset] Deselect',
-  FailedToSubscribeToMovements = '[Asset] Failed to subscribe to movements',
-  GetAssetGroups = '[Asset] Get groups',
-  GetAssetTrack = '[Asset] Get asset track',
-  GetAssetTrackFromTime = '[Asset] Get asset track from time',
-  RemoveForecast = '[Asset] Remove forecast',
-  RemovePositionForInspection = '[Asset] Remove position for inspection',
-  SubscribeToMovements = '[Asset] Subscribe to movements',
-  SelectAsset = '[Asset] Select asset',
-  SetAssetGroup = '[Asset] Set assetgroup',
-  SetFullAsset = '[Asset] Set full asset',
-  SetAssetGroups = '[Asset] Set groups',
-  SetAssetTrack = '[Asset] Set asset track',
-  UnsubscribeToMovements = '[Asset] Unsubscribe to movements',
-  UntrackAsset = '[Asset] Untrack asset.',
-  TrimTracksThatPassedTimeCap = '[Asset] Trim tracks that passed time cap',
-  SetAutocompleteQuery = '[Asset] Set autocomplete query',
-  SetFilterQuery = '[Asset] Set Filter Query',
-  SetEssentialProperties = '[Asset] Set essential properties',
-  SearchAssets = '[Asset] search',
+export const addPositionForInspection = createAction(
+  '[Asset] Add position for inspection',
+  props<{ positionForInspection: AssetInterfaces.Movement }>()
+);
 
+export const assetMoved = createAction(
+  '[Asset] Moved',
+  props<{ assetMovement: AssetInterfaces.AssetMovement }>()
+);
 
-  GetAssetList = '[Asset] Get list',
-  SetAssetList = '[Asset] Set list'
-}
+export const assetsMoved = createAction(
+  '[Asset] Multiple moves',
+  props<{ assetMovements: { [assetId: string]: AssetInterfaces.AssetMovement } }>()
+);
 
-export class ClearAssetGroup implements Action {
-  readonly type = ActionTypes.ClearAssetGroup;
-  constructor(public payload: AssetGroup) {}
-}
+export const checkForAssetEssentials = createAction(
+  '[Asset] Check for essentials',
+  props<{ assetMovements: Array<AssetInterfaces.AssetMovement> }>()
+);
 
-export class SetAssetGroup implements Action {
-  readonly type = ActionTypes.SetAssetGroup;
-  constructor(public payload: AssetGroup) {}
-}
+export const clearAssetGroup = createAction(
+  '[Asset] Clear assetgroup',
+  props<{ assetGroup: AssetInterfaces.AssetGroup }>()
+);
 
-export class SearchAssets implements Action {
-  readonly type = ActionTypes.SearchAssets;
-  constructor(public payload: any) {}
-}
+export const clearForecasts = createAction(
+  '[Asset] Clear forecasts'
+);
 
-export class SetAutocompleteQuery implements Action {
-  readonly type = ActionTypes.SetAutocompleteQuery;
-  constructor(public payload: any) {}
-}
+export const clearTracks = createAction(
+  '[Asset] Clear tracks'
+);
 
-export class SetFilterQuery implements Action {
-  readonly type = ActionTypes.SetFilterQuery;
-  constructor(public payload: any) {}
-}
+export const deselectAsset = createAction(
+  '[Asset] Deselect',
+  props<{ assetId: string }>()
+);
 
-export class GetAssetGroups implements Action {
-  readonly type = ActionTypes.GetAssetGroups;
-}
+export const failedToSubscribeToMovements = createAction(
+  '[Asset] Failed to subscribe to movements'
+);
 
-interface GetAssetListPayload {
-  pageSize: number;
-}
-export class GetAssetList implements Action {
-  readonly type = ActionTypes.GetAssetList;
+export const getAssetGroups = createAction(
+  '[Asset] Get groups'
+);
 
-  constructor(public payload: GetAssetListPayload) {}
-}
+export const getAssetList = createAction(
+  '[Asset] Get list',
+  props<{ pageSize: number }>()
+);
 
-export class SubscribeToMovements implements Action {
-  readonly type = ActionTypes.SubscribeToMovements;
-}
+export const getAssetTrack = createAction(
+  '[Asset] Get asset track',
+  props<{ assetId: string, movementGuid: string }>()
+);
 
-export class UnsubscribeToMovements implements Action {
-  readonly type = ActionTypes.UnsubscribeToMovements;
-}
+export const getAssetTrackFromTime = createAction(
+  '[Asset] Get asset track from time',
+  props<{ assetId: string, datetime: any }>()
+);
 
-export class AssetMoved implements Action {
-  readonly type = ActionTypes.AssetMoved;
+export const removeForecast = createAction(
+  '[Asset] Remove forecast',
+  props<{ assetId: string }>()
+);
 
-  constructor(public payload: AssetMovement) {}
-}
+export const removePositionForInspection = createAction(
+  '[Asset] Remove position for inspection',
+  props<{ inspectionId: string }>()
+);
 
-export class CheckForAssetEssentials implements Action {
-  readonly type = ActionTypes.CheckForAssetEssentials;
+export const searchAssets = createAction(
+  '[Asset] search',
+  props<{ requestParams: any }>()
+);
 
-  constructor(public payload: Array<AssetMovement> ) {}
-}
+export const selectAsset = createAction(
+  '[Asset] Select asset',
+  props<{ assetId: string }>()
+);
 
-export class AssetsMoved implements Action {
-  readonly type = ActionTypes.AssetsMoved;
+export const setAssetGroup = createAction(
+  '[Asset] Set assetgroup',
+  props<{ assetGroup: AssetInterfaces.AssetGroup }>()
+);
 
-  constructor(public payload: { [assetId: string]: AssetMovement }) {}
-}
+export const setAssetGroups = createAction(
+  '[Asset] Set groups',
+  props<{ assetGroups: Array<AssetInterfaces.AssetGroup> }>()
+);
 
-export class SetEssentialProperties implements Action {
-  readonly type = ActionTypes.SetEssentialProperties;
-  constructor(public payload: { [uid: string]: AssetEssentialProperties } ) {}
-}
+export const setAssetList = createAction(
+  '[Asset] Set list',
+  props<{ searchParams: any, assets: { [uid: string]: AssetInterfaces.Asset }, currentPage: number, totalNumberOfPages: number  }>()
+);
 
-export class FailedToSubscribeToMovements implements Action {
-  readonly type = ActionTypes.SubscribeToMovements;
-}
+export const setAssetTrack = createAction(
+  '[Asset] Set asset track',
+  props<{  tracks: any, assetId: string, visible: boolean  }>()
+);
 
-export class SelectAsset implements Action {
-  readonly type = ActionTypes.SelectAsset;
-  constructor(public payload: string) {}
-}
+export const setAutocompleteQuery = createAction(
+  '[Asset] Set autocomplete query',
+  props<{ searchQuery: string }>()
+);
 
-export class DeselectAsset implements Action {
-  readonly type = ActionTypes.DeselectAsset;
-  constructor(public payload: string) {}
-}
+export const setEssentialProperties = createAction(
+  '[Asset] Set essential properties',
+  props<{ assetEssentialProperties: { [uid: string]: AssetInterfaces.AssetEssentialProperties } }>()
+);
 
-export class AddAssets implements Action {
-  readonly type = ActionTypes.AddAssets;
-  constructor(public payload: any) {}
-}
+export const setFilterQuery = createAction(
+  '[Asset] Set Filter Query',
+  props<{ filterQuery: Array<AssetInterfaces.AssetFilterQuery> }>()
+);
 
-export class SetAssetGroups implements Action {
-  readonly type = ActionTypes.SetAssetGroups;
-  constructor(public payload: any) {}
-}
+export const setFullAsset = createAction(
+  '[Asset] Set full asset',
+  props<{ asset: AssetInterfaces.Asset }>()
+);
 
-export class SetAssetList implements Action {
-  readonly type = ActionTypes.SetAssetList;
-  constructor(public payload: any) {}
-}
+export const subscribeToMovements = createAction(
+  '[Asset] Subscribe to movements'
+);
 
-export class SetFullAsset implements Action {
-  readonly type = ActionTypes.SetFullAsset;
-  constructor(public payload: any) {}
-}
+export const trimTracksThatPassedTimeCap = createAction(
+  '[Asset] Trim tracks that passed time cap',
+  props<{ unixtime: number }>()
+);
 
-export class GetAssetTrack implements Action {
-  readonly type = ActionTypes.GetAssetTrack;
-  constructor(public payload: any) {}
-}
+export const unsubscribeToMovements = createAction(
+  '[Asset] Unsubscribe to movements'
+);
 
-export class GetAssetTrackFromTime implements Action {
-  readonly type = ActionTypes.GetAssetTrackFromTime;
-  constructor(public payload: any) {}
-}
-
-export class SetAssetTrack implements Action {
-  readonly type = ActionTypes.SetAssetTrack;
-  constructor(public payload: any) {}
-}
-
-export class UntrackAsset implements Action {
-  readonly type = ActionTypes.UntrackAsset;
-  constructor(public payload: any) {}
-}
-
-export class AddPositionForInspection implements Action {
-  readonly type = ActionTypes.AddPositionForInspection;
-  constructor(public payload: any) {}
-}
-
-export class RemovePositionForInspection implements Action {
-  readonly type = ActionTypes.RemovePositionForInspection;
-  constructor(public payload: any) {}
-}
-
-export class AddForecast implements Action {
-  readonly type = ActionTypes.AddForecast;
-  constructor(public payload: any) {}
-}
-
-export class RemoveForecast implements Action {
-  readonly type = ActionTypes.RemoveForecast;
-  constructor(public payload: any) {}
-}
-
-export class ClearForecasts implements Action {
-  readonly type = ActionTypes.ClearForecasts;
-}
-
-export class ClearTracks implements Action {
-  readonly type = ActionTypes.ClearTracks;
-}
-
-interface TrimTracksThatPassedTimeCapPayload {
-  unixtime: number;
-}
-export class TrimTracksThatPassedTimeCap implements Action {
-  readonly type = ActionTypes.TrimTracksThatPassedTimeCap;
-  constructor(public payload: TrimTracksThatPassedTimeCapPayload) {}
-}
+export const untrackAsset = createAction(
+  '[Asset] Untrack asset',
+  props<{ assetId: string }>()
+);
