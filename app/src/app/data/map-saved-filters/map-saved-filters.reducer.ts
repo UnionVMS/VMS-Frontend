@@ -1,5 +1,5 @@
-import { Action } from '@ngrx/store';
-import { ActionTypes } from './map-saved-filters.actions';
+import { on, createReducer } from '@ngrx/store';
+import * as MapSavedFiltersActions from './map-saved-filters.actions';
 import * as Interfaces from './map-saved-filters.interfaces';
 
 export const initialState: Interfaces.State = {
@@ -7,34 +7,36 @@ export const initialState: Interfaces.State = {
   savedFilters: {}
 };
 
-export function mapSavedFiltersReducer(state = initialState, { type, payload }) {
-  switch (type) {
-    case ActionTypes.ActivateFilter:
-      if(state.activeFilters.includes(payload)) {
-        return state;
-      }
-      return { ...state, activeFilters: [
+export const mapSavedFiltersReducer = createReducer(initialState,
+  on(MapSavedFiltersActions.activateFilter, (state, { filterName }) => {
+    if(state.activeFilters.includes(filterName)) {
+      return state;
+    }
+    return {
+      ...state,
+      activeFilters: [
         ...state.activeFilters,
-        payload
-      ]};
-    case ActionTypes.DeactivateFilter:
-      if(state.activeFilters.includes(payload)) {
-        const newActiveFilters = [ ...state.activeFilters ];
-        newActiveFilters.splice(state.activeFilters.indexOf(payload), 1);
-        return { ...state, activeFilters: newActiveFilters };
-      }
-      return state;
-    case ActionTypes.AddSavedFilter:
-      return { ...state, savedFilters: {
-        ...state.savedFilters,
-        [payload.name]: payload.filter
-      }};
-    case ActionTypes.SetSavedFitlers:
-      return {
-        ...state,
-        savedFilters: payload
-      };
-    default:
-      return state;
-  }
-}
+        filterName
+      ]
+    };
+  }),
+  on(MapSavedFiltersActions.deactivateFilter, (state, { filterName }) => {
+    if(state.activeFilters.includes(filterName)) {
+      const newActiveFilters = [ ...state.activeFilters ];
+      newActiveFilters.splice(state.activeFilters.indexOf(filterName), 1);
+      return { ...state, activeFilters: newActiveFilters };
+    }
+    return state;
+  }),
+  on(MapSavedFiltersActions.addSavedFilter, (state, { filter }) => ({
+    ...state,
+    savedFilters: {
+      ...state.savedFilters,
+      [filter.name]: filter.filter
+    }
+  })),
+  on(MapSavedFiltersActions.setSavedFitlers, (state, { filters }) => ({
+    ...state,
+    savedFilters: filters
+  })),
+);

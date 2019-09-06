@@ -20,7 +20,7 @@ export class MapSavedFiltersEffects {
 
   @Effect()
   saveMapFiltersObserver$ = this.actions$.pipe(
-    ofType(MapSavedFiltersActions.ActionTypes.AddSavedFilter),
+    ofType(MapSavedFiltersActions.addSavedFilter),
     withLatestFrom(
       this.store$.select(AuthSelectors.getAuthToken),
       this.store$.select(MapSavedFiltersSelectors.getSavedFilters)

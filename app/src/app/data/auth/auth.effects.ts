@@ -44,7 +44,7 @@ export class AuthEffects {
 
           return [
             new MapSettings.ReplaceSettings(JSON.parse(mapSettings.optionValue)),
-            new MapSavedFiltersActions.SetSavedFitlers(JSON.parse(mapFilters.optionValue)),
+            MapSavedFiltersActions.setSavedFitlers(JSON.parse(mapFilters.optionValue)),
           ];
         }),
         // tslint:disable-next-line:comment-format

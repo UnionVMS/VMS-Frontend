@@ -2,7 +2,7 @@ import { AssetFilterQuery } from '../asset/asset.interfaces';
 
 export interface SavedFilter {
   name: string;
-  filter: AssetFilterQuery;
+  filter: Array<AssetFilterQuery>;
 }
 
 export interface State {

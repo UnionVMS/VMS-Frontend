@@ -122,13 +122,13 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   mapDispatchToProps() {
     this.addSavedFilter = (filter: MapSavedFiltersInterfaces.SavedFilter) =>
-      this.store.dispatch(new MapSavedFiltersActions.AddSavedFilter(filter));
+      this.store.dispatch(MapSavedFiltersActions.addSavedFilter({ filter }));
     this.activateSavedFilter = (filterName: string) =>
-      this.store.dispatch(new MapSavedFiltersActions.ActivateFilter(filterName));
+      this.store.dispatch(MapSavedFiltersActions.activateFilter({ filterName }));
     this.clearAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
       this.store.dispatch(AssetActions.clearAssetGroup({assetGroup}));
     this.deactivateSavedFilter = (filterName: string) =>
-      this.store.dispatch(new MapSavedFiltersActions.DeactivateFilter(filterName));
+      this.store.dispatch(MapSavedFiltersActions.deactivateFilter({ filterName }));
     this.deselectAsset = (assetId) =>
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>

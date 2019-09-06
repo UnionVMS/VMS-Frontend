@@ -1,31 +1,23 @@
-import { Action } from '@ngrx/store';
-import { State, SavedFilter } from './map-saved-filters.interfaces';
+import { Action, createAction, props } from '@ngrx/store';
+import { SavedFilter } from './map-saved-filters.interfaces';
+import { AssetFilterQuery } from '@data/asset/asset.interfaces';
 
+export const activateFilter = createAction(
+  '[MapSavedFilters] Activate',
+  props<{ filterName: string }>()
+);
 
-export enum ActionTypes {
-  AddSavedFilter = '[MapSavedFilters] Add',
-  SetSavedFitlers = '[MapSavedFilters] Set',
-  ActivateFilter = '[MapSavedFilters] Activate',
-  DeactivateFilter = '[MapSavedFilters] Deactivate',
-}
+export const deactivateFilter = createAction(
+  '[MapSavedFilters] Deactivate',
+  props<{ filterName: string }>()
+);
 
-export class ActivateFilter implements Action {
-  readonly type = ActionTypes.ActivateFilter;
-  constructor(public payload: string) {}
-}
+export const addSavedFilter = createAction(
+  '[MapSavedFilters] Add',
+  props<{ filter: SavedFilter }>()
+);
 
-export class DeactivateFilter implements Action {
-  readonly type = ActionTypes.DeactivateFilter;
-  constructor(public payload: string) {}
-}
-
-
-export class AddSavedFilter implements Action {
-  readonly type = ActionTypes.AddSavedFilter;
-  constructor(public payload: SavedFilter) {}
-}
-
-export class SetSavedFitlers implements Action {
-  readonly type = ActionTypes.SetSavedFitlers;
-  constructor(public payload: State) {}
-}
+export const setSavedFitlers = createAction(
+  '[MapSavedFilters] Set',
+  props<{ filters: { [filterName: string]: Array<AssetFilterQuery> } }>()
+);
