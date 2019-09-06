@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
 import { Store } from '@ngrx/store';
-import { TestingModule } from '@testing/Utils';
+import { TestingModule } from '@src/testing/Utils';
 
 import Map from 'ol/Map';
 
@@ -302,52 +302,45 @@ describe('RealtimeComponent', () => {
       return { component, dispatchSpy };
     }
 
-    it('should dispatch MapSettingsActions.SaveViewport when saveViewport is called.', () => {
+    it('should dispatch MapSettingsActions.saveViewport when saveViewport is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
+      const viewport = { zoom: 10, center: [1.213, 12.321] };
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component.saveViewport('key', { viewport: 'object-stuff' });
+      component.saveViewport(1, viewport);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        new MapSettingsActions.SaveViewport({key: 'key', viewport: { viewport: 'object-stuff' }})
-      );
+      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.saveViewport({key: 1, viewport}));
     });
 
-    it('should dispatch MapSettingsActions.SetVisibilityForAssetNames when setVisibilityForAssetNames is called.', () => {
+    it('should dispatch MapSettingsActions.setVisibilityForAssetNames when setVisibilityForAssetNames is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
       component.setVisibilityForAssetNames(true);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        new MapSettingsActions.SetVisibilityForAssetNames(true)
-      );
+      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.setVisibilityForAssetNames({ visibility: true }));
     });
 
-    it('should dispatch MapSettingsActions.SetVisibilityForAssetSpeeds when setVisibilityForAssetSpeeds is called.', () => {
+    it('should dispatch MapSettingsActions.setVisibilityForAssetSpeeds when setVisibilityForAssetSpeeds is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
       component.setVisibilityForAssetSpeeds(true);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        new MapSettingsActions.SetVisibilityForAssetSpeeds(true)
-      );
+      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.setVisibilityForAssetSpeeds({ visibility: true }));
     });
 
-    it('should dispatch MapSettingsActions.SetVisibilityForTracks when setVisibilityForTracks is called.', () => {
+    it('should dispatch MapSettingsActions.setVisibilityForTracks when setVisibilityForTracks is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
       component.setVisibilityForTracks(true);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        new MapSettingsActions.SetVisibilityForTracks(true)
-      );
+      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.setVisibilityForTracks({ visibility: true }));
     });
 
     it('should dispatch MapSettingsActions.SetVisibilityForFlags when setVisibilityForFlags is called.', () => {
@@ -357,21 +350,17 @@ describe('RealtimeComponent', () => {
       component.setVisibilityForFlags(true);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        new MapSettingsActions.SetVisibilityForFlags(true)
-      );
+      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.setVisibilityForFlags({ visibility: true }));
     });
 
-    it('should dispatch MapSettingsActions.SetVisibilityForForecast when setVisibilityForForecast is called.', () => {
+    it('should dispatch MapSettingsActions.setVisibilityForForecast when setVisibilityForForecast is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
       component.setVisibilityForForecast(true);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        new MapSettingsActions.SetVisibilityForForecast(true)
-      );
+      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.setVisibilityForForecast({ visibility: true }));
     });
 
     it('should dispatch MapSettingsActions.SetTracksMinuteCap when setTracksMinuteCap is called.', () => {
@@ -381,9 +370,7 @@ describe('RealtimeComponent', () => {
       component.setTracksMinuteCap(10);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        new MapSettingsActions.SetTracksMinuteCap(10)
-      );
+      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.setTracksMinuteCap({ minutes: 10 }));
     });
 
     it('should dispatch AssetActions.selectAsset when selectAsset is called.', () => {
@@ -514,9 +501,7 @@ describe('RealtimeComponent', () => {
       component.setForecastInterval(11);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        new MapSettingsActions.SetForecastInterval(11)
-      );
+      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.setForecastInterval({ interval: 11 }));
     });
 
   });

@@ -2,7 +2,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { TestingModule } from '@testing/Utils';
+import { TestingModule } from '@src/testing/Utils';
 
 import { AuthGuard } from './auth.guard';
 

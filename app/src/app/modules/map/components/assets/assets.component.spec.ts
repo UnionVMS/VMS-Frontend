@@ -2,7 +2,7 @@ import { async, TestBed } from '@angular/core/testing';
 
 import { deg2rad } from '@app/helpers';
 import { fromLonLat } from 'ol/proj';
-import { TestingModule } from '@testing/Utils';
+import { TestingModule } from '@src/testing/Utils';
 
 import { AssetsComponent } from './assets.component';
 import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWithEssentials.stub';

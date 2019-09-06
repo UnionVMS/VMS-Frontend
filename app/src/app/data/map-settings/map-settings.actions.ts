@@ -1,73 +1,57 @@
-import { Action } from '@ngrx/store';
-import { State } from './map-settings.interfaces';
+import { createAction, props } from '@ngrx/store';
+import { State, Viewport } from './map-settings.interfaces';
 
+export const setVisibilityForAssetNames = createAction(
+  '[MapSettings] Set visibility for asset names',
+  props<{ visibility: boolean }>()
+);
 
-export enum ActionTypes {
-  SetVisibilityForAssetNames = '[MapSettings] Set visiblity for asset names',
-  SetVisibilityForAssetSpeeds = '[MapSettings] Set visiblity for asset speeds',
-  SetVisibilityForFlags = '[MapSettings] Set visiblity for flags',
-  SetVisibilityForTracks = '[MapSettings] Set visiblity for tracks',
-  SetVisibilityForForecast = '[MapSettings] Set visiblity for forecast',
-  SetTracksMinuteCap = '[MapSettings] Set tracks minute cap',
-  SetForecastInterval = '[MapSettings] Set forecast interval',
-  SetCurrentControlPanel = '[MapSettings] Set current control panel',
-  SaveViewport = '[MapSettings] Save viewport',
-  ReplaceSettings = '[MapSettings] Replace settings',
-  SaveSettings = '[MapSettings] API - Save settings',
-}
+export const setVisibilityForAssetSpeeds = createAction(
+  '[MapSettings] Set visibility for asset speeds',
+  props<{ visibility: boolean }>()
+);
 
-export class SetVisibilityForAssetNames implements Action {
-  readonly type = ActionTypes.SetVisibilityForAssetNames;
-  constructor(public payload: boolean) {}
-}
+export const setVisibilityForFlags = createAction(
+  '[MapSettings] Set visibility for flags',
+  props<{ visibility: boolean }>()
+);
 
-export class SetVisibilityForAssetSpeeds implements Action {
-  readonly type = ActionTypes.SetVisibilityForAssetSpeeds;
-  constructor(public payload: boolean) {}
-}
+export const setVisibilityForTracks = createAction(
+  '[MapSettings] Set visibility for tracks',
+  props<{ visibility: boolean }>()
+);
 
-export class SetVisibilityForFlags implements Action {
-  readonly type = ActionTypes.SetVisibilityForFlags;
-  constructor(public payload: boolean) {}
-}
+export const setVisibilityForForecast = createAction(
+  '[MapSettings] Set visibility for forecast',
+  props<{ visibility: boolean }>()
+);
 
-export class SetVisibilityForTracks implements Action {
-  readonly type = ActionTypes.SetVisibilityForTracks;
-  constructor(public payload: boolean) {}
-}
+export const setTracksMinuteCap = createAction(
+  '[MapSettings] Set tracks minute cap',
+  props<{ minutes: number }>()
+);
 
-export class SetVisibilityForForecast implements Action {
-  readonly type = ActionTypes.SetVisibilityForForecast;
-  constructor(public payload: boolean) {}
-}
+export const setForecastInterval = createAction(
+  '[MapSettings] Set forecast interval',
+  props<{ interval: number }>()
+);
 
-export class SetTracksMinuteCap implements Action {
-  readonly type = ActionTypes.SetTracksMinuteCap;
-  constructor(public payload: number) {}
-}
+export const setCurrentControlPanel = createAction(
+  '[MapSettings] Set current control panel',
+  props<{ controlPanelName: string|null }>()
+);
 
-export class SetForecastInterval implements Action {
-  readonly type = ActionTypes.SetForecastInterval;
-  constructor(public payload: number) {}
-}
+export const saveViewport = createAction(
+  '[MapSettings] Save viewport',
+  props<{ key: number, viewport: Viewport }>()
+);
 
-export class SetCurrentControlPanel implements Action {
-  readonly type = ActionTypes.SetCurrentControlPanel;
-  constructor(public payload: string|null) {}
-}
+export const replaceSettings = createAction(
+  '[MapSettings] Replace settings',
+  props<{ settings: State }>()
+);
 
-export class SaveViewport implements Action {
-  readonly type = ActionTypes.SaveViewport;
-  constructor(public payload: any) {}
-}
-
-export class ReplaceSettings implements Action {
-  readonly type = ActionTypes.ReplaceSettings;
-  constructor(public payload: State) {
-  }
-}
-
-export class SaveSettings implements Action {
-  readonly type = ActionTypes.SaveSettings;
-  constructor(public payload: State) {}
-}
+export const saveSettings = createAction(
+  '[MapSettings] API - Save settings',
+  props<{ settings: State }>()
+);

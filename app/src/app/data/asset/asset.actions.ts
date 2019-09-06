@@ -64,7 +64,7 @@ export const getAssetTrack = createAction(
 
 export const getAssetTrackFromTime = createAction(
   '[Asset] Get asset track from time',
-  props<{ assetId: string, datetime: any }>()
+  props<{ assetId: string, datetime: Date }>()
 );
 
 export const removeForecast = createAction(

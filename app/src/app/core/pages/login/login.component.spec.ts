@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
 import { Store } from '@ngrx/store';
-import { TestingModule } from '@testing/Utils';
+import { TestingModule } from '@src/testing/Utils';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { LoginComponent } from './login.component';

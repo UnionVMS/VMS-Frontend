@@ -6,9 +6,6 @@
       "jasmine",
       "node"
     ],
-    "paths": {
-      "@testing/*": ["src/testing/*"],
-    },
     "resolveJsonModule": true
   },
   "files": [

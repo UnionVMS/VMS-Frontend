@@ -58,12 +58,12 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public setVisibilityForFlags: Function;
   public setTracksMinuteCap: Function;
   public searchAutocomplete: Function;
-  public filterAssets: Function;
   // tslint:enable:ban-types
   public addSavedFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
   public activateSavedFilter: (filterName: string) => void;
   public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public deactivateSavedFilter: (filterName: string) => void;
+  public filterAssets: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
   public removePositionForInspection: (inspectionId: string) => void;
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
 
@@ -87,7 +87,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private hoverSelection: Select;
 
   private getAssetTrack: (assetId: string, movementGuid: string) => void;
-  private getAssetTrackFromTime: (assetId: string, datetime: string) => void;
+  private getAssetTrackFromTime: (assetId: string, datetime: Date) => void;
   private removeForecast: (assetId: string) => void;
   public selectAsset: (assetId: string) => void;
   private untrackAsset: (assetId: string) => void;
@@ -133,23 +133,23 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
       this.store.dispatch(AssetActions.setAssetGroup({ assetGroup }));
-    this.saveViewport = (key, viewport) =>
-      this.store.dispatch(new MapSettingsActions.SaveViewport({key, viewport}));
+    this.saveViewport = (key: number, viewport: MapSettingsInterfaces.Viewport) =>
+      this.store.dispatch(MapSettingsActions.saveViewport({key, viewport}));
     this.setVisibilityForAssetNames = (visible: boolean) =>
-      this.store.dispatch(new MapSettingsActions.SetVisibilityForAssetNames(visible));
+      this.store.dispatch(MapSettingsActions.setVisibilityForAssetNames({ visibility: visible }));
     this.setVisibilityForAssetSpeeds = (visible: boolean) =>
-      this.store.dispatch(new MapSettingsActions.SetVisibilityForAssetSpeeds(visible));
+      this.store.dispatch(MapSettingsActions.setVisibilityForAssetSpeeds({ visibility: visible }));
     this.setVisibilityForTracks = (visible: boolean) =>
-      this.store.dispatch(new MapSettingsActions.SetVisibilityForTracks(visible));
+      this.store.dispatch(MapSettingsActions.setVisibilityForTracks({ visibility: visible }));
     this.setVisibilityForFlags = (visible: boolean) =>
-      this.store.dispatch(new MapSettingsActions.SetVisibilityForFlags(visible));
-    this.setVisibilityForForecast = (forecasts) =>
-      this.store.dispatch(new MapSettingsActions.SetVisibilityForForecast(forecasts));
-    this.setTracksMinuteCap = (minutes) =>
-      this.store.dispatch(new MapSettingsActions.SetTracksMinuteCap(minutes));
-    this.selectAsset = (assetId) =>
+      this.store.dispatch(MapSettingsActions.setVisibilityForFlags({ visibility: visible }));
+    this.setVisibilityForForecast = (forecasts: boolean) =>
+      this.store.dispatch(MapSettingsActions.setVisibilityForForecast({ visibility: forecasts }));
+    this.setTracksMinuteCap = (minutes: number) =>
+      this.store.dispatch(MapSettingsActions.setTracksMinuteCap({ minutes }));
+    this.selectAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
-    this.getAssetTrack = (assetId, movementGuid) =>
+    this.getAssetTrack = (assetId: string, movementGuid: string) =>
       this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementGuid }));
     this.getAssetTrackFromTime = (assetId, datetime) =>
       this.store.dispatch(AssetActions.getAssetTrackFromTime({ assetId, datetime }));
@@ -167,10 +167,10 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.clearForecasts());
     this.clearTracks = () =>
       this.store.dispatch(AssetActions.clearTracks());
-    this.setForecastInterval = (forecastTimeLength) =>
-      this.store.dispatch(new MapSettingsActions.SetForecastInterval(forecastTimeLength));
+    this.setForecastInterval = (forecastTimeLength: number) =>
+      this.store.dispatch(MapSettingsActions.setForecastInterval({ interval: forecastTimeLength }));
     this.setCurrentControlPanel = (controlPanelName) =>
-      this.store.dispatch(new MapSettingsActions.SetCurrentControlPanel(controlPanelName));
+      this.store.dispatch(MapSettingsActions.setCurrentControlPanel({ controlPanelName }));
     this.searchAutocomplete = (searchQuery: string) =>
       this.store.dispatch(AssetActions.setAutocompleteQuery({searchQuery}));
     this.filterAssets = (filterQuery) => {

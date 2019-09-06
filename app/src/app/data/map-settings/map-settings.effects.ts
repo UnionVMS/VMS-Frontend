@@ -19,13 +19,13 @@ export class MapSettingsEffects {
 
   @Effect()
   saveMapSettingsObserver$ = this.actions$.pipe(
-    ofType(MapSettingsActions.ActionTypes.SaveSettings),
+    ofType(MapSettingsActions.saveSettings),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.mapSettingsService.saveMapSettings(authToken, action.payload).pipe(
         // @ts-ignore
         mergeMap((response: any) => {
-          return this.store$.dispatch(new MapSettingsActions.ReplaceSettings(action.payload));
+          return this.store$.dispatch(MapSettingsActions.replaceSettings({ settings: action.payload }));
         }),
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );

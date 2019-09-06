@@ -1,6 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
 
-import { TestingModule } from '@testing/Utils';
+import { TestingModule } from '@src/testing/Utils';
 import { UIModule } from '@app/modules/ui/ui.module';
 
 import { formatDate } from '@app/helpers';

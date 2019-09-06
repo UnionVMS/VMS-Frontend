@@ -43,7 +43,7 @@ export class AuthEffects {
           );
 
           return [
-            new MapSettings.ReplaceSettings(JSON.parse(mapSettings.optionValue)),
+            MapSettings.replaceSettings(JSON.parse(mapSettings.optionValue)),
             MapSavedFiltersActions.setSavedFitlers(JSON.parse(mapFilters.optionValue)),
           ];
         }),

@@ -4,7 +4,7 @@ import { fromLonLat, toLonLat } from 'ol/proj';
 import Feature from 'ol/Feature';
 
 import { destinationPoint } from '@app/helpers';
-import { TestingModule } from '@testing/Utils';
+import { TestingModule } from '@src/testing/Utils';
 
 import { AssetForecastComponent } from './asset-forecast.component';
 import AssetMovementStub from '@data/asset/stubs/assetMovement.stub';

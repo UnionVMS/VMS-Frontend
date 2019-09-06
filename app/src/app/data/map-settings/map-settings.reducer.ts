@@ -1,5 +1,5 @@
-import { Action } from '@ngrx/store';
-import { ActionTypes } from './map-settings.actions';
+import { createReducer, on } from '@ngrx/store';
+import * as MapSettingsActions from './map-settings.actions';
 import * as Interfaces from './map-settings.interfaces';
 
 export const initialState: Interfaces.State = {
@@ -20,35 +20,47 @@ export const initialState: Interfaces.State = {
   currentControlPanel: null,
 };
 
-export function mapSettingsReducer(state = initialState, { type, payload }) {
-  switch (type) {
-    case ActionTypes.SetVisibilityForAssetNames:
-      return { ...state, namesVisible: payload };
-    case ActionTypes.SetVisibilityForAssetSpeeds:
-      return { ...state, speedsVisible: payload };
-    case ActionTypes.SetVisibilityForFlags:
-      return { ...state, flagsVisible: payload };
-    case ActionTypes.SetVisibilityForTracks:
-      return { ...state, tracksVisible: payload };
-    case ActionTypes.SetVisibilityForForecast:
-      return { ...state, forecastsVisible: payload };
-    case ActionTypes.SetTracksMinuteCap:
-      return { ...state, tracksMinuteCap: payload };
-    case ActionTypes.SetForecastInterval:
-      return { ...state, forecastInterval: payload };
-    case ActionTypes.SetCurrentControlPanel:
-      return { ...state, currentControlPanel: payload };
-    case ActionTypes.SaveViewport:
-      return { ...state, viewports: {
-        ...state.viewports,
-        [payload.key]: payload.viewport
-      }};
-    case ActionTypes.ReplaceSettings:
-      return {
-        ...state,
-        ...payload
-      };
-    default:
-      return state;
-  }
-}
+export const mapSettingsReducer = createReducer(initialState,
+  on(MapSettingsActions.setVisibilityForAssetNames, (state, { visibility }) => ({
+    ...state,
+    namesVisible: visibility
+  })),
+  on(MapSettingsActions.setVisibilityForAssetSpeeds, (state, { visibility }) => ({
+    ...state,
+    speedsVisible: visibility
+  })),
+  on(MapSettingsActions.setVisibilityForFlags, (state, { visibility }) => ({
+    ...state,
+    flagsVisible: visibility
+  })),
+  on(MapSettingsActions.setVisibilityForTracks, (state, { visibility }) => ({
+    ...state,
+    tracksVisible: visibility
+  })),
+  on(MapSettingsActions.setVisibilityForForecast, (state, { visibility }) => ({
+    ...state,
+    forecastsVisible: visibility
+  })),
+  on(MapSettingsActions.setTracksMinuteCap, (state, { minutes }) => ({
+    ...state,
+    tracksMinuteCap: minutes
+  })),
+  on(MapSettingsActions.setForecastInterval, (state, { interval }) => ({
+    ...state,
+    forecastInterval: interval
+  })),
+  on(MapSettingsActions.setCurrentControlPanel, (state, { controlPanelName }) => ({
+    ...state,
+    currentControlPanel: controlPanelName
+  })),
+  on(MapSettingsActions.saveViewport, (state, { key, viewport }) => ({
+    ...state,
+    viewports: {
+      ...state.viewports,
+      [key]: viewport
+    }
+  })),
+  on(MapSettingsActions.replaceSettings, (state, { settings }) => ({
+    ...settings
+  })),
+);
