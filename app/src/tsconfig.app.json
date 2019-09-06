@@ -3,12 +3,6 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "types": [],
-    "paths": {
-      "@data/*": ["src/app/data/*"],
-      "@app/*": ["src/app/*"],
-      "@modules/*": ["src/app/modules/*"],
-      "@src/*": ["src/*"],
-    },
     "resolveJsonModule": true
   },
   "exclude": [

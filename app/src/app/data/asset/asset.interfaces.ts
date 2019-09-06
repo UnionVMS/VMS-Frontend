@@ -20,6 +20,13 @@ export interface AssetList {
   pageSize: number;
 }
 
+export interface AssetData {
+  asset: Asset;
+  assetTracks: AssetTrack;
+  currentPosition: AssetMovement;
+  currentlyShowing: boolean;
+}
+
 export interface Asset {
   id: string;
   historyId: string;

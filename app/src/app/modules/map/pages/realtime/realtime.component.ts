@@ -5,7 +5,7 @@ import { Subscription, Observable } from 'rxjs';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
-import { XYZ, TileWMS } from 'ol/source';
+import { XYZ } from 'ol/source';
 import { fromLonLat } from 'ol/proj';
 import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/control.js';
 import { format } from 'ol/coordinate.js';
@@ -17,6 +17,7 @@ import { AuthSelectors } from '@data/auth';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
 import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersInterfaces } from '@data/map-saved-filters';
 import { MapLayersActions } from '@data/map-layers';
+import { Position } from '@data/generic.interfaces';
 
 @Component({
   selector: 'map-realtime',
@@ -85,17 +86,17 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private selection: Select;
   private hoverSelection: Select;
 
-  private getAssetTrack: (assetId, movementGuid) => void;
-  private getAssetTrackFromTime: (assetId, datetime) => void;
-  private removeForecast: (assetId) => void;
-  public selectAsset: (assetId) => void;
-  private untrackAsset: (assetId) => void;
+  private getAssetTrack: (assetId: string, movementGuid: string) => void;
+  private getAssetTrackFromTime: (assetId: string, datetime: string) => void;
+  private removeForecast: (assetId: string) => void;
+  public selectAsset: (assetId: string) => void;
+  private untrackAsset: (assetId: string) => void;
   private unregisterOnClickFunction: (name: string) => void;
   private unregisterOnSelectFunction: (name: string) => void;
   private unregisterOnHoverFunction: (name: string) => void;
 
   // Map functions to props:
-  public centerMapOnPosition: (position) => void;
+  public centerMapOnPosition: (position: Position) => void;
 
   constructor(private store: Store<any>) { }
 
@@ -134,13 +135,13 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.setAssetGroup({ assetGroup }));
     this.saveViewport = (key, viewport) =>
       this.store.dispatch(new MapSettingsActions.SaveViewport({key, viewport}));
-    this.setVisibilityForAssetNames = (visible) =>
+    this.setVisibilityForAssetNames = (visible: boolean) =>
       this.store.dispatch(new MapSettingsActions.SetVisibilityForAssetNames(visible));
-    this.setVisibilityForAssetSpeeds = (visible) =>
+    this.setVisibilityForAssetSpeeds = (visible: boolean) =>
       this.store.dispatch(new MapSettingsActions.SetVisibilityForAssetSpeeds(visible));
-    this.setVisibilityForTracks = (visible) =>
+    this.setVisibilityForTracks = (visible: boolean) =>
       this.store.dispatch(new MapSettingsActions.SetVisibilityForTracks(visible));
-    this.setVisibilityForFlags = (visible) =>
+    this.setVisibilityForFlags = (visible: boolean) =>
       this.store.dispatch(new MapSettingsActions.SetVisibilityForFlags(visible));
     this.setVisibilityForForecast = (forecasts) =>
       this.store.dispatch(new MapSettingsActions.SetVisibilityForForecast(forecasts));

@@ -36,7 +36,7 @@ export class AreasComponent implements OnInit {
     // };
 
     const def = {
-      areaTypeDesc: "Exclusive Economic Zone",
+      areaTypeDesc: 'Exclusive Economic Zone',
       geoName: "uvms:eez",
       serviceType: "WMS",
       style: "eez_label_geom",

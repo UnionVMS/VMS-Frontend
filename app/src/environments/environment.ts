@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
+  useStoreDevTools: false,
   baseApiUrl: '',
+  baseGeoUrl: ''
 };
 
 /*

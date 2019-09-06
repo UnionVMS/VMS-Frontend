@@ -69,7 +69,7 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
     this.map.removeLayer(this.vectorLayer);
   }
 
-  removeForecast(assetId) {
+  removeForecast(assetId: string) {
     this.vectorSource.getFeatures().map((feature) => {
       if(feature.getId().includes(assetId)) {
         this.vectorSource.removeFeature(feature);
