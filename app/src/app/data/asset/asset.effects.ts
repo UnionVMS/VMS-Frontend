@@ -76,7 +76,7 @@ export class AssetEffects {
     mergeMap(([action, authToken]: Array<any>) => {
       return merge(
         this.assetService.getInitalAssetMovements(authToken).pipe(map((assetMovements: any) => {
-          return Observable.create((observer) => {
+          return new Observable((observer) => {
             observer.next(
               AssetActions.assetsMoved({
                 assetMovements: assetMovements.microMovements.reduce((acc, assetMovement) => {

@@ -19,7 +19,7 @@ export class MapLayersEffects {
 
   @Effect()
   getAreas$ = this.actions$.pipe(
-    ofType(MapLayersActions.ActionTypes.GetAreas),
+    ofType(MapLayersActions.getAreas),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.mapLayersService.getAreas(authToken).pipe(

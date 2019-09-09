@@ -1,9 +1,5 @@
-import { Action } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
-export enum ActionTypes {
-  GetAreas = '[Map Layers] Get areas',
-}
-
-export class GetAreas implements Action {
-  readonly type = ActionTypes.GetAreas;
-}
+export const getAreas = createAction(
+  '[Map Layers] Get areas'
+);

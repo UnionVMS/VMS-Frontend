@@ -192,7 +192,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.mapDispatchToProps();
     this.store.dispatch(AssetActions.subscribeToMovements());
     this.store.dispatch(AssetActions.getAssetGroups());
-    this.store.dispatch(new MapLayersActions.GetAreas());
+    this.store.dispatch(MapLayersActions.getAreas());
     this.mapZoom = this.mapSettings.startZoomLevel;
     const scaleLineControl = new ScaleLine();
     const mousePositionControl = new MousePosition({

@@ -44,7 +44,7 @@ export class AssetService {
     this.movementEventSource.addEventListener('message', listener);
     this.movementEventSource.addEventListener('error', listener);
     const that = this;
-    return Observable.create((observer) => {
+    return new Observable((observer) => {
       that.movementObserver$ = observer;
 
       that.movementEventSource.addEventListener('Movement', (asset) => observer.next(JSON.parse(asset.data)));
@@ -69,7 +69,7 @@ export class AssetService {
     this.assetEventSource.addEventListener('message', listener);
     this.assetEventSource.addEventListener('error', listener);
     const that = this;
-    return Observable.create((observer) => {
+    return new Observable((observer) => {
       that.assetObserver$ = observer;
 
       that.assetEventSource.addEventListener('Asset', (asset) => observer.next(JSON.parse(asset.data)));
