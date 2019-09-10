@@ -35,6 +35,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     this.vectorLayer = new VectorLayer({
       title: this.layerTitle,
       source: this.vectorSource,
+      zIndex: 21,
       renderBuffer: 200
     });
     this.map.addLayer(this.vectorLayer);

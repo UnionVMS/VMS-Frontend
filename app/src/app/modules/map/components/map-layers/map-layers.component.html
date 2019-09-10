@@ -1,0 +1,10 @@
+<div class="content-container" *ngIf="menuActive">
+  <h4>Map layers:</h4>
+  <div class="map-layers" *ngIf="mapLayers.length > 0">
+    <mat-checkbox
+      *ngFor="let mapLayer of mapLayers"
+      [checked]="this.activeMapLayers.includes(mapLayer.typeName)"
+      (change)="toggleMapLayer(mapLayer)"
+    >{{mapLayer.areaTypeDesc}}</mat-checkbox>
+  </div>
+</div>

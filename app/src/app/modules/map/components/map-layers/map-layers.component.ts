@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { MapLayersInterfaces } from '@data/map-layers';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers';
 import { environment } from '@src/environments/environment';
 
@@ -14,34 +15,56 @@ import { fromLonLat } from 'ol/proj';
 import Collection from 'ol/Collection';
 
 @Component({
-  selector: 'map-areas',
-  template: '',
+  selector: 'map-layers',
+  templateUrl: './map-layers.component.html',
+  styleUrls: ['./map-layers.component.scss']
 })
-export class AreasComponent implements OnInit {
+export class MapLayersComponent implements OnChanges, OnDestroy {
 
   @Input() map: Map;
   @Input() authToken: string;
+  @Input() activeMapLayers: Array<string>;
+  @Input() mapLayers: Array<MapLayersInterfaces.MapLayer>;
+  @Input() menuActive: boolean;
+  @Input() addActiveLayerFunction: (layerName: string) => void;
+  @Input() removeActiveLayerFunction: (layerName: string) => void;
 
-  private source: TileWMS;
-  private layer: TileLayer;
-  private layerTitle = 'Tracks Layer';
+  private layers: { [layerName: string]: TileLayer} = {};
 
-  ngOnInit() {
-    // const def = {
-    //   areaTypeDesc: 'User Areas',
-    //   geoName: 'uvms:userareas',
-    //   serviceType: 'WMS',
-    //   style: 'userareas_label_geom',
-    //   typeName: 'USERAREA', // AREAGROUPS
-    // };
+  toggleMapLayer(mapLayer: MapLayersInterfaces.MapLayer) {
+    if(!this.activeMapLayers.includes(mapLayer.typeName)) {
+      this.addActiveLayerFunction(mapLayer.typeName);
+    } else {
+      this.removeActiveLayerFunction(mapLayer.typeName);
+    }
+  }
 
-    const def = {
-      areaTypeDesc: 'Exclusive Economic Zone',
-      geoName: 'uvms:eez',
-      serviceType: 'WMS',
-      style: 'eez_label_geom',
-      typeName: 'EEZ'
-    };
+  ngOnChanges() {
+    // Remove layers that are no longer active
+    Object.keys(this.layers).map(layerName => {
+      if(!this.activeMapLayers.includes(layerName)) {
+        this.map.removeLayer(this.layers[layerName]);
+        delete this.layers[layerName];
+      }
+    });
+
+    // Add layers
+    this.activeMapLayers.map((layerName) => {
+      if(typeof this.layers[layerName] === 'undefined') {
+        this.addTileLayer(layerName);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    Object.keys(this.layers).map(layerName => {
+      this.map.removeLayer(this.layers[layerName]);
+      delete this.layers[layerName];
+    });
+  }
+
+  addTileLayer(layerName: string) {
+    const mapLayer = this.mapLayers.find((currentMapLayer) => currentMapLayer.typeName === layerName);
 
     const authToken = this.authToken;
     const customTileLoaderFunction = (imageTile, src) => {
@@ -77,13 +100,14 @@ export class AreasComponent implements OnInit {
       xhr.send();
     };
 
-    const test = new TileLayer({
+    const layer = new TileLayer({
+      zIndex: 5,
       source: new TileWMS({
         url: environment.baseGeoUrl + 'wms',
         params: {
-          LAYERS: 'uvms:eez',
+          LAYERS: mapLayer.geoName,
           TILED: true,
-          STYLE: 'eez_label_geom',
+          STYLE: mapLayer.style,
           // cql_filter: cql
         },
         tileLoadFunction: customTileLoaderFunction,
@@ -92,7 +116,8 @@ export class AreasComponent implements OnInit {
         transition: 0
       })
     });
-
-    this.map.addLayer(test);
+    this.layers[layerName] = layer;
+    this.map.addLayer(layer);
   }
+
 }

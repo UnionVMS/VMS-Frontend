@@ -23,19 +23,7 @@ export class MapLayersEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.mapLayersService.getAreas(authToken).pipe(
-        map((response: any) => {
-          console.warn(response);
-          // return new SetAssetList({
-          //   searchParams: action.payload,
-          //   totalNumberOfPages: response.totalNumberOfPages,
-          //   currentPage: response.currentPage,
-          //   assets: response.assetList.reduce((acc, asset) => {
-          //     acc[asset.historyId] = asset;
-          //     return acc;
-          //   }, {})
-          // });
-
-        })
+        map((response: any) => MapLayersActions.setAreas({ mapLayers: response }))
       );
     })
   );

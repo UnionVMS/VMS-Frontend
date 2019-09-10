@@ -41,6 +41,7 @@ export class DistanceBetweenPointsComponent implements OnInit, OnDestroy, OnChan
     this.vectorLayer = new VectorLayer({
       title: this.layerTitle,
       source: this.vectorSource,
+      zIndex: 15,
       renderBuffer: 200
     });
 

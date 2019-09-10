@@ -14,7 +14,6 @@ import { UIModule } from '../ui/ui.module';
 import { RealtimeComponent } from './pages/realtime/realtime.component';
 
 /* Components */
-import { AreasComponent } from './components/areas/areas.component';
 import { AssetsComponent } from './components/assets/assets.component';
 import { AssetGroupsComponent } from './components/asset-groups/asset-groups.component';
 import { AssetForecastComponent } from './components/asset-forecast/asset-forecast.component';
@@ -25,6 +24,7 @@ import { DistanceBetweenPointsComponent } from './components/distance-between-po
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
+import { MapLayersComponent } from './components/map-layers/map-layers.component';
 import { MapViewportsComponent } from './components/map-viewports/map-viewports.component';
 import { SavedFiltersComponent } from './components/saved-filters/saved-filters.component';
 import { TopPanelComponent } from './components/top-panel/top-panel.component';
@@ -44,7 +44,6 @@ import { TrackPanelComponent } from './components/track-panel/track-panel.compon
   ],
   declarations: [
     RealtimeComponent,
-    AreasComponent,
     AssetsComponent,
     AssetGroupsComponent,
     AssetForecastComponent,
@@ -55,6 +54,7 @@ import { TrackPanelComponent } from './components/track-panel/track-panel.compon
     FlagstatesComponent,
     InformationPanelComponent,
     LayerFilterComponent,
+    MapLayersComponent,
     MapViewportsComponent,
     SavedFiltersComponent,
     TopPanelComponent,

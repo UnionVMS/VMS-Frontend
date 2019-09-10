@@ -117,10 +117,15 @@
       [setAssetGroup]="setAssetGroup"
       [clearAssetGroup]="clearAssetGroup"
     ></map-asset-groups>
-    <map-areas
-      *ngIf="(authToken$ | async) !== undefined"
+    <map-layers
+      *ngIf="(authToken$ | async) !== undefined && (mapLayers$ | async).length > 0"
       [map]="map"
       [authToken]="authToken$ | async"
-    ></map-areas>
+      [mapLayers]="mapLayers$ | async"
+      [activeMapLayers]="activeMapLayers$ | async"
+      [menuActive]="mapSettings.currentControlPanel === 'map-layers'"
+      [addActiveLayerFunction]="addActiveLayer"
+      [removeActiveLayerFunction]="removeActiveLayer"
+    ></map-layers>
   </div>
 </div>

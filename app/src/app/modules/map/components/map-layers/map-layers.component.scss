@@ -1,0 +1,14 @@
+@import 'variables.scss';
+.content-container {
+  @include control-panel;
+  grid-row-gap: $medium_distance;
+
+  h4 {
+    margin: 0px;
+  }
+
+  .map-layers {
+    display: grid;
+    grid-row-gap: $medium_distance;
+  }
+}
