@@ -7,9 +7,6 @@ export const initialState: AuthInterfaces.State = {
 };
 
 export const authReducer = createReducer(initialState,
-  on(AuthActions.loginFailed, (state, { error }) => ({
-    ...state,
-  })),
   on(AuthActions.loginSuccess, (state, { payload: { jwtToken, data } }) => ({
     ...state,
     user: {

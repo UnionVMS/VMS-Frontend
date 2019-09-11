@@ -8,6 +8,8 @@ import * as AuthActions from './auth.actions';
 import { AuthService } from './auth.service';
 import * as MapSettings from '../map-settings/map-settings.actions';
 import { MapSavedFiltersActions } from '../map-saved-filters/';
+import * as NotificationsActions from '../notifications/notifications.actions';
+
 
 @Injectable()
 export class AuthEffects {
@@ -24,7 +26,7 @@ export class AuthEffects {
         map((auth: any) => {
           return AuthActions.loginSuccess({ jwtToken: auth.jwtoken });
         }),
-        catchError((err) => of(AuthActions.loginFailed({ error: err })))
+        catchError((err) => of(NotificationsActions.addError(err)))
       );
     })
   );
@@ -42,16 +44,20 @@ export class AuthEffects {
             (settings) => settings.applicationName === 'VMSMapFilters'
           );
 
-          return [
-            MapSettings.replaceSettings({ settings: JSON.parse(mapSettings.optionValue) }),
-            MapSavedFiltersActions.setSavedFitlers({ filters: JSON.parse(mapFilters.optionValue) }),
-          ];
+          const response = [];
+          if(typeof mapSettings !== 'undefined') {
+            response.push(MapSettings.replaceSettings({ settings: JSON.parse(mapSettings.optionValue) }));
+          }
+          if(typeof mapFilters !== 'undefined') {
+            response.push(MapSavedFiltersActions.setSavedFitlers({ filters: JSON.parse(mapFilters.optionValue) }));
+          }
+          return response;
         }),
         // tslint:disable-next-line:comment-format
         //@ts-ignore
         // tslint:disable-next-line:no-shadowed-variable
         flatMap( (action, index): object => action ),
-        catchError((err) => of(AuthActions.loginFailed({ error: err })))
+        catchError((err) => of(NotificationsActions.addError(err.toString())))
       );
     })
   );
