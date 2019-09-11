@@ -5,13 +5,14 @@ export interface Movement {
   heading: number;
   guid: string;
   timestamp: string;
-  speed: number;
+  speed: number | null;
   source: string;
 }
 
 export interface AssetMovement {
   microMove: Movement;
   asset: string;
+  decayPercentage: number|undefined;
 }
 
 export interface AssetList {

@@ -94,6 +94,22 @@ export const assetReducer = createReducer(initialState,
     }
     return { ...state, selectedAssets, selectedAsset };
   }),
+  on(AssetActions.removeAssets, (state, { assets }) => {
+    const result = Object.values(state.assetMovements).reduce((acc, movement) => {
+      if(!assets.includes(movement.asset)) {
+        acc.assetMovements[movement.asset] = movement;
+        if(typeof state.assetTracks[movement.asset] !== 'undefined') {
+          acc.assetTracks[movement.asset] = state.assetTracks[movement.asset];
+        }
+      }
+      return acc;
+    }, { assetMovements: {}, assetTracks: {}});
+    return {
+      ...state,
+      assetMovements: { ...result.assetMovements },
+      assetTracks: { ...result.assetTracks }
+    };
+  }),
   on(AssetActions.removeForecast, (state, { assetId }) => ({
     ...state,
     forecasts: state.forecasts.filter(forecastAssetId => forecastAssetId !== assetId)
@@ -225,6 +241,9 @@ export const assetReducer = createReducer(initialState,
     }, {});
 
     return { ...state, assetTracks: newAssetTracks };
+  }),
+  on(AssetActions.updateDecayOnAssetPosition, (state, { assetMovements }) => {
+    return { ...state, assetMovements:  { ...state.assetMovements, ...assetMovements } };
   }),
   on(AssetActions.untrackAsset, (state, { assetId }) => {
     const assetTracks = { ...state.assetTracks };

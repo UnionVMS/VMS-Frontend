@@ -12,6 +12,7 @@ const AssetMovementStub: AssetMovement = {
     speed: 11.2,
     source: 'AIS',
   },
+  decayPercentage: undefined,
   asset: 'ba498d76-ecd1-486a-9302-728367b237a7',
 };
 

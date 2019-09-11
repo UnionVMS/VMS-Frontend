@@ -41,7 +41,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private namesWereVisibleLastRerender: boolean;
   private speedsWereVisibleLastRerender: boolean;
   private selection: Select;
-  private assetSpeedsPreviouslyRendered: { [key: string]: string } = {};
+  private assetSpeedsPreviouslyRendered: { [key: string]: string | null } = {};
   private assetLastUpdateHash: { [assetId: string]: Array<number>} = {};
   // Instead of an array we use object for faster lookup in ngOnChange loop.
   private renderedAssetIds: { [ assetId: string]: boolean } = {};
@@ -100,6 +100,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         // Instead of removing them one by one which triggers recalculations inside open layers after every removal
         // we clear the entire map of assets and redraw them, this scales linearly instead of exponentialy it appears.
         this.vectorSource.clear();
+        this.assetLastUpdateHash = {};
+        this.assetSpeedsPreviouslyRendered = {};
       }
       const newRenderedAssetIds = reRenderAssets ? {} : this.renderedAssetIds;
 
@@ -225,10 +227,15 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     assetFeature.getStyle().getImage().setRotation(deg2rad(assetMovement.microMove.heading));
     assetFeature.setId(assetMovement.asset);
 
+    if(asset.assetMovement.decayPercentage !== undefined) {
+      assetFeature.getStyle().getImage().setOpacity(asset.assetMovement.decayPercentage);
+    }
+
     const currentAssetPosition = [
       asset.assetMovement.microMove.location.latitude,
       asset.assetMovement.microMove.location.longitude,
-      asset.assetMovement.microMove.heading
+      asset.assetMovement.microMove.heading,
+      asset.assetMovement.decayPercentage
     ];
     this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
     return assetFeature;
@@ -284,7 +291,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     const currentAssetPosition = [
       asset.assetMovement.microMove.location.latitude,
       asset.assetMovement.microMove.location.longitude,
-      asset.assetMovement.microMove.heading
+      asset.assetMovement.microMove.heading,
+      asset.assetMovement.decayPercentage
     ];
     const oldStuff = this.assetLastUpdateHash[asset.assetMovement.asset];
     if(
@@ -297,11 +305,15 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       assetFeature.getStyle().getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
       this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
     }
+    if(oldStuff === undefined || oldStuff[3] !== currentAssetPosition[3]) {
+      assetFeature.getStyle().getImage().setOpacity(asset.assetMovement.decayPercentage);
+    }
     if (
       this.namesWereVisibleLastRerender !== this.namesVisibleCalculated ||
       this.speedsWereVisibleLastRerender !== this.speedsVisibleCalculated ||
       (
         this.speedsVisibleCalculated &&
+        asset.assetMovement.microMove.speed !== null &&
         this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] !== asset.assetMovement.microMove.speed.toFixed(2)
       )
     ) {
@@ -320,14 +332,16 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     if (this.namesVisibleCalculated && asset.assetEssentials !== undefined) {
       text = asset.assetEssentials.assetName;
     }
-    if (this.speedsVisibleCalculated) {
+    if (this.speedsVisibleCalculated && asset.assetMovement.microMove.speed !== null) {
       if (text !== null) {
         text += '\n' + asset.assetMovement.microMove.speed.toFixed(2) + ' kts';
         offsetY = 30;
       } else {
         text = asset.assetMovement.microMove.speed.toFixed(2) + ' kts';
       }
-      this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] = asset.assetMovement.microMove.speed.toFixed(2);
+      this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] = asset.assetMovement.microMove.speed !== null
+        ? asset.assetMovement.microMove.speed.toFixed(2)
+        : null;
     }
 
     return new Text({

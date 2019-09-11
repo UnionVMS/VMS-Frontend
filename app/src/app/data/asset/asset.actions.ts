@@ -67,6 +67,11 @@ export const getAssetTrackFromTime = createAction(
   props<{ assetId: string, datetime: Date }>()
 );
 
+export const removeAssets = createAction(
+  '[Asset] Remove asset',
+  props<{ assets: Array<string>}>()
+);
+
 export const removeForecast = createAction(
   '[Asset] Remove forecast',
   props<{ assetId: string }>()
@@ -134,6 +139,11 @@ export const subscribeToMovements = createAction(
 export const trimTracksThatPassedTimeCap = createAction(
   '[Asset] Trim tracks that passed time cap',
   props<{ unixtime: number }>()
+);
+
+export const updateDecayOnAssetPosition = createAction(
+  '[Asset] Update decay',
+  props<{assetMovements: { [uid: string]: AssetInterfaces.AssetMovement }}>()
 );
 
 export const unsubscribeToMovements = createAction(

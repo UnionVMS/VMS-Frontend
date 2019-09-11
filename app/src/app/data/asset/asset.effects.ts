@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, EMPTY, merge, Observable } from 'rxjs';
+import { Store, Action } from '@ngrx/store';
+import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
+import { of, EMPTY, merge, Observable, interval } from 'rxjs';
 import { map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter } from 'rxjs/operators';
 
+import { State } from '@app/app-reducer.ts';
 import { AuthInterfaces, AuthSelectors } from '../auth';
 import { MapSettingsSelectors } from '../map-settings';
 
@@ -15,7 +16,7 @@ export class AssetEffects {
   constructor(
     private actions$: Actions,
     private assetService: AssetService,
-    private store$: Store<AuthInterfaces.State>
+    private store$: Store<State>
   ) {}
 
   @Effect()
@@ -69,6 +70,45 @@ export class AssetEffects {
     })
   );
 
+  // Every 10 minutes
+  removeOldAssetsEffect$ = createEffect(() => interval(600000).pipe(
+    withLatestFrom(this.store$.select(AssetSelectors.selectAssetMovements)),
+    mergeMap(([ intervalCount, assetMovements ]: [number, { [uid: string]: AssetInterfaces.AssetMovement; }] ): Observable<Action> => {
+      const oneHour = 1000 * 60 * 60;
+      const positionsToRemoveOrUpdate = Object.values(assetMovements).reduce(
+        (acc, assetMovement, index) => {
+          const date = new Date(assetMovement.microMove.timestamp);
+          const timeBetweenNowAndThen = Date.now() - date.getTime();
+          if((timeBetweenNowAndThen > oneHour * 9)) {
+            acc.assetsToDelete.push(assetMovement.asset);
+          } else if((timeBetweenNowAndThen > oneHour * 8)) {
+            if(timeBetweenNowAndThen > oneHour * 8.75) {
+              acc.decayingAssets[assetMovement.asset] = { ...assetMovement, decayPercentage: 0.25 };
+            } else if(timeBetweenNowAndThen > oneHour * 8.5) {
+              acc.decayingAssets[assetMovement.asset] = { ...assetMovement, decayPercentage: 0.5 };
+            } else {
+              acc.decayingAssets[assetMovement.asset] = { ...assetMovement, decayPercentage: 0.75 };
+            }
+          }
+          return acc;
+        }, { assetsToDelete: [], decayingAssets: {} }
+      );
+      if(positionsToRemoveOrUpdate.assetsToDelete.length > 0 && Object.keys(positionsToRemoveOrUpdate.decayingAssets).length > 0) {
+        return of(
+          AssetActions.removeAssets({ assets: positionsToRemoveOrUpdate.assetsToDelete }),
+          AssetActions.updateDecayOnAssetPosition({ assetMovements: positionsToRemoveOrUpdate.decayingAssets })
+        );
+      }
+      if(positionsToRemoveOrUpdate.assetsToDelete.length > 0) {
+        return of(AssetActions.removeAssets({ assets: positionsToRemoveOrUpdate.assetsToDelete }));
+      }
+      if(Object.keys(positionsToRemoveOrUpdate.decayingAssets).length > 0) {
+        return of(AssetActions.updateDecayOnAssetPosition({ assetMovements: positionsToRemoveOrUpdate.decayingAssets }));
+      }
+      return EMPTY;
+    })
+  ));
+
   @Effect()
   assetMovementSubscribeObserver$ = this.actions$.pipe(
     ofType(AssetActions.subscribeToMovements),
@@ -80,6 +120,9 @@ export class AssetEffects {
             observer.next(
               AssetActions.assetsMoved({
                 assetMovements: assetMovements.microMovements.reduce((acc, assetMovement) => {
+                  if(typeof assetMovement.microMove.speed === 'undefined') {
+                    assetMovement.microMove.speed = null;
+                  }
                   acc[assetMovement.asset] = assetMovement;
                   return acc;
                 }, {})
@@ -101,10 +144,13 @@ export class AssetEffects {
           map((assetMovements: Array<any>) => {
             if (assetMovements.length !== 0) {
               return [
-                AssetActions.assetsMoved(assetMovements.reduce((acc, assetMovement) => {
+                AssetActions.assetsMoved({assetMovements: assetMovements.reduce((acc, assetMovement) => {
+                  if(typeof assetMovement.microMove.speed === 'undefined') {
+                    assetMovement.microMove.speed = null;
+                  }
                   acc[assetMovement.asset] = assetMovement;
                   return acc;
-                }, {})),
+                }, {})}),
                 AssetActions.checkForAssetEssentials({assetMovements})
               ];
             } else {
