@@ -74,7 +74,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
-  public registerOnHoverFunction: (name: string, hoverFunction: (event) => void) => void;
+  // public registerOnHoverFunction: (name: string, hoverFunction: (event) => void) => void;
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
 
   private assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
@@ -98,7 +98,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private untrackAsset: (assetId: string) => void;
   private unregisterOnClickFunction: (name: string) => void;
   private unregisterOnSelectFunction: (name: string) => void;
-  private unregisterOnHoverFunction: (name: string) => void;
+  // private unregisterOnHoverFunction: (name: string) => void;
 
   // Map functions to props:
   public centerMapOnPosition: (position: Position) => void;
@@ -280,21 +280,21 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       Object.values(this.onSelectFunctions).map((selectFunction) => selectFunction(event));
     });
 
-    this.registerOnHoverFunction = (name, onHoverFunction) => {
-      this.onHoverFunctions[name] = onHoverFunction;
-    };
+    // this.registerOnHoverFunction = (name, onHoverFunction) => {
+    //   this.onHoverFunctions[name] = onHoverFunction;
+    // };
+    //
+    // this.unregisterOnHoverFunction = (name) => {
+    //   delete this.onHoverFunctions[name];
+    // };
 
-    this.unregisterOnHoverFunction = (name) => {
-      delete this.onHoverFunctions[name];
-    };
-
-    this.hoverSelection = new Select({hitTolerance: 3, condition: pointerMove });
-    this.map.addInteraction(this.hoverSelection);
-
-    this.hoverSelection.on('select', (event) => {
-      Object.values(this.onHoverFunctions).map((hoverFunction) => hoverFunction(event));
-    });
-
+    // this.hoverSelection = new Select({hitTolerance: 3, condition: pointerMove });
+    // this.map.addInteraction(this.hoverSelection);
+    //
+    // this.hoverSelection.on('select', (event) => {
+    //   Object.values(this.onHoverFunctions).map((hoverFunction) => hoverFunction(event));
+    // });
+    //
     // this.map.on('pointermove', (event) => {
     //   Object.values(this.onHoverFunctions).map(hoverFunction => hoverFunction(event));
     // });

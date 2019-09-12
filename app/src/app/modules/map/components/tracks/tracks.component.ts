@@ -25,8 +25,6 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   @Input() mapZoom: number;
   @Input() registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
   @Input() unregisterOnSelectFunction: (name: string) => void;
-  @Input() registerOnHoverFunction: (name: string, hoverFunction: (event) => void) => void;
-  @Input() unregisterOnHoverFunction: (name: string) => void;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -67,17 +65,17 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
     this.showXArrowsPerHour(featureArrowsPerHour, this.mapZoom);
 
-    this.registerOnHoverFunction(this.layerTitle, (event) => {
-      if (
-        typeof event.selected[0] !== 'undefined' &&
-        typeof event.selected[0].id_ !== 'undefined'
-      ) {
-        const feature = this.vectorSource.getFeatureById(event.selected[0].id_);
-        if(feature !== null && event.selected[0].id_.includes('assetId_')) {
-          feature.getStyle().getImage().setOpacity(1);
-        }
-      }
-    });
+    // this.registerOnHoverFunction(this.layerTitle, (event) => {
+    //   if (
+    //     typeof event.selected[0] !== 'undefined' &&
+    //     typeof event.selected[0].id_ !== 'undefined'
+    //   ) {
+    //     const feature = this.vectorSource.getFeatureById(event.selected[0].id_);
+    //     if(feature !== null && event.selected[0].id_.includes('assetId_')) {
+    //       feature.getStyle().getImage().setOpacity(1);
+    //     }
+    //   }
+    // });
 
     this.registerOnSelectFunction(this.layerTitle, (event) => {
       if (
@@ -270,7 +268,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         const arrowFeatureStyle = arrowFeature.feature.getStyle();
         // Instead of setting opacity to 0 we set it to a very low number. This allowes OL to detect
         // hover on the asset, which it doesn't do on invisible objects.
-        let opacity = 0.002;
+        let opacity = 0;
         if(arrowFeature.forceShow || showArrowsThisHour === -1 || index % featureShowInterval === 0) {
           opacity = 1;
         }

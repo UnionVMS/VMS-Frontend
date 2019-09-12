@@ -51,34 +51,51 @@ export const assetReducer = createReducer(initialState,
     }
   })),
   on(AssetActions.assetsMoved, (state, { assetMovements }) => {
-    const newState = {
-      ...state,
-      assetMovements: {
-        ...state.assetMovements,
-        ...assetMovements
-      }
+    const newAssetMovements = {
+      ...state.assetMovements,
+      ...assetMovements
     };
-    if(Object.keys(newState.assetTracks).length > 0) {
-      Object.keys(assetMovements).map((assetId) => {
-        if(typeof newState.assetTracks[assetId] !== 'undefined') {
-          newState.assetTracks[assetId].tracks.push(assetMovements[assetId].microMove);
-          // tslint:disable-next-line:no-shadowed-variable
-          const lineSegments = newState.assetTracks[assetId].lineSegments;
+    let newAssetTracks = state.assetTracks;
+    if(Object.keys(state.assetTracks).length > 0) {
+      newAssetTracks = Object.keys(assetMovements).reduce((assetTracks, assetId, index) => {
+        if(typeof state.assetTracks[assetId] !== 'undefined') {
+          const lineSegments = assetTracks[assetId].lineSegments;
           const lastSegment = lineSegments[lineSegments.length - 1];
-          const segmentSpeed = speeds.find((speed) => newState.assetMovements[assetId].microMove.speed < speed);
-          // Add the last position in last segment eiter way so there is no spaces in the draw line.
-          lastSegment.positions.push(newState.assetMovements[assetId].microMove.location);
+          const segmentSpeed = speeds.find((speed) => newAssetMovements[assetId].microMove.speed < speed);
+
+          let newLineSegments = Object.assign([], assetTracks[assetId].lineSegments, {
+            [lineSegments.length - 1]: {
+              ...lastSegment,
+              positions: [ ...lastSegment.positions, newAssetMovements[assetId].microMove.location ]
+            }
+          });
           if (lastSegment.speed !== segmentSpeed) {
-            lineSegments.push({
-              speed: segmentSpeed,
-              positions: [newState.assetMovements[assetId].microMove.location],
-              color: speedSegments[segmentSpeed]
-            });
+            newLineSegments = [
+              ...newLineSegments,
+              {
+                speed: segmentSpeed,
+                positions: [newAssetMovements.assetMovements[assetId].microMove.location],
+                color: speedSegments[segmentSpeed]
+              }
+            ];
           }
+          assetTracks[assetId] = {
+            ...assetTracks[assetId],
+            tracks: [
+              ...assetTracks[assetId].tracks,
+              assetMovements[assetId].microMove
+            ],
+            lineSegments: newLineSegments
+          };
         }
-      });
+        return assetTracks;
+      }, { ...state.assetTracks });
     }
-    return newState;
+    return {
+      ...state,
+      assetMovements: newAssetMovements,
+      assetTracks: newAssetTracks
+    };
   }),
   on(AssetActions.clearAssetGroup, (state, { assetGroup }) => ({
     ...state,
@@ -216,27 +233,36 @@ export const assetReducer = createReducer(initialState,
   on(AssetActions.trimTracksThatPassedTimeCap, (state, { unixtime }) => {
     const newAssetTracks = Object.keys(state.assetTracks).reduce((assetTracks, assetId) => {
       const assetTrack = state.assetTracks[assetId];
+
       const indexOfFirstPositionAfterGivenTime = assetTrack.tracks.findIndex(
         track => new Date(track.timestamp).getTime() > unixtime
       );
+      let newTracks = assetTrack.tracks;
+      let newLineSegments = assetTrack.lineSegments;
       if(indexOfFirstPositionAfterGivenTime > 0) {
-        assetTrack.tracks = assetTrack.tracks.slice(indexOfFirstPositionAfterGivenTime);
+        newTracks = assetTrack.tracks.slice(indexOfFirstPositionAfterGivenTime);
         let positionsLeftToRemove = indexOfFirstPositionAfterGivenTime;
         // tslint:disable-next-line:no-shadowed-variable
-        assetTrack.lineSegments = assetTrack.lineSegments.reduce((lineSegments, lineSegment) => {
+        newLineSegments = assetTrack.lineSegments.reduce((lineSegments, lineSegment) => {
           if(positionsLeftToRemove === 0) {
             lineSegments.push(lineSegment);
           } else if(lineSegment.positions.length < positionsLeftToRemove) {
             positionsLeftToRemove -= lineSegment.positions.length;
           } else {
-            lineSegment.positions = lineSegment.positions.filter((position, index) => positionsLeftToRemove < index + 1);
-            lineSegments.push(lineSegment);
+            lineSegments.push({
+              ...lineSegment,
+              positions: lineSegment.positions.filter((position, index) => positionsLeftToRemove < index + 1)
+            });
             positionsLeftToRemove = 0;
           }
           return lineSegments;
         }, []);
       }
-      assetTracks[assetId] = assetTrack;
+      assetTracks[assetId] = {
+        ...state.assetTracks[assetId],
+        tracks: newTracks,
+        lineSegments: newLineSegments
+      };
       return assetTracks;
     }, {});
 

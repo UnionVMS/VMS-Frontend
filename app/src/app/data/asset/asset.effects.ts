@@ -175,10 +175,12 @@ export class AssetEffects {
           bufferTime(500),
           map((assetsEssentials: Array<any>) => {
             if (assetsEssentials.length !== 0) {
-              return AssetActions.setEssentialProperties(assetsEssentials.reduce((acc, assetEssentials) => {
-                acc[assetEssentials.assetId] = assetEssentials;
-                return acc;
-              }, {}));
+              return AssetActions.setEssentialProperties({
+                assetEssentialProperties: assetsEssentials.reduce((acc, assetEssentials) => {
+                  acc[assetEssentials.assetId] = assetEssentials;
+                  return acc;
+                }, {})
+              });
             } else {
               return null;
             }

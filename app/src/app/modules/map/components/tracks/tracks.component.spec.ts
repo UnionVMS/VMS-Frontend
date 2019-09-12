@@ -85,19 +85,19 @@ describe('AssetForecastComponent', () => {
     // Should only show one
     component.showXArrowsPerHour(featureArrowsPerHour, 8);
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual(
-      [1, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002]
+      [1, 0, 0, 0, 0, 0, 0]
     );
 
     // Should only show two
     component.showXArrowsPerHour(featureArrowsPerHour, 9);
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual(
-      [1, 0.002, 0.002, 0.002, 1, 0.002, 0.002]
+      [1, 0, 0, 0, 1, 0, 0]
     );
 
     // Should only show four
     component.showXArrowsPerHour(featureArrowsPerHour, 10);
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual(
-      [1, 0.002, 1, 0.002, 1, 0.002, 1]
+      [1, 0, 1, 0, 1, 0, 1]
     );
 
     // Should all of them (max 7 / hour)
