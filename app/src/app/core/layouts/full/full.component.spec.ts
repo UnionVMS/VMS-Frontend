@@ -1,12 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Store } from '@ngrx/store';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { FullLayoutComponent } from './full.component';
 
 // Components
 import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
+import { NotificationsComponent } from '../../components/notifications/notifications.component';
 
 describe('FullLayoutComponent', () => {
+
+  // let store: MockStore<{ }>;
+  const initialState = { };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -16,6 +22,10 @@ describe('FullLayoutComponent', () => {
       declarations: [
         FullLayoutComponent,
         TopMenuComponent,
+        NotificationsComponent,
+      ],
+      providers: [
+        provideMockStore({ initialState }),
       ]
     })
     .compileComponents();
