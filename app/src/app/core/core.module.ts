@@ -22,6 +22,7 @@ import { LogoutComponent } from './pages/logout/logout.component';
 
 // Components
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { TopMenuComponent } from './components/top-menu/top-menu.component';
     LoginComponent,
     UnauthorizedComponent,
     LogoutComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    NotificationsComponent,
   ],
   providers: [
     AuthGuard

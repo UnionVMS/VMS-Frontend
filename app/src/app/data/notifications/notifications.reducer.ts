@@ -15,4 +15,10 @@ export const notificationsReducer = createReducer(initialState,
       [notificationType]: [ ...state[notificationType], notification ]
     });
   }),
+  on(NotificationsActions.dismiss, (state, { notificationType, index }) => {
+    return ({
+      ...state,
+      [notificationType]: state[notificationType].filter((notification: string, currentIndex: number) => currentIndex !== index)
+    });
+  }),
 );

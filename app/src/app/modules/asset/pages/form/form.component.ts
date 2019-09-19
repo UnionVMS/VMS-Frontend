@@ -11,6 +11,7 @@ const allFlagstates = Object.keys(getAlpha3Codes());
 
 import { State } from '@app/app-reducer';
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 
 @Component({
   selector: 'asset-edit',
@@ -47,8 +48,16 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   mapDispatchToProps() {
-    this.save = () =>
-      this.store.dispatch(AssetActions.saveAsset({ asset: this.assetObject }));
+    this.save = () => {
+      const formValidation = this.validateForm();
+      if(formValidation === true) {
+        this.store.dispatch(AssetActions.saveAsset({ asset: this.assetObject }));
+      } else {
+        formValidation.map((notification) => {
+          this.store.dispatch(NotificationsActions.addNotification(notification));
+        });
+      }
+    };
   }
 
   ngOnInit() {
@@ -62,5 +71,41 @@ export class FormComponent implements OnInit, OnDestroy {
     if(this.unitTonnagesSubscription !== undefined) {
       this.unitTonnagesSubscription.unsubscribe();
     }
+  }
+
+  validateForm() {
+    const errors = [];
+    if(
+      typeof this.assetObject.flagStateCode === 'undefined' ||
+      this.assetObject.flagStateCode === null ||
+      this.assetObject.flagStateCode.length === 0
+    ) {
+      errors.push({
+        notificationType: 'errors',
+        notification: 'Form validaiton error: Require field <b>Flagstate</b> is not set.'
+      });
+    }
+    if(
+      typeof this.assetObject.externalMarking === 'undefined' ||
+      this.assetObject.externalMarking === null ||
+      this.assetObject.externalMarking.length === 0
+    ) {
+      errors.push({
+        notificationType: 'errors',
+        notification: 'Form validaiton error: Require field <b>External marking</b> is not set.'
+      });
+    }
+    if(
+      typeof this.assetObject.name === 'undefined' ||
+      this.assetObject.name === null ||
+      this.assetObject.name.length === 0
+    ) {
+      errors.push({
+        notificationType: 'errors',
+        notification: 'Form validaiton error: Require field <b>Name</b> is not set.'
+      });
+    }
+
+    return errors.length > 0 ? errors : true;
   }
 }

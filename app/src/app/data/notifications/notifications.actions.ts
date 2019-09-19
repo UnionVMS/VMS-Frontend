@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
 export const addNotification = createAction(
-  '[MapSettings] Set visibility for asset names',
+  '[Notifications] Add',
   props<{ notificationType: string, notification: string }>()
 );
 
@@ -16,3 +16,8 @@ export const addNotice = (notification: string) => {
 export const addError = (notification: string) => {
   return addNotification({ notificationType: 'errors', notification});
 };
+
+export const dismiss = createAction(
+  '[Notifications] dismiss',
+  props<{ notificationType: string, index: number }>()
+);

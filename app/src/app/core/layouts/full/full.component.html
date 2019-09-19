@@ -1,4 +1,8 @@
 <core-top-menu-component
   [appVersion]="appVersion"
 ></core-top-menu-component>
+<core-notifications
+  [notifications]="notifications$ | async"
+  [dismiss]="dismissNotification"
+></core-notifications>
 <router-outlet></router-outlet>

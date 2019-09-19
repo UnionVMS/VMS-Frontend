@@ -12,6 +12,7 @@ import { MapSettingsSelectors } from '../map-settings';
 import { AssetService } from './asset.service';
 import { AssetSelectors, AssetInterfaces, AssetActions } from './';
 import * as RouterSelectors from '@data/router/router.selectors';
+import * as NotificationsActions from '@data/notifications/notifications.actions';
 
 @Injectable()
 export class AssetEffects {
@@ -199,8 +200,6 @@ export class AssetEffects {
     ofType(AssetActions.checkForAssetEssentials),
     withLatestFrom(
       this.store$.select(AuthSelectors.getAuthToken),
-      // tslint:disable-next-line:comment-format
-      //@ts-ignore
       this.store$.select(AssetSelectors.getAssetsEssentials)
     ),
     mergeMap(([action, authToken, currentAssetsEssentials]: Array<any>) => {
@@ -333,14 +332,17 @@ export class AssetEffects {
       }
       return request.pipe(
         map((asset: AssetInterfaces.Asset) => {
+          let notification = 'Asset updated successfully!';
           // Redirect to edit if we just were on create asset page.
           if(isNew) {
             this.router.navigate(['/asset/edit/' + asset.id]);
+            notification = 'Asset created successfully!';
           }
-          return AssetActions.setAsset({ asset });
+          return [AssetActions.setAsset({ asset }), NotificationsActions.addSuccess(notification)];
         })
       );
-    })
+    }),
+    flatMap((action, index) => action)
   );
 
 }
