@@ -4,6 +4,13 @@ ul.notifications {
 
   padding-left: 0px;
   list-style-type: none;
+  z-index: 100;
+
+  &.overlay {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+  }
 
   .alert {
     position: relative;
@@ -11,6 +18,7 @@ ul.notifications {
     margin-bottom: 1rem;
     border: 1px solid transparent;
     border-radius: .25rem;
+    padding-right: 40px;
 
     button.close {
       padding: 0;

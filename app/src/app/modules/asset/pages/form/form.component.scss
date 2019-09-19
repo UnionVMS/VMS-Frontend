@@ -2,8 +2,30 @@
 
 .asset-edit-form {
   display: grid;
-  grid-column-gap: $xxlarge_distance;
-  grid-template-columns: repeat(3, 1fr);
+  // grid-column-gap: $xxlarge_distance;
+  grid-template-columns: 1fr;
+
+  fieldset {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-left: $small_distance solid $color_turquoise;
+    margin-bottom: $medium_distance;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    legend {
+      font-weight: bolder;
+      margin-top: $small_distance;
+      margin-bottom: $small_distance;
+    }
+
+  }
+
+  button#asset-form--save {
+    float: right;
+  }
 
   mat-label > .required {
     margin-left: $small_distance;
@@ -31,20 +53,20 @@
   margin: 150px auto;
 }
 
-@media (max-width: 768px) {
-  .asset-edit-form {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 992px) {
-  .asset-edit-form {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (min-width: 1200px) {
-  .asset-edit-form {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
+// @media (max-width: 768px) {
+//   .asset-edit-form {
+//     grid-template-columns: repeat(2, 1fr);
+//   }
+// }
+//
+// @media (min-width: 992px) {
+//   .asset-edit-form {
+//     grid-template-columns: repeat(4, 1fr);
+//   }
+// }
+//
+// @media (min-width: 1200px) {
+//   .asset-edit-form {
+//     grid-template-columns: repeat(5, 1fr);
+//   }
+// }

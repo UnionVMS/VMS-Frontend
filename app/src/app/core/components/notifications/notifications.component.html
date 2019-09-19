@@ -1,4 +1,4 @@
-<ul class="notifications">
+<ul class="notifications {{addConditionalClasses()}}" *ngIf="notifications.success.length > 0 || notifications.notices.length > 0 || notifications.errors.length > 0">
   <li *ngFor="let successNotification of notifications.success; let i = index" class="alert alert-success">
     <span [innerHTML]="successNotification"></span>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismiss('success', i)">

@@ -73,6 +73,10 @@ export class FormComponent implements OnInit, OnDestroy {
     }
   }
 
+  isCreateOrUpdate() {
+    return typeof this.assetObject.id !== 'undefined' ? 'Edit' : 'Create';
+  }
+
   validateForm() {
     const errors = [];
     if(

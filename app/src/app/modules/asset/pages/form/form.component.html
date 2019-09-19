@@ -1,83 +1,98 @@
-<h1>Edit Asset</h1>
+<h1>{{isCreateOrUpdate()}} Asset</h1>
 
 <div class="asset-edit-form">
+  <fieldset>
+    <legend>Essential fields</legend>
 
-  <mat-form-field>
-    <mat-label>Flagstate<span class="required">*</span></mat-label>
-    <mat-select [(ngModel)]="assetObject.flagStateCode">
-      <mat-option *ngFor="let flagstate of flagstates" [value]="flagstate">{{flagstate}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field id="asset-form--flagstate">
+      <mat-label>Flagstate<span class="required">*</span></mat-label>
+      <mat-select [(ngModel)]="assetObject.flagStateCode">
+        <mat-option *ngFor="let flagstate of flagstates" [value]="flagstate">{{flagstate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>External marking<span class="required">*</span></mat-label>
-    <input matInput [(ngModel)]="assetObject.externalMarking">
-  </mat-form-field>
+    <mat-form-field id="asset-form--externalMarking">
+      <mat-label>External marking<span class="required">*</span></mat-label>
+      <input matInput [(ngModel)]="assetObject.externalMarking">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Name<span class="required">*</span></mat-label>
-    <input matInput [(ngModel)]="assetObject.name">
-  </mat-form-field>
+    <mat-form-field id="asset-form--name">
+      <mat-label>Name<span class="required">*</span></mat-label>
+      <input matInput [(ngModel)]="assetObject.name">
+    </mat-form-field>
+  </fieldset>
 
-  <mat-form-field>
-    <mat-label>CFR</mat-label>
-    <input matInput [(ngModel)]="assetObject.cfr">
-  </mat-form-field>
+  <fieldset>
+    <legend>Identification fields</legend>
 
-  <mat-form-field>
-    <mat-label>IRCS</mat-label>
-    <input matInput [(ngModel)]="assetObject.ircs">
-  </mat-form-field>
+    <mat-form-field id="asset-form--cfr">
+      <mat-label>CFR</mat-label>
+      <input matInput [(ngModel)]="assetObject.cfr">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>IMO</mat-label>
-    <input matInput [(ngModel)]="assetObject.imo">
-  </mat-form-field>
+    <mat-form-field id="asset-form--ircs">
+      <mat-label>IRCS</mat-label>
+      <input matInput [(ngModel)]="assetObject.ircs">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Home port</mat-label>
-    <input matInput [(ngModel)]="assetObject.portOfRegistration">
-  </mat-form-field>
+    <mat-form-field id="asset-form--imo">
+      <mat-label>IMO</mat-label>
+      <input matInput [(ngModel)]="assetObject.imo">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>MMSI No.</mat-label>
-    <input matInput type="number" [(ngModel)]="assetObject.mmsi">
-  </mat-form-field>
+    <mat-form-field id="asset-form--portOfRegistration">
+      <mat-label>Home port</mat-label>
+      <input matInput [(ngModel)]="assetObject.portOfRegistration">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Length over all</mat-label>
-    <input matInput type="number" [(ngModel)]="assetObject.lengthOverAll">
-  </mat-form-field>
+    <mat-form-field id="asset-form--mmsi">
+      <mat-label>MMSI No.</mat-label>
+      <input matInput type="number" [(ngModel)]="assetObject.mmsi">
+    </mat-form-field>
+  </fieldset>
 
-  <mat-form-field>
-    <mat-label>Length between perpendiculars</mat-label>
-    <input matInput type="number" [(ngModel)]="assetObject.lengthBetweenPerpendiculars">
-  </mat-form-field>
+  <fieldset>
+    <legend>Metrics</legend>
 
-  <mat-form-field class="tonnage-form-field">
-    <mat-label>G.tonnage</mat-label>
-    <input matInput type="number" [(ngModel)]="assetObject.grossTonnage">
-    <mat-select [(ngModel)]="assetObject.grossTonnageUnit">
-      <mat-option *ngFor="let unit of unitTonnages" [value]="unit.code">{{unit.name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field id="asset-form--lengthOverAll">
+      <mat-label>Length over all</mat-label>
+      <input matInput type="number" [(ngModel)]="assetObject.lengthOverAll">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Main power</mat-label>
-    <input matInput type="number" [(ngModel)]="assetObject.powerOfMainEngine">
-  </mat-form-field>
+    <mat-form-field id="asset-form--lengthBetweenPerpendiculars">
+      <mat-label>Length between perpendiculars</mat-label>
+      <input matInput type="number" [(ngModel)]="assetObject.lengthBetweenPerpendiculars">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>P.O name</mat-label>
-    <input matInput [(ngModel)]="assetObject.prodOrgName">
-  </mat-form-field>
+    <mat-form-field class="tonnage-form-field" id="asset-form--grossTonnage">
+      <mat-label>G.tonnage</mat-label>
+      <input matInput type="number" [(ngModel)]="assetObject.grossTonnage">
+      <mat-select [(ngModel)]="assetObject.grossTonnageUnit">
+        <mat-option *ngFor="let unit of unitTonnages" [value]="unit.code">{{unit.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>P.O code</mat-label>
-    <input matInput type="number" [(ngModel)]="assetObject.prodOrgCode">
-  </mat-form-field>
+    <mat-form-field id="asset-form--powerOfMainEngine">
+      <mat-label>Main power</mat-label>
+      <input matInput type="number" [(ngModel)]="assetObject.powerOfMainEngine">
+    </mat-form-field>
+  </fieldset>
+
+  <fieldset>
+    <legend>Company information</legend>
+
+    <mat-form-field id="asset-form--prodOrgName">
+      <mat-label>P.O name</mat-label>
+      <input matInput [(ngModel)]="assetObject.prodOrgName">
+    </mat-form-field>
+
+    <mat-form-field id="asset-form--prodOrgCode">
+      <mat-label>P.O code</mat-label>
+      <input matInput type="number" [(ngModel)]="assetObject.prodOrgCode">
+    </mat-form-field>
+  </fieldset>
 
   <div>
-    <button mat-raised-button color="primary" type="button" (click)="save()">Save</button>
+    <button id="asset-form--save" mat-raised-button color="primary" type="button" (click)="save()">Save</button>
   </div>
 </div>

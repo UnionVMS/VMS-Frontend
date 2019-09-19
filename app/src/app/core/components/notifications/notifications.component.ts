@@ -10,4 +10,9 @@ import { NotificationsInterfaces } from '@data/notifications';
 export class NotificationsComponent {
   @Input() notifications: NotificationsInterfaces.State;
   @Input() dismiss: (type: string, index: number) => void;
+  @Input() overlay: boolean;
+
+  addConditionalClasses() {
+    return this.overlay === true ? 'overlay' : '';
+  }
 }
