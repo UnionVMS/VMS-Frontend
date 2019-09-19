@@ -17,6 +17,7 @@ export const initialState: Interfaces.State = {
   positionsForInspection: {},
   searchQuery: '',
   filterQuery: [],
+  unitTonnages: [],
 };
 
 const speedSegments = {
@@ -145,6 +146,7 @@ export const assetReducer = createReducer(initialState,
     }
     return returnState;
   }),
+  on(AssetActions.setAsset, (state, { asset }) => ({ ...state, assets: { ...state.assets, [asset.id]: asset }})),
   on(AssetActions.setAssetGroup, (state, { assetGroup }) => {
     let newState = { ...state };
     if (!state.selectedAssetGroups.some((selectedAssetGroup) => selectedAssetGroup.id === assetGroup.id)) {
@@ -222,6 +224,10 @@ export const assetReducer = createReducer(initialState,
   on(AssetActions.setFilterQuery, (state, { filterQuery }) => ({
     ...state,
     filterQuery
+  })),
+  on(AssetActions.setUnitTonnage, (state, { unitTonnages }) => ({
+    ...state,
+    unitTonnages
   })),
   on(AssetActions.setFullAsset, (state, { asset }) => ({
     ...state,

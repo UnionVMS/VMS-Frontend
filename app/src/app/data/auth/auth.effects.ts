@@ -26,7 +26,12 @@ export class AuthEffects {
         map((auth: any) => {
           return AuthActions.loginSuccess({ jwtToken: auth.jwtoken });
         }),
-        catchError((err) => of(NotificationsActions.addError(err)))
+        catchError((err) => {
+          if(typeof err === 'object' && typeof err.message !== 'undefined') {
+            return of(NotificationsActions.addError(err.message));
+          }
+          return of(NotificationsActions.addError(err.toString()));
+        })
       );
     })
   );

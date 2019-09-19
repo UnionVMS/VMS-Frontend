@@ -67,6 +67,15 @@ export const getAssetTrackFromTime = createAction(
   props<{ assetId: string, datetime: Date }>()
 );
 
+export const getSelectedAsset = createAction(
+  '[Asset] Get selected asset'
+);
+
+
+export const getUnitTonnage = createAction(
+  '[Asset] Get unit tonnage'
+);
+
 export const removeAssets = createAction(
   '[Asset] Remove asset',
   props<{ assets: Array<string>}>()
@@ -82,6 +91,11 @@ export const removePositionForInspection = createAction(
   props<{ inspectionId: string }>()
 );
 
+export const saveAsset = createAction(
+  '[Asset] save',
+  props<{ asset: AssetInterfaces.Asset }>()
+);
+
 export const searchAssets = createAction(
   '[Asset] search',
   props<{ requestParams: any }>()
@@ -91,6 +105,12 @@ export const selectAsset = createAction(
   '[Asset] Select asset',
   props<{ assetId: string }>()
 );
+
+export const setAsset = createAction(
+  '[Asset] Set asset',
+  props<{ asset: AssetInterfaces.Asset }>()
+);
+
 
 export const setAssetGroup = createAction(
   '[Asset] Set assetgroup',
@@ -130,6 +150,11 @@ export const setFilterQuery = createAction(
 export const setFullAsset = createAction(
   '[Asset] Set full asset',
   props<{ asset: AssetInterfaces.Asset }>()
+);
+
+export const setUnitTonnage = createAction(
+  '[Asset] Set unit tonnage',
+  props<{ unitTonnages: Array<AssetInterfaces.UnitTonnage> }>()
 );
 
 export const subscribeToMovements = createAction(

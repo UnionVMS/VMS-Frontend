@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Store, Action } from '@ngrx/store';
 import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
 import { of, EMPTY, merge, Observable, interval } from 'rxjs';
@@ -10,13 +11,15 @@ import { MapSettingsSelectors } from '../map-settings';
 
 import { AssetService } from './asset.service';
 import { AssetSelectors, AssetInterfaces, AssetActions } from './';
+import * as RouterSelectors from '@data/router/router.selectors';
 
 @Injectable()
 export class AssetEffects {
   constructor(
     private actions$: Actions,
     private assetService: AssetService,
-    private store$: Store<State>
+    private store$: Store<State>,
+    private router: Router
   ) {}
 
   @Effect()
@@ -274,6 +277,67 @@ export class AssetEffects {
       return this.assetService.getAssetTrackFromTime(authToken, action.assetId, action.datetime).pipe(
         map((assetTrack: any) => {
           return AssetActions.setAssetTrack({ tracks: assetTrack.reverse(), assetId: action.assetId, visible: true });
+        })
+      );
+    })
+  );
+
+  @Effect()
+  getAssetUnitTonnage$ = this.actions$.pipe(
+    ofType(AssetActions.getUnitTonnage),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.assetService.getUnitTonnage(authToken).pipe(
+        map((unitTonnage: any) => {
+          return AssetActions.setUnitTonnage({
+            unitTonnages: unitTonnage.map(unit => ({ name: unit.description, code: unit.primaryKey.code }))
+          });
+        })
+      );
+    })
+  );
+
+  @Effect()
+  getSelectedAsset$ = this.actions$.pipe(
+    ofType(AssetActions.getSelectedAsset),
+    mergeMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.select(AuthSelectors.getAuthToken),
+        this.store$.select(AssetSelectors.getSelectedAsset),
+        this.store$.select(RouterSelectors.getMergedRoute)
+      ),
+      mergeMap(([pipedAction, authToken, selectedAsset, mergedRoute]: Array<any>) => {
+        if(typeof selectedAsset !== 'undefined' || typeof mergedRoute.params.assetId === 'undefined') {
+          return EMPTY;
+        }
+        return this.assetService.getAsset(authToken, mergedRoute.params.assetId).pipe(
+          map((asset: AssetInterfaces.Asset) => {
+            return AssetActions.setFullAsset({ asset });
+          })
+        );
+      })
+    ))
+  );
+
+  @Effect()
+  saveAsset$ = this.actions$.pipe(
+    ofType(AssetActions.saveAsset),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      const isNew = action.asset.id === undefined || action.asset.id === null;
+      let request: Observable<object>;
+      if(isNew) {
+        request = this.assetService.createAsset(authToken, action.asset);
+      } else {
+        request = this.assetService.updateAsset(authToken, action.asset);
+      }
+      return request.pipe(
+        map((asset: AssetInterfaces.Asset) => {
+          // Redirect to edit if we just were on create asset page.
+          if(isNew) {
+            this.router.navigate(['/asset/edit/' + asset.id]);
+          }
+          return AssetActions.setAsset({ asset });
         })
       );
     })

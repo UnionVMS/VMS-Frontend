@@ -8,9 +8,8 @@ export const initialState: Interfaces.State = {
   success: [],
 };
 
-export const mapSettingsReducer = createReducer(initialState,
+export const notificationsReducer = createReducer(initialState,
   on(NotificationsActions.addNotification, (state, { notificationType, notification }) => {
-    console.warn('-------------------', notification);
     return ({
       ...state,
       [notificationType]: [ ...state[notificationType], notification ]

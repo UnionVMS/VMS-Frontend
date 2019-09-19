@@ -10,9 +10,9 @@ export const addSuccess = (notification: string) => {
 };
 
 export const addNotice = (notification: string) => {
-  return addNotification({ notificationType: 'notice', notification});
+  return addNotification({ notificationType: 'notices', notification});
 };
 
 export const addError = (notification: string) => {
-  return addNotification({ notificationType: 'error', notification});
+  return addNotification({ notificationType: 'errors', notification});
 };

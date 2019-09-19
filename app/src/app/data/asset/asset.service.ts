@@ -4,6 +4,9 @@ import { environment } from '../../../environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Observable } from 'rxjs';
 
+import { AssetInterfaces } from '@data/asset';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -71,7 +74,7 @@ export class AssetService {
     const that = this;
     return new Observable((observer) => {
       that.assetObserver$ = observer;
-
+      // TODO: This has been split into 2 types of messages, split them and fix corresponding logic in effects.
       that.assetEventSource.addEventListener('Asset', (asset) => observer.next(JSON.parse(asset.data)));
     });
   }
@@ -135,7 +138,7 @@ export class AssetService {
     );
   }
 
-  listAssets(authToken, requestParams) {
+  listAssets(authToken: string, requestParams) {
     // console.warn(`RequestParams we should send when it's implemented: `, requestParams);
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/list/`,
@@ -149,7 +152,7 @@ export class AssetService {
     );
   }
 
-  getAssetEssentialProperties(authToken, listOfAssetIds) {
+  getAssetEssentialProperties(authToken: string, listOfAssetIds) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/microAssets`,
       listOfAssetIds,
@@ -161,6 +164,45 @@ export class AssetService {
       }
     );
   }
+
+  getUnitTonnage(authToken: string) {
+    return this.http.get(
+      environment.baseApiUrl + `asset/rest/customcodes/listcodesforconstant/UNIT_TONNAGE`,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
+  createAsset(authToken: string, asset: AssetInterfaces.Asset) {
+    return this.http.post(
+      environment.baseApiUrl + `asset/rest/asset`,
+      asset,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
+  updateAsset(authToken: string, asset: AssetInterfaces.Asset) {
+    return this.http.put(
+      environment.baseApiUrl + `asset/rest/asset`,
+      asset,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
 
   // return this.http.get(
   //   environment.baseApiUrl + 'asset/rest/group/list?user=vms_admin_se', {

@@ -13,6 +13,8 @@ import { AuthReducer, AuthInterfaces, AuthActions } from './data/auth/';
 import { MapSettingsReducer, MapSettingsInterfaces } from './data/map-settings/';
 import { MapLayersReducer, MapLayersInterfaces } from './data/map-layers/';
 import { MapSavedFiltersReducer, MapSavedFiltersInterfaces } from './data/map-saved-filters/';
+import { NotificationsReducer, NotificationsInterfaces } from './data/notifications/';
+import { MergedRouteReducerState } from './data/router/router.interfaces';
 
 
 export interface State {
@@ -21,7 +23,8 @@ export interface State {
   mapLayers: MapLayersInterfaces.State;
   mapSettings: MapSettingsInterfaces.State;
   mapSavedFilters: MapSavedFiltersInterfaces.State;
-  router: RouterReducerState;
+  notifications: NotificationsInterfaces.State;
+  router: MergedRouteReducerState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -30,6 +33,7 @@ export const reducers: ActionReducerMap<State> = {
   mapLayers: MapLayersReducer.mapLayersReducer,
   mapSettings: MapSettingsReducer.mapSettingsReducer,
   mapSavedFilters: MapSavedFiltersReducer.mapSavedFiltersReducer,
+  notifications: NotificationsReducer.notificationsReducer,
   router: routerReducer,
 };
 

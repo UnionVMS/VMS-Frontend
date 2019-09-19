@@ -2,6 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as AssetInterfaces from './asset.interfaces';
 import { State } from '@app/app-reducer';
 import { MapSavedFiltersSelectors } from '@data/map-saved-filters';
+import { getMergedRoute } from '@data/router/router.selectors';
 
 
 export const getAssetState = createFeatureSelector<AssetInterfaces.State>('asset');
@@ -18,6 +19,7 @@ export const selectFilterQuery = (state: State) => state.asset.filterQuery;
 export const selectSearchQuery = (state: State) => state.asset.searchQuery;
 export const selectPositionsForInspection = (state: State) => state.asset.positionsForInspection;
 export const selectSelectedAssetGroups = (state: State) => state.asset.selectedAssetGroups;
+export const selectUnitTonnages = (state: State) => state.asset.unitTonnages;
 
 
 export const getAssets = createSelector(
@@ -228,5 +230,22 @@ export const getSearchAutocomplete = createSelector(
         assetsEssentials[key].assetName.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
       )
       .map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] }));
+  }
+);
+
+export const getUnitTonnages = createSelector(
+  selectUnitTonnages,
+  (unitTonnages) => unitTonnages
+);
+
+
+export const getSelectedAsset = createSelector(
+  selectAssets,
+  getMergedRoute,
+  (assets, mergedRoute) => {
+    if(typeof assets[mergedRoute.params.assetId] !== 'undefined') {
+      return { ...assets[mergedRoute.params.assetId] };
+    }
+    return undefined;
   }
 );

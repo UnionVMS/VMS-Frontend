@@ -4,7 +4,7 @@
 
   <mat-form-field>
     <mat-label>Flagstate<span class="required">*</span></mat-label>
-    <mat-select [(ngModel)]="assetObject.flagState">
+    <mat-select [(ngModel)]="assetObject.flagStateCode">
       <mat-option *ngFor="let flagstate of flagstates" [value]="flagstate">{{flagstate}}</mat-option>
     </mat-select>
   </mat-form-field>
@@ -40,28 +40,26 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>Gear type</mat-label>
-    <input matInput [(ngModel)]="assetObject.gearFishingType">
-  </mat-form-field>
-
-  <mat-form-field>
     <mat-label>MMSI No.</mat-label>
     <input matInput type="number" [(ngModel)]="assetObject.mmsi">
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>License type</mat-label>
-    <input matInput [(ngModel)]="assetObject.licenceType">
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Length</mat-label>
+    <mat-label>Length over all</mat-label>
     <input matInput type="number" [(ngModel)]="assetObject.lengthOverAll">
   </mat-form-field>
 
   <mat-form-field>
+    <mat-label>Length between perpendiculars</mat-label>
+    <input matInput type="number" [(ngModel)]="assetObject.lengthBetweenPerpendiculars">
+  </mat-form-field>
+
+  <mat-form-field class="tonnage-form-field">
     <mat-label>G.tonnage</mat-label>
     <input matInput type="number" [(ngModel)]="assetObject.grossTonnage">
+    <mat-select [(ngModel)]="assetObject.grossTonnageUnit">
+      <mat-option *ngFor="let unit of unitTonnages" [value]="unit.code">{{unit.name}}</mat-option>
+    </mat-select>
   </mat-form-field>
 
   <mat-form-field>
@@ -80,6 +78,6 @@
   </mat-form-field>
 
   <div>
-    <button mat-raised-button color="primary" type="button" (click)="search()">Search</button>
+    <button mat-raised-button color="primary" type="button" (click)="save()">Save</button>
   </div>
 </div>

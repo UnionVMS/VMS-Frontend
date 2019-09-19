@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { RouterState } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 
 // ngrx apparently removed payload from the Action interface since they tought it was optional
@@ -30,6 +29,7 @@ import { CoreModule } from './core/core.module';
 import { MapModule } from './modules/map/map.module';
 import { AssetModule } from './modules/asset/asset.module';
 import { SettingsModule } from './modules/settings/settings.module';
+import { NgrxRouterStoreModule } from './modules/router/ngrx-router.module';
 
 /* Effects */
 import { AssetEffects } from './data/asset/asset.effects';
@@ -58,9 +58,7 @@ const imports = [
       strictActionSerializability: true,
     }
   }),
-  StoreRouterConnectingModule.forRoot({
-    routerState: RouterState.Minimal,
-  }),
+  NgrxRouterStoreModule,
   AppRoutingModule,
   HttpClientModule,
   EffectsModule.forRoot([

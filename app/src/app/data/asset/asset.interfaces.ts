@@ -9,6 +9,11 @@ export interface Movement {
   source: string;
 }
 
+export interface UnitTonnage {
+  name: string;
+  code: string;
+}
+
 export interface AssetMovement {
   microMove: Movement;
   asset: string;
@@ -162,4 +167,5 @@ export interface State {
   positionsForInspection: { [id: number]: Movement };
   searchQuery: string;
   filterQuery: Array<AssetFilterQuery>;
+  unitTonnages: Array<UnitTonnage>;
 }

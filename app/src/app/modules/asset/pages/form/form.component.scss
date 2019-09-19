@@ -9,6 +9,18 @@
     margin-left: $small_distance;
     color: red;
   }
+
+  .length-form-field {
+    input, mat-select {
+      width: 50%;
+    }
+  }
+
+  .tonnage-form-field {
+    input, mat-select {
+      width: 50%;
+    }
+  }
 }
 
 .asset-table-container > table {

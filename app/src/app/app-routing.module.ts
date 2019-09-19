@@ -33,7 +33,8 @@ const routes: Routes = [
     children: [
       { path: '', component: TestComponent, pathMatch: 'full'},
       { path: 'settings/user', component: UserSettingsComponent, pathMatch: 'full'},
-      { path: 'asset/edit', component: AssetFormComponent, pathMatch: 'full'},
+      { path: 'asset/edit/:assetId', component: AssetFormComponent, pathMatch: 'full'},
+      { path: 'asset/create', component: AssetFormComponent, pathMatch: 'full'},
       { path: 'asset', component: AssetSearchComponent, pathMatch: 'full'},
       { path: 'test', component: TestComponent, pathMatch: 'full'},
       { path: 'logout', component: LogoutComponent, pathMatch: 'full'},
