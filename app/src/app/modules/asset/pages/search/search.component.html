@@ -1,5 +1,7 @@
-<h1>Asset serach</h1>
-
+<div class="top-row">
+  <h1>Asset serach</h1>
+  <button mat-raised-button class="btn-default" type="button" routerLink="/asset/create">Create</button>
+</div>
 <div class="asset-search-form">
 
   <mat-form-field>
@@ -79,8 +81,8 @@
       <ng-container matColumnDef="details">
         <th mat-header-cell *matHeaderCellDef>Details</th>
         <td mat-cell *matCellDef="let row">
-          <a href="#" *ngIf="row.source === 'NATIONAL'">Show</a>
-          <a href="#" *ngIf="row.source !== 'NATIONAL'">Edit</a>
+          <a *ngIf="row.source === 'NATIONAL'">Show</a>
+          <a routerLink="/asset/edit/{{row.id}}" *ngIf="row.source !== 'NATIONAL'">Edit</a>
         </td>
       </ng-container>
 

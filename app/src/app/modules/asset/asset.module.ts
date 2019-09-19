@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /* Modules */
+import { RouterModule } from '@angular/router';
 import { UIModule } from '../ui/ui.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
@@ -26,6 +27,7 @@ import { SearchComponent } from './pages/search/search.component';
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     UIModule,
     MatPaginatorModule,
     MatTableModule,
