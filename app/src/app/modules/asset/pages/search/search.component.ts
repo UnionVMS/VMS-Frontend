@@ -13,11 +13,11 @@ const allFlagstates = Object.keys(getAlpha3Codes());
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 
 @Component({
-  selector: 'asset-search',
+  selector: 'asset-search-page',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchPageComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<AssetInterfaces.State>) { }
 
@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   public loadingData = false;
   public tableReadyForDisplay = false;
   public dataLoadedSubscription: Subscription;
-  public displayedColumns: string[] = ['name', 'ircs', 'mmsi', 'flagstate', 'externalMarking', 'cfr', 'details'];
+  public displayedColumns: string[] = ['name', 'ircs', 'mmsi', 'flagstate', 'externalMarking', 'cfr'];
   public flagstates = allFlagstates.sort();
   public assetSearchObject = {
     flagState: [],

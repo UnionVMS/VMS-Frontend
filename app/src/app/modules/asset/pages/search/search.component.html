@@ -2,37 +2,35 @@
   <h1>Asset serach</h1>
   <button mat-raised-button class="btn-default" type="button" routerLink="/asset/create">Create</button>
 </div>
-<div class="asset-search-form">
-
+<form class="asset-search-form">
   <mat-form-field>
     <mat-label>Flagstates</mat-label>
     <!-- [formControl]="searchFlagstates" -->
-    <mat-select [(ngModel)]="assetSearchObject.flagState" multiple>
+    <mat-select name="flagState" [(ngModel)]="assetSearchObject.flagState" multiple>
       <mat-option *ngFor="let flagstate of flagstates" [value]="flagstate">{{flagstate}}</mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="External marking" [(ngModel)]="assetSearchObject.externalMarking">
+    <input matInput placeholder="External marking" name="externalMarking" [(ngModel)]="assetSearchObject.externalMarking">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="Name" [(ngModel)]="assetSearchObject.name">
+    <input matInput placeholder="Name" name="name" [(ngModel)]="assetSearchObject.name">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="CFR" [(ngModel)]="assetSearchObject.cfr">
+    <input matInput placeholder="CFR" name="cfr" [(ngModel)]="assetSearchObject.cfr">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="IRCS" [(ngModel)]="assetSearchObject.ircs">
+    <input matInput placeholder="IRCS" name="ircs" [(ngModel)]="assetSearchObject.ircs">
   </mat-form-field>
 
   <div>
-    <button mat-raised-button color="primary" type="button" (click)="search()">Search</button>
+    <button mat-raised-button color="primary" type="submit" (click)="search()">Search</button>
   </div>
-</div>
-
+</form>
 
 <mat-spinner class="load-spinner" *ngIf="loadingData"></mat-spinner>
 <div class="asset-container mat-elevation-z8" *ngIf="tableReadyForDisplay">
@@ -77,17 +75,8 @@
         <td mat-cell *matCellDef="let row">{{row.cfr}}</td>
       </ng-container>
 
-      <!-- flagstate Column -->
-      <ng-container matColumnDef="details">
-        <th mat-header-cell *matHeaderCellDef>Details</th>
-        <td mat-cell *matCellDef="let row">
-          <a *ngIf="row.source === 'NATIONAL'">Show</a>
-          <a routerLink="/asset/edit/{{row.id}}" *ngIf="row.source !== 'NATIONAL'">Edit</a>
-        </td>
-      </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/asset/show/{{row.id}}"></tr>
     </table>
   </div>
 </div>

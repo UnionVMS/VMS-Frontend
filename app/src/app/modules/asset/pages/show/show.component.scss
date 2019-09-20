@@ -1,0 +1,17 @@
+@import 'variables.scss';
+
+.column-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: $medium_distance;
+
+  .placeholder {
+    margin-top: 20px;
+    color: white;
+    background: $color_dark_turquoise;
+    min-height: 300px;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+  }
+}

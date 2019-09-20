@@ -28,3 +28,12 @@
 .load-spinner {
   margin: 150px auto;
 }
+
+.asset-table-container .cdk-row {
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba( $color_blue, 0.2);
+    text-decoration: underline;
+  }
+}

@@ -238,7 +238,6 @@ export const getUnitTonnages = createSelector(
   (unitTonnages) => unitTonnages
 );
 
-
 export const getSelectedAsset = createSelector(
   selectAssets,
   getMergedRoute,

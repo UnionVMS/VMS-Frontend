@@ -1,6 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as AssetActions from './asset.actions';
 import * as Interfaces from './asset.interfaces';
+import { hashCode } from '@app/helpers';
 
 export const initialState: Interfaces.State = {
   assetGroups: [],
@@ -159,7 +160,7 @@ export const assetReducer = createReducer(initialState,
     assetGroups
   })),
   on(AssetActions.setAssetList, (state, { searchParams, assets, currentPage, totalNumberOfPages }) => {
-    const identifier = `ps${searchParams.pageSize}`;
+    const identifier = `i-${hashCode(JSON.stringify(searchParams) + currentPage)}`;
     return { ...state,
       assets: {
         ...state.assets,

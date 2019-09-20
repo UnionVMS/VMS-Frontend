@@ -14,14 +14,15 @@ import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 
 @Component({
-  selector: 'asset-edit',
+  selector: 'asset-edit-page',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnInit, OnDestroy {
+export class FormPageComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<State>) { }
 
+  public assetSubscription: Subscription;
   public unitTonnagesSubscription: Subscription;
   public unitTonnages: Array<AssetInterfaces.UnitTonnage>;
   public flagstates = allFlagstates.sort();
@@ -40,7 +41,7 @@ export class FormComponent implements OnInit, OnDestroy {
         this.assetObject.grossTonnageUnit = unitTonnages[0].code;
       }
     });
-    this.store.select(AssetSelectors.getSelectedAsset).subscribe((asset) => {
+    this.assetSubscription = this.store.select(AssetSelectors.getSelectedAsset).subscribe((asset) => {
       if(typeof asset !== 'undefined') {
         this.assetObject = asset;
       }
@@ -70,6 +71,9 @@ export class FormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if(this.unitTonnagesSubscription !== undefined) {
       this.unitTonnagesSubscription.unsubscribe();
+    }
+    if(this.assetSubscription !== undefined) {
+      this.assetSubscription.unsubscribe();
     }
   }
 

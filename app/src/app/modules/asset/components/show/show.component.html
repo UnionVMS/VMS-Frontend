@@ -1,0 +1,63 @@
+<h2>Asset information</h2>
+<a *ngIf="asset.source !== 'NATIONAL'" class="edit-link" routerLink="/asset/edit/{{asset.id}}">Edit asset</a>
+<span *ngIf="asset.source === 'NATIONAL'" class="edit-link">Read only asset</span>
+
+<ng-container *ngIf="asset.flagStateCode">
+  <label>Flagstate</label>
+  <div>{{asset.flagStateCode}}</div>
+</ng-container>
+<ng-container *ngIf="asset.externalMarking">
+  <label>External marking</label>
+  <div>{{asset.externalMarking}}</div>
+</ng-container>
+
+<ng-container *ngIf="asset.cfr">
+  <label>Cfr</label>
+  <div>{{asset.cfr}}</div>
+</ng-container>
+<ng-container *ngIf="asset.ircs">
+  <label>Ircs</label>
+  <div>{{asset.ircs}}</div>
+</ng-container>
+<ng-container *ngIf="asset.imo">
+  <label>imo</label>
+  <div>{{asset.imo}}</div>
+</ng-container>
+<ng-container *ngIf="asset.portOfRegistration">
+  <label>Port of registration</label>
+  <div>{{asset.portOfRegistration}}</div>
+</ng-container>
+<ng-container *ngIf="asset.mmsi">
+  <label>Mmsi</label>
+  <div>{{asset.mmsi}}</div>
+</ng-container>
+
+<ng-container *ngIf="asset.lengthOverAll">
+  <label>Length over all</label>
+  <div>{{asset.lengthOverAll}}</div>
+</ng-container>
+<ng-container *ngIf="asset.lengthBetweenPerpendiculars">
+  <label>Length between perpendiculars</label>
+  <div>{{asset.lengthBetweenPerpendiculars}}</div>
+</ng-container>
+<ng-container *ngIf="asset.grossTonnage">
+  <label>Gross tonnage</label>
+  <div>{{asset.grossTonnage}} {{asset.grossTonnageUnit}}</div>
+</ng-container>
+<ng-container *ngIf="asset.powerOfMainEngine">
+  <label>Power of main engine</label>
+  <div>{{asset.powerOfMainEngine}}</div>
+</ng-container>
+<ng-container *ngIf="asset.vesselType">
+  <label>Vessel type</label>
+  <div>{{asset.vesselType}}</div>
+</ng-container>
+
+<ng-container *ngIf="asset.prodOrgCode">
+  <label>Org. Nr</label>
+  <div>{{asset.prodOrgCode}}</div>
+</ng-container>
+<ng-container *ngIf="asset.prodOrgName">
+  <label>Org. namn</label>
+  <div>{{asset.prodOrgName}}</div>
+</ng-container>

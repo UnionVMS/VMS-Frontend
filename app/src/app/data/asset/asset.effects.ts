@@ -13,6 +13,7 @@ import { AssetService } from './asset.service';
 import { AssetSelectors, AssetInterfaces, AssetActions } from './';
 import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
+import { MobileTerminalInterfaces, MobileTerminalActions } from '@data/mobile-terminal';
 
 @Injectable()
 export class AssetEffects {
@@ -30,16 +31,33 @@ export class AssetEffects {
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.listAssets(authToken, action.requestParams).pipe(
         map((response: any) => {
-          return AssetActions.setAssetList({
-            searchParams: action.requestParams,
-            totalNumberOfPages: response.totalNumberOfPages,
-            currentPage: response.currentPage,
-            assets: response.assetList.reduce((acc, asset) => {
-              acc[asset.historyId] = asset;
-              return acc;
-            }, {})
-          });
-        })
+          return [
+            AssetActions.setAssetList({
+              searchParams: action.requestParams,
+              totalNumberOfPages: response.totalNumberOfPages,
+              currentPage: response.currentPage,
+              assets: response.assetList.reduce((acc, asset) => {
+                acc[asset.historyId] = {
+                  ...asset,
+                  mobileTerminals: asset.mobileTerminals.map(
+                    (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => mobileTerminal.id
+                  )
+                };
+                return acc;
+              }, {})
+            }),
+            MobileTerminalActions.addMobileTerminals({
+              mobileTerminals: response.assetList.reduce((acc, asset) => {
+                const mobileTerminals = asset.mobileTerminals.map(
+                  (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => ({ ...mobileTerminal, assetId: asset.id })
+                );
+                acc = [ ...acc, ...mobileTerminals ];
+                return acc;
+              }, [])
+            })
+          ];
+        }),
+        flatMap(a => a)
       );
     })
   );
@@ -310,9 +328,20 @@ export class AssetEffects {
           return EMPTY;
         }
         return this.assetService.getAsset(authToken, mergedRoute.params.assetId).pipe(
-          map((asset: AssetInterfaces.Asset) => {
-            return AssetActions.setFullAsset({ asset });
-          })
+          map((asset: any) => {
+            const fullAsset = { ...asset, mobileTerminals: asset.mobileTerminals.map(
+              (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => mobileTerminal.id
+            )};
+            return [
+              AssetActions.setFullAsset({ asset: fullAsset }),
+              MobileTerminalActions.addMobileTerminals({
+                mobileTerminals: asset.mobileTerminals.map(
+                  (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => ({ ...mobileTerminal, assetId: asset.id })
+                )
+              })
+            ];
+          }),
+          flatMap(a => a)
         );
       })
     ))
@@ -333,9 +362,8 @@ export class AssetEffects {
       return request.pipe(
         map((asset: AssetInterfaces.Asset) => {
           let notification = 'Asset updated successfully!';
-          // Redirect to edit if we just were on create asset page.
+          this.router.navigate(['/asset/show/' + asset.id]);
           if(isNew) {
-            this.router.navigate(['/asset/edit/' + asset.id]);
             notification = 'Asset created successfully!';
           }
           return [AssetActions.setAsset({ asset }), NotificationsActions.addSuccess(notification)];

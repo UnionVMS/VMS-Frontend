@@ -37,6 +37,7 @@ import { AuthEffects } from './data/auth/auth.effects';
 import { MapSettingsEffects } from './data/map-settings/map-settings.effects';
 import { MapSavedFiltersEffects } from './data/map-saved-filters/map-saved-filters.effects';
 import { MapLayersEffects } from './data/map-layers/map-layers.effects';
+import { MobileTerminalEffects } from './data/mobile-terminal/mobile-terminal.effects';
 
 /* Services */
 import { AuthService } from './data/auth/auth.service';
@@ -66,7 +67,8 @@ const imports = [
     AssetEffects,
     MapSettingsEffects,
     MapSavedFiltersEffects,
-    MapLayersEffects
+    MapLayersEffects,
+    MobileTerminalEffects,
   ]),
   BrowserAnimationsModule,
   CoreModule,

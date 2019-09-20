@@ -17,11 +17,13 @@ import { MatRadioModule } from '@angular/material/radio';
 
 
 /* Pages */
-import { FormComponent } from './pages/form/form.component';
-import { SearchComponent } from './pages/search/search.component';
+import { FormPageComponent } from './pages/form/form.component';
+import { SearchPageComponent } from './pages/search/search.component';
+import { ShowPageComponent } from './pages/show/show.component';
 
 /* Components */
-
+import { ShowComponent } from '@modules/asset/components/show/show.component';
+import { ShowMobileTerminalComponent } from '@modules/asset/components/show-mobile-terminal/show-mobile-terminal.component';
 
 
 @NgModule({
@@ -42,8 +44,11 @@ import { SearchComponent } from './pages/search/search.component';
     MatRadioModule,
   ],
   declarations: [
-    FormComponent,
-    SearchComponent
+    FormPageComponent,
+    SearchPageComponent,
+    ShowPageComponent,
+    ShowComponent,
+    ShowMobileTerminalComponent,
   ]
 })
 

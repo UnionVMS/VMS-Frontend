@@ -1,0 +1,14 @@
+@import 'variables.scss';
+
+label {
+  font-weight: bold;
+  color: $color_green;
+}
+
+.edit-link {
+  float: right;
+}
+
+h2 {
+  margin-top: 0px;
+}

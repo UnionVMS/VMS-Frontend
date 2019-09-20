@@ -20,6 +20,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-bottom: $xlarge_distance;
 }
 
+.container h2 {
+  font-size: 16px;
+}
+
 button {
   -webkit-appearance: button;
   -webkit-writing-mode: horizontal-tb !important;
