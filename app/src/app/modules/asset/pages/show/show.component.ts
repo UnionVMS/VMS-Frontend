@@ -33,7 +33,7 @@ export class ShowPageComponent implements OnInit, OnDestroy {
         this.asset = asset;
       }
     });
-    this.mobileTerminals$ = this.store.select(MobileTerminalSelectors.getobileTerminalsForUrlAsset);
+    this.mobileTerminals$ = this.store.select(MobileTerminalSelectors.getMobileTerminalsForUrlAsset);
   }
 
   mapDispatchToProps() {

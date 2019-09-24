@@ -14,14 +14,18 @@ import { FullLayoutComponent } from './core/layouts/full/full.component';
 import { LoginComponent } from './core/pages/login/login.component';
 import { UnauthorizedComponent } from './core/pages/unauthorized/unauthorized.component';
 import { LogoutComponent } from './core/pages/logout/logout.component';
+import { NotFoundComponent } from './core/pages/404/404.component';
 
 // Map-pages
 import { RealtimeComponent } from './modules/map/pages/realtime/realtime.component';
 
 // Asset-pages
-import { SearchPageComponent as AssetSearchComponent } from './modules/asset/pages/search/search.component';
-import { FormPageComponent as AssetFormComponent } from './modules/asset/pages/form/form.component';
-import { ShowPageComponent as AssetShowComponent } from './modules/asset/pages/show/show.component';
+import { SearchPageComponent as AssetSearchPage } from './modules/asset/pages/search/search.component';
+import { FormPageComponent as AssetFormPage } from './modules/asset/pages/form/form.component';
+import { ShowPageComponent as AssetShowPage } from './modules/asset/pages/show/show.component';
+
+// MobileTerminal-pages
+import { FormPageComponent as MobileTerminalFormPage } from './modules/mobile-terminal/pages/form/form.component';
 
 // Settings-pages
 import { UserSettingsComponent } from './modules/settings/pages/user-settings/user-settings.component';
@@ -34,11 +38,11 @@ const routes: Routes = [
     children: [
       { path: '', component: TestComponent, pathMatch: 'full'},
       { path: 'settings/user', component: UserSettingsComponent, pathMatch: 'full'},
-      { path: 'asset/edit/:assetId', component: AssetFormComponent, pathMatch: 'full'},
-      { path: 'asset/show/:assetId', component: AssetShowComponent, pathMatch: 'full'},
-      { path: 'asset/create', component: AssetFormComponent, pathMatch: 'full'},
-      { path: 'asset', component: AssetSearchComponent, pathMatch: 'full'},
-      { path: 'test', component: TestComponent, pathMatch: 'full'},
+      { path: 'asset/edit/:assetId', component: AssetFormPage, pathMatch: 'full'},
+      { path: 'asset/show/:assetId', component: AssetShowPage, pathMatch: 'full'},
+      { path: 'asset/create', component: AssetFormPage, pathMatch: 'full'},
+      { path: 'asset', component: AssetSearchPage, pathMatch: 'full'},
+      { path: 'mobileTerminal/edit/:mobileTerminalId', component: MobileTerminalFormPage, pathMatch: 'full' },
       { path: 'logout', component: LogoutComponent, pathMatch: 'full'},
     ]
   },
@@ -58,7 +62,7 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent, pathMatch: 'full'},
     ]
   },
-  { path: '**', component: TestComponent }
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

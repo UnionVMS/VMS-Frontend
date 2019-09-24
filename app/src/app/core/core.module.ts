@@ -19,6 +19,7 @@ import { FullLayoutComponent } from './layouts/full/full.component';
 import { LoginComponent } from './pages/login/login.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { LogoutComponent } from './pages/logout/logout.component';
+import { NotFoundComponent } from './pages/404/404.component';
 
 // Components
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
@@ -41,6 +42,7 @@ import { NotificationsComponent } from './components/notifications/notifications
     LogoutComponent,
     TopMenuComponent,
     NotificationsComponent,
+    NotFoundComponent,
   ],
   providers: [
     AuthGuard

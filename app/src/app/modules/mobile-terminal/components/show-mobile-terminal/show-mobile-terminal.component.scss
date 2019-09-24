@@ -1,0 +1,21 @@
+@import 'variables.scss';
+
+
+.top-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  h2 {
+    margin-top: 0px;
+  }
+}
+fieldset {
+  border: 1px solid #000;
+  label {
+    font-weight: bold;
+    color: $color_green;
+  }
+
+  .edit-link {
+    float: right;
+  }
+}

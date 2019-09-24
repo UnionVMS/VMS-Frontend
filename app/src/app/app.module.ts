@@ -25,11 +25,13 @@ import { reducers, metaReducers } from './app-reducer';
 import { environment } from '../environments/environment';
 
 /* Modules */
+import { AssetModule } from './modules/asset/asset.module';
 import { CoreModule } from './core/core.module';
 import { MapModule } from './modules/map/map.module';
-import { AssetModule } from './modules/asset/asset.module';
-import { SettingsModule } from './modules/settings/settings.module';
+import { MobileTerminalModule } from './modules/mobile-terminal/mobile-terminal.module';
 import { NgrxRouterStoreModule } from './modules/router/ngrx-router.module';
+import { SettingsModule } from './modules/settings/settings.module';
+
 
 /* Effects */
 import { AssetEffects } from './data/asset/asset.effects';
@@ -72,8 +74,9 @@ const imports = [
   ]),
   BrowserAnimationsModule,
   CoreModule,
-  MapModule,
   AssetModule,
+  MapModule,
+  MobileTerminalModule,
   SettingsModule
 ];
 

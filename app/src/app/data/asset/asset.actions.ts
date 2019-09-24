@@ -71,7 +71,6 @@ export const getSelectedAsset = createAction(
   '[Asset] Get selected asset'
 );
 
-
 export const getUnitTonnage = createAction(
   '[Asset] Get unit tonnage'
 );

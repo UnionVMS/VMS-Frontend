@@ -21,4 +21,26 @@ export class MobileTerminalService {
       }
     );
   }
+
+  getMobileTerminal(authToken: string, mobileTerminalId: string) {
+    return this.http.get(
+      environment.baseApiUrl + 'asset/rest/mobileTerminal/' + mobileTerminalId, {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
+  getTransponders(authToken: string) {
+    return this.http.get(
+      environment.baseApiUrl + 'asset/rest/config/MT/transponders', {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
 }

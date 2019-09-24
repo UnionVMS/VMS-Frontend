@@ -54,6 +54,7 @@ const AssetStub: Asset = {
   segmentOfAdministrativeDecision: null,
   publicAid: null,
   registrationNumber: null,
+  mobileTerminals: [],
   updatedBy: 'UVMS (JMS)',
   prodOrgCode: null,
   prodOrgName: null

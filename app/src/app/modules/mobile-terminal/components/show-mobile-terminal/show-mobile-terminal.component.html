@@ -1,0 +1,38 @@
+<div class="top-row">
+  <h2>Mobile terminals</h2>
+  <button mat-raised-button class="btn-default" type="button" routerLink="/mobileTerminal/create">Create</button>
+</div>
+<fieldset *ngFor="let mobileTerminal of mobileTerminals">
+  <legend>{{mobileTerminal.id}}</legend>
+  <a class="edit-link" routerLink="/mobileTerminal/edit/{{mobileTerminal.id}}">Edit</a>
+  <ng-container *ngIf="mobileTerminal.mobileTerminalType">
+    <label>Typ</label>
+    <div>{{mobileTerminal.mobileTerminalType}}</div>
+  </ng-container>
+  <ng-container *ngIf="mobileTerminal.source">
+    <label>Source</label>
+    <div>{{mobileTerminal.source}}</div>
+  </ng-container>
+
+  <ng-container *ngIf="mobileTerminal.softwareVersion">
+    <label>Software version</label>
+    <div>{{mobileTerminal.softwareVersion}}</div>
+  </ng-container>
+  <ng-container *ngIf="mobileTerminal.antenna">
+    <label>Antenna</label>
+    <div>{{mobileTerminal.antenna}}</div>
+  </ng-container>
+
+  <ng-container *ngIf="mobileTerminal.satelliteNumber">
+    <label>Satellite number</label>
+    <div>{{mobileTerminal.satelliteNumber}}</div>
+  </ng-container>
+  <ng-container *ngIf="mobileTerminal.serialNo">
+    <label>Serial no.</label>
+    <div>{{mobileTerminal.serialNo}}</div>
+  </ng-container>
+  <ng-container *ngIf="mobileTerminal.inactivated">
+    <label>Inactive</label>
+    <div>{{mobileTerminal.inactivated}}</div>
+  </ng-container>
+</fieldset>

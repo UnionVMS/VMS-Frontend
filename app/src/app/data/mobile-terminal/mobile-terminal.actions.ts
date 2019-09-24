@@ -10,3 +10,21 @@ export const addMobileTerminals = createAction(
   '[Mobile Terminals] Add',
   props<{ mobileTerminals: Array<MobileTerminalInterfaces.MobileTerminal> }>()
 );
+
+export const setMobileTerminal = createAction(
+  '[Mobile Terminals] Set',
+  props<{ mobileTerminal: MobileTerminalInterfaces.MobileTerminal }>()
+);
+
+export const getSelectedMobileTerminal = createAction(
+  '[Mobile Terminal] Get selected'
+);
+
+export const getTransponders = createAction(
+  '[Mobile Terminal] Get Transponsers'
+);
+
+export const setTransponders = createAction(
+  '[Mobile Terminal] Set Transponsers',
+  props<{ transponders: Array<MobileTerminalInterfaces.Transponder> }>()
+);

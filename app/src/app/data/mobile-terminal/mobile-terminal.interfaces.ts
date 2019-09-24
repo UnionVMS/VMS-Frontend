@@ -68,6 +68,11 @@ export interface MobileTerminal {
   westAtlanticOceanRegion: boolean;
 }
 
+export interface Transponder {
+  terminalSystemType: string;
+}
+
 export interface State {
   mobileTerminals: Array<MobileTerminal>;
+  transponders: Array<Transponder>;
 }
