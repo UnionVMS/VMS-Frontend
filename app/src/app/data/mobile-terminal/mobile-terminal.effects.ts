@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, EMPTY } from 'rxjs';
+import { of, EMPTY, Observable } from 'rxjs';
 import { map, mergeMap, flatMap, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer.ts';
-import * as MobileTerminalActions from './mobile-terminal.actions';
+import { MobileTerminalActions, MobileTerminalInterfaces, MobileTerminalSelectors } from './';
 import { MobileTerminalService } from './mobile-terminal.service';
-import * as MobileTerminalInterfaces from './mobile-terminal.interfaces';
 import * as NotificationsActions from '../notifications/notifications.actions';
 import { AuthInterfaces, AuthSelectors } from '../auth';
 import * as RouterSelectors from '@data/router/router.selectors';
@@ -27,7 +26,12 @@ export class MobileTerminalEffects {
     mergeMap(([action, authToken]) => {
       return this.mobileTerminalService.search(authToken, action.query, action.includeArchived).pipe(
         map((mobileTerminals: Array<MobileTerminalInterfaces.MobileTerminal>) => {
-          return MobileTerminalActions.addMobileTerminals({ mobileTerminals });
+          return MobileTerminalActions.addMobileTerminals({
+            mobileTerminals: mobileTerminals.reduce((acc, mobileTerminal) => {
+              acc[mobileTerminal.id] = mobileTerminal;
+              return acc;
+            }, {})
+          });
         }),
         catchError((err) => {
           if(typeof err === 'object' && typeof err.message !== 'undefined') {
@@ -45,11 +49,11 @@ export class MobileTerminalEffects {
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(MobileTerminalActions.getSelectedMobileTerminal),
+        this.store$.select(MobileTerminalSelectors.getMobileTerminalsByUrl),
         this.store$.select(RouterSelectors.getMergedRoute)
       ),
-      mergeMap(([pipedAction, authToken, selectedAsset, mergedRoute]: Array<any>) => {
-        if(typeof selectedAsset !== 'undefined' || typeof mergedRoute.params.mobileTerminalId === 'undefined') {
+      mergeMap(([pipedAction, authToken, selectedMobileTerminal, mergedRoute]: Array<any>) => {
+        if(typeof selectedMobileTerminal !== 'undefined' || typeof mergedRoute.params.mobileTerminalId === 'undefined') {
           return EMPTY;
         }
         return this.mobileTerminalService.getMobileTerminal(authToken, mergedRoute.params.mobileTerminalId).pipe(
@@ -68,13 +72,38 @@ export class MobileTerminalEffects {
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken]: Array<any>) => {
         return this.mobileTerminalService.getTransponders(authToken).pipe(
-          map((transponders: any) => {
-            return MobileTerminalActions.setTransponders({ transponders: transponders.data });
+          map((response: any) => {
+            return MobileTerminalActions.setTransponders({ transponders: response.data });
           })
         );
       })
     ))
   );
 
+  // @Effect()
+  // saveMobileTerminal$ = this.actions$.pipe(
+  //   ofType(MobileTerminalActions.saveMobileTerminal),
+  //   withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+  //   mergeMap(([action, authToken]: Array<any>) => {
+  //     const isNew = action.mobileTerminal.id === undefined || action.mobileTerminal.id === null;
+  //     let request: Observable<object>;
+  //     if(isNew) {
+  //       request = this.mobileTerminalService.createMobileTerminal(authToken, action.asset);
+  //     } else {
+  //       request = this.mobileTerminalService.updateMobileTerminal(authToken, action.asset);
+  //     }
+  //     return request.pipe(
+  //       map((asset: MobileTerminalInterfaces.MobileTerminal) => {
+  //         let notification = 'Mobile terminal updated successfully!';
+  //         this.router.navigate(['/asset/show/' + asset.id]);
+  //         if(isNew) {
+  //           notification = 'Asset created successfully!';
+  //         }
+  //         return [AssetActions.setAsset({ asset }), NotificationsActions.addSuccess(notification)];
+  //       })
+  //     );
+  //   }),
+  //   flatMap((action, index) => action)
+  // );
 
 }

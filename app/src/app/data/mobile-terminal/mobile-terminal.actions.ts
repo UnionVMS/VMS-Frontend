@@ -8,11 +8,16 @@ export const search = createAction(
 
 export const addMobileTerminals = createAction(
   '[Mobile Terminals] Add',
-  props<{ mobileTerminals: Array<MobileTerminalInterfaces.MobileTerminal> }>()
+  props<{ mobileTerminals: { [id: string]: MobileTerminalInterfaces.MobileTerminal } }>()
 );
 
 export const setMobileTerminal = createAction(
   '[Mobile Terminals] Set',
+  props<{ mobileTerminal: MobileTerminalInterfaces.MobileTerminal }>()
+);
+
+export const saveMobileTerminal = createAction(
+  '[Mobile Terminals] Save',
   props<{ mobileTerminal: MobileTerminalInterfaces.MobileTerminal }>()
 );
 

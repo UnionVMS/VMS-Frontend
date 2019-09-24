@@ -3,7 +3,7 @@ import * as MobileTerminalActions from './mobile-terminal.actions';
 import * as MobileTerminalInterfaces from './mobile-terminal.interfaces';
 
 export const initialState: MobileTerminalInterfaces.State = {
-  mobileTerminals: [],
+  mobileTerminals: {},
   transponders: [],
 };
 
@@ -11,15 +11,15 @@ export const mobileTerminalReducer = createReducer(initialState,
   on(MobileTerminalActions.addMobileTerminals, (state, { mobileTerminals }) => {
     return ({
       ...state,
-      mobileTerminals: [
+      mobileTerminals: {
         ...state.mobileTerminals,
         ...mobileTerminals
-      ].filter((v, i, a) => { console.warn(a.indexOf(v), i, v); return a.indexOf(v) === i; })
+      }
     });
   }),
   on(MobileTerminalActions.setMobileTerminal, (state, { mobileTerminal }) => ({
     ...state,
-    assets: {
+    mobileTerminals: {
       ...state.mobileTerminals,
       [mobileTerminal.id]: mobileTerminal
     }

@@ -9,8 +9,8 @@ export const selectTransponders = (state: State) => state.mobileTerminal.transpo
 
 export const getMobileTerminals = createSelector(
   selectMobileTerminals,
-  (mobileTerminals: Array<MobileTerminalInterfaces.MobileTerminal>) => {
-    return [ ...mobileTerminals ];
+  (mobileTerminals: { [id: string ]: MobileTerminalInterfaces.MobileTerminal }) => {
+    return { ...mobileTerminals };
   }
 );
 
@@ -18,7 +18,7 @@ export const getMobileTerminalsForUrlAsset = createSelector(
   selectMobileTerminals,
   getMergedRoute,
   (mobileTerminals, mergedRoute) => {
-    return mobileTerminals.filter(mobileTerminal => mobileTerminal.assetId === mergedRoute.params.assetId);
+    return Object.values(mobileTerminals).filter(mobileTerminal => mobileTerminal.assetId === mergedRoute.params.assetId);
   }
 );
 
@@ -26,7 +26,10 @@ export const getMobileTerminalsByUrl = createSelector(
   selectMobileTerminals,
   getMergedRoute,
   (mobileTerminals, mergedRoute) => {
-    return mobileTerminals.find(mobileTerminal => mobileTerminal.assetId === mergedRoute.params.assetId);
+    if(typeof mobileTerminals[mergedRoute.params.mobileTerminalId] !== 'undefined') {
+      return { ...mobileTerminals[mergedRoute.params.mobileTerminalId] };
+    }
+    return undefined;
   }
 );
 

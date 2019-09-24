@@ -7,7 +7,7 @@
     <mat-form-field id="asset-form--flagstate">
       <mat-label>Flagstate<span class="required">*</span></mat-label>
       <mat-select [(ngModel)]="assetObject.flagStateCode">
-        <mat-option *ngFor="let flagstate of flagstates" [value]="flagstate">{{flagstate}}</mat-option>
+        <mat-option *ngFor="let flagstate of flagstates" id="mat-option-{{flagstate}}" [value]="flagstate">{{flagstate}}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -68,7 +68,7 @@
       <mat-label>G.tonnage</mat-label>
       <input matInput type="number" [(ngModel)]="assetObject.grossTonnage">
       <mat-select [(ngModel)]="assetObject.grossTonnageUnit">
-        <mat-option *ngFor="let unit of unitTonnages" [value]="unit.code">{{unit.name}}</mat-option>
+        <mat-option *ngFor="let unit of unitTonnages" id="mat-option-{{unit.code}}" [value]="unit.code">{{unit.name}}</mat-option>
       </mat-select>
     </mat-form-field>
 

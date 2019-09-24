@@ -4,9 +4,9 @@
   <fieldset>
     <legend>Essential fields</legend>
 
-    <mat-form-field id="mobile-terminal-form--transceiverType">
+    <mat-form-field id="mobile-terminal-form--mobileTerminalType">
       <mat-label>Transceiver system<span class="required">*</span></mat-label>
-      <mat-select [(ngModel)]="mobileTerminal.transceiverType">
+      <mat-select [(ngModel)]="mobileTerminal.mobileTerminalType">
         <mat-option *ngFor="let transponder of transponders" [value]="transponder.terminalSystemType">{{transponder.terminalSystemType}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -16,76 +16,37 @@
       <input matInput [(ngModel)]="mobileTerminal.serialNo">
     </mat-form-field>
   </fieldset>
-<!--
-  <fieldset>
-    <legend>Identification fields</legend>
-
-    <mat-form-field id="mobile-terminal-form--cfr">
-      <mat-label>CFR</mat-label>
-      <input matInput [(ngModel)]="mobileTerminal.cfr">
-    </mat-form-field>
-
-    <mat-form-field id="mobile-terminal-form--ircs">
-      <mat-label>IRCS</mat-label>
-      <input matInput [(ngModel)]="mobileTerminal.ircs">
-    </mat-form-field>
-
-    <mat-form-field id="mobile-terminal-form--imo">
-      <mat-label>IMO</mat-label>
-      <input matInput [(ngModel)]="mobileTerminal.imo">
-    </mat-form-field>
-
-    <mat-form-field id="mobile-terminal-form--portOfRegistration">
-      <mat-label>Home port</mat-label>
-      <input matInput [(ngModel)]="mobileTerminal.portOfRegistration">
-    </mat-form-field>
-
-    <mat-form-field id="mobile-terminal-form--mmsi">
-      <mat-label>MMSI No.</mat-label>
-      <input matInput type="number" [(ngModel)]="mobileTerminal.mmsi">
-    </mat-form-field>
-  </fieldset>
 
   <fieldset>
-    <legend>Metrics</legend>
+    <legend>Mobile Terminal fields</legend>
 
-    <mat-form-field id="mobile-terminal-form--lengthOverAll">
-      <mat-label>Length over all</mat-label>
-      <input matInput type="number" [(ngModel)]="mobileTerminal.lengthOverAll">
-    </mat-form-field>
-
-    <mat-form-field id="mobile-terminal-form--lengthBetweenPerpendiculars">
-      <mat-label>Length between perpendiculars</mat-label>
-      <input matInput type="number" [(ngModel)]="mobileTerminal.lengthBetweenPerpendiculars">
-    </mat-form-field>
-
-    <mat-form-field class="tonnage-form-field" id="mobile-terminal-form--grossTonnage">
-      <mat-label>G.tonnage</mat-label>
-      <input matInput type="number" [(ngModel)]="mobileTerminal.grossTonnage">
-      <mat-select [(ngModel)]="mobileTerminal.grossTonnageUnit">
-        <mat-option *ngFor="let unit of unitTonnages" [value]="unit.code">{{unit.name}}</mat-option>
+    <mat-form-field id="mobile-terminal-form--oceanRegions">
+      <mat-label>Ocean region</mat-label>
+      <mat-select [(ngModel)]="selectedOceanRegions" multiple>
+        <mat-option *ngFor="let oceanRegion of oceanRegions" [value]="oceanRegion">{{oceanRegion}}</mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field id="mobile-terminal-form--powerOfMainEngine">
-      <mat-label>Main power</mat-label>
-      <input matInput type="number" [(ngModel)]="mobileTerminal.powerOfMainEngine">
+    <mat-form-field id="mobile-terminal-form--transceiverType">
+      <mat-label>Transceiver Type</mat-label>
+      <input matInput [(ngModel)]="mobileTerminal.transceiverType">
+    </mat-form-field>
+
+    <mat-form-field id="mobile-terminal-form--softwareVersion">
+      <mat-label>Software version</mat-label>
+      <input matInput [(ngModel)]="mobileTerminal.softwareVersion">
+    </mat-form-field>
+
+    <mat-form-field id="mobile-terminal-form--antenna">
+      <mat-label>Antenna</mat-label>
+      <input matInput [(ngModel)]="mobileTerminal.antenna">
+    </mat-form-field>
+
+    <mat-form-field id="mobile-terminal-form--satelliteNumber">
+      <mat-label>Satellite number</mat-label>
+      <input matInput type="number" [(ngModel)]="mobileTerminal.satelliteNumber">
     </mat-form-field>
   </fieldset>
-
-  <fieldset>
-    <legend>Company information</legend>
-
-    <mat-form-field id="mobile-terminal-form--prodOrgName">
-      <mat-label>P.O name</mat-label>
-      <input matInput [(ngModel)]="mobileTerminal.prodOrgName">
-    </mat-form-field>
-
-    <mat-form-field id="mobile-terminal-form--prodOrgCode">
-      <mat-label>P.O code</mat-label>
-      <input matInput type="number" [(ngModel)]="mobileTerminal.prodOrgCode">
-    </mat-form-field>
-  </fieldset>-->
 
   <div>
     <button id="mobile-terminal-form--save" mat-raised-button color="primary" type="button" (click)="save()">Save</button>

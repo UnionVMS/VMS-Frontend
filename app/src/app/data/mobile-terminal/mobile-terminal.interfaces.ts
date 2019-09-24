@@ -73,6 +73,6 @@ export interface Transponder {
 }
 
 export interface State {
-  mobileTerminals: Array<MobileTerminal>;
+  mobileTerminals: { [id: string]: MobileTerminal };
   transponders: Array<Transponder>;
 }

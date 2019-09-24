@@ -24,7 +24,7 @@ export class MobileTerminalService {
 
   getMobileTerminal(authToken: string, mobileTerminalId: string) {
     return this.http.get(
-      environment.baseApiUrl + 'asset/rest/mobileTerminal/' + mobileTerminalId, {
+      environment.baseApiUrl + 'asset/rest/mobileterminal/' + mobileTerminalId, {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
