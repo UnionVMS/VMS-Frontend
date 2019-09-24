@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { MobileTerminalInterfaces } from '@data/mobile-terminal';
 
 @Injectable({
   providedIn: 'root'
@@ -43,4 +44,31 @@ export class MobileTerminalService {
       }
     );
   }
+
+  createMobileTerminal(authToken: string, mobileTerminal: MobileTerminalInterfaces.MobileTerminal) {
+    return this.http.post(
+      environment.baseApiUrl + `asset/rest/mobileterminal`,
+      mobileTerminal,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
+  updateMobileTerminal(authToken: string, mobileTerminal: MobileTerminalInterfaces.MobileTerminal) {
+    return this.http.put(
+      environment.baseApiUrl + `asset/rest/mobileterminal`,
+      mobileTerminal,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
 }

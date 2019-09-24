@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store, Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY, Observable } from 'rxjs';
@@ -16,7 +17,8 @@ export class MobileTerminalEffects {
   constructor(
     private actions$: Actions,
     private store$: Store<State>,
-    private mobileTerminalService: MobileTerminalService
+    private mobileTerminalService: MobileTerminalService,
+    private router: Router
   ) {}
 
   @Effect()
@@ -80,30 +82,31 @@ export class MobileTerminalEffects {
     ))
   );
 
-  // @Effect()
-  // saveMobileTerminal$ = this.actions$.pipe(
-  //   ofType(MobileTerminalActions.saveMobileTerminal),
-  //   withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
-  //   mergeMap(([action, authToken]: Array<any>) => {
-  //     const isNew = action.mobileTerminal.id === undefined || action.mobileTerminal.id === null;
-  //     let request: Observable<object>;
-  //     if(isNew) {
-  //       request = this.mobileTerminalService.createMobileTerminal(authToken, action.asset);
-  //     } else {
-  //       request = this.mobileTerminalService.updateMobileTerminal(authToken, action.asset);
-  //     }
-  //     return request.pipe(
-  //       map((asset: MobileTerminalInterfaces.MobileTerminal) => {
-  //         let notification = 'Mobile terminal updated successfully!';
-  //         this.router.navigate(['/asset/show/' + asset.id]);
-  //         if(isNew) {
-  //           notification = 'Asset created successfully!';
-  //         }
-  //         return [AssetActions.setAsset({ asset }), NotificationsActions.addSuccess(notification)];
-  //       })
-  //     );
-  //   }),
-  //   flatMap((action, index) => action)
-  // );
+  @Effect()
+  saveMobileTerminal$ = this.actions$.pipe(
+    ofType(MobileTerminalActions.saveMobileTerminal),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      const isNew = action.mobileTerminal.id === undefined || action.mobileTerminal.id === null;
+      let request: Observable<object>;
+      if(isNew) {
+        request = this.mobileTerminalService.createMobileTerminal(authToken, action.mobileTerminal);
+      } else {
+        request = this.mobileTerminalService.updateMobileTerminal(authToken, action.mobileTerminal);
+      }
+      return request.pipe(
+        map((mobileTerminal: any) => {
+          mobileTerminal.assetId = mobileTerminal.asset.id;
+          let notification = 'Mobile terminal updated successfully!';
+          this.router.navigate(['/asset/show/' + mobileTerminal.assetId]);
+          if(isNew) {
+            notification = 'Asset created successfully!';
+          }
+          return [MobileTerminalActions.setMobileTerminal({ mobileTerminal }), NotificationsActions.addSuccess(notification)];
+        })
+      );
+    }),
+    flatMap((action, index) => action)
+  );
 
 }

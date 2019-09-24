@@ -43,6 +43,7 @@ const routes: Routes = [
       { path: 'asset/create', component: AssetFormPage, pathMatch: 'full'},
       { path: 'asset', component: AssetSearchPage, pathMatch: 'full'},
       { path: 'mobileTerminal/edit/:mobileTerminalId', component: MobileTerminalFormPage, pathMatch: 'full' },
+      { path: 'mobileTerminal/create', component: MobileTerminalFormPage, pathMatch: 'full' },
       { path: 'logout', component: LogoutComponent, pathMatch: 'full'},
     ]
   },
