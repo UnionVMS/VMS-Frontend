@@ -12,6 +12,7 @@ import {
   MatSelectModule,
   MatButtonModule,
   MatCheckboxModule,
+  MatDatepickerModule,
 } from '@angular/material';
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
@@ -20,6 +21,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { FormPageComponent } from './pages/form/form.component';
 
 /* Components */
+import { ShowMobileTerminalComponent } from './components/show-mobile-terminal/show-mobile-terminal.component';
+
 
 
 @NgModule({
@@ -35,11 +38,13 @@ import { FormPageComponent } from './pages/form/form.component';
     FormsModule,
     ReactiveFormsModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
   ],
   declarations: [
     FormPageComponent,
+    ShowMobileTerminalComponent,
   ]
 })
 
