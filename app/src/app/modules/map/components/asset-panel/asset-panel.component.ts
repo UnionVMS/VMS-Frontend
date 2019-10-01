@@ -1,5 +1,5 @@
 import { Component, Input, ElementRef, Renderer2, OnChanges } from '@angular/core';
-import { formatDate } from '@app/helpers';
+import { formatDate } from '@app/helpers/helpers';
 import { AssetInterfaces } from '@data/asset';
 import { Position } from '@data/generic.interfaces';
 

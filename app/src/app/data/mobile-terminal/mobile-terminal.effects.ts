@@ -6,6 +6,7 @@ import { of, EMPTY, Observable } from 'rxjs';
 import { map, mergeMap, flatMap, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer.ts';
+import { AssetSelectors } from '../asset';
 import { MobileTerminalActions, MobileTerminalInterfaces, MobileTerminalSelectors } from './';
 import { MobileTerminalService } from './mobile-terminal.service';
 import * as NotificationsActions from '../notifications/notifications.actions';
@@ -46,7 +47,7 @@ export class MobileTerminalEffects {
   );
 
   @Effect()
-  getSelectedAsset$ = this.actions$.pipe(
+  getSelectedMobileTerminal$ = this.actions$.pipe(
     ofType(MobileTerminalActions.getSelectedMobileTerminal),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
@@ -83,30 +84,56 @@ export class MobileTerminalEffects {
   );
 
   @Effect()
+  getPlugins$ = this.actions$.pipe(
+    ofType(MobileTerminalActions.getPlugins),
+    mergeMap((action) => of(action).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([pipedAction, authToken]: Array<any>) => {
+        return this.mobileTerminalService.getPlugins(authToken).pipe(
+          map((response: any) => {
+            return MobileTerminalActions.setPlugins({ plugins: response });
+          })
+        );
+      })
+    ))
+  );
+
+  @Effect()
   saveMobileTerminal$ = this.actions$.pipe(
     ofType(MobileTerminalActions.saveMobileTerminal),
-    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
-    mergeMap(([action, authToken]: Array<any>) => {
-      const isNew = action.mobileTerminal.id === undefined || action.mobileTerminal.id === null;
-      let request: Observable<object>;
-      if(isNew) {
-        request = this.mobileTerminalService.createMobileTerminal(authToken, action.mobileTerminal);
-      } else {
-        request = this.mobileTerminalService.updateMobileTerminal(authToken, action.mobileTerminal);
-      }
-      return request.pipe(
-        map((mobileTerminal: any) => {
-          mobileTerminal.assetId = mobileTerminal.asset.id;
-          let notification = 'Mobile terminal updated successfully!';
-          this.router.navigate(['/asset/show/' + mobileTerminal.assetId]);
-          if(isNew) {
-            notification = 'Asset created successfully!';
+    mergeMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.select(AuthSelectors.getAuthToken),
+        this.store$.select(AssetSelectors.getSelectedAsset)
+      ),
+      mergeMap(([pipedAction, authToken, selectedAsset]: Array<any>) => {
+        const isNew = action.mobileTerminal.id === undefined || action.mobileTerminal.id === null;
+        let request: Observable<object>;
+        if(isNew) {
+          if(typeof action.mobileTerminal.asset === 'undefined' && typeof selectedAsset !== 'undefined') {
+            const tmpAsset = { ...selectedAsset };
+            delete tmpAsset.mobileTerminals;
+            request = this.mobileTerminalService.createMobileTerminal(authToken, { ...action.mobileTerminal, asset: tmpAsset });
+          } else {
+            request = this.mobileTerminalService.createMobileTerminal(authToken, action.mobileTerminal);
           }
-          return [MobileTerminalActions.setMobileTerminal({ mobileTerminal }), NotificationsActions.addSuccess(notification)];
-        })
-      );
-    }),
-    flatMap((action, index) => action)
+        } else {
+          request = this.mobileTerminalService.updateMobileTerminal(authToken, action.mobileTerminal);
+        }
+        return request.pipe(
+          map((mobileTerminal: any) => {
+            mobileTerminal.assetId = mobileTerminal.asset.id;
+            let notification = 'Mobile terminal updated successfully!';
+            this.router.navigate(['/asset/show/' + mobileTerminal.assetId]);
+            if(isNew) {
+              notification = 'Asset created successfully!';
+            }
+            return [MobileTerminalActions.setMobileTerminal({ mobileTerminal }), NotificationsActions.addSuccess(notification)];
+          })
+        );
+      }),
+      flatMap((rAction, index) => rAction)
+    ))
   );
 
 }

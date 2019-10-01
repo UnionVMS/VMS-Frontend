@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { formatDate } from '../../../../helpers';
+import { formatDate } from '../../../../helpers/helpers';
 import { AssetInterfaces } from '@data/asset';
 
 @Component({

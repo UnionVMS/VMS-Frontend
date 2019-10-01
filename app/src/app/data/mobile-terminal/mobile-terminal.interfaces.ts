@@ -44,6 +44,7 @@ export interface Plugin {
 }
 
 export interface MobileTerminal {
+  asset?: any; // TODO: Remove this when backend is ready.
   antenna: string;
   archived: boolean;
   assetId: string;
@@ -75,4 +76,5 @@ export interface Transponder {
 export interface State {
   mobileTerminals: { [id: string]: MobileTerminal };
   transponders: Array<Transponder>;
+  plugins: Array<Plugin>;
 }

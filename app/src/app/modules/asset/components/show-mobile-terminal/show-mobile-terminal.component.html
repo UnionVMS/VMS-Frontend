@@ -1,6 +1,6 @@
 <div class="top-row">
   <h2>Mobile terminals</h2>
-  <button mat-raised-button class="btn-default" type="button" routerLink="/mobileTerminal/create">Create</button>
+  <button mat-raised-button class="btn-default" type="button" routerLink="/mobileTerminal/create/{{asset.id}}">Create</button>
 </div>
 <fieldset *ngFor="let mobileTerminal of mobileTerminals">
   <legend>{{mobileTerminal.id}}</legend>

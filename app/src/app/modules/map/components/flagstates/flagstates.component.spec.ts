@@ -1,6 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
 
-import { deg2rad } from '@app/helpers';
+import { deg2rad } from '@app/helpers/helpers';
 import { fromLonLat } from 'ol/proj';
 import { TestingModule } from '@src/testing/Utils';
 

@@ -5,6 +5,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 /* Modules */
 import { UIModule } from '../ui/ui.module';
@@ -41,6 +42,7 @@ import { TrackPanelComponent } from './components/track-panel/track-panel.compon
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
+    MatSelectModule,
   ],
   declarations: [
     RealtimeComponent,

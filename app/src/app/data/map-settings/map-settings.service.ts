@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Observable } from 'rxjs';
-import { toUTF8Array } from '@app/helpers';
+import { toUTF8Array } from '@app/helpers/helpers';
 
 
 @Injectable({

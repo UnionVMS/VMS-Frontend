@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { MapLayersInterfaces } from '@data/map-layers';
-import { deg2rad, intToRGB, hashCode } from '@app/helpers';
+import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 import { environment } from '@src/environments/environment';
 
 import Map from 'ol/Map';

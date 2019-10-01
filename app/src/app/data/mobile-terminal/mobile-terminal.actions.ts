@@ -29,7 +29,16 @@ export const getTransponders = createAction(
   '[Mobile Terminal] Get Transponsers'
 );
 
+export const getPlugins = createAction(
+  '[Mobile Terminal] Get Plugins'
+);
+
 export const setTransponders = createAction(
   '[Mobile Terminal] Set Transponsers',
   props<{ transponders: Array<MobileTerminalInterfaces.Transponder> }>()
+);
+
+export const setPlugins = createAction(
+  '[Mobile Terminal] Set Plugins',
+  props<{ plugins: Array<MobileTerminalInterfaces.Plugin> }>()
 );

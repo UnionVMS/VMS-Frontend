@@ -5,6 +5,7 @@ import * as MobileTerminalInterfaces from './mobile-terminal.interfaces';
 export const initialState: MobileTerminalInterfaces.State = {
   mobileTerminals: {},
   transponders: [],
+  plugins: [],
 };
 
 export const mobileTerminalReducer = createReducer(initialState,
@@ -27,5 +28,9 @@ export const mobileTerminalReducer = createReducer(initialState,
   on(MobileTerminalActions.setTransponders, (state, { transponders }) => ({
     ...state,
     transponders
+  })),
+  on(MobileTerminalActions.setPlugins, (state, { plugins }) => ({
+    ...state,
+    plugins
   })),
 );

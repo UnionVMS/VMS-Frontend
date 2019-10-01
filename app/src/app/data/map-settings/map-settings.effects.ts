@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { State } from '@app/app-reducer.ts';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY, Observable } from 'rxjs';
-import { mergeMap, withLatestFrom, catchError } from 'rxjs/operators';
+import { mergeMap, map, withLatestFrom, catchError } from 'rxjs/operators';
 
 import { AuthReducer, AuthSelectors } from '../auth';
 
@@ -22,11 +22,8 @@ export class MapSettingsEffects {
     ofType(MapSettingsActions.saveSettings),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.mapSettingsService.saveMapSettings(authToken, action.payload).pipe(
-        // @ts-ignore
-        mergeMap((response: any) => {
-          return this.store$.dispatch(MapSettingsActions.replaceSettings({ settings: action.payload }));
-        }),
+      return this.mapSettingsService.saveMapSettings(authToken, action.settings).pipe(
+        map((response: any, index: number) => MapSettingsActions.replaceSettings({ settings: action.settings })),
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );
     })

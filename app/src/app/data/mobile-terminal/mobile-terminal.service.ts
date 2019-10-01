@@ -71,4 +71,15 @@ export class MobileTerminalService {
     );
   }
 
+  getPlugins(authToken: string) {
+    return this.http.get(
+      environment.baseApiUrl + 'asset/rest/config/plugins', {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
 }

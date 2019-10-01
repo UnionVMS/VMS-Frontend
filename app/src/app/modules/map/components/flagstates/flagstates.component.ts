@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
-import { deg2rad, intToRGB, hashCode } from '@app/helpers';
+import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 import getContryISO2 from 'country-iso-3-to-2';
 
 import Map from 'ol/Map';

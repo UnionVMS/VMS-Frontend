@@ -51,7 +51,13 @@
 
   <div class="map-limits">
     <mat-form-field>
-      <input matInput placeholder="Track length (min)" [(ngModel)]="mapSettings.tracksMinuteCap">
+      <mat-select [(value)]="mapSettings.tracksMinuteCap">
+        <mat-option value="60">1 hour</mat-option>
+        <mat-option value="180">3 hour</mat-option>
+        <mat-option value="360">6 hours</mat-option>
+        <mat-option value="720">12 hours</mat-option>
+        <mat-option value="1440">1 day</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field>

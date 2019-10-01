@@ -4,8 +4,14 @@
     <button class="hide-button btn btn-default" (click)="clearForecasts()">Clear forecasts</button>
   </div>
   <fieldset>
-    <legend>Cap tracks (min)</legend>
-    <input type="number" placeholder="200" (keyup)="setTracksMinuteCapFunction($event)" [(ngModel)]="mapSettings.tracksMinuteCap">
+    <legend>Track length</legend>
+    <mat-select [(value)]="trackLength" (selectionChange)="setTracksMinuteCapFunction($event)">
+      <mat-option value="60">1 hour</mat-option>
+      <mat-option value="180">3 hour</mat-option>
+      <mat-option value="360">6 hours</mat-option>
+      <mat-option value="720">12 hours</mat-option>
+      <mat-option value="1440">1 day</mat-option>
+    </mat-select>
   </fieldset>
   <fieldset>
     <legend>Forecast interval (min)</legend>

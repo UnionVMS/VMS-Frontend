@@ -6,6 +6,8 @@ import { getMergedRoute } from '@data/router/router.selectors';
 
 export const selectMobileTerminals = (state: State) => state.mobileTerminal.mobileTerminals;
 export const selectTransponders = (state: State) => state.mobileTerminal.transponders;
+export const selectPlugins = (state: State) => state.mobileTerminal.plugins;
+
 
 export const getMobileTerminals = createSelector(
   selectMobileTerminals,
@@ -27,7 +29,12 @@ export const getMobileTerminalsByUrl = createSelector(
   getMergedRoute,
   (mobileTerminals, mergedRoute) => {
     if(typeof mobileTerminals[mergedRoute.params.mobileTerminalId] !== 'undefined') {
-      return { ...mobileTerminals[mergedRoute.params.mobileTerminalId] };
+      const mobileTerminal = mobileTerminals[mergedRoute.params.mobileTerminalId];
+      return {
+        ...mobileTerminal,
+        plugin: { ...mobileTerminal.plugin },
+        channels: [ ...mobileTerminal.channels.map(channel => ({ ...channel }) ) ]
+      };
     }
     return undefined;
   }
@@ -36,4 +43,9 @@ export const getMobileTerminalsByUrl = createSelector(
 export const getTransponders = createSelector(
   selectTransponders,
   (transponders) => transponders
+);
+
+export const getPlugins = createSelector(
+  selectPlugins,
+  (plugins) => plugins
 );

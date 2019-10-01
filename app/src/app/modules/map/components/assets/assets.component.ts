@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
-import { deg2rad, intToRGB, hashCode } from '@app/helpers';
+import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 
 import Map from 'ol/Map';
 import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style.js';

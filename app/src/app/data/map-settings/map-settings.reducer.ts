@@ -9,7 +9,7 @@ export const initialState: Interfaces.State = {
   speedsVisible: false,
   forecastsVisible: true,
   forecastInterval: 30,
-  tracksMinuteCap: 200,
+  tracksMinuteCap: 360,
   viewports: {},
   startZoomLevel: 10,
   startPosition: {

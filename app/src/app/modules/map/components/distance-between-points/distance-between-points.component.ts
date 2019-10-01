@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges, ViewEncapsulation  } from '@angular/core';
-import { intToRGB, hashCode, destinationPoint } from '@app/helpers';
+import { intToRGB, hashCode, destinationPoint } from '@app/helpers/helpers';
 
 import Map from 'ol/Map';
 import { unByKey } from 'ol/Observable.js';

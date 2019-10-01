@@ -2,7 +2,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { Stroke, Style, Icon, Fill, Text } from 'ol/style.js';
 import { fromLonLat } from 'ol/proj';
 import { TestingModule } from '@src/testing/Utils';
-import { deg2rad } from '@app/helpers';
+import { deg2rad } from '@app/helpers/helpers';
 
 import { TracksComponent } from './tracks.component';
 import AssetMovementStub from '@data/asset/stubs/assetMovement.stub';
