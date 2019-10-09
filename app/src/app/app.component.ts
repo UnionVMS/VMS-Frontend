@@ -7,8 +7,7 @@ import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
   constructor(private store: Store<State>) {}

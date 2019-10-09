@@ -1,5 +1,5 @@
 <h2>Asset information</h2>
-<a *ngIf="asset.source !== 'NATIONAL'" class="edit-link" routerLink="/asset/edit/{{asset.id}}">Edit asset</a>
+<a *ngIf="asset.source !== 'NATIONAL'" class="edit-link" routerLink="/asset/{{asset.id}}/edit">Edit asset</a>
 <span *ngIf="asset.source === 'NATIONAL'" class="edit-link">Read only asset</span>
 
 <ng-container *ngIf="asset.flagStateCode">

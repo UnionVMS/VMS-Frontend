@@ -45,4 +45,4 @@ import { FormPageComponent } from './pages/form/form.component';
   ]
 })
 
-export class MobileTerminalModule { }
+export class ContactModule { }

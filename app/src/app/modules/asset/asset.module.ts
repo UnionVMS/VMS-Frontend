@@ -22,8 +22,9 @@ import { SearchPageComponent } from './pages/search/search.component';
 import { ShowPageComponent } from './pages/show/show.component';
 
 /* Components */
-import { ShowComponent } from '@modules/asset/components/show/show.component';
-import { ShowMobileTerminalComponent } from '@modules/asset/components/show-mobile-terminal/show-mobile-terminal.component';
+import { ShowComponent } from './components/show/show.component';
+import { ShowContactsComponent } from './components/show-contacts/show-contacts.component';
+import { ShowMobileTerminalComponent } from './components/show-mobile-terminal/show-mobile-terminal.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { ShowMobileTerminalComponent } from '@modules/asset/components/show-mobi
     SearchPageComponent,
     ShowPageComponent,
     ShowComponent,
+    ShowContactsComponent,
     ShowMobileTerminalComponent,
   ]
 })

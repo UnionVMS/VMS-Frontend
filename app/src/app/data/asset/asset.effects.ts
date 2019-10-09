@@ -37,28 +37,23 @@ export class AssetEffects {
               totalNumberOfPages: response.totalNumberOfPages,
               currentPage: response.currentPage,
               assets: response.assetList.reduce((acc, asset) => {
-                acc[asset.historyId] = {
-                  ...asset,
-                  mobileTerminals: asset.mobileTerminals.map(
-                    (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => mobileTerminal.id
-                  )
-                };
+                acc[asset.historyId] = asset;
                 return acc;
               }, {})
             }),
-            MobileTerminalActions.addMobileTerminals({
-              mobileTerminals: response.assetList.reduce((acc, asset) => {
-                const mobileTerminals = asset.mobileTerminals.reduce((
-                  newMobileTerminals: { [id: string]: MobileTerminalInterfaces.MobileTerminal},
-                  mobileTerminal: MobileTerminalInterfaces.MobileTerminal
-                ) => {
-                    newMobileTerminals[mobileTerminal.id] = { ...mobileTerminal, assetId: asset.id };
-                    return newMobileTerminals;
-                }, {});
-                acc = { ...acc, ...mobileTerminals };
-                return acc;
-              }, {})
-            })
+            // MobileTerminalActions.addMobileTerminals({
+            //   mobileTerminals: response.assetList.reduce((acc, asset) => {
+            //     const mobileTerminals = asset.mobileTerminals.reduce((
+            //       newMobileTerminals: { [id: string]: MobileTerminalInterfaces.MobileTerminal},
+            //       mobileTerminal: MobileTerminalInterfaces.MobileTerminal
+            //     ) => {
+            //         newMobileTerminals[mobileTerminal.id] = { ...mobileTerminal, assetId: asset.id };
+            //         return newMobileTerminals;
+            //     }, {});
+            //     acc = { ...acc, ...mobileTerminals };
+            //     return acc;
+            //   }, {})
+            // })
           ];
         }),
         flatMap(a => a)
@@ -332,20 +327,17 @@ export class AssetEffects {
           return EMPTY;
         }
         return this.assetService.getAsset(authToken, mergedRoute.params.assetId).pipe(
-          map((asset: any) => {
-            const fullAsset = { ...asset, mobileTerminals: asset.mobileTerminals.map(
-              (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => mobileTerminal.id
-            )};
+          map((asset: AssetInterfaces.Asset) => {
             return [
-              AssetActions.setFullAsset({ asset: fullAsset }),
-              MobileTerminalActions.addMobileTerminals({
-                mobileTerminals: asset.mobileTerminals.reduce((
-                  newMobileTerminals: { [id: string]: MobileTerminalInterfaces.MobileTerminal},
-                  mobileTerminal: MobileTerminalInterfaces.MobileTerminal
-                ) => {
-                    newMobileTerminals[mobileTerminal.id] = { ...mobileTerminal, assetId: asset.id };
-                    return newMobileTerminals;
-                }, {})
+              AssetActions.setFullAsset({ asset }),
+              MobileTerminalActions.search({
+                query: {
+                  pagination: { page: 1, listSize: 1000000 },
+                  mobileTerminalSearchCriteria: {
+                    criterias: asset.mobileTerminalIds.map(mobileTerminalId => ({ key: 'MOBILETERMINAL_ID', value: mobileTerminalId }))
+                  }
+                },
+                includeArchived: false,
               })
             ];
           }),
@@ -370,7 +362,7 @@ export class AssetEffects {
       return request.pipe(
         map((asset: AssetInterfaces.Asset) => {
           let notification = 'Asset updated successfully!';
-          this.router.navigate(['/asset/show/' + asset.id]);
+          this.router.navigate(['/asset/' + asset.id]);
           if(isNew) {
             notification = 'Asset created successfully!';
           }

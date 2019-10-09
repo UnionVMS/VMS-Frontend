@@ -28,9 +28,9 @@ export class MobileTerminalEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]) => {
       return this.mobileTerminalService.search(authToken, action.query, action.includeArchived).pipe(
-        map((mobileTerminals: Array<MobileTerminalInterfaces.MobileTerminal>) => {
+        map((response: { mobileTerminalList: Array<MobileTerminalInterfaces.MobileTerminal> }) => {
           return MobileTerminalActions.addMobileTerminals({
-            mobileTerminals: mobileTerminals.reduce((acc, mobileTerminal) => {
+            mobileTerminals: response.mobileTerminalList.reduce((acc, mobileTerminal) => {
               acc[mobileTerminal.id] = mobileTerminal;
               return acc;
             }, {})
@@ -110,10 +110,8 @@ export class MobileTerminalEffects {
         const isNew = action.mobileTerminal.id === undefined || action.mobileTerminal.id === null;
         let request: Observable<object>;
         if(isNew) {
-          if(typeof action.mobileTerminal.asset === 'undefined' && typeof selectedAsset !== 'undefined') {
-            const tmpAsset = { ...selectedAsset };
-            delete tmpAsset.mobileTerminals;
-            request = this.mobileTerminalService.createMobileTerminal(authToken, { ...action.mobileTerminal, asset: tmpAsset });
+          if(typeof action.mobileTerminal.assetId === 'undefined' && typeof selectedAsset !== 'undefined') {
+            request = this.mobileTerminalService.createMobileTerminal(authToken, { ...action.mobileTerminal, assetId: selectedAsset.id });
           } else {
             request = this.mobileTerminalService.createMobileTerminal(authToken, action.mobileTerminal);
           }
@@ -122,9 +120,8 @@ export class MobileTerminalEffects {
         }
         return request.pipe(
           map((mobileTerminal: any) => {
-            mobileTerminal.assetId = mobileTerminal.asset.id;
             let notification = 'Mobile terminal updated successfully!';
-            this.router.navigate(['/asset/show/' + mobileTerminal.assetId]);
+            this.router.navigate(['/asset/' + mobileTerminal.assetId]);
             if(isNew) {
               notification = 'Asset created successfully!';
             }

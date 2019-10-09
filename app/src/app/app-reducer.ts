@@ -10,6 +10,7 @@ import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 
 import { AssetReducer, AssetInterfaces } from './data/asset/';
 import { AuthReducer, AuthInterfaces, AuthActions } from './data/auth/';
+import { ContactReducer, ContactInterfaces } from './data/contact/';
 import { MapSettingsReducer, MapSettingsInterfaces } from './data/map-settings/';
 import { MapLayersReducer, MapLayersInterfaces } from './data/map-layers/';
 import { MapSavedFiltersReducer, MapSavedFiltersInterfaces } from './data/map-saved-filters/';
@@ -21,6 +22,7 @@ import { MobileTerminalReducer, MobileTerminalInterfaces } from './data/mobile-t
 export interface State {
   asset: AssetInterfaces.State;
   auth: AuthInterfaces.State;
+  contact: ContactInterfaces.State;
   mapLayers: MapLayersInterfaces.State;
   mapSettings: MapSettingsInterfaces.State;
   mapSavedFilters: MapSavedFiltersInterfaces.State;
@@ -32,6 +34,7 @@ export interface State {
 export const reducers: ActionReducerMap<State> = {
   asset: AssetReducer.assetReducer,
   auth: AuthReducer.authReducer,
+  contact: ContactReducer.contactReducer,
   mapLayers: MapLayersReducer.mapLayersReducer,
   mapSettings: MapSettingsReducer.mapSettingsReducer,
   mapSavedFilters: MapSavedFiltersReducer.mapSavedFiltersReducer,

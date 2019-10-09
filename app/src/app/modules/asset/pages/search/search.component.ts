@@ -28,7 +28,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = ['name', 'ircs', 'mmsi', 'flagstate', 'externalMarking', 'cfr'];
   public flagstates = allFlagstates.sort();
   public assetSearchObject = {
-    flagState: [],
+    flagState: ['SWE'],
     externalMarking: '',
     name: '',
     cfr: '',

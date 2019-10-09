@@ -1,0 +1,87 @@
+<h1>{{isCreateOrUpdate()}} contact</h1>
+
+<div class="mobile-terminal-edit-form" *ngIf="isFormReady()">
+  <fieldset>
+    <legend>Essential fields</legend>
+
+    <mat-form-field id="contact-form--name">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="contact.name" required>
+    </mat-form-field>
+
+    <mat-form-field id="contact-form--type">
+      <mat-label>Type</mat-label>
+      <input matInput [(ngModel)]="contact.type" required>
+    </mat-form-field>
+  </fieldset>
+  <fieldset>
+    <legend>Contact</legend>
+
+    <mat-form-field id="contact-form--email">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="contact.email">
+    </mat-form-field>
+
+    <mat-form-field id="contact-form--phone">
+      <mat-label>Phone</mat-label>
+      <input matInput [(ngModel)]="contact.phoneNumber">
+    </mat-form-field>
+  </fieldset>
+  <fieldset>
+    <legend>Address</legend>
+
+    <mat-form-field id="contact-form--country">
+      <mat-label>Country</mat-label>
+      <input matInput [(ngModel)]="contact.country">
+    </mat-form-field>
+
+    <mat-form-field id="contact-form--city">
+      <mat-label>City</mat-label>
+      <input matInput [(ngModel)]="contact.cityName">
+    </mat-form-field>
+
+    <mat-form-field id="contact-form--streetName">
+      <mat-label>Street</mat-label>
+      <input matInput [(ngModel)]="contact.streetName">
+    </mat-form-field>
+
+    <mat-form-field id="contact-form--postOfficeBox">
+      <mat-label>Post office box</mat-label>
+      <input matInput [(ngModel)]="contact.postOfficeBox">
+    </mat-form-field>
+
+    <mat-form-field id="contact-form--postalArea">
+      <mat-label>Postal area</mat-label>
+      <input matInput [(ngModel)]="contact.postalArea">
+    </mat-form-field>
+
+    <mat-form-field id="contact-form--zipCode">
+      <mat-label>Zipcode</mat-label>
+      <input matInput [(ngModel)]="contact.zipCode">
+    </mat-form-field>
+
+    <mat-form-field id="contact-form--nationality">
+      <mat-label>Nationality</mat-label>
+      <input matInput [(ngModel)]="contact.nationality">
+    </mat-form-field>
+  </fieldset>
+
+  <fieldset>
+    <legend>Other</legend>
+
+    <div id="contact-form--nationality">
+      <mat-label>Is owner?</mat-label>
+      <mat-checkbox [checked]="!contact.owner" (change)='toggleOwner()'></mat-checkbox>
+    </div>
+
+    <mat-form-field id="contact-form--source">
+      <mat-label>Source</mat-label>
+      <input matInput [(ngModel)]="contact.source">
+    </mat-form-field>
+  </fieldset>
+
+
+  <div>
+    <button id="mobile-terminal-form--save" mat-raised-button color="primary" type="button" (click)="save()">Save</button>
+  </div>
+</div>

@@ -112,8 +112,6 @@ export const getAssetMovements = createSelector(
                   return false;
                 }
               }, false);
-
-
             } else {
               const valueToCheck = assetsEssentials[key][columnName].toLowerCase();
               if(query.inverse) {

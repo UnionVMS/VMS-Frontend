@@ -1,0 +1,66 @@
+<div class="top-row">
+  <h2>Contacts</h2>
+  <button mat-raised-button class="btn-default" type="button" routerLink="/contact/{{asset.id}}/create">Create</button>
+</div>
+<fieldset *ngFor="let contact of contacts">
+  <legend>{{contact.id}}</legend>
+  <a class="edit-link" routerLink="/contact/{{contact.id}}/edit">Edit</a>
+
+  <ng-container *ngIf="contact.name">
+    <label>Name</label>
+    <div>{{contact.name}}</div>
+  </ng-container>
+  <ng-container *ngIf="contact.email">
+    <label>Email</label>
+    <div>{{contact.email}}</div>
+  </ng-container>
+
+  <ng-container *ngIf="contact.country">
+    <label>Country</label>
+    <div>{{contact.country}}</div>
+  </ng-container>
+  <ng-container *ngIf="contact.cityName">
+    <label>City</label>
+    <div>{{contact.cityName}}</div>
+  </ng-container>
+
+  <ng-container *ngIf="contact.nationality">
+    <label>Nationality</label>
+    <div>{{contact.nationality}}</div>
+  </ng-container>
+  <ng-container *ngIf="contact.owner">
+    <label>Is owner?</label>
+    <div>{{contact.owner}}</div>
+  </ng-container>
+
+
+  <ng-container *ngIf="contact.phoneNumber">
+    <label>Phone number</label>
+    <div>{{contact.phoneNumber}}</div>
+  </ng-container>
+  <ng-container *ngIf="contact.postOfficeBox">
+    <label>Post office box</label>
+    <div>{{contact.postOfficeBox}}</div>
+  </ng-container>
+  <ng-container *ngIf="contact.postalArea">
+    <label>Postal area</label>
+    <div>{{contact.postalArea}}</div>
+  </ng-container>
+  <ng-container *ngIf="contact.streetName">
+    <label>Street name</label>
+    <div>{{contact.streetName}}</div>
+  </ng-container>
+  <ng-container *ngIf="contact.zipCode">
+    <label>Zip code</label>
+    <div>{{contact.zipCode}}</div>
+  </ng-container>
+
+  <ng-container *ngIf="contact.source">
+    <label>Source</label>
+    <div>{{contact.source}}</div>
+  </ng-container>
+  <ng-container *ngIf="contact.type">
+    <label>Type</label>
+    <div>{{contact.type}}</div>
+  </ng-container>
+</fieldset>

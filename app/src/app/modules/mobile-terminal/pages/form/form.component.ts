@@ -6,8 +6,6 @@ import { FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { formatDate } from '@app/helpers/helpers';
 
-
-
 import { State } from '@app/app-reducer';
 import { AssetActions } from '@data/asset';
 import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
@@ -15,7 +13,7 @@ import { NotificationsInterfaces, NotificationsActions } from '@data/notificatio
 import { RouterInterfaces, RouterSelectors } from '@data/router';
 
 @Component({
-  selector: 'asset-edit-page',
+  selector: 'mobile-terminal-edit-page',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
@@ -25,9 +23,19 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
-  public mobileTerminal = {} as MobileTerminalInterfaces.MobileTerminal;
+  public defaultChannelTemplate = {
+    archived: false,
+    expectedFrequency: 60,
+    frequencyGracePeriod: 140,
+    expectedFrequencyInPort: 140,
+  };
+
+  public mobileTerminal = {
+    indianOceanRegion: true,
+    channels: [ { ...this.defaultChannelTemplate } ]
+  } as MobileTerminalInterfaces.MobileTerminal;
   public plugins: Array<MobileTerminalInterfaces.Plugin> = [];
-  public selectedOceanRegions = [];
+  public selectedOceanRegions = ['Indian'];
   public oceanRegions = [
     'East Atlantic',
     'Indian',
@@ -37,11 +45,13 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public save: () => void;
   public mergedRoute: RouterInterfaces.MergedRoute;
 
+
   mapStateToProps() {
     this.mobileTerminalSubscription = this.store.select(MobileTerminalSelectors.getMobileTerminalsByUrl).subscribe(
       (mobileTerminal) => {
         if(typeof mobileTerminal !== 'undefined') {
           this.mobileTerminal = mobileTerminal;
+          this.selectedOceanRegions = [];
           if(this.mobileTerminal.eastAtlanticOceanRegion) { this.selectedOceanRegions.push('East Atlantic'); }
           if(this.mobileTerminal.indianOceanRegion) { this.selectedOceanRegions.push('Indian'); }
           if(this.mobileTerminal.pacificOceanRegion) { this.selectedOceanRegions.push('Pacific'); }
@@ -95,11 +105,11 @@ export class FormPageComponent implements OnInit, OnDestroy {
     if(typeof this.mobileTerminal.channels === 'undefined') {
       this.mobileTerminal.channels = [];
     }
-    this.mobileTerminal.channels.unshift({
-      expectedFrequency: 0,
-      frequencyGracePeriod: 0,
-      expectedFrequencyInPort: 0,
-    } as MobileTerminalInterfaces.Channel);
+    this.mobileTerminal.channels.unshift({ ...this.defaultChannelTemplate } as MobileTerminalInterfaces.Channel);
+  }
+
+  removeChannel(index: number) {
+    this.mobileTerminal.channels = this.mobileTerminal.channels.filter((value, i) => index !== i);
   }
 
   changePlugin(event: MatSelectChange) {

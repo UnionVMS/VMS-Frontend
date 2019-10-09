@@ -16,6 +16,11 @@ export const setMobileTerminal = createAction(
   props<{ mobileTerminal: MobileTerminalInterfaces.MobileTerminal }>()
 );
 
+export const getMobileTerminals = createAction(
+  '[Mobile Terminals] Get list',
+  props<{ query: any }>()
+);
+
 export const saveMobileTerminal = createAction(
   '[Mobile Terminals] Save',
   props<{ mobileTerminal: MobileTerminalInterfaces.MobileTerminal }>()

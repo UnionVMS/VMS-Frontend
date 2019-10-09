@@ -1,5 +1,5 @@
 <div class="top-row">
-  <h1>Asset serach</h1>
+  <h1>Asset search</h1>
   <button mat-raised-button class="btn-default" type="button" routerLink="/asset/create">Create</button>
 </div>
 <form class="asset-search-form">
@@ -76,7 +76,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/asset/show/{{row.id}}"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/asset/{{row.id}}"></tr>
     </table>
   </div>
 </div>

@@ -3,9 +3,7 @@
 <div class="column-wrapper">
   <div class="left-column">
     <asset-show [asset]="asset"></asset-show>
-    <div class="placeholder">
-      <h2>Contact placeholder</h2>
-    </div>
+    <asset-show-contacts [asset]="asset" [contacts]="contacts$ | async"></asset-show-contacts>
   </div>
   <div class="right-column">
     <asset-show-mobile-terminal [asset]="asset" [mobileTerminals]="mobileTerminals$ | async"></asset-show-mobile-terminal>

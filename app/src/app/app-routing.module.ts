@@ -27,6 +27,9 @@ import { ShowPageComponent as AssetShowPage } from './modules/asset/pages/show/s
 // MobileTerminal-pages
 import { FormPageComponent as MobileTerminalFormPage } from './modules/mobile-terminal/pages/form/form.component';
 
+// Contact-pages
+import { FormPageComponent as ContactFormPage } from './modules/contact/pages/form/form.component';
+
 // Settings-pages
 import { UserSettingsComponent } from './modules/settings/pages/user-settings/user-settings.component';
 
@@ -38,12 +41,14 @@ const routes: Routes = [
     children: [
       { path: '', component: TestComponent, pathMatch: 'full'},
       { path: 'settings/user', component: UserSettingsComponent, pathMatch: 'full'},
-      { path: 'asset/edit/:assetId', component: AssetFormPage, pathMatch: 'full'},
-      { path: 'asset/show/:assetId', component: AssetShowPage, pathMatch: 'full'},
       { path: 'asset/create', component: AssetFormPage, pathMatch: 'full'},
+      { path: 'asset/:assetId/edit', component: AssetFormPage, pathMatch: 'full'},
+      { path: 'asset/:assetId', component: AssetShowPage, pathMatch: 'full'},
       { path: 'asset', component: AssetSearchPage, pathMatch: 'full'},
-      { path: 'mobileTerminal/edit/:mobileTerminalId', component: MobileTerminalFormPage, pathMatch: 'full' },
-      { path: 'mobileTerminal/create/:assetId', component: MobileTerminalFormPage, pathMatch: 'full' },
+      { path: 'mobileTerminal/:mobileTerminalId/edit', component: MobileTerminalFormPage, pathMatch: 'full' },
+      { path: 'mobileTerminal/:assetId/create', component: MobileTerminalFormPage, pathMatch: 'full' },
+      { path: 'contact/:contactId/edit', component: ContactFormPage, pathMatch: 'full' },
+      { path: 'contact/:assetId/create', component: ContactFormPage, pathMatch: 'full' },
       { path: 'logout', component: LogoutComponent, pathMatch: 'full'},
     ]
   },

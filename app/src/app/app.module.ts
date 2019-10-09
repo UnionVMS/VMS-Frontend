@@ -27,6 +27,7 @@ import { environment } from '../environments/environment';
 /* Modules */
 import { AssetModule } from './modules/asset/asset.module';
 import { CoreModule } from './core/core.module';
+import { ContactModule } from './modules/contact/contact.module';
 import { MapModule } from './modules/map/map.module';
 import { MobileTerminalModule } from './modules/mobile-terminal/mobile-terminal.module';
 import { NgrxRouterStoreModule } from './modules/router/ngrx-router.module';
@@ -34,12 +35,13 @@ import { SettingsModule } from './modules/settings/settings.module';
 
 
 /* Effects */
-import { AssetEffects } from './data/asset/asset.effects';
-import { AuthEffects } from './data/auth/auth.effects';
-import { MapSettingsEffects } from './data/map-settings/map-settings.effects';
-import { MapSavedFiltersEffects } from './data/map-saved-filters/map-saved-filters.effects';
-import { MapLayersEffects } from './data/map-layers/map-layers.effects';
-import { MobileTerminalEffects } from './data/mobile-terminal/mobile-terminal.effects';
+import { AssetEffects } from '@data/asset/asset.effects';
+import { AuthEffects } from '@data/auth/auth.effects';
+import { ContactEffects } from '@data/contact/contact.effects';
+import { MapSettingsEffects } from '@data/map-settings/map-settings.effects';
+import { MapSavedFiltersEffects } from '@data/map-saved-filters/map-saved-filters.effects';
+import { MapLayersEffects } from '@data/map-layers/map-layers.effects';
+import { MobileTerminalEffects } from '@data/mobile-terminal/mobile-terminal.effects';
 
 /* Services */
 import { AuthService } from './data/auth/auth.service';
@@ -67,6 +69,7 @@ const imports = [
   EffectsModule.forRoot([
     AuthEffects,
     AssetEffects,
+    ContactEffects,
     MapSettingsEffects,
     MapSavedFiltersEffects,
     MapLayersEffects,
@@ -75,6 +78,7 @@ const imports = [
   BrowserAnimationsModule,
   CoreModule,
   AssetModule,
+  ContactModule,
   MapModule,
   MobileTerminalModule,
   SettingsModule

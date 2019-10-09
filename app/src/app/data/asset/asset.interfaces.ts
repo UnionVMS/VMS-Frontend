@@ -75,7 +75,7 @@ export interface Asset {
   mainFishingGearCode: any;
   subFishingGearCode: any;
   gearFishingType: any;
-  mobileTerminals: Array<string>;
+  mobileTerminalIds: Array<string>;
   ownerName: any;
   hasVms: any;
   ownerAddress: any;

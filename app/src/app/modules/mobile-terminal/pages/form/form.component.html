@@ -60,6 +60,7 @@
     >New channel</button>
     <fieldset class="channel" *ngFor="let channel of mobileTerminal.channels; let i = index">
       <legend>{{channel.name}} - {{channel.id}}</legend>
+      <button *ngIf="mobileTerminal.channels.length > 1" type="button" name="button" (click)="removeChannel(i)">Remove channel</button>
 
       <mat-form-field class="mobile-terminal-form--channel-name">
         <mat-label>Channel</mat-label>
@@ -123,19 +124,19 @@
       <mat-form-field class="mobile-terminal-form--channel-expectedFrequency">
         <mat-label>Expected Frequency</mat-label>
         <input matInput [(ngModel)]="mobileTerminal.channels[i].expectedFrequency">
-        <span matSuffix>hours</span>
+        <span matSuffix>minutes</span>
       </mat-form-field>
 
       <mat-form-field class="mobile-terminal-form--channel-frequencyGracePeriod">
         <mat-label>Frequency Grace Period</mat-label>
         <input matInput [(ngModel)]="mobileTerminal.channels[i].frequencyGracePeriod">
-        <span matSuffix>hours</span>
+        <span matSuffix>minutes</span>
       </mat-form-field>
 
       <mat-form-field class="mobile-terminal-form--channel-expectedFrequencyInPort">
         <mat-label>Expected Frequency In Port</mat-label>
         <input matInput [(ngModel)]="mobileTerminal.channels[i].expectedFrequencyInPort">
-        <span matSuffix>hours</span>
+        <span matSuffix>minutes</span>
       </mat-form-field>
     </fieldset>
   </fieldset>

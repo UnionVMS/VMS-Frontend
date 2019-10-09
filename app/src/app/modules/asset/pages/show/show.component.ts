@@ -11,6 +11,7 @@ const allFlagstates = Object.keys(getAlpha3Codes());
 
 import { State } from '@app/app-reducer';
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { ContactActions, ContactInterfaces, ContactSelectors } from '@data/contact';
 import { MobileTerminalInterfaces, MobileTerminalSelectors } from '@data/mobile-terminal';
 import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 
@@ -24,6 +25,7 @@ export class ShowPageComponent implements OnInit, OnDestroy {
   constructor(private store: Store<State>) { }
 
   public assetSubscription: Subscription;
+  public contacts$: Observable<ContactInterfaces.Contact[]>;
   public mobileTerminals$: Observable<Array<MobileTerminalInterfaces.MobileTerminal>>;
   public asset = {} as AssetInterfaces.Asset;
 
@@ -34,6 +36,7 @@ export class ShowPageComponent implements OnInit, OnDestroy {
       }
     });
     this.mobileTerminals$ = this.store.select(MobileTerminalSelectors.getMobileTerminalsForUrlAsset);
+    this.contacts$ = this.store.select(ContactSelectors.getContacts);
   }
 
   mapDispatchToProps() {
@@ -43,6 +46,7 @@ export class ShowPageComponent implements OnInit, OnDestroy {
     this.mapStateToProps();
     this.mapDispatchToProps();
     this.store.dispatch(AssetActions.getSelectedAsset());
+    this.store.dispatch(ContactActions.getContactsForSelectedAsset());
   }
 
   ngOnDestroy() {

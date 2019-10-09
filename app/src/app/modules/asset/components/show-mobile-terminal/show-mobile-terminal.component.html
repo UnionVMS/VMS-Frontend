@@ -1,10 +1,10 @@
 <div class="top-row">
   <h2>Mobile terminals</h2>
-  <button mat-raised-button class="btn-default" type="button" routerLink="/mobileTerminal/create/{{asset.id}}">Create</button>
+  <button mat-raised-button class="btn-default" type="button" routerLink="/mobileTerminal/{{asset.id}}/create">Create</button>
 </div>
 <fieldset *ngFor="let mobileTerminal of mobileTerminals">
   <legend>{{mobileTerminal.id}}</legend>
-  <a class="edit-link" routerLink="/mobileTerminal/edit/{{mobileTerminal.id}}">Edit</a>
+  <a class="edit-link" routerLink="/mobileTerminal/{{mobileTerminal.id}}/edit">Edit</a>
   <ng-container *ngIf="mobileTerminal.mobileTerminalType">
     <label>Typ</label>
     <div>{{mobileTerminal.mobileTerminalType}}</div>
