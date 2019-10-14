@@ -116,7 +116,6 @@ export class DistanceBetweenPointsComponent implements OnInit, OnDestroy, OnChan
 
     this.map.addLayer(this.vectorLayer);
     this.vectorLayer.getSource().changed();
-    this.vectorLayer.getSource().refresh();
   }
 
   ngOnChanges() {

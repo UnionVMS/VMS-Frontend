@@ -96,7 +96,6 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.vectorLayer.getSource().changed();
-    this.vectorLayer.getSource().refresh();
   }
 
   ngOnChanges() {
@@ -135,7 +134,6 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       this.vectorSource.addFeatures(features);
       this.removeDeletedFeatures();
       this.vectorLayer.getSource().changed();
-      this.vectorLayer.getSource().refresh();
       this.renderedAssetIds = newRenderedAssetIds;
     }
   }

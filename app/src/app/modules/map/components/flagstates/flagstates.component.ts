@@ -60,7 +60,6 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     }, []));
 
     this.vectorLayer.getSource().changed();
-    this.vectorLayer.getSource().refresh();
   }
 
   ngOnChanges() {
@@ -97,7 +96,6 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
         }, [])
       );
       this.vectorLayer.getSource().changed();
-      this.vectorLayer.getSource().refresh();
       this.renderedAssetIds = newRenderedAssetIds;
     }
   }

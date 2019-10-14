@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { formatDate } from '@app/helpers/helpers';
 
@@ -11,6 +11,8 @@ import { AssetActions } from '@data/asset';
 import { ContactActions, ContactInterfaces, ContactSelectors } from '@data/contact';
 import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { createContactFormValidator } from './form-validator';
+import { errorMessage } from '@app/helpers/validators/error-messages';
 
 @Component({
   selector: 'contact-edit-page',
@@ -25,12 +27,14 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public contact = {} as ContactInterfaces.Contact;
   public save: () => void;
   public mergedRoute: RouterInterfaces.MergedRoute;
+  public formValidator: FormGroup;
 
   mapStateToProps() {
     this.contactSubscription = this.store.select(ContactSelectors.getContactByUrl).subscribe((contact) => {
       if(typeof contact !== 'undefined') {
         this.contact = contact;
       }
+      this.formValidator = createContactFormValidator(this.contact);
     });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
       this.mergedRoute = mergedRoute;
@@ -70,7 +74,16 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   isFormReady() {
-    return this.isCreateOrUpdate() === 'Create' || Object.entries(this.contact).length !== 0;
+    return typeof this.formValidator !== 'undefined';
+  }
+
+  getErrors(path: string[]) {
+    const errors = this.formValidator.get(path).errors;
+    return errors === null ? [] : Object.keys(errors);
+  }
+
+  errorMessage(error: string) {
+    return errorMessage(error);
   }
 
   toggleOwner() {

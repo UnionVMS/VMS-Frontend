@@ -5,10 +5,11 @@
     "types": [],
     "resolveJsonModule": true,
   },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts",
-    "app/data/*/stubs",
-    "d.ts-overrides"
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "**/*.d.ts"
   ]
 }
