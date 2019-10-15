@@ -42,6 +42,8 @@ import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
 import { MapSettingsReducer, MapSettingsActions } from '@data/map-settings';
 import { MapSavedFiltersReducer } from '@data/map-saved-filters';
 
+import { formatDate } from '@app/helpers/helpers';
+
 /* tslint:disable:no-string-literal */
 describe('RealtimeComponent', () => {
 
@@ -401,12 +403,13 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      const datetime = new Date(Date.now());
-      component['getAssetTrackFromTime']('asset-id', datetime);
+      const startDate = formatDate(new Date(Date.now()));
+      const endDate =  formatDate(Date.now());
+      component['getAssetTrackTimeInterval']('asset-id', startDate, endDate);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        AssetActions.getAssetTrackFromTime({ assetId: 'asset-id', datetime })
+        AssetActions.getAssetTrackTimeInterval({ assetId: 'asset-id', startDate, endDate })
       );
     });
 

@@ -39,7 +39,7 @@ describe('AssetPanelComponent', () => {
     ];
 
     component.getAssetTrack = (historyId: string, movementGuid: string) => {};
-    component.getAssetTrackFromTime = (historyId: string, date: string) => {};
+    component.getAssetTrackTimeInterval = (historyId: string, startDate: string, endDate: string) => {};
     component.untrackAsset = (historyId: string) => {};
     component.addForecast = (historyId: string) => {};
     component.removeForecast = (historyId: string) => {};
@@ -56,9 +56,9 @@ describe('AssetPanelComponent', () => {
 
   it('should correctly toggle tracks', () => {
     const { component } = setup();
-    const untrackAssetSpy           = spyOn(component, 'untrackAsset');
-    const getAssetTrackSpy          = spyOn(component, 'getAssetTrack');
-    const getAssetTrackFromTimeSpy  = spyOn(component, 'getAssetTrackFromTime');
+    const untrackAssetSpy               = spyOn(component, 'untrackAsset');
+    const getAssetTrackSpy              = spyOn(component, 'getAssetTrack');
+    const getAssetTrackTimeIntervalSpy  = spyOn(component, 'getAssetTrackTimeInterval');
 
     const selectedAsset = component.assets.find(asset => asset.currentlyShowing);
     expect(untrackAssetSpy).toHaveBeenCalledTimes(0);
@@ -69,11 +69,13 @@ describe('AssetPanelComponent', () => {
     component['getTracksMillisecondCap'] = () => formatDate(1555490596000 - component.tracksMinuteCap * 60 * 1000);
 
     delete selectedAsset.assetTracks;
-    expect(getAssetTrackFromTimeSpy).toHaveBeenCalledTimes(0);
+    expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledTimes(0);
     component['toggleTracks'](selectedAsset);
-    expect(getAssetTrackFromTimeSpy).toHaveBeenCalledTimes(1);
-    expect(getAssetTrackFromTimeSpy).toHaveBeenCalledWith(
-      selectedAsset.asset.id, component['getTracksMillisecondCap']()
+    expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledTimes(1);
+    expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledWith(
+      selectedAsset.asset.id,
+      component['getTracksMillisecondCap'](),
+      formatDate(Date.now())
     );
 
     component.tracksMinuteCap = null;

@@ -287,7 +287,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovementWithEssentials) {
-    return assetFeature;
     const currentAssetPosition = [
       asset.assetMovement.microMove.location.latitude,
       asset.assetMovement.microMove.location.longitude,
