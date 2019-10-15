@@ -287,10 +287,10 @@ export class AssetEffects {
 
   @Effect()
   selectAssetTrackFromTimeObserver$ = this.actions$.pipe(
-    ofType(AssetActions.getAssetTrackFromTime),
+    ofType(AssetActions.getAssetTrackTimeInterval),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.getAssetTrackFromTime(authToken, action.assetId, action.datetime).pipe(
+      return this.assetService.getAssetTrackTimeInterval(authToken, action.assetId, action.startDate, action.endDate).pipe(
         map((assetTrack: any) => {
           return AssetActions.setAssetTrack({ tracks: assetTrack.reverse(), assetId: action.assetId, visible: true });
         })

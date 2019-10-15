@@ -13,7 +13,7 @@ export class AssetPanelComponent implements OnChanges {
 
   @Input() deselectAsset: (assetId: string) => void;
   @Input() getAssetTrack: (assetId: string, movementGuid: string) => void;
-  @Input() getAssetTrackFromTime: (assetId: string, date: string) => void;
+  @Input() getAssetTrackTimeInterval: (assetId: string, startDate: string, endDate: string) => void;
   @Input() untrackAsset: (assetId: string) => void;
   @Input() addForecast: (assetId: string) => void;
   @Input() removeForecast: (assetId: string) => void;
@@ -65,9 +65,10 @@ export class AssetPanelComponent implements OnChanges {
     } else if(this.tracksMinuteCap === null) {
       this.getAssetTrack(asset.asset.id, asset.currentPosition.microMove.guid);
     } else {
-      this.getAssetTrackFromTime(
+      this.getAssetTrackTimeInterval(
         asset.asset.id,
-        this.getTracksMillisecondCap()
+        this.getTracksMillisecondCap(),
+        formatDate(Date.now())
       );
     }
   }

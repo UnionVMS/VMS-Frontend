@@ -126,10 +126,10 @@ export class AssetService {
   }
 
   // /unionvms/movement/rest/micro/track/asset/{id}/{timestamp}
-  getAssetTrackFromTime(authToken: string, assetId: string, datetime: string) {
+  getAssetTrackTimeInterval(authToken: string, assetId: string, startDate: string, endDate) {
     // const datetime = "2019-03-28 12:00:00 +0100";
     return this.http.get(
-      environment.baseApiUrl + `movement/rest/micro/track/asset/${assetId}/${datetime}`, {
+      environment.baseApiUrl + `movement/rest/micro/track/asset/${assetId}?startDate=${startDate}&endDate=${endDate}`, {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'

@@ -62,9 +62,9 @@ export const getAssetTrack = createAction(
   props<{ assetId: string, movementGuid: string }>()
 );
 
-export const getAssetTrackFromTime = createAction(
-  '[Asset] Get asset track from time',
-  props<{ assetId: string, datetime: Date }>()
+export const getAssetTrackTimeInterval = createAction(
+  '[Asset] Get asset track time interval',
+  props<{ assetId: string, startDate: string, endDate: string }>()
 );
 
 export const getSelectedAsset = createAction(
