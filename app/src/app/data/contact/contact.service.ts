@@ -31,4 +31,30 @@ export class ContactService {
       }
     );
   }
+
+  updateContact(authToken: string, contact: ContactInterfaces.Contact) {
+    return this.http.put(
+      environment.baseApiUrl + `asset/rest/asset2/contacts`,
+      contact,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
+  createContact(authToken: string, contact: ContactInterfaces.Contact) {
+    return this.http.post(
+      environment.baseApiUrl + `asset/rest/asset2/contacts`,
+      contact,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
 }

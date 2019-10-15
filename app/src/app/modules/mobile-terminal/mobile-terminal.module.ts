@@ -5,15 +5,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 /* Modules */
 import { RouterModule } from '@angular/router';
 import { UIModule } from '../ui/ui.module';
-import {
-  MatProgressSpinnerModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatSelectModule,
-  MatButtonModule,
-  MatCheckboxModule,
-  MatDatepickerModule,
-} from '@angular/material';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 

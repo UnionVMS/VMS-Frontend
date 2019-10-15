@@ -40,7 +40,6 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
       this.drawFuturePosition(this.assetMovements[assetId]);
     });
     this.vectorLayer.getSource().changed();
-    this.vectorLayer.getSource().refresh();
   }
 
   ngOnChanges() {
@@ -61,7 +60,6 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
         this.drawFuturePosition(this.assetMovements[assetId]);
       });
       this.vectorLayer.getSource().changed();
-      this.vectorLayer.getSource().refresh();
       this.renderedAssetIds = newRenderedAssetIds;
     }
   }

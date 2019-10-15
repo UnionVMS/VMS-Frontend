@@ -48,10 +48,6 @@ import { NotesEffects } from '@data/notes/notes.effects';
 /* Services */
 import { AuthService } from './data/auth/auth.service';
 
-/* Components */
-import { TestComponent } from './test/test.component';
-
-
 // declare to variable so we can controll if StoreDevtoolsModule should be imported or not.
 // Event tough it has a logOnly parameter it slows down the webpage conciderably when running the realtime map
 const imports = [
@@ -97,8 +93,7 @@ if(!environment.production && environment.useStoreDevTools) {
 
 @NgModule({
   declarations: [
-    AppComponent,
-    TestComponent
+    AppComponent
   ],
   imports,
   providers: [

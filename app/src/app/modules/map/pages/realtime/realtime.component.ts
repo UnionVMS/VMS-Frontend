@@ -92,7 +92,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private hoverSelection: Select;
 
   private getAssetTrack: (assetId: string, movementGuid: string) => void;
-  private getAssetTrackFromTime: (assetId: string, datetime: Date) => void;
+  private getAssetTrackTimeInterval: (assetId: string, startDate: string, endDate: string) => void;
   private removeForecast: (assetId: string) => void;
   public selectAsset: (assetId: string) => void;
   private untrackAsset: (assetId: string) => void;
@@ -160,8 +160,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
     this.getAssetTrack = (assetId: string, movementGuid: string) =>
       this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementGuid }));
-    this.getAssetTrackFromTime = (assetId, datetime) =>
-      this.store.dispatch(AssetActions.getAssetTrackFromTime({ assetId, datetime }));
+    this.getAssetTrackTimeInterval = (assetId, startDate, endDate) =>
+      this.store.dispatch(AssetActions.getAssetTrackTimeInterval({ assetId, startDate, endDate }));
     this.untrackAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
     this.addPositionForInspection = (track) =>
@@ -207,7 +207,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.mapZoom = this.mapSettings.startZoomLevel;
     const scaleLineControl = new ScaleLine();
     const mousePositionControl = new MousePosition({
-      coordinateFormat: (coordinates) => format(coordinates, 'Lat: {y}, Long: {x}', 4),
+      coordinateFormat: (coordinates) => format(coordinates, 'Lat: {y}, Lon: {x}', 4),
       projection: 'EPSG:4326',
       // comment the following two lines to have the mouse position
       // be placed within the map.

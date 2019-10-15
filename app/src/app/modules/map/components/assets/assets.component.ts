@@ -76,7 +76,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }));
 
     this.vectorLayer.getSource().changed();
-    this.vectorLayer.getSource().refresh();
   }
 
   ngOnChanges() {

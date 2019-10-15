@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { TestComponent } from './test/test.component';
 import { AuthGuard } from './core/guards/auth.guard';
 
 // Layouts
@@ -42,7 +41,6 @@ const routes: Routes = [
     component: DefaultLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', component: TestComponent, pathMatch: 'full'},
       { path: 'settings/user', component: UserSettingsComponent, pathMatch: 'full'},
       { path: 'asset/create', component: AssetFormPage, pathMatch: 'full'},
       { path: 'asset/:assetId/edit', component: AssetFormPage, pathMatch: 'full'},

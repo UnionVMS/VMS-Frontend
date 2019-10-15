@@ -16,6 +16,7 @@
       "@app/*": ["src/app/*"],
       "@modules/*": ["src/app/modules/*"],
       "@src/*": ["src/*"],
+      "@validators/*": ["src/app/helpers/validators"],
     },
     "typeRoots": [
       "node_modules/@types"
