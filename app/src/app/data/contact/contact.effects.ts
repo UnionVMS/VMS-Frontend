@@ -3,6 +3,7 @@ import { Store, Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY, Observable } from 'rxjs';
 import { map, mergeMap, flatMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { State } from '@app/app-reducer.ts';
 import { getMergedRoute } from '@data/router/router.selectors';
@@ -18,6 +19,7 @@ export class ContactEffects {
     private actions$: Actions,
     private store$: Store<State>,
     private contactService: ContactService,
+    private router: Router
   ) {}
 
   @Effect()
@@ -71,43 +73,36 @@ export class ContactEffects {
     ))
   );
 
-  //
-  // @Effect()
-  // saveContact$ = this.actions$.pipe(
-  //   ofType(ContactActions.saveContact),
-  //   mergeMap((action) => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.select(AuthSelectors.getAuthToken),
-  //       this.store$.select(AssetSelectors.getSelectedAsset)
-  //     ),
-  //     mergeMap(([pipedAction, authToken, selectedAsset]: Array<any>) => {
-  //       const isNew = action.mobileTerminal.id === undefined || action.mobileTerminal.id === null;
-  //       let request: Observable<object>;
-  //       if(isNew) {
-  //         if(typeof action.mobileTerminal.asset === 'undefined' && typeof selectedAsset !== 'undefined') {
-  //           const tmpAsset = { ...selectedAsset };
-  //           delete tmpAsset.mobileTerminals;
-  //           request = this.mobileTerminalService.createMobileTerminal(authToken, { ...action.mobileTerminal, asset: tmpAsset });
-  //         } else {
-  //           request = this.mobileTerminalService.createMobileTerminal(authToken, action.mobileTerminal);
-  //         }
-  //       } else {
-  //         request = this.mobileTerminalService.updateMobileTerminal(authToken, action.mobileTerminal);
-  //       }
-  //       return request.pipe(
-  //         map((mobileTerminal: any) => {
-  //           mobileTerminal.assetId = mobileTerminal.asset.id;
-  //           let notification = 'Mobile terminal updated successfully!';
-  //           this.router.navigate(['/asset/' + mobileTerminal.assetId]);
-  //           if(isNew) {
-  //             notification = 'Asset created successfully!';
-  //           }
-  //           return [MobileTerminalActions.setMobileTerminal({ mobileTerminal }), NotificationsActions.addSuccess(notification)];
-  //         })
-  //       );
-  //     }),
-  //     flatMap((rAction, index) => rAction)
-  //   ))
-  // );
+
+  @Effect()
+  saveContact$ = this.actions$.pipe(
+    ofType(ContactActions.saveContact),
+    mergeMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.select(AuthSelectors.getAuthToken)
+      ),
+      mergeMap(([pipedAction, authToken, mergedRoute]: Array<any>) => {
+        const isNew = action.contact.id === undefined || action.contact.id === null;
+        let request: Observable<object>;
+        if(isNew) {
+          request = this.contactService.createContact(authToken, action.contact);
+        } else {
+          request = this.contactService.updateContact(authToken, action.contact);
+        }
+
+        return request.pipe(
+          map((contact: any) => {
+            let notification = 'Contact updated successfully!';
+            this.router.navigate(['/asset/' + contact.assetId]);
+            if(isNew) {
+              notification = 'Contact created successfully!';
+            }
+            return [ContactActions.setContacts({ contacts: { [contact.id]: contact } }), NotificationsActions.addSuccess(notification)];
+          })
+        );
+      }),
+      flatMap((rAction, index) => rAction)
+    ))
+  );
 
 }

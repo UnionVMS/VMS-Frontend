@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Subscription, Observable, Subject } from 'rxjs';
+import { map, take, takeUntil } from 'rxjs/operators';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { formatDate } from '@app/helpers/helpers';
 
 import { State } from '@app/app-reducer';
-import { AssetActions } from '@data/asset';
+import { AssetActions, AssetSelectors, AssetInterfaces } from '@data/asset';
 import { ContactActions, ContactInterfaces, ContactSelectors } from '@data/contact';
 import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
@@ -28,6 +28,8 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public save: () => void;
   public mergedRoute: RouterInterfaces.MergedRoute;
   public formValidator: FormGroup;
+  public unmount$: Subject<boolean> = new Subject<boolean>();
+  public selectedAsset: AssetInterfaces.Asset;
 
   mapStateToProps() {
     this.contactSubscription = this.store.select(ContactSelectors.getContactByUrl).subscribe((contact) => {
@@ -42,18 +44,36 @@ export class FormPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(AssetActions.getSelectedAsset());
       }
     });
+
+    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe(selectedAsset => {
+      this.selectedAsset = selectedAsset;
+    });
   }
 
   mapDispatchToProps() {
     this.save = () => {
-      // const formValidation = this.validateForm();
-      // if(formValidation === true) {
-      this.store.dispatch(ContactActions.saveContact({ contact: this.contact }));
-      // } else {
-      //   formValidation.map((notification) => {
-      //     this.store.dispatch(NotificationsActions.addNotification(notification));
-      //   });
-      // }
+      const contact = {
+        ...this.contact,
+        name: this.formValidator.value.essentailFields.name,
+        type: this.formValidator.value.essentailFields.type,
+        email: this.formValidator.value.contact.email,
+        phoneNumber: this.formValidator.value.contact.phone,
+        country: this.formValidator.value.address.country,
+        cityName: this.formValidator.value.address.city,
+        streetName: this.formValidator.value.address.street,
+        postOfficeBox: this.formValidator.value.address.postOfficeBox,
+        postalArea: this.formValidator.value.address.postalArea,
+        zipCode: this.formValidator.value.address.zipCode,
+        nationality: this.formValidator.value.other.nationality,
+        owner: this.formValidator.value.other.owner,
+        source: this.formValidator.value.other.source,
+      };
+      console.warn(this.selectedAsset, typeof this.selectedAsset === 'undefined', this.selectedAsset === null);
+      if(typeof this.selectedAsset === 'undefined' || this.selectedAsset === null) {
+        this.store.dispatch(ContactActions.saveContact({ contact }));
+      } else {
+        this.store.dispatch(ContactActions.saveContact({ contact: { ...contact, assetId: this.selectedAsset.id } }));
+      }
     };
   }
 
@@ -67,6 +87,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
     if(this.contactSubscription !== undefined) {
       this.contactSubscription.unsubscribe();
     }
+    this.unmount$.next(true);
+    // Now let's also unsubscribe from the subject itself:
+    this.unmount$.unsubscribe();
   }
 
   isCreateOrUpdate() {
