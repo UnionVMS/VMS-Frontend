@@ -17,6 +17,7 @@ import { MapSavedFiltersReducer, MapSavedFiltersInterfaces } from './data/map-sa
 import { NotificationsReducer, NotificationsInterfaces } from './data/notifications/';
 import { MergedRouteReducerState } from './data/router/router.interfaces';
 import { MobileTerminalReducer, MobileTerminalInterfaces } from './data/mobile-terminal/';
+import { NotesReducer, NotesInterfaces } from './data/notes/';
 
 
 export interface State {
@@ -29,6 +30,7 @@ export interface State {
   mobileTerminal: MobileTerminalInterfaces.State;
   notifications: NotificationsInterfaces.State;
   router: MergedRouteReducerState;
+  notes: NotesInterfaces.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -41,6 +43,7 @@ export const reducers: ActionReducerMap<State> = {
   mobileTerminal: MobileTerminalReducer.mobileTerminalReducer,
   notifications: NotificationsReducer.notificationsReducer,
   router: routerReducer,
+  notes: NotesReducer.notesReducer,
 };
 
 

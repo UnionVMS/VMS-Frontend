@@ -1,0 +1,51 @@
+<div class="top-row">
+  <h2>Notes</h2>
+  <button mat-raised-button class="btn-default" type="button" routerLink="/notes/{{asset.id}}/create">Create</button>
+</div>
+<fieldset *ngFor="let note of notes">
+  <legend>{{note.id}}</legend>
+  <a class="edit-link" routerLink="/notes/{{note.id}}/edit">Edit</a>
+
+  <ng-container *ngIf="note.noteuser">
+    <label>noteuser</label>
+    <div>{{note.noteuser}}</div>
+  </ng-container>
+  <ng-container *ngIf="note.document">
+    <label>document</label>
+    <div>{{note.document}}</div>
+  </ng-container>
+
+  <ng-container *ngIf="note.country">
+    <label>Country</label>
+    <div>{{note.country}}</div>
+  </ng-container>
+  <ng-container *ngIf="note.contact">
+    <label>contact</label>
+    <div>{{note.contact}}</div>
+  </ng-container>
+
+  <ng-container *ngIf="note.date">
+    <label>Date</label>
+    <div>{{note.date}}</div>
+  </ng-container>
+  <ng-container *ngIf="note.notes">
+    <label>Notes</label>
+    <div>{{note.notes}}</div>
+  </ng-container>
+<!-- 
+  id: string; //uuid
+  activitycode: string; // 255
+  assetId: string; //uuid
+  contact: string; // 255
+  date: Date; // timestamp with timezone
+  document: string; // 255
+  licenseholder: string; // 255
+  notes: string; // 255
+  readydate: Date; // timestamp with timezone
+  sheetnumber: string; // 255
+  source: string; // 255
+  updatetime: Date;
+  updatedby: string // 60
+  noteuser: string; // 255
+  -->
+</fieldset>
