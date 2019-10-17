@@ -4,12 +4,11 @@ import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 
 import Map from 'ol/Map';
-import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style.js';
-import VectorLayer from 'ol/layer/Vector';
-// import VectorSource from 'ol/source/Vector';
-import { Cluster, Vector as VectorSource } from 'ol/source.js';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
+import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style';
 import { fromLonLat } from 'ol/proj';
 import Select from 'ol/interaction/Select.js';
 import { getName as getCountryName, registerLocale } from 'i18n-iso-countries';
@@ -35,7 +34,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() unregisterOnSelectFunction: (key: string) => void;
 
   private vectorSource: VectorSource;
-  private clusterSource: Cluster;
   private vectorLayer: VectorLayer;
   private layerTitle = 'Asset Layer';
   private namesWereVisibleLastRerender: boolean;
