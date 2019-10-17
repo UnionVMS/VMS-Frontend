@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
+import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, mergeMap, flatMap, catchError } from 'rxjs/operators';
@@ -15,7 +16,8 @@ import * as NotificationsActions from '../notifications/notifications.actions';
 export class AuthEffects {
   constructor(
     private actions$: Actions,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
   ) {}
 
   @Effect()
@@ -24,6 +26,7 @@ export class AuthEffects {
     mergeMap((action: { username: string, password: string, type: string }) => {
       return this.authService.login(action.username, action.password).pipe(
         map((auth: any) => {
+          this.router.navigate(['/map/realtime']);
           return AuthActions.loginSuccess({ jwtToken: auth.jwtoken });
         }),
         catchError((err) => {
