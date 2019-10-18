@@ -63,16 +63,4 @@ describe('LoginComponent', () => {
     );
   });
 
-  it('should redirect from login component on succesfull login.', () => {
-    const { component } = setup();
-    const router = TestBed.get(Router);
-    const store = TestBed.get(Store);
-    const navigateSpy = spyOn(router, 'navigate');
-
-    store.setState({ auth: { user: null } });
-    component.ngOnInit();
-    store.setState({ auth: { user: { data: { username: 'Username123' } } } });
-    expect(navigateSpy).toHaveBeenCalledWith(['/map/realtime']);
-  });
-
 });
