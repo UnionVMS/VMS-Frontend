@@ -6,10 +6,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RouterModule } from '@angular/router';
 
 /* Modules */
 import { UIModule } from '../ui/ui.module';
-
 
 /* Pages */
 import { RealtimeComponent } from './pages/realtime/realtime.component';
@@ -32,6 +33,7 @@ import { TopPanelComponent } from './components/top-panel/top-panel.component';
 import { TracksComponent } from './components/tracks/tracks.component';
 import { TrackPanelComponent } from './components/track-panel/track-panel.component';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -43,6 +45,8 @@ import { TrackPanelComponent } from './components/track-panel/track-panel.compon
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
+    RouterModule,
   ],
   declarations: [
     RealtimeComponent,

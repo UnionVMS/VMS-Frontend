@@ -4,7 +4,7 @@
   display: grid;
   grid-template-columns: 500px 150px;
   grid-gap: $medium_distance;
-  height: 150px;
+  height: 178px;
   color: white;
   align-self: end;
 
@@ -93,6 +93,10 @@
         font-weight: bold;
         font-size: $default_font_size;
         text-decoration: underline;
+      }
+
+      a {
+        color: white;
       }
     }
   }

@@ -11,6 +11,7 @@ import { MapSettingsSelectors } from '../map-settings';
 
 import { AssetService } from './asset.service';
 import { AssetSelectors, AssetInterfaces, AssetActions } from './';
+import * as MapActions from '@data/map/map.actions';
 import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
 import { MobileTerminalInterfaces, MobileTerminalActions } from '@data/mobile-terminal';
@@ -87,7 +88,7 @@ export class AssetEffects {
     ofType(AssetActions.unsubscribeToMovements),
     mergeMap((action) => {
       this.assetService.unsubscribeToMovements();
-      return EMPTY;
+      return of(MapActions.setReady({ ready: false }));
     })
   );
 
@@ -157,6 +158,7 @@ export class AssetEffects {
                 }, {})
               })
             );
+            observer.next(MapActions.setReady({ ready: true }));
             observer.complete();
           });
         }), mergeAll()),

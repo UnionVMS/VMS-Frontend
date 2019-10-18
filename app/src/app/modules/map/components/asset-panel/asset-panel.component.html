@@ -17,7 +17,12 @@
         </ng-container>
         <ng-container *ngIf="activeAsset.asset.mmsi">
           <legend>Mmsi:</legend>
-          <div>{{activeAsset.asset.mmsi}}</div>
+          <div>
+            <a
+              href="https://www.marinetraffic.com/en/ais/index/search/all?keyword={{activeAsset.asset.mmsi}}"
+              target="_blank"
+            >{{activeAsset.asset.mmsi}}</a>
+          </div>
         </ng-container>
         <ng-container *ngIf="activeAsset.currentPosition.microMove.speed !== null">
           <legend>Speed:</legend>
@@ -67,6 +72,11 @@
         class="btn btn-small"
         (click)="goToAsset(activeAsset)"
       >Go To</button>
+      <button
+        mat-raised-button
+        routerLink="/asset/{{activeAsset.asset.id}}"
+        class="btn btn-small"
+      >Show asset</button>
       <ui-button-toggle
         [label]="'Track'"
         [value]="tracksIsVisible(activeAsset)"

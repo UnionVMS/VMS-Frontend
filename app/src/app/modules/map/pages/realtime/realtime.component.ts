@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -14,9 +15,11 @@ import { click, pointerMove } from 'ol/events/condition.js';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
+import { MapSelectors } from '@data/map';
 import { MapLayersActions, MapLayersSelectors, MapLayersInterfaces } from '@data/map-layers';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
 import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+import { RouterSelectors } from '@data/router';
 
 import { Position } from '@data/generic.interfaces';
 
@@ -28,7 +31,6 @@ import { Position } from '@data/generic.interfaces';
 export class RealtimeComponent implements OnInit, OnDestroy {
 
   public mapSettings: MapSettingsInterfaces.State;
-  public mapSettingsSubscription: Subscription;
   public positionsForInspection$: Observable<{ [id: number]: AssetInterfaces.Movement }>;
   public selectedAssets$: Observable<Array<{
     asset: AssetInterfaces.Asset,
@@ -44,6 +46,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public mapLayers$: Observable<Array<MapLayersInterfaces.MapLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
 
+  public assetIdFromUrl: string;
+
+  public mapReady = false;
   public map: Map;
 
   // tslint:disable:ban-types
@@ -78,7 +83,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
 
   private assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
-  private assetSubscription: Subscription;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
@@ -100,13 +104,15 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private unregisterOnSelectFunction: (name: string) => void;
   // private unregisterOnHoverFunction: (name: string) => void;
 
+  private unmount$: Subject<boolean> = new Subject<boolean>();
+
   // Map functions to props:
   public centerMapOnPosition: (position: Position) => void;
 
   constructor(private store: Store<any>) { }
 
   mapStateToProps() {
-    this.assetSubscription = this.store.select(AssetSelectors.getAssetMovements).subscribe((assets) => {
+    this.store.select(AssetSelectors.getAssetMovements).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
       this.assetMovements = assets;
     });
     this.selectedAssets$ = this.store.select(AssetSelectors.extendedDataForSelectedAssets);
@@ -114,7 +120,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.positionsForInspection$ = this.store.select(AssetSelectors.getPositionsForInspection);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
     this.searchAutocompleteAsset$ = this.store.select(AssetSelectors.getSearchAutocomplete);
-    this.mapSettingsSubscription = this.store.select(MapSettingsSelectors.getMapSettingsState).subscribe((mapSettings) => {
+    this.store.select(MapSettingsSelectors.getMapSettingsState).pipe(takeUntil(this.unmount$)).subscribe((mapSettings) => {
       this.mapSettings = mapSettings;
     });
     this.currentFilterQuery$ = this.store.select(AssetSelectors.selectFilterQuery);
@@ -125,6 +131,16 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.authToken$ = this.store.select(AuthSelectors.getAuthToken);
     this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers);
     this.activeMapLayers$ = this.store.select(MapLayersSelectors.getActiveLayers);
+    this.store.select(MapSelectors.getReady).pipe(takeUntil(this.unmount$)).subscribe((ready) => {
+      this.mapReady = ready;
+      if(ready && typeof this.assetIdFromUrl !== 'undefined') {
+        const assetMovement = this.assetMovements.find((asset) => asset.assetMovement.asset === this.assetIdFromUrl);
+        if(assetMovement !== undefined) {
+          this.selectAsset(assetMovement.assetMovement.asset);
+          this.centerMapOnPosition(assetMovement.assetMovement.microMove.location);
+        }
+      }
+    });
   }
 
   mapDispatchToProps() {
@@ -202,12 +218,26 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.mapStateToProps();
     this.mapDispatchToProps();
     this.store.dispatch(AssetActions.subscribeToMovements());
+    this.store.dispatch(AssetActions.getSelectedAsset());
     this.store.dispatch(AssetActions.getAssetGroups());
     this.store.dispatch(MapLayersActions.getAreas());
+    this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe((mergedRoute) => {
+      if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {
+        this.assetIdFromUrl = mergedRoute.params.assetId;
+      }
+    });
+
+
     this.mapZoom = this.mapSettings.startZoomLevel;
     const scaleLineControl = new ScaleLine();
     const mousePositionControl = new MousePosition({
-      coordinateFormat: (coordinates) => format(coordinates, 'Lat: {y}, Lon: {x}', 4),
+      coordinateFormat: (coordinates) => {
+        // const lapsAroundTheWorld = Math.abs(Math.floor((coordinates[0] + 180) / 360));
+        // const offset = -180 * lapsAroundTheWorld;
+        // const normalizedCoordinates = [(coordinates[0] % 180) + offset, coordinates[1]];
+        // console.warn(normalizedCoordinates);
+        return format(coordinates, 'Lat: {y}, Lon: {x}', 4);
+      },
       projection: 'EPSG:4326',
       // comment the following two lines to have the mouse position
       // be placed within the map.
@@ -243,12 +273,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.assetSubscription !== undefined) {
-      this.assetSubscription.unsubscribe();
-    }
-    if(this.mapSettingsSubscription !== undefined) {
-      this.mapSettingsSubscription.unsubscribe();
-    }
+    this.unmount$.next(true);
+    this.unmount$.unsubscribe();
     this.store.dispatch(AssetActions.unsubscribeToMovements());
   }
 
