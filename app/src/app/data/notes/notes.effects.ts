@@ -35,7 +35,7 @@ export class NotesEffects {
         if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {
           return this.notesService.getNotesFromAssetId(authToken, mergedRoute.params.assetId).pipe(
             map((response: any) => {
-                return NotesActions.setNotes({
+              return NotesActions.setNotes({
                 notes: response.reduce((acc: { [id: string]: NotesInterfaces.Note }, note: NotesInterfaces.Note) => {
                   acc[note.id] = note;
                   return acc;
@@ -63,10 +63,10 @@ export class NotesEffects {
         let request: Observable<object>;
         if(isNew) {
           if(typeof pipedAction.note.assetId === 'undefined' && typeof selectedAsset !== 'undefined') {
-            request = this.notesService.createNote(authToken, { ...pipedAction.mobileTerminal, assetId: selectedAsset.id });
+            request = this.notesService.createNote(authToken, { ...pipedAction.note, assetId: selectedAsset.id });
           } 
         } else {
-          request = this.notesService.updateNote(authToken, action.notes);
+          request = this.notesService.updateNote(authToken, action.note);
         }
         return request.pipe(
           map((note: any) => {
@@ -75,7 +75,7 @@ export class NotesEffects {
             if(isNew) {
               notification = 'Asset created successfully!';
             }
-            return [NotesActions.setNotes({ note }), NotificationsActions.addSuccess(notification)];
+            return [NotesActions.setNotes({ notes: { [note.id]: note } }), NotificationsActions.addSuccess(notification)];
           })
         );
       }),

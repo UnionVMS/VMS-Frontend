@@ -44,7 +44,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.save = () => {
        const formValidation = this.validateForm();
        if(formValidation === true) {
-        console.log("Save ");
       this.store.dispatch(NotesActions.saveNote({ note: this.note }));
        } else {
         console.warn("Validation error");

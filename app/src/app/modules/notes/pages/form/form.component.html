@@ -1,22 +1,17 @@
 <h1>{{isCreateOrUpdate()}} note</h1>
 
-<div class="mobile-terminal-edit-form" *ngIf="isFormReady()">
+<div class="notes-edit-form" *ngIf="isFormReady()">
   <fieldset>
     <legend>Note</legend>
 
     <mat-form-field id="note-form--noteuser">
-      <mat-label>noteuser</mat-label>
+      <mat-label>Userr</mat-label>
       <input matInput [(ngModel)]="note.noteuser" required>
     </mat-form-field>
 
-    <mat-form-field id="note-form--document">
-      <mat-label>document</mat-label>
-      <input matInput [(ngModel)]="note.document" required>
-    </mat-form-field>
-
   <mat-form-field id="note-form--notes">
-      <mat-label>notes</mat-label>
-      <input matInput [(ngModel)]="note.notes" required>
+      <mat-label>Note</mat-label>
+      <textarea matInput [(ngModel)]="note.notes" required></textarea>
     </mat-form-field>
 
   </fieldset>

@@ -6,28 +6,6 @@
   <legend>{{note.id}}</legend>
   <a class="edit-link" routerLink="/notes/{{note.id}}/edit">Edit</a>
 
-  <ng-container *ngIf="note.noteuser">
-    <label>noteuser</label>
-    <div>{{note.noteuser}}</div>
-  </ng-container>
-  <ng-container *ngIf="note.document">
-    <label>document</label>
-    <div>{{note.document}}</div>
-  </ng-container>
-
-  <ng-container *ngIf="note.country">
-    <label>Country</label>
-    <div>{{note.country}}</div>
-  </ng-container>
-  <ng-container *ngIf="note.contact">
-    <label>contact</label>
-    <div>{{note.contact}}</div>
-  </ng-container>
-
-  <ng-container *ngIf="note.date">
-    <label>Date</label>
-    <div>{{note.date}}</div>
-  </ng-container>
   <ng-container *ngIf="note.notes">
     <label>Notes</label>
     <div>{{note.notes}}</div>
