@@ -1,5 +1,13 @@
-<h1>{{getHeadline()}}</h1>
-
+<div class="header-row">
+  <h1>{{getHeadline()}}</h1>
+  <div class="action-row">
+    <button
+      mat-raised-button
+      routerLink="/map/realtime/{{asset.id}}"
+      class="btn btn-small btn-primary"
+    >Show on map</button>
+  </div>
+</div>
 <div class="column-wrapper">
   <div class="left-column">
     <asset-show [asset]="asset"></asset-show>
@@ -9,7 +17,7 @@
     <asset-show-mobile-terminal [asset]="asset" [mobileTerminals]="mobileTerminals$ | async"></asset-show-mobile-terminal>
     <asset-show-notes [asset]="asset" [notes]="notes$ | async"></asset-show-notes>
     <div class="placeholder">
-      <h2>Comments placeholder</h2>
+      <h2>Notes placeholder</h2>
     </div>
     <div class="placeholder">
       <h2>History placeholder</h2>

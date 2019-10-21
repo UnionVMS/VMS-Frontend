@@ -60,7 +60,8 @@ const routes: Routes = [
     component: FullLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'map/realtime', component: RealtimeComponent, pathMatch: 'full'}
+      { path: 'map/realtime', component: RealtimeComponent, pathMatch: 'full'},
+      { path: 'map/realtime/:assetId', component: RealtimeComponent, pathMatch: 'full'}
     ]
   },
   {

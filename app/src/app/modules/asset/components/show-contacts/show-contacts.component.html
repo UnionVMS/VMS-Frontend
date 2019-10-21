@@ -1,10 +1,10 @@
 <div class="top-row">
   <h2>Contacts</h2>
-  <button mat-raised-button class="btn-default" type="button" routerLink="/contact/{{asset.id}}/create">Create</button>
+  <!--<button mat-raised-button class="btn-default" type="button" routerLink="/contact/{{asset.id}}/create">Create</button>-->
 </div>
 <fieldset *ngFor="let contact of contacts">
   <legend>{{contact.id}}</legend>
-  <a class="edit-link" routerLink="/contact/{{contact.id}}/edit">Edit</a>
+  <!--<a class="edit-link" routerLink="/contact/{{contact.id}}/edit">Edit</a>-->
 
   <ng-container *ngIf="contact.name">
     <label>Name</label>

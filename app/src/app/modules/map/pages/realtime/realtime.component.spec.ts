@@ -87,6 +87,7 @@ describe('RealtimeComponent', () => {
   function setup() {
     const fixture = TestBed.createComponent(RealtimeComponent);
     const component = fixture.componentInstance;
+    component.mapReady = true;
     return { fixture, component };
   }
 
@@ -99,7 +100,7 @@ describe('RealtimeComponent', () => {
 
     function setupForMapStateToProps() {
       const setupObject = setup();
-      return { ...setupObject, baseState: { mapSavedFilters: MapSavedFiltersReducer.initialState } };
+      return { ...setupObject, baseState: { mapSavedFilters: MapSavedFiltersReducer.initialState, map: { ready: true } } };
     }
 
     it('should update assets when state is updated.', () => {
@@ -131,7 +132,7 @@ describe('RealtimeComponent', () => {
       const currentState = {
         ...baseState,
         asset: { assetMovements: {}, filterQuery: [], selectedAssetGroups: [] },
-        mapSettings: MapSettingsReducer.initialState,
+        mapSettings: MapSettingsReducer.initialState
       };
 
       store.setState(currentState);
@@ -516,7 +517,8 @@ describe('RealtimeComponent', () => {
       const currentState = {
         asset: AssetReducer.initialState,
         mapSettings: MapSettingsReducer.initialState,
-        mapSavedFilters: MapSavedFiltersReducer.initialState
+        mapSavedFilters: MapSavedFiltersReducer.initialState,
+        map: { ready: true },
       };
       store.setState(currentState);
       component.ngOnInit();

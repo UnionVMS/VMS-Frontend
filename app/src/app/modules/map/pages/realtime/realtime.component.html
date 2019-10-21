@@ -1,4 +1,8 @@
 <div class="realtime-container">
+  <div class="loading-overlay"  *ngIf="!mapReady">
+    <h2>Loading asset positions</h2>
+    <mat-spinner class="load-spinner"></mat-spinner>
+  </div>
   <div class="map-container">
     <div id="realtime-map"></div>
     <map-top-panel
@@ -12,48 +16,50 @@
     >
       <div id="mouse-position"></div>
     </map-top-panel>
-    <map-assets
-      *ngIf="registerOnSelectFunction !== undefined"
-      [assets]="assetMovements"
-      [selectedAssets]="selectedAssets$|async"
-      [map]="map"
-      [mapZoom]="mapZoom"
-      [namesVisible]="mapSettings.namesVisible"
-      [speedsVisible]="mapSettings.speedsVisible"
-      [selectAsset]="selectAsset"
-      [shipColorLogic]="mapSettings.assetColorMethod"
-      [registerOnSelectFunction]="registerOnSelectFunction"
-      [unregisterOnSelectFunction]="unregisterOnSelectFunction"
-    ></map-assets>
-    <map-tracks
-      *ngIf="mapSettings.tracksVisible && mapZoom > 5"
-      [assetTracks]="assetTracks$|async"
-      [map]="map"
-      [mapZoom]="mapZoom"
-      [registerOnSelectFunction]="registerOnSelectFunction"
-      [unregisterOnSelectFunction]="unregisterOnSelectFunction"
-      [addPositionForInspection]="addPositionForInspection"
-      [positionsForInspection]="positionsForInspection$|async"
-    ></map-tracks>
-    <map-flagstates
-      *ngIf="mapSettings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"
-      [assets]="assetMovements"
-      [map]="map"
-      [selectAsset]="selectAsset"
-      [registerOnSelectFunction]="registerOnSelectFunction"
-      [unregisterOnSelectFunction]="unregisterOnSelectFunction"
-    ></map-flagstates>
-    <map-information-panel></map-information-panel>
-    <map-track-panel
-      [positions]="positionsForInspection$|async"
-      [removePositionForInspection]="removePositionForInspection"
-    ></map-track-panel>
-    <map-asset-forecast
-      *ngIf="mapSettings.forecastsVisible && mapZoom > 9"
-      [map]="map"
-      [assetMovements]="forecasts$|async"
-      [forecastInterval]="mapSettings.forecastInterval"
-    ></map-asset-forecast>
+    <ng-container *ngIf="mapReady">
+      <map-assets
+        *ngIf="registerOnSelectFunction !== undefined"
+        [assets]="assetMovements"
+        [selectedAssets]="selectedAssets$|async"
+        [map]="map"
+        [mapZoom]="mapZoom"
+        [namesVisible]="mapSettings.namesVisible"
+        [speedsVisible]="mapSettings.speedsVisible"
+        [selectAsset]="selectAsset"
+        [shipColorLogic]="mapSettings.assetColorMethod"
+        [registerOnSelectFunction]="registerOnSelectFunction"
+        [unregisterOnSelectFunction]="unregisterOnSelectFunction"
+      ></map-assets>
+      <map-tracks
+        *ngIf="mapSettings.tracksVisible && mapZoom > 5"
+        [assetTracks]="assetTracks$|async"
+        [map]="map"
+        [mapZoom]="mapZoom"
+        [registerOnSelectFunction]="registerOnSelectFunction"
+        [unregisterOnSelectFunction]="unregisterOnSelectFunction"
+        [addPositionForInspection]="addPositionForInspection"
+        [positionsForInspection]="positionsForInspection$|async"
+      ></map-tracks>
+      <map-flagstates
+        *ngIf="mapSettings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"
+        [assets]="assetMovements"
+        [map]="map"
+        [selectAsset]="selectAsset"
+        [registerOnSelectFunction]="registerOnSelectFunction"
+        [unregisterOnSelectFunction]="unregisterOnSelectFunction"
+      ></map-flagstates>
+      <map-information-panel></map-information-panel>
+      <map-track-panel
+        [positions]="positionsForInspection$|async"
+        [removePositionForInspection]="removePositionForInspection"
+      ></map-track-panel>
+      <map-asset-forecast
+        *ngIf="mapSettings.forecastsVisible && mapZoom > 9"
+        [map]="map"
+        [assetMovements]="forecasts$|async"
+        [forecastInterval]="mapSettings.forecastInterval"
+      ></map-asset-forecast>
+    </ng-container>
   </div>
   <map-layer-filter
     [mapSettings]="mapSettings"

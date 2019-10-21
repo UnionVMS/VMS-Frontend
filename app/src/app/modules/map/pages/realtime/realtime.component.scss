@@ -1,5 +1,24 @@
 @import 'variables.scss';
 
+.loading-overlay {
+  position: absolute;
+  width: 100%; /* Full width (cover the whole page) */
+  height: calc(100% - #{$navbar_height});
+  top: #{$navbar_height};
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba( $color_black, 0.7);
+  z-index: 2;
+  color: white;
+  display: grid;
+  justify-items: center;
+  h2 {
+    font-size: $h1_font_size;
+    align-self: center;
+  }
+}
+
 .realtime-container {
   height: calc(100% - #{$navbar_height});
   .map-container {

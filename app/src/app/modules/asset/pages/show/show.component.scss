@@ -1,5 +1,11 @@
 @import 'variables.scss';
 
+.header-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
 .column-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
