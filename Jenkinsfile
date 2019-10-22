@@ -2,7 +2,7 @@ pipeline {
   agent any
   tools {
     maven 'Maven3'
-    jdk 'JDK7'
+    jdk 'JDK8'
   }
   environment {
     //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
