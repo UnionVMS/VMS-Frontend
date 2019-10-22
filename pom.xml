@@ -8,14 +8,16 @@
 	</parent>
 	<groupId>eu.europa.ec.fisheries.uvms</groupId>
 	<artifactId>vms-web</artifactId>
-	<version>0.4.10-SNAPSHOT</version>
+	<!-- <version>0.4.10-SNAPSHOT</version> -->
+	<version>${revision}</version>
 	<name>vms-web</name>
 	<packaging>war</packaging>
 
 	<properties>
 		<scm.connection>scm:git:https://github.com/UnionVMS/VMS-Frontend.git</scm.connection>
+		<revision>0.4.10-SNAPSHOT</revision>
 	</properties>
-
+    
 	<build>
 		<finalName>${project.name}</finalName>
 		<pluginManagement>
