@@ -36,30 +36,20 @@ pipeline {
     }
     post { 
       always { 
-        echo "team domain: ${env.SLACK_TEAM_DOMAIN}"
-        echo "token: ${env.SLACK_TOKEN}"
-        echo "slack channel: ${env.SLACK_CHANNEL}}"
         echo 'I will always say Hello again!'
       }
       success{
           slackSend(
-          teamDomain: "${env.SLACK_TEAM_DOMAIN}",
-            token: "${env.SLACK_TOKEN}",
-            channel: "${env.SLACK_CHANNEL}",
-            color: "danger",
-            message: "${env.STACK_PREFIX} production deploy success: *${env.DEPLOY_VERSION}*. <${env.BUILD_URL}|Check build>"
+            channel: '#jenkins',
+            color: 'good',
+            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
         )
       }
       failure {
         slackSend(
-          echo "team domain: ${env.SLACK_TEAM_DOMAIN}"
-          echo "token: ${env.SLACK_TOKEN}"
-          echo "slack channel: ${env.SLACK_CHANNEL}}"
-          teamDomain: "${env.SLACK_TEAM_DOMAIN}",
-            token: "${env.SLACK_TOKEN}",
-            channel: "${env.SLACK_CHANNEL}",
-            color: "danger",
-            message: "${env.STACK_PREFIX} production deploy failed: *${env.DEPLOY_VERSION}*. <${env.BUILD_URL}|Check build>"
+            channel: '#jenkins',
+            color: 'danger',
+            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
         )
       }
       cleanup{
