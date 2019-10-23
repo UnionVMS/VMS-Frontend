@@ -34,6 +34,11 @@ pipeline {
                     'pwd': "${env.PWD}",
                     'pom_version': "${POM_VERSION}"]
 
+          sh '''
+            if [ -e filename ]; then
+              rm -f filename
+            fi
+          '''
           writeYaml file: filename, data: amap
           def read = readYaml file: filename
           echo "${read}"
