@@ -32,7 +32,8 @@ pipeline {
   post { 
     always { 
       script {
-        echo "${env}"
+        sh 'env > env.txt'
+        sh 'cat env.txt'
       }
     }
     success{
