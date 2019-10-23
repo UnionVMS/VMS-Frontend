@@ -36,13 +36,13 @@ pipeline {
     }
     post { 
       always { 
+        echo "team domain: ${env.SLACK_TEAM_DOMAIN}"
+        echo "token: ${env.SLACK_TOKEN}"
+        echo "slack channel: ${env.SLACK_CHANNEL}}"
         echo 'I will always say Hello again!'
       }
       success{
           slackSend(
-          echo "team domain: ${env.SLACK_TEAM_DOMAIN}"
-          echo "token: ${env.SLACK_TOKEN}"
-          echo "slack channel: ${env.SLACK_CHANNEL}}"
           teamDomain: "${env.SLACK_TEAM_DOMAIN}",
             token: "${env.SLACK_TOKEN}",
             channel: "${env.SLACK_CHANNEL}",
