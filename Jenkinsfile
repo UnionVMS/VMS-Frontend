@@ -22,7 +22,7 @@ pipeline {
       }
     }
     stage('yaml test') {
-
+      script { 
 		    POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
         echo "POM_VERSION: ${POM_VERSION}"
         sh touch "/var/lib/jenkins/pom_version_test.yaml"
@@ -40,8 +40,8 @@ pipeline {
 			  def read = readYaml file: filename
 
 				echo "read: ${read}"
-
-        }
+      }
+    }
     stage('SonarQube') {
       steps{ 
         withSonarQubeEnv('Sonarqube.com') {
