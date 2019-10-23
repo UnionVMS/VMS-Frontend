@@ -5,17 +5,11 @@ pipeline {
     jdk 'JDK8'
   }
   environment {
-    //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
     IMAGE = readMavenPom().getArtifactId()
     VERSION = readMavenPom().getVersion()
+    BUILD_USER = ''
   }
   stages {
-    stage ('Init') {
-        steps {
-            echo "image: ${IMAGE}"
-            echo "version: ${VERSION}"
-        }
-    }
     stage ('Build') {
       steps {
         sh 'mvn clean package' 
@@ -37,20 +31,22 @@ pipeline {
   }
   post { 
     always { 
-      echo 'I will always say Hello again!'
+      script {
+        BUILD_USER = getBuildUser()
+      }
     }
     success{
         slackSend(
           channel: '#jenkins',
           color: 'good',
-          message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
+          message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${BUILD_USER}\n More info at: ${env.BUILD_URL}"
       )
     }
     failure {
       slackSend(
           channel: '#jenkins',
           color: 'danger',
-          message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
+          message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${BUILD_USER}\n More info at: ${env.BUILD_URL}"
       )
     }
   }
