@@ -21,7 +21,28 @@ pipeline {
         archive 'target/*.war'
       }
     }
-    stage('SonarQube analysis') {
+    stage('yaml test') {
+
+		    DOCKER_POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+        echo "DOCKER_POM_VERSION: ${DOCKER_POM_VERSION}"
+        sh touch "/var/lib/jenkins/pom_version_test.yaml"
+        def filename = "/var/lib/jenkins/pom_version_test.yaml"
+        def yaml = readYaml file: filename
+			   
+			  echo "yaml: ${yaml}"
+
+        yaml.branch = "${env.BRANCH_NAME}"
+        yaml.pwd = "${env.PWD}"
+			  yaml.pom_version = "${DOCKER_POM_VERSION}"
+			   
+        writeYaml file: filename, data: yaml
+			   
+			  def read = readYaml file: filename
+
+				echo "read: ${read}"
+
+        }
+    stage('SonarQube') {
       steps{ 
         withSonarQubeEnv('Sonarqube.com') {
           sh 'mvn $SONAR_MAVEN_GOAL -Dsonar.dynamicAnalysis=reuseReports -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN $SONAR_EXTRA_PROPS'
@@ -31,10 +52,6 @@ pipeline {
   }
   post { 
     always { 
-      script {
-        sh 'env > env.txt'
-        sh 'cat env.txt'
-      }
     }
     success{
         slackSend(
