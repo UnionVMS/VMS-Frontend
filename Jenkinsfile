@@ -8,6 +8,7 @@ pipeline {
     IMAGE = readMavenPom().getArtifactId()
     VERSION = readMavenPom().getVersion()
     BUILD_USER = ''
+    POM_VERSION = ''
   }
   stages {
     stage ('Build') {
@@ -22,7 +23,7 @@ pipeline {
       }
     }
     stage('yaml test') {
-      script { 
+      steps { 
 		    POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
         echo "POM_VERSION: ${POM_VERSION}"
         sh touch "/var/lib/jenkins/pom_version_test.yaml"
@@ -51,8 +52,6 @@ pipeline {
     }
   }
   post { 
-    always { 
-    }
     success{
         slackSend(
           channel: '#jenkins',
