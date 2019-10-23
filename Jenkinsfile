@@ -13,7 +13,7 @@ pipeline {
   stages {
     stage ('Build') {
       steps {
-        sh 'mvn clean package' 
+        // sh 'mvn clean package' 
       }
     }
     stage('Results') {
@@ -26,7 +26,7 @@ pipeline {
       steps { 
         script {
           POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-          sh touch "/var/lib/jenkins/pom_version_test.yaml"
+          sh 'touch "/var/lib/jenkins/pom_version_test.yaml"'
           def filename = "/var/lib/jenkins/pom_version_test.yaml"
           def yaml = readYaml file: filename
           def amap = ['branch': "${env.BRANCH_NAME}",
