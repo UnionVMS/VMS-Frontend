@@ -32,21 +32,21 @@ pipeline {
   post { 
     always { 
       script {
-        BUILD_USER = getBuildUser()
+        echo "${env}"
       }
     }
     success{
         slackSend(
           channel: '#jenkins',
           color: 'good',
-          message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${BUILD_USER}\n More info at: ${env.BUILD_URL}"
+          message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
       )
     }
     failure {
       slackSend(
           channel: '#jenkins',
           color: 'danger',
-          message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${BUILD_USER}\n More info at: ${env.BUILD_URL}"
+          message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
       )
     }
   }
