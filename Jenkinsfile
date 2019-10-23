@@ -35,8 +35,8 @@ pipeline {
                     'pom_version': "${POM_VERSION}"]
 
           sh '''
-            if [ -e filename ]; then
-              rm -f filename
+            if [ -e /var/lib/jenkins/pom_version_test.yaml ]; then
+              rm -f /var/lib/jenkins/pom_version_test.yaml
             fi
           '''
           writeYaml file: filename, data: amap
