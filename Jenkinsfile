@@ -54,13 +54,17 @@ pipeline {
           sh 'touch "/var/lib/jenkins/pom_version_test.csv"'
           def csvfile = readCSV file: '/var/lib/jenkins/pom_version_test.csv'
 
-  echo "${csvfile}" 
+          echo "${csvfile}" 
 
           def records = [['pom_version', "${POM_VERSION}"], ['pwd', "${env.PWD}"]]
           writeCSV file: '/var/lib/jenkins/pom_version_test.csv', records: records
-          
+
+          def csvfile2 = readCSV file: '/var/lib/jenkins/pom_version_test.csv'
+
+          echo "${csvfile2}" 
+
           echo "/var/lib/jenkins/pom_version_test.csv"
-          sh "rm -f /var/lib/jenkins/pom_version_test.yaml"
+          sh "rm -f /var/lib/jenkins/pom_version_test.csv"
         }
       }
     }
