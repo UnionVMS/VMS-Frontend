@@ -13,6 +13,7 @@ pipeline {
   stages {
     stage ('Build') {
       steps {
+        echo "skip mvn"
         // sh 'mvn clean package' 
       }
     }
