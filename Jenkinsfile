@@ -13,8 +13,8 @@ pipeline {
   stages {
     stage ('Build') {
       steps {
-        echo "skip mvn"
-        // sh 'mvn clean package' 
+        echo "temp no build"
+        //sh 'mvn clean package' 
       }
     }
     stage('Results') {
@@ -42,6 +42,22 @@ pipeline {
           writeYaml file: filename, data: amap
           def read = readYaml file: filename
           echo "${read}"
+
+          sh "rm -f /var/lib/jenkins/pom_version_test.yaml"
+        }
+      }
+    }
+    stage('csv test') {
+      steps { 
+        script {
+          POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+          sh 'touch "/var/lib/jenkins/pom_version_test.csv"'
+          def records = readCSV file: '/var/lib/jenkins/pom_version_test.csv'
+          def records = [['pom_version', "${POM_VERSION}"], ['pwd', "${env.PWD}"]]
+          writeCSV file: '/var/lib/jenkins/pom_version_test.csv', records: records, format: CSVFormat.EXCEL
+
+          echo "/var/lib/jenkins/pom_version_test.csv"
+          sh "rm -f /var/lib/jenkins/pom_version_test.yaml"
         }
       }
     }
