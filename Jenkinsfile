@@ -39,7 +39,16 @@ pipeline {
         echo 'I will always say Hello again!'
       }
       success{
-        echo 'success'
+          slackSend(
+          echo "team domain: ${env.SLACK_TEAM_DOMAIN}"
+          echo "token: ${env.SLACK_TOKEN}"
+          echo "slack channel: ${env.SLACK_CHANNEL}}"
+          teamDomain: "${env.SLACK_TEAM_DOMAIN}",
+            token: "${env.SLACK_TOKEN}",
+            channel: "${env.SLACK_CHANNEL}",
+            color: "danger",
+            message: "${env.STACK_PREFIX} production deploy success: *${env.DEPLOY_VERSION}*. <${env.BUILD_URL}|Check build>"
+        )
       }
       failure {
         slackSend(
