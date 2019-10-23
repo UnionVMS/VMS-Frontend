@@ -52,9 +52,12 @@ pipeline {
         script {
           POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
           sh 'touch "/var/lib/jenkins/pom_version_test.csv"'
-          def records = readCSV file: '/var/lib/jenkins/pom_version_test.csv'
-          def records = [['pom_version', "${POM_VERSION}"], ['pwd', "${env.PWD}"]]
-          writeCSV file: '/var/lib/jenkins/pom_version_test.csv', records: records, format: CSVFormat.EXCEL
+          def csvfile = readCSV file: '/var/lib/jenkins/pom_version_test.csv'
+
+  echo "${csvfile}" 
+
+          def csvload = [['pom_version', "${POM_VERSION}"], ['pwd', "${env.PWD}"]]
+          writeCSV file: '/var/lib/jenkins/pom_version_test.csv', csvload: csvload, format: CSVFormat.EXCEL
 
           echo "/var/lib/jenkins/pom_version_test.csv"
           sh "rm -f /var/lib/jenkins/pom_version_test.yaml"
