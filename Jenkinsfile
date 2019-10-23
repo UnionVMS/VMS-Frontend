@@ -26,22 +26,16 @@ pipeline {
       steps { 
         script {
           POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-          echo "POM_VERSION: ${POM_VERSION}"
           sh touch "/var/lib/jenkins/pom_version_test.yaml"
           def filename = "/var/lib/jenkins/pom_version_test.yaml"
           def yaml = readYaml file: filename
-          
-          echo "yaml: ${yaml}"
+          def amap = ['branch': "${env.BRANCH_NAME}",
+                    'pwd': "${env.PWD}",
+                    'pom_version': "${POM_VERSION}"]
 
-          yaml.branch = "${env.BRANCH_NAME}"
-          yaml.pwd = "${env.PWD}"
-          yaml.pom_version = "${POM_VERSION}"
-          
-          writeYaml file: filename, data: yaml
-          
+          writeYaml file: filename, data: amap
           def read = readYaml file: filename
-
-          echo "read: ${read}"
+          echo "${read}"
         }
       }
     }
