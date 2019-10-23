@@ -23,8 +23,8 @@ pipeline {
     }
     stage('yaml test') {
 
-		    DOCKER_POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-        echo "DOCKER_POM_VERSION: ${DOCKER_POM_VERSION}"
+		    POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+        echo "POM_VERSION: ${POM_VERSION}"
         sh touch "/var/lib/jenkins/pom_version_test.yaml"
         def filename = "/var/lib/jenkins/pom_version_test.yaml"
         def yaml = readYaml file: filename
@@ -33,7 +33,7 @@ pipeline {
 
         yaml.branch = "${env.BRANCH_NAME}"
         yaml.pwd = "${env.PWD}"
-			  yaml.pom_version = "${DOCKER_POM_VERSION}"
+			  yaml.pom_version = "${POM_VERSION}"
 			   
         writeYaml file: filename, data: yaml
 			   
