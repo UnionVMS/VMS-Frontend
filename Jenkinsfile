@@ -8,16 +8,12 @@ pipeline {
     //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
     IMAGE = readMavenPom().getArtifactId()
     VERSION = readMavenPom().getVersion()
-    }
+  }
   stages {
     stage ('Init') {
         steps {
             echo "image: ${IMAGE}"
             echo "version: ${VERSION}"
-            sh '''
-                 echo "PATH = ${PATH}"
-                echo "M2_HOME = ${M2_HOME}"
-            '''
         }
     }
     stage ('Build') {
@@ -38,6 +34,28 @@ pipeline {
         }
       }
     }
+    post { 
+      always { 
+        echo 'I will always say Hello again!'
+      }
+      success{
+        echo 'success'
+      }
+      failure {
+        slackSend(
+          echo "team domain: ${env.SLACK_TEAM_DOMAIN}"
+          echo "token: ${env.SLACK_TOKEN}"
+          echo "slack channel: ${env.SLACK_CHANNEL}}"
+          teamDomain: "${env.SLACK_TEAM_DOMAIN}",
+            token: "${env.SLACK_TOKEN}",
+            channel: "${env.SLACK_CHANNEL}",
+            color: "danger",
+            message: "${env.STACK_PREFIX} production deploy failed: *${env.DEPLOY_VERSION}*. <${env.BUILD_URL}|Check build>"
+        )
+      }
+      cleanup{
+        // Remove stuff from build process
+      }
+    }
   }
 }
-
