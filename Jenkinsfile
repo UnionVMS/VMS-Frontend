@@ -34,27 +34,27 @@ pipeline {
         }
       }
     }
-    post { 
-      always { 
-        echo 'I will always say Hello again!'
-      }
-      success{
-          slackSend(
-            channel: '#jenkins',
-            color: 'good',
-            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
-        )
-      }
-      failure {
+  }
+  post { 
+    always { 
+      echo 'I will always say Hello again!'
+    }
+    success{
         slackSend(
-            channel: '#jenkins',
-            color: 'danger',
-            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
-        )
-      }
-      cleanup{
-        // Remove stuff from build process
-      }
+          channel: '#jenkins',
+          color: 'good',
+          message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
+      )
+    }
+    failure {
+      slackSend(
+          channel: '#jenkins',
+          color: 'danger',
+          message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
+      )
+    }
+    cleanup{
+      // Remove stuff from build process
     }
   }
 }
