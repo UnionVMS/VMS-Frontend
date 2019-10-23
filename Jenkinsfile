@@ -56,9 +56,9 @@ pipeline {
 
   echo "${csvfile}" 
 
-          def csvload = [['pom_version', "${POM_VERSION}"], ['pwd', "${env.PWD}"]]
-          writeCSV file: '/var/lib/jenkins/pom_version_test.csv', csvload: csvload
-
+          def records = [['pom_version', "${POM_VERSION}"], ['pwd', "${env.PWD}"]]
+          writeCSV file: '/var/lib/jenkins/pom_version_test.csv', records: records
+          
           echo "/var/lib/jenkins/pom_version_test.csv"
           sh "rm -f /var/lib/jenkins/pom_version_test.yaml"
         }
