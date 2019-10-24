@@ -81,7 +81,7 @@ pipeline {
                     echo "PWD: ${env.PWD}"
                     build job: "/var/lib/jenkins/UnionVMS/UVMS-MovementModule-APP/swe-dev", wait: false
                     echo "${env.PWD}"
-            }UnionVMS/
+            }
         }
     }
   }
