@@ -79,7 +79,7 @@ pipeline {
   post { 
     success{
           build(
-          job: 'UnionVMS/UVMS-MovementRulesModule-APP/swe-dev',
+          job: '../UVMS-MovementRulesModule-APP/swe-dev',
           parameters: [
             [
               $class: 'StringParameterValue',
