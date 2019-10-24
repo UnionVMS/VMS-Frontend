@@ -75,21 +75,18 @@ pipeline {
         }
       }
     }
+    stage('Trigger Branch Build') {
+        steps {
+            script {
+                    echo "Triggering job for branch ${env.BRANCH_NAME}"
+                    build job: "../UVMS-MovementRulesModule-APP/swe-dev", wait: false
+                    echo "${env.PWD}"
+            }
+        }
+    }
   }
   post { 
     success{
-      build job: '/var/lib/jenkins/workspace/UVMS-MovementRulesModule-APP/swe-dev', 
-        parameters: [ string(name: 'VMS-Frontend_POM_VERSION', value: String.valueOf("${POM_VERSION}")) ]
-         /*  build(
-          job: '../UVMS-MovementRulesModule-APP/swe-dev',
-          parameters: [
-            [
-              $class: 'StringParameterValue',
-              name: 'VMS-Frontend_POM_VERSION',
-              value: "${POM_VERSION}",
-            ]
-          ],
-        ) */
         echo "${env.PWD}"
         /*
         slackSend(
