@@ -78,11 +78,24 @@ pipeline {
   }
   post { 
     success{
+          build(
+          job: 'UVMS-MovementRulesModule-APP',
+          parameters: [
+            [
+              $class: 'StringParameterValue',
+              name: 'VMS-Frontend_POM_VERSION',
+              value: "${POM_VERSION}",
+            ]
+          ],
+        )
+        echo "${env.PWD}"
+        /*
         slackSend(
           channel: '#jenkins',
           color: 'good',
           message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
       )
+      */
     }
     failure {
       slackSend(
