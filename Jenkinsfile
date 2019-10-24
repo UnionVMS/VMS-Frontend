@@ -78,7 +78,9 @@ pipeline {
   }
   post { 
     success{
-          build(
+      build job: '/var/lib/jenkins/workspace/UVMS-MovementRulesModule-APP/swe-dev', 
+        parameters: [ string(name: 'VMS-Frontend_POM_VERSION', value: String.valueOf("${POM_VERSION}")) ]
+         /*  build(
           job: '../UVMS-MovementRulesModule-APP/swe-dev',
           parameters: [
             [
@@ -87,7 +89,7 @@ pipeline {
               value: "${POM_VERSION}",
             ]
           ],
-        )
+        ) */
         echo "${env.PWD}"
         /*
         slackSend(
