@@ -79,7 +79,7 @@ pipeline {
         steps {
             script {
                     echo "PWD: ${env.PWD}"
-                    build job: "/var/lib/jenkins/UnionVMS/UVMS-MovementModule-APP/swe-dev", wait: false
+                    build job: "/var/lib/jenkins/workspace/UVMS-MovementModule-APP_swe-dev", wait: false
                     echo "${env.PWD}"
             }
         }
