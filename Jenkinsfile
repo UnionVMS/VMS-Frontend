@@ -78,9 +78,9 @@ pipeline {
     stage('Trigger Branch Build') {
         steps {
             script {
-                    echo "Triggering job for branch ${env.BRANCH_NAME}"
-                    build job: "/var/lib/jenkins/workspace/UVMS-MovementRulesModule-APP/swe-dev", wait: false
-                    echo "${env.PWD}"
+                   Jenkins.instance.getAllItems(AbstractProject.class).each {it ->
+                    println it.fullName;
+                    }
             }
         }
     }
