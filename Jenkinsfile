@@ -78,10 +78,10 @@ pipeline {
     stage('Trigger Branch Build') {
         steps {
             script {
-                   Jenkins.instance.getAllItems(AbstractProject.class).each {it ->
-                    println it.fullName;
-                    }
-            }
+                    echo "PWD: ${env.PWD}"
+                    build job: "/var/lib/jenkins/UnionVMS/UVMS-MovementModule-APP/swe-dev", wait: false
+                    echo "${env.PWD}"
+            }UnionVMS/
         }
     }
   }
