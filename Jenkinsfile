@@ -80,10 +80,10 @@ pipeline {
             script {
                     POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
                     echo "POM_VERSION: ${POM_VERSION}"
-/*
+                    
                     PROJECT_MOVEMENT_MODULE_VERSION = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
                     echo "PROJECT_MOVEMENT_MODULE_VERSION: ${PROJECT_MOVEMENT_MODULE_VERSION}" 
-                    */
+                    
             }
         }
     }
