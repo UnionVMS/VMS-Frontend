@@ -89,7 +89,7 @@ pipeline {
         }
       }
     }
-    stage('Trigger Branch Build') {
+    stage('Update pom') {
       steps {
         script {
           echo "UPDATE_MODULE_VERSION: ${UPDATE_MODULE_VERSION}"
@@ -113,6 +113,22 @@ pipeline {
         }
       }
     }
+    stage('commit pom.xml to github repo') {
+      steps {
+        script{
+          if("${UPDATE_MODULE_VERSION}" == "true"){
+              echo  "${env.GIT_BRANCH}"
+              sshagent(['ci-ssh']) {
+                sh """
+                  git checkout ${env.GIT_BRANCH} \
+                  git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" \
+                  git push -u origin ${env.GIT_BRANCH}
+                """
+              }
+          }
+        }
+	    }
+	  }
   }
   post { 
     success{
