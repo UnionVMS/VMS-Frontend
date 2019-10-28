@@ -18,8 +18,6 @@ pipeline {
   environment {
     IMAGE = readMavenPom().getArtifactId()
     VERSION = readMavenPom().getVersion()
-    BUILD_USER = ''
-    POM_VERSION = ''
     MODULE_NAME = ''
     MODULE_VERSION = ''
     UPDATE_MODULE_VERSION = hasParams()
@@ -29,7 +27,7 @@ pipeline {
   stages {
     stage ('Build') {
       steps {
-        echo "temp no build ${UPDATE_MODULE_VERSION}"
+        echo "temp no build"
         //sh 'mvn clean package' 
       }
     }
@@ -106,7 +104,11 @@ pipeline {
             echo "PROJECT_MOVEMENT_MODULE_VERSION_NEW: ${PROJECT_MOVEMENT_MODULE_VERSION_NEW}"
 
             pom = readMavenPom file: 'pom.xml'
-			      echo "pom: ${pom}"
+            POM_MODULE_VERSION = pom.properties['unionvms.project.movement.module']
+
+            writeMavenPom model: pom
+            echo "pom: ${pom}"
+			      echo "POM_MODULE_VERSION: ${POM_MODULE_VERSION}"
           } 
         }
       }
