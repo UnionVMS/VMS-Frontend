@@ -117,11 +117,16 @@ pipeline {
       steps {
         script{
           if("${UPDATE_MODULE_VERSION}" == "true"){
+
+withCredentials([sshUserPrivateKey(credentialsId: '<credential-id>', keyFileVariable: 'SSH_KEY')]) {
+   sh("git push origin <local-branch>:<remote-branch>")
+}
+
               echo  "${env.GIT_BRANCH}"
               sshagent(['ci-ssh']) {
                 sh """
-                  git checkout ${env.GIT_BRANCH} \
-                  git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" \
+                  git checkout ${env.GIT_BRANCH} &&
+                  git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
                   git push -u origin ${env.GIT_BRANCH}
                 """
               }
