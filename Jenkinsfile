@@ -1,5 +1,5 @@
 def hasParams() {
-    if(params.moduleVersion != null ){
+    if(params.MODULE_NAME != null && params.MODULE_VERSION != null ){
       echo "params: ${params}"
       return true
     } 
@@ -19,6 +19,8 @@ pipeline {
     BUILD_USER = ''
     POM_VERSION = ''
     UPDATE_MODULE_VERSION = hasParams()
+    MODULE_NAME = ''
+    MODULE_VERSION = ''
      
   }
   stages {
@@ -96,7 +98,7 @@ pipeline {
 
             PROJECT_MOVEMENT_MODULE_VERSION = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
             echo "PROJECT_MOVEMENT_MODULE_VERSION: ${PROJECT_MOVEMENT_MODULE_VERSION}"
-            sh 'mvn versions:set-property -Dproperty=unionvms.project.movement.module -DnewVersion=${PROJECT_MOVEMENT_MODULE_VERSION} -DgenerateBackupPoms=false'			
+            sh "mvn versions:set-property -Dproperty=unionvms.project.${MODULE_NAME}.module -DnewVersion=${MODULE_VERSION} -DgenerateBackupPoms=false"	
             PROJECT_MOVEMENT_MODULE_VERSION_NEW = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
             echo "PROJECT_MOVEMENT_MODULE_VERSION_NEW: ${PROJECT_MOVEMENT_MODULE_VERSION_NEW}"
           } 
