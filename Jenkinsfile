@@ -78,16 +78,17 @@ pipeline {
     stage('Trigger Branch Build') {
         steps {
             script {
-                    echo "PWD: ${env.PWD}"
-                    build job: "../../UVMS-MovementModule-APP/swe-dev", wait: false
-                    echo "${env.PWD}"
+                    POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+                    echo "POM_VERSION: ${POM_VERSION}"
+
+                    PROJECT_MOVEMENT_MODULE_VERSION = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
+                    echo "PROJECT_MOVEMENT_MODULE_VERSION: ${PROJECT_MOVEMENT_MODULE_VERSION}" 
             }
         }
     }
   }
   post { 
     success{
-        echo "${env.PWD}"
         /*
         slackSend(
           channel: '#jenkins',
