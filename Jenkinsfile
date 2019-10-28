@@ -1,3 +1,13 @@
+def hasParams() {
+    if(params != null ){
+      UPDATE_MODULE_VERSION = true
+      echo "params: ${params}"
+      return true
+    } 
+    return false
+}
+
+
 pipeline {
   agent any
   tools {
@@ -9,9 +19,8 @@ pipeline {
     VERSION = readMavenPom().getVersion()
     BUILD_USER = ''
     POM_VERSION = ''
-    if(params != null ){
-      echo "params: ${params}"
-    }  
+    UPDATE_MODULE_VERSION = hasParams()
+     
   }
   stages {
     stage ('Build') {
