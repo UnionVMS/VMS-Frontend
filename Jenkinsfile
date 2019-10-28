@@ -118,13 +118,23 @@ pipeline {
         script{
           if("${UPDATE_MODULE_VERSION}" == "true"){
 
+// GIT_URL=https://github.com/UnionVMS/VMS-Frontend.git
               echo  "${env.GIT_BRANCH}"
               sshagent(['ci-ssh']) {
+                /*
                 sh """
                   git checkout ${env.GIT_BRANCH} &&
                   git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
                   git push -u origin ${env.GIT_BRANCH}
                 """
+                */
+                 repository = "git@" + env.GIT_URL.replaceFirst(".+://", "").replaceFirst("/", ":")
+                 sh """
+                  git remote set-url origin ${repository} &&
+                   git checkout ${env.GIT_BRANCH} &&
+                  git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
+                  git push -u origin ${env.GIT_BRANCH}
+                  """
               }
           }
         }
