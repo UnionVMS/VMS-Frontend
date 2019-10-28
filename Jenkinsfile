@@ -1,6 +1,5 @@
 def hasParams() {
     if(params.moduleVersion != null ){
-      UPDATE_MODULE_VERSION = true
       echo "params: ${params}"
       return true
     } 
@@ -25,7 +24,7 @@ pipeline {
   stages {
     stage ('Build') {
       steps {
-        echo "temp no build"
+        echo "temp no build ${UPDATE_MODULE_VERSION}"
         //sh 'mvn clean package' 
       }
     }
@@ -91,7 +90,7 @@ pipeline {
       steps {
         script {
           echo "UPDATE_MODULE_VERSION: ${UPDATE_MODULE_VERSION}"
-          if(${UPDATE_MODULE_VERSION}){
+          if("${UPDATE_MODULE_VERSION}" == true){
             POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
             echo "POM_VERSION: ${POM_VERSION}"
 
