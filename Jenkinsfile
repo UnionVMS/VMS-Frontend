@@ -89,6 +89,7 @@ pipeline {
   }
   post { 
     success{
+      echo "in success"
         /*
         slackSend(
           channel: '#jenkins',
