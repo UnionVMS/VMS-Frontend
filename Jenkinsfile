@@ -9,9 +9,9 @@ pipeline {
     VERSION = readMavenPom().getVersion()
     BUILD_USER = ''
     POM_VERSION = ''
-    echo "JOB param: ${params.JOB}"
-        echo "PWD param: ${params.PWD}"
-        echo "params: ${params}"
+    if(params != null ){
+      echo "params: ${params}"
+    }  
   }
   stages {
     stage ('Build') {
