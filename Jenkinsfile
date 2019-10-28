@@ -1,6 +1,8 @@
 def hasParams() {
     if(params.MODULE_NAME != null && params.MODULE_VERSION != null ){
       echo "params: ${params}"
+      MODULE_NAME = "${params.MODULE_NAME}"
+      MODULE_VERSION = "${params.MODULE_VERSION}"
       return true
     } 
     return false
@@ -18,9 +20,10 @@ pipeline {
     VERSION = readMavenPom().getVersion()
     BUILD_USER = ''
     POM_VERSION = ''
-    UPDATE_MODULE_VERSION = hasParams()
     MODULE_NAME = ''
     MODULE_VERSION = ''
+    UPDATE_MODULE_VERSION = hasParams()
+    
      
   }
   stages {
