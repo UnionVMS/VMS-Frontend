@@ -118,10 +118,6 @@ pipeline {
         script{
           if("${UPDATE_MODULE_VERSION}" == "true"){
 
-withCredentials([sshUserPrivateKey(credentialsId: '<credential-id>', keyFileVariable: 'SSH_KEY')]) {
-   sh("git push origin <local-branch>:<remote-branch>")
-}
-
               echo  "${env.GIT_BRANCH}"
               sshagent(['ci-ssh']) {
                 sh """
