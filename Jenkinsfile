@@ -9,6 +9,9 @@ pipeline {
     VERSION = readMavenPom().getVersion()
     BUILD_USER = ''
     POM_VERSION = ''
+    echo "JOB param: ${params.JOB}"
+        echo "PWD param: ${params.PWD}"
+        echo "params: ${params}"
   }
   stages {
     stage ('Build') {
@@ -80,9 +83,12 @@ pipeline {
             script {
                     POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
                     echo "POM_VERSION: ${POM_VERSION}"
-                    
+
                     PROJECT_MOVEMENT_MODULE_VERSION = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
-                    echo "PROJECT_MOVEMENT_MODULE_VERSION: ${PROJECT_MOVEMENT_MODULE_VERSION}" 
+                    echo "PROJECT_MOVEMENT_MODULE_VERSION: ${PROJECT_MOVEMENT_MODULE_VERSION}"
+			              sh 'mvn versions:set-property -Dproperty=unionvms.project.movement.module -DnewVersion=${PROJECT_MOVEMENT_MODULE_VERSION} -DgenerateBackupPoms=false'			
+		              	PROJECT_MOVEMENT_MODULE_VERSION_NEW = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
+                    echo "PROJECT_MOVEMENT_MODULE_VERSION_NEW: ${PROJECT_MOVEMENT_MODULE_VERSION_NEW}"
                     
             }
         }
