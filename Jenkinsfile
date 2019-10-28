@@ -1,5 +1,5 @@
 def hasParams() {
-    if(params != null ){
+    if(params.moduleVersion != null ){
       UPDATE_MODULE_VERSION = true
       echo "params: ${params}"
       return true
@@ -88,22 +88,21 @@ pipeline {
       }
     }
     stage('Trigger Branch Build') {
-        steps {
-            script {
+      steps {
+        script {
+          echo "UPDATE_MODULE_VERSION: ${UPDATE_MODULE_VERSION}"
+          if(${UPDATE_MODULE_VERSION}){
+            POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+            echo "POM_VERSION: ${POM_VERSION}"
 
-                    echo "UPDATE_MODULE_VERSION: ${UPDATE_MODULE_VERSION}"
-
-                    POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-                    echo "POM_VERSION: ${POM_VERSION}"
-
-                    PROJECT_MOVEMENT_MODULE_VERSION = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
-                    echo "PROJECT_MOVEMENT_MODULE_VERSION: ${PROJECT_MOVEMENT_MODULE_VERSION}"
-			              sh 'mvn versions:set-property -Dproperty=unionvms.project.movement.module -DnewVersion=${PROJECT_MOVEMENT_MODULE_VERSION} -DgenerateBackupPoms=false'			
-		              	PROJECT_MOVEMENT_MODULE_VERSION_NEW = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
-                    echo "PROJECT_MOVEMENT_MODULE_VERSION_NEW: ${PROJECT_MOVEMENT_MODULE_VERSION_NEW}"
-                    
-            }
+            PROJECT_MOVEMENT_MODULE_VERSION = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
+            echo "PROJECT_MOVEMENT_MODULE_VERSION: ${PROJECT_MOVEMENT_MODULE_VERSION}"
+            sh 'mvn versions:set-property -Dproperty=unionvms.project.movement.module -DnewVersion=${PROJECT_MOVEMENT_MODULE_VERSION} -DgenerateBackupPoms=false'			
+            PROJECT_MOVEMENT_MODULE_VERSION_NEW = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
+            echo "PROJECT_MOVEMENT_MODULE_VERSION_NEW: ${PROJECT_MOVEMENT_MODULE_VERSION_NEW}"
+          } 
         }
+      }
     }
   }
   post { 
