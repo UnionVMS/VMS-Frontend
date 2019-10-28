@@ -117,6 +117,12 @@ pipeline {
       steps {
         script{
           if("${UPDATE_MODULE_VERSION}" == "true"){
+/*
+withCredentials([usernamePassword(credentialsId: 'ci-github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/my-org/my-repo.git')
+                    }
+
+*/
 
 // GIT_URL=https://github.com/UnionVMS/VMS-Frontend.git
               echo  "${env.GIT_BRANCH}"
@@ -131,7 +137,6 @@ pipeline {
                  repository = "git@" + env.GIT_URL.replaceFirst(".+://", "").replaceFirst("/", ":")
                  sh """
                   git remote set-url origin ${repository} &&
-                   git checkout ${env.GIT_BRANCH} &&
                   git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
                   git push -u origin ${env.GIT_BRANCH}
                   """
