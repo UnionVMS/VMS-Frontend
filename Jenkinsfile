@@ -120,9 +120,8 @@ pipeline {
  withCredentials([string(credentialsId: 'FocusDevJenkins', variable: 'TOKEN')]) {
     echo "token: ${TOKEN}"
     echo "branch ${env.GIT_BRANCH}"
-    // sh 'curl https://$TOKEN@github.com/"${GIT_AUTHOR_NAME}"/UnionVMS/VMS-Frontend.git'
-//  sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/my-org/my-repo.git')
-    sh 'git push -u origin ${env.GIT_BRANCH} https://${TOKEN}:x-oauth-basic@github.com/UnionVMS/VMS-Frontend.git'
+    sh "git commit -am \"Update pom.xml property with module:${PROJECT_MOVEMENT_MODULE_VERSION} version:${MODULE_VERSION}\" "
+    sh "git push -u origin ${env.GIT_BRANCH} https://${TOKEN}:x-oauth-basic@github.com/UnionVMS/VMS-Frontend.git"
   }
 /*
 withCredentials([sshUserPrivateKey(credentialsId: '<credential-id>', keyFileVariable: 'SSH_KEY')]) {
