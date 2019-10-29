@@ -117,7 +117,7 @@ pipeline {
       steps {
         script{
 
-          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'FocusDevJenkins',
+          withCredentials([[$class: 'com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials', credentialsId: 'FocusDevJenkins',
                     usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
                         echo "${GIT_USERNAME}"
                        echo "${GIT_PASSWORD}"
