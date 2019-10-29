@@ -116,8 +116,15 @@ pipeline {
     stage('commit pom.xml to github repo') {
       steps {
         script{
-          if("${UPDATE_MODULE_VERSION}" == "true"){
 
+          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'FocusDevJenkins',
+                    usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                        echo "${GIT_USERNAME}"
+                       echo "${GIT_PASSWORD}"
+                    }
+
+          if("${UPDATE_MODULE_VERSION}" == "true"){
+/*
 withCredentials([usernamePassword(credentialsId: 'FocusDevJenkins', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                        //  sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/my-org/my-repo.git')
 
@@ -143,6 +150,7 @@ withCredentials([usernamePassword(credentialsId: 'FocusDevJenkins', passwordVari
                   """
               }
               */
+              echo "${UPDATE_MODULE_VERSION}"
           }
         }
 	    }
