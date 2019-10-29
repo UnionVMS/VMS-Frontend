@@ -118,7 +118,6 @@ pipeline {
         script{
  sshagent(['jenkins_ssh']) {
                 sh """
-                  git checkout ${env.GIT_BRANCH} &&
                   git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
                   git push -u origin ${env.GIT_BRANCH}
                 """
