@@ -124,10 +124,8 @@ pipeline {
    // sh 'git push -u origin $env.GIT_BRANCH https://$TOKEN:x-oauth-basic@github.com/UnionVMS/VMS-Frontend.git'
 
      
-     sh """
-      git commit -am "Update pom.xml property with module:$PROJECT_MOVEMENT_MODULE_VERSION version:$MODULE_VERSION " &&
-      git push -u origin "${env.GIT_BRANCH}" https://${TOKEN}:x-oauth-basic@github.com/UnionVMS/VMS-Frontend.git
-    """"
+     sh "git commit -am \"Update pom.xml property with module:$PROJECT_MOVEMENT_MODULE_VERSION version:$MODULE_VERSION \" "
+     sh "git push -u origin \"${env.GIT_BRANCH}\" https://${TOKEN}:x-oauth-basic@github.com/UnionVMS/VMS-Frontend.git "
 
   }
 /*
