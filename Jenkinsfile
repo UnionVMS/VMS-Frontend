@@ -122,10 +122,16 @@ pipeline {
     echo "branch ${env.GIT_BRANCH}"
    // sh "git commit -am \"Update pom.xml property with module:${PROJECT_MOVEMENT_MODULE_VERSION} version:${MODULE_VERSION}\" "
    // sh 'git push -u origin $env.GIT_BRANCH https://$TOKEN:x-oauth-basic@github.com/UnionVMS/VMS-Frontend.git'
-
+ sshagent(['jenkins_ssh']) {
+                sh """
+                  git checkout ${env.GIT_BRANCH} &&
+                  git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
+                  git push -u origin ${env.GIT_BRANCH}
+                """
+              }
      
-     sh "git commit -am \"Update pom.xml property with module:$PROJECT_MOVEMENT_MODULE_VERSION version:$MODULE_VERSION \" "
-     sh "git push -u origin \"${env.GIT_BRANCH}\" https://${TOKEN}:x-oauth-basic@github.com/UnionVMS/VMS-Frontend.git "
+  //   sh "git commit -am \"Update pom.xml property with module:$PROJECT_MOVEMENT_MODULE_VERSION version:$MODULE_VERSION \" "
+  //   sh "git push -u origin \"${env.GIT_BRANCH}\" https://${TOKEN}:x-oauth-basic@github.com/UnionVMS/VMS-Frontend.git "
 
   }
 /*
