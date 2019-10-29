@@ -21,6 +21,7 @@ pipeline {
     MODULE_NAME = ''
     MODULE_VERSION = ''
     UPDATE_MODULE_VERSION = hasParams()
+    CRED = credentials('FocusDevJenkins')
     
      
   }
@@ -28,6 +29,7 @@ pipeline {
     stage ('Build') {
       steps {
         echo "temp no build"
+        echo "${CRED}"
         //sh 'mvn clean package' 
       }
     }
@@ -116,14 +118,10 @@ pipeline {
     stage('commit pom.xml to github repo') {
       steps {
         script{
-
-          withCredentials([usernameColonPassword(credentialsId: 'FocusDevJenkins', variable: 'USERPASS')]) {
-            echo "${USERPASS}"
-          }
-            withCredentials([usernamePassword(credentialsId: 'FocusDevJenkins', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD' )]) {
-            echo "Name: ${GIT_USERNAME}"
-            echo "Password: ${GIT_PASSWORD}"
-          }
+withCredentials([[$class: 'StandardUsernamePasswordCredentials', credentialsId: 'FocusDevJenkins', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD' ]]) {
+               sh "echo this is ${env.AWS_ACCESS_KEY_ID}"
+               sh "echo this is ${env.AWS_SECRET_ACCESS_KEY}"
+       }
 
           if("${UPDATE_MODULE_VERSION}" == "true"){
 /*
@@ -134,24 +132,6 @@ withCredentials([usernamePassword(credentialsId: 'FocusDevJenkins', passwordVari
                        echo "${GIT_PASSWORD}"
                     }
 /*
-
-
-usernamePassword
-Sets one variable to the username and one variable to the password given in the credentials.
-Warning: if the master or slave node has multiple executors, any other build running concurrently on the same node will be able to read the text of the secret, for example on Linux using ps e.
-usernameVariable
-Name of an environment variable to be set to the username during the build.
-Type: String
-passwordVariable
-Name of an environment variable to be set to the password during the build.
-Type: String
-credentialsId
-Credentials of an appropriate type to be set to the variable.
-Type: String
-
-
-
-
 
  GIT_URL=https://github.com/UnionVMS/VMS-Frontend.git
               echo  "${env.GIT_BRANCH}"
