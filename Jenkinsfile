@@ -116,13 +116,22 @@ pipeline {
     stage('commit pom.xml to github repo') {
       steps {
         script{
-
+/*
  withCredentials([string(credentialsId: 'FocusDevJenkins', variable: 'TOKEN')]) {
     echo "token: ${TOKEN}"
     // sh 'curl https://$TOKEN@github.com/"${GIT_AUTHOR_NAME}"/UnionVMS/VMS-Frontend.git'
   }
 
-
+withCredentials([sshUserPrivateKey(credentialsId: '<credential-id>', keyFileVariable: 'SSH_KEY')]) {
+   sh("git push origin <local-branch>:<remote-branch>")
+}
+*/
+withCredentials([usernamePassword(credentialsId: '93b9153c-b8bf-4c87-85bd-5a64ff7f9311', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]){
+                {
+                  echo "${GIT_USERNAME}"
+                       echo "${GIT_PASSWORD}"
+                   // sh("git push http://$username:$password@git.corp.mycompany.com/repo")
+                }
 
           if("${UPDATE_MODULE_VERSION}" == "true"){
 /*
