@@ -117,11 +117,13 @@ pipeline {
       steps {
         script{
 
-          withCredentials([[$class: 'com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials', credentialsId: 'FocusDevJenkins',
-                    usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-                        echo "${GIT_USERNAME}"
-                       echo "${GIT_PASSWORD}"
-                    }
+          withCredentials([usernameColonPassword(credentialsId: 'FocusDevJenkins', variable: 'USERPASS')]) {
+            echo "${USERPASS}"
+          }
+            withCredentials([usernamePassword(credentialsId: 'FocusDevJenkins', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD' )]) {
+            echo "Name: ${GIT_USERNAME}"
+            echo "Password: ${GIT_PASSWORD}"
+          }
 
           if("${UPDATE_MODULE_VERSION}" == "true"){
 /*
@@ -132,6 +134,25 @@ withCredentials([usernamePassword(credentialsId: 'FocusDevJenkins', passwordVari
                        echo "${GIT_PASSWORD}"
                     }
 /*
+
+
+usernamePassword
+Sets one variable to the username and one variable to the password given in the credentials.
+Warning: if the master or slave node has multiple executors, any other build running concurrently on the same node will be able to read the text of the secret, for example on Linux using ps e.
+usernameVariable
+Name of an environment variable to be set to the username during the build.
+Type: String
+passwordVariable
+Name of an environment variable to be set to the password during the build.
+Type: String
+credentialsId
+Credentials of an appropriate type to be set to the variable.
+Type: String
+
+
+
+
+
  GIT_URL=https://github.com/UnionVMS/VMS-Frontend.git
               echo  "${env.GIT_BRANCH}"
               sshagent(['ci-ssh']) {
@@ -150,7 +171,6 @@ withCredentials([usernamePassword(credentialsId: 'FocusDevJenkins', passwordVari
                   """
               }
               */
-              echo "${UPDATE_MODULE_VERSION}"
           }
         }
 	    }
