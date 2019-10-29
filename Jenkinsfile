@@ -21,7 +21,6 @@ pipeline {
     MODULE_NAME = ''
     MODULE_VERSION = ''
     UPDATE_MODULE_VERSION = hasParams()
-    CRED = credentials('FocusDevJenkins')
     
      
   }
@@ -29,7 +28,6 @@ pipeline {
     stage ('Build') {
       steps {
         echo "temp no build"
-        echo "${CRED}"
         //sh 'mvn clean package' 
       }
     }
@@ -118,10 +116,13 @@ pipeline {
     stage('commit pom.xml to github repo') {
       steps {
         script{
-withCredentials([[$class: 'StandardUsernamePasswordCredentials', credentialsId: 'FocusDevJenkins', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD' ]]) {
-               sh "echo this is ${env.AWS_ACCESS_KEY_ID}"
-               sh "echo this is ${env.AWS_SECRET_ACCESS_KEY}"
-       }
+
+ withCredentials([string(credentialsId: 'FocusDevJenkins', variable: 'TOKEN')]) {
+    echo "token: ${TOKEN}"
+    // sh 'curl https://$TOKEN@github.com/"${GIT_AUTHOR_NAME}"/UnionVMS/VMS-Frontend.git'
+  }
+
+
 
           if("${UPDATE_MODULE_VERSION}" == "true"){
 /*
@@ -131,6 +132,13 @@ withCredentials([usernamePassword(credentialsId: 'FocusDevJenkins', passwordVari
                        echo "${GIT_USERNAME}"
                        echo "${GIT_PASSWORD}"
                     }
+
+
+withCredentials([[$class: 'StandardUsernamePasswordCredentials', credentialsId: 'FocusDevJenkins', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD' ]]) {
+               sh "echo this is ${env.AWS_ACCESS_KEY_ID}"
+               sh "echo this is ${env.AWS_SECRET_ACCESS_KEY}"
+       }
+                    
 /*
 
  GIT_URL=https://github.com/UnionVMS/VMS-Frontend.git
