@@ -117,15 +117,15 @@ pipeline {
       steps {
         script{
           if("${UPDATE_MODULE_VERSION}" == "true"){
-/*
-withCredentials([usernamePassword(credentialsId: 'ci-github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/my-org/my-repo.git')
-                    }
-GIT_COMMITTER_NAME=uvmsci
-GIT_AUTHOR_EMAIL=uvmsci@gmail.com
-*/
 
-// GIT_URL=https://github.com/UnionVMS/VMS-Frontend.git
+withCredentials([usernamePassword(credentialsId: 'FocusDevJenkins', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                       //  sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/my-org/my-repo.git')
+
+                       echo "${GIT_USERNAME}"
+                       echo "${GIT_PASSWORD}"
+                    }
+/*
+ GIT_URL=https://github.com/UnionVMS/VMS-Frontend.git
               echo  "${env.GIT_BRANCH}"
               sshagent(['ci-ssh']) {
                 /*
@@ -134,14 +134,15 @@ GIT_AUTHOR_EMAIL=uvmsci@gmail.com
                   git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
                   git push -u origin ${env.GIT_BRANCH}
                 """
-                */
-                 repository = "${env.USER}@" + env.GIT_URL.replaceFirst(".+://", "").replaceFirst("/", ":")
+                
+                 repository = "${env.GIT_COMMITTER_NAME}@" + env.GIT_URL.replaceFirst(".+://", "").replaceFirst("/", ":")
                  sh """
                   git remote set-url origin ${repository} &&
                   git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
                   git push -u origin ${env.GIT_BRANCH}
                   """
               }
+              */
           }
         }
 	    }
