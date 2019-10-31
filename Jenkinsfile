@@ -116,14 +116,21 @@ pipeline {
     stage('commit pom.xml to github repo') {
       steps {
         script{
+          /*
  sshagent(['jenkins_ssh']) {
+  //  git remote add origin https://github.com/{USER_NAME}/{REPOSITORY_NAME}.git
                 sh """
                   git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
                   git push -u origin ${env.GIT_BRANCH}
                 """
               }
-
-
+*/
+// credentialsId here is the credentials you have set up in Jenkins for pushing
+// to that repository using username and password.
+withCredentials([usernamePassword(credentialsId: '93b9153c-b8bf-4c87-85bd-5a64ff7f9311', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+    sh("git commit -am \"update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}\" ")
+    sh("git push -u origin ${env.GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/UnionVMS/VMS-Frontend.git")
+}
 
 
 /*
