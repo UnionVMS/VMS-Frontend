@@ -3,7 +3,6 @@ import * as NotesInterfaces from './notes.interfaces';
 import { State } from '@app/app-reducer';
 import { getMergedRoute } from '@data/router/router.selectors';
 
-
 export const selectNotes = (state: State) => state.notes.notes;
 
 export const getNotes= createSelector(

@@ -51,6 +51,30 @@ export class NotesEffects {
   );
 
   @Effect()
+  getSelectedNote$ = this.actions$.pipe(
+    ofType(NotesActions.getSelectedNote),
+    mergeMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.select(AuthSelectors.getAuthToken),
+        this.store$.select(getMergedRoute)
+      ),
+      mergeMap(([pipedAction, authToken, mergedRoute]: Array<any>) => {
+        if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.noteId !== 'undefined') {
+          return this.notesService.getNoteById(authToken, mergedRoute.params.noteId).pipe(
+            map((response: any) => {
+              return NotesActions.setNotes({
+                notes: { [response.id]: response }
+              });
+            })
+          );
+        } else {
+          return EMPTY;
+        }
+      })
+    ))
+  );
+
+  @Effect()
   saveNote$ = this.actions$.pipe(
     ofType(NotesActions.saveNote),
     mergeMap((action) => of(action).pipe(
@@ -64,7 +88,7 @@ export class NotesEffects {
         if(isNew) {
           if(typeof pipedAction.note.assetId === 'undefined' && typeof selectedAsset !== 'undefined') {
             request = this.notesService.createNote(authToken, { ...pipedAction.note, assetId: selectedAsset.id });
-          } 
+          }
         } else {
           request = this.notesService.updateNote(authToken, action.note);
         }
@@ -73,7 +97,7 @@ export class NotesEffects {
             let notification = 'Notes updated successfully!';
             this.router.navigate(['/asset/' + note.assetId]);
             if(isNew) {
-              notification = 'Asset created successfully!';
+              notification = 'Note created successfully!';
             }
             return [NotesActions.setNotes({ notes: { [note.id]: note } }), NotificationsActions.addSuccess(notification)];
           })

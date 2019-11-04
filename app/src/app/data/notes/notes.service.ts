@@ -23,7 +23,7 @@ export class NotesService {
 
   createNote(authToken: string, note: NotesInterfaces.Note) {
     return this.http.post(
-      environment.baseApiUrl + `asset/rest/asset2/notes`, 
+      environment.baseApiUrl + `asset/rest/asset2/notes`,
       note,
       {
         headers: new HttpHeaders({
@@ -36,7 +36,7 @@ export class NotesService {
 
   updateNote(authToken: string, note: NotesInterfaces.Note) {
     return this.http.put(
-      environment.baseApiUrl + `asset/rest/asset2/notes`, 
+      environment.baseApiUrl + `asset/rest/asset2/notes`,
       note,
       {
         headers: new HttpHeaders({
@@ -46,4 +46,17 @@ export class NotesService {
       }
     );
   }
+
+  getNoteById(authToken: string, noteId: string) {
+    return this.http.get(
+      environment.baseApiUrl + `asset/rest/asset2/note/${ noteId }`, {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
+
 }

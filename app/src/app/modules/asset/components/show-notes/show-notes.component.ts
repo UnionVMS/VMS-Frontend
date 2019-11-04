@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-
 import { AssetInterfaces } from '@data/asset';
 import { NotesInterfaces } from '@data/notes';
 

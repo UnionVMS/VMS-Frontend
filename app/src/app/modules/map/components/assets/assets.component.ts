@@ -178,7 +178,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   updateImageOnAsset(assetFeature, src, color, heading) {
-    console.warn(typeof assetFeature.getStyle());
     assetFeature.getStyle().setImage(new Icon({
       src,
       scale: 0.8,

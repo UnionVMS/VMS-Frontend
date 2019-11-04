@@ -15,6 +15,7 @@ export const saveNote = createAction(
   props<{ note: NotesInterfaces.Note }>()
 );
 
-export const getSelectedNotes = createAction(
-  '[Notes] Get selected notes'
+export const getSelectedNote = createAction(
+  '[Notes] Get selected note'
+
 );

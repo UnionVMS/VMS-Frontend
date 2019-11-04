@@ -2,15 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
-import { formatDate } from '@app/helpers/helpers';
+import { FormGroup, FormControl } from '@angular/forms';
 
 import { State } from '@app/app-reducer';
-import { AssetActions } from '@data/asset';
 import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
-import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { createNotesFormValidator } from './form-validator';
+import { errorMessage } from '@app/helpers/validators/error-messages';
 
 @Component({
   selector: 'notes-edit-page',
@@ -25,36 +23,38 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public note = {} as NotesInterfaces.Note;
   public save: () => void;
   public mergedRoute: RouterInterfaces.MergedRoute;
+  public formValidator: FormGroup;
 
   mapStateToProps() {
     this.notesSubscription = this.store.select(NotesSelectors.getNoteByUrl).subscribe((note) => {
       if(typeof note !== 'undefined') {
         this.note = note;
       }
+      this.formValidator = createNotesFormValidator(this.note);
     });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
       this.mergedRoute = mergedRoute;
-      if(typeof this.mergedRoute.params.assetId !== 'undefined') {
-        this.store.dispatch(AssetActions.getSelectedAsset());
+      if(typeof this.mergedRoute.params.noteId !== 'undefined') {
+        this.store.dispatch(NotesActions.getSelectedNote());
       }
     });
   }
 
   mapDispatchToProps() {
     this.save = () => {
-       const formValidation = this.validateForm();
-       if(formValidation === true) {
-      this.store.dispatch(NotesActions.saveNote({ note: this.note }));
-       } else {
-        console.warn("Validation error");
-       }
+      const note = {
+        ...this.note,
+        noteuser: this.formValidator.value.essentailFields.noteuser,
+        notes: this.formValidator.value.essentailFields.notes,
+      };
+      this.store.dispatch(NotesActions.saveNote({ note }));
     };
   }
 
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
-    this.store.dispatch(NotesActions.getSelectedNotes());
+    this.store.dispatch(NotesActions.getSelectedNote());
   }
 
   ngOnDestroy() {
@@ -71,7 +71,16 @@ export class FormPageComponent implements OnInit, OnDestroy {
     return this.isCreateOrUpdate() === 'Create' || Object.entries(this.note).length !== 0;
   }
 
-  validateForm(){
-    return true;
+  getErrors(path: string[]) {
+    const errors = this.formValidator.get(path).errors;
+    return errors === null ? [] : Object.keys(errors);
+  }
+
+  errorMessage(error: string) {
+    if(error === 'maxlength') {
+      return 'Text can not be longer then 255 characters.';
+    }
+
+    return errorMessage(error);
   }
 }
