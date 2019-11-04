@@ -127,7 +127,7 @@ pipeline {
 */
 // credentialsId here is the credentials you have set up in Jenkins for pushing
 // to that repository using username and password.
-withCredentials([usernamePassword(credentialsId: '93b9153c-b8bf-4c87-85bd-5a64ff7f9311', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+withCredentials([usernamePassword(credentialsId: 'github_uvmsci_user', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
   GIT_STATUS = sh "git status"
     echo "status: ${GIT_STATUS}"
 
