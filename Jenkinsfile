@@ -121,14 +121,22 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: 'github_uvmsci_user', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
               GIT_STATUS = sh "git status"  
               GIT_BRANCH = sh "git branch"
-            
+              
+              sh "git show-ref"
               sh "git config user.name uvmsci"
               sh "git config user.email uvmsci@gmail.com"
               sh "git add pom.xml" 
               sh "git commit -m \"update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}\" "
-              sh "git push -u origin ${env.GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/UnionVMS/VMS-Frontend.git"
+            //  sh "git remote add origin https://github.com/UnionVMS/VMS-Frontend.git"
+              sh "git push -u origin HEAD:${env.GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/UnionVMS/VMS-Frontend.git"
             }
           }
+          /*
+          withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+    sh("git tag -a some_tag -m 'Jenkins'")
+    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO> --tags')
+}
+*/
 
         }
 	    }
