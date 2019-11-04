@@ -13,6 +13,7 @@ import { State } from '@app/app-reducer';
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { ContactActions, ContactInterfaces, ContactSelectors } from '@data/contact';
 import { MobileTerminalInterfaces, MobileTerminalSelectors } from '@data/mobile-terminal';
+import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
 import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 
 @Component({
@@ -26,6 +27,7 @@ export class ShowPageComponent implements OnInit, OnDestroy {
 
   public assetSubscription: Subscription;
   public contacts$: Observable<ContactInterfaces.Contact[]>;
+  public notes$: Observable<NotesInterfaces.Note[]>;
   public mobileTerminals$: Observable<Array<MobileTerminalInterfaces.MobileTerminal>>;
   public asset = {} as AssetInterfaces.Asset;
 
@@ -37,6 +39,7 @@ export class ShowPageComponent implements OnInit, OnDestroy {
     });
     this.mobileTerminals$ = this.store.select(MobileTerminalSelectors.getMobileTerminalsForUrlAsset);
     this.contacts$ = this.store.select(ContactSelectors.getContacts);
+    this.notes$ = this.store.select(NotesSelectors.getNotes);
   }
 
   mapDispatchToProps() {
@@ -47,6 +50,7 @@ export class ShowPageComponent implements OnInit, OnDestroy {
     this.mapDispatchToProps();
     this.store.dispatch(AssetActions.getSelectedAsset());
     this.store.dispatch(ContactActions.getContactsForSelectedAsset());
+    this.store.dispatch(NotesActions.getNotesForSelectedAsset());
   }
 
   ngOnDestroy() {

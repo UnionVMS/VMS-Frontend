@@ -1,0 +1,67 @@
+@import 'variables.scss';
+
+.notes-edit-form {
+  display: grid;
+  // grid-column-gap: $xxlarge_distance;
+  grid-template-columns: 1fr;
+
+  fieldset {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-left: $small_distance solid $color_turquoise;
+    margin-bottom: $medium_distance;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    legend {
+      font-weight: bolder;
+      margin-top: $small_distance;
+      margin-bottom: $small_distance;
+    }
+
+  }
+
+  button#mobile-terminal-form--save {
+    float: right;
+  }
+  textarea{
+    min-height: 200px;
+  }
+  mat-label > .required {
+    margin-left: $small_distance;
+    color: red;
+  }
+
+  .length-form-field {
+    input, mat-select {
+      width: 50%;
+    }
+  }
+
+  .tonnage-form-field {
+    input, mat-select {
+      width: 50%;
+    }
+  }
+
+  #mobile-terminal-form--channel-name mat-checkbox {
+    margin-right: $medium_distance;
+  }
+  .channels {
+    position: relative;
+    .mobile-terminal-form--new-channel-button {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+    }
+  }
+}
+.mobile-terminal-table-container > table {
+  width: 100%;
+}
+
+.load-spinner {
+  margin: 150px auto;
+}

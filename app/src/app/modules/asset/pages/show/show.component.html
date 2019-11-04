@@ -15,6 +15,7 @@
   </div>
   <div class="right-column">
     <asset-show-mobile-terminal [asset]="asset" [mobileTerminals]="mobileTerminals$ | async"></asset-show-mobile-terminal>
+    <asset-show-notes [asset]="asset" [notes]="notes$ | async"></asset-show-notes>
     <div class="placeholder">
       <h2>Notes placeholder</h2>
     </div>

@@ -29,6 +29,9 @@ import { FormPageComponent as MobileTerminalFormPage } from './modules/mobile-te
 // Contact-pages
 import { FormPageComponent as ContactFormPage } from './modules/contact/pages/form/form.component';
 
+// Notes-pages
+import { FormPageComponent as NotesFormPage } from './modules/notes/pages/form/form.component';
+
 // Settings-pages
 import { UserSettingsComponent } from './modules/settings/pages/user-settings/user-settings.component';
 
@@ -47,6 +50,8 @@ const routes: Routes = [
       { path: 'mobileTerminal/:assetId/create', component: MobileTerminalFormPage, pathMatch: 'full' },
       { path: 'contact/:contactId/edit', component: ContactFormPage, pathMatch: 'full' },
       { path: 'contact/:assetId/create', component: ContactFormPage, pathMatch: 'full' },
+      { path: 'notes/:noteId/edit', component: NotesFormPage, pathMatch: 'full' },
+      { path: 'notes/:assetId/create', component: NotesFormPage, pathMatch: 'full' },
       { path: 'logout', component: LogoutComponent, pathMatch: 'full'},
     ]
   },
