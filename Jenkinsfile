@@ -116,90 +116,20 @@ pipeline {
     stage('commit pom.xml to github repo') {
       steps {
         script{
-          /*
- sshagent(['jenkins_ssh']) {
-  //  git remote add origin https://github.com/{USER_NAME}/{REPOSITORY_NAME}.git
-                sh """
-                  git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
-                  git push -u origin ${env.GIT_BRANCH}
-                """
-              }
-*/
-// credentialsId here is the credentials you have set up in Jenkins for pushing
-// to that repository using username and password.
-withCredentials([usernamePassword(credentialsId: 'github_uvmsci_user', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-  GIT_STATUS = sh "git status"
-    echo "status: ${GIT_STATUS}"
 
-    GIT_BRANCH = sh "git branch"
-    echo "branch: ${GIT_BRANCH}"
-    echo "git_user: ${GIT_USERNAME}"
-    echo "pass: ${GIT_PASSWORD}"
-
-    sh "git remote add origin https://git remote add origin https://github.com/UnionVMS/VMS-Frontend.git"
-    sh "git config user.name uvmsci"
-    sh "git config user.email uvmsci@gmail.com"
-    GIT_STATUS = sh "git status"
-    echo "${GIT_STATUS}"
-    sh("git commit -am \"update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}\" ")
-    sh("git push -u origin ${env.GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/UnionVMS/VMS-Frontend.git")
-}
-// git remote add origin https://github.com/user/repo.git
-// git show-ref to see what refs do you have. Is there refs/heads/master
-
-/*
- withCredentials([string(credentialsId: 'FocusDevJenkins', variable: 'TOKEN')]) {
-    echo "token: ${TOKEN}"
-    echo "branch ${env.GIT_BRANCH}"
-   // sh "git commit -am \"Update pom.xml property with module:${PROJECT_MOVEMENT_MODULE_VERSION} version:${MODULE_VERSION}\" "
-   // sh 'git push -u origin $env.GIT_BRANCH https://$TOKEN:x-oauth-basic@github.com/UnionVMS/VMS-Frontend.git'
-
-     
-  //   sh "git commit -am \"Update pom.xml property with module:$PROJECT_MOVEMENT_MODULE_VERSION version:$MODULE_VERSION \" "
-  //   sh "git push -u origin \"${env.GIT_BRANCH}\" https://${TOKEN}:x-oauth-basic@github.com/UnionVMS/VMS-Frontend.git "
-
-  }
-
-withCredentials([sshUserPrivateKey(credentialsId: '<credential-id>', keyFileVariable: 'SSH_KEY')]) {
-   sh("git push origin <local-branch>:<remote-branch>")
-}
-*/
           if("${UPDATE_MODULE_VERSION}" == "true"){
-/*
-withCredentials([usernamePassword(credentialsId: 'FocusDevJenkins', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                       //  sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/my-org/my-repo.git')
-
-                       echo "${GIT_USERNAME}"
-                       echo "${GIT_PASSWORD}"
-                    }
-
-
-withCredentials([[$class: 'StandardUsernamePasswordCredentials', credentialsId: 'FocusDevJenkins', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD' ]]) {
-               sh "echo this is ${env.AWS_ACCESS_KEY_ID}"
-               sh "echo this is ${env.AWS_SECRET_ACCESS_KEY}"
-       }
-                    
-/*
-
- GIT_URL=https://github.com/UnionVMS/VMS-Frontend.git
-              echo  "${env.GIT_BRANCH}"
-              sshagent(['ci-ssh']) {
-                /*
-                sh """
-                  git checkout ${env.GIT_BRANCH} &&
-                  git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
-                  git push -u origin ${env.GIT_BRANCH}
-                """
-                
-                 repository = "${env.GIT_COMMITTER_NAME}@" + env.GIT_URL.replaceFirst(".+://", "").replaceFirst("/", ":")
-                 sh """
-                  git remote set-url origin ${repository} &&
-                  git commit -am "update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}" &&
-                  git push -u origin ${env.GIT_BRANCH}
-                  """
-              }
-              */
+            withCredentials([usernamePassword(credentialsId: 'github_uvmsci_user', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+              GIT_STATUS = sh "git status"  
+              GIT_BRANCH = sh "git branch"
+            
+              sh "git config user.name uvmsci"
+              sh "git config user.email uvmsci@gmail.com"
+              sh "git add pom.xml" 
+              sh "git commit -m \"update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}\" "
+              sh "git push -u origin ${env.GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/UnionVMS/VMS-Frontend.git"
+            }
           }
+
         }
 	    }
 	  }
