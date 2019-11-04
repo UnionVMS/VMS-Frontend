@@ -128,23 +128,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         currentlySelectedIds.push(selectedAsset.asset.id);
         if(!this.previouslySelectedAssetIds.some((previousAssetId) => previousAssetId === selectedAsset.asset.id)) {
           const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
-          this.updateImageOnAsset(
+          this.addTargetImageOnAsset(
             selectedAssetFeature,
-            '/assets/arrow_640_rotated_4p_selected.png',
-            this.getShipColor({
-              assetEssentials: {
-                assetId: selectedAsset.asset.id,
-                flagstate: selectedAsset.asset.flagStateCode,
-                assetName: selectedAsset.asset.name,
-                vesselType: selectedAsset.asset.vesselType,
-                ircs: selectedAsset.asset.ircs,
-                cfr: selectedAsset.asset.cfr,
-                externalMarking: selectedAsset.asset.externalMarkin,
-                lengthOverAll: selectedAsset.asset.lengthOverAll,
-              },
-              assetMovement: selectedAsset.currentPosition
-            }),
-            selectedAsset.currentPosition.microMove.heading
+            '/assets/target.png'
           );
 
           // We need to reset position to force rerender of asset.
@@ -160,11 +146,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
           const previouslySelectedAssetFeature = this.vectorSource.getFeatureById(previouslySelectedAssetId);
           if(typeof previouslySelectedAssetFeature !== 'undefined' && previouslySelectedAssetFeature !== null) {
             const previouslySelectedAsset = this.assets.find((asset) => asset.assetMovement.asset === previouslySelectedAssetId);
-            this.updateImageOnAsset(
+            this.removeTargetImageOnAsset(
               previouslySelectedAssetFeature,
-              '/assets/arrow_640_rotated_4p.png',
-              this.getShipColor(previouslySelectedAsset),
-              previouslySelectedAsset.assetMovement.microMove.heading
             );
           }
         }
@@ -177,15 +160,31 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  updateImageOnAsset(assetFeature, src, color, heading) {
-    assetFeature.getStyle().setImage(new Icon({
-      src,
-      scale: 0.8,
-      color
+  addTargetImageOnAsset(assetFeature, src) {
+    let style = assetFeature.getStyle();
+    if(!Array.isArray(style)) {
+      style = [style];
+    }
+
+    style.push(new Style({
+      image: new Icon({
+        src,
+        color: '#FF0000',
+        opacity: 1
+      })
     }));
-    assetFeature.getStyle().getImage().setOpacity(1);
-    assetFeature.getStyle().getImage().setRotation(deg2rad(heading));
+
+    assetFeature.setStyle(style);
   }
+
+  removeTargetImageOnAsset(assetFeature) {
+    let style = assetFeature.getStyle();
+    if(Array.isArray(style)) {
+      style = style[0];
+      assetFeature.setStyle(style);
+    }
+  }
+
 
   ngOnDestroy() {
     this.unregisterOnSelectFunction(this.layerTitle);
@@ -208,8 +207,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
     const styleProperties: any = {
       image: new Icon({
-        src: '/assets/arrow_640_rotated_4p.png',
-        scale: 0.8,
+        src: '/assets/Vessel.png',
+        // scale: 0.8,
         color: this.getShipColor(asset)
       })
     };
@@ -299,7 +298,12 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       assetFeature.setGeometry(new Point(fromLonLat(
         [asset.assetMovement.microMove.location.longitude, asset.assetMovement.microMove.location.latitude]
       )));
-      assetFeature.getStyle().getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
+      const style = assetFeature.getStyle();
+      if(Array.isArray(style)) {
+        style[0].getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
+      } else {
+        style.getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
+      }
       this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
     }
     if(oldStuff === undefined || oldStuff[3] !== currentAssetPosition[3]) {
