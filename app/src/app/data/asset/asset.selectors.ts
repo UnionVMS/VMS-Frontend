@@ -241,7 +241,7 @@ export const getSelectedAsset = createSelector(
   getMergedRoute,
   (assets, mergedRoute) => {
     if(typeof assets[mergedRoute.params.assetId] !== 'undefined') {
-      return { ...assets[mergedRoute.params.assetId] };
+      return assets[mergedRoute.params.assetId];
     }
     return undefined;
   }
