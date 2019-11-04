@@ -128,9 +128,11 @@ pipeline {
               sh "git add pom.xml" 
               sh "git commit -m \"update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}\" "
             //  sh "git remote add origin https://github.com/UnionVMS/VMS-Frontend.git"
-              sh "git push -u origin HEAD:${env.GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/UnionVMS/VMS-Frontend.git"
+               sh "git push -u origin ${env.GIT_BRANCH}"
+            //  sh "git push -u origin HEAD:${env.GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/UnionVMS/VMS-Frontend.git"
             }
           }
+          // sh "git remote set-url origin git@github.com:fabric8io/pipeline-test-project.git"
           /*
           withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
     sh("git tag -a some_tag -m 'Jenkins'")
