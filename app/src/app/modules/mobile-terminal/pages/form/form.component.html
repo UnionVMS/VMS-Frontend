@@ -8,7 +8,7 @@
       <mat-form-field id="mobile-terminal-form--mobileTerminalType">
         <mat-label>Transceiver system</mat-label>
         <mat-select formControlName="mobileTerminalType" (selectionChange)="changePlugin($event)" required>
-          <mat-option *ngFor="let plugin of plugins" [value]="plugin.pluginSatelliteType">{{plugin.pluginSatelliteType}}</mat-option>
+          <mat-option *ngFor="let plugin of plugins" id="mat-option-plugin-{{plugin.pluginSatelliteType}}" [value]="plugin.pluginSatelliteType">{{plugin.pluginSatelliteType}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -21,7 +21,7 @@
       <mat-form-field id="mobile-terminal-form--oceanRegions">
         <mat-label>Ocean region</mat-label>
         <mat-select formControlName="selectedOceanRegions" (selectionChange)="changeOceanRegions($event)" multiple required>
-          <mat-option *ngFor="let oceanRegion of oceanRegions" [value]="oceanRegion">{{oceanRegion}}</mat-option>
+          <mat-option *ngFor="let oceanRegion of oceanRegions" id="mat-option-oceanRegion-{{oceanRegion.replace(' ', '')}}" [value]="oceanRegion">{{oceanRegion}}</mat-option>
         </mat-select>
         <mat-error *ngFor="let error of getErrors(['essentailFields', 'serialNo'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
