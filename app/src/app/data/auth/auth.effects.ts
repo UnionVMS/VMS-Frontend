@@ -53,10 +53,10 @@ export class AuthEffects {
           );
 
           const response = [];
-          if(typeof mapSettings !== 'undefined') {
+          if(typeof mapSettings !== 'undefined' && mapSettings.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
             response.push(MapSettings.replaceSettings({ settings: JSON.parse(mapSettings.optionValue) }));
           }
-          if(typeof mapFilters !== 'undefined') {
+          if(typeof mapFilters !== 'undefined' && mapSettings.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
             response.push(MapSavedFiltersActions.setSavedFitlers({ filters: JSON.parse(mapFilters.optionValue) }));
           }
           return response;
