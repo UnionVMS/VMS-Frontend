@@ -96,18 +96,9 @@ pipeline {
           if("${UPDATE_MODULE_VERSION}" == "true"){
             POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
             echo "POM_VERSION: ${POM_VERSION}"
-/*
-            PROJECT_MOVEMENT_MODULE_VERSION = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
-            echo "PROJECT_MOVEMENT_MODULE_VERSION: ${PROJECT_MOVEMENT_MODULE_VERSION}"
-            */
-            sh "mvn versions:set-property -Dproperty=unionvms.project.${MODULE_NAME}.module -DnewVersion=${MODULE_VERSION} " // -DgenerateBackupPoms=false"	
-            /*
-            PROJECT_MOVEMENT_MODULE_VERSION_NEW = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
-            echo "PROJECT_MOVEMENT_MODULE_VERSION_NEW: ${PROJECT_MOVEMENT_MODULE_VERSION_NEW}"
 
-
-            mvn -DpropA=valueA -DpropB=valueB -DpropC=valueC clean package
-           */
+            sh "mvn versions:set-property -Dproperty=unionvms.project.${MODULE_NAME}.module -DnewVersion=${MODULE_VERSION} -DgenerateBackupPoms=false" 
+         
           } 
         }
       }
@@ -116,11 +107,10 @@ pipeline {
       steps {
         script{
 
-          if("${UPDATE_MODULE_VERSION}" == "true"){
+          POM_XML = sh "git diff --name-only pom.xml"
+          if("${UPDATE_MODULE_VERSION}" == "true" && $"{POM_XML}" == "pom.xml"){
             withCredentials([usernamePassword(credentialsId: 'github_uvmsci_user', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-              GIT_STATUS = sh "git status"  
-              GIT_BRANCH = sh "git branch"
-              
+              sh "cat env.txt"
               sh "git show-ref"
               sh "git config user.name uvmsci"
               sh "git config user.email uvmsci@gmail.com"
