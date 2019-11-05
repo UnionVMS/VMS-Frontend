@@ -96,23 +96,18 @@ pipeline {
           if("${UPDATE_MODULE_VERSION}" == "true"){
             POM_VERSION = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
             echo "POM_VERSION: ${POM_VERSION}"
-
+/*
             PROJECT_MOVEMENT_MODULE_VERSION = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
             echo "PROJECT_MOVEMENT_MODULE_VERSION: ${PROJECT_MOVEMENT_MODULE_VERSION}"
-            sh "mvn versions:set-property -Dproperty=unionvms.project.${MODULE_NAME}.module -DnewVersion=${MODULE_VERSION} -DgenerateBackupPoms=false"	
+            */
+            sh "mvn versions:set-property -Dproperty=unionvms.project.${MODULE_NAME}.module -DnewVersion=${MODULE_VERSION} " // -DgenerateBackupPoms=false"	
+            /*
             PROJECT_MOVEMENT_MODULE_VERSION_NEW = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
             echo "PROJECT_MOVEMENT_MODULE_VERSION_NEW: ${PROJECT_MOVEMENT_MODULE_VERSION_NEW}"
-            pom = readMavenPom file: 'pom.xml'
-            echo "POM: ${pom}"
 
-/*
-            pom = readMavenPom file: 'pom.xml'
-            POM_MODULE_VERSION = pom.properties['unionvms.project.movement.module']
 
-            writeMavenPom model: pom
-            echo "pom: ${pom}"
-			      echo "POM_MODULE_VERSION: ${POM_MODULE_VERSION}"
-            */
+            mvn -DpropA=valueA -DpropB=valueB -DpropC=valueC clean package
+           */
           } 
         }
       }
@@ -130,22 +125,10 @@ pipeline {
               sh "git config user.name uvmsci"
               sh "git config user.email uvmsci@gmail.com"
               sh "git add pom.xml" 
-             // sh "git checkout "
               sh "git commit -m \"update pom.xml with module: ${MODULE_NAME} version: ${MODULE_VERSION}\" "
-            //  sh "git remote add origin https://github.com/UnionVMS/VMS-Frontend.git"
               sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/UnionVMS/VMS-Frontend.git HEAD:${env.GIT_BRANCH}"
-            //   sh "git push -u origin ${env.GIT_BRANCH}"
-            //  sh "git push -u origin HEAD:${env.GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/UnionVMS/VMS-Frontend.git"
             }
           }
-          // sh "git remote set-url origin git@github.com:fabric8io/pipeline-test-project.git"
-          /*
-          withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-    sh("git tag -a some_tag -m 'Jenkins'")
-    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO> --tags')
-}
-*/
-
         }
 	    }
 	  }
