@@ -334,12 +334,7 @@ export class AssetEffects {
             return [
               AssetActions.setFullAsset({ asset }),
               MobileTerminalActions.search({
-                query: {
-                  pagination: { page: 1, listSize: 1000000 },
-                  mobileTerminalSearchCriteria: {
-                    criterias: asset.mobileTerminalIds.map(mobileTerminalId => ({ key: 'MOBILETERMINAL_ID', value: mobileTerminalId }))
-                  }
-                },
+                query: { mobileterminalIds: asset.mobileTerminalIds },
                 includeArchived: false,
               })
             ];
