@@ -1,83 +1,84 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>fish.focus.maven</groupId>
-		<artifactId>focus-pom</artifactId>
-		<version>1.19</version>
-		<relativePath />
-	</parent>
-	<groupId>eu.europa.ec.fisheries.uvms</groupId>
-	<artifactId>vms-web</artifactId>
-	<version>0.4.10-SNAPSHOT</version> 
-	<name>vms-web</name>
-	<packaging>war</packaging>
-
-	<properties>
-		<scm.connection>scm:git:https://github.com/UnionVMS/VMS-Frontend.git</scm.connection>
-<!-- test props start -->
-		<unionvms.project.unionvms.web.version>3.0.62-UVMS</unionvms.project.unionvms.web.version>
-		<unionvms.project.vms.web.version>0.4.8</unionvms.project.vms.web.version>
-		<unionvms.project.mapfishprint.version>3.20.2.0</unionvms.project.mapfishprint.version>
-		<unionvms.project.geoserver.version>2.16.0</unionvms.project.geoserver.version>
-		<unionvms.project.user.module>2.0.24</unionvms.project.user.module>
-		<unionvms.project.rules.module>3.0.49</unionvms.project.rules.module>
-		<unionvms.project.reporting.module>1.1.22-UVMS</unionvms.project.reporting.module>
-		<unionvms.project.movementrules.module>2.1.26</unionvms.project.movementrules.module>
-		<unionvms.project.movement.module>5.2.31-UVMS</unionvms.project.movement.module>
-		<unionvms.project.exchange.module>5.0.16-UVMS</unionvms.project.exchange.module>
-		<unionvms.project.spatial.module>2.0.5</unionvms.project.spatial.module>
-		<unionvms.project.spatialSwe.module>2.0.13-UVMS</unionvms.project.spatialSwe.module>
-		<unionvms.project.subscription.module>1.3</unionvms.project.subscription.module>
-		<unionvms.project.config.module>4.1.3</unionvms.project.config.module>
-		<unionvms.project.audit.module>4.1.4</unionvms.project.audit.module>
-		<unionvms.project.asset.module>6.2.2</unionvms.project.asset.module>
-		<unionvms.project.activity.module>1.1.6</unionvms.project.activity.module>
-		<unionvms.project.mdr.module>1.0.10</unionvms.project.mdr.module>
-		<unionvms.project.plugins.naf>3.0.22</unionvms.project.plugins.naf>
-		<unionvms.project.plugins.flux>3.0.23</unionvms.project.plugins.flux>
-		<unionvms.project.plugins.inmarsat>3.0.76</unionvms.project.plugins.inmarsat>
-		<unionvms.project.plugins.siriusone>3.0.8</unionvms.project.plugins.siriusone>
-		<unionvms.project.plugins.fluxActivity>1.0.6</unionvms.project.plugins.fluxActivity>
-		<unionvms.project.plugins.mdr>1.0.2</unionvms.project.plugins.mdr>
-		<unionvms.project.plugins.flux-rest>1.0</unionvms.project.plugins.flux-rest>
-		<unionvms.project.hawtio-wildfly>2.7.1</unionvms.project.hawtio-wildfly>
-<!-- test props end -->
-	</properties>
-	<build>
-		<finalName>${project.name}</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>com.github.eirslett</groupId>
-					<artifactId>frontend-maven-plugin</artifactId>
-					<version>1.7.5</version>
-					<configuration>
-						<nodeVersion>v10.15.3</nodeVersion>
-						<npmVersion>6.4.0</npmVersion>
-						<workingDirectory>${basedir}/app</workingDirectory>
-						<installDirectory>${basedir}</installDirectory>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<workingDirectory>${basedir}</workingDirectory>
-					<completionGoals>clean verify scm:checkin</completionGoals>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-scm-plugin</artifactId>
-				<version>1.11.2</version>
-				<configuration>
-					<message>[maven-scm-plugin] update package.json version</message>
-					<includes>app/package.json</includes>
-				</configuration>
-			</plugin>
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>fish.focus.maven</groupId>
+    <artifactId>focus-pom</artifactId>
+    <version>1.19</version>
+    <relativePath></relativePath>
+  </parent>
+  <groupId>eu.europa.ec.fisheries.uvms</groupId>
+  <artifactId>vms-web</artifactId>
+  <version>0.4.10-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>vms-web</name>
+  <scm>
+    <connection>${scm.connection}</connection>
+    <developerConnection>${scm.connection}</developerConnection>
+  </scm>
+  <properties>
+    <unionvms.project.movement.module>5.2.77-UVMS</unionvms.project.movement.module>
+    <unionvms.project.vms.web.version>0.4.8</unionvms.project.vms.web.version>
+    <unionvms.project.subscription.module>1.3</unionvms.project.subscription.module>
+    <unionvms.project.reporting.module>1.1.22-UVMS</unionvms.project.reporting.module>
+    <unionvms.project.hawtio-wildfly>2.7.1</unionvms.project.hawtio-wildfly>
+    <unionvms.project.geoserver.version>2.16.0</unionvms.project.geoserver.version>
+    <unionvms.project.spatial.module>2.0.5</unionvms.project.spatial.module>
+    <unionvms.project.audit.module>4.1.4</unionvms.project.audit.module>
+    <unionvms.project.activity.module>1.1.6</unionvms.project.activity.module>
+    <unionvms.project.user.module>2.0.24</unionvms.project.user.module>
+    <scm.connection>scm:git:https://github.com/UnionVMS/VMS-Frontend.git</scm.connection>
+    <unionvms.project.plugins.naf>3.0.22</unionvms.project.plugins.naf>
+    <unionvms.project.mdr.module>1.0.10</unionvms.project.mdr.module>
+    <unionvms.project.plugins.fluxActivity>1.0.6</unionvms.project.plugins.fluxActivity>
+    <unionvms.project.movementrules.module>2.1.26</unionvms.project.movementrules.module>
+    <unionvms.project.plugins.flux>3.0.23</unionvms.project.plugins.flux>
+    <unionvms.project.plugins.mdr>1.0.2</unionvms.project.plugins.mdr>
+    <unionvms.project.config.module>4.1.3</unionvms.project.config.module>
+    <unionvms.project.mapfishprint.version>3.20.2.0</unionvms.project.mapfishprint.version>
+    <unionvms.project.spatialSwe.module>2.0.13-UVMS</unionvms.project.spatialSwe.module>
+    <unionvms.project.plugins.flux-rest>1.0</unionvms.project.plugins.flux-rest>
+    <unionvms.project.rules.module>3.0.49</unionvms.project.rules.module>
+    <unionvms.project.exchange.module>5.0.16-UVMS</unionvms.project.exchange.module>
+    <unionvms.project.plugins.inmarsat>3.0.76</unionvms.project.plugins.inmarsat>
+    <unionvms.project.asset.module>6.2.2</unionvms.project.asset.module>
+    <unionvms.project.unionvms.web.version>3.0.62-UVMS</unionvms.project.unionvms.web.version>
+    <unionvms.project.plugins.siriusone>3.0.8</unionvms.project.plugins.siriusone>
+  </properties>
+  <build>
+    <finalName>${project.name}</finalName>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <version>1.7.5</version>
+          <configuration>
+            <nodeVersion>v10.15.3</nodeVersion>
+            <npmVersion>6.4.0</npmVersion>
+            <workingDirectory>${basedir}/app</workingDirectory>
+            <installDirectory>${basedir}</installDirectory>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <workingDirectory>${basedir}</workingDirectory>
+          <completionGoals>clean verify scm:checkin</completionGoals>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.11.2</version>
+        <configuration>
+          <message>[maven-scm-plugin] update package.json version</message>
+          <includes>app/package.json</includes>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.1.0</version>
@@ -101,79 +102,72 @@
           </execution>
         </executions>
       </plugin>
-			<plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>install node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>npm install</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>npm sync version</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>version ${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}.${project.artifact.selectedVersion.incrementalVersion} --allow-same-version</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>npm test</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>test -- --watch=false</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>npm run build</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>run build</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<warName>${project.artifactId}</warName>
-					<webResources>
-						<resource>
-							<directory>${basedir}/app/dist/vms-frontend</directory>
-						</resource>
-						<resource>
-							<directory>${basedir}/webContent</directory>
-								<include>**/*.xml</include>
-								<include>**/*.conf</include>
-							<filtering>true</filtering>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-	<scm>
-		<connection>${scm.connection}</connection>
-        <developerConnection>${scm.connection}</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
-
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>install node and npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm sync version</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>version ${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}.${project.artifact.selectedVersion.incrementalVersion} --allow-same-version</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm test</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>test -- --watch=false</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm run build</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>run build</arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <warName>${project.artifactId}</warName>
+          <webResources>
+            <resource>
+              <directory>${basedir}/app/dist/vms-frontend</directory>
+            </resource>
+            <resource>
+              <directory>${basedir}/webContent</directory>
+              <include>**/*.xml</include>
+              <include>**/*.conf</include>
+              <filtering>true</filtering>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
