@@ -102,13 +102,17 @@ pipeline {
             sh "mvn versions:set-property -Dproperty=unionvms.project.${MODULE_NAME}.module -DnewVersion=${MODULE_VERSION} -DgenerateBackupPoms=false"	
             PROJECT_MOVEMENT_MODULE_VERSION_NEW = sh script:'mvn help:evaluate -Dexpression=unionvms.project.movement.module -q -DforceStdout', returnStdout: true
             echo "PROJECT_MOVEMENT_MODULE_VERSION_NEW: ${PROJECT_MOVEMENT_MODULE_VERSION_NEW}"
+            pom = readMavenPom file: 'pom.xml'
+            echo "POM: ${pom}"
 
+/*
             pom = readMavenPom file: 'pom.xml'
             POM_MODULE_VERSION = pom.properties['unionvms.project.movement.module']
 
             writeMavenPom model: pom
             echo "pom: ${pom}"
 			      echo "POM_MODULE_VERSION: ${POM_MODULE_VERSION}"
+            */
           } 
         }
       }
