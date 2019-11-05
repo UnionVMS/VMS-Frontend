@@ -21,7 +21,7 @@ pipeline {
     MODULE_NAME = ''
     MODULE_VERSION = ''
     UPDATE_MODULE_VERSION = hasParams()
-    POM_XML
+    POM_XML = ''
   }
   stages {
     stage ('Build') {
