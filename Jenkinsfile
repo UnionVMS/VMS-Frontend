@@ -105,10 +105,11 @@ pipeline {
     stage('commit pom.xml to github repo') {
       steps {
         script{
-sh "cat env.txt"
-          POM_XML = sh script: "git diff --name-only pom.xml", returnStdout: true
+          sh('printenv | sort')
+          POM_XML = sh("git diff --name-only pom.xml", returnStdout: true).trim()
 
           echo "${POM_XML}"
+          
           if("${UPDATE_MODULE_VERSION}" == "true" && "${POM_XML}" == "pom.xml"){
             withCredentials([usernamePassword(credentialsId: 'github_uvmsci_user', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
               
