@@ -18,7 +18,7 @@
     <developerConnection>${scm.connection}</developerConnection>
   </scm>
   <properties>
-    <unionvms.project.movement.module>5.2.77-UVMS</unionvms.project.movement.module>
+    <unionvms.project.movement.module>5.2.75-UVMS</unionvms.project.movement.module>
     <unionvms.project.vms.web.version>0.4.8</unionvms.project.vms.web.version>
     <unionvms.project.subscription.module>1.3</unionvms.project.subscription.module>
     <unionvms.project.reporting.module>1.1.22-UVMS</unionvms.project.reporting.module>
@@ -28,7 +28,6 @@
     <unionvms.project.audit.module>4.1.4</unionvms.project.audit.module>
     <unionvms.project.activity.module>1.1.6</unionvms.project.activity.module>
     <unionvms.project.user.module>2.0.24</unionvms.project.user.module>
-    <scm.connection>scm:git:https://github.com/UnionVMS/VMS-Frontend.git</scm.connection>
     <unionvms.project.plugins.naf>3.0.22</unionvms.project.plugins.naf>
     <unionvms.project.mdr.module>1.0.10</unionvms.project.mdr.module>
     <unionvms.project.plugins.fluxActivity>1.0.6</unionvms.project.plugins.fluxActivity>
