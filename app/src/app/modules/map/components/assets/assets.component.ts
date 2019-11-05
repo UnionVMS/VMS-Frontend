@@ -27,9 +27,14 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() namesVisible: boolean;
   @Input() speedsVisible: boolean;
   @Input() shipColorLogic: string;
-  @Input() selectedAssets: any;
+  @Input() selectedAssets: Array<{
+    asset: AssetInterfaces.Asset,
+    assetTracks: AssetInterfaces.AssetTrack,
+    currentPosition: AssetInterfaces.AssetMovement
+  }>;
   @Input() mapZoom: number;
   @Input() selectAsset: (assetId: string) => void;
+  @Input() deselectAsset: (assetId: string) => void;
   @Input() registerOnSelectFunction: (key: string, selectFunction: (event) => void) => void;
   @Input() unregisterOnSelectFunction: (key: string) => void;
 
@@ -64,7 +69,11 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         typeof event.selected[0].id_ !== 'undefined' &&
         this.vectorSource.getFeatureById(event.selected[0].id_) !== null
       ) {
-        this.selectAsset(event.selected[0].id_);
+        if(this.selectedAssets.find(selectedAsset => event.selected[0].id_ === selectedAsset.asset.id)) {
+          this.deselectAsset(event.selected[0].id_);
+        } else {
+          this.selectAsset(event.selected[0].id_);
+        }
       }
     });
 
