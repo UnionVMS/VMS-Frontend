@@ -21,8 +21,7 @@ pipeline {
     MODULE_NAME = ''
     MODULE_VERSION = ''
     UPDATE_MODULE_VERSION = hasParams()
-    
-     
+    POM_XML
   }
   stages {
     stage ('Build') {
@@ -108,6 +107,7 @@ pipeline {
         script{
 
           POM_XML = sh "git diff --name-only pom.xml"
+          echo "${POM_XML}"
           if("${UPDATE_MODULE_VERSION}" == "true" && "${POM_XML}" == "pom.xml"){
             withCredentials([usernamePassword(credentialsId: 'github_uvmsci_user', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
               sh "cat env.txt"
