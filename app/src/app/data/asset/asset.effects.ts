@@ -150,6 +150,7 @@ export class AssetEffects {
                 }, {})
               })
             );
+
             observer.next(
               AssetActions.setEssentialProperties({
                 assetEssentialProperties: assetMovements.assetList.reduce((acc, assetEssentials) => {
