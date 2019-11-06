@@ -4,7 +4,7 @@ import * as AssetInterfaces from '@data/asset/asset.interfaces';
 
 type QueryParam = Readonly<{
   queryObject: AssetInterfaces.AssetFilterQuery;
-  queryPart: string;
+  queryString: string;
 }>;
 
 
@@ -27,26 +27,26 @@ export class AssetSearchComponent implements OnChanges {
   public searchResults = [];
   public searchQuery = '';
 
-  private handleQueryString = ({ queryObject, queryPart }: QueryParam): QueryParam => {
-    if(!queryObject.isNumber && !(queryPart.indexOf('/') === 0)) {
-      const values = queryPart.split(',').map(value => value.trim()).filter(value => value.length > 0);
+  private handleQueryString = ({ queryObject, queryString }: QueryParam): QueryParam => {
+    if(!queryObject.isNumber && !(queryString.indexOf('/') === 0)) {
+      const values = queryString.split(',').map(value => value.trim()).filter(value => value.length > 0);
 
-      if(queryPart.indexOf('!') === 0) {
+      if(queryString.indexOf('!') === 0) {
         return {
           queryObject: { ...queryObject, values, inverse: true },
-          queryPart: queryPart.substring(1)
+          queryString: queryString.substring(1)
         };
       }
 
-      return { queryObject: { ...queryObject, values }, queryPart };
+      return { queryObject: { ...queryObject, values }, queryString };
     }
-    return { queryObject, queryPart };
-  };
+    return { queryObject, queryString };
+  }
 
-  private handleQueryNumber = ({ queryObject, queryPart }: QueryParam): QueryParam => {
+  private handleQueryNumber = ({ queryObject, queryString }: QueryParam): QueryParam => {
     if(queryObject.isNumber) {
       return {
-        queryObject: { ...queryObject, values: queryPart.split(',')
+        queryObject: { ...queryObject, values: queryString.split(',')
           .map(value => value.trim())
           .filter(value => value.length > 0)
           .map((value) => {
@@ -64,32 +64,32 @@ export class AssetSearchComponent implements OnChanges {
             return { ...valueObject, value: parseFloat(valueObject.value) };
           })
         },
-        queryPart
+        queryString
       };
     }
-    return { queryObject, queryPart };
-  };
-  private setQueryType = ({ queryObject, queryPart }: QueryParam): QueryParam => {
-    if(queryPart.indexOf('/f ') === 0) {
-      return { queryObject: { ...queryObject, type: 'flagstate' }, queryPart: queryPart.substring(3) };
-    } else if(queryPart.indexOf('/i ') === 0) {
-      return { queryObject: { ...queryObject, type: 'ircs' }, queryPart: queryPart.substring(3) };
-    } else if(queryPart.indexOf('/c ') === 0) {
-      return { queryObject: { ...queryObject, type: 'cfr' }, queryPart: queryPart.substring(3) };
-    } else if(queryPart.indexOf('/v ') === 0) {
-      return { queryObject: { ...queryObject, type: 'vesselType' }, queryPart: queryPart.substring(3) };
-    } else if(queryPart.indexOf('/e ') === 0) {
-      return { queryObject: { ...queryObject, type: 'externalMarking' }, queryPart: queryPart.substring(3) };
-    } else if(queryPart.indexOf('/l ') === 0) {
-      return { queryObject: { ...queryObject, type: 'lengthOverAll', isNumber: true }, queryPart: queryPart.substring(3) };
+    return { queryObject, queryString };
+  }
+
+  private setQueryType = ({ queryObject, queryString }: QueryParam): QueryParam => {
+    if(queryString.indexOf('/f ') === 0) {
+      return { queryObject: { ...queryObject, type: 'flagstate' }, queryString: queryString.substring(3) };
+    } else if(queryString.indexOf('/i ') === 0) {
+      return { queryObject: { ...queryObject, type: 'ircs' }, queryString: queryString.substring(3) };
+    } else if(queryString.indexOf('/c ') === 0) {
+      return { queryObject: { ...queryObject, type: 'cfr' }, queryString: queryString.substring(3) };
+    } else if(queryString.indexOf('/v ') === 0) {
+      return { queryObject: { ...queryObject, type: 'vesselType' }, queryString: queryString.substring(3) };
+    } else if(queryString.indexOf('/e ') === 0) {
+      return { queryObject: { ...queryObject, type: 'externalMarking' }, queryString: queryString.substring(3) };
+    } else if(queryString.indexOf('/l ') === 0) {
+      return { queryObject: { ...queryObject, type: 'lengthOverAll', isNumber: true }, queryString: queryString.substring(3) };
     }
-    return { queryObject, queryPart };
+    return { queryObject, queryString };
   }
 
   filterKeyUp = (event) => {
     const filterQuery = this.filterQuery.split('&');
     this.filterFunction(filterQuery.map(queryPart => {
-      queryPart = queryPart.trim();
       const queryResult = this.handleQueryString(
         this.handleQueryNumber(
           this.setQueryType({
@@ -99,7 +99,7 @@ export class AssetSearchComponent implements OnChanges {
               inverse: false,
               isNumber: false
             },
-            queryPart: queryPart.trim()
+            queryString: queryPart.trim()
           })
         )
       );
