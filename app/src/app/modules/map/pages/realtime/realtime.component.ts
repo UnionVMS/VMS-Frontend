@@ -19,6 +19,7 @@ import { MapSelectors } from '@data/map';
 import { MapLayersActions, MapLayersSelectors, MapLayersInterfaces } from '@data/map-layers';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
 import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+import { NotificationsActions } from '@data/notifications';
 import { RouterSelectors } from '@data/router';
 
 import { Position } from '@data/generic.interfaces';
@@ -138,6 +139,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
         if(assetMovement !== undefined) {
           this.selectAsset(assetMovement.assetMovement.asset);
           this.centerMapOnPosition(assetMovement.assetMovement.microMove.location);
+        } else {
+          this.store.dispatch(NotificationsActions.addError(`Asset havn't sent a position for the last 8 hours and are not shown on map.`));
         }
       }
     });

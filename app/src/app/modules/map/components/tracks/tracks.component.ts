@@ -14,7 +14,8 @@ import Collection from 'ol/Collection';
 
 @Component({
   selector: 'map-tracks',
-  template: '',
+  templateUrl: './tracks.component.html',
+  styleUrls: ['./tracks.component.scss']
 })
 export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -32,6 +33,10 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   private renderedAssetIds: Array<string> = [];
   private renderedFeatureIds: Array<string> = [];
   private currentRenderFeatureIds: Array<string> = [];
+
+  public arrowsPerHour = -1;
+  public numberOfVisibleTracks = 0;
+  public numberOfTracks = 0;
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -62,8 +67,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         );
       }, [])
     );
-
-    this.showXArrowsPerHour(featureArrowsPerHour, this.mapZoom);
+    this.showXArrowsPerHour(featureArrowsPerHour);
 
     // this.registerOnHoverFunction(this.layerTitle, (event) => {
     //   if (
@@ -99,6 +103,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
+    this.determineArrowsPerHour(this.mapZoom);
     // // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
     if (typeof this.vectorSource !== 'undefined') {
       const newRenderedAssetIds = [];
@@ -111,6 +116,8 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
       this.currentRenderFeatureIds = [];
+      this.numberOfTracks = 0;
+      this.numberOfVisibleTracks = 0;
       const features = this.assetTracks.reduce((acc, assetTrack) => {
         if(newRenderedAssetIds.indexOf(assetTrack.assetId) === -1) {
           newRenderedAssetIds.push(assetTrack.assetId);
@@ -194,9 +201,10 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       let forceShow = false;
       const arrowFeatureId = 'assetId_' + assetTrack.assetId + '_guid_' + movement.guid;
       this.currentRenderFeatureIds.push(arrowFeatureId);
-      const arrowFeature = this.vectorSource.getFeatureById(arrowFeatureId);
+      let arrowFeature = this.vectorSource.getFeatureById(arrowFeatureId);
       if(arrowFeature === null) {
-        acc.push(this.createArrowFeature(assetTrack.assetId, movement));
+        arrowFeature = this.createArrowFeature(assetTrack.assetId, movement);
+        acc.push(arrowFeature);
       } else {
         const arrowFeatureStyle = arrowFeature.getStyle();
         if (typeof positionsForInspectionKeyedWithGuid[movement.guid] !== 'undefined') {
@@ -231,43 +239,47 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
             arrowFeature.setStyle(arrowFeatureStyle[0]);
           }
         }
-        const dateWithHour = movement.timestamp.substring(0, 13);
-        if(typeof featureArrowsPerHour[dateWithHour] === 'undefined') {
-          featureArrowsPerHour[dateWithHour] = [];
-        }
-        featureArrowsPerHour[dateWithHour].push({ feature: arrowFeature, forceShow });
       }
+      const dateWithHour = movement.timestamp.substring(0, 13);
+      if(typeof featureArrowsPerHour[dateWithHour] === 'undefined') {
+        featureArrowsPerHour[dateWithHour] = [];
+      }
+      featureArrowsPerHour[dateWithHour].push({ feature: arrowFeature, forceShow });
       return acc;
     }, []);
-    this.showXArrowsPerHour(featureArrowsPerHour, this.mapZoom);
+    this.showXArrowsPerHour(featureArrowsPerHour);
 
     return newFeatureArrows;
   }
 
-  showXArrowsPerHour(featureArrowsPerHour: {[hourAndDate: string]: Array<any>}, mapZoomLevel) {
-    let showArrowsThisHour = -1;
+  determineArrowsPerHour(mapZoomLevel: number) {
+    this.arrowsPerHour = -1;
     if(mapZoomLevel < 9) {
-      showArrowsThisHour = 1;
+      this.arrowsPerHour = 1;
     } else if(mapZoomLevel < 10) {
-      showArrowsThisHour = 2;
+      this.arrowsPerHour = 2;
     } else if(mapZoomLevel < 11) {
-      showArrowsThisHour = 4;
+      this.arrowsPerHour = 4;
     } else if(mapZoomLevel < 13) {
-      showArrowsThisHour = 7;
+      this.arrowsPerHour = 7;
     } else if(mapZoomLevel < 15) {
-      showArrowsThisHour = 9;
+      this.arrowsPerHour = 9;
     } else if(mapZoomLevel < 17) {
-      showArrowsThisHour = 11;
+      this.arrowsPerHour = 11;
     }
+  }
 
+  showXArrowsPerHour(featureArrowsPerHour: {[hourAndDate: string]: Array<any>}) {
     Object.values(featureArrowsPerHour).map(arrowFeatures => {
-      const featureShowInterval = Math.ceil(arrowFeatures.length / showArrowsThisHour);
+      const featureShowInterval = Math.ceil(arrowFeatures.length / this.arrowsPerHour);
       arrowFeatures.map((arrowFeature, index) => {
         const arrowFeatureStyle = arrowFeature.feature.getStyle();
         // Instead of setting opacity to 0 we set it to a very low number. This allowes OL to detect
         // hover on the asset, which it doesn't do on invisible objects.
+        this.numberOfTracks++;
         let opacity = 0;
-        if(arrowFeature.forceShow || showArrowsThisHour === -1 || index % featureShowInterval === 0) {
+        if(arrowFeature.forceShow || this.arrowsPerHour === -1 || index % featureShowInterval === 0) {
+          this.numberOfVisibleTracks++;
           opacity = 1;
         }
         if(Array.isArray(arrowFeatureStyle)) {
@@ -286,7 +298,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     arrowFeature.setStyle(new Style({
       image: new Icon({
         src: '/assets/angle_up.png',
-        scale: 0.8,
+        // scale: 0.8,
         color: '#' + intToRGB(hashCode(assetId))
       })
     }));

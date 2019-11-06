@@ -1,0 +1,10 @@
+@import 'variables.scss';
+
+.map--tracks--content-wrapper {
+  position: fixed;
+  bottom: 200px;
+  left: 0px;
+  background: $map_overlay_background;
+  padding: $medium_distance;
+  color: white;
+}
