@@ -25,7 +25,7 @@ export const selectUnitTonnages = (state: State) => state.asset.unitTonnages;
 export const getAssets = createSelector(
   getAssetState,
   (state: AssetInterfaces.State) => {
-    return Object.keys(state.assets).map(key => state.assets[key]);
+    return Object.values(state.assets);
   }
 );
 
@@ -154,12 +154,12 @@ export const getAssetMovements = createSelector(
 
 export const getAssetTracks = createSelector(
   selectAssetsTracks,
-  (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }) => Object.keys(assetTracks).map(key => assetTracks[key])
+  (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }) => Object.values(assetTracks)
 );
 
 export const getVisibleAssetTracks = createSelector(
   selectAssetsTracks,
-  (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }) => Object.keys(assetTracks).map(key => assetTracks[key])
+  (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }) => Object.values(assetTracks)
 );
 
 export const getCurrentPositionOfSelectedAssets = createSelector(

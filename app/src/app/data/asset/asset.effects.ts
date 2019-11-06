@@ -255,8 +255,8 @@ export class AssetEffects {
     ),
     mergeMap(([action, authToken, userName]: Array<any>) => {
       return this.assetService.getAssetGroups(authToken, userName).pipe(
-        map((response: any) => {
-          return AssetActions.setAssetGroups(response);
+        map((response: Array<AssetInterfaces.AssetGroup>) => {
+          return AssetActions.setAssetGroups({ assetGroups: response });
         })
       );
     })
