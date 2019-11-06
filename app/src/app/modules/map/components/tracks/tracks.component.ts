@@ -67,7 +67,6 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         );
       }, [])
     );
-
     this.showXArrowsPerHour(featureArrowsPerHour);
 
     // this.registerOnHoverFunction(this.layerTitle, (event) => {
@@ -202,9 +201,10 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       let forceShow = false;
       const arrowFeatureId = 'assetId_' + assetTrack.assetId + '_guid_' + movement.guid;
       this.currentRenderFeatureIds.push(arrowFeatureId);
-      const arrowFeature = this.vectorSource.getFeatureById(arrowFeatureId);
+      let arrowFeature = this.vectorSource.getFeatureById(arrowFeatureId);
       if(arrowFeature === null) {
-        acc.push(this.createArrowFeature(assetTrack.assetId, movement));
+        arrowFeature = this.createArrowFeature(assetTrack.assetId, movement);
+        acc.push(arrowFeature);
       } else {
         const arrowFeatureStyle = arrowFeature.getStyle();
         if (typeof positionsForInspectionKeyedWithGuid[movement.guid] !== 'undefined') {
@@ -239,12 +239,12 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
             arrowFeature.setStyle(arrowFeatureStyle[0]);
           }
         }
-        const dateWithHour = movement.timestamp.substring(0, 13);
-        if(typeof featureArrowsPerHour[dateWithHour] === 'undefined') {
-          featureArrowsPerHour[dateWithHour] = [];
-        }
-        featureArrowsPerHour[dateWithHour].push({ feature: arrowFeature, forceShow });
       }
+      const dateWithHour = movement.timestamp.substring(0, 13);
+      if(typeof featureArrowsPerHour[dateWithHour] === 'undefined') {
+        featureArrowsPerHour[dateWithHour] = [];
+      }
+      featureArrowsPerHour[dateWithHour].push({ feature: arrowFeature, forceShow });
       return acc;
     }, []);
     this.showXArrowsPerHour(featureArrowsPerHour);
@@ -270,7 +270,6 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   showXArrowsPerHour(featureArrowsPerHour: {[hourAndDate: string]: Array<any>}) {
-
     Object.values(featureArrowsPerHour).map(arrowFeatures => {
       const featureShowInterval = Math.ceil(arrowFeatures.length / this.arrowsPerHour);
       arrowFeatures.map((arrowFeature, index) => {
