@@ -7,7 +7,7 @@
       <mat-form-field id="note-form--noteuser">
         <mat-label>User</mat-label>
         <input matInput formControlName="noteuser" required>
-        <mat-error *ngFor="let error of getErrors(['essentailFields', 'noteuser'])">{{ errorMessage(error) }}</mat-error>
+        <mat-error *ngFor="let error of getErrors(['essentailFields', 'user'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
       <mat-form-field id="note-form--notes">
@@ -15,7 +15,6 @@
         <textarea matInput formControlName="notes" required></textarea>
         <mat-error *ngFor="let error of getErrors(['essentailFields', 'notes'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
-
 
     </fieldset>
     <div>

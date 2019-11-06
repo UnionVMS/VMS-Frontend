@@ -17,5 +17,4 @@ export const saveNote = createAction(
 
 export const getSelectedNote = createAction(
   '[Notes] Get selected note'
-
 );
