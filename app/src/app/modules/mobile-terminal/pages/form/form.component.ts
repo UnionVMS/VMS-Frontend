@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { formatDate } from '@app/helpers/helpers';
 
@@ -11,6 +11,8 @@ import { AssetActions } from '@data/asset';
 import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
 import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { createMobileTerminalFormValidator, addChannelToFormValidator, removeChannelAtFromFromValidator } from './form-validator';
+import { errorMessage } from '@app/helpers/validators/error-messages';
 
 @Component({
   selector: 'mobile-terminal-edit-page',
@@ -21,6 +23,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<State>) { }
 
+  public formValidator: FormGroup;
   public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
   public defaultChannelTemplate = {
@@ -35,7 +38,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
     channels: [ { ...this.defaultChannelTemplate } ]
   } as MobileTerminalInterfaces.MobileTerminal;
   public plugins: Array<MobileTerminalInterfaces.Plugin> = [];
-  public selectedOceanRegions = ['Indian'];
   public oceanRegions = [
     'East Atlantic',
     'Indian',
@@ -51,17 +53,20 @@ export class FormPageComponent implements OnInit, OnDestroy {
       (mobileTerminal) => {
         if(typeof mobileTerminal !== 'undefined') {
           this.mobileTerminal = mobileTerminal;
-          this.selectedOceanRegions = [];
-          if(this.mobileTerminal.eastAtlanticOceanRegion) { this.selectedOceanRegions.push('East Atlantic'); }
-          if(this.mobileTerminal.indianOceanRegion) { this.selectedOceanRegions.push('Indian'); }
-          if(this.mobileTerminal.pacificOceanRegion) { this.selectedOceanRegions.push('Pacific'); }
-          if(this.mobileTerminal.westAtlanticOceanRegion) { this.selectedOceanRegions.push('West Atlantic'); }
         }
+        this.formValidator = createMobileTerminalFormValidator(this.mobileTerminal);
       }
     );
     this.pluginSubscription = this.store.select(MobileTerminalSelectors.getPlugins).subscribe((plugins) => {
       if(typeof plugins !== 'undefined') {
-        this.plugins = plugins;
+        // Only show INMARSAT_C at this time.
+        this.plugins = plugins.filter((plugin) => plugin.pluginSatelliteType === 'INMARSAT_C');
+        const basePlugin = this.plugins.find((plugin) => plugin.pluginSatelliteType === 'INMARSAT_C');
+
+        if(typeof this.mobileTerminal.plugin === 'undefined' && typeof basePlugin !== 'undefined') {
+          this.mobileTerminal.plugin = basePlugin;
+          this.mobileTerminal.mobileTerminalType = this.mobileTerminal.plugin.pluginSatelliteType;
+        }
       }
     });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
@@ -74,14 +79,46 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   mapDispatchToProps() {
     this.save = () => {
-      const formValidation = this.validateForm();
-      if(formValidation === true) {
-        this.store.dispatch(MobileTerminalActions.saveMobileTerminal({ mobileTerminal: this.mobileTerminal }));
-      } else {
-        formValidation.map((notification) => {
-          this.store.dispatch(NotificationsActions.addNotification(notification));
-        });
-      }
+      const channelsById = this.mobileTerminal.channels.reduce((channels, channel) => {
+        channels[channel.id] = channel;
+        return channels;
+      }, {});
+      this.store.dispatch(MobileTerminalActions.saveMobileTerminal({ mobileTerminal: {
+        ...this.mobileTerminal,
+        mobileTerminalType: this.formValidator.value.essentailFields.mobileTerminalType,
+        serialNo: this.formValidator.value.essentailFields.serialNo,
+        eastAtlanticOceanRegion: this.formValidator.value.essentailFields.eastAtlanticOceanRegion,
+        indianOceanRegion: this.formValidator.value.essentailFields.indianOceanRegion,
+        pacificOceanRegion: this.formValidator.value.essentailFields.pacificOceanRegion,
+        westAtlanticOceanRegion: this.formValidator.value.essentailFields.westAtlanticOceanRegion,
+        softwareVersion: this.formValidator.value.mobileTerminalFields.softwareVersion > ''
+          ? this.formValidator.value.mobileTerminalFields.softwareVersion
+          : null,
+        antenna: this.formValidator.value.mobileTerminalFields.antenna > ''
+          ? this.formValidator.value.mobileTerminalFields.antenna
+          : null,
+        satelliteNumber: this.formValidator.value.mobileTerminalFields.satelliteNumber > ''
+          ? this.formValidator.value.mobileTerminalFields.satelliteNumber
+          : null,
+        active: this.formValidator.value.mobileTerminalFields.active,
+        channels: this.formValidator.value.channels.map((channel) => {
+          if(channel.id.length > 0) {
+            return {
+              ...channelsById[channel.id],
+              ...channel
+            };
+          } else {
+            const newChannel = { ...channel };
+            Object.keys(newChannel).forEach(key => {
+              if(newChannel[key] === '') {
+                newChannel[key] = null;
+              }
+            });
+            delete newChannel.id;
+            return newChannel;
+          }
+        }),
+      }}));
     };
   }
 
@@ -101,26 +138,16 @@ export class FormPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  trackChannelsBy(index: number, channel: MobileTerminalInterfaces.Channel): string | number {
+    return channel.id > '' ? channel.id : index;
+  }
+
   createNewChannel() {
-    if(typeof this.mobileTerminal.channels === 'undefined') {
-      this.mobileTerminal.channels = [];
-    }
-    this.mobileTerminal.channels.unshift({ ...this.defaultChannelTemplate } as MobileTerminalInterfaces.Channel);
+    addChannelToFormValidator(this.formValidator);
   }
 
   removeChannel(index: number) {
-    this.mobileTerminal.channels = this.mobileTerminal.channels.filter((value, i) => index !== i);
-  }
-
-  changePlugin(event: MatSelectChange) {
-    this.mobileTerminal.plugin = this.plugins.find((plugin) => plugin.pluginSatelliteType === event.value);
-  }
-
-  changeOceanRegions(event: MatSelectChange) {
-    this.mobileTerminal.eastAtlanticOceanRegion = event.value.includes('East Atlantic');
-    this.mobileTerminal.indianOceanRegion = event.value.includes('Indian');
-    this.mobileTerminal.pacificOceanRegion = event.value.includes('Pacific');
-    this.mobileTerminal.westAtlanticOceanRegion =  event.value.includes('West Atlantic');
+    removeChannelAtFromFromValidator(this.formValidator, index);
   }
 
   isCreateOrUpdate() {
@@ -131,37 +158,13 @@ export class FormPageComponent implements OnInit, OnDestroy {
     return this.isCreateOrUpdate() === 'Create' || Object.entries(this.mobileTerminal).length !== 0;
   }
 
-  toggleInactive() {
-    this.mobileTerminal.inactivated = !this.mobileTerminal.inactivated;
+  getErrors(path: string[]) {
+    const errors = this.formValidator.get(path).errors;
+    return errors === null ? [] : Object.keys(errors).map(errorType => ({ errorType, error: errors[errorType] }));
   }
 
-  toggleChannelField(channel: number, field: string) {
-    this.mobileTerminal.channels[channel][field] = !this.mobileTerminal.channels[channel][field];
+  errorMessage(error: any) {
+    return errorMessage(error.errorType, error.error);
   }
 
-  validateForm() {
-    const errors = [];
-    if(
-      typeof this.mobileTerminal.mobileTerminalType === 'undefined' ||
-      this.mobileTerminal.mobileTerminalType === null ||
-      this.mobileTerminal.mobileTerminalType.length === 0
-    ) {
-      errors.push({
-        notificationType: 'errors',
-        notification: 'Form validaiton error: Require field <b>Transceiver system</b> is not set.'
-      });
-    }
-    if(
-      typeof this.mobileTerminal.serialNo === 'undefined' ||
-      this.mobileTerminal.serialNo === null ||
-      this.mobileTerminal.serialNo.length === 0
-    ) {
-      errors.push({
-        notificationType: 'errors',
-        notification: 'Form validaiton error: Require field <b>Serial no.</b> is not set.'
-      });
-    }
-
-    return errors.length > 0 ? errors : true;
-  }
 }

@@ -93,7 +93,7 @@ export class AssetService {
 
   getAsset(authToken: string, assetId: string) {
     return this.http.get(
-      environment.baseApiUrl + 'asset/rest/asset/' + assetId, {
+      environment.baseApiUrl + 'asset/rest/asset2/' + assetId, {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
