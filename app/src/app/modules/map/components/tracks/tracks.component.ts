@@ -299,7 +299,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     arrowFeature.setStyle(new Style({
       image: new Icon({
         src: '/assets/angle_up.png',
-        scale: 0.8,
+        // scale: 0.8,
         color: '#' + intToRGB(hashCode(assetId))
       })
     }));

@@ -83,37 +83,44 @@ describe('AssetForecastComponent', () => {
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual([1, 1, 1, 1, 1, 1, 1]);
 
     // Should only show one
-    component.showXArrowsPerHour(featureArrowsPerHour, 8);
+    component.determineArrowsPerHour(8);
+    component.showXArrowsPerHour(featureArrowsPerHour);
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual(
       [1, 0, 0, 0, 0, 0, 0]
     );
 
     // Should only show two
-    component.showXArrowsPerHour(featureArrowsPerHour, 9);
+    component.determineArrowsPerHour(9);
+    component.showXArrowsPerHour(featureArrowsPerHour);
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual(
       [1, 0, 0, 0, 1, 0, 0]
     );
 
     // Should only show four
-    component.showXArrowsPerHour(featureArrowsPerHour, 10);
+    component.determineArrowsPerHour(10);
+    component.showXArrowsPerHour(featureArrowsPerHour);
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual(
       [1, 0, 1, 0, 1, 0, 1]
     );
 
     // Should all of them (max 7 / hour)
-    component.showXArrowsPerHour(featureArrowsPerHour, 12);
+    component.determineArrowsPerHour(12);
+    component.showXArrowsPerHour(featureArrowsPerHour);
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual([1, 1, 1, 1, 1, 1, 1]);
 
     // Should all of them  (max 9 / hour)
-    component.showXArrowsPerHour(featureArrowsPerHour, 14);
+    component.determineArrowsPerHour(14);
+    component.showXArrowsPerHour(featureArrowsPerHour);
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual([1, 1, 1, 1, 1, 1, 1]);
 
     // Should all of them  (max 11 / hour)
-    component.showXArrowsPerHour(featureArrowsPerHour, 16);
+    component.determineArrowsPerHour(16);
+    component.showXArrowsPerHour(featureArrowsPerHour);
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual([1, 1, 1, 1, 1, 1, 1]);
 
     // Should all of them  (any number / hour)
-    component.showXArrowsPerHour(featureArrowsPerHour, 17);
+    component.determineArrowsPerHour(17);
+    component.showXArrowsPerHour(featureArrowsPerHour);
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual([1, 1, 1, 1, 1, 1, 1]);
 
   });
