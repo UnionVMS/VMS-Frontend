@@ -4,12 +4,14 @@ import { State } from '@app/app-reducer';
 import { getMergedRoute } from '@data/router/router.selectors';
 
 
+
 export const selectContacts = (state: State) => state.contact.contacts;
 
-export const getContacts = createSelector(
+export const getContactsOnAsset = createSelector(
   selectContacts,
-  (contacts: { [id: string ]: ContactInterfaces.Contact }) => {
-    return Object.values(contacts).map((contact) => ({ ...contact }));
+  getMergedRoute,
+  (contacts: { [id: string ]: ContactInterfaces.Contact }, mergedRoute) => {
+   return Object.values(contacts).filter(contact => contact.assetId === mergedRoute.params.assetId);
   }
 );
 

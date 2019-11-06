@@ -45,6 +45,7 @@ export interface Plugin {
 
 export interface MobileTerminal {
   asset?: any; // TODO: Remove this when backend is ready.
+  active: boolean;
   antenna: string;
   archived: boolean;
   assetId: string;

@@ -11,7 +11,7 @@ import { fromLonLat } from 'ol/proj';
 import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/control.js';
 import { format } from 'ol/coordinate.js';
 import Select from 'ol/interaction/Select.js';
-import { click, pointerMove } from 'ol/events/condition.js';
+import { click /*, pointerMove*/ } from 'ol/events/condition.js';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
@@ -305,7 +305,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
     this.selection.on('select', (event) => {
       Object.values(this.onSelectFunctions).map((selectFunction) => selectFunction(event));
+      this.selection.getFeatures().clear();
     });
+
 
     // this.registerOnHoverFunction = (name, onHoverFunction) => {
     //   this.onHoverFunctions[name] = onHoverFunction;

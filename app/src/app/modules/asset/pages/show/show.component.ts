@@ -38,7 +38,7 @@ export class ShowPageComponent implements OnInit, OnDestroy {
       }
     });
     this.mobileTerminals$ = this.store.select(MobileTerminalSelectors.getMobileTerminalsForUrlAsset);
-    this.contacts$ = this.store.select(ContactSelectors.getContacts);
+    this.contacts$ = this.store.select(ContactSelectors.getContactsOnAsset);
     this.notes$ = this.store.select(NotesSelectors.getNotes);
   }
 
