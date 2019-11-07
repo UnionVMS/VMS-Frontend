@@ -16,7 +16,7 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
     defaultChannel: new FormControl(channel === null ? '' : channel.defaultChannel),
     dnid: new FormControl(
       channel === null ? '' : channel.dnid,
-      [Validators.required, Validators.minLength(5), Validators.maxLength(5)]
+      [Validators.required, CustomValidators.minLengthOfNumber(5), CustomValidators.maxLengthOfNumber(5)]
     ),
     memberNumber: new FormControl(
       channel === null ? '' : channel.memberNumber,
