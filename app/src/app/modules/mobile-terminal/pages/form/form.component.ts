@@ -26,16 +26,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public formValidator: FormGroup;
   public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
-  public defaultChannelTemplate = {
-    archived: false,
-    expectedFrequency: 60,
-    frequencyGracePeriod: 140,
-    expectedFrequencyInPort: 140,
-  };
 
   public mobileTerminal = {
-    indianOceanRegion: true,
-    channels: [ { ...this.defaultChannelTemplate } ]
+    channels: []
   } as MobileTerminalInterfaces.MobileTerminal;
   public plugins: Array<MobileTerminalInterfaces.Plugin> = [];
   public oceanRegions = [
@@ -66,6 +59,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
         if(typeof this.mobileTerminal.plugin === 'undefined' && typeof basePlugin !== 'undefined') {
           this.mobileTerminal.plugin = basePlugin;
           this.mobileTerminal.mobileTerminalType = this.mobileTerminal.plugin.pluginSatelliteType;
+          this.formValidator = createMobileTerminalFormValidator(this.mobileTerminal);
         }
       }
     });
@@ -100,9 +94,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
         satelliteNumber: this.formValidator.value.mobileTerminalFields.satelliteNumber > ''
           ? this.formValidator.value.mobileTerminalFields.satelliteNumber
           : null,
-        active: this.formValidator.value.mobileTerminalFields.active,
+        active: this.formValidator.value.mobileTerminalFields.active === null ?
+          false : this.formValidator.value.mobileTerminalFields.active,
         channels: this.formValidator.value.channels.map((channel) => {
-          if(channel.id.length > 0) {
+          if(channel.id !== null && channel.id.length > 0) {
             return {
               ...channelsById[channel.id],
               ...channel
