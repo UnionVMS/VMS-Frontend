@@ -327,10 +327,19 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] !== asset.assetMovement.microMove.speed.toFixed(2)
       )
     ) {
+      const style = assetFeature.getStyle();
       if (this.namesVisibleCalculated || this.speedsVisibleCalculated) {
-        assetFeature.getStyle().setText(this.getTextStyleForName(asset));
+        if(Array.isArray(style)) {
+          style[0].setText(this.getTextStyleForName(asset));
+        } else {
+          style.setText(this.getTextStyleForName(asset));
+        }
       } else {
-        assetFeature.getStyle().setText(null);
+        if(Array.isArray(style)) {
+          style[0].setText(null);
+        } else {
+          style.setText(null);
+        }
       }
     }
     return assetFeature;

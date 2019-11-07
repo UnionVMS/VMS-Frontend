@@ -28,9 +28,9 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
     endDate: new FormControl(channel === null ? '' : channel.endDate),
     installDate: new FormControl(channel === null ? '' : channel.installDate),
     uninstallDate: new FormControl(channel === null ? '' : channel.uninstallDate),
-    expectedFrequency: new FormControl(channel === null ? '' : channel.expectedFrequency),
-    frequencyGracePeriod: new FormControl(channel === null ? '' : channel.frequencyGracePeriod),
-    expectedFrequencyInPort: new FormControl(channel === null ? '' : channel.expectedFrequencyInPort),
+    expectedFrequency: new FormControl(channel === null ? 60 : channel.expectedFrequency),
+    frequencyGracePeriod: new FormControl(channel === null ? 140 : channel.frequencyGracePeriod),
+    expectedFrequencyInPort: new FormControl(channel === null ? 140 : channel.expectedFrequencyInPort),
     id: new FormControl(channel === null ? '' : channel.id),
   });
 };
@@ -46,6 +46,11 @@ export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminal
     selectedOceanRegions.push('Indian');
   }
 
+  const channels = mobileTerminal.channels.map((channel) => createNewChannel(channel));
+  if(channels.length === 0) {
+    channels.push(createNewChannel());
+  }
+
   return new FormGroup({
     essentailFields: new FormGroup({
       mobileTerminalType: new FormControl(mobileTerminal.mobileTerminalType, Validators.required),
@@ -59,7 +64,7 @@ export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminal
       satelliteNumber: new FormControl(mobileTerminal.satelliteNumber),
       active: new FormControl(mobileTerminal.active),
     }),
-    channels: new FormArray(mobileTerminal.channels.map((channel) => createNewChannel(channel))),
+    channels: new FormArray(channels),
   });
 };
 
