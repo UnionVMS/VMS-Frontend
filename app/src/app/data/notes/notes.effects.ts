@@ -61,9 +61,9 @@ export class NotesEffects {
       mergeMap(([pipedAction, authToken, mergedRoute]: Array<any>) => {
         if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.noteId !== 'undefined') {
           return this.notesService.getNoteById(authToken, mergedRoute.params.noteId).pipe(
-            map((response: any) => {
+            map((note: any) => {
               return NotesActions.setNotes({
-                notes: { [response.id]: response }
+                notes: { [note.id]: note }
               });
             })
           );
