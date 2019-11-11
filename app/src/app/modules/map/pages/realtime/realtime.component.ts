@@ -5,13 +5,14 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
+import VectorLayer from 'ol/layer/Vector';
 import TileLayer from 'ol/layer/Tile';
 import { XYZ } from 'ol/source';
 import { fromLonLat } from 'ol/proj';
 import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/control.js';
 import { format } from 'ol/coordinate.js';
 import Select from 'ol/interaction/Select.js';
-import { click /*, pointerMove*/ } from 'ol/events/condition.js';
+import { click, pointerMove } from 'ol/events/condition.js';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
@@ -80,7 +81,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
-  // public registerOnHoverFunction: (name: string, hoverFunction: (event) => void) => void;
+  // public registerOnHoverFunction: (name: string, vectorLayer: VectorLayer, hoverFunction: (event) => void) => void;
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
 
   private assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
@@ -88,13 +89,13 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
   private onSelectFunctions: { [name: string]: (event) => void } = {};
-  private onHoverFunctions: { [name: string]: (event) => void } = {};
+  // private onHoverFunctions: { [name: string]: (event) => void } = {};
 
   private assetTracks$: Observable<any>;
   private forecasts$: Observable<any>;
   public searchAutocompleteAsset$: Observable<any>;
   private selection: Select;
-  private hoverSelection: Select;
+  // private hoverSelection: Select;
 
   private getAssetTrack: (assetId: string, movementGuid: string) => void;
   private getAssetTrackTimeInterval: (assetId: string, startDate: string, endDate: string) => void;
@@ -311,22 +312,14 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.selection.getFeatures().clear();
     });
 
-
-    // this.registerOnHoverFunction = (name, onHoverFunction) => {
-    //   this.onHoverFunctions[name] = onHoverFunction;
-    // };
-    //
-    // this.unregisterOnHoverFunction = (name) => {
-    //   delete this.onHoverFunctions[name];
-    // };
-
     // this.hoverSelection = new Select({hitTolerance: 3, condition: pointerMove });
+    // this.hoverSelection.style_ = false;
     // this.map.addInteraction(this.hoverSelection);
     //
     // this.hoverSelection.on('select', (event) => {
     //   Object.values(this.onHoverFunctions).map((hoverFunction) => hoverFunction(event));
     // });
-    //
+
     // this.map.on('pointermove', (event) => {
     //   Object.values(this.onHoverFunctions).map(hoverFunction => hoverFunction(event));
     // });
