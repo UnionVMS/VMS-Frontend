@@ -1,39 +1,39 @@
 import { Position } from '../generic.interfaces';
 
-export interface Movement {
+export type Movement = Readonly<{
   location: Position;
   heading: number;
   guid: string;
   timestamp: string;
   speed: number | null;
   source: string;
-}
+}>;
 
-export interface UnitTonnage {
+export type UnitTonnage = Readonly<{
   name: string;
   code: string;
-}
+}>;
 
-export interface AssetMovement {
+export type AssetMovement = Readonly<{
   microMove: Movement;
   asset: string;
   decayPercentage: number|undefined;
-}
+}>;
 
-export interface AssetList {
-  resultPages: { [page: number]: Array<string> };
+export type AssetList = Readonly<{
+  resultPages: { readonly [page: number]: ReadonlyArray<string> };
   totalNumberOfPages: number;
   pageSize: number;
-}
+}>;
 
-export interface AssetData {
+export type AssetData = Readonly<{
   asset: Asset;
   assetTracks: AssetTrack;
   currentPosition: AssetMovement;
   currentlyShowing: boolean;
-}
+}>;
 
-export interface Asset {
+export type Asset = Readonly<{
   id: string;
   historyId: string;
   ircsIndicator: any;
@@ -75,7 +75,7 @@ export interface Asset {
   mainFishingGearCode: any;
   subFishingGearCode: any;
   gearFishingType: any;
-  mobileTerminalIds: Array<string>;
+  mobileTerminalIds: ReadonlyArray<string>;
   ownerName: any;
   hasVms: any;
   ownerAddress: any;
@@ -90,34 +90,34 @@ export interface Asset {
   updatedBy: string;
   prodOrgCode: any;
   prodOrgName: any;
-}
+}>;
 
-export interface LineSegment {
+export type LineSegment = Readonly<{
   speed: number;
-  positions: Array<Position>;
+  positions: ReadonlyArray<Position>;
   color: string;
-}
+}>;
 
-export interface AssetTrack {
-  tracks: Array<Movement>;
+export type AssetTrack = Readonly<{
+  tracks: ReadonlyArray<Movement>;
   visible: boolean;
   assetId: string;
-  lineSegments: Array<LineSegment>;
-}
+  lineSegments: ReadonlyArray<LineSegment>;
+}>;
 
-export interface AssetFilterQuery {
+export type AssetFilterQuery = Readonly<{
   type: string;
-  values: Array<any>;
+  values: ReadonlyArray<any>;
   inverse: boolean;
   isNumber: boolean;
-}
+}>;
 
-export interface CurrentAssetList {
+export type CurrentAssetList = Readonly<{
   listIdentifier: string;
   currentPage: number;
-}
+}>;
 
-export interface AssetEssentialProperties {
+export type AssetEssentialProperties = Readonly<{
   assetId: string;
   flagstate: string;
   assetName: string;
@@ -126,22 +126,22 @@ export interface AssetEssentialProperties {
   cfr: string;
   externalMarking: string;
   lengthOverAll: number;
-}
+}>;
 
-export interface AssetMovementWithEssentials {
+export type AssetMovementWithEssentials = Readonly<{
   assetEssentials: AssetEssentialProperties;
   assetMovement: AssetMovement;
-}
+}>;
 
-export interface AssetGroupField {
+export type AssetGroupField = Readonly<{
   id: string;
   key: string;
   updateTime: string;
   updatedBy: string;
   value: string;
-}
+}>;
 
-export interface AssetGroup {
+export type AssetGroup = Readonly<{
   id: string;
   archived: boolean;
   dynamic: boolean;
@@ -150,23 +150,23 @@ export interface AssetGroup {
   owner: string;
   updateTime: string;
   updatedBy: string;
-  assetGroupFields: Array<AssetGroupField>;
-}
+  assetGroupFields: ReadonlyArray<AssetGroupField>;
+}>;
 
-export interface State {
-  assetGroups: Array<AssetGroup>;
-  selectedAssetGroups: Array<AssetGroup>;
-  selectedAssets: Array<string>;
+export type State = Readonly<{
+  assetGroups: ReadonlyArray<AssetGroup>;
+  selectedAssetGroups: ReadonlyArray<AssetGroup>;
+  selectedAssets: ReadonlyArray<string>;
   selectedAsset: string|null;
-  assets: { [uid: string]: Asset };
-  assetsEssentials: { [uid: string]: AssetEssentialProperties };
-  assetLists: { [identifier: string]: AssetList };
+  assets: { readonly [uid: string]: Asset };
+  assetsEssentials: { readonly [uid: string]: AssetEssentialProperties };
+  assetLists: { readonly [identifier: string]: AssetList };
   currentAssetList: CurrentAssetList;
-  assetMovements: { [uid: string]: AssetMovement };
-  assetTracks: { [assetId: string]: AssetTrack };
-  forecasts: Array<string>;
-  positionsForInspection: { [id: number]: Movement };
+  assetMovements: { readonly [uid: string]: AssetMovement };
+  assetTracks: { readonly [assetId: string]: AssetTrack };
+  forecasts: ReadonlyArray<string>;
+  positionsForInspection: { readonly [id: number]: Movement };
   searchQuery: string;
-  filterQuery: Array<AssetFilterQuery>;
-  unitTonnages: Array<UnitTonnage>;
-}
+  filterQuery: ReadonlyArray<AssetFilterQuery>;
+  unitTonnages: ReadonlyArray<UnitTonnage>;
+}>;

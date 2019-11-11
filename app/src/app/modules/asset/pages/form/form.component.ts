@@ -24,7 +24,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   public assetSubscription: Subscription;
   public unitTonnagesSubscription: Subscription;
-  public unitTonnages: Array<AssetInterfaces.UnitTonnage>;
+  public unitTonnages: ReadonlyArray<AssetInterfaces.UnitTonnage>;
   public flagstates = allFlagstates.sort();
   public assetObject = {} as AssetInterfaces.Asset;
   public save: () => void;
@@ -38,12 +38,15 @@ export class FormPageComponent implements OnInit, OnDestroy {
           this.assetObject.grossTonnageUnit === null
         )
       ) {
-        this.assetObject.grossTonnageUnit = unitTonnages[0].code;
+        this.assetObject = {
+          ...this.assetObject,
+          grossTonnageUnit: unitTonnages[0].code
+        };
       }
     });
-    this.assetSubscription = this.store.select(AssetSelectors.getSelectedAsset).subscribe((asset) => {
+    this.assetSubscription = this.store.select(AssetSelectors.getSelectedAsset).subscribe((asset: AssetInterfaces.Asset) => {
       if(typeof asset !== 'undefined') {
-        this.assetObject = asset;
+        this.assetObject = { ...asset };
       }
     });
   }
