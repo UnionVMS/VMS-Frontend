@@ -31,6 +31,7 @@ import { MapViewportsComponent } from './components/map-viewports/map-viewports.
 import { SavedFiltersComponent } from './components/saved-filters/saved-filters.component';
 import { TopPanelComponent } from './components/top-panel/top-panel.component';
 import { TracksComponent } from './components/tracks/tracks.component';
+import { TracksSegmentsComponent } from './components/tracks-segments/tracks-segments.component';
 import { TrackPanelComponent } from './components/track-panel/track-panel.component';
 
 
@@ -65,6 +66,7 @@ import { TrackPanelComponent } from './components/track-panel/track-panel.compon
     SavedFiltersComponent,
     TopPanelComponent,
     TracksComponent,
+    TracksSegmentsComponent,
     TrackPanelComponent
   ]
 })

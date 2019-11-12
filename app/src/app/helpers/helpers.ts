@@ -106,3 +106,12 @@ export const toUTF8Array = (str) => { // To UTF8 Byte array
   return utf8;
 };
 /* tslint:enable:no-bitwise */
+
+export const findLastIndex = (array: Array<any> | ReadonlyArray<any>, predicate: (element: any) => boolean) => {
+  for (let i = array.length - 1; i >= 0; --i) {
+    if (predicate(array[i])) {
+      return i;
+    }
+  }
+  return -1;
+};

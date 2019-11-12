@@ -1,9 +1,0 @@
-<div class="map--tracks--content-wrapper" *ngIf="assetTracks.length > 0">
-  <div>
-    <span *ngIf="arrowsPerHour !== -1">Positions shown per hour: {{arrowsPerHour}}</span>
-    <span *ngIf="arrowsPerHour === -1">All positions shown</span>
-  </div>
-  <div>Total positions: {{numberOfTracks}}</div>
-  <div>Visible positions: {{numberOfVisibleTracks}}</div>
-  <div>Filtered positions: {{numberOfTracks - numberOfVisibleTracks}}</div>
-</div>

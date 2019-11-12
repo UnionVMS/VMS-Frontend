@@ -31,11 +31,15 @@
         [registerOnSelectFunction]="registerOnSelectFunction"
         [unregisterOnSelectFunction]="unregisterOnSelectFunction"
       ></map-assets>
+      <map-tracks-segments
+        *ngIf="mapSettings.tracksVisible"
+        [assetTracks]="assetTracks$|async"
+        [map]="map"
+      ></map-tracks-segments>
       <map-tracks
         *ngIf="mapSettings.tracksVisible && mapZoom > 5"
         [assetTracks]="assetTracks$|async"
         [map]="map"
-        [mapZoom]="mapZoom"
         [registerOnSelectFunction]="registerOnSelectFunction"
         [unregisterOnSelectFunction]="unregisterOnSelectFunction"
         [addPositionForInspection]="addPositionForInspection"

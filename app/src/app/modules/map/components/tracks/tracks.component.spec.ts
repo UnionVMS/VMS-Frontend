@@ -10,7 +10,7 @@ import AssetStub from '@data/asset/stubs/asset.stub';
 import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
 
 /* tslint:disable:no-string-literal */
-describe('AssetForecastComponent', () => {
+describe('AssetTracksComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -123,20 +123,6 @@ describe('AssetForecastComponent', () => {
     component.showXArrowsPerHour(featureArrowsPerHour);
     expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual([1, 1, 1, 1, 1, 1, 1]);
 
-  });
-
-  // it('should create arrow features', () => {
-  //   const { component } = setup();
-  //   const arrowFeatures = component.createArrowFeatures(AssetTrackStub);
-  //   expect(arrowFeatures.length).toEqual(4);
-  // });
-
-  it('should create line segment', () => {
-    const { component } = setup();
-    expect(component['renderedFeatureIds'].length).toEqual(0);
-    component.createLineSegment(AssetTrackStub.assetId, AssetTrackStub.lineSegments[0], 0);
-    expect(component['renderedFeatureIds'].length).toEqual(1);
-    expect(component['renderedFeatureIds'][0]).toEqual('line_segment_' + AssetTrackStub.assetId + '_' + 0);
   });
 
 });
