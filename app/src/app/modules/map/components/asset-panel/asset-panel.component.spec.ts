@@ -60,7 +60,7 @@ describe('AssetPanelComponent', () => {
     const getAssetTrackSpy              = spyOn(component, 'getAssetTrack');
     const getAssetTrackTimeIntervalSpy  = spyOn(component, 'getAssetTrackTimeInterval');
 
-    const selectedAsset = component.assets.find(asset => asset.currentlyShowing);
+    let selectedAsset = component.assets.find(asset => asset.currentlyShowing);
     expect(untrackAssetSpy).toHaveBeenCalledTimes(0);
     component['toggleTracks'](selectedAsset);
     expect(untrackAssetSpy).toHaveBeenCalledTimes(1);
@@ -68,7 +68,8 @@ describe('AssetPanelComponent', () => {
 
     component['getTracksMillisecondCap'] = () => formatDate(1555490596000 - component.tracksMinuteCap * 60 * 1000);
 
-    delete selectedAsset.assetTracks;
+
+    selectedAsset = { ...selectedAsset, assetTracks: undefined };
     expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledTimes(0);
     component['toggleTracks'](selectedAsset);
     expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledTimes(1);
