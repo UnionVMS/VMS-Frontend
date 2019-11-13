@@ -27,15 +27,10 @@ describe('AssetTracksComponent', () => {
     const fixture = TestBed.createComponent(TracksComponent);
     const component = fixture.componentInstance;
 
-    component.unregisterOnSelectFunction = (layerName) => {};
     component.map = {
       removeLayer: (vectorLayer) => {}
     };
-    component.registerOnSelectFunction = () => {};
-    component.mapZoom = 6;
-    component.addPositionForInspection = (pos) => {};
     component.assetTracks = [AssetTrackStub];
-    component.positionsForInspection = {};
 
     return { fixture, component };
   }
@@ -45,84 +40,21 @@ describe('AssetTracksComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create arrow feature', () => {
+  it('should create feature', () => {
     const { component } = setup();
     const movement = AssetTrackStub.tracks[0];
     const assetId = AssetTrackStub.assetId;
-    expect(component['renderedFeatureIds'].length).toEqual(0);
-    const arrowFeature = component.createArrowFeature(assetId, movement);
+    expect(typeof component['renderedFeatureIdsByAssetId'][assetId]).toBe('undefined');
+    component['renderedFeatureIdsByAssetId'][assetId] = [];
+    const feature = component.createNewTrackPosition(assetId, movement);
     const featureAssetId = 'assetId_' + assetId + '_guid_' + movement.guid;
-    expect(component['renderedFeatureIds'].length).toEqual(1);
-    expect(component['renderedFeatureIds'][0]).toEqual(featureAssetId);
-    expect(arrowFeature.getId()).toEqual(featureAssetId);
-    expect(arrowFeature.getGeometry().getCoordinates()).toEqual(fromLonLat([
+    expect(component['renderedFeatureIdsByAssetId'][assetId].length).toEqual(1);
+    expect(component['renderedFeatureIdsByAssetId'][assetId][0]).toEqual(featureAssetId);
+    expect(feature.getId()).toEqual(featureAssetId);
+    expect(feature.getGeometry().getCoordinates()).toEqual(fromLonLat([
       movement.location.longitude, movement.location.latitude
     ]));
-    expect(arrowFeature.getStyle().getImage().getRotation()).toEqual(deg2rad(movement.heading));
-  });
-
-  it('should hide features depending on zoom level per hour', () => {
-    const { component } = setup();
-    // const movement = AssetTrackStub.tracks[0];
-    const assetId = AssetTrackStub.assetId;
-    const featureArrowsPerHour = {};
-
-    const arrowFeatures = AssetTrackStub.tracks.map(movement => {
-      const arrowFeature = component.createArrowFeature(assetId, movement);
-      const dateWithHour = movement.timestamp.substring(0, 13);
-      if(typeof featureArrowsPerHour[dateWithHour] === 'undefined') {
-        featureArrowsPerHour[dateWithHour] = [];
-      }
-      featureArrowsPerHour[dateWithHour].push({ feature: arrowFeature, forceShow: false });
-
-      return arrowFeature;
-    });
-    // const arrowFeature = component.createArrowFeature(assetId, movement);
-
-    const arrowFeatureImages = arrowFeatures.map(arrowFeature => arrowFeature.getStyle().getImage());
-    expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual([1, 1, 1, 1, 1, 1, 1]);
-
-    // Should only show one
-    component.determineArrowsPerHour(8);
-    component.showXArrowsPerHour(featureArrowsPerHour);
-    expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual(
-      [1, 0, 0, 0, 0, 0, 0]
-    );
-
-    // Should only show two
-    component.determineArrowsPerHour(9);
-    component.showXArrowsPerHour(featureArrowsPerHour);
-    expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual(
-      [1, 0, 0, 0, 1, 0, 0]
-    );
-
-    // Should only show four
-    component.determineArrowsPerHour(10);
-    component.showXArrowsPerHour(featureArrowsPerHour);
-    expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual(
-      [1, 0, 1, 0, 1, 0, 1]
-    );
-
-    // Should all of them (max 7 / hour)
-    component.determineArrowsPerHour(12);
-    component.showXArrowsPerHour(featureArrowsPerHour);
-    expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual([1, 1, 1, 1, 1, 1, 1]);
-
-    // Should all of them  (max 9 / hour)
-    component.determineArrowsPerHour(14);
-    component.showXArrowsPerHour(featureArrowsPerHour);
-    expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual([1, 1, 1, 1, 1, 1, 1]);
-
-    // Should all of them  (max 11 / hour)
-    component.determineArrowsPerHour(16);
-    component.showXArrowsPerHour(featureArrowsPerHour);
-    expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual([1, 1, 1, 1, 1, 1, 1]);
-
-    // Should all of them  (any number / hour)
-    component.determineArrowsPerHour(17);
-    component.showXArrowsPerHour(featureArrowsPerHour);
-    expect(arrowFeatureImages.map(image => image.getOpacity())).toEqual([1, 1, 1, 1, 1, 1, 1]);
-
+    // expect(feature.getStyle().getImage().getRotation()).toEqual(deg2rad(movement.heading));
   });
 
 });

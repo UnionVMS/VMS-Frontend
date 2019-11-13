@@ -33,7 +33,6 @@ import { MapViewportsComponent } from '../../components/map-viewports/map-viewpo
 import { SavedFiltersComponent } from '../../components/saved-filters/saved-filters.component'; // Not tested yet.
 import { TopPanelComponent } from '../../components/top-panel/top-panel.component'; // Not tested yet.
 import { TracksComponent } from '../../components/tracks/tracks.component';
-import { TrackPanelComponent } from '../../components/track-panel/track-panel.component';
 
 import { AssetReducer, AssetActions } from '@data/asset';
 import AssetStub from '@data/asset/stubs/asset.stub';
@@ -74,7 +73,6 @@ describe('RealtimeComponent', () => {
         SavedFiltersComponent,
         TopPanelComponent,
         TracksComponent,
-        TrackPanelComponent
       ],
       providers: [
         { provide: Router, useValue: { navigate: () => {} } }
