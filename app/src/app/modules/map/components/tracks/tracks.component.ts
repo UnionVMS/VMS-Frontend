@@ -25,11 +25,7 @@ import { formatDate } from '@app/helpers/helpers';
 export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() assetTracks: Array<AssetInterfaces.AssetTrack>;
-  @Input() addPositionForInspection: (track: AssetInterfaces.Movement) => void;
-  @Input() positionsForInspection: { [id: number]: AssetInterfaces.Movement };
   @Input() map: Map;
-  @Input() registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
-  @Input() unregisterOnSelectFunction: (name: string) => void;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -77,7 +73,8 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
           const coordinates = feature.getGeometry().getCoordinates();
           const dx = event.coordinate[0] - coordinates[0];
           const dy = event.coordinate[1] - coordinates[1];
-          const delta = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+          // We skip square root in pythagoras since we dont care about the distance, only relation between distance.
+          const delta = Math.pow(dx, 2) + Math.pow(dy, 2);
           if(typeof closestFeatureYet === 'undefined') {
             closestFeatureYet = { feature, delta };
           } else if(delta < closestFeatureYet.delta) {
@@ -199,7 +196,6 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.unregisterOnSelectFunction(this.layerTitle);
     this.map.removeLayer(this.vectorLayer);
   }
 
