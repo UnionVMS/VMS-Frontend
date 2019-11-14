@@ -163,23 +163,46 @@ export class AssetEffects {
             observer.complete();
           });
         }), mergeAll()),
-        this.assetService.subscribeToMovements(authToken).pipe(
+        this.assetService.mapSubscription(authToken).pipe(
           bufferTime(1000),
-          map((assetMovements: Array<any>) => {
-            if (assetMovements.length !== 0) {
-              return [
-                AssetActions.assetsMoved({assetMovements: assetMovements.reduce((acc, assetMovement) => {
-                  if(typeof assetMovement.microMove.speed === 'undefined') {
-                    assetMovement.microMove.speed = null;
-                  }
-                  acc[assetMovement.asset] = assetMovement;
-                  return acc;
-                }, {})}),
-                AssetActions.checkForAssetEssentials({assetMovements})
-              ];
-            } else {
-              return null;
+          map((messages: Array<{ type: string, data: any }>) => {
+            if(messages.length !== 0) {
+              const messagesByType = messages.reduce((messagesByTypeAcc, message) => {
+                if(typeof messagesByTypeAcc[message.type] === 'undefined') {
+                  messagesByTypeAcc[message.type] = [];
+                }
+                messagesByTypeAcc[message.type].push(message.data);
+                return messagesByTypeAcc;
+              }, {} as { [type: string]: Array<any> });
+
+              const actions = [];
+
+              if(typeof messagesByType.Movement !== undefined) {
+                actions.push(
+                  AssetActions.assetsMoved({assetMovements: messagesByType.Movement.reduce((acc, assetMovement) => {
+                    if(typeof assetMovement.microMove.speed === 'undefined') {
+                      assetMovement.microMove.speed = null;
+                    }
+                    acc[assetMovement.asset] = assetMovement;
+                    return acc;
+                  }, {})}),
+                  AssetActions.checkForAssetEssentials({ assetMovements: messagesByType.Movement })
+                );
+              } else if(typeof messagesByType['Updated Asset'] !== undefined) {
+                actions.push(AssetActions.setEssentialProperties({
+                  assetEssentialProperties: messagesByType['Updated Asset'].reduce((acc, assetEssentials) => {
+                    acc[assetEssentials.assetId] = assetEssentials;
+                    return acc;
+                  }, {})
+                }));
+              }
+
+              if(actions.length > 0) {
+                return actions;
+              }
             }
+
+            return null;
           }),
           filter(val => val !== null),
           withLatestFrom(this.store$.select(MapSettingsSelectors.getTracksMinuteCap)),
@@ -195,22 +218,6 @@ export class AssetEffects {
           flatMap( (action, index): object => action ),
           catchError((err) => of({ type: AssetActions.failedToSubscribeToMovements, payload: err }))
         ),
-        this.assetService.subscribeToAssetUpdates(authToken).pipe(
-          bufferTime(500),
-          map((assetsEssentials: Array<any>) => {
-            if (assetsEssentials.length !== 0) {
-              return AssetActions.setEssentialProperties({
-                assetEssentialProperties: assetsEssentials.reduce((acc, assetEssentials) => {
-                  acc[assetEssentials.assetId] = assetEssentials;
-                  return acc;
-                }, {})
-              });
-            } else {
-              return null;
-            }
-          }),
-          filter(val => val !== null)
-        )
       );
     })
   );
