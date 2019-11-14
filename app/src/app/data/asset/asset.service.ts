@@ -50,11 +50,6 @@ export class AssetService {
     return new Observable((observer) => {
       that.mapEventStreamObserver$ = observer;
 
-      // that.mapEventSource.addEventListener('Movement', (message) => console.warn(message));
-      // that.mapEventSource.addEventListener('Asset', (message) => console.warn(JSON.parse(message)));
-      // that.mapEventSource.addEventListener('Ticket', (message) => console.warn(JSON.parse(message)));
-      // that.mapEventSource.addEventListener('TicketUpdate', (message) => console.warn(JSON.parse(message)));
-
       const tranlateMessage = (message) => ({ type: message.type, data: JSON.parse(message.data) });
 
       that.mapEventSource.addEventListener('Movement', (message) => observer.next(tranlateMessage(message)));

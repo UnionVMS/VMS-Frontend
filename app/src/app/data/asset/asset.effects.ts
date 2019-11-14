@@ -117,12 +117,12 @@ export class AssetEffects {
       );
       if(positionsToRemoveOrUpdate.assetsToDelete.length > 0 && Object.keys(positionsToRemoveOrUpdate.decayingAssets).length > 0) {
         return of(
-          AssetActions.removeAssets({ assets: positionsToRemoveOrUpdate.assetsToDelete }),
+          AssetActions.removeAssets({ assetIds: positionsToRemoveOrUpdate.assetsToDelete }),
           AssetActions.updateDecayOnAssetPosition({ assetMovements: positionsToRemoveOrUpdate.decayingAssets })
         );
       }
       if(positionsToRemoveOrUpdate.assetsToDelete.length > 0) {
-        return of(AssetActions.removeAssets({ assets: positionsToRemoveOrUpdate.assetsToDelete }));
+        return of(AssetActions.removeAssets({ assetIds: positionsToRemoveOrUpdate.assetsToDelete }));
       }
       if(Object.keys(positionsToRemoveOrUpdate.decayingAssets).length > 0) {
         return of(AssetActions.updateDecayOnAssetPosition({ assetMovements: positionsToRemoveOrUpdate.decayingAssets }));
@@ -165,7 +165,12 @@ export class AssetEffects {
         }), mergeAll()),
         this.assetService.mapSubscription(authToken).pipe(
           bufferTime(1000),
-          map((messages: Array<{ type: string, data: any }>) => {
+          withLatestFrom(this.store$.select(AssetSelectors.getAssetsEssentials)),
+          // We need to add any at the end because the buffer is types as Unknown[], we know it to be the first data
+          // structure defined but that does not help apparenlty
+          mergeMap(([messages, assetsEssentials]: Array<
+            Array<{ type: string, data: any }> | { readonly [uid: string]: AssetInterfaces.AssetEssentialProperties } | any
+          >) => {
             if(messages.length !== 0) {
               const messagesByType = messages.reduce((messagesByTypeAcc, message) => {
                 if(typeof messagesByTypeAcc[message.type] === 'undefined') {
@@ -177,18 +182,18 @@ export class AssetEffects {
 
               const actions = [];
 
-              if(typeof messagesByType.Movement !== undefined) {
-                actions.push(
-                  AssetActions.assetsMoved({assetMovements: messagesByType.Movement.reduce((acc, assetMovement) => {
-                    if(typeof assetMovement.microMove.speed === 'undefined') {
-                      assetMovement.microMove.speed = null;
-                    }
-                    acc[assetMovement.asset] = assetMovement;
-                    return acc;
-                  }, {})}),
-                  AssetActions.checkForAssetEssentials({ assetMovements: messagesByType.Movement })
-                );
-              } else if(typeof messagesByType['Updated Asset'] !== undefined) {
+              if(typeof messagesByType.Movement !== 'undefined') {
+                const assetsMovedData = {assetMovements: messagesByType.Movement.reduce((acc, assetMovement) => {
+                  if(typeof assetMovement.microMove.speed === 'undefined') {
+                    assetMovement.microMove.speed = null;
+                  }
+                  acc[assetMovement.asset] = assetMovement;
+                  return acc;
+                }, {})};
+                actions.push(AssetActions.assetsMoved(assetsMovedData));
+                actions.push(AssetActions.checkForAssetEssentials({ assetMovements: messagesByType.Movement }));
+              }
+              if(typeof messagesByType['Updated Asset'] !== 'undefined') {
                 actions.push(AssetActions.setEssentialProperties({
                   assetEssentialProperties: messagesByType['Updated Asset'].reduce((acc, assetEssentials) => {
                     acc[assetEssentials.assetId] = assetEssentials;
@@ -196,13 +201,32 @@ export class AssetEffects {
                   }, {})
                 }));
               }
+              if(typeof messagesByType['Merged Asset'] !== 'undefined') {
+                messagesByType['Merged Asset'].map(message => {
+                  const oldAsset = assetsEssentials[message.oldAssetId];
+                  const newAsset = assetsEssentials[message.newAssetId];
+                  let oldAssetName = message.oldAssetId;
+                  let newAssetName = message.newAssetId;
+
+                  if(typeof oldAsset !== 'undefined') {
+                    oldAssetName = oldAsset.assetName;
+                  }
+                  if(typeof newAsset !== 'undefined') {
+                    newAssetName = newAsset.assetName;
+                  }
+
+                  actions.push(NotificationsActions.addNotice(
+                    `Asset '${oldAssetName}' merged with '${newAssetName}', and has been removed from the map.`
+                  ));
+                });
+                actions.push(AssetActions.removeAssets({ assetIds: messagesByType['Merged Asset'].map(message => message.oldAssetId) }));
+              }
 
               if(actions.length > 0) {
-                return actions;
+                return of(actions);
               }
             }
-
-            return null;
+            return of(null);
           }),
           filter(val => val !== null),
           withLatestFrom(this.store$.select(MapSettingsSelectors.getTracksMinuteCap)),

@@ -77,7 +77,7 @@ export const getUnitTonnage = createAction(
 
 export const removeAssets = createAction(
   '[Asset] Remove asset',
-  props<{ assets: Array<string>}>()
+  props<{ assetIds: Array<string>}>()
 );
 
 export const removeForecast = createAction(
