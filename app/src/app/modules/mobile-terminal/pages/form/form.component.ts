@@ -162,6 +162,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   errorMessage(error: any) {
+    if(error.errorType === 'validateAlphanumericHyphenAndSpace') {
+      return 'Invalid characters given, only letters, digits, space and hypen is allowed.';
+    }
     return errorMessage(error.errorType, error.error);
   }
 

@@ -25,16 +25,15 @@
         </mat-select>
         <mat-error *ngFor="let error of getErrors(['essentailFields', 'serialNo'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
+
+      <mat-form-field id="mobile-terminal-form--transceiverType">
+        <mat-label>Transceiver type</mat-label>
+        <input matInput formControlName="transceiverType" required>
+      </mat-form-field>
     </fieldset>
 
     <fieldset formGroupName="mobileTerminalFields">
       <legend>Mobile terminal fields</legend>
-
-      <mat-form-field id="mobile-terminal-form--transceiverType">
-        <mat-label>Transceiver type</mat-label>
-        <input matInput formControlName="transceiverType">
-      </mat-form-field>
-
 
       <mat-form-field id="mobile-terminal-form--softwareVersion">
         <mat-label>Software version</mat-label>
@@ -69,6 +68,11 @@
           <legend>{{channel.name}} - {{channel.id}} </legend>
           <button *ngIf="formValidator.controls.channels?.value.length > 1" type="button" name="button" (click)="removeChannel(i)">Remove channel</button>
 
+          <mat-form-field class="mobile-terminal-form--channel-lesDescription">
+            <mat-label>Land station</mat-label>
+            <input matInput formControlName="lesDescription" required>
+          </mat-form-field>
+
           <mat-form-field class="mobile-terminal-form--channel-dnid">
             <mat-label>DNID</mat-label>
             <input matInput type="number" formControlName="dnid" required>
@@ -91,11 +95,6 @@
             <mat-checkbox formControlName="configChannel">Config</mat-checkbox>
             <mat-checkbox formControlName="defaultChannel">Default</mat-checkbox>
           </div>
-
-          <mat-form-field class="mobile-terminal-form--channel-lesDescription">
-            <mat-label>Land station</mat-label>
-            <input matInput formControlName="lesDescription">
-          </mat-form-field>
 
           <mat-form-field class="mobile-terminal-form--channel-installedBy">
             <mat-label>Installed by</mat-label>

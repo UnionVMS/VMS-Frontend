@@ -8,6 +8,13 @@ interface MobileTerminalFormValidator {
   channels: FormArray;
 }
 
+export const alphanumericWithHyphenAndSpace = (c: FormControl) => {
+  const EMAIL_REGEXP = /^[a-z0-9\- ]*$/i;
+  return c.value === null || c.value.length === 0 || EMAIL_REGEXP.test(c.value) ? null : {
+    validateAlphanumericHyphenAndSpace: true
+  };
+};
+
 const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null): FormGroup => {
   return new FormGroup({
     name: new FormControl(channel === null ? '' : channel.name),
@@ -22,7 +29,7 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
       channel === null ? '' : channel.memberNumber,
       [Validators.required, Validators.min(1), Validators.max(255)]
     ),
-    lesDescription: new FormControl(channel === null ? '' : channel.lesDescription),
+    lesDescription: new FormControl(channel === null ? '' : channel.lesDescription, [Validators.required]),
     installedBy: new FormControl(channel === null ? '' : channel.installedBy),
     startDate: new FormControl(channel === null ? '' : channel.startDate),
     endDate: new FormControl(channel === null ? '' : channel.endDate),
@@ -54,11 +61,11 @@ export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminal
   return new FormGroup({
     essentailFields: new FormGroup({
       mobileTerminalType: new FormControl(mobileTerminal.mobileTerminalType, Validators.required),
-      serialNo: new FormControl(mobileTerminal.serialNo, [Validators.required, CustomValidators.alphanumeric]),
+      serialNo: new FormControl(mobileTerminal.serialNo, [Validators.required, alphanumericWithHyphenAndSpace]),
       selectedOceanRegions: new FormControl(selectedOceanRegions, [Validators.required]),
+      transceiverType: new FormControl(mobileTerminal.transceiverType, [Validators.required]),
     }),
     mobileTerminalFields: new FormGroup({
-      transceiverType: new FormControl(mobileTerminal.transceiverType),
       softwareVersion: new FormControl(mobileTerminal.softwareVersion),
       antenna: new FormControl(mobileTerminal.antenna),
       satelliteNumber: new FormControl(mobileTerminal.satelliteNumber),
