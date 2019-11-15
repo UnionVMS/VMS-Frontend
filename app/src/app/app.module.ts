@@ -32,6 +32,7 @@ import { MapModule } from './modules/map/map.module';
 import { MobileTerminalModule } from './modules/mobile-terminal/mobile-terminal.module';
 import { NgrxRouterStoreModule } from './modules/router/ngrx-router.module';
 import { SettingsModule } from './modules/settings/settings.module';
+import { NotesModule } from './modules/notes/notes.module';
 
 
 /* Effects */
@@ -42,6 +43,7 @@ import { MapSettingsEffects } from '@data/map-settings/map-settings.effects';
 import { MapSavedFiltersEffects } from '@data/map-saved-filters/map-saved-filters.effects';
 import { MapLayersEffects } from '@data/map-layers/map-layers.effects';
 import { MobileTerminalEffects } from '@data/mobile-terminal/mobile-terminal.effects';
+import { NotesEffects } from '@data/notes/notes.effects';
 
 /* Services */
 import { AuthService } from './data/auth/auth.service';
@@ -70,6 +72,7 @@ const imports = [
     MapSavedFiltersEffects,
     MapLayersEffects,
     MobileTerminalEffects,
+    NotesEffects,
   ]),
   BrowserAnimationsModule,
   CoreModule,
@@ -77,7 +80,8 @@ const imports = [
   ContactModule,
   MapModule,
   MobileTerminalModule,
-  SettingsModule
+  SettingsModule,
+  NotesModule
 ];
 
 if(!environment.production && environment.useStoreDevTools) {
