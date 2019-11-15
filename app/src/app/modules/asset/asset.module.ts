@@ -25,6 +25,7 @@ import { ShowPageComponent } from './pages/show/show.component';
 import { ShowComponent } from './components/show/show.component';
 import { ShowContactsComponent } from './components/show-contacts/show-contacts.component';
 import { ShowMobileTerminalComponent } from './components/show-mobile-terminal/show-mobile-terminal.component';
+import { ShowNotesComponent } from './components/show-notes/show-notes.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { ShowMobileTerminalComponent } from './components/show-mobile-terminal/s
     ShowComponent,
     ShowContactsComponent,
     ShowMobileTerminalComponent,
+    ShowNotesComponent
   ]
 })
 
