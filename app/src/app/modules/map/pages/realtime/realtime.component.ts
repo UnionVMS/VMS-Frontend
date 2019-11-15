@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -51,6 +51,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public assetIdFromUrl: string;
 
   public mapReady = false;
+  public mapSettingsLoaded = false;
   public map: Map;
 
   // tslint:disable:ban-types
@@ -133,9 +134,14 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.authToken$ = this.store.select(AuthSelectors.getAuthToken);
     this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers);
     this.activeMapLayers$ = this.store.select(MapLayersSelectors.getActiveLayers);
-    this.store.select(MapSelectors.getReady).pipe(takeUntil(this.unmount$)).subscribe((ready) => {
+    this.store.select(MapSelectors.getReadyAndSettingsLoaded).pipe(takeUntil(this.unmount$)).subscribe(({ready, mapSettingsLoaded }) => {
+      if(!this.mapSettingsLoaded && mapSettingsLoaded) {
+        this.setupMap();
+        this.mapSettingsLoaded = mapSettingsLoaded;
+      }
+
       this.mapReady = ready;
-      if(ready && typeof this.assetIdFromUrl !== 'undefined') {
+      if(ready && mapSettingsLoaded && typeof this.assetIdFromUrl !== 'undefined') {
         const assetMovement = this.assetMovements.find((asset) => asset.assetMovement.asset === this.assetIdFromUrl);
         if(assetMovement !== undefined) {
           this.selectAsset(assetMovement.assetMovement.asset);
@@ -230,18 +236,13 @@ export class RealtimeComponent implements OnInit, OnDestroy {
         this.assetIdFromUrl = mergedRoute.params.assetId;
       }
     });
+  }
 
-
-    this.mapZoom = this.mapSettings.startZoomLevel;
+  setupMap() {
+    this.mapZoom = this.mapSettings.settings.startZoomLevel;
     const scaleLineControl = new ScaleLine();
     const mousePositionControl = new MousePosition({
-      coordinateFormat: (coordinates) => {
-        // const lapsAroundTheWorld = Math.abs(Math.floor((coordinates[0] + 180) / 360));
-        // const offset = -180 * lapsAroundTheWorld;
-        // const normalizedCoordinates = [(coordinates[0] % 180) + offset, coordinates[1]];
-        // console.warn(normalizedCoordinates);
-        return format(coordinates, 'Lat: {y}, Lon: {x}', 4);
-      },
+      coordinateFormat: (coordinates) => format(coordinates, 'Lat: {y}, Lon: {x}', 4),
       projection: 'EPSG:4326',
       // comment the following two lines to have the mouse position
       // be placed within the map.
@@ -260,7 +261,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
         })
       ],
       view: new View({
-        center: fromLonLat([this.mapSettings.startPosition.longitude, this.mapSettings.startPosition.latitude]),
+        center: fromLonLat([this.mapSettings.settings.startPosition.longitude, this.mapSettings.settings.startPosition.latitude]),
         zoom: this.mapZoom
       })
     });
@@ -274,6 +275,10 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     });
 
     this.mapFunctionsToProps();
+
+    setTimeout(() => {
+      this.map.updateSize();
+    }, 1000);
   }
 
   ngOnDestroy() {

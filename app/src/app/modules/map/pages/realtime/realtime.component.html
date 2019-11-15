@@ -1,5 +1,5 @@
 <div class="realtime-container">
-  <div class="loading-overlay"  *ngIf="!mapReady">
+  <div class="loading-overlay"  *ngIf="!mapReady && !mapSettingsLoaded">
     <h2>Loading asset positions</h2>
     <mat-spinner class="load-spinner"></mat-spinner>
   </div>
@@ -16,33 +16,33 @@
     >
       <div id="mouse-position"></div>
     </map-top-panel>
-    <ng-container *ngIf="mapReady">
+    <ng-container *ngIf="mapReady && mapSettingsLoaded">
       <map-assets
         *ngIf="registerOnSelectFunction !== undefined"
         [assets]="assetMovements"
         [selectedAssets]="selectedAssets$|async"
         [map]="map"
         [mapZoom]="mapZoom"
-        [namesVisible]="mapSettings.namesVisible"
-        [speedsVisible]="mapSettings.speedsVisible"
+        [namesVisible]="mapSettings.settings.namesVisible"
+        [speedsVisible]="mapSettings.settings.speedsVisible"
         [selectAsset]="selectAsset"
         [deselectAsset]="deselectAsset"
-        [shipColorLogic]="mapSettings.assetColorMethod"
+        [shipColorLogic]="mapSettings.settings.assetColorMethod"
         [registerOnSelectFunction]="registerOnSelectFunction"
         [unregisterOnSelectFunction]="unregisterOnSelectFunction"
       ></map-assets>
       <map-tracks-segments
-        *ngIf="mapSettings.tracksVisible"
+        *ngIf="mapSettings.settings.tracksVisible"
         [assetTracks]="assetTracks$|async"
         [map]="map"
       ></map-tracks-segments>
       <map-tracks
-        *ngIf="mapSettings.tracksVisible && mapZoom > 5"
+        *ngIf="mapSettings.settings.tracksVisible && mapZoom > 5"
         [assetTracks]="assetTracks$|async"
         [map]="map"
       ></map-tracks>
       <map-flagstates
-        *ngIf="mapSettings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"
+        *ngIf="mapSettings.settings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"
         [assets]="assetMovements"
         [map]="map"
         [selectAsset]="selectAsset"
@@ -51,10 +51,10 @@
       ></map-flagstates>
       <map-information-panel></map-information-panel>
       <map-asset-forecast
-        *ngIf="mapSettings.forecastsVisible && mapZoom > 9"
+        *ngIf="mapSettings.settings.forecastsVisible && mapZoom > 9"
         [map]="map"
         [assetMovements]="forecasts$|async"
-        [forecastInterval]="mapSettings.forecastInterval"
+        [forecastInterval]="mapSettings.settings.forecastInterval"
       ></map-asset-forecast>
     </ng-container>
   </div>
@@ -84,18 +84,18 @@
     [untrackAsset]="untrackAsset"
     [addForecast]="addForecast"
     [removeForecast]="removeForecast"
-    [tracksMinuteCap]="mapSettings.tracksMinuteCap"
+    [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
     [centerMapOnPosition]="centerMapOnPosition"
   ></map-asset-panel>
   <div class="control-panel">
-    <map-control-panel
+    <!-- <map-control-panel
       *ngIf="mapSettings.currentControlPanel === 'map-control-panel'"
       [mapSettings]="mapSettings"
       [setTracksMinuteCap]="setTracksMinuteCap"
       [setForecastInterval]="setForecastInterval"
       [clearTracks]="clearTracks"
       [clearForecasts]="clearForecasts"
-    ></map-control-panel>
+    ></map-control-panel> -->
     <map-distance-between-points
       *ngIf="map !== undefined"
       [map]="map"

@@ -1,11 +1,11 @@
 import { Position } from '../generic.interfaces';
 
-export interface Viewport {
+export type Viewport = Readonly<{
   zoom: number;
-  center: Array<number>;
-}
+  center: ReadonlyArray<number>;
+}>;
 
-export interface State {
+export type Settings = Readonly<{
   flagsVisible: boolean;
   tracksVisible: boolean;
   namesVisible: boolean;
@@ -13,9 +13,13 @@ export interface State {
   forecastsVisible: boolean;
   forecastInterval: number|null;
   tracksMinuteCap: number|null;
-  viewports: { [key: number]: Viewport };
   startZoomLevel: number;
   startPosition: Position;
   assetColorMethod: string;
+}>;
+
+export type State = Readonly<{
+  settings: Settings;
+  viewports: { readonly [key: number]: Viewport };
   currentControlPanel: string|null;
-}
+}>;

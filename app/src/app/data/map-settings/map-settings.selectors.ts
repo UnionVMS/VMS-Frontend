@@ -3,27 +3,26 @@ import * as MapSettingsInterface from './map-settings.interfaces';
 import { State } from '@app/app-reducer';
 
 const getMapSettingsStateObject = createFeatureSelector<MapSettingsInterface.State>('mapSettings');
-// export const selectTracksMinuteCap = (state: State) => state.mapSettings.tracksMinuteCap;
 export const selectCurrentControlPanel = (state: State) => state.mapSettings.currentControlPanel;
+export const selectMapSettings = (state: State) => state.mapSettings.settings;
 
 
 export const getMapSettingsState = createSelector(
   getMapSettingsStateObject,
-  (state: MapSettingsInterface.State) => {
-    return { ...state };
-  }
+  (state: MapSettingsInterface.State) => state
+);
+
+export const getMapSettings = createSelector(
+  selectMapSettings,
+  (settings: MapSettingsInterface.Settings) => settings
 );
 
 export const getTracksMinuteCap = createSelector(
   getMapSettingsStateObject,
-  (state: MapSettingsInterface.State) => {
-    return state.tracksMinuteCap;
-  }
+  (state: MapSettingsInterface.State) => state.settings.tracksMinuteCap
 );
 
 export const getCurrentControlPanel = createSelector(
   selectCurrentControlPanel,
-  (currentControlPanel: string|null) => {
-    return currentControlPanel;
-  }
+  (currentControlPanel: string|null) => currentControlPanel
 );

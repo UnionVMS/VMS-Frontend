@@ -85,9 +85,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
         indianOceanRegion: this.formValidator.value.essentailFields.indianOceanRegion,
         pacificOceanRegion: this.formValidator.value.essentailFields.pacificOceanRegion,
         westAtlanticOceanRegion: this.formValidator.value.essentailFields.westAtlanticOceanRegion,
-        transceiverType: this.formValidator.value.mobileTerminalFields.transceiverType > ''
-          ? this.formValidator.value.mobileTerminalFields.transceiverType
-          : null,
+        transceiverType: this.formValidator.value.essentailFields.transceiverType,
         softwareVersion: this.formValidator.value.mobileTerminalFields.softwareVersion > ''
           ? this.formValidator.value.mobileTerminalFields.softwareVersion
           : null,

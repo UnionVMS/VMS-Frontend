@@ -3,8 +3,10 @@ import * as MapInterfaces from './map.interfaces';
 import { State } from '@app/app-reducer';
 
 export const selectMapReady = (state: State) => state.map.ready;
+export const selectMapSettingsLoaded = (state: State) => state.map.mapSettingsLoaded;
 
-export const getReady = createSelector(
+export const getReadyAndSettingsLoaded = createSelector(
   selectMapReady,
-  (ready: boolean) => ready
+  selectMapSettingsLoaded,
+  (ready: boolean, mapSettingsLoaded: boolean) => ({ ready, mapSettingsLoaded })
 );

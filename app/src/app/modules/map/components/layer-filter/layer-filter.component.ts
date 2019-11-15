@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { MapSettingsInterfaces } from '@data/map-settings';
 
 @Component({
   selector: 'map-layer-filter',
@@ -6,7 +7,7 @@ import { Component, Input, OnChanges } from '@angular/core';
   styleUrls: ['./layer-filter.component.scss']
 })
 export class LayerFilterComponent implements OnChanges {
-  @Input() mapSettings;
+  @Input() mapSettings: MapSettingsInterfaces.State;
   @Input() setVisibilityForAssetNames: (visibility: boolean) => void;
   @Input() setVisibilityForAssetSpeeds: (visibility: boolean) => void;
   @Input() setVisibilityForTracks: (visibility: boolean) => void;
@@ -27,18 +28,18 @@ export class LayerFilterComponent implements OnChanges {
   }
 
   public toggleNames = (): void => {
-    this.setVisibilityForAssetNames(!this.mapSettings.namesVisible);
+    this.setVisibilityForAssetNames(!this.mapSettings.settings.namesVisible);
   }
   public toggleSpeeds = (): void => {
-    this.setVisibilityForAssetSpeeds(!this.mapSettings.speedsVisible);
+    this.setVisibilityForAssetSpeeds(!this.mapSettings.settings.speedsVisible);
   }
   public toggleFlags = (): void => {
-    this.setVisibilityForFlags(!this.mapSettings.flagsVisible);
+    this.setVisibilityForFlags(!this.mapSettings.settings.flagsVisible);
   }
   public toggleTracks = (): void => {
-    this.setVisibilityForTracks(!this.mapSettings.tracksVisible);
+    this.setVisibilityForTracks(!this.mapSettings.settings.tracksVisible);
   }
   public toggleForecast = (): void => {
-    this.setVisibilityForForecast(!this.mapSettings.forecastsVisible);
+    this.setVisibilityForForecast(!this.mapSettings.settings.forecastsVisible);
   }
 }

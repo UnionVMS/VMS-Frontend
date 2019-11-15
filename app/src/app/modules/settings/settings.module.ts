@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 /* Pages */
 import { UserSettingsComponent } from './pages/user-settings/user-settings.component';
@@ -29,6 +30,7 @@ import { UserSettingsComponent } from './pages/user-settings/user-settings.compo
     FormsModule,
     ReactiveFormsModule,
     MatRadioModule,
+    MatSlideToggleModule,
   ],
   declarations: [
     UserSettingsComponent

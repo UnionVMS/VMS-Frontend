@@ -1,41 +1,41 @@
 <div class="content-container-minimal">
   <div class="layer-filter-buttons">
     <button
-      class="btn {{mapSettings.flagsVisible ? 'active' : ''}}"
+      class="btn {{mapSettings.settings.flagsVisible ? 'active' : ''}}"
       (click)="toggleFlags()"
-      title="{{flagsDisabled ? 'Flags disabled due to zoom-level' : (mapSettings.flagsVisible ? 'Hide flags' : 'Show flags')}}"
+      title="{{flagsDisabled ? 'Flags disabled due to zoom-level' : (mapSettings.settings.flagsVisible ? 'Hide flags' : 'Show flags')}}"
       [disabled]="flagsDisabled"
     >
       <i class="fas fa-flag" alt="Flags"></i>
     </button>
     <button
-      class="btn {{mapSettings.tracksVisible ? 'active' : ''}}"
+      class="btn {{mapSettings.settings.tracksVisible ? 'active' : ''}}"
       (click)="toggleTracks()"
-      title="{{tracksDisabled ? 'Tracks disabled due to zoom-level' : (mapSettings.tracksVisible ? 'Hide tracks' : 'Show tracks')}}"
+      title="{{tracksDisabled ? 'Tracks disabled due to zoom-level' : (mapSettings.settings.tracksVisible ? 'Hide tracks' : 'Show tracks')}}"
       [disabled]="tracksDisabled"
     >
       <i class="fas fa-angle-double-up"></i>
     </button>
     <button
-      class="btn {{mapSettings.namesVisible ? 'active' : ''}}"
+      class="btn {{mapSettings.settings.namesVisible ? 'active' : ''}}"
       (click)="toggleNames()"
-      title="{{namesDisabled ? 'Names disabled due to zoom-level' : (mapSettings.namesVisible ? 'Hide names' : 'Show names')}}"
+      title="{{namesDisabled ? 'Names disabled due to zoom-level' : (mapSettings.settings.namesVisible ? 'Hide names' : 'Show names')}}"
       [disabled]="namesDisabled"
     >
       <i class="fas fa-signature"></i>
     </button>
     <button
-      class="btn {{mapSettings.speedsVisible ? 'active' : ''}}"
+      class="btn {{mapSettings.settings.speedsVisible ? 'active' : ''}}"
       (click)="toggleSpeeds()"
-      title="{{speedsDisabled ? 'Speeds disabled due to zoom-level' : (mapSettings.speedsVisible ? 'Hide speeds' : 'Show speeds')}}"
+      title="{{speedsDisabled ? 'Speeds disabled due to zoom-level' : (mapSettings.settings.speedsVisible ? 'Hide speeds' : 'Show speeds')}}"
       [disabled]="speedsDisabled"
     >
       <i class="fas fa-tachometer-alt"></i>
     </button>
     <button
-      class="btn {{mapSettings.forecastsVisible ? 'active' : ''}}"
+      class="btn {{mapSettings.settings.forecastsVisible ? 'active' : ''}}"
       (click)="toggleForecast()"
-      title="{{forecastsDisabled ? 'Forecasts disabled due to zoom-level' : (mapSettings.forecastsVisible ? 'Hide forecasts' : 'Show forecasts')}}"
+      title="{{forecastsDisabled ? 'Forecasts disabled due to zoom-level' : (mapSettings.settings.forecastsVisible ? 'Hide forecasts' : 'Show forecasts')}}"
       [disabled]="forecastsDisabled"
     >
       <i class="fas fa-fast-forward"></i>

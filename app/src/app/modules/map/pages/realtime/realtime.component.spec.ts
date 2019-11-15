@@ -137,16 +137,19 @@ describe('RealtimeComponent', () => {
       component.mapStateToProps();
 
       expect(component.mapSettings).toEqual(MapSettingsReducer.initialState);
-      expect(component.mapSettings.flagsVisible).toBeFalsy();
+      expect(component.mapSettings.settings.flagsVisible).toBeFalsy();
       store.setState({
         ...currentState,
         mapSettings: {
           ...currentState.mapSettings,
-          flagsVisible: true
+          settings: {
+            ...currentState.mapSettings.settings,
+            flagsVisible: true
+          }
         }
       });
       // mapSettingsSubscription.unsubscribe();
-      expect(component.mapSettings.flagsVisible).toBeTruthy();
+      expect(component.mapSettings.settings.flagsVisible).toBeTruthy();
     });
 
     it('should update mapSettings when state is updated.', () => {
@@ -162,16 +165,19 @@ describe('RealtimeComponent', () => {
       component.mapStateToProps();
 
       expect(component.mapSettings).toEqual(MapSettingsReducer.initialState);
-      expect(component.mapSettings.flagsVisible).toBeFalsy();
+      expect(component.mapSettings.settings.flagsVisible).toBeFalsy();
       store.setState({
         ...currentState,
         mapSettings: {
           ...currentState.mapSettings,
-          flagsVisible: true
+          settings: {
+            ...currentState.mapSettings.settings,
+            flagsVisible: true
+          }
         }
       });
       // mapSettingsSubscription.unsubscribe();
-      expect(component.mapSettings.flagsVisible).toBeTruthy();
+      expect(component.mapSettings.settings.flagsVisible).toBeTruthy();
     });
 
     it('should update selectedAsset when state is updated.', () => {
@@ -516,7 +522,7 @@ describe('RealtimeComponent', () => {
         asset: AssetReducer.initialState,
         mapSettings: MapSettingsReducer.initialState,
         mapSavedFilters: MapSavedFiltersReducer.initialState,
-        map: { ready: true },
+        map: { ready: true, mapSettingsLoaded: true },
       };
       store.setState(currentState);
       component.ngOnInit();

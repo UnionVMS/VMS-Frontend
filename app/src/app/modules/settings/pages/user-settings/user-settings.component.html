@@ -1,92 +1,69 @@
 <h1>Settings</h1>
 
-<fieldset class="map-settings">
-  <legend>Map default settings:</legend>
-  <div class="map-toggle-buttons">
-    <ui-button-toggle
-      [label]="'Show flags'"
-      [value]="mapSettings.flagsVisible"
-      [switchFunction]="toggleFlags"
-      [stacked]="true"
-    ></ui-button-toggle>
-    <ui-button-toggle
-      [label]="'Show tracks'"
-      [value]="mapSettings.tracksVisible"
-      [switchFunction]="toggleTracks"
-      [stacked]="true"
-    ></ui-button-toggle>
-    <ui-button-toggle
-      [label]="'Show names'"
-      [value]="mapSettings.namesVisible"
-      [switchFunction]="toggleNames"
-      [stacked]="true"
-    ></ui-button-toggle>
-    <ui-button-toggle
-      [label]="'Show speeds'"
-      [value]="mapSettings.speedsVisible"
-      [switchFunction]="toggleSpeeds"
-      [stacked]="true"
-    ></ui-button-toggle>
-    <ui-button-toggle
-      [label]="'Show forecasts'"
-      [value]="mapSettings.forecastsVisible"
-      [switchFunction]="toggleForecasts"
-      [stacked]="true"
-    ></ui-button-toggle>
-  </div>
+<ng-container *ngIf="isFormReady">
+  <form class="mobile-terminal-edit-form" [formGroup]="formValidator">
+    <fieldset class="map-settings">
+      <legend>Map default settings</legend>
+      <div class="map-toggle-buttons">
+        <mat-slide-toggle formControlName="flagsVisible" color="primary">Show flags</mat-slide-toggle>
+        <mat-slide-toggle formControlName="tracksVisible" color="primary">Show tracks</mat-slide-toggle>
+        <mat-slide-toggle formControlName="namesVisible" color="primary">Show names</mat-slide-toggle>
+        <mat-slide-toggle formControlName="speedsVisible" color="primary">Show speeds</mat-slide-toggle>
+        <mat-slide-toggle formControlName="forecastsVisible" color="primary">Show forecasts</mat-slide-toggle>
+      </div>
 
-  <mat-form-field>
-    <input matInput placeholder="Start zoom level" [(ngModel)]="mapSettings.startZoomLevel">
-  </mat-form-field>
+      <fieldset formGroupName="mapStartPosition">
+        <legend>Map start position</legend>
+        <mat-form-field>
+          <input matInput placeholder="Start zoom level" formControlName="startZoomLevel" required>
+        </mat-form-field>
 
-  <div class="map-starting-positions">
-    <mat-form-field>
-      <input matInput placeholder="Start latitude" [(ngModel)]="mapSettings.startPosition.latitude">
-    </mat-form-field>
+        <div class="map-starting-positions">
+          <mat-form-field>
+            <input matInput placeholder="Start latitude" formControlName="latitude" required>
+          </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="Start longitude" [(ngModel)]="mapSettings.startPosition.longitude">
-    </mat-form-field>
-  </div>
+          <mat-form-field>
+            <input matInput placeholder="Start longitude" formControlName="longitude" required>
+          </mat-form-field>
+        </div>
+      </fieldset>
 
-  <div class="map-limits">
-    <mat-form-field>
-      <mat-select [(value)]="mapSettings.tracksMinuteCap">
-        <mat-option value="60">1 hour</mat-option>
-        <mat-option value="180">3 hour</mat-option>
-        <mat-option value="360">6 hours</mat-option>
-        <mat-option value="720">12 hours</mat-option>
-        <mat-option value="1440">1 day</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <fieldset formGroupName="mapLimits">
+        <legend>Tracks and forecasts</legend>
+        <div class="map-limits">
+          <mat-form-field>
+            <mat-select formControlName="tracksMinuteCap" placeholder="Track length">
+              <mat-option value="60">1 hour</mat-option>
+              <mat-option value="180">3 hour</mat-option>
+              <mat-option value="360">6 hours</mat-option>
+              <mat-option value="720">12 hours</mat-option>
+              <mat-option value="1440">1 day</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Forecast interval (min)" formControlName="forecastInterval" required>
+          </mat-form-field>
+        </div>
+      </fieldset>
 
-    <mat-form-field>
-      <input matInput placeholder="Forecast interval (min)" [(ngModel)]="mapSettings.forecastInterval">
-    </mat-form-field>
-  </div>
+      <label>Choose ship color logic:</label>
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="map-asset-colors"
+        formControlName="assetColorMethod">
+        <mat-radio-button class="map-asset-color-button" *ngFor="let assetColorMethod of assetColorMethods" [value]="assetColorMethod">
+          {{assetColorMethod}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </fieldset>
 
-  <label>Choose ship color logic:</label>
-  <mat-radio-group
-    aria-labelledby="example-radio-group-label"
-    class="map-asset-colors"
-    [(ngModel)]="mapSettings.assetColorMethod">
-    <mat-radio-button class="map-asset-color-button" *ngFor="let assetColorMethod of assetColorMethods" [value]="assetColorMethod">
-      {{assetColorMethod}}
-    </mat-radio-button>
-  </mat-radio-group>
 
-  <!-- <mat-form-field>
-    <textarea matInput placeholder="Textarea"></textarea>
-  </mat-form-field>
 
-  <mat-form-field>
-    <mat-select placeholder="Select">
-      <mat-option value="option">Option</mat-option>
-    </mat-select>
-  </mat-form-field> -->
-</fieldset>
 
-<fieldset class="button-block">
-  <button mat-raised-button color="primary" type="button" (click)="save()">Save settings</button>
-  <button mat-stroked-button color="warn" type="button" (click)="resetToDefault()">Reset to default</button>
-</fieldset>
+    <fieldset class="button-block">
+      <button mat-raised-button [disabled]="!formValidator.valid" color="primary" type="button" (click)="save()">Save settings</button>
+      <button mat-stroked-button color="warn" type="button" (click)="resetToDefault()">Reset to default</button>
+    </fieldset>
+  </form>
+</ng-container>

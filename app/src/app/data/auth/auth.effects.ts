@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 import * as MapSettings from '../map-settings/map-settings.actions';
 import { MapSavedFiltersActions } from '../map-saved-filters/';
 import * as NotificationsActions from '../notifications/notifications.actions';
+import { MapActions } from '@data/map';
 
 
 @Injectable()
@@ -55,6 +56,7 @@ export class AuthEffects {
           const response = [];
           if(typeof mapSettings !== 'undefined' && mapSettings.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
             response.push(MapSettings.replaceSettings({ settings: JSON.parse(mapSettings.optionValue) }));
+            response.push(MapActions.setMapSettingsLoaded({ mapSettingsLoaded: true }));
           }
           if(typeof mapFilters !== 'undefined' && mapSettings.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
             response.push(MapSavedFiltersActions.setSavedFitlers({ filters: JSON.parse(mapFilters.optionValue) }));

@@ -3,51 +3,53 @@ import * as MapSettingsActions from './map-settings.actions';
 import * as Interfaces from './map-settings.interfaces';
 
 export const initialState: Interfaces.State = {
-  flagsVisible: false,
-  tracksVisible: true,
-  namesVisible: false,
-  speedsVisible: false,
-  forecastsVisible: true,
-  forecastInterval: 30,
-  tracksMinuteCap: 360,
-  viewports: {},
-  startZoomLevel: 10,
-  startPosition: {
-    latitude: 57.6806116,
-    longitude: 12.1047925
+  settings: {
+    flagsVisible: false,
+    tracksVisible: true,
+    namesVisible: false,
+    speedsVisible: false,
+    forecastsVisible: true,
+    forecastInterval: 30,
+    tracksMinuteCap: 360,
+    startZoomLevel: 10,
+    startPosition: {
+      latitude: 57.6806116,
+      longitude: 12.1047925
+    },
+    assetColorMethod: 'Shiptype',
   },
-  assetColorMethod: 'Shiptype',
+  viewports: {},
   currentControlPanel: null,
 };
 
 export const mapSettingsReducer = createReducer(initialState,
   on(MapSettingsActions.setVisibilityForAssetNames, (state, { visibility }) => ({
     ...state,
-    namesVisible: visibility
+    settings: { ...state.settings, namesVisible: visibility }
   })),
   on(MapSettingsActions.setVisibilityForAssetSpeeds, (state, { visibility }) => ({
     ...state,
-    speedsVisible: visibility
+    settings: { ...state.settings, speedsVisible: visibility }
   })),
   on(MapSettingsActions.setVisibilityForFlags, (state, { visibility }) => ({
     ...state,
-    flagsVisible: visibility
+    settings: { ...state.settings, flagsVisible: visibility }
   })),
   on(MapSettingsActions.setVisibilityForTracks, (state, { visibility }) => ({
     ...state,
-    tracksVisible: visibility
+    settings: { ...state.settings, tracksVisible: visibility }
   })),
   on(MapSettingsActions.setVisibilityForForecast, (state, { visibility }) => ({
     ...state,
-    forecastsVisible: visibility
+    settings: { ...state.settings, forecastsVisible: visibility }
   })),
   on(MapSettingsActions.setTracksMinuteCap, (state, { minutes }) => ({
     ...state,
-    tracksMinuteCap: minutes
+    settings: { ...state.settings, tracksMinuteCap: minutes }
   })),
   on(MapSettingsActions.setForecastInterval, (state, { interval }) => ({
     ...state,
-    forecastInterval: interval
+    settings: { ...state.settings, forecastInterval: interval }
   })),
   on(MapSettingsActions.setCurrentControlPanel, (state, { controlPanelName }) => ({
     ...state,
@@ -61,6 +63,7 @@ export const mapSettingsReducer = createReducer(initialState,
     }
   })),
   on(MapSettingsActions.replaceSettings, (state, { settings }) => ({
-    ...settings
+    ...state,
+    settings: { ...settings }
   })),
 );
