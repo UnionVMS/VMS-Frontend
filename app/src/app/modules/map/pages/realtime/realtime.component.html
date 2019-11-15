@@ -31,15 +31,15 @@
         [registerOnSelectFunction]="registerOnSelectFunction"
         [unregisterOnSelectFunction]="unregisterOnSelectFunction"
       ></map-assets>
+      <map-tracks-segments
+        *ngIf="mapSettings.tracksVisible"
+        [assetTracks]="assetTracks$|async"
+        [map]="map"
+      ></map-tracks-segments>
       <map-tracks
         *ngIf="mapSettings.tracksVisible && mapZoom > 5"
         [assetTracks]="assetTracks$|async"
         [map]="map"
-        [mapZoom]="mapZoom"
-        [registerOnSelectFunction]="registerOnSelectFunction"
-        [unregisterOnSelectFunction]="unregisterOnSelectFunction"
-        [addPositionForInspection]="addPositionForInspection"
-        [positionsForInspection]="positionsForInspection$|async"
       ></map-tracks>
       <map-flagstates
         *ngIf="mapSettings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"
@@ -50,10 +50,6 @@
         [unregisterOnSelectFunction]="unregisterOnSelectFunction"
       ></map-flagstates>
       <map-information-panel></map-information-panel>
-      <map-track-panel
-        [positions]="positionsForInspection$|async"
-        [removePositionForInspection]="removePositionForInspection"
-      ></map-track-panel>
       <map-asset-forecast
         *ngIf="mapSettings.forecastsVisible && mapZoom > 9"
         [map]="map"

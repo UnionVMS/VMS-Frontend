@@ -11,8 +11,8 @@ import { AssetInterfaces } from '@data/asset';
   providedIn: 'root'
 })
 export class AssetService {
-  private movementEventSource: EventSourcePolyfill;
-  private movementObserver$;
+  private mapEventSource: EventSourcePolyfill;
+  private mapEventStreamObserver$;
   private assetEventSource: EventSourcePolyfill;
   private assetObserver$;
 
@@ -29,8 +29,8 @@ export class AssetService {
     );
   }
 
-  subscribeToMovements(authToken: string) {
-    this.movementEventSource = new EventSourcePolyfill(environment.baseApiUrl + 'movement/rest/sse/subscribe', {
+  mapSubscription(authToken: string) {
+    this.mapEventSource = new EventSourcePolyfill(environment.baseApiUrl + 'stream-collector/rest/sse/subscribe', {
       headers: {
         Authorization: authToken,
         'Cache-Control': 'no-cache'
@@ -38,57 +38,36 @@ export class AssetService {
     });
     const listener = (event) => {
       if (event.type === 'error') {
-        console.error('Movement event stream: [Error]', event);
+        console.error('Map event stream: [Error]', event);
       } else {
-        console.warn('Movement event stream: [' + event.type + '] ', (event.type === 'message' ? event.data : event));
+        console.warn('Map event stream: [' + event.type + '] ', (event.type === 'message' ? event.data : event));
       }
     };
-    this.movementEventSource.addEventListener('open', listener);
-    this.movementEventSource.addEventListener('message', listener);
-    this.movementEventSource.addEventListener('error', listener);
+    this.mapEventSource.addEventListener('open', listener);
+    this.mapEventSource.addEventListener('message', listener);
+    this.mapEventSource.addEventListener('error', listener);
     const that = this;
     return new Observable((observer) => {
-      that.movementObserver$ = observer;
+      that.mapEventStreamObserver$ = observer;
 
-      that.movementEventSource.addEventListener('Movement', (asset) => observer.next(JSON.parse(asset.data)));
-    });
-  }
+      const tranlateMessage = (message) => ({ type: message.type, data: JSON.parse(message.data) });
 
-  subscribeToAssetUpdates(authToken: string) {
-    this.assetEventSource = new EventSourcePolyfill(environment.baseApiUrl + 'asset/rest/sse/subscribe', {
-      headers: {
-        Authorization: authToken,
-        'Cache-Control': 'no-cache'
-      }
-    });
-    const listener = (event) => {
-      if (event.type === 'error') {
-        console.error('Asset event stream: [Error]', event);
-      } else {
-        console.warn('Asset event stream: [' + event.type + '] ', (event.type === 'message' ? event.data : event));
-      }
-    };
-    this.assetEventSource.addEventListener('open', listener);
-    this.assetEventSource.addEventListener('message', listener);
-    this.assetEventSource.addEventListener('error', listener);
-    const that = this;
-    return new Observable((observer) => {
-      that.assetObserver$ = observer;
-      // TODO: This has been split into 2 types of messages, split them and fix corresponding logic in effects.
-      that.assetEventSource.addEventListener('Asset', (asset) => observer.next(JSON.parse(asset.data)));
+      that.mapEventSource.addEventListener('Movement', (message) => observer.next(tranlateMessage(message)));
+      that.mapEventSource.addEventListener('Updated Asset', (message) => observer.next(tranlateMessage(message)));
+      that.mapEventSource.addEventListener('Merged Asset', (message) => observer.next(tranlateMessage(message)));
+      that.mapEventSource.addEventListener('Ticket', (message) => observer.next(tranlateMessage(message)));
+      that.mapEventSource.addEventListener('TicketUpdate', (message) => observer.next(observer.next(tranlateMessage(message))));
     });
   }
 
   unsubscribeToMovements() {
-    this.movementObserver$.complete();
-    this.assetObserver$.complete();
+    this.mapEventStreamObserver$.complete();
     console.log(
       '-------- We get error here due to the fact that we are closing the connection in ' +
       'the middle of getting new messages.\n' +
       '-------- There seamse to be no way around this and it does not seam to do any harm.'
     );
-    this.movementEventSource.close();
-    this.assetEventSource.close();
+    this.mapEventSource.close();
   }
 
   getAsset(authToken: string, assetId: string) {

@@ -113,20 +113,32 @@ export const assetReducer = createReducer(initialState,
     }
     return { ...state, selectedAssets, selectedAsset };
   }),
-  on(AssetActions.removeAssets, (state, { assets }) => {
+  on(AssetActions.removeAssets, (state, { assetIds }) => {
     const result = Object.values(state.assetMovements).reduce((acc, movement) => {
-      if(!assets.includes(movement.asset)) {
+      if(!assetIds.includes(movement.asset)) {
         acc.assetMovements[movement.asset] = movement;
         if(typeof state.assetTracks[movement.asset] !== 'undefined') {
           acc.assetTracks[movement.asset] = state.assetTracks[movement.asset];
         }
+        if(typeof state.assetsEssentials[movement.asset] !== 'undefined') {
+          acc.assetsEssentials[movement.asset] = state.assetsEssentials[movement.asset];
+        }
+        if(typeof state.assets[movement.asset] !== 'undefined') {
+          acc.assets[movement.asset] = state.assets[movement.asset];
+        }
+        if(state.selectedAssets.includes(movement.asset)) {
+          acc.selectedAssets = [ ...acc.selectedAssets, movement.asset ];
+        }
       }
       return acc;
-    }, { assetMovements: {}, assetTracks: {}});
+    }, { assetMovements: {}, assetTracks: {}, assetsEssentials: {}, assets: {}, selectedAssets: []});
     return {
       ...state,
       assetMovements: { ...result.assetMovements },
-      assetTracks: { ...result.assetTracks }
+      assetTracks: { ...result.assetTracks },
+      assetsEssentials: { ...result.assetsEssentials },
+      assets: { ...result.assets },
+      selectedAssets: [ ...result.selectedAssets ]
     };
   }),
   on(AssetActions.removeForecast, (state, { assetId }) => ({

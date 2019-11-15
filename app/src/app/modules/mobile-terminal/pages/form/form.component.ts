@@ -85,6 +85,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
         indianOceanRegion: this.formValidator.value.essentailFields.indianOceanRegion,
         pacificOceanRegion: this.formValidator.value.essentailFields.pacificOceanRegion,
         westAtlanticOceanRegion: this.formValidator.value.essentailFields.westAtlanticOceanRegion,
+        transceiverType: this.formValidator.value.mobileTerminalFields.transceiverType > ''
+          ? this.formValidator.value.mobileTerminalFields.transceiverType
+          : null,
         softwareVersion: this.formValidator.value.mobileTerminalFields.softwareVersion > ''
           ? this.formValidator.value.mobileTerminalFields.softwareVersion
           : null,
@@ -159,6 +162,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   errorMessage(error: any) {
+    if(error.errorType === 'validateAlphanumericHyphenAndSpace') {
+      return 'Invalid characters given, only letters, digits, space and hypen is allowed.';
+    }
     return errorMessage(error.errorType, error.error);
   }
 
