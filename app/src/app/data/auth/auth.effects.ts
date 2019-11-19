@@ -59,7 +59,7 @@ export class AuthEffects {
           }
           response.push(MapActions.setMapSettingsLoaded({ mapSettingsLoaded: true }));
 
-          if(typeof mapFilters !== 'undefined' && mapSettings.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
+          if(typeof mapFilters !== 'undefined' && mapFilters.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
             response.push(MapSavedFiltersActions.setSavedFitlers({ filters: JSON.parse(mapFilters.optionValue) }));
           }
           return response;
