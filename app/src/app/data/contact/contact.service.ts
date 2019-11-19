@@ -12,7 +12,7 @@ export class ContactService {
 
   getContactById(authToken: string, contactId: string) {
     return this.http.get(
-      environment.baseApiUrl + `asset/rest/asset2/contact/${ contactId }`, {
+      environment.baseApiUrl + `asset/rest/asset/contact/${ contactId }`, {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
@@ -34,7 +34,7 @@ export class ContactService {
 
   updateContact(authToken: string, contact: ContactInterfaces.Contact) {
     return this.http.put(
-      environment.baseApiUrl + `asset/rest/asset2/contacts`,
+      environment.baseApiUrl + `asset/rest/asset/contacts`,
       contact,
       {
         headers: new HttpHeaders({
@@ -47,7 +47,7 @@ export class ContactService {
 
   createContact(authToken: string, contact: ContactInterfaces.Contact) {
     return this.http.post(
-      environment.baseApiUrl + `asset/rest/asset2/contacts`,
+      environment.baseApiUrl + `asset/rest/asset/contacts`,
       contact,
       {
         headers: new HttpHeaders({

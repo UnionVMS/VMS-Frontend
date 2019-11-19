@@ -10,14 +10,11 @@ export interface Channel {
   frequencyGracePeriod: number;
   historyId: string;
   id: string;
-  installDate: string;
-  installedBy: string;
   lesDescription: string;
   memberNumber: string;
   name: string;
   pollChannel: boolean;
   startDate: string;
-  uninstallDate: string;
   updateTime: string;
   updateUser: string;
 }
@@ -65,6 +62,9 @@ export interface MobileTerminal {
   softwareVersion: string;
   source: string;
   transceiverType: string;
+  installDate: string;
+  installedBy: string;
+  uninstallDate: string;
   updatetime: string;
   updateuser: string;
   westAtlanticOceanRegion: boolean;

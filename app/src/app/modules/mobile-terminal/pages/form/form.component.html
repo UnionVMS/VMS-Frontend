@@ -53,6 +53,26 @@
       <div id="mobile-terminal-form--active">
         <mat-checkbox formControlName="active">Active</mat-checkbox>
       </div>
+
+      <mat-form-field class="mobile-terminal-form--channel-installedBy">
+        <mat-label>Installed by</mat-label>
+        <input matInput formControlName="installedBy">
+      </mat-form-field>
+
+      <mat-form-field class="mobile-terminal-form--channel-installDate">
+        <mat-label>Installed on</mat-label>
+        <input matInput formControlName="installDate" [owlDateTime]="installDateTimePicker">
+        <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="installDateTimePicker"></mat-datepicker-toggle>
+        <owl-date-time #installDateTimePicker></owl-date-time>
+      </mat-form-field>
+
+      <mat-form-field class="mobile-terminal-form--channel-uninstallDate">
+        <mat-label>Unistalled on</mat-label>
+        <input matInput formControlName="uninstallDate" [owlDateTime]="uninstallDateTimePicker">
+        <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="uninstallDateTimePicker"></mat-datepicker-toggle>
+        <owl-date-time #uninstallDateTimePicker></owl-date-time>
+      </mat-form-field>
+
     </fieldset>
 
     <fieldset class="channels" formArrayName="channels">
@@ -96,11 +116,6 @@
             <mat-checkbox formControlName="defaultChannel">Default</mat-checkbox>
           </div>
 
-          <mat-form-field class="mobile-terminal-form--channel-installedBy">
-            <mat-label>Installed by</mat-label>
-            <input matInput formControlName="installedBy">
-          </mat-form-field>
-
           <mat-form-field class="mobile-terminal-form--channel-startDate">
             <mat-label>Started</mat-label>
             <input matInput formControlName="startDate" [owlDateTime]="startDateTimePicker">
@@ -113,20 +128,6 @@
             <input matInput formControlName="endDate" [owlDateTime]="endDateTimePicker">
             <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="endDateTimePicker"></mat-datepicker-toggle>
             <owl-date-time #endDateTimePicker></owl-date-time>
-          </mat-form-field>
-
-          <mat-form-field class="mobile-terminal-form--channel-installDate">
-            <mat-label>Installed on</mat-label>
-            <input matInput formControlName="installDate" [owlDateTime]="installDateTimePicker">
-            <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="installDateTimePicker"></mat-datepicker-toggle>
-            <owl-date-time #installDateTimePicker></owl-date-time>
-          </mat-form-field>
-
-          <mat-form-field class="mobile-terminal-form--channel-uninstallDate">
-            <mat-label>Unistalled on</mat-label>
-            <input matInput formControlName="uninstallDate" [owlDateTime]="uninstallDateTimePicker">
-            <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="uninstallDateTimePicker"></mat-datepicker-toggle>
-            <owl-date-time #uninstallDateTimePicker></owl-date-time>
           </mat-form-field>
 
           <mat-form-field class="mobile-terminal-form--channel-expectedFrequency">

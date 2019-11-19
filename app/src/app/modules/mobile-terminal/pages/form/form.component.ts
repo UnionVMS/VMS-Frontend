@@ -97,6 +97,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
           : null,
         active: this.formValidator.value.mobileTerminalFields.active === null ?
           false : this.formValidator.value.mobileTerminalFields.active,
+        installDate: this.formValidator.value.mobileTerminalFields.installDate,
+        uninstallDate: this.formValidator.value.mobileTerminalFields.uninstallDate,
+        installedBy: this.formValidator.value.mobileTerminalFields.installedBy,
         channels: this.formValidator.value.channels.map((channel) => {
           if(channel.id !== null && channel.id.length > 0) {
             return {

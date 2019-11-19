@@ -12,7 +12,7 @@ export class MobileTerminalService {
 
   search(authToken: string, query: object, includeArchived: boolean) {
     return this.http.post(
-      environment.baseApiUrl + 'asset/rest/mobileterminal2/list?includeArchived=' + includeArchived,
+      environment.baseApiUrl + 'asset/rest/mobileterminal/list?includeArchived=' + includeArchived,
       query,
       {
         headers: new HttpHeaders({
@@ -47,7 +47,7 @@ export class MobileTerminalService {
 
   createMobileTerminal(authToken: string, mobileTerminal: MobileTerminalInterfaces.MobileTerminal) {
     return this.http.post(
-      environment.baseApiUrl + `asset/rest/mobileterminal2`,
+      environment.baseApiUrl + `asset/rest/mobileterminal`,
       mobileTerminal,
       {
         headers: new HttpHeaders({

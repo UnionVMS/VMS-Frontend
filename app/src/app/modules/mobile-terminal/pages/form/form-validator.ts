@@ -30,11 +30,8 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
       [Validators.required, Validators.min(1), Validators.max(255)]
     ),
     lesDescription: new FormControl(channel === null ? '' : channel.lesDescription, [Validators.required]),
-    installedBy: new FormControl(channel === null ? '' : channel.installedBy),
     startDate: new FormControl(channel === null ? '' : channel.startDate),
     endDate: new FormControl(channel === null ? '' : channel.endDate),
-    installDate: new FormControl(channel === null ? '' : channel.installDate),
-    uninstallDate: new FormControl(channel === null ? '' : channel.uninstallDate),
     expectedFrequency: new FormControl(channel === null ? 60 : channel.expectedFrequency),
     frequencyGracePeriod: new FormControl(channel === null ? 140 : channel.frequencyGracePeriod),
     expectedFrequencyInPort: new FormControl(channel === null ? 140 : channel.expectedFrequencyInPort),
@@ -70,6 +67,9 @@ export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminal
       antenna: new FormControl(mobileTerminal.antenna),
       satelliteNumber: new FormControl(mobileTerminal.satelliteNumber),
       active: new FormControl(mobileTerminal.active),
+      installDate: new FormControl(mobileTerminal.installDate),
+      uninstallDate: new FormControl(mobileTerminal.uninstallDate),
+      installedBy: new FormControl(mobileTerminal.installedBy),
     }),
     channels: new FormArray(channels),
   });

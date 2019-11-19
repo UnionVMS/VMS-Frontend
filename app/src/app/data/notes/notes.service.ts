@@ -12,7 +12,7 @@ export class NotesService {
 
   getNotesFromAssetId(authToken: string, assetId: string) {
     return this.http.get(
-      environment.baseApiUrl + `asset/rest/asset2/${ assetId }/notes`, {
+      environment.baseApiUrl + `asset/rest/asset/${ assetId }/notes`, {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
@@ -23,7 +23,7 @@ export class NotesService {
 
   createNote(authToken: string, note: NotesInterfaces.Note) {
     return this.http.post(
-      environment.baseApiUrl + `asset/rest/asset2/notes`,
+      environment.baseApiUrl + `asset/rest/asset/notes`,
       note,
       {
         headers: new HttpHeaders({
@@ -36,7 +36,7 @@ export class NotesService {
 
   updateNote(authToken: string, note: NotesInterfaces.Note) {
     return this.http.put(
-      environment.baseApiUrl + `asset/rest/asset2/notes`,
+      environment.baseApiUrl + `asset/rest/asset/notes`,
       note,
       {
         headers: new HttpHeaders({
@@ -49,7 +49,7 @@ export class NotesService {
 
   getNoteById(authToken: string, noteId: string) {
     return this.http.get(
-      environment.baseApiUrl + `asset/rest/asset2/note/${ noteId }`, {
+      environment.baseApiUrl + `asset/rest/asset/note/${ noteId }`, {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
