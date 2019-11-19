@@ -73,7 +73,7 @@ export class MobileTerminalService {
 
   getPlugins(authToken: string) {
     return this.http.get(
-      environment.baseApiUrl + 'asset/rest/config/plugins', {
+      environment.baseApiUrl + 'asset/rest/plugin/plugins', {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
