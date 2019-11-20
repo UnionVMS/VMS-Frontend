@@ -108,7 +108,8 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
           offsetX: 30,
           textAlign: 'left',
           text: 'Speed: ' + track.speed.toFixed(2) + '\n' +
-          'Timestamp: ' + formatDate(track.timestamp)
+          'Timestamp: ' + formatDate(track.timestamp) + '\n' +
+          'Source: ' + track.source
         }));
         changed = true;
 
