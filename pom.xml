@@ -108,6 +108,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
+							<skip>${skipTests}</skip>
 							<arguments>test -- --watch=false</arguments>
 						</configuration>
 					</execution>
