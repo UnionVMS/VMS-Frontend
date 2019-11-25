@@ -42,7 +42,8 @@ describe('TopMenuComponent', () => {
     expect(links[0].textContent).toBe('VMS');
     expect(links[1].textContent).toContain('Asset');
     expect(links[2].textContent).toContain('Realtime map');
-    expect(links[3].textContent).toContain('My Settings');
+    expect(links[3].textContent).toContain('Reports map');
+    expect(links[4].textContent).toContain('My Settings');
   });
 
 });

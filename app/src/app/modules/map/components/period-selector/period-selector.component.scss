@@ -1,0 +1,50 @@
+@import 'variables.scss';
+
+.overlay {
+  z-index: 100;
+  position: fixed;
+  margin: auto;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - #{$navbar_height});
+  top: $navbar_height;
+  background: rgba(255, 255, 255, 0.4);
+
+  .content-container {
+    position: fixed;
+    margin: auto;
+    right: 0;
+    left: 0;
+    width: 450px;
+    top: calc(10% + #{$navbar_height});
+    background: #FFFFFF;
+    border: 2px solid #000000;
+
+    padding: $medium_distance;
+    overflow-y: scroll;
+
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+    &::-webkit-scrollbar {
+      display: none;  // Safari and Chrome
+    }
+
+    ui-button-close {
+      position: absolute;
+      top: $small_distance;
+      right: $medium_distance;
+      cursor: pointer;
+    }
+
+    .period-selector-form--date-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: $medium_distance;
+    }
+
+    button#period-selector-form--search {
+      float: right;
+    }
+  }
+}

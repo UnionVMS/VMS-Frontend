@@ -13,14 +13,14 @@ import { AssetInterfaces } from '@data/asset';
 export class AssetService {
   private mapEventSource: EventSourcePolyfill;
   private mapEventStreamObserver$;
-  private assetEventSource: EventSourcePolyfill;
-  private assetObserver$;
 
   constructor(private http: HttpClient) {}
 
   getInitalAssetMovements(authToken: string) {
-    return this.http.get(
-      environment.baseApiUrl + 'movement/rest/micro/latest', {
+    return this.http.post(
+      environment.baseApiUrl + 'movement/rest/micro/latest',
+      [],
+      {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
@@ -46,17 +46,18 @@ export class AssetService {
     this.mapEventSource.addEventListener('open', listener);
     this.mapEventSource.addEventListener('message', listener);
     this.mapEventSource.addEventListener('error', listener);
+
     const that = this;
     return new Observable((observer) => {
       that.mapEventStreamObserver$ = observer;
 
-      const tranlateMessage = (message) => ({ type: message.type, data: JSON.parse(message.data) });
+      const translateMessage = (message) => ({ type: message.type, data: JSON.parse(message.data) });
 
-      that.mapEventSource.addEventListener('Movement', (message) => observer.next(tranlateMessage(message)));
-      that.mapEventSource.addEventListener('Updated Asset', (message) => observer.next(tranlateMessage(message)));
-      that.mapEventSource.addEventListener('Merged Asset', (message) => observer.next(tranlateMessage(message)));
-      that.mapEventSource.addEventListener('Ticket', (message) => observer.next(tranlateMessage(message)));
-      that.mapEventSource.addEventListener('TicketUpdate', (message) => observer.next(observer.next(tranlateMessage(message))));
+      that.mapEventSource.addEventListener('Movement', (message) => observer.next(translateMessage(message)));
+      that.mapEventSource.addEventListener('Updated Asset', (message) => observer.next(translateMessage(message)));
+      that.mapEventSource.addEventListener('Merged Asset', (message) => observer.next(translateMessage(message)));
+      that.mapEventSource.addEventListener('Ticket', (message) => observer.next(translateMessage(message)));
+      that.mapEventSource.addEventListener('TicketUpdate', (message) => observer.next(observer.next(translateMessage(message))));
     });
   }
 
@@ -107,8 +108,10 @@ export class AssetService {
   // /unionvms/movement/rest/micro/track/asset/{id}/{timestamp}
   getAssetTrackTimeInterval(authToken: string, assetId: string, startDate: string, endDate) {
     // const datetime = "2019-03-28 12:00:00 +0100";
-    return this.http.get(
-      environment.baseApiUrl + `movement/rest/micro/track/asset/${assetId}?startDate=${startDate}&endDate=${endDate}`, {
+    return this.http.post(
+      environment.baseApiUrl + `movement/rest/micro/track/asset/${assetId}?startDate=${startDate}&endDate=${endDate}`,
+      [],
+      {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
@@ -117,11 +120,25 @@ export class AssetService {
     );
   }
 
-  listAssets(authToken: string, requestParams) {
-    // console.warn(`RequestParams we should send when it's implemented: `, requestParams);
+  // /unionvms/movement/rest/micro/track/assets
+  getTracksByTimeInterval(authToken: string, assetIds: string[], startDate: string, endDate: string, sources: string[]) {
+    // const datetime = "2019-03-28 12:00:00 +0100";
+    return this.http.post(
+      environment.baseApiUrl + `movement/rest/micro/track/assets?startDate=${startDate}&endDate=${endDate}`,
+      { assetIds, sources },
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
+  listAssets(authToken: string, searchQuery) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/list/`,
-      requestParams,
+      searchQuery,
       {
         headers: new HttpHeaders({
           Authorization: authToken,

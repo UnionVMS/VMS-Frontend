@@ -100,7 +100,6 @@ export type LineSegment = Readonly<{
 
 export type AssetTrack = Readonly<{
   tracks: ReadonlyArray<Movement>;
-  visible: boolean;
   assetId: string;
   lineSegments: ReadonlyArray<LineSegment>;
 }>;
@@ -153,16 +152,23 @@ export type AssetGroup = Readonly<{
   assetGroupFields: ReadonlyArray<AssetGroupField>;
 }>;
 
+export type AssetTrips = Readonly<{
+  [dateTime: string]: { readonly [assetId: string]: AssetMovement }
+}>;
+
 export type State = Readonly<{
   assetGroups: ReadonlyArray<AssetGroup>;
   selectedAssetGroups: ReadonlyArray<AssetGroup>;
   selectedAssets: ReadonlyArray<string>;
   selectedAsset: string|null;
+  assetTrips: AssetTrips;
+  assetTripGranularity: number;
+  assetTripTimestamp: number;
   assets: { readonly [uid: string]: Asset };
   assetsEssentials: { readonly [uid: string]: AssetEssentialProperties };
   assetLists: { readonly [identifier: string]: AssetList };
   currentAssetList: CurrentAssetList;
-  assetMovements: { readonly [uid: string]: AssetMovement };
+  assetMovements: { readonly [assetId: string]: AssetMovement };
   assetTracks: { readonly [assetId: string]: AssetTrack };
   forecasts: ReadonlyArray<string>;
   positionsForInspection: { readonly [id: number]: Movement };

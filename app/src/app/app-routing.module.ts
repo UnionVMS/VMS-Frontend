@@ -17,6 +17,7 @@ import { NotFoundComponent } from './core/pages/404/404.component';
 
 // Map-pages
 import { RealtimeComponent } from './modules/map/pages/realtime/realtime.component';
+import { ReportsComponent } from './modules/map/pages/reports/reports.component';
 
 // Asset-pages
 import { SearchPageComponent as AssetSearchPage } from './modules/asset/pages/search/search.component';
@@ -61,7 +62,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'map/realtime', component: RealtimeComponent, pathMatch: 'full'},
-      { path: 'map/realtime/:assetId', component: RealtimeComponent, pathMatch: 'full'}
+      { path: 'map/realtime/:assetId', component: RealtimeComponent, pathMatch: 'full'},
+      { path: 'map/reports', component: ReportsComponent, pathMatch: 'full'},
     ]
   },
   {

@@ -16,8 +16,11 @@ export class TopPanelComponent {
   @Input() autocompleteResult: Array<AssetInterfaces.AssetMovementWithEssentials>;
   @Input() currentControlPanel: string|null;
   @Input() setCurrentControlPanel: (controlPanelName: string|null) => void;
+  @Input() hidePanelButtons: Array<string>;
 
   public toggleCurrentControlPanel(componentName) {
     this.setCurrentControlPanel(this.currentControlPanel === componentName ? null : componentName);
   }
+
+  public canShowButton = (panel) => typeof this.hidePanelButtons === 'undefined' || !this.hidePanelButtons.includes(panel);
 }

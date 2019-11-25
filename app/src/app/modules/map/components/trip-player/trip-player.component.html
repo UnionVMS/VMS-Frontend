@@ -1,0 +1,19 @@
+<div class="content-container" *ngIf="tripTimestamp">
+  <div>Current timestamp: {{getCurrentTime()}}</div>
+  <mat-slider
+    tickInterval="1"
+    min="1"
+    [max]="getNumberOfTimestamps()"
+    [(ngModel)]="currentStep"
+    (input)="changeTimestamp($event)"
+  ></mat-slider>
+  <div class="trip-player--control-panel">
+    <button type="button" (click)="stepBackwards()"><i class="fas fa-step-backward"></i></button>
+    <button type="button" (click)="play()" *ngIf="!intervalId"><i class="fas fa-play"></i></button>
+    <button type="button" (click)="pause()" *ngIf="intervalId"><i class="fas fa-pause"></i></button>
+    <button type="button" (click)="stepForward()"><i class="fas fa-step-forward"></i></button>
+
+    <button type="button" (click)="decreaseSpeed()">Half speed</button>
+    <button type="button" (click)="increaseSpeed()">Double speed</button>
+  </div>
+</div>

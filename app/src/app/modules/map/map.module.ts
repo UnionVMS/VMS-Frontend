@@ -7,13 +7,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSliderModule } from '@angular/material/slider';
 import { RouterModule } from '@angular/router';
+
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 /* Modules */
 import { UIModule } from '../ui/ui.module';
 
 /* Pages */
 import { RealtimeComponent } from './pages/realtime/realtime.component';
+import { ReportsComponent } from './pages/reports/reports.component';
 
 /* Components */
 import { AssetsComponent } from './components/assets/assets.component';
@@ -28,10 +34,12 @@ import { InformationPanelComponent } from './components/information-panel/inform
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
 import { MapLayersComponent } from './components/map-layers/map-layers.component';
 import { MapViewportsComponent } from './components/map-viewports/map-viewports.component';
+import { PeriodSelectorComponent } from './components/period-selector/period-selector.component';
 import { SavedFiltersComponent } from './components/saved-filters/saved-filters.component';
 import { TopPanelComponent } from './components/top-panel/top-panel.component';
 import { TracksComponent } from './components/tracks/tracks.component';
 import { TracksSegmentsComponent } from './components/tracks-segments/tracks-segments.component';
+import { TripPlayerComponent } from './components/trip-player/trip-player.component';
 
 
 @NgModule({
@@ -46,10 +54,16 @@ import { TracksSegmentsComponent } from './components/tracks-segments/tracks-seg
     MatCheckboxModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatSliderModule,
     RouterModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   declarations: [
     RealtimeComponent,
+    ReportsComponent,
     AssetsComponent,
     AssetGroupsComponent,
     AssetForecastComponent,
@@ -62,10 +76,12 @@ import { TracksSegmentsComponent } from './components/tracks-segments/tracks-seg
     LayerFilterComponent,
     MapLayersComponent,
     MapViewportsComponent,
+    PeriodSelectorComponent,
     SavedFiltersComponent,
     TopPanelComponent,
     TracksComponent,
     TracksSegmentsComponent,
+    TripPlayerComponent,
   ]
 })
 

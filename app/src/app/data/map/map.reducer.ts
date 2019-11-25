@@ -3,17 +3,26 @@ import * as MapsActions from './map.actions';
 import * as Interfaces from './map.interfaces';
 
 export const initialState: Interfaces.State = {
-  ready: false,
   mapSettingsLoaded: false,
+  realtime: {
+    ready: false,
+  },
+  report: {
+    searching: false,
+  }
 };
 
 export const mapReducer = createReducer(initialState,
   on(MapsActions.setReady, (state, { ready }) => ({
     ...state,
-    ready
+    realtime: { ...state.realtime, ready }
   })),
   on(MapsActions.setMapSettingsLoaded, (state, { mapSettingsLoaded }) => ({
     ...state,
-    mapSettingsLoaded
+    mapSettingsLoaded,
+  })),
+  on(MapsActions.setReportSearching, (state, { searching }) => ({
+    ...state,
+    report: { ...state.report, searching }
   })),
 );

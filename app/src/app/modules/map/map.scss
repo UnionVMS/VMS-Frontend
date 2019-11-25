@@ -9,7 +9,7 @@
 
 @import 'variables.scss';
 
-.realtime-container .map-container #realtime-map {
+.realtime-container .map-container #realtime-map, .reports-container .map-container #reports-map {
   .ol-scale-line {
     left: unset;
     right: 10px;

@@ -9,3 +9,8 @@ export const setMapSettingsLoaded = createAction(
   '[Map] Set map settings loaded',
   props<{ mapSettingsLoaded: boolean }>()
 );
+
+export const setReportSearching = createAction(
+  '[Map] Set report searching',
+  props<{ searching: boolean }>()
+);

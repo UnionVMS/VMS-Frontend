@@ -88,14 +88,14 @@
     [centerMapOnPosition]="centerMapOnPosition"
   ></map-asset-panel>
   <div class="control-panel">
-    <!-- <map-control-panel
+    <map-control-panel
       *ngIf="mapSettings.currentControlPanel === 'map-control-panel'"
       [mapSettings]="mapSettings"
       [setTracksMinuteCap]="setTracksMinuteCap"
       [setForecastInterval]="setForecastInterval"
       [clearTracks]="clearTracks"
       [clearForecasts]="clearForecasts"
-    ></map-control-panel> -->
+    ></map-control-panel>
     <map-distance-between-points
       *ngIf="map !== undefined"
       [map]="map"

@@ -26,12 +26,14 @@ import { RouterSelectors } from '@data/router';
 import { Position } from '@data/generic.interfaces';
 
 @Component({
-  selector: 'map-realtime',
-  templateUrl: './realtime.component.html',
-  styleUrls: ['./realtime.component.scss']
+  selector: 'map-reports',
+  templateUrl: './reports.component.html',
+  styleUrls: ['./reports.component.scss']
 })
-export class RealtimeComponent implements OnInit, OnDestroy {
+export class ReportsComponent implements OnInit, OnDestroy {
 
+  public showPeriodSelector = true;
+  public assets: ReadonlyArray<AssetInterfaces.Asset>;
   public mapSettings: MapSettingsInterfaces.State;
   public positionsForInspection$: Observable<{ [id: number]: AssetInterfaces.Movement }>;
   public selectedAssets$: Observable<Array<{
@@ -47,6 +49,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public authToken$: Observable<string|null>;
   public mapLayers$: Observable<Array<MapLayersInterfaces.MapLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
+  public tripGranularity$: Observable<number>;
+  public tripTimestamps$: Observable<ReadonlyArray<number>>;
+  public tripTimestamp$: Observable<number>;
 
   public assetIdFromUrl: string;
 
@@ -76,14 +81,17 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public deactivateSavedFilter: (filterName: string) => void;
   public filterAssets: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
+  public getTracksByTimeInterval: (assetIds: string[], from: string, to: string, sources: string[]) => void;
   public removeActiveLayer: (layerName: string) => void;
   public removePositionForInspection: (inspectionId: string) => void;
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
+  public setAssetPositionsFromTripByTimestamp: (assetTripTimestamp: number) => void;
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
   // public registerOnHoverFunction: (name: string, vectorLayer: VectorLayer, hoverFunction: (event) => void) => void;
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
+  public setTimeInterval: (from: string, to: string) => void;
 
   private assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
   public mapZoom = 10;
@@ -118,6 +126,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.store.select(AssetSelectors.getAssetMovements).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
       this.assetMovements = assets;
     });
+    this.store.select(AssetSelectors.getCurrentAssetList).pipe(takeUntil(this.unmount$)).subscribe(assets => {
+      this.assets = assets;
+    });
     this.selectedAssets$ = this.store.select(AssetSelectors.extendedDataForSelectedAssets);
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.positionsForInspection$ = this.store.select(AssetSelectors.getPositionsForInspection);
@@ -134,29 +145,23 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.authToken$ = this.store.select(AuthSelectors.getAuthToken);
     this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers);
     this.activeMapLayers$ = this.store.select(MapLayersSelectors.getActiveLayers);
-    this.store.select(MapSelectors.getRealtimeReadyAndSettingsLoaded)
-      .pipe(takeUntil(this.unmount$)).subscribe(({ready, mapSettingsLoaded }) => {
-        if(!this.mapSettingsLoaded && mapSettingsLoaded) {
-          this.setupMap();
-          this.mapSettingsLoaded = mapSettingsLoaded;
-        }
-
-        this.mapReady = ready;
-        if(ready && mapSettingsLoaded && typeof this.assetIdFromUrl !== 'undefined') {
-          const assetMovement = this.assetMovements.find((asset) => asset.assetMovement.asset === this.assetIdFromUrl);
-          if(assetMovement !== undefined) {
-            this.selectAsset(assetMovement.assetMovement.asset);
-            this.centerMapOnPosition(assetMovement.assetMovement.microMove.location);
-          } else {
-            this.store.dispatch(NotificationsActions.addError(
-              `Asset has not sent a position for the last 8 hours and is not shown on map.`
-            ));
-          }
-        }
+    this.store.select(MapSelectors.selectMapSettingsLoaded).pipe(takeUntil(this.unmount$)).subscribe((mapSettingsLoaded) => {
+      if(!this.mapSettingsLoaded && mapSettingsLoaded) {
+        this.setupMap();
+        this.mapSettingsLoaded = mapSettingsLoaded;
+      }
     });
+
+    this.tripGranularity$ = this.store.select(AssetSelectors.getTripGranularity);
+    this.tripTimestamps$ = this.store.select(AssetSelectors.getTripTimestamps);
+    this.tripTimestamp$ = this.store.select(AssetSelectors.getTripTimestamp);
   }
 
   mapDispatchToProps() {
+    this.setAssetPositionsFromTripByTimestamp = (assetTripTimestamp: number) =>
+      this.store.dispatch(AssetActions.setAssetPositionsFromTripByTimestamp({ assetTripTimestamp }));
+    this.getTracksByTimeInterval = (assetIds: string[], from: string, to: string, sources: string[]) =>
+      this.store.dispatch(AssetActions.getTracksByTimeInterval({ assetIds, startDate: from, endDate: to, sources }));
     this.addActiveLayer = (layerName: string) =>
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
     this.addSavedFilter = (filter: MapSavedFiltersInterfaces.SavedFilter) =>
@@ -219,6 +224,15 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   }
 
   mapFunctionsToProps() {
+    this.setTimeInterval = (from: string, to: string) => {
+      this.getTracksByTimeInterval(
+        this.assets.map(asset => asset.id),
+        from,
+        to,
+        ['NAF'] // ['INMARSAT_C']
+      );
+      this.showPeriodSelector = false;
+    };
     this.centerMapOnPosition = (position) => {
       if(this.mapZoom < 10) {
         this.mapZoom = 10;
@@ -230,7 +244,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
-    this.store.dispatch(AssetActions.subscribeToMovements());
+    // TODO: Fix this, should be shipType: Fishing and flagState: ['SWE', 'NOK', 'DNK', 'FIN']
+    this.store.dispatch(AssetActions.searchAssets({ searchQuery: { vesselType: ['Fishing'], flagState: ['SWE'] } }));
     this.store.dispatch(AssetActions.getSelectedAsset());
     this.store.dispatch(AssetActions.getAssetGroups());
     this.store.dispatch(MapLayersActions.getAreas());
@@ -255,7 +270,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     });
     this.map = new Map({
       controls: defaultControls().extend([scaleLineControl, mousePositionControl]),
-      target: 'realtime-map',
+      target: 'reports-map',
       layers: [
         new TileLayer({
           source: new XYZ({
@@ -287,7 +302,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
-    this.store.dispatch(AssetActions.unsubscribeToMovements());
   }
 
   setupOnClickEvents() {
@@ -319,17 +333,5 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       Object.values(this.onSelectFunctions).map((selectFunction) => selectFunction(event));
       this.selection.getFeatures().clear();
     });
-
-    // this.hoverSelection = new Select({hitTolerance: 3, condition: pointerMove });
-    // this.hoverSelection.style_ = false;
-    // this.map.addInteraction(this.hoverSelection);
-    //
-    // this.hoverSelection.on('select', (event) => {
-    //   Object.values(this.onHoverFunctions).map((hoverFunction) => hoverFunction(event));
-    // });
-
-    // this.map.on('pointermove', (event) => {
-    //   Object.values(this.onHoverFunctions).map(hoverFunction => hoverFunction(event));
-    // });
   }
 }

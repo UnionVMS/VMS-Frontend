@@ -1,0 +1,30 @@
+<div class="overlay">
+  <div class="content-container">
+    <h2>Choose time span</h2>
+    <form class="period-selector-form" [formGroup]="formValidator">
+      <div class="period-selector-form--date-wrapper">
+        <mat-form-field id="period-selector-form--periodLength">
+          <mat-label>Period length</mat-label>
+          <mat-select formControlName="periodLength" required>
+            <mat-option *ngFor="let period of periods" id="mat-option-plugin-{{period.value}}" [value]="period.value">{{period.label}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="period-selector-form--to">
+          <mat-label>End date</mat-label>
+          <input matInput formControlName="to" [owlDateTime]="toDateTimePicker" required>
+          <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="toDateTimePicker"></mat-datepicker-toggle>
+          <owl-date-time #toDateTimePicker></owl-date-time>
+        </mat-form-field>
+      </div>
+      <button
+        id="period-selector-form--search"
+        mat-raised-button
+        color="primary"
+        type="button"
+        [disabled]="!formValidator.valid"
+        (click)="getReport()"
+      >Get report</button>
+    </form>
+  </div>
+</div>

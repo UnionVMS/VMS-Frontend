@@ -45,7 +45,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private speedsWereVisibleLastRerender: boolean;
   private selection: Select;
   private assetSpeedsPreviouslyRendered: { [key: string]: string | null } = {};
-  private assetLastUpdateHash: { [assetId: string]: Array<number>} = {};
+  private assetLastUpdateHash: { [assetId: string]: Array<number|boolean>} = {};
   // Instead of an array we use object for faster lookup in ngOnChange loop.
   private renderedAssetIds: { [ assetId: string]: boolean } = {};
   private previouslySelectedAssetIds = [];
@@ -217,7 +217,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     const styleProperties: any = {
       image: new Icon({
         src: '/assets/Vessel.png',
-        // scale: 0.8,
+        opacity: 1,
+        rotation: deg2rad(assetMovement.microMove.heading),
         color: this.getShipColor(asset)
       })
     };
@@ -228,8 +229,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     const assetStyle = new Style(styleProperties);
 
     assetFeature.setStyle(assetStyle);
-    assetFeature.getStyle().getImage().setOpacity(1);
-    assetFeature.getStyle().getImage().setRotation(deg2rad(assetMovement.microMove.heading));
+    // assetFeature.getStyle().getImage().setOpacity(1);
+    // assetFeature.getStyle().getImage().setRotation(deg2rad(assetMovement.microMove.heading));
     assetFeature.setId(assetMovement.asset);
 
     if(asset.assetMovement.decayPercentage !== undefined) {
@@ -240,7 +241,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       asset.assetMovement.microMove.location.latitude,
       asset.assetMovement.microMove.location.longitude,
       asset.assetMovement.microMove.heading,
-      asset.assetMovement.decayPercentage
+      asset.assetMovement.decayPercentage,
+      typeof asset.assetEssentials === 'undefined'
     ];
     this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
     return assetFeature;
@@ -297,8 +299,10 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       asset.assetMovement.microMove.location.latitude,
       asset.assetMovement.microMove.location.longitude,
       asset.assetMovement.microMove.heading,
-      asset.assetMovement.decayPercentage
+      asset.assetMovement.decayPercentage,
+      typeof asset.assetEssentials === 'undefined'
     ];
+
     const oldStuff = this.assetLastUpdateHash[asset.assetMovement.asset];
     if(
       oldStuff === undefined ||
@@ -341,6 +345,19 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
           style.setText(null);
         }
       }
+    }
+    if(oldStuff === undefined || oldStuff[4] !== currentAssetPosition[4]) {
+      const style = assetFeature.getStyle();
+      let actualStyle = style;
+      if(Array.isArray(style)) {
+        actualStyle = style[0];
+      }
+      style.setImage(new Icon({
+        src: '/assets/Vessel.png',
+        opacity: style.getImage().getOpacity(),
+        rotation: deg2rad(asset.assetMovement.microMove.heading),
+        color: this.getShipColor(asset)
+      }));
     }
     return assetFeature;
   }

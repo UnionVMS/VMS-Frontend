@@ -61,7 +61,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         return acc;
       }, {});
 
-      this.store.dispatch(AssetActions.searchAssets({ requestParams: searchQuery }));
+      this.store.dispatch(AssetActions.searchAssets({ searchQuery }));
     };
   }
 

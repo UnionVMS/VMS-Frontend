@@ -1,0 +1,37 @@
+@import 'variables.scss';
+
+.reports-container {
+  height: calc(100% - #{$navbar_height});
+  .map-container {
+    height: 100%;
+    #reports-map {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  map-layer-filter {
+    position: fixed;
+    right: $small_distance;
+    top: calc(#{$navbar_height} + 83px);
+  }
+  map-top-panel {
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: $navbar_height;
+  }
+  map-asset-panel {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+  }
+  map-trip-player {
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    margin: 0px auto;
+    width: 500px;
+  }
+}

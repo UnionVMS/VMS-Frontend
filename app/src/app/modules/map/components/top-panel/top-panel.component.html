@@ -1,6 +1,7 @@
 <div class="content-container">
   <div class="panel-config-buttons">
     <button
+      *ngIf="canShowButton('map-control-panel')"
       class="btn {{currentControlPanel === 'map-control-panel' ? 'active' : ''}}"
       (click)="toggleCurrentControlPanel('map-control-panel')"
       title="{{currentControlPanel === 'map-control-panel' ? 'Hide control panel' : 'Show control panel'}}"
@@ -8,6 +9,7 @@
       <i class="fas fa-cog"></i>
     </button>
     <button
+      *ngIf="canShowButton('map-distance-between-points')"
       class="btn {{currentControlPanel === 'map-distance-between-points' ? 'active' : ''}}"
       (click)="toggleCurrentControlPanel('map-distance-between-points')"
       title="{{currentControlPanel === 'map-distance-between-points' ? 'Stop messuring distance' : 'Messure distance'}}"
@@ -15,6 +17,7 @@
       <i class="fas fa-pencil-ruler"></i>
     </button>
     <button
+      *ngIf="canShowButton('map-asset-groups')"
       class="btn {{currentControlPanel === 'map-asset-groups' ? 'active' : ''}}"
       (click)="toggleCurrentControlPanel('map-asset-groups')"
       title="{{currentControlPanel === 'map-asset-groups' ? 'Hide assetgroups' : 'Show assetgroups'}}"
@@ -22,6 +25,7 @@
       <i class="far fa-address-book"></i>
     </button>
     <button
+      *ngIf="canShowButton('map-saved-filters')"
       class="btn {{currentControlPanel === 'map-saved-filters' ? 'active' : ''}}"
       (click)="toggleCurrentControlPanel('map-saved-filters')"
       title="{{currentControlPanel === 'map-saved-filters' ? 'Hide saved searches' : 'Show saved searches'}}"
@@ -29,6 +33,7 @@
       <i class="far fa-save"></i>
     </button>
     <button
+      *ngIf="canShowButton('map-layers')"
       class="btn {{currentControlPanel === 'map-layers' ? 'active' : ''}}"
       (click)="toggleCurrentControlPanel('map-layers')"
       title="{{currentControlPanel === 'map-layers' ? 'Hide map layers' : 'Show map layers'}}"

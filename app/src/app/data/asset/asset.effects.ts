@@ -30,34 +30,18 @@ export class AssetEffects {
     ofType(AssetActions.searchAssets),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.listAssets(authToken, action.requestParams).pipe(
+      return this.assetService.listAssets(authToken, action.searchQuery).pipe(
         map((response: any) => {
-          return [
-            AssetActions.setAssetList({
-              searchParams: action.requestParams,
-              totalNumberOfPages: response.totalNumberOfPages,
-              currentPage: response.currentPage,
-              assets: response.assetList.reduce((acc, asset) => {
-                acc[asset.historyId] = asset;
-                return acc;
-              }, {})
-            }),
-            // MobileTerminalActions.addMobileTerminals({
-            //   mobileTerminals: response.assetList.reduce((acc, asset) => {
-            //     const mobileTerminals = asset.mobileTerminals.reduce((
-            //       newMobileTerminals: { [id: string]: MobileTerminalInterfaces.MobileTerminal},
-            //       mobileTerminal: MobileTerminalInterfaces.MobileTerminal
-            //     ) => {
-            //         newMobileTerminals[mobileTerminal.id] = { ...mobileTerminal, assetId: asset.id };
-            //         return newMobileTerminals;
-            //     }, {});
-            //     acc = { ...acc, ...mobileTerminals };
-            //     return acc;
-            //   }, {})
-            // })
-          ];
-        }),
-        flatMap(a => a)
+          return AssetActions.setAssetList({
+            searchParams: action.searchQuery,
+            totalNumberOfPages: response.totalNumberOfPages,
+            currentPage: response.currentPage,
+            assets: response.assetList.reduce((acc, asset) => {
+              acc[asset.historyId] = asset;
+              return acc;
+            }, {})
+          });
+        })
       );
     })
   );
@@ -307,27 +291,52 @@ export class AssetEffects {
   );
 
   @Effect()
-  selectAssetTrackObserver$ = this.actions$.pipe(
-    ofType(AssetActions.getAssetTrack),
-    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
-    mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.getAssetTrack(authToken, action.movementGuid).pipe(
-        map((assetTrack: any) => {
-          return ({ tracks: assetTrack, assetId: action.assetId, visible: true });
-        })
-      );
-    })
-  );
-
-  @Effect()
   selectAssetTrackFromTimeObserver$ = this.actions$.pipe(
     ofType(AssetActions.getAssetTrackTimeInterval),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.getAssetTrackTimeInterval(authToken, action.assetId, action.startDate, action.endDate).pipe(
         map((assetTrack: any) => {
-          return AssetActions.setAssetTrack({ tracks: assetTrack.reverse(), assetId: action.assetId, visible: true });
+          return AssetActions.setTracksForAsset({ tracks: assetTrack.reverse(), assetId: action.assetId });
         })
+      );
+    })
+  );
+
+  @Effect()
+  selectAssetTracksFromTimeObserver$ = this.actions$.pipe(
+    ofType(AssetActions.getTracksByTimeInterval),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.assetService.getTracksByTimeInterval(authToken, action.assetIds, action.startDate, action.endDate, action.sources).pipe(
+        map((assetMovements: any) => {
+          const assetMovementsOrdered = assetMovements.reverse();
+          const movementsByAsset = assetMovementsOrdered.reduce((accMovementsByAsset, track) => {
+            if(typeof accMovementsByAsset.assetMovements[track.asset] === 'undefined') {
+              accMovementsByAsset.assetMovements[track.asset] = [];
+              accMovementsByAsset.movements[track.asset] = [];
+            }
+            accMovementsByAsset.assetMovements[track.asset].push(track);
+            accMovementsByAsset.movements[track.asset].push(track.microMove);
+
+            return accMovementsByAsset;
+          }, { assetMovements: {}, movements: {} });
+
+          const lastAssetMovements = Object.keys(movementsByAsset.assetMovements).reduce((accAssetMovements, assetId) => {
+            return {
+              ...accAssetMovements,
+              [assetId]: movementsByAsset.assetMovements[assetId][movementsByAsset.assetMovements[assetId].length - 1]
+            };
+          }, {});
+
+          return [
+            AssetActions.setTracks({ tracksByAsset: movementsByAsset.movements }),
+            AssetActions.setAssetPositionsWithoutAffectingTracks({ movementsByAsset: lastAssetMovements }),
+            AssetActions.checkForAssetEssentials({ assetMovements: Object.values(lastAssetMovements) }),
+            AssetActions.setAssetTrips({ assetMovements: assetMovementsOrdered }),
+          ];
+        }),
+        flatMap(a => a),
       );
     })
   );

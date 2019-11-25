@@ -67,6 +67,11 @@ export const getAssetTrackTimeInterval = createAction(
   props<{ assetId: string, startDate: string, endDate: string }>()
 );
 
+export const getTracksByTimeInterval = createAction(
+  '[Asset] Get asset tracks by time interval',
+  props<{ assetIds: string[], startDate: string, endDate: string, sources: string[] }>()
+);
+
 export const getSelectedAsset = createAction(
   '[Asset] Get selected asset'
 );
@@ -97,7 +102,7 @@ export const saveAsset = createAction(
 
 export const searchAssets = createAction(
   '[Asset] search',
-  props<{ requestParams: any }>()
+  props<{ searchQuery: any }>()
 );
 
 export const selectAsset = createAction(
@@ -105,11 +110,25 @@ export const selectAsset = createAction(
   props<{ assetId: string }>()
 );
 
+export const setAssetTripGranularity = createAction(
+  '[Asset] Set asset trip granularity',
+  props<{ assetTripGranularity: number }>()
+);
+
+export const setAssetTrips = createAction(
+  '[Asset] Set asset trips',
+  props<{ assetMovements: ReadonlyArray<AssetInterfaces.AssetMovement> }>()
+);
+
+export const setAssetPositionsFromTripByTimestamp = createAction(
+  '[Asset] Set asset positions from trip by timestamp',
+  props<{ assetTripTimestamp: number }>()
+);
+
 export const setAsset = createAction(
   '[Asset] Set asset',
   props<{ asset: AssetInterfaces.Asset }>()
 );
-
 
 export const setAssetGroup = createAction(
   '[Asset] Set assetgroup',
@@ -124,11 +143,6 @@ export const setAssetGroups = createAction(
 export const setAssetList = createAction(
   '[Asset] Set list',
   props<{ searchParams: any, assets: { [uid: string]: AssetInterfaces.Asset }, currentPage: number, totalNumberOfPages: number  }>()
-);
-
-export const setAssetTrack = createAction(
-  '[Asset] Set asset track',
-  props<{  tracks: any, assetId: string, visible: boolean  }>()
 );
 
 export const setAutocompleteQuery = createAction(
@@ -149,6 +163,21 @@ export const setFilterQuery = createAction(
 export const setFullAsset = createAction(
   '[Asset] Set full asset',
   props<{ asset: AssetInterfaces.Asset }>()
+);
+
+export const setTracksForAsset = createAction(
+  '[Asset] Set tracks for asset',
+  props<{ tracks: any, assetId: string }>()
+);
+
+export const setTracks = createAction(
+  '[Asset] Set tracks',
+  props<{ tracksByAsset: { [assetId: string]: ReadonlyArray<AssetInterfaces.Movement> } }>()
+);
+
+export const setAssetPositionsWithoutAffectingTracks = createAction(
+  '[Asset] Set asset positions witought affecting tracks.',
+  props<{ movementsByAsset: { readonly [assetId: string]: AssetInterfaces.AssetMovement } }>()
 );
 
 export const setUnitTonnage = createAction(

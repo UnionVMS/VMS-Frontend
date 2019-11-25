@@ -8,6 +8,9 @@ export const initialState: Interfaces.State = {
   selectedAssetGroups: [],
   selectedAssets: [],
   selectedAsset: null,
+  assetTrips: {},
+  assetTripGranularity: 15,
+  assetTripTimestamp: undefined,
   assets: {},
   assetsEssentials: {},
   assetLists: {},
@@ -22,10 +25,10 @@ export const initialState: Interfaces.State = {
 };
 
 const speedSegments = {
-  4: '#00FF00',
-  8: '#0000FF',
-  12: '#FFA500',
-  100000: '#FF0000'
+  4: '#FF0000',
+  8: '#FFA500',
+  12: '#0000FF',
+  100000: '#00FF00'
 };
 const speeds = Object.keys(speedSegments).map(speed => parseInt(speed, 10));
 
@@ -51,6 +54,15 @@ export const assetReducer = createReducer(initialState,
       ...state.assetMovements,
       [assetMovement.asset]: assetMovement
     }
+  })),
+  on(AssetActions.setAssetPositionsWithoutAffectingTracks, (state, { movementsByAsset }) => ({
+    ...state,
+    assetMovements: movementsByAsset
+  })),
+  on(AssetActions.setAssetPositionsFromTripByTimestamp, (state, { assetTripTimestamp }) => ({
+    ...state,
+    assetTripTimestamp,
+    assetMovements: state.assetTrips[assetTripTimestamp]
   })),
   on(AssetActions.assetsMoved, (state, { assetMovements }) => {
     const newAssetMovements = {
@@ -159,6 +171,33 @@ export const assetReducer = createReducer(initialState,
     }
     return returnState;
   }),
+  on(AssetActions.setAssetTripGranularity, (state, { assetTripGranularity }) => ({ ...state, assetTripGranularity })),
+  on(AssetActions.setAssetTrips, (state, { assetMovements }) => {
+    const granularityInSeconds = state.assetTripGranularity * 60;
+    const assetTrips = assetMovements.reduce((tripAccumilator, movement) => {
+      const timestamps = Object.keys(tripAccumilator);
+      const timestampOfMovement = Date.parse(movement.microMove.timestamp) / 1000;
+      if(timestamps.length === 0) {
+        return { [timestampOfMovement + granularityInSeconds]: { [movement.asset]: movement } };
+      } else {
+        const lastTimestamp = parseInt(timestamps[timestamps.length - 1], 10);
+        if(lastTimestamp >= timestampOfMovement) {
+          return { ...tripAccumilator, [lastTimestamp]: {
+            ...tripAccumilator[lastTimestamp],
+            [movement.asset]: movement
+          }};
+        } else {
+          return { ...tripAccumilator, [timestampOfMovement + granularityInSeconds]: {
+            ...tripAccumilator[lastTimestamp],
+            [movement.asset]: movement
+          }};
+        }
+      }
+    }, {});
+    const finalTimestamps = Object.keys(assetTrips);
+    const assetTripTimestamp = parseInt(finalTimestamps[finalTimestamps.length - 1], 10);
+    return { ...state, assetTrips, assetTripTimestamp };
+  }),
   on(AssetActions.setAsset, (state, { asset }) => ({ ...state, assets: { ...state.assets, [asset.id]: asset }})),
   on(AssetActions.setAssetGroup, (state, { assetGroup }) => {
     let newState = { ...state };
@@ -172,7 +211,7 @@ export const assetReducer = createReducer(initialState,
     assetGroups
   })),
   on(AssetActions.setAssetList, (state, { searchParams, assets, currentPage, totalNumberOfPages }) => {
-    const identifier = `i-${hashCode(JSON.stringify(searchParams) + currentPage)}`;
+    const identifier = `i-${hashCode(JSON.stringify(searchParams))}`;
     return { ...state,
       assets: {
         ...state.assets,
@@ -195,7 +234,7 @@ export const assetReducer = createReducer(initialState,
       }
     };
   }),
-  on(AssetActions.setAssetTrack, (state, { tracks, assetId, visible }) => {
+  on(AssetActions.setTracksForAsset, (state, { tracks, assetId }) => {
     const finishedLineSegments = tracks.reduce((lineSegments, position) => {
       const lastSegment = lineSegments[lineSegments.length - 1];
       const segmentSpeed = speeds.find((speed) => position.speed < speed);
@@ -220,9 +259,49 @@ export const assetReducer = createReducer(initialState,
     }, []);
     return { ...state, assetTracks: {
       ...state.assetTracks,
-      [assetId]: { tracks, assetId, visible, lineSegments: finishedLineSegments }
+      [assetId]: { tracks, assetId, lineSegments: finishedLineSegments }
     }};
   }),
+  on(AssetActions.setTracks, (state, { tracksByAsset }) => {
+    const tracksAndLineSegmentsByAsset = Object.keys(tracksByAsset).reduce((accTracksAndLineSegmentsByAsset, assetId) => {
+      const tracksForAsset = tracksByAsset[assetId];
+      accTracksAndLineSegmentsByAsset[assetId] = {
+        tracks: tracksForAsset,
+        assetId,
+        lineSegments: tracksForAsset.reduce((lineSegments, position) => {
+          const segmentSpeed = speeds.find((speed) => position.speed < speed);
+          if (lineSegments.length === 0) {
+            lineSegments.push({
+              speed: segmentSpeed,
+              positions: [position.location],
+              color: speedSegments[segmentSpeed]
+            });
+          } else {
+            const lastSegment = lineSegments[lineSegments.length - 1];
+            if (lastSegment.speed === segmentSpeed) {
+              lastSegment.positions.push(position.location);
+            } else {
+              // Add the last position in both the old segment and the new so there are no spaces in the drawn line.
+              lastSegment.positions.push(position.location);
+              lineSegments.push({
+                speed: segmentSpeed,
+                positions: [position.location],
+                color: speedSegments[segmentSpeed]
+              });
+            }
+          }
+          return lineSegments;
+        }, [])
+      };
+      return accTracksAndLineSegmentsByAsset;
+    }, {});
+
+    return { ...state, assetTracks: {
+      ...state.assetTracks,
+      ...tracksAndLineSegmentsByAsset
+    }};
+  }),
+
   on(AssetActions.setAutocompleteQuery, (state, { searchQuery }) => ({
     ...state,
     searchQuery

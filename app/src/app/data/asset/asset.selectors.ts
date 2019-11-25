@@ -13,6 +13,9 @@ export const selectAssetForecasts = (state: State) => state.asset.forecasts;
 export const selectAssetsEssentials = (state: State) => state.asset.assetsEssentials;
 export const selectAssetGroups = (state: State) => state.asset.assetGroups;
 export const selectAssetsTracks = (state: State) => state.asset.assetTracks;
+export const selectAssetTrips = (state: State) => state.asset.assetTrips;
+export const selectAssetTripGranularity = (state: State) => state.asset.assetTripGranularity;
+export const selectAssetTripTimestamp = (state: State) => state.asset.assetTripTimestamp;
 export const selectSelectedAssets = (state: State) => state.asset.selectedAssets;
 export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
 export const selectFilterQuery = (state: State) => state.asset.filterQuery;
@@ -155,6 +158,21 @@ export const getAssetMovements = createSelector(
 export const getAssetTracks = createSelector(
   selectAssetsTracks,
   (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }) => Object.values(assetTracks)
+);
+
+export const getTripTimestamp = createSelector(
+  selectAssetTripTimestamp,
+  (assetTripTimestamp) => assetTripTimestamp
+);
+
+export const getTripGranularity = createSelector(
+  selectAssetTripGranularity,
+  (assetTripGranularity) => assetTripGranularity
+);
+
+export const getTripTimestamps = createSelector(
+  selectAssetTrips,
+  (assetTrips) => Object.keys(assetTrips).map(timestamp => parseInt(timestamp, 10))
 );
 
 export const getVisibleAssetTracks = createSelector(
