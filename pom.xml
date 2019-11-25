@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>eu.europa.ec.fisheries.uvms</groupId>
 	<artifactId>vms-web</artifactId>
-	<version>0.6.2-SNAPSHOT</version>
+	<version>0.6.5-SNAPSHOT</version>
 	<name>vms-web</name>
 	<packaging>war</packaging>
 
@@ -108,6 +108,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
+							<skip>${skipTests}</skip>
 							<arguments>test -- --watch=false</arguments>
 						</configuration>
 					</execution>
