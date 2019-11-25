@@ -5,7 +5,7 @@ import { getMergedRoute } from '@data/router/router.selectors';
 
 export const selectNotes = (state: State) => state.notes.notes;
 
-export const getNotes= createSelector(
+export const getNotes = createSelector(
   selectNotes,
   (notes: { [id: string ]: NotesInterfaces.Note }) => {
     return Object.values(notes).map((note) => ({ ...note }));

@@ -98,7 +98,7 @@ describe('RealtimeComponent', () => {
 
     function setupForMapStateToProps() {
       const setupObject = setup();
-      return { ...setupObject, baseState: { mapSavedFilters: MapSavedFiltersReducer.initialState, map: { ready: true } } };
+      return { ...setupObject, baseState: { mapSavedFilters: MapSavedFiltersReducer.initialState, map: { realtime: { ready: true } } } };
     }
 
     it('should update assets when state is updated.', () => {
@@ -522,10 +522,11 @@ describe('RealtimeComponent', () => {
         asset: AssetReducer.initialState,
         mapSettings: MapSettingsReducer.initialState,
         mapSavedFilters: MapSavedFiltersReducer.initialState,
-        map: { ready: true, mapSettingsLoaded: true },
+        map: { realtime: { ready: true }, mapSettingsLoaded: true },
       };
       store.setState(currentState);
       component.ngOnInit();
+      component.setupMap();
       return { component, store, currentState };
     }
 

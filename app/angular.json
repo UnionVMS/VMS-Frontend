@@ -136,7 +136,7 @@
               "node_modules/@fortawesome/fontawesome-free/scss/regular.scss",
               "node_modules/@fortawesome/fontawesome-free/scss/brands.scss",
               "src/styles.scss",
-              "src/app/modules/map/pages/realtime/realtime.map.scss",
+              "src/app/modules/map/map.scss",
             ],
             "stylePreprocessorOptions": {
               "includePaths": [

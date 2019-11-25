@@ -81,7 +81,6 @@ const AssetTrackStub: AssetTrack = {
     }
   ],
   assetId: '6938453e-8ea7-4e55-b646-921b9c866e58',
-  visible: true,
   lineSegments: [
     {
       speed: 8,
