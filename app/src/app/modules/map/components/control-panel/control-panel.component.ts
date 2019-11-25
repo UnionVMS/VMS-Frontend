@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import * as MapSettingsInterfaces from '@data/map-settings/map-settings.interfaces';
 
 @Component({
   selector: 'map-control-panel',
@@ -6,18 +7,13 @@ import { Component, Input, OnChanges } from '@angular/core';
   styleUrls: ['./control-panel.component.scss']
 })
 export class ControlPanelComponent implements OnChanges {
-  @Input() mapSettings;
-  @Input() setTracksMinuteCap;
-  @Input() clearForecasts;
-  @Input() clearTracks;
-  @Input() setForecastInterval;
+  @Input() mapSettings: MapSettingsInterfaces.State;
+  @Input() setTracksMinuteCap: (minutes: number) => void;
+  @Input() clearForecasts: () => void;
+  @Input() clearTracks: () => void;
+  @Input() setForecastInterval: (forecastTimeLength: number) => void;
 
-  public hidePanel = false;
   public trackLength = '360';
-
-  private toggleVisibility = (): void => {
-    this.hidePanel = !this.hidePanel;
-  }
 
   private setTracksMinuteCapFunction = (event): void => {
     let minutes = parseInt(event.value, 10);
@@ -35,6 +31,6 @@ export class ControlPanelComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.trackLength = this.mapSettings.tracksMinuteCap.toString();
+    this.trackLength = this.mapSettings.settings.tracksMinuteCap.toString();
   }
 }

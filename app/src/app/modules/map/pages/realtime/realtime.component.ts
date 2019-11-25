@@ -57,17 +57,17 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   // tslint:disable:ban-types
   public addForecast: Function;
   public addPositionForInspection: Function;
-  public clearForecasts: Function;
-  public clearTracks: Function;
+  public clearForecasts: () => void;
+  public clearTracks: () => void;
   public deselectAsset: (assetId: string) => void;
   public saveViewport: Function;
-  public setForecastInterval: Function;
+  public setForecastInterval: (forecastTimeLength: number) => void;
   public setVisibilityForAssetNames: Function;
   public setVisibilityForAssetSpeeds: Function;
   public setVisibilityForForecast: Function;
   public setVisibilityForTracks: Function;
   public setVisibilityForFlags: Function;
-  public setTracksMinuteCap: Function;
+  public setTracksMinuteCap: (minutes: number) => void;
   public searchAutocomplete: Function;
   // tslint:enable:ban-types
   public addActiveLayer: (layerName: string) => void;
