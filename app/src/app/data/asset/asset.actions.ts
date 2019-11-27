@@ -67,6 +67,10 @@ export const getAssetTrackTimeInterval = createAction(
   props<{ assetId: string, startDate: string, endDate: string }>()
 );
 
+export const getAssetNotSendingEvents = createAction(
+  '[Asset] Get asset not sending events'
+);
+
 export const getTracksByTimeInterval = createAction(
   '[Asset] Get asset tracks by time interval',
   props<{ assetIds: string[], startDate: string, endDate: string, sources: string[] }>()
@@ -93,6 +97,10 @@ export const removeForecast = createAction(
 export const removePositionForInspection = createAction(
   '[Asset] Remove position for inspection',
   props<{ inspectionId: string }>()
+);
+
+export const removeMovementsAndTracks = createAction(
+  '[Asset] Remove movements and tracks'
 );
 
 export const saveAsset = createAction(
@@ -143,6 +151,11 @@ export const setAssetGroups = createAction(
 export const setAssetList = createAction(
   '[Asset] Set list',
   props<{ searchParams: any, assets: { [uid: string]: AssetInterfaces.Asset }, currentPage: number, totalNumberOfPages: number  }>()
+);
+
+export const setAssetNotSendingEvents = createAction(
+  '[Asset] Set asset not sending events',
+  props<{ assetNotSendingEvents: { readonly [assetId: string]: AssetInterfaces.AssetNotSendingEvent }}>()
 );
 
 export const setAutocompleteQuery = createAction(

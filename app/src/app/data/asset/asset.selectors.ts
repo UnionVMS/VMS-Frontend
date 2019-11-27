@@ -13,6 +13,7 @@ export const selectAssetForecasts = (state: State) => state.asset.forecasts;
 export const selectAssetsEssentials = (state: State) => state.asset.assetsEssentials;
 export const selectAssetGroups = (state: State) => state.asset.assetGroups;
 export const selectAssetsTracks = (state: State) => state.asset.assetTracks;
+export const selectAssetNotSendingEvents = (state: State) => state.asset.assetNotSendingEvents;
 export const selectAssetTrips = (state: State) => state.asset.assetTrips;
 export const selectAssetTripGranularity = (state: State) => state.asset.assetTripGranularity;
 export const selectAssetTripTimestamp = (state: State) => state.asset.assetTripTimestamp;
@@ -158,6 +159,12 @@ export const getAssetMovements = createSelector(
 export const getAssetTracks = createSelector(
   selectAssetsTracks,
   (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }) => Object.values(assetTracks)
+);
+
+export const getAssetNotSendingEvents = createSelector(
+  selectAssetNotSendingEvents,
+  (assetNotSendingEvents: { [assetId: string]: AssetInterfaces.AssetNotSendingEvent }) =>
+    Object.values(assetNotSendingEvents)
 );
 
 export const getTripTimestamp = createSelector(

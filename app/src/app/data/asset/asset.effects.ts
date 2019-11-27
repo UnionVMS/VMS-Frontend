@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ROUTER_NAVIGATED, RouterNavigationAction } from '@ngrx/router-store';
 import { Store, Action } from '@ngrx/store';
 import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
-import { of, EMPTY, merge, Observable, interval } from 'rxjs';
-import { map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter } from 'rxjs/operators';
+import { of, EMPTY, merge, Observable, interval, Subject } from 'rxjs';
+import { map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter, takeUntil } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer.ts';
 import { AuthInterfaces, AuthSelectors } from '../auth';
@@ -76,44 +77,61 @@ export class AssetEffects {
     })
   );
 
+  private removeOldAssetsIntervalDone$: Subject<boolean> = new Subject<boolean>();
+
   // Every 10 minutes
-  removeOldAssetsEffect$ = createEffect(() => interval(600000).pipe(
-    withLatestFrom(this.store$.select(AssetSelectors.selectAssetMovements)),
-    mergeMap(([ intervalCount, assetMovements ]: [number, { [uid: string]: AssetInterfaces.AssetMovement; }] ): Observable<Action> => {
-      const oneHour = 1000 * 60 * 60;
-      const positionsToRemoveOrUpdate = Object.values(assetMovements).reduce(
-        (acc, assetMovement, index) => {
-          const date = new Date(assetMovement.microMove.timestamp);
-          const timeBetweenNowAndThen = Date.now() - date.getTime();
-          if((timeBetweenNowAndThen > oneHour * 9)) {
-            acc.assetsToDelete.push(assetMovement.asset);
-          } else if((timeBetweenNowAndThen > oneHour * 8)) {
-            if(timeBetweenNowAndThen > oneHour * 8.75) {
-              acc.decayingAssets[assetMovement.asset] = { ...assetMovement, decayPercentage: 0.25 };
-            } else if(timeBetweenNowAndThen > oneHour * 8.5) {
-              acc.decayingAssets[assetMovement.asset] = { ...assetMovement, decayPercentage: 0.5 };
-            } else {
-              acc.decayingAssets[assetMovement.asset] = { ...assetMovement, decayPercentage: 0.75 };
+  removeOldAssetsEffect$ = createEffect(() => this.actions$.pipe(
+    ofType(ROUTER_NAVIGATED),
+    mergeMap((action: RouterNavigationAction) => {
+      if(action.payload.routerState.url === '/map/realtime') {
+        this.removeOldAssetsIntervalDone$.next(false);
+        return interval(600000).pipe(
+          takeUntil(this.removeOldAssetsIntervalDone$),
+          withLatestFrom(this.store$.select(AssetSelectors.selectAssetMovements)),
+          mergeMap((
+            [ intervalCount, assetMovements ]: [number, { [uid: string]: AssetInterfaces.AssetMovement; }]
+          ): Observable<Action> => {
+            const oneHour = 1000 * 60 * 60;
+            const positionsToRemoveOrUpdate = Object.values(assetMovements).reduce(
+              (acc, assetMovement, index) => {
+                const date = new Date(assetMovement.microMove.timestamp);
+                const timeBetweenNowAndThen = Date.now() - date.getTime();
+                if((timeBetweenNowAndThen > oneHour * 9)) {
+                  acc.assetsToDelete.push(assetMovement.asset);
+                } else if((timeBetweenNowAndThen > oneHour * 8)) {
+                  if(timeBetweenNowAndThen > oneHour * 8.75) {
+                    acc.decayingAssets[assetMovement.asset] = { ...assetMovement, decayPercentage: 0.25 };
+                  } else if(timeBetweenNowAndThen > oneHour * 8.5) {
+                    acc.decayingAssets[assetMovement.asset] = { ...assetMovement, decayPercentage: 0.5 };
+                  } else {
+                    acc.decayingAssets[assetMovement.asset] = { ...assetMovement, decayPercentage: 0.75 };
+                  }
+                }
+                return acc;
+              }, { assetsToDelete: [], decayingAssets: {} }
+            );
+            if(positionsToRemoveOrUpdate.assetsToDelete.length > 0 && Object.keys(positionsToRemoveOrUpdate.decayingAssets).length > 0) {
+              return of(
+                AssetActions.removeAssets({ assetIds: positionsToRemoveOrUpdate.assetsToDelete }),
+                AssetActions.updateDecayOnAssetPosition({ assetMovements: positionsToRemoveOrUpdate.decayingAssets })
+              );
             }
-          }
-          return acc;
-        }, { assetsToDelete: [], decayingAssets: {} }
-      );
-      if(positionsToRemoveOrUpdate.assetsToDelete.length > 0 && Object.keys(positionsToRemoveOrUpdate.decayingAssets).length > 0) {
-        return of(
-          AssetActions.removeAssets({ assetIds: positionsToRemoveOrUpdate.assetsToDelete }),
-          AssetActions.updateDecayOnAssetPosition({ assetMovements: positionsToRemoveOrUpdate.decayingAssets })
+            if(positionsToRemoveOrUpdate.assetsToDelete.length > 0) {
+              return of(AssetActions.removeAssets({ assetIds: positionsToRemoveOrUpdate.assetsToDelete }));
+            }
+            if(Object.keys(positionsToRemoveOrUpdate.decayingAssets).length > 0) {
+              return of(AssetActions.updateDecayOnAssetPosition({ assetMovements: positionsToRemoveOrUpdate.decayingAssets }));
+            }
+            return EMPTY;
+          })
         );
+      } else {
+        this.removeOldAssetsIntervalDone$.next(true);
+        return EMPTY;
       }
-      if(positionsToRemoveOrUpdate.assetsToDelete.length > 0) {
-        return of(AssetActions.removeAssets({ assetIds: positionsToRemoveOrUpdate.assetsToDelete }));
-      }
-      if(Object.keys(positionsToRemoveOrUpdate.decayingAssets).length > 0) {
-        return of(AssetActions.updateDecayOnAssetPosition({ assetMovements: positionsToRemoveOrUpdate.decayingAssets }));
-      }
-      return EMPTY;
     })
   ));
+
 
   @Effect()
   assetMovementSubscribeObserver$ = this.actions$.pipe(
@@ -337,6 +355,24 @@ export class AssetEffects {
           ];
         }),
         flatMap(a => a),
+      );
+    })
+  );
+
+  @Effect()
+  getAssetNotSendingEvents$ = this.actions$.pipe(
+    ofType(AssetActions.getAssetNotSendingEvents),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.assetService.getAssetNotSendingEvents(authToken).pipe(
+        map((assetNotSendingEvents: ReadonlyArray<AssetInterfaces.AssetNotSendingEvent>) => {
+          return AssetActions.setAssetNotSendingEvents({
+            assetNotSendingEvents: assetNotSendingEvents.reduce((acc, assetNotSendingEvent) => {
+              acc[assetNotSendingEvent.assetId] = assetNotSendingEvent;
+              return acc;
+            }, {})
+          });
+        })
       );
     })
   );

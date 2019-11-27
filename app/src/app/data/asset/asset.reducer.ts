@@ -14,6 +14,7 @@ export const initialState: Interfaces.State = {
   assets: {},
   assetsEssentials: {},
   assetLists: {},
+  assetNotSendingEvents: {},
   currentAssetList: null,
   assetMovements: {},
   assetTracks: {},
@@ -88,7 +89,7 @@ export const assetReducer = createReducer(initialState,
               ...newLineSegments,
               {
                 speed: segmentSpeed,
-                positions: [newAssetMovements.assetMovements[assetId].microMove.location],
+                positions: [newAssetMovements[assetId].microMove.location],
                 color: speedSegments[segmentSpeed]
               }
             ];
@@ -164,6 +165,11 @@ export const assetReducer = createReducer(initialState,
       positionsForInspection
     };
   }),
+  on(AssetActions.removeMovementsAndTracks, (state) => ({
+    ...state,
+    assetMovements: {},
+    assetTracks: {},
+  })),
   on(AssetActions.selectAsset, (state, { assetId }) => {
     let returnState = { ...state, selectedAsset: assetId };
     if(!state.selectedAssets.some((selectedAssetId) => selectedAssetId === assetId )) {
@@ -234,6 +240,10 @@ export const assetReducer = createReducer(initialState,
       }
     };
   }),
+  on(AssetActions.setAssetNotSendingEvents, (state, { assetNotSendingEvents }) => ({
+    ...state,
+    assetNotSendingEvents
+  })),
   on(AssetActions.setTracksForAsset, (state, { tracks, assetId }) => {
     const finishedLineSegments = tracks.reduce((lineSegments, position) => {
       const lastSegment = lineSegments[lineSegments.length - 1];

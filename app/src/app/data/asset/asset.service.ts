@@ -161,6 +161,52 @@ export class AssetService {
     );
   }
 
+  getAssetNotSendingEvents(authToken: string) {
+    return new Observable((observer) => {
+      observer.next([
+        {
+          id: 'blubb-blubb-blubb-Ship5XXX',
+          assetName: 'Ship5XXX',
+          assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc096',
+          assetIrcs: 'F5XXX',
+          lastKnownLocation: {
+            location: {
+              longitude: 7.640111666666667,
+              latitude: 54.40071666666667,
+              altitude: null
+            },
+            heading: 225,
+            guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+            timestamp: '2019-11-22T04:21:30Z',
+            speed: 102.30000305175781,
+            source: 'INMARSAT_C'
+          },
+          status: 'Poll Failed',
+        },
+        {
+          id: 'blubb-blubb-blubb-ship1002',
+          assetName: 'Ship1002',
+          assetId: 'c6bccbb8-e737-4195-8603-2688273a75e8',
+          assetIrcs: 'F1002',
+          lastKnownLocation: {
+            location: {
+              longitude: 8.640111666666667,
+              latitude: 53.40071666666667,
+              altitude: null
+            },
+            heading: 105,
+            guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b42',
+            timestamp: '2019-11-20T06:51:32Z',
+            speed: 10.2205781,
+            source: 'INMARSAT_C'
+          },
+          status: 'Poll Failed',
+        },
+      ]);
+      observer.complete();
+    });
+  }
+
   getUnitTonnage(authToken: string) {
     return this.http.get(
       environment.baseApiUrl + `asset/rest/customcodes/listcodesforconstant/UNIT_TONNAGE`,

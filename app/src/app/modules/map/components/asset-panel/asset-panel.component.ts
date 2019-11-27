@@ -29,7 +29,7 @@ export class AssetPanelComponent implements OnChanges {
   constructor(private elementRef: ElementRef) { }
 
   ngOnChanges() {
-    this.activeAsset = this.assets.find((asset) => asset.currentlyShowing) || null;
+    this.activeAsset = this.assets.find((asset) => asset.currentlyShowing && asset.currentPosition !== undefined) || null;
   }
 
   toggleShowButtons() {

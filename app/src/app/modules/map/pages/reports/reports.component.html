@@ -37,6 +37,14 @@
         [assetTracks]="assetTracks$|async"
         [map]="map"
       ></map-tracks>
+      <map-flagstates
+        *ngIf="mapSettings.settings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"
+        [assets]="assetMovements"
+        [map]="map"
+        [selectAsset]="selectAsset"
+        [registerOnSelectFunction]="registerOnSelectFunction"
+        [unregisterOnSelectFunction]="unregisterOnSelectFunction"
+      ></map-flagstates>
     </ng-container>
     <map-layer-filter
       [mapSettings]="mapSettings"

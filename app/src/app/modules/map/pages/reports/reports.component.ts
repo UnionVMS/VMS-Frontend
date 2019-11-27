@@ -302,6 +302,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
+    this.store.dispatch(AssetActions.removeMovementsAndTracks());
   }
 
   setupOnClickEvents() {

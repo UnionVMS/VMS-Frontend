@@ -47,6 +47,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public authToken$: Observable<string|null>;
   public mapLayers$: Observable<Array<MapLayersInterfaces.MapLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
+  public assetNotSendingEvents$: Observable<ReadonlyArray<AssetInterfaces.AssetNotSendingEvent>>;
 
   public assetIdFromUrl: string;
 
@@ -154,6 +155,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
           }
         }
     });
+    this.assetNotSendingEvents$ = this.store.select(AssetSelectors.getAssetNotSendingEvents);
   }
 
   mapDispatchToProps() {
@@ -233,6 +235,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.store.dispatch(AssetActions.subscribeToMovements());
     this.store.dispatch(AssetActions.getSelectedAsset());
     this.store.dispatch(AssetActions.getAssetGroups());
+    this.store.dispatch(AssetActions.getAssetNotSendingEvents());
     this.store.dispatch(MapLayersActions.getAreas());
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe((mergedRoute) => {
       if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {
@@ -288,6 +291,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
     this.store.dispatch(AssetActions.unsubscribeToMovements());
+    this.store.dispatch(AssetActions.removeMovementsAndTracks());
   }
 
   setupOnClickEvents() {

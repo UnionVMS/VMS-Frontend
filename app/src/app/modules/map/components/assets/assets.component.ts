@@ -109,6 +109,11 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         this.assetLastUpdateHash = {};
         this.assetSpeedsPreviouslyRendered = {};
       }
+
+      if(this.assets.length === 0) {
+        return false;
+      }
+
       const newRenderedAssetIds = reRenderAssets ? {} : this.renderedAssetIds;
 
       this.vectorSource.addFeatures(
@@ -137,16 +142,18 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         currentlySelectedIds.push(selectedAsset.asset.id);
         if(!this.previouslySelectedAssetIds.some((previousAssetId) => previousAssetId === selectedAsset.asset.id)) {
           const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
-          this.addTargetImageOnAsset(
-            selectedAssetFeature,
-            '/assets/target.png'
-          );
+          if(selectedAssetFeature) {
+            this.addTargetImageOnAsset(
+              selectedAssetFeature,
+              '/assets/target.png'
+            );
 
-          // We need to reset position to force rerender of asset.
-          selectedAssetFeature.setGeometry(new Point(fromLonLat([
-            selectedAsset.currentPosition.microMove.location.longitude,
-            selectedAsset.currentPosition.microMove.location.latitude
-          ])));
+            // We need to reset position to force rerender of asset.
+            selectedAssetFeature.setGeometry(new Point(fromLonLat([
+              selectedAsset.currentPosition.microMove.location.longitude,
+              selectedAsset.currentPosition.microMove.location.latitude
+            ])));
+          }
         }
       });
 
