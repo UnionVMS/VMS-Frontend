@@ -1,4 +1,4 @@
-<div class="content-container" *ngIf="!hidePanel">
+<div class="content-container">
   <div class="information-wrapper">
     <div class="tabs-wrapper">
       <span class="left-scroll" (click)="scrollTabs('left')"><i class="fas fa-chevron-left"></i></span>
@@ -11,6 +11,7 @@
     </div>
     <div class="asset-information">
       <ng-container *ngIf="activeAsset">
+        <h2>{{activeAsset.asset.name}}</h2>
         <ng-container *ngIf="activeAsset.asset.ircs">
           <legend>Ircs:</legend>
           <div>{{activeAsset.asset.ircs}}</div>
@@ -65,18 +66,7 @@
     </div>
   </div>
   <div class="button-wrapper">
-    <span *ngIf="!showButtons" class="show-button" (click)="showButtons = true"><i class="fas fa-chevron-right"></i></span>
-    <span *ngIf="showButtons" class="hide-button" (click)="showButtons = false"><i class="fas fa-chevron-left"></i></span>
-    <div class="button-block" *ngIf="activeAsset && showButtons">
-      <button
-        class="btn btn-small"
-        (click)="goToAsset(activeAsset)"
-      >Go To</button>
-      <button
-        mat-raised-button
-        routerLink="/asset/{{activeAsset.asset.id}}"
-        class="btn btn-small"
-      >Show asset</button>
+    <div class="button-block" *ngIf="activeAsset">
       <ui-button-toggle
         [label]="'Track'"
         [value]="tracksIsVisible(activeAsset)"
@@ -87,6 +77,18 @@
         [value]="forecastIsVisible(activeAsset.asset.id)"
         [switchFunction]="toggleForecastFactory(activeAsset.asset.id)"
       ></ui-button-toggle>
+      <button
+        mat-stroked-button
+        class="btn btn-small"
+        (click)="goToAsset(activeAsset)"
+        color="primary"
+      >Go To</button>
+      <button
+        mat-stroked-button
+        routerLink="/asset/{{activeAsset.asset.id}}"
+        class="btn btn-small"
+        color="primary"
+      >Show asset</button>
     </div>
   </div>
 </div>

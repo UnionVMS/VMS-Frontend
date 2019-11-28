@@ -1,12 +1,7 @@
 @import 'variables.scss';
 
 .content-container {
-  display: grid;
-  grid-template-columns: 500px 150px;
-  grid-gap: $medium_distance;
-  height: 178px;
-  color: white;
-  align-self: end;
+  color: black;
 
   .information-wrapper {
     display: grid;
@@ -78,15 +73,18 @@
 
     .asset-information {
       display: grid;
-      grid-template-columns: repeat(4, auto);
-      background: $map_overlay_background;
-      overflow-y: scroll;
+      grid-template-columns: 1fr auto;
+      border-top: 1px solid #000000;
       padding: $medium_distance;
-
+      overflow-y: scroll;
       -ms-overflow-style: none;  // IE 10+
       overflow: -moz-scrollbars-none;  // Firefox
       &::-webkit-scrollbar {
         display: none;  // Safari and Chrome
+      }
+
+      h2 {
+         grid-column: 1 / span 2;
       }
 
       legend {
@@ -96,7 +94,7 @@
       }
 
       a {
-        color: white;
+        color: black;
       }
     }
   }
@@ -106,20 +104,7 @@
     grid-template-rows: 1fr auto;
     grid-row-gap: 5px;
 
-    span {
-      align-self: end;
-      justify-self: start;
-      background-color: rgba(0,60,136,0.5);
-      display: inline-block;
-      padding: $small_distance $medium_distance;
-
-      &:hover {
-        background-color: rgba(0,60,136,0.7);
-      }
-    }
-
     .button-block {
-      background: $map_overlay_background;
       padding: $small_distance $medium_distance;
       display: grid;
       grid-row-gap: $small_distance;
@@ -128,6 +113,10 @@
       ui-button-toggle {
         display: block;
         min-height: 24px;
+      }
+
+      button.mat-stroked-button {
+        background: white;
       }
     }
   }

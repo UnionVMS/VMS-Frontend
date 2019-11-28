@@ -24,6 +24,7 @@ import { ReportsComponent } from './pages/reports/reports.component';
 /* Components */
 import { AssetsComponent } from './components/assets/assets.component';
 import { AssetGroupsComponent } from './components/asset-groups/asset-groups.component';
+import { AssetFilterComponent } from './components/asset-filter/asset-filter.component';
 import { AssetForecastComponent } from './components/asset-forecast/asset-forecast.component';
 import { AssetPanelComponent } from './components/asset-panel/asset-panel.component';
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
@@ -35,6 +36,7 @@ import { LayerFilterComponent } from './components/layer-filter/layer-filter.com
 import { MapLayersComponent } from './components/map-layers/map-layers.component';
 import { MapViewportsComponent } from './components/map-viewports/map-viewports.component';
 import { PeriodSelectorComponent } from './components/period-selector/period-selector.component';
+import { PanelBlockComponent } from './components/panel-block/panel-block.component';
 import { SavedFiltersComponent } from './components/saved-filters/saved-filters.component';
 import { TopPanelComponent } from './components/top-panel/top-panel.component';
 import { TracksComponent } from './components/tracks/tracks.component';
@@ -66,6 +68,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     ReportsComponent,
     AssetsComponent,
     AssetGroupsComponent,
+    AssetFilterComponent,
     AssetForecastComponent,
     AssetPanelComponent,
     AssetSearchComponent,
@@ -77,6 +80,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MapLayersComponent,
     MapViewportsComponent,
     PeriodSelectorComponent,
+    PanelBlockComponent,
     SavedFiltersComponent,
     TopPanelComponent,
     TracksComponent,

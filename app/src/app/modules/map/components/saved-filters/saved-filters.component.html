@@ -1,10 +1,12 @@
 <div class="content-container">
-  <h4>Saved filters:</h4>
   <div class="saved-filters" *ngIf="savedFilterNames.length > 0">
     <mat-checkbox
       *ngFor="let savedFilterName of savedFilterNames"
       (click)="toggleFilter(savedFilterName)"
-    >{{savedFilterName}}</mat-checkbox>
+      title="{{savedFilterName}}"
+    >
+      <ui-truncated-text [text]="savedFilterName" length="30"></ui-truncated-text>
+    </mat-checkbox>
   </div>
   <div class="create-new-filter">
     <button

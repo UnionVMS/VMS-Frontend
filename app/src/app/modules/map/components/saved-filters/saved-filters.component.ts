@@ -3,7 +3,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 @Component({
   selector: 'map-saved-filters',
   templateUrl: './saved-filters.component.html',
-  styleUrls: ['./saved-filters.component.scss']
+  styleUrls: ['./saved-filters.component.scss'],
 })
 export class SavedFiltersComponent implements OnChanges {
   @Input() addSavedFilter;

@@ -9,6 +9,11 @@ export const initialState: Interfaces.State = {
   },
   report: {
     searching: false,
+  },
+  filtersActive: {
+    filter: true,
+    savedFilters: true,
+    assetGroups: true
   }
 };
 
@@ -24,5 +29,9 @@ export const mapReducer = createReducer(initialState,
   on(MapsActions.setReportSearching, (state, { searching }) => ({
     ...state,
     report: { ...state.report, searching }
+  })),
+  on(MapsActions.setGivenFilterActive, (state, { filterTypeName, status }) => ({
+    ...state,
+    filtersActive: { ...state.filtersActive, [filterTypeName]: status },
   })),
 );

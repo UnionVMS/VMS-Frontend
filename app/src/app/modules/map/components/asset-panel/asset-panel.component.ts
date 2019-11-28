@@ -22,7 +22,6 @@ export class AssetPanelComponent implements OnChanges {
   @Input() tracksMinuteCap: number;
   @Input() centerMapOnPosition: (longAndLat: Position) => void;
 
-  public hidePanel = false;
   public activeAsset = null;
   public showButtons = false;
 
@@ -84,9 +83,6 @@ export class AssetPanelComponent implements OnChanges {
     } else {
       this.addForecast(assetId);
     }
-  }
-  private toggleVisibility = (): void => {
-    this.hidePanel = !this.hidePanel;
   }
 
   private tracksIsVisible = (asset: AssetInterfaces.AssetData): boolean => {

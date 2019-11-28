@@ -16,7 +16,7 @@ import { click, pointerMove } from 'ol/events/condition.js';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
-import { MapSelectors } from '@data/map';
+import { MapActions, MapSelectors } from '@data/map';
 import { MapLayersActions, MapLayersSelectors, MapLayersInterfaces } from '@data/map-layers';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
 import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersInterfaces } from '@data/map-saved-filters';
@@ -48,6 +48,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public mapLayers$: Observable<Array<MapLayersInterfaces.MapLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
   public assetNotSendingEvents$: Observable<ReadonlyArray<AssetInterfaces.AssetNotSendingEvent>>;
+  public filtersActive$: Observable<Readonly<{ readonly [filterTypeName: string]: boolean }>>;
 
   public assetIdFromUrl: string;
 
@@ -80,6 +81,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public removeActiveLayer: (layerName: string) => void;
   public removePositionForInspection: (inspectionId: string) => void;
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
+  public setGivenFilterActive: (filterTypeName: string, status: boolean) => void;
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
@@ -112,6 +114,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   // Map functions to props:
   public centerMapOnPosition: (position: Position) => void;
+
+  // Curried functions
+  public setGivenFilterActiveCurry = (filterTypeName: string) => (status: boolean) => this.setGivenFilterActive(filterTypeName, status);
 
   constructor(private store: Store<any>) { }
 
@@ -156,6 +161,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
         }
     });
     this.assetNotSendingEvents$ = this.store.select(AssetSelectors.getAssetNotSendingEvents);
+    this.filtersActive$ = this.store.select(MapSelectors.getFiltersActive);
   }
 
   mapDispatchToProps() {
@@ -213,6 +219,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapSettingsActions.setForecastInterval({ interval: forecastTimeLength }));
     this.setCurrentControlPanel = (controlPanelName) =>
       this.store.dispatch(MapSettingsActions.setCurrentControlPanel({ controlPanelName }));
+    this.setGivenFilterActive = (filterTypeName: string, status: boolean) =>
+      this.store.dispatch(MapActions.setGivenFilterActive({ filterTypeName, status }));
     this.searchAutocomplete = (searchQuery: string) =>
       this.store.dispatch(AssetActions.setAutocompleteQuery({searchQuery}));
     this.filterAssets = (filterQuery) => {

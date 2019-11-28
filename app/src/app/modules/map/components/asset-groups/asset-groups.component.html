@@ -1,9 +1,11 @@
 <div class="content-container">
-  List of asset-groups with checkboxes for showing them.
   <div class="asset-groups" *ngIf="assetGroups.length > 0">
     <mat-checkbox
       *ngFor="let assetGroup of assetGroups"
       (click)="toggleGroup(assetGroup)"
-    >{{assetGroup.name}}</mat-checkbox>
+      title="{{assetGroup.name}}"
+    >
+      <ui-truncated-text [text]="assetGroup.name" length="30"></ui-truncated-text>
+    </mat-checkbox>
   </div>
 </div>

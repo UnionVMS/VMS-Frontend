@@ -2,6 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as AssetInterfaces from './asset.interfaces';
 import { State } from '@app/app-reducer';
 import { MapSavedFiltersSelectors } from '@data/map-saved-filters';
+import { MapSelectors } from '@data/map';
 import { getMergedRoute } from '@data/router/router.selectors';
 
 
@@ -76,15 +77,26 @@ export const getAssetMovements = createSelector(
   selectFilterQuery,
   MapSavedFiltersSelectors.getActiveFilters,
   selectSelectedAssetGroups,
+  MapSelectors.getFiltersActive,
   (
-    assetMovements: { [uid: string]: AssetInterfaces.AssetMovement },
-    assetsEssentials: { [uid: string]: AssetInterfaces.AssetEssentialProperties },
-    currentFilterQuery: Array<AssetInterfaces.AssetFilterQuery>,
-    savedFilterQuerys: Array<Array<AssetInterfaces.AssetFilterQuery>>,
-    selectedAssetGroups: Array<AssetInterfaces.AssetGroup>,
+    assetMovements: { readonly [uid: string]: AssetInterfaces.AssetMovement },
+    assetsEssentials: { readonly [uid: string]: AssetInterfaces.AssetEssentialProperties },
+    currentFilterQuery: ReadonlyArray<AssetInterfaces.AssetFilterQuery>,
+    savedFilterQuerys: ReadonlyArray<ReadonlyArray<AssetInterfaces.AssetFilterQuery>>,
+    selectedAssetGroups: ReadonlyArray<AssetInterfaces.AssetGroup>,
+    filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
-    const filterQuerys = [ ...savedFilterQuerys, currentFilterQuery ];
+
+    let filterQuerys: ReadonlyArray<ReadonlyArray<AssetInterfaces.AssetFilterQuery>> = [];
+    if(filtersActive.savedFilters) {
+      filterQuerys = [ ...savedFilterQuerys ];
+    }
+
+    if(filtersActive.filter) {
+      filterQuerys = [ ...filterQuerys, currentFilterQuery ];
+    }
+
     filterQuerys.map((filterQuery) => {
       if(filterQuery.length > 0) {
         filterQuery.map(query => {
@@ -139,7 +151,7 @@ export const getAssetMovements = createSelector(
       }
     });
 
-    if(selectedAssetGroups.length > 0) {
+    if(filtersActive.assetGroups && selectedAssetGroups.length > 0) {
       // Filter on selected assetGroups
       const selectedAssetIds = selectedAssetGroups.reduce((acc, assetGroup) => {
         assetGroup.assetGroupFields.map(assetField => {

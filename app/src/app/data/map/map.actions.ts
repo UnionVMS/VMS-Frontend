@@ -14,3 +14,8 @@ export const setReportSearching = createAction(
   '[Map] Set report searching',
   props<{ searching: boolean }>()
 );
+
+export const setGivenFilterActive = createAction(
+  '[Map] Set given filter active',
+  props<{ filterTypeName: string, status: boolean }>()
+);

@@ -1,0 +1,12 @@
+@import 'variables.scss';
+
+.content-container {
+  display: grid;
+  grid-row-gap: 2px;
+  padding: $small_distance;
+
+  .panel-block-header, .panel-block-content {
+    background: white;
+    padding: $small_distance;
+  }
+}

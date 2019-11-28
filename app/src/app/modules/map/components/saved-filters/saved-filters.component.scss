@@ -1,7 +1,6 @@
 @import 'variables.scss';
 
 .content-container {
-  @include control-panel;
   grid-row-gap: $medium_distance;
 
   h4 {
@@ -10,6 +9,7 @@
 
   .saved-filters {
     display: grid;
+    width: 100%;
     grid-row-gap: $medium_distance;
   }
 
@@ -17,7 +17,4 @@
     padding: $medium_distance $large_distance;
     background-color: $color_light_green;
   }
-
-
-
 }

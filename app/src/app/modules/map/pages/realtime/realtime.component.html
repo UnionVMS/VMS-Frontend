@@ -3,19 +3,53 @@
     <h2>Loading asset positions</h2>
     <mat-spinner class="load-spinner"></mat-spinner>
   </div>
+  <div id="realtime-left-column">
+    <map-panel-block
+      blockTitle="Filter"
+      [active]="(filtersActive$ | async).filter"
+      [setActiveFunction]="setGivenFilterActiveCurry('filter')"
+    >
+      <map-asset-filter
+        [filterFunction]="filterAssets"
+      ></map-asset-filter>
+    </map-panel-block>
+    <map-panel-block
+      blockTitle="Saved filters"
+      [active]="(filtersActive$ | async).savedFilters"
+      [setActiveFunction]="setGivenFilterActiveCurry('savedFilters')"
+    >
+      <map-saved-filters
+        [filterQuery]="currentFilterQuery$ | async"
+        [addSavedFilter]="addSavedFilter"
+        [savedFilters]="savedFilters$ | async"
+        [activeFilters]="activeFilterNames$ | async"
+        [activateFilter]="activateSavedFilter"
+        [deactivateFilter]="deactivateSavedFilter"
+      ></map-saved-filters>
+    </map-panel-block>
+    <map-panel-block
+      blockTitle="Asset groups"
+      [active]="(filtersActive$ | async).assetGroups"
+      [setActiveFunction]="setGivenFilterActiveCurry('assetGroups')"
+    >
+      <map-asset-groups
+        [assetGroups]="assetGroups$ | async"
+        [selectedAssetGroups]="selectedAssetGroups$ | async"
+        [setAssetGroup]="setAssetGroup"
+        [clearAssetGroup]="clearAssetGroup"
+      ></map-asset-groups>
+    </map-panel-block>
+    <map-panel-block blockTitle="Search">
+      <map-asset-search
+        [autocompleteFunction]="searchAutocomplete"
+        [autocompleteResult]="searchAutocompleteAsset$ | async"
+        [centerMapOnPosition]="centerMapOnPosition"
+        [selectAsset]="selectAsset"
+      ></map-asset-search>
+    </map-panel-block>
+  </div>
   <div class="map-container">
     <div id="realtime-map"></div>
-    <map-top-panel
-      [autocompleteFunction]="searchAutocomplete"
-      [autocompleteResult]="searchAutocompleteAsset$ | async"
-      [centerMapOnPosition]="centerMapOnPosition"
-      [filterFunction]="filterAssets"
-      [selectAsset]="selectAsset"
-      [currentControlPanel]="mapSettings.currentControlPanel"
-      [setCurrentControlPanel]="setCurrentControlPanel"
-    >
-      <div id="mouse-position"></div>
-    </map-top-panel>
     <ng-container *ngIf="mapReady && mapSettingsLoaded">
       <map-assets
         *ngIf="registerOnSelectFunction !== undefined"
@@ -58,7 +92,23 @@
       ></map-asset-forecast>
     </ng-container>
   </div>
-  <map-layer-filter
+  <div id="realtime-right-column">
+    <map-asset-panel
+      *ngIf="(selectedAssets$|async).length > 0"
+      [assets]="selectedAssets$|async"
+      [selectAsset]="selectAsset"
+      [deselectAsset]="deselectAsset"
+      [forecasts]="forecasts$|async"
+      [getAssetTrack]="getAssetTrack"
+      [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
+      [untrackAsset]="untrackAsset"
+      [addForecast]="addForecast"
+      [removeForecast]="removeForecast"
+      [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
+      [centerMapOnPosition]="centerMapOnPosition"
+    ></map-asset-panel>
+  </div>
+  <!-- <map-layer-filter
     [mapSettings]="mapSettings"
     [setVisibilityForAssetNames]="setVisibilityForAssetNames"
     [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
@@ -73,20 +123,7 @@
     [map]="map"
     [saveViewport]="saveViewport"
   ></map-layer-filter>
-  <map-asset-panel
-    *ngIf="(selectedAssets$|async).length > 0"
-    [assets]="selectedAssets$|async"
-    [selectAsset]="selectAsset"
-    [deselectAsset]="deselectAsset"
-    [forecasts]="forecasts$|async"
-    [getAssetTrack]="getAssetTrack"
-    [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
-    [untrackAsset]="untrackAsset"
-    [addForecast]="addForecast"
-    [removeForecast]="removeForecast"
-    [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
-    [centerMapOnPosition]="centerMapOnPosition"
-  ></map-asset-panel>
+
   <div class="control-panel">
     <map-control-panel
       *ngIf="mapSettings.currentControlPanel === 'map-control-panel'"
@@ -102,22 +139,6 @@
       [registerOnClickFunction]="registerOnClickFunction"
       [active]="mapSettings.currentControlPanel === 'map-distance-between-points'"
     ></map-distance-between-points>
-    <map-saved-filters
-      *ngIf="mapSettings.currentControlPanel === 'map-saved-filters'"
-      [filterQuery]="currentFilterQuery$ | async"
-      [addSavedFilter]="addSavedFilter"
-      [savedFilters]="savedFilters$ | async"
-      [activeFilters]="activeFilterNames$ | async"
-      [activateFilter]="activateSavedFilter"
-      [deactivateFilter]="deactivateSavedFilter"
-    ></map-saved-filters>
-    <map-asset-groups
-      *ngIf="mapSettings.currentControlPanel === 'map-asset-groups'"
-      [assetGroups]="assetGroups$ | async"
-      [selectedAssetGroups]="selectedAssetGroups$ | async"
-      [setAssetGroup]="setAssetGroup"
-      [clearAssetGroup]="clearAssetGroup"
-    ></map-asset-groups>
     <map-layers
       *ngIf="(authToken$ | async) !== undefined && (mapLayers$ | async).length > 0"
       [map]="map"
@@ -128,5 +149,5 @@
       [addActiveLayerFunction]="addActiveLayer"
       [removeActiveLayerFunction]="removeActiveLayer"
     ></map-layers>
-  </div>
+  </div> -->
 </div>

@@ -3,8 +3,13 @@
 /* The toggle - the box around the slider */
 .toggle {
   position: relative;
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr auto;
   cursor: pointer;
+
+  .label {
+    align-self: center;
+  }
 
   /* The slider */
   .slider {

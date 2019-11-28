@@ -107,15 +107,4 @@ describe('AssetPanelComponent', () => {
     expect(removeForecastSpy).toHaveBeenCalledTimes(1);
     expect(removeForecastSpy).toHaveBeenCalledWith(selectedAsset.asset.id);
   });
-
-  it('should correctly toggle visibility', () => {
-    const { component } = setup();
-
-    const isHidden = component.hidePanel;
-    component['toggleVisibility']();
-    expect(component.hidePanel).not.toEqual(isHidden);
-    component['toggleVisibility']();
-    expect(component.hidePanel).toEqual(isHidden);
-  });
-
 });
