@@ -67,8 +67,8 @@ export const getAssetTrackTimeInterval = createAction(
   props<{ assetId: string, startDate: string, endDate: string }>()
 );
 
-export const getAssetNotSendingEvents = createAction(
-  '[Asset] Get asset not sending events'
+export const getAssetNotSendingIncidents = createAction(
+  '[Asset] Get asset not sending incidents'
 );
 
 export const getTracksByTimeInterval = createAction(
@@ -153,9 +153,9 @@ export const setAssetList = createAction(
   props<{ searchParams: any, assets: { [uid: string]: AssetInterfaces.Asset }, currentPage: number, totalNumberOfPages: number  }>()
 );
 
-export const setAssetNotSendingEvents = createAction(
-  '[Asset] Set asset not sending events',
-  props<{ assetNotSendingEvents: { readonly [assetId: string]: AssetInterfaces.AssetNotSendingEvent }}>()
+export const setAssetNotSendingIncidents = createAction(
+  '[Asset] Set asset not sending incidents',
+  props<{ assetNotSendingIncidents: { readonly [assetId: string]: AssetInterfaces.assetNotSendingIncident }}>()
 );
 
 export const setAutocompleteQuery = createAction(

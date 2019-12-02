@@ -1,0 +1,68 @@
+<div class="content-container">
+  <ul id="realtime-left-column-menu">
+    <li
+      (click)="setActivePanel('filters')"
+    ><i class="icon-search {{activePanel === 'filters' ? 'active' : '' }}" aria-hidden="true"></i></li>
+    <li
+      (click)="setActivePanel('workflows')"
+    ><i class="icon-workflow {{activePanel === 'workflows' ? 'active' : '' }}" aria-hidden="true"></i></li>
+  </ul>
+  <div class="panel filter-panel" *ngIf="activePanel === 'filters'">
+    <h3>Filter map</h3>
+    <map-panel-block
+      blockTitle="Filter"
+      [active]="filtersActive.filter"
+      [setActiveFunction]="setGivenFilterActiveCurry('filter')"
+    >
+      <map-asset-filter
+        [filterFunction]="filterAssets"
+        [filterQuerySaved]="currentFilterQuery$ | async"
+      ></map-asset-filter>
+    </map-panel-block>
+    <map-panel-block
+      blockTitle="Saved filters"
+      [active]="filtersActive.savedFilters"
+      [setActiveFunction]="setGivenFilterActiveCurry('savedFilters')"
+    >
+      <map-saved-filters
+        [filterQuery]="currentFilterQuery$ | async"
+        [addSavedFilter]="addSavedFilter"
+        [savedFilters]="savedFilters$ | async"
+        [activeFilters]="activeFilterNames$ | async"
+        [activateFilter]="activateSavedFilter"
+        [deactivateFilter]="deactivateSavedFilter"
+      ></map-saved-filters>
+    </map-panel-block>
+    <map-panel-block
+      blockTitle="Asset groups"
+      [active]="filtersActive.assetGroups"
+      [setActiveFunction]="setGivenFilterActiveCurry('assetGroups')"
+    >
+      <map-asset-groups
+        [assetGroups]="assetGroups$ | async"
+        [selectedAssetGroups]="selectedAssetGroups$ | async"
+        [setAssetGroup]="setAssetGroup"
+        [clearAssetGroup]="clearAssetGroup"
+      ></map-asset-groups>
+    </map-panel-block>
+    <map-panel-block blockTitle="Search">
+      <map-asset-search
+        [autocompleteFunction]="searchAutocomplete"
+        [autocompleteResult]="searchAutocompleteResult$ | async"
+        [centerMapOnPosition]="centerMapOnPosition"
+        [selectAsset]="selectAsset"
+      ></map-asset-search>
+    </map-panel-block>
+  </div>
+  <div class="panel filter-panel" *ngIf="activePanel === 'workflows'">
+    <h3>Workflows</h3>
+    <map-panel-block
+      blockTitle="Assets not sending"
+      [active]="filtersActive.assetGroups"
+      [setActiveFunction]="setGivenFilterActiveCurry('assetGroups')"
+      [useArrowsAsToggle]="true"
+    >
+      <map-incidents [incidents]="assetNotSendingIncidents"></map-incidents>
+    </map-panel-block>
+  </div>
+</div>

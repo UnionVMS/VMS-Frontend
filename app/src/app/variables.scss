@@ -25,6 +25,8 @@ $color_light_yellow: #E8D186;
 $color_warm_dark_gray: #E3DCD5;
 $color_warm_gray: #F0EDE7;
 
+$color_gray: #CCCCCC;
+$color_dark_gray: #818181;
 
 $default_font_size: 14px;
 $h1_font_size: 20px;
@@ -59,4 +61,39 @@ $xxlarge_distance: 32px;
   &::-webkit-scrollbar {
     display: none;  // Safari and Chrome
   }
+}
+
+@mixin icon($url) {
+  display: grid;
+  background: $color_turquoise;
+  width: $xxlarge_distance;
+  height: $xxlarge_distance;
+  &::before {
+    place-self: center;
+    content: url($url);
+    filter: brightness(0%) invert(1);
+  }
+  &:hover {
+    background: $color_light_turquoise;
+  }
+
+  &.active {
+    background: white;
+  }
+
+  &.active::before {
+    filter: none;
+  }
+}
+
+@mixin left-icon($url) {
+  @include icon($url);
+  border-top-right-radius: $small_distance;
+  border-bottom-right-radius: $small_distance;
+}
+
+@mixin right-icon($url) {
+  @include icon($url);
+  border-top-left-radius: $small_distance;
+  border-bottom-left-radius: $small_distance;
 }

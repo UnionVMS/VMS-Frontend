@@ -6,7 +6,7 @@
       title="{{flagsDisabled ? 'Flags disabled due to zoom-level' : (mapSettings.settings.flagsVisible ? 'Hide flags' : 'Show flags')}}"
       [disabled]="flagsDisabled"
     >
-      <i class="fas fa-flag" alt="Flags"></i>
+      <i class="fas fa-flag" alt="Flags" aria-hidden="true"></i>
     </button>
     <button
       class="btn {{mapSettings.settings.tracksVisible ? 'active' : ''}}"
@@ -14,7 +14,7 @@
       title="{{tracksDisabled ? 'Tracks disabled due to zoom-level' : (mapSettings.settings.tracksVisible ? 'Hide tracks' : 'Show tracks')}}"
       [disabled]="tracksDisabled"
     >
-      <i class="fas fa-angle-double-up"></i>
+      <i class="fas fa-angle-double-up" aria-hidden="true"></i>
     </button>
     <button
       class="btn {{mapSettings.settings.namesVisible ? 'active' : ''}}"
@@ -22,7 +22,7 @@
       title="{{namesDisabled ? 'Names disabled due to zoom-level' : (mapSettings.settings.namesVisible ? 'Hide names' : 'Show names')}}"
       [disabled]="namesDisabled"
     >
-      <i class="fas fa-signature"></i>
+      <i class="fas fa-signature" aria-hidden="true"></i>
     </button>
     <button
       class="btn {{mapSettings.settings.speedsVisible ? 'active' : ''}}"
@@ -30,7 +30,7 @@
       title="{{speedsDisabled ? 'Speeds disabled due to zoom-level' : (mapSettings.settings.speedsVisible ? 'Hide speeds' : 'Show speeds')}}"
       [disabled]="speedsDisabled"
     >
-      <i class="fas fa-tachometer-alt"></i>
+      <i class="fas fa-tachometer-alt" aria-hidden="true"></i>
     </button>
     <button
       class="btn {{mapSettings.settings.forecastsVisible ? 'active' : ''}}"
@@ -38,7 +38,7 @@
       title="{{forecastsDisabled ? 'Forecasts disabled due to zoom-level' : (mapSettings.settings.forecastsVisible ? 'Hide forecasts' : 'Show forecasts')}}"
       [disabled]="forecastsDisabled"
     >
-      <i class="fas fa-fast-forward"></i>
+      <i class="fas fa-fast-forward" aria-hidden="true"></i>
     </button>
   </div>
   <div class="viewport-wrapper {{viewportKeys.length > 0 ? 'visible' : ''}}">

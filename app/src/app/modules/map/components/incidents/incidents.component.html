@@ -1,0 +1,14 @@
+<div class="content-container">
+  <div class="incidents" *ngIf="incidents.length > 0">
+    <div
+      *ngFor="let incident of incidents"
+      title="{{incident.assetName}}"
+      class="incident"
+    >
+      <div class="status"></div>
+      <ui-truncated-text [text]="incident.assetName" length="10"></ui-truncated-text>
+      <div class="ircs">{{incident.assetIrcs}}</div>
+      <!-- <div class="time">{{formatDate(incident)}}</div> -->
+    </div>
+  </div>
+</div>

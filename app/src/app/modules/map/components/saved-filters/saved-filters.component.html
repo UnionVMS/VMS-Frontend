@@ -2,8 +2,9 @@
   <div class="saved-filters" *ngIf="savedFilterNames.length > 0">
     <mat-checkbox
       *ngFor="let savedFilterName of savedFilterNames"
-      (click)="toggleFilter(savedFilterName)"
+      (change)="toggleFilter(savedFilterName)"
       title="{{savedFilterName}}"
+      [checked]="activeFilters.includes(savedFilterName)"
     >
       <ui-truncated-text [text]="savedFilterName" length="30"></ui-truncated-text>
     </mat-checkbox>
@@ -14,7 +15,7 @@
       class="btn"
       (click)="creatingNewFilter = true"
     >
-      <i class="fas fa-plus"></i> Create new
+      <i class="fas fa-plus" aria-hidden="true"></i> Create new
     </button>
     <mat-form-field *ngIf="creatingNewFilter">
       <input matInput placeholder="Name" [(ngModel)]="newFilterName">
@@ -24,7 +25,7 @@
       class="btn btn-small"
       (click)="saveFilter()"
     >
-      <i class="fas fa-plus"></i>
+      <i class="fas fa-plus" aria-hidden="true"></i>
     </button>
   </div>
 </div>

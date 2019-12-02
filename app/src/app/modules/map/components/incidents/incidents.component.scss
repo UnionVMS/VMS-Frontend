@@ -1,0 +1,43 @@
+@import 'variables.scss';
+
+.content-container {
+  grid-row-gap: $medium_distance;
+
+  h4 {
+    margin: 0px;
+  }
+
+  .incidents {
+    display: grid;
+    grid-row-gap: $medium_distance;
+
+    .incident {
+      display: grid;
+      grid-template-columns: $medium_distance 1fr 1fr;
+      grid-column-gap: $medium_distance;
+      padding: $medium_distance;
+      background: $color_cold_gray;
+      cursor: pointer;
+
+      .status {
+        place-self: center;
+        border: 1px solid #000000;
+        background: $color_light_orange;
+        border-radius: $small_distance;
+        width: $medium_distance;
+        height: $medium_distance;
+        display: inline-block;
+      }
+
+      .time {
+        grid-column: 2 / span 2;
+      }
+    }
+  }
+
+  button.btn {
+    padding: $medium_distance $large_distance;
+    background-color: $color_light_green;
+  }
+
+}

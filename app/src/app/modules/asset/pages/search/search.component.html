@@ -5,7 +5,6 @@
 <form class="asset-search-form">
   <mat-form-field>
     <mat-label>Flagstates</mat-label>
-    <!-- [formControl]="searchFlagstates" -->
     <mat-select name="flagState" [(ngModel)]="assetSearchObject.flagState" multiple>
       <mat-option *ngFor="let flagstate of flagstates" id="mat-option-{{flagstate}}" [value]="flagstate">{{flagstate}}</mat-option>
     </mat-select>

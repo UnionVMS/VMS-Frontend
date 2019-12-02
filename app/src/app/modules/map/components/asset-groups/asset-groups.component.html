@@ -2,8 +2,9 @@
   <div class="asset-groups" *ngIf="assetGroups.length > 0">
     <mat-checkbox
       *ngFor="let assetGroup of assetGroups"
-      (click)="toggleGroup(assetGroup)"
+      (change)="toggleGroup(assetGroup)"
       title="{{assetGroup.name}}"
+      [checked]="selectedAssetGroupIds.includes(assetGroup.id)"
     >
       <ui-truncated-text [text]="assetGroup.name" length="30"></ui-truncated-text>
     </mat-checkbox>

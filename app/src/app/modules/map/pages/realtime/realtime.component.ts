@@ -39,16 +39,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     assetTracks: AssetInterfaces.AssetTrack,
     currentPosition: AssetInterfaces.AssetMovement
   }>>;
-  public currentFilterQuery$: Observable<ReadonlyArray<AssetInterfaces.AssetFilterQuery>>;
-  public savedFilters$: Observable<{ [filterName: string]: Array<AssetInterfaces.AssetFilterQuery> }>;
-  public activeFilterNames$: Observable<Array<string>>;
-  public assetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
-  public selectedAssetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
   public authToken$: Observable<string|null>;
   public mapLayers$: Observable<Array<MapLayersInterfaces.MapLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
-  public assetNotSendingEvents$: Observable<ReadonlyArray<AssetInterfaces.AssetNotSendingEvent>>;
-  public filtersActive$: Observable<Readonly<{ readonly [filterTypeName: string]: boolean }>>;
 
   public assetIdFromUrl: string;
 
@@ -70,18 +63,11 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public setVisibilityForTracks: Function;
   public setVisibilityForFlags: Function;
   public setTracksMinuteCap: (minutes: number) => void;
-  public searchAutocomplete: Function;
-  // tslint:enable:ban-types
+    // tslint:enable:ban-types
   public addActiveLayer: (layerName: string) => void;
-  public addSavedFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
-  public activateSavedFilter: (filterName: string) => void;
-  public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
-  public deactivateSavedFilter: (filterName: string) => void;
-  public filterAssets: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
   public removeActiveLayer: (layerName: string) => void;
   public removePositionForInspection: (inspectionId: string) => void;
-  public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
-  public setGivenFilterActive: (filterTypeName: string, status: boolean) => void;
+  public searchAutocomplete: (searchQuery: string) => void;
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
@@ -97,7 +83,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   private assetTracks$: Observable<any>;
   private forecasts$: Observable<any>;
-  public searchAutocompleteAsset$: Observable<any>;
   private selection: Select;
   // private hoverSelection: Select;
 
@@ -115,12 +100,17 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   // Map functions to props:
   public centerMapOnPosition: (position: Position) => void;
 
-  // Curried functions
-  public setGivenFilterActiveCurry = (filterTypeName: string) => (status: boolean) => this.setGivenFilterActive(filterTypeName, status);
-
   constructor(private store: Store<any>) { }
 
   mapStateToProps() {
+    this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
+      if(typeof this.map !== 'undefined') {
+        setTimeout(() => {
+          // Fix potential map resize when scrollbar appear or dissappear
+          this.map.updateSize();
+        }, 200);
+      }
+    });
     this.store.select(AssetSelectors.getAssetMovements).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
       this.assetMovements = assets;
     });
@@ -128,15 +118,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.positionsForInspection$ = this.store.select(AssetSelectors.getPositionsForInspection);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
-    this.searchAutocompleteAsset$ = this.store.select(AssetSelectors.getSearchAutocomplete);
     this.store.select(MapSettingsSelectors.getMapSettingsState).pipe(takeUntil(this.unmount$)).subscribe((mapSettings) => {
       this.mapSettings = mapSettings;
     });
-    this.currentFilterQuery$ = this.store.select(AssetSelectors.selectFilterQuery);
-    this.savedFilters$ = this.store.select(MapSavedFiltersSelectors.getSavedFilters);
-    this.activeFilterNames$ = this.store.select(MapSavedFiltersSelectors.selectActiveFilters);
-    this.assetGroups$ = this.store.select(AssetSelectors.getAssetGroups);
-    this.selectedAssetGroups$ = this.store.select(AssetSelectors.getSelectedAssetGroups);
     this.authToken$ = this.store.select(AuthSelectors.getAuthToken);
     this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers);
     this.activeMapLayers$ = this.store.select(MapLayersSelectors.getActiveLayers);
@@ -160,25 +144,13 @@ export class RealtimeComponent implements OnInit, OnDestroy {
           }
         }
     });
-    this.assetNotSendingEvents$ = this.store.select(AssetSelectors.getAssetNotSendingEvents);
-    this.filtersActive$ = this.store.select(MapSelectors.getFiltersActive);
   }
 
   mapDispatchToProps() {
     this.addActiveLayer = (layerName: string) =>
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
-    this.addSavedFilter = (filter: MapSavedFiltersInterfaces.SavedFilter) =>
-      this.store.dispatch(MapSavedFiltersActions.addSavedFilter({ filter }));
-    this.activateSavedFilter = (filterName: string) =>
-      this.store.dispatch(MapSavedFiltersActions.activateFilter({ filterName }));
-    this.clearAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
-      this.store.dispatch(AssetActions.clearAssetGroup({assetGroup}));
-    this.deactivateSavedFilter = (filterName: string) =>
-      this.store.dispatch(MapSavedFiltersActions.deactivateFilter({ filterName }));
     this.deselectAsset = (assetId) =>
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
-    this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
-      this.store.dispatch(AssetActions.setAssetGroup({ assetGroup }));
     this.saveViewport = (key: number, viewport: MapSettingsInterfaces.Viewport) =>
       this.store.dispatch(MapSettingsActions.saveViewport({key, viewport}));
     this.setVisibilityForAssetNames = (visible: boolean) =>
@@ -219,13 +191,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapSettingsActions.setForecastInterval({ interval: forecastTimeLength }));
     this.setCurrentControlPanel = (controlPanelName) =>
       this.store.dispatch(MapSettingsActions.setCurrentControlPanel({ controlPanelName }));
-    this.setGivenFilterActive = (filterTypeName: string, status: boolean) =>
-      this.store.dispatch(MapActions.setGivenFilterActive({ filterTypeName, status }));
     this.searchAutocomplete = (searchQuery: string) =>
       this.store.dispatch(AssetActions.setAutocompleteQuery({searchQuery}));
-    this.filterAssets = (filterQuery) => {
-      return this.store.dispatch(AssetActions.setFilterQuery({filterQuery}));
-    };
   }
 
   mapFunctionsToProps() {
@@ -243,7 +210,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.store.dispatch(AssetActions.subscribeToMovements());
     this.store.dispatch(AssetActions.getSelectedAsset());
     this.store.dispatch(AssetActions.getAssetGroups());
-    this.store.dispatch(AssetActions.getAssetNotSendingEvents());
+    this.store.dispatch(AssetActions.getAssetNotSendingIncidents());
     this.store.dispatch(MapLayersActions.getAreas());
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe((mergedRoute) => {
       if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {

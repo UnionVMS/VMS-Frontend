@@ -3,51 +3,9 @@
     <h2>Loading asset positions</h2>
     <mat-spinner class="load-spinner"></mat-spinner>
   </div>
-  <div id="realtime-left-column">
-    <map-panel-block
-      blockTitle="Filter"
-      [active]="(filtersActive$ | async).filter"
-      [setActiveFunction]="setGivenFilterActiveCurry('filter')"
-    >
-      <map-asset-filter
-        [filterFunction]="filterAssets"
-      ></map-asset-filter>
-    </map-panel-block>
-    <map-panel-block
-      blockTitle="Saved filters"
-      [active]="(filtersActive$ | async).savedFilters"
-      [setActiveFunction]="setGivenFilterActiveCurry('savedFilters')"
-    >
-      <map-saved-filters
-        [filterQuery]="currentFilterQuery$ | async"
-        [addSavedFilter]="addSavedFilter"
-        [savedFilters]="savedFilters$ | async"
-        [activeFilters]="activeFilterNames$ | async"
-        [activateFilter]="activateSavedFilter"
-        [deactivateFilter]="deactivateSavedFilter"
-      ></map-saved-filters>
-    </map-panel-block>
-    <map-panel-block
-      blockTitle="Asset groups"
-      [active]="(filtersActive$ | async).assetGroups"
-      [setActiveFunction]="setGivenFilterActiveCurry('assetGroups')"
-    >
-      <map-asset-groups
-        [assetGroups]="assetGroups$ | async"
-        [selectedAssetGroups]="selectedAssetGroups$ | async"
-        [setAssetGroup]="setAssetGroup"
-        [clearAssetGroup]="clearAssetGroup"
-      ></map-asset-groups>
-    </map-panel-block>
-    <map-panel-block blockTitle="Search">
-      <map-asset-search
-        [autocompleteFunction]="searchAutocomplete"
-        [autocompleteResult]="searchAutocompleteAsset$ | async"
-        [centerMapOnPosition]="centerMapOnPosition"
-        [selectAsset]="selectAsset"
-      ></map-asset-search>
-    </map-panel-block>
-  </div>
+  <map-left-column
+    [centerMapOnPosition]="centerMapOnPosition"
+  ></map-left-column>
   <div class="map-container">
     <div id="realtime-map"></div>
     <ng-container *ngIf="mapReady && mapSettingsLoaded">

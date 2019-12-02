@@ -43,7 +43,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }>>;
   public currentFilterQuery$: Observable<ReadonlyArray<AssetInterfaces.AssetFilterQuery>>;
   public savedFilters$: Observable<{ [filterName: string]: Array<AssetInterfaces.AssetFilterQuery> }>;
-  public activeFilterNames$: Observable<Array<string>>;
+  public activeFilterNames$: Observable<ReadonlyArray<string>>;
   public assetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
   public selectedAssetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
   public authToken$: Observable<string|null>;

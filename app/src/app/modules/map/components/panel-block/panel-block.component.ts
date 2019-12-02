@@ -1,6 +1,4 @@
-import { Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
-import { formatDate } from '../../../../helpers/helpers';
-import * as AssetInterfaces from '@data/asset/asset.interfaces';
+import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'map-panel-block',
@@ -11,10 +9,13 @@ export class PanelBlockComponent implements OnChanges {
   @Input() blockTitle: string;
   @Input() active: boolean;
   @Input() setActiveFunction: (status: boolean) => void;
+  // tslint:disable-next-line:no-inferrable-types
+  @Input() useArrowsAsToggle: boolean = false;
 
-  public switchFunction;
+  public switchFunction: () => void;
 
   ngOnChanges() {
+    // console.warn(this.useArrowsAsToggle);
     this.switchFunction = () => this.setActiveFunction(!this.active);
   }
 }

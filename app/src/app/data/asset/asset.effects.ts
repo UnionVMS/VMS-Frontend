@@ -360,15 +360,15 @@ export class AssetEffects {
   );
 
   @Effect()
-  getAssetNotSendingEvents$ = this.actions$.pipe(
-    ofType(AssetActions.getAssetNotSendingEvents),
+  getAssetNotSendingIncidents$ = this.actions$.pipe(
+    ofType(AssetActions.getAssetNotSendingIncidents),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.getAssetNotSendingEvents(authToken).pipe(
-        map((assetNotSendingEvents: ReadonlyArray<AssetInterfaces.AssetNotSendingEvent>) => {
-          return AssetActions.setAssetNotSendingEvents({
-            assetNotSendingEvents: assetNotSendingEvents.reduce((acc, assetNotSendingEvent) => {
-              acc[assetNotSendingEvent.assetId] = assetNotSendingEvent;
+        map((assetNotSendingIncidents: ReadonlyArray<AssetInterfaces.assetNotSendingIncident>) => {
+          return AssetActions.setAssetNotSendingIncidents({
+            assetNotSendingIncidents: assetNotSendingIncidents.reduce((acc, assetNotSendingIncident) => {
+              acc[assetNotSendingIncident.assetId] = assetNotSendingIncident;
               return acc;
             }, {})
           });

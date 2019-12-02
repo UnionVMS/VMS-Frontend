@@ -152,7 +152,7 @@ export type AssetGroup = Readonly<{
   assetGroupFields: ReadonlyArray<AssetGroupField>;
 }>;
 
-export type AssetNotSendingEvent = Readonly<{
+export type assetNotSendingIncident = Readonly<{
   id: string,
   assetId: string,
   assetName: string,
@@ -176,7 +176,7 @@ export type State = Readonly<{
   assets: { readonly [uid: string]: Asset };
   assetsEssentials: { readonly [uid: string]: AssetEssentialProperties };
   assetLists: { readonly [identifier: string]: AssetList };
-  assetNotSendingEvents: { readonly [assetId: string]: AssetNotSendingEvent };
+  assetNotSendingIncidents: { readonly [assetId: string]: assetNotSendingIncident };
   currentAssetList: CurrentAssetList;
   assetMovements: { readonly [assetId: string]: AssetMovement };
   assetTracks: { readonly [assetId: string]: AssetTrack };

@@ -14,7 +14,8 @@ export const initialState: Interfaces.State = {
     filter: true,
     savedFilters: true,
     assetGroups: true
-  }
+  },
+  activeLeftPanel: 'workflows',
 };
 
 export const mapReducer = createReducer(initialState,
@@ -33,5 +34,9 @@ export const mapReducer = createReducer(initialState,
   on(MapsActions.setGivenFilterActive, (state, { filterTypeName, status }) => ({
     ...state,
     filtersActive: { ...state.filtersActive, [filterTypeName]: status },
+  })),
+  on(MapsActions.setActiveLeftPanel, (state, { activeLeftPanel }) => ({
+    ...state,
+    activeLeftPanel
   })),
 );

@@ -21,16 +21,20 @@ import { UIModule } from '../ui/ui.module';
 import { RealtimeComponent } from './pages/realtime/realtime.component';
 import { ReportsComponent } from './pages/reports/reports.component';
 
+/* Container-components */
+import { MapLeftColumnComponent } from './container-components/map-left-column/map-left-column.component';
+
 /* Components */
-import { AssetsComponent } from './components/assets/assets.component';
 import { AssetGroupsComponent } from './components/asset-groups/asset-groups.component';
 import { AssetFilterComponent } from './components/asset-filter/asset-filter.component';
 import { AssetForecastComponent } from './components/asset-forecast/asset-forecast.component';
 import { AssetPanelComponent } from './components/asset-panel/asset-panel.component';
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
+import { AssetsComponent } from './components/assets/assets.component';
 import { ControlPanelComponent } from './components/control-panel/control-panel.component';
 import { DistanceBetweenPointsComponent } from './components/distance-between-points/distance-between-points.component';
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
+import { IncidentsComponent } from './components/incidents/incidents.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
 import { MapLayersComponent } from './components/map-layers/map-layers.component';
@@ -75,9 +79,11 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     ControlPanelComponent,
     DistanceBetweenPointsComponent,
     FlagstatesComponent,
+    IncidentsComponent,
     InformationPanelComponent,
     LayerFilterComponent,
     MapLayersComponent,
+    MapLeftColumnComponent,
     MapViewportsComponent,
     PeriodSelectorComponent,
     PanelBlockComponent,

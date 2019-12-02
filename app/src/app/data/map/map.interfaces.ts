@@ -11,4 +11,5 @@ export type State = Readonly<{
   realtime: Realtime;
   report: Report;
   filtersActive: { readonly [filterTypeName: string]: boolean }
+  activeLeftPanel: string;
 }>;

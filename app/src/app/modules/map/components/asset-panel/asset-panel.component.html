@@ -1,13 +1,13 @@
 <div class="content-container">
   <div class="information-wrapper">
     <div class="tabs-wrapper">
-      <span class="left-scroll" (click)="scrollTabs('left')"><i class="fas fa-chevron-left"></i></span>
+      <span class="left-scroll" (click)="scrollTabs('left')"><i class="fas fa-chevron-left" aria-hidden="true"></i></span>
       <ul class="tabs">
         <li *ngFor="let asset of assets" (click)="selectAsset(asset.asset.id)" class="{{ asset.currentlyShowing ? 'active' : ''}}">
-          <span>{{asset.asset.name}} <i class="fas fa-times" (click)="deselectAsset(asset.asset.id)"></i></span>
+          <span>{{asset.asset.name}} <i class="fas fa-times" aria-hidden="true" (click)="deselectAsset(asset.asset.id)"></i></span>
         </li>
       </ul>
-      <span class="right-scroll" (click)="scrollTabs('right')"><i class="fas fa-chevron-right"></i></span>
+      <span class="right-scroll" (click)="scrollTabs('right')"><i class="fas fa-chevron-right" aria-hidden="true"></i></span>
     </div>
     <div class="asset-information">
       <ng-container *ngIf="activeAsset">

@@ -19,3 +19,8 @@ export const setGivenFilterActive = createAction(
   '[Map] Set given filter active',
   props<{ filterTypeName: string, status: boolean }>()
 );
+
+export const setActiveLeftPanel = createAction(
+  '[Map] Set active left panel',
+  props<{ activeLeftPanel: string }>()
+);

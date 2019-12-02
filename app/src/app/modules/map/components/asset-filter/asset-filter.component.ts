@@ -16,6 +16,7 @@ type QueryParam = Readonly<{
 })
 export class AssetFilterComponent implements OnChanges {
   @Input() filterFunction: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
+  @Input() filterQuerySaved: string;
 
   public filterQuery = '';
 
@@ -100,5 +101,7 @@ export class AssetFilterComponent implements OnChanges {
   }
 
   ngOnChanges() {
+    // console.warn(this.filterQuerySaved);
+    // this.filterQuery = this.filterQuerySaved;
   }
 }

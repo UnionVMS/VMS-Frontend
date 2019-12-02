@@ -1,0 +1,55 @@
+@import 'variables.scss';
+
+.content-container {
+  height: 100%;
+  background: $color_cold_gray;
+  position: relative;
+
+  #realtime-left-column-menu {
+    position: absolute;
+    left: 250px;
+    top: 60px;
+    z-index: 200;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-row-gap: $medium_distance;
+
+    li {
+      white-space: nowrap;
+      cursor: pointer;
+
+      .icon-search {
+        @include left-icon('/assets/workflow.svg');
+      }
+      .icon-workflow {
+        @include left-icon('/assets/workflow.svg');
+      }
+
+    }
+    //
+    // list-style-type: none;
+    // margin: 0 0 $large_distance 0;
+    // padding: $large_distance $large_distance 0px $large_distance;
+    // border-bottom: 1px solid $color_gray;
+    //
+    // li {
+    //   display: inline-block;
+    //   padding: $medium_distance;
+    //   color: $color_dark_gray;
+    //   cursor: pointer;
+    //   &.active {
+    //     color: $color_black;
+    //     border-bottom: 2px solid $color_turquoise;
+    //   }
+    // }
+  }
+  .panel {
+    display: grid;
+
+    h3 {
+      justify-self: center;
+    }
+  }
+}
