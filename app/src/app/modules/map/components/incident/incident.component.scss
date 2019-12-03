@@ -1,0 +1,36 @@
+@import 'variables.scss';
+
+.content-container {
+  color: black;
+  padding: $small_distance;
+  h4 {
+    margin: 0;
+    padding-bottom: $small_distance;
+    padding-top: $large_distance;
+    &:first-child {
+      padding-top: 0;
+    }
+  }
+  .asset-information {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    background: white;
+    padding: $small_distance;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+    &::-webkit-scrollbar {
+      display: none;  // Safari and Chrome
+    }
+
+    legend {
+      // font-weight: bold;
+      font-size: $default_font_size;
+      // text-decoration: underline;
+    }
+
+    a {
+      color: black;
+    }
+  }
+}

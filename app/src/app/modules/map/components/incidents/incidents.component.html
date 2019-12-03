@@ -4,6 +4,7 @@
       *ngFor="let incident of incidents"
       title="{{incident.assetName}}"
       class="incident"
+      (click)="selectIncident(incident)"
     >
       <div class="status"></div>
       <ui-truncated-text [text]="incident.assetName" length="10"></ui-truncated-text>

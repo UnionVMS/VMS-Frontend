@@ -15,7 +15,7 @@ export const initialState: Interfaces.State = {
     savedFilters: true,
     assetGroups: true
   },
-  activeLeftPanel: 'filters',
+  activeLeftPanel: 'workflows',
   activeRightPanel: 'information',
 };
 

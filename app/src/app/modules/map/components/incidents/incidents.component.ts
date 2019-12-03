@@ -8,7 +8,8 @@ import { formatDate } from '@app/helpers/helpers';
   styleUrls: ['./incidents.component.scss']
 })
 export class IncidentsComponent {
-  @Input() incidents: ReadonlyArray<any>;
+  @Input() incidents: ReadonlyArray<AssetInterfaces.assetNotSendingIncident>;
+  @Input() selectIncident: (incident: AssetInterfaces.assetNotSendingIncident) => void;
 
   formatDate(incident) {
     return formatDate(incident.lastKnownLocation.timestamp);

@@ -118,6 +118,7 @@ export const assetReducer = createReducer(initialState,
   })),
   on(AssetActions.clearForecasts, (state) => ({ ...state, forecasts: [] })),
   on(AssetActions.clearTracks, (state) => ({ ...state, assetTracks: {}, positionsForInspection: {} })),
+  on(AssetActions.clearSelectedAssets, (state) => ({ ...state, selectedAsset: null, selectedAssets: [] })),
   on(AssetActions.deselectAsset, (state, { assetId }) => {
     let selectedAsset = state.selectedAsset;
     const selectedAssets = state.selectedAssets.filter((selectedAssetId) => selectedAssetId !== assetId);
@@ -176,6 +177,14 @@ export const assetReducer = createReducer(initialState,
       returnState = { ...returnState, selectedAssets: [ ...state.selectedAssets, assetId] };
     }
     return returnState;
+  }),
+  on(AssetActions.selectIncident, (state, { incident, incidentType }) => {
+    let returnState = { ...state, selectedAsset: incident.assetId };
+    if(!state.selectedAssets.some((selectedAssetId) => selectedAssetId === incident.assetId )) {
+      returnState = { ...returnState, selectedAssets: [ ...state.selectedAssets, incident.assetId] };
+    }
+
+    return state;
   }),
   on(AssetActions.setAssetTripGranularity, (state, { assetTripGranularity }) => ({ ...state, assetTripGranularity })),
   on(AssetActions.setAssetTrips, (state, { assetMovements }) => {

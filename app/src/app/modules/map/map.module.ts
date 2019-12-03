@@ -35,11 +35,15 @@ import { AssetsComponent } from './components/assets/assets.component';
 import { ControlPanelComponent } from './components/control-panel/control-panel.component';
 import { DistanceBetweenPointsComponent } from './components/distance-between-points/distance-between-points.component';
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
+import { IncidentComponent } from './components/incident/incident.component';
+import { IncidentStatusFormComponent } from './components/incident-status-form/incident-status-form.component';
 import { IncidentsComponent } from './components/incidents/incidents.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
 import { MapLayersComponent } from './components/map-layers/map-layers.component';
 import { MapViewportsComponent } from './components/map-viewports/map-viewports.component';
+import { ManualPositionFormComponent } from './components/manual-position-form/manual-position-form.component';
+import { NoteFormComponent } from './components/note-form/note-form.component';
 import { PeriodSelectorComponent } from './components/period-selector/period-selector.component';
 import { PanelBlockComponent } from './components/panel-block/panel-block.component';
 import { SavedFiltersComponent } from './components/saved-filters/saved-filters.component';
@@ -80,6 +84,8 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     ControlPanelComponent,
     DistanceBetweenPointsComponent,
     FlagstatesComponent,
+    IncidentComponent,
+    IncidentStatusFormComponent,
     IncidentsComponent,
     InformationPanelComponent,
     LayerFilterComponent,
@@ -87,6 +93,8 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MapLeftColumnComponent,
     MapRightColumnComponent,
     MapViewportsComponent,
+    ManualPositionFormComponent,
+    NoteFormComponent,
     PeriodSelectorComponent,
     PanelBlockComponent,
     SavedFiltersComponent,

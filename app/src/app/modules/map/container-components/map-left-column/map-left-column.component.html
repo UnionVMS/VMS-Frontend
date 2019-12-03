@@ -66,10 +66,14 @@
     <map-panel-block
       blockTitle="Assets not sending"
       [active]="filtersActive.assetsNotSendingIncicents"
-      [setActiveFunction]="setGivenFilterActiveCurry('assetsNotSendingIncicents')"
+      [setActiveFunction]="setGivenWorkflowActive('assetsNotSendingIncicents')"
       [useArrowsAsToggle]="true"
     >
-      <map-incidents body [incidents]="assetNotSendingIncidents"></map-incidents>
+      <map-incidents
+        body
+        [incidents]="assetNotSendingIncidents"
+        [selectIncident]="selectIncident"
+      ></map-incidents>
     </map-panel-block>
   </div>
 </div>

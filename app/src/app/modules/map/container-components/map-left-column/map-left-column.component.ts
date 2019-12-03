@@ -19,6 +19,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   public activePanel: string;
   public setActivePanel: (activeLeftPanel: string) => void;
+  public setActiveRightPanel: (activeRightPanel: string) => void;
 
   public filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>;
   public setGivenFilterActive: (filterTypeName: string, status: boolean) => void;
@@ -35,6 +36,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public selectedAssetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
+  public clearSelectedAssets: () => void;
 
   public searchAutocomplete: (searchQuery: string) => void;
   public searchAutocompleteResult$: Observable<ReadonlyArray<Readonly<{
@@ -48,8 +50,14 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
+  public selectIncident: (incident: AssetInterfaces.assetNotSendingIncident) => void;
+
   // Curried functions
   public setGivenFilterActiveCurry = (filterTypeName: string) => (status: boolean) => this.setGivenFilterActive(filterTypeName, status);
+  public setGivenWorkflowActive = (filterTypeName: string) => (status: boolean) => {
+    this.clearSelectedAssets();
+    this.setGivenFilterActive(filterTypeName, status);
+  }
 
   constructor(private store: Store<any>) { }
 
@@ -73,14 +81,16 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.assetGroups$ = this.store.select(AssetSelectors.getAssetGroups);
     this.selectedAssetGroups$ = this.store.select(AssetSelectors.getSelectedAssetGroups);
     this.searchAutocompleteResult$ = this.store.select(AssetSelectors.getSearchAutocomplete);
-    this.store.select(AssetSelectors.getAssetNotSendingIncidents).subscribe(assetsNotSendingIncicents => {
+    this.store.select(AssetSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
       this.assetNotSendingIncidents = assetsNotSendingIncicents;
     });
   }
 
   mapDispatchToProps() {
-    this.setActivePanel = (activeLeftPanel: string) =>
+    this.setActivePanel = (activeLeftPanel: string) => {
+      this.store.dispatch(AssetActions.clearSelectedAssets());
       this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
+    };
     this.setGivenFilterActive = (filterTypeName: string, status: boolean) =>
       this.store.dispatch(MapActions.setGivenFilterActive({ filterTypeName, status }));
     this.filterAssets = (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => {
@@ -100,16 +110,28 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.setAutocompleteQuery({searchQuery}));
     this.selectAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
+    this.setActiveRightPanel = (activeRightPanel: string) => {
+      this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel }));
+    };
+    this.clearSelectedAssets = () =>
+      this.store.dispatch(AssetActions.clearSelectedAssets());
+  }
+
+  mapFunctionsToProps() {
+    this.selectIncident = (incident: AssetInterfaces.assetNotSendingIncident) => {
+      this.selectAsset(incident.assetId);
+      this.setActiveRightPanel('incident');
+    };
   }
 
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
+    this.mapFunctionsToProps();
   }
 
   ngOnDestroy() {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
   }
-
 }

@@ -10,22 +10,23 @@
   <div class="panel filter-panel" *ngIf="activePanel === 'information'">
     <h3>Map information</h3>
     <map-panel-block
-      *ngFor="let selectedAsset of selectedAssets"
-      [blockTitle]="selectedAsset.asset.name"
-      [active]="selectedAsset.currentlyShowing"
-      [setActiveFunction]="selectAssetWrapper(selectedAsset.asset.id)"
+      *ngFor="let currentAsset of selectedAssets"
+      [blockTitle]="currentAsset.asset.name"
+      [active]="currentAsset.currentlyShowing"
+      [setActiveFunction]="selectAssetWrapper(currentAsset.asset.id)"
       [useArrowsAsToggle]="true"
     >
-      <img header class="flag-image" src="/assets/flags/4x3/{{getCountryCode(selectedAsset)}}.svg" alt="getCountryCode(selectedAsset)" />
+      <img header class="flag-image" src="/assets/flags/4x3/{{getCountryCode(currentAsset)}}.svg" alt="getCountryCode(currentAsset)" />
       <map-asset-panel
         body
-        [asset]="selectedAsset"
+        [asset]="currentAsset"
         [selectAsset]="selectAsset"
         [deselectAsset]="deselectAsset"
         [forecasts]="forecasts$|async"
         [getAssetTrack]="getAssetTrack"
         [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
         [untrackAsset]="untrackAsset"
+
         [addForecast]="addForecast"
         [removeForecast]="removeForecast"
         [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
@@ -34,29 +35,16 @@
     </map-panel-block>
   </div>
   <div class="panel filter-panel" *ngIf="activePanel === 'incident'">
-    <h3>Incident</h3>
-    <map-panel-block
-      *ngFor="let selectedAsset of selectedAssets"
-      [blockTitle]="selectedAsset.asset.name"
-      [active]="selectedAsset.currentlyShowing"
-      [setActiveFunction]="selectAssetWrapper(selectedAsset.asset.id)"
-      [useArrowsAsToggle]="true"
-    >
-      <img header class="flag-image" src="/assets/flags/4x3/{{getCountryCode(selectedAsset)}}.svg" alt="getCountryCode(selectedAsset)" />
-      <map-asset-panel
-        body
-        [asset]="selectedAsset"
-        [selectAsset]="selectAsset"
-        [deselectAsset]="deselectAsset"
-        [forecasts]="forecasts$|async"
-        [getAssetTrack]="getAssetTrack"
-        [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
-        [untrackAsset]="untrackAsset"
-        [addForecast]="addForecast"
-        [removeForecast]="removeForecast"
-        [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
-        [centerMapOnPosition]="centerMapOnPosition"
-      ></map-asset-panel>
-    </map-panel-block>
+    <h3>
+      Incident
+      <span *ngIf="selectedAsset !== undefined && assetsNotSendingIncidents[selectedAsset.asset.id] !== undefined">
+        #{{ assetsNotSendingIncidents[selectedAsset.asset.id].id }}
+      </span>
+    </h3>
+    <map-incident
+      *ngIf="selectedAsset !== undefined && assetsNotSendingIncidents[selectedAsset.asset.id] !== undefined"
+      [asset]="selectedAsset"
+      [incident]="assetsNotSendingIncidents[selectedAsset.asset.id]"
+    ></map-incident>
   </div>
 </div>

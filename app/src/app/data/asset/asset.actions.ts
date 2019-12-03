@@ -39,6 +39,10 @@ export const clearTracks = createAction(
   '[Asset] Clear tracks'
 );
 
+export const clearSelectedAssets = createAction(
+  '[Asset] Clear selected assets'
+);
+
 export const deselectAsset = createAction(
   '[Asset] Deselect',
   props<{ assetId: string }>()
@@ -116,6 +120,11 @@ export const searchAssets = createAction(
 export const selectAsset = createAction(
   '[Asset] Select asset',
   props<{ assetId: string }>()
+);
+
+export const selectIncident = createAction(
+  '[Asset] Select incident',
+  props<{ incident: AssetInterfaces.assetNotSendingIncident, incidentType: string }>()
 );
 
 export const setAssetTripGranularity = createAction(

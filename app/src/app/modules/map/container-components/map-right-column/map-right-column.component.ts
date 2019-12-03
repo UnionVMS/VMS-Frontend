@@ -24,11 +24,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
 
   public deselectAsset: (assetId: string) => void;
   private forecasts$: Observable<any>;
-  public selectedAssets: ReadonlyArray<{
-    asset: AssetInterfaces.Asset,
-    assetTracks: AssetInterfaces.AssetTrack,
-    currentPosition: AssetInterfaces.AssetMovement
-  }>;
+  public selectedAsset: Readonly<AssetInterfaces.AssetData>;
+  public selectedAssets: ReadonlyArray<AssetInterfaces.AssetData>;
   public selectAsset: (assetId: string) => void;
   private getAssetTrack: (assetId: string, movementGuid: string) => void;
   private getAssetTrackTimeInterval: (assetId: string, startDate: string, endDate: string) => void;
@@ -37,6 +34,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public addForecast: (assetId: string) => void;
   private removeForecast: (assetId: string) => void;
   public mapSettings: MapSettingsInterfaces.State;
+
+  public assetsNotSendingIncidents: Readonly<{ [assetId: string]: AssetInterfaces.assetNotSendingIncident }>;
 
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
@@ -54,9 +53,15 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     });
     this.removeForecast = (assetId: string) =>
       this.store.dispatch(AssetActions.removeForecast({ assetId }));
-    this.store.select(AssetSelectors.extendedDataForSelectedAssets).subscribe((selectedAssets) => {
+    this.store.select(AssetSelectors.extendedDataForSelectedAssets).pipe(takeUntil(this.unmount$)).subscribe((selectedAssets) => {
       this.selectedAssets = selectedAssets;
+      this.selectedAsset = this.selectedAssets.find(selectedAsset => selectedAsset.currentlyShowing);
     });
+    this.store.select(AssetSelectors.getAssetNotSendingIncidentsByAssetId)
+      .pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
+        console.warn(assetsNotSendingIncicents);
+        this.assetsNotSendingIncidents = assetsNotSendingIncicents;
+      });
   }
 
   mapDispatchToProps() {
@@ -90,5 +95,4 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
   }
-
 }

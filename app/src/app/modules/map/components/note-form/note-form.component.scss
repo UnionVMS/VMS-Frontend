@@ -1,0 +1,15 @@
+@import 'variables.scss';
+
+form.notes-form {
+  background: white;
+  padding: $small_distance;
+  display: grid;
+
+  .mat-form-field-infix {
+    margin: 0;
+    padding: 0;
+  }
+  #mobile-terminal-form--save {
+    float: right;
+  }
+}

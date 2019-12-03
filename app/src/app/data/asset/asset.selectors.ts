@@ -211,6 +211,12 @@ export const getAssetNotSendingIncidents = createSelector(
   }
 );
 
+export const getAssetNotSendingIncidentsByAssetId = createSelector(
+  selectAssetNotSendingIncidents,
+  (assetNotSendingIncidents) => assetNotSendingIncidents
+);
+
+
 export const getTripTimestamp = createSelector(
   selectAssetTripTimestamp,
   (assetTripTimestamp) => assetTripTimestamp

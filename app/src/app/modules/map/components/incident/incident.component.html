@@ -1,0 +1,62 @@
+<div class="content-container">
+  <h4>Asset info - <ui-truncated-text [text]="asset.asset.name" length="40"></ui-truncated-text></h4>
+  <div class="asset-information">
+    <ng-container *ngIf="asset.asset.ircs">
+      <legend>Ircs:</legend>
+      <div>{{asset.asset.ircs}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.mmsi">
+      <legend>Mmsi:</legend>
+      <div>
+        <a
+          href="https://www.marinetraffic.com/en/ais/index/search/all?keyword={{asset.asset.mmsi}}"
+          target="_blank"
+        >{{asset.asset.mmsi}}</a>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="asset.currentPosition.microMove.speed !== null">
+      <legend>Speed:</legend>
+      <div>{{asset.currentPosition.microMove.speed.toFixed(2)}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.currentPosition.microMove.heading !== null">
+      <legend>Heading:</legend>
+      <div>{{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.flagStateCode">
+      <legend>Flagstate:</legend>
+      <div>{{asset.asset.flagStateCode}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.externalMarking">
+      <legend>External marking:</legend>
+      <div>{{asset.asset.externalMarking}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.lengthOverAll">
+      <legend>Length:</legend>
+      <div>{{asset.asset.lengthOverAll}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.licenceType">
+      <legend>LicenceType:</legend>
+      <div>{{asset.asset.licenceType}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.vesselType">
+      <legend>Vessel type:</legend>
+      <div>{{asset.asset.vesselType}}</div>
+    </ng-container>
+
+    <ng-container *ngIf="asset.asset.prodOrgCode">
+      <legend>Org. Nr:</legend>
+      <div>{{asset.asset.prodOrgCode}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.prodOrgName">
+      <legend>Org. namn:</legend>
+      <div>{{asset.asset.prodOrgName}}</div>
+    </ng-container>
+  </div>
+
+  <h4>Create manual position</h4>
+  <map-manual-position-form></map-manual-position-form>
+  <h4>Change incident status</h4>
+  <map-incident-status-form></map-incident-status-form>
+  <h4>Create note</h4>
+  <map-note-form></map-note-form>
+</div>

@@ -34,11 +34,18 @@ $navbar_height: 45px;
 
 $map_overlay_background: rgba( $color_turquoise, 0.7);
 
-$small_distance: 4px;
-$medium_distance: 8px;
-$large_distance: 16px;
-$xlarge_distance: 24px;
-$xxlarge_distance: 32px;
+$distance: 8px;
+@function distance($times) {
+  @return $times * $distance;
+}
+
+$small_distance: distance(0.5); // 4px
+$medium_distance: distance(1);  // 8px
+$large_distance: distance(2);   // 16px
+$xlarge_distance: distance(3);  // 24px
+$x2large_distance: distance(4); // 32px
+$x3large_distance: distance(5); // 40px
+$x4large_distance: distance(6); // 48px
 
 @mixin no-scrollbar {
   -ms-overflow-style: none;  // IE 10+
@@ -66,11 +73,16 @@ $xxlarge_distance: 32px;
 @mixin icon($url) {
   display: grid;
   background: $color_turquoise;
-  width: $xxlarge_distance;
-  height: $xxlarge_distance;
+  width: $x3large_distance;
+  height: $x3large_distance;
   &::before {
     place-self: center;
-    content: url($url);
+    height: distance(2.5);
+    width: distance(2.5);
+    content: '';
+    background-size: distance(2.5) distance(2.5);
+    background-image: url($url);
+    background-repeat: no-repeat;
     filter: brightness(0%) invert(1);
   }
   &:hover {

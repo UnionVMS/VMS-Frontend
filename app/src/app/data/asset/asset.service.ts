@@ -165,8 +165,8 @@ export class AssetService {
     return new Observable((observer) => {
       observer.next([
         {
-          id: 'blubb-blubb-blubb-Ship5XXX',
-          assetName: 'Ship5XXX',
+          id: 1225,
+          assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
           assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc096',
           assetIrcs: 'F5XXX',
           lastKnownLocation: {
@@ -184,7 +184,7 @@ export class AssetService {
           status: 'Poll Failed',
         },
         {
-          id: 'blubb-blubb-blubb-ship1002',
+          id: 1226,
           assetName: 'Ship1002',
           assetId: 'c6bccbb8-e737-4195-8603-2688273a75e8',
           assetIrcs: 'F1002',

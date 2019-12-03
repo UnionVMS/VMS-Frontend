@@ -153,7 +153,7 @@ export type AssetGroup = Readonly<{
 }>;
 
 export type assetNotSendingIncident = Readonly<{
-  id: string,
+  id: number,
   assetId: string,
   assetName: string,
   assetIrcs: string,
