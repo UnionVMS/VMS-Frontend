@@ -15,6 +15,7 @@
       [setActiveFunction]="setGivenFilterActiveCurry('filter')"
     >
       <map-asset-filter
+        body
         [filterFunction]="filterAssets"
         [filterQuerySaved]="currentFilterQuery$ | async"
       ></map-asset-filter>
@@ -25,6 +26,7 @@
       [setActiveFunction]="setGivenFilterActiveCurry('savedFilters')"
     >
       <map-saved-filters
+        body
         [filterQuery]="currentFilterQuery$ | async"
         [addSavedFilter]="addSavedFilter"
         [savedFilters]="savedFilters$ | async"
@@ -39,30 +41,35 @@
       [setActiveFunction]="setGivenFilterActiveCurry('assetGroups')"
     >
       <map-asset-groups
+        body
         [assetGroups]="assetGroups$ | async"
         [selectedAssetGroups]="selectedAssetGroups$ | async"
         [setAssetGroup]="setAssetGroup"
         [clearAssetGroup]="clearAssetGroup"
       ></map-asset-groups>
     </map-panel-block>
-    <map-panel-block blockTitle="Search">
-      <map-asset-search
-        [autocompleteFunction]="searchAutocomplete"
-        [autocompleteResult]="searchAutocompleteResult$ | async"
-        [centerMapOnPosition]="centerMapOnPosition"
-        [selectAsset]="selectAsset"
-      ></map-asset-search>
-    </map-panel-block>
+    <div class="search-container">
+      <div class="search-header">Search</div>
+      <div class="search-content">
+        <map-asset-search
+          body
+          [autocompleteFunction]="searchAutocomplete"
+          [autocompleteResult]="searchAutocompleteResult$ | async"
+          [centerMapOnPosition]="centerMapOnPosition"
+          [selectAsset]="selectAsset"
+        ></map-asset-search>
+      </div>
+    </div>
   </div>
   <div class="panel filter-panel" *ngIf="activePanel === 'workflows'">
     <h3>Workflows</h3>
     <map-panel-block
       blockTitle="Assets not sending"
-      [active]="filtersActive.assetGroups"
-      [setActiveFunction]="setGivenFilterActiveCurry('assetGroups')"
+      [active]="filtersActive.assetsNotSendingIncicents"
+      [setActiveFunction]="setGivenFilterActiveCurry('assetsNotSendingIncicents')"
       [useArrowsAsToggle]="true"
     >
-      <map-incidents [incidents]="assetNotSendingIncidents"></map-incidents>
+      <map-incidents body [incidents]="assetNotSendingIncidents"></map-incidents>
     </map-panel-block>
   </div>
 </div>

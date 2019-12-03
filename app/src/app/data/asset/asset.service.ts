@@ -171,8 +171,8 @@ export class AssetService {
           assetIrcs: 'F5XXX',
           lastKnownLocation: {
             location: {
-              longitude: 7.640111666666667,
-              latitude: 54.40071666666667,
+              longitude: 11.640111666666667,
+              latitude: 57.40071666666667,
               altitude: null
             },
             heading: 225,
@@ -190,8 +190,8 @@ export class AssetService {
           assetIrcs: 'F1002',
           lastKnownLocation: {
             location: {
-              longitude: 8.640111666666667,
-              latitude: 53.40071666666667,
+              longitude: 10.640111666666667,
+              latitude: 58.00071666666667,
               altitude: null
             },
             heading: 105,

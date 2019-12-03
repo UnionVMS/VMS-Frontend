@@ -217,6 +217,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
         this.assetIdFromUrl = mergedRoute.params.assetId;
       }
     });
+    this.store.dispatch(AssetActions.unsubscribeToMovements());
   }
 
   setupMap() {

@@ -50,22 +50,9 @@
       ></map-asset-forecast>
     </ng-container>
   </div>
-  <div id="realtime-right-column">
-    <map-asset-panel
-      *ngIf="(selectedAssets$|async).length > 0"
-      [assets]="selectedAssets$|async"
-      [selectAsset]="selectAsset"
-      [deselectAsset]="deselectAsset"
-      [forecasts]="forecasts$|async"
-      [getAssetTrack]="getAssetTrack"
-      [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
-      [untrackAsset]="untrackAsset"
-      [addForecast]="addForecast"
-      [removeForecast]="removeForecast"
-      [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
-      [centerMapOnPosition]="centerMapOnPosition"
-    ></map-asset-panel>
-  </div>
+  <map-right-column
+    [centerMapOnPosition]="centerMapOnPosition"
+  ></map-right-column>
   <!-- <map-layer-filter
     [mapSettings]="mapSettings"
     [setVisibilityForAssetNames]="setVisibilityForAssetNames"

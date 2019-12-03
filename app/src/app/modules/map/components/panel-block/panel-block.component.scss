@@ -9,4 +9,21 @@
     background: white;
     padding: $small_distance;
   }
+
+  .panel-block-header .arrowToggle {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: $medium_distance;
+    cursor: pointer;
+
+    .label {
+      display: grid;
+      grid-column-gap: $medium_distance;
+      grid-template-columns: auto 1fr;
+    }
+
+    i.fas {
+      font-size: $large_distance;
+    }
+  }
 }

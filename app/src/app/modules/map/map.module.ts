@@ -23,6 +23,7 @@ import { ReportsComponent } from './pages/reports/reports.component';
 
 /* Container-components */
 import { MapLeftColumnComponent } from './container-components/map-left-column/map-left-column.component';
+import { MapRightColumnComponent } from './container-components/map-right-column/map-right-column.component';
 
 /* Components */
 import { AssetGroupsComponent } from './components/asset-groups/asset-groups.component';
@@ -84,6 +85,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     LayerFilterComponent,
     MapLayersComponent,
     MapLeftColumnComponent,
+    MapRightColumnComponent,
     MapViewportsComponent,
     PeriodSelectorComponent,
     PanelBlockComponent,

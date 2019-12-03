@@ -6,11 +6,15 @@
         [value]="active"
         [switchFunction]="switchFunction"
       ></ui-button-toggle>
-      <div *ngIf="useArrowsAsToggle === true" class="arrowToggle">
-        <div class="label">{{blockTitle}}</div>
+      <div *ngIf="useArrowsAsToggle === true" class="arrowToggle" (click)="switchFunction()">
+        <div class="label"><ng-content select="[header]"></ng-content>{{blockTitle}}</div>
+        <div class="arrow">
+          <i *ngIf="!active" class="fas fa-chevron-right" aria-hidden="true"></i>
+          <i *ngIf="active" class="fas fa-chevron-down" aria-hidden="true"></i>
+        </div>
       </div>
   </div>
   <div class="panel-block-content" *ngIf="active">
-    <ng-content></ng-content>
+    <ng-content select="[body]"></ng-content>
   </div>
 </div>

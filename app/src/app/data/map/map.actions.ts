@@ -24,3 +24,8 @@ export const setActiveLeftPanel = createAction(
   '[Map] Set active left panel',
   props<{ activeLeftPanel: string }>()
 );
+
+export const setActiveRightPanel = createAction(
+  '[Map] Set active right panel',
+  props<{ activeRightPanel: string }>()
+);

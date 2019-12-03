@@ -27,6 +27,32 @@ export const selectSelectedAssetGroups = (state: State) => state.asset.selectedA
 export const selectUnitTonnages = (state: State) => state.asset.unitTonnages;
 
 
+export const getAssetsMovementsDependingOnLeftPanel = createSelector(
+  selectAssetMovements,
+  MapSelectors.getFiltersActive,
+  MapSelectors.getActiveLeftPanel,
+  selectAssetNotSendingIncidents,
+  (
+    assetMovements: { readonly [uid: string]: AssetInterfaces.AssetMovement },
+    filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
+    activeLeftPanel: string,
+    assetsNotSendingIncicents: { readonly [assetId: string]: AssetInterfaces.assetNotSendingIncident }
+  ) => {
+    if(activeLeftPanel === 'workflows') {
+      if(filtersActive.assetsNotSendingIncicents) {
+        return Object.keys(assetsNotSendingIncicents).reduce((acc, assetId) => {
+          acc[assetId] = {
+            microMove: assetsNotSendingIncicents[assetId].lastKnownLocation,
+            asset: assetId
+          };
+          return acc;
+        }, {});
+      }
+    }
+    return assetMovements;
+  }
+);
+
 export const getAssets = createSelector(
   getAssetState,
   (state: AssetInterfaces.State) => {
@@ -72,13 +98,14 @@ export const getSelectedAssetGroups = createSelector(
 );
 
 export const getAssetMovements = createSelector(
-  selectAssetMovements,
+  getAssetsMovementsDependingOnLeftPanel,
   selectAssetsEssentials,
   selectFilterQuery,
   MapSavedFiltersSelectors.getActiveFilters,
   selectSelectedAssetGroups,
   MapSelectors.getFiltersActive,
   MapSelectors.getActiveLeftPanel,
+  selectAssetNotSendingIncidents,
   (
     assetMovements: { readonly [uid: string]: AssetInterfaces.AssetMovement },
     assetsEssentials: { readonly [uid: string]: AssetInterfaces.AssetEssentialProperties },
@@ -86,7 +113,8 @@ export const getAssetMovements = createSelector(
     savedFilterQuerys: ReadonlyArray<ReadonlyArray<AssetInterfaces.AssetFilterQuery>>,
     selectedAssetGroups: ReadonlyArray<AssetInterfaces.AssetGroup>,
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
-    activeLeftPanel: string
+    activeLeftPanel: string,
+    assetsNotSendingIncicents: { readonly [assetId: string]: AssetInterfaces.assetNotSendingIncident }
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
 
@@ -204,7 +232,7 @@ export const getVisibleAssetTracks = createSelector(
 );
 
 export const getCurrentPositionOfSelectedAssets = createSelector(
-  selectAssetMovements,
+  getAssetsMovementsDependingOnLeftPanel,
   selectSelectedAssets,
   (assetMovements: { [uid: string]: AssetInterfaces.AssetMovement }, selectedAssets: Array<string>) =>
     selectedAssets.reduce((acc, selectedAsset) => {

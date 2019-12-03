@@ -17,7 +17,8 @@
   .ol-zoom {
     left: unset;
     right: 5px;
-    top: calc(#{$navbar_height} + #{$small_distance});
+    top: unset;
+    bottom: 50px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 5px;

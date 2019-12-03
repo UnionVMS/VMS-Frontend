@@ -6,76 +6,10 @@
   .information-wrapper {
     display: grid;
     grid-template-rows: auto 1fr;
-    .tabs-wrapper {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      grid-column-gap: $small_distance;
-      & > span {
-        background: $color_cold_dark_gray;
-        color: $color_dark_turquoise;
-        border-top-left-radius: $small_distance;
-        border-top-right-radius: $small_distance;
-        padding: $small_distance $medium_distance;
-        cursor: pointer;
-
-        &:hover {
-          // Change this to something better later when we have a UX that can tell us how :D
-          background: $color_light_green;
-        }
-      }
-
-      ul.tabs {
-        margin: 0px;
-        padding: 0px;
-        list-style: none;
-        overflow-x: scroll;
-        white-space: nowrap;
-        @include no-scrollbar();
-        scroll-behavior: smooth;
-
-
-        li {
-          margin-right: $small_distance;
-          display: inline-block;
-          background: rgba($color_light_turquoise, 0.7);
-          border-top-left-radius: $small_distance;
-          border-top-right-radius: $small_distance;
-          padding: $small_distance $medium_distance;
-          cursor: pointer;
-
-          span {
-            padding-bottom: 2px;
-            &:hover {
-              color: $color_orange;
-            }
-          }
-
-          &.active {
-            background: $map_overlay_background;
-            span {
-              border-bottom: 3px solid $color_orange;
-            }
-          }
-
-          &:last-child {
-            margin-right: 0px;
-          }
-
-          i.fa-times {
-            margin-left: 2px;
-            &:hover {
-              color: black;
-            }
-          }
-        }
-      }
-    }
 
     .asset-information {
       display: grid;
       grid-template-columns: 1fr auto;
-      border-top: 1px solid #000000;
-      padding: $medium_distance;
       overflow-y: scroll;
       -ms-overflow-style: none;  // IE 10+
       overflow: -moz-scrollbars-none;  // Firefox
@@ -88,9 +22,9 @@
       }
 
       legend {
-        font-weight: bold;
+        // font-weight: bold;
         font-size: $default_font_size;
-        text-decoration: underline;
+        // text-decoration: underline;
       }
 
       a {
