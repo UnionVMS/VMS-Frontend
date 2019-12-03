@@ -3,12 +3,14 @@ import * as NotesInterfaces from './notes.interfaces';
 import { State } from '@app/app-reducer';
 import { getMergedRoute } from '@data/router/router.selectors';
 
+
 export const selectNotes = (state: State) => state.notes.notes;
 
 export const getNotes = createSelector(
   selectNotes,
-  (notes: { [id: string ]: NotesInterfaces.Note }) => {
-    return Object.values(notes).map((note) => ({ ...note }));
+  getMergedRoute,
+  (notes: { [id: string ]: NotesInterfaces.Note }, mergedRoute) => {
+    return Object.values(notes).filter(note => note.assetId === mergedRoute.params.assetId);
   }
 );
 
