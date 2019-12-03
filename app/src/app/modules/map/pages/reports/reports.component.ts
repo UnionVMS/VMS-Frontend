@@ -229,7 +229,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
         this.assets.map(asset => asset.id),
         from,
         to,
-        ['NAF'] // ['INMARSAT_C']
+        ['INMARSAT_C'] // ['NAF']
       );
       this.showPeriodSelector = false;
     };
