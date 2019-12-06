@@ -45,6 +45,9 @@
       *ngIf="selectedAsset !== undefined && assetsNotSendingIncidents[selectedAsset.asset.id] !== undefined"
       [asset]="selectedAsset"
       [incident]="assetsNotSendingIncidents[selectedAsset.asset.id]"
+      [createManualMovement]="createManualMovement"
+      [saveNewIncidentStatus]="saveNewIncidentStatus"
+      [createNote]="createNote"
     ></map-incident>
   </div>
 </div>

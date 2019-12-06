@@ -53,10 +53,15 @@
     </ng-container>
   </div>
 
-  <h4>Create manual position</h4>
-  <map-manual-position-form></map-manual-position-form>
   <h4>Change incident status</h4>
-  <map-incident-status-form></map-incident-status-form>
+  <map-incident-status-form
+    [status]="incident.status"
+    [changeStatus]="changeStatus"
+  ></map-incident-status-form>
+  <h4>Create manual position</h4>
+  <map-manual-movement-form
+    [createManualMovement]="createManualMovementCurried"
+  ></map-manual-movement-form>
   <h4>Create note</h4>
-  <map-note-form></map-note-form>
+  <map-note-form [createNote]="createNote"></map-note-form>
 </div>

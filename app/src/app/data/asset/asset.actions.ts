@@ -43,6 +43,11 @@ export const clearSelectedAssets = createAction(
   '[Asset] Clear selected assets'
 );
 
+export const createManualMovement = createAction(
+  '[Asset] Create manual movement',
+  props<{ manualMovement: AssetInterfaces.ManualMovement }>()
+);
+
 export const deselectAsset = createAction(
   '[Asset] Deselect',
   props<{ assetId: string }>()
@@ -108,8 +113,13 @@ export const removeMovementsAndTracks = createAction(
 );
 
 export const saveAsset = createAction(
-  '[Asset] save',
+  '[Asset] Save',
   props<{ asset: AssetInterfaces.Asset }>()
+);
+
+export const saveNewIncidentStatus = createAction(
+  '[Asset] Save new incident status',
+  props<{ incidentId: number, status: string }>()
 );
 
 export const searchAssets = createAction(

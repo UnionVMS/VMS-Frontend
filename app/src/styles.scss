@@ -6,12 +6,16 @@
   box-sizing: border-box;
 }
 
-html, body { height: 100%; }
+html, body {
+  height: 100%;
+  color: $color_black;
+}
 
 h1 { margin-top: 0px; margin-bottom: 0px; padding-top: 0.67em; padding-bottom: 0.67em; }
 h2 { margin-top: 0px; margin-bottom: 0px; padding-top: 0.83em; padding-bottom: 0.83em; }
 h3 { margin-top: 0px; margin-bottom: 0px; padding-top: 1em; padding-bottom: 1em; }
 h4 { margin-top: 0px; margin-bottom: 0px; padding-top: 1.33em; padding-bottom: 1.33em; }
+
 
 .hidden {
   display: none;
@@ -155,6 +159,10 @@ mat-form-field.white-text {
       background-color: white;
     }
   }
+}
+
+mat-form-field .mat-form-field-infix {
+  width: inherit;
 }
 
 .container {

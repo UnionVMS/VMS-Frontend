@@ -162,6 +162,15 @@ export class AssetService {
   }
 
   getAssetNotSendingEvents(authToken: string) {
+    // return this.http.get(
+    //   environment.baseApiUrl + `reporting/rest/incident/assetNotSending`,
+    //   {
+    //     headers: new HttpHeaders({
+    //       Authorization: authToken,
+    //       'Cache-Control': 'no-cache'
+    //     })
+    //   }
+    // );
     return new Observable((observer) => {
       observer.next([
         {
@@ -232,6 +241,19 @@ export class AssetService {
     );
   }
 
+  createManualMovement(authToken: string, manualMovement: AssetInterfaces.ManualMovement) {
+    return this.http.post(
+      environment.baseApiUrl + `movement/rest/manualMovement`,
+      manualMovement,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
   updateAsset(authToken: string, asset: AssetInterfaces.Asset) {
     return this.http.put(
       environment.baseApiUrl + `asset/rest/asset`,
@@ -245,6 +267,12 @@ export class AssetService {
     );
   }
 
+  saveNewIncidentStatus(authToken: string, incidentId: number, status: string) {
+    console.warn(incidentId, status);
+    return new Observable((observer) => {
+      observer.next(true);
+    });
+  }
 
   // return this.http.get(
   //   environment.baseApiUrl + 'asset/rest/group/list?user=vms_admin_se', {

@@ -11,8 +11,14 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
   styleUrls: ['./note-form.component.scss']
 })
 export class NoteFormComponent implements OnInit {
-  public save: () => void;
+  @Input() createNote: (note: NotesInterfaces.Note) => void;
+
   public formValidator: FormGroup;
+  public save = () => {
+    return this.createNote({
+      note: this.formValidator.value.note as string
+    } as NotesInterfaces.Note);
+  }
 
   ngOnInit() {
     this.formValidator = createNotesFormValidator();

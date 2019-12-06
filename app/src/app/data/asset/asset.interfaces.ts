@@ -4,14 +4,17 @@ export type Movement = Readonly<{
   location: Position;
   heading: number;
   guid: string;
-  timestamp: string;
+  timestamp: string|number;
   speed: number | null;
   source: string;
 }>;
 
-export type UnitTonnage = Readonly<{
-  name: string;
-  code: string;
+export type ManualMovement = Readonly<{
+  movement: Movement;
+  asset: Readonly<{
+    cfr: string,
+    ircs: string,
+  }>;
 }>;
 
 export type AssetMovement = Readonly<{
@@ -163,6 +166,11 @@ export type assetNotSendingIncident = Readonly<{
 
 export type AssetTrips = Readonly<{
   [dateTime: string]: { readonly [assetId: string]: AssetMovement }
+}>;
+
+export type UnitTonnage = Readonly<{
+  name: string;
+  code: string;
 }>;
 
 export type State = Readonly<{

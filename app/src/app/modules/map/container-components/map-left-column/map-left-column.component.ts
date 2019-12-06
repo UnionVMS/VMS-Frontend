@@ -134,4 +134,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
   }
+
+  emptyClick() {
+    return null;
+  }
 }

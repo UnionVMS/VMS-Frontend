@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { formatDate } from '@app/helpers/helpers';
 import { AssetInterfaces } from '@data/asset';
+import { NotesInterfaces } from '@data/notes';
 import { Position } from '@data/generic.interfaces';
 
 @Component({
@@ -11,4 +12,22 @@ import { Position } from '@data/generic.interfaces';
 export class IncidentComponent {
   @Input() asset: AssetInterfaces.AssetData;
   @Input() incident: AssetInterfaces.assetNotSendingIncident;
+
+  @Input() createManualMovement: (manualMovement: AssetInterfaces.ManualMovement) => void;
+  @Input() saveNewIncidentStatus: (incidentId: number, status: string) => void;
+  @Input() createNote: (note: NotesInterfaces.Note) => void;
+
+  public createManualMovementCurried = (movement: AssetInterfaces.Movement) => {
+    return this.createManualMovement({
+      movement,
+      asset: {
+        cfr: this.asset.asset.cfr,
+        ircs: this.asset.asset.ircs
+      }
+    });
+  }
+
+  public changeStatus = (status: string) => {
+    return this.saveNewIncidentStatus(this.incident.id, status);
+  }
 }

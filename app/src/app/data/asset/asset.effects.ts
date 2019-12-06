@@ -366,13 +366,21 @@ export class AssetEffects {
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.getAssetNotSendingEvents(authToken).pipe(
         map((assetNotSendingIncidents: ReadonlyArray<AssetInterfaces.assetNotSendingIncident>) => {
-          return AssetActions.setAssetNotSendingIncidents({
-            assetNotSendingIncidents: assetNotSendingIncidents.reduce((acc, assetNotSendingIncident) => {
-              acc[assetNotSendingIncident.assetId] = assetNotSendingIncident;
-              return acc;
-            }, {})
-          });
-        })
+          return [
+            AssetActions.setAssetNotSendingIncidents({
+              assetNotSendingIncidents: assetNotSendingIncidents.reduce((acc, assetNotSendingIncident) => {
+                acc[assetNotSendingIncident.assetId] = assetNotSendingIncident;
+                return acc;
+              }, {})
+            }),
+            AssetActions.checkForAssetEssentials({
+              assetMovements: assetNotSendingIncidents.map((incident) => ({
+                microMove: incident.lastKnownLocation, asset: incident.assetId, decayPercentage: undefined
+              }))
+            })
+          ];
+        }),
+        flatMap(a => a),
       );
     })
   );
@@ -448,4 +456,33 @@ export class AssetEffects {
     flatMap((action, index) => action)
   );
 
+  @Effect()
+  saveNewIncidentStatus$ = this.actions$.pipe(
+    ofType(AssetActions.saveNewIncidentStatus),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      console.warn(action);
+      return this.assetService.saveNewIncidentStatus(authToken, action.incidentId, action.status).pipe(
+        map((asset: AssetInterfaces.Asset) => {
+          return [NotificationsActions.addSuccess('Incident status successfully changed!')];
+        })
+      );
+    }),
+    flatMap(a => a)
+  );
+
+
+  @Effect()
+  createManualMovement$ = this.actions$.pipe(
+    ofType(AssetActions.createManualMovement),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.assetService.createManualMovement(authToken, action.manualMovement).pipe(
+        map((asset: AssetInterfaces.Asset) => {
+          return [NotificationsActions.addSuccess('Manual position created successfully!')];
+        })
+      );
+    }),
+    flatMap(a => a)
+  );
 }

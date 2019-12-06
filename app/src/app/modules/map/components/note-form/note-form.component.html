@@ -4,8 +4,13 @@
     <mat-error *ngFor="let error of getErrors(['notes'])">{{ errorMessage(error) }}</mat-error>
   </mat-form-field>
 
-  <div>
-    <button id="mobile-terminal-form--all" mat-stroked-button color="accent" type="button">Show all notes</button>
-    <button id="mobile-terminal-form--save" mat-raised-button color="primary" type="button"  (click)="save()">Save</button>
-  </div>
+  <button id="note-form--all" mat-stroked-button color="accent" type="button">Show all</button>
+  <button
+    id="note-form--save"
+    mat-raised-button
+    color="primary"
+    type="button"
+    [disabled]="!formValidator.valid"
+    (click)="save()"
+  >Save</button>
 </form>

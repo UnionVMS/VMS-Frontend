@@ -42,7 +42,7 @@ import { InformationPanelComponent } from './components/information-panel/inform
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
 import { MapLayersComponent } from './components/map-layers/map-layers.component';
 import { MapViewportsComponent } from './components/map-viewports/map-viewports.component';
-import { ManualPositionFormComponent } from './components/manual-position-form/manual-position-form.component';
+import { ManualMovementFormComponent } from './components/manual-movement-form/manual-movement-form.component';
 import { NoteFormComponent } from './components/note-form/note-form.component';
 import { PeriodSelectorComponent } from './components/period-selector/period-selector.component';
 import { PanelBlockComponent } from './components/panel-block/panel-block.component';
@@ -93,7 +93,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MapLeftColumnComponent,
     MapRightColumnComponent,
     MapViewportsComponent,
-    ManualPositionFormComponent,
+    ManualMovementFormComponent,
     NoteFormComponent,
     PeriodSelectorComponent,
     PanelBlockComponent,

@@ -4,12 +4,10 @@ form.notes-form {
   background: white;
   padding: $small_distance;
   display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: $small_distance;
 
-  .mat-form-field-infix {
-    margin: 0;
-    padding: 0;
-  }
-  #mobile-terminal-form--save {
-    float: right;
+  #note-form--notes {
+    grid-column: 1 / span 2;
   }
 }

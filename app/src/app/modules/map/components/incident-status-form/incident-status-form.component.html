@@ -1,3 +1,17 @@
-<div class="content-container">
-  --> incident status form here <--
-</div>
+<form class="notes-form" [formGroup]="formValidator">
+  <mat-form-field id="note-form--notes">
+    <mat-select formControlName="status" required>
+      <mat-option *ngFor="let status of statuses" id="mat-option-plugin--{{status.replace(' ', '-')}}" [value]="status">{{status}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button id="notes-form--all" mat-stroked-button color="accent" type="button">Show all</button>
+  <button
+    id="notes-form--save"
+    mat-raised-button
+    color="primary"
+    type="button"
+    [disabled]="!formValidator.valid || formValidator.value.status === status"
+    (click)="save()"
+  >Save</button>
+</form>

@@ -23,7 +23,7 @@
 
   }
 
-  button#mobile-terminal-form--save {
+  button#notes-form--save {
     float: right;
   }
   textarea{
@@ -45,21 +45,6 @@
       width: 50%;
     }
   }
-
-  #mobile-terminal-form--channel-name mat-checkbox {
-    margin-right: $medium_distance;
-  }
-  .channels {
-    position: relative;
-    .mobile-terminal-form--new-channel-button {
-      position: absolute;
-      right: 0px;
-      top: 0px;
-    }
-  }
-}
-.mobile-terminal-table-container > table {
-  width: 100%;
 }
 
 .load-spinner {

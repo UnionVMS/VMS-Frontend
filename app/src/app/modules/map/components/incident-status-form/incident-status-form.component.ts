@@ -1,12 +1,49 @@
-import { Component, Input } from '@angular/core';
-import { formatDate } from '@app/helpers/helpers';
-import { AssetInterfaces } from '@data/asset';
-import { Position } from '@data/generic.interfaces';
+import { Component, Input, OnChanges } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
+import { createIncidentStatusFormValidator } from './form-validator';
+import { errorMessage } from '@app/helpers/validators/error-messages';
 
 @Component({
   selector: 'map-incident-status-form',
   templateUrl: './incident-status-form.component.html',
   styleUrls: ['./incident-status-form.component.scss']
 })
-export class IncidentStatusFormComponent {
+export class IncidentStatusFormComponent implements OnChanges {
+  @Input() status: string;
+  @Input() changeStatus: (status: string) => void;
+
+  public formValidator: FormGroup;
+
+  public statuses = [
+    'Poll Failed',
+    'Not sending',
+    'Captain contacted - No answer',
+    'Captain contacted',
+    'Asset down for service',
+    'Longterm parked',
+    'Resolved'
+  ];
+
+  ngOnChanges() {
+    this.formValidator = createIncidentStatusFormValidator(this.status);
+  }
+
+  save() {
+    this.changeStatus(this.formValidator.value.status);
+  }
+
+  getErrors(path: string[]) {
+    const errors = this.formValidator.get(path).errors;
+    return errors === null ? [] : Object.keys(errors);
+  }
+
+  errorMessage(error: string) {
+    if(error === 'maxlength') {
+      return 'Text can not be longer then 255 characters.';
+    }
+
+    return errorMessage(error);
+  }
 }

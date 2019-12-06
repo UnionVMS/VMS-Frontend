@@ -1,9 +1,10 @@
 @import 'variables.scss';
 
 .content-container {
-  height: 100%;
   background: $color_cold_gray;
-  position: relative;
+  min-height: 100%;
+  max-height: calc(100vh - #{$navbar_height});
+  overflow: auto;
 
   #realtime-left-column-menu {
     position: absolute;
@@ -21,29 +22,13 @@
       cursor: pointer;
 
       .icon-search {
-        @include left-icon('/assets/workflow.svg');
+        @include left-icon('/assets/svg-icons/search.svg');
       }
       .icon-workflow {
-        @include left-icon('/assets/workflow.svg');
+        @include left-icon('/assets/svg-icons/workflow.svg');
       }
 
     }
-    //
-    // list-style-type: none;
-    // margin: 0 0 $large_distance 0;
-    // padding: $large_distance $large_distance 0px $large_distance;
-    // border-bottom: 1px solid $color_gray;
-    //
-    // li {
-    //   display: inline-block;
-    //   padding: $medium_distance;
-    //   color: $color_dark_gray;
-    //   cursor: pointer;
-    //   &.active {
-    //     color: $color_black;
-    //     border-bottom: 2px solid $color_turquoise;
-    //   }
-    // }
   }
   .panel {
     display: grid;
