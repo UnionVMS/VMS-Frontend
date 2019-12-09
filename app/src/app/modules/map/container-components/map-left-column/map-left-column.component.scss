@@ -8,7 +8,7 @@
 
   #realtime-left-column-menu {
     position: absolute;
-    left: 250px;
+    left: 320px;
     top: 60px;
     z-index: 200;
     list-style-type: none;
@@ -32,24 +32,39 @@
   }
   .panel {
     display: grid;
+    height: calc(100vh - #{$navbar_height});
 
     h3 {
       justify-self: center;
     }
 
+    .filter-for-panel-content {
+      padding-bottom: $large_distance;
+    }
+  }
+
+  .filter-panel {
+    grid-template-rows: auto auto auto auto 1fr;
+
     .search-container {
-      position: absolute;
-      bottom: 0px;
+      align-self: end;
       border-top: 2px solid $color_dark_gray;
 
       display: grid;
       grid-row-gap: 2px;
-      padding: $small_distance;
+      padding: $medium_distance;
 
       & > * {
         background: white;
-        padding: $small_distance;
+        padding: $medium_distance;
+      }
+      .search-content {
+        display: grid;
       }
     }
+  }
+
+  .workflow-panel {
+    grid-template-rows: repeat(6, auto) 1fr;
   }
 }

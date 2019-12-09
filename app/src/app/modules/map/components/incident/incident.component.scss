@@ -2,25 +2,46 @@
 
 .content-container {
   color: black;
-  padding: $small_distance;
+  padding: $medium_distance;
   h4 {
     margin: 0;
-    padding-bottom: $small_distance;
-    padding-top: $large_distance;
+    padding-bottom: $medium_distance;
+    padding-top: $x2large_distance;
+    display: grid;
+    grid-column-gap: 8px;
+    grid-template-columns: auto 1fr;
+
     &:first-child {
       padding-top: 0;
     }
+
+    .flag-image {
+      width: 20px;
+      place-self: center;
+    }
   }
-  .asset-information {
+  .asset-information{
     display: grid;
     grid-template-columns: 1fr auto;
     background: white;
-    padding: $small_distance;
+    padding: $medium_distance;
     overflow-y: scroll;
     -ms-overflow-style: none;  // IE 10+
     overflow: -moz-scrollbars-none;  // Firefox
     &::-webkit-scrollbar {
       display: none;  // Safari and Chrome
+    }
+
+    h5 {
+      grid-column: 1 / span 2;
+      border-bottom: 1px solid $color_dark_gray;
+      margin-bottom: $medium_distance;
+      padding-bottom: 0px;
+      padding-top: $large_distance;
+
+      &:first-child {
+        padding-top: 0px;
+      }
     }
 
     legend {

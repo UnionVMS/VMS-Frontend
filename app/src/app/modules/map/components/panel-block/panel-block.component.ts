@@ -8,9 +8,10 @@ import { Component, Input, OnChanges } from '@angular/core';
 export class PanelBlockComponent implements OnChanges {
   @Input() blockTitle: string;
   @Input() active: boolean;
-  @Input() setActiveFunction: (status: boolean) => void;
   // tslint:disable-next-line:no-inferrable-types
   @Input() useArrowsAsToggle: boolean = false;
+
+  @Input() setActiveFunction: (status: boolean) => void;
 
   public switchFunction: () => void;
 

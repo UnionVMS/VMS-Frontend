@@ -7,9 +7,9 @@
       (click)="selectIncident(incident)"
     >
       <div class="status"></div>
-      <ui-truncated-text [text]="incident.assetName" length="10"></ui-truncated-text>
+      <ui-truncated-text class="name" [text]="incident.assetName" length="18"></ui-truncated-text>
       <div class="ircs">{{incident.assetIrcs}}</div>
-      <!-- <div class="time">{{formatDate(incident)}}</div> -->
+      <div class="time">Last seen: {{formatDate(incident)}}</div>
     </div>
   </div>
 </div>

@@ -61,7 +61,7 @@
       </div>
     </div>
   </div>
-  <div class="panel filter-panel" *ngIf="activePanel === 'workflows'">
+  <div class="panel workflow-panel" *ngIf="activePanel === 'workflows'">
     <h3>Workflows</h3>
     <map-panel-block
       blockTitle="Assets not sending"
@@ -69,11 +69,19 @@
       [setActiveFunction]="setGivenWorkflowActive('assetsNotSendingIncicents')"
       [useArrowsAsToggle]="true"
     >
-      <map-incidents
-        body
-        [incidents]="assetNotSendingIncidents"
-        [selectIncident]="selectIncident"
-      ></map-incidents>
+      <div body>
+        <div class="filter-for-panel-content">
+          <ui-button-toggle
+            label="Recently resolved"
+            [value]="false"
+            [switchFunction]="emptyClick"
+          ></ui-button-toggle>
+        </div>
+        <map-incidents
+          [incidents]="assetNotSendingIncidents"
+          [selectIncident]="selectIncident"
+        ></map-incidents>
+      </div>
     </map-panel-block>
     <map-panel-block
       blockTitle="ERS activity"

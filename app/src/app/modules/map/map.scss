@@ -12,16 +12,16 @@
 .realtime-container .map-container #realtime-map, .reports-container .map-container #reports-map {
   .ol-scale-line {
     left: unset;
-    right: 10px;
+    left: 10px;
   }
   .ol-zoom {
     left: unset;
-    right: 5px;
+    right: $medium_distance;
     top: unset;
-    bottom: 50px;
+    bottom: $medium_distance;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 5px;
+    grid-column-gap: $small_distance;
     padding: 0px;
 
     &.ol-control {

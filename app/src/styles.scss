@@ -14,7 +14,8 @@ html, body {
 h1 { margin-top: 0px; margin-bottom: 0px; padding-top: 0.67em; padding-bottom: 0.67em; }
 h2 { margin-top: 0px; margin-bottom: 0px; padding-top: 0.83em; padding-bottom: 0.83em; }
 h3 { margin-top: 0px; margin-bottom: 0px; padding-top: 1em; padding-bottom: 1em; }
-h4 { margin-top: 0px; margin-bottom: 0px; padding-top: 1.33em; padding-bottom: 1.33em; }
+h4 { margin-top: 0px; margin-bottom: 0px; padding-top: 1.33em; padding-bottom: 1.33em; font-weight: 500; }
+h5 { margin-top: 0px; margin-bottom: 0px; padding-top: $medium_distance; padding-bottom: $medium_distance; }
 
 
 .hidden {

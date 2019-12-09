@@ -16,7 +16,12 @@
       [setActiveFunction]="selectAssetWrapper(currentAsset.asset.id)"
       [useArrowsAsToggle]="true"
     >
-      <img header class="flag-image" src="/assets/flags/4x3/{{getCountryCode(currentAsset)}}.svg" alt="getCountryCode(currentAsset)" />
+      <img
+        header
+        *ngIf="currentAsset.asset.flagStateCode !== '???' && currentAsset.asset.flagStateCode !== undefined"
+        class="flag-image"
+        src="/assets/flags/4x3/{{getCountryCode(currentAsset)}}.svg"
+        alt="getCountryCode(currentAsset)" />
       <map-asset-panel
         body
         [asset]="currentAsset"

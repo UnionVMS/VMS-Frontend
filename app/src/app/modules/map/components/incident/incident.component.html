@@ -1,6 +1,29 @@
 <div class="content-container">
-  <h4>Asset info - <ui-truncated-text [text]="asset.asset.name" length="40"></ui-truncated-text></h4>
+
+  <h4>
+    <img
+      header
+      *ngIf="asset.asset.flagStateCode !== '???' && asset.asset.flagStateCode !== undefined"
+      class="flag-image"
+      src="/assets/flags/4x3/{{getCountryCode(asset)}}.svg"
+      alt="getCountryCode(asset)"
+    />
+    <ui-truncated-text [text]="asset.asset.name" length="40"></ui-truncated-text>
+  </h4>
   <div class="asset-information">
+    <h5>Last known position</h5>
+    <legend>Latitude:</legend>
+    <div>{{incident.lastKnownLocation.location.latitude.toFixed(2)}}</div>
+    <legend>Longitude:</legend>
+    <div>{{incident.lastKnownLocation.location.longitude.toFixed(2)}}</div>
+    <legend>Heading:</legend>
+    <div>{{incident.lastKnownLocation.heading.toFixed(2)}}</div>
+    <legend>Speed:</legend>
+    <div>{{incident.lastKnownLocation.speed.toFixed(2)}}</div>
+    <legend>Time:</legend>
+    <div>{{formatDate(incident.lastKnownLocation.timestamp)}}</div>
+
+    <h5>Asset information</h5>
     <ng-container *ngIf="asset.asset.ircs">
       <legend>Ircs:</legend>
       <div>{{asset.asset.ircs}}</div>
@@ -13,14 +36,6 @@
           target="_blank"
         >{{asset.asset.mmsi}}</a>
       </div>
-    </ng-container>
-    <ng-container *ngIf="asset.currentPosition.microMove.speed !== null">
-      <legend>Speed:</legend>
-      <div>{{asset.currentPosition.microMove.speed.toFixed(2)}}</div>
-    </ng-container>
-    <ng-container *ngIf="asset.currentPosition.microMove.heading !== null">
-      <legend>Heading:</legend>
-      <div>{{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
     </ng-container>
     <ng-container *ngIf="asset.asset.flagStateCode">
       <legend>Flagstate:</legend>
@@ -62,6 +77,6 @@
   <map-manual-movement-form
     [createManualMovement]="createManualMovementCurried"
   ></map-manual-movement-form>
-  <h4>Create note</h4>
+  <h4>New note</h4>
   <map-note-form [createNote]="createNote"></map-note-form>
 </div>

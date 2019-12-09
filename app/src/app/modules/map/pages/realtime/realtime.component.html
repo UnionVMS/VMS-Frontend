@@ -48,26 +48,63 @@
         [assetMovements]="forecasts$|async"
         [forecastInterval]="mapSettings.settings.forecastInterval"
       ></map-asset-forecast>
+      <div class="control-panel">
+        <ul class="control-panel-menu">
+          <li>
+            <i
+              (click)="toggleActivePanel('distance-between-points')"
+              class="icon-distance-between-points {{activePanel === 'distance-between-points' ? 'active' : '' }}"
+              aria-hidden="true"
+            ></i>
+            <div class="control-panel-submenu">
+              <map-distance-between-points
+                [map]="map"
+                [registerOnClickFunction]="registerOnClickFunction"
+                [active]="activePanel === 'distance-between-points'"
+              ></map-distance-between-points>
+            </div>
+          </li>
+          <li>
+            <i
+              (click)="toggleActivePanel('asset-layers')"
+              class="icon-asset-layers {{activePanel === 'asset-layers' ? 'active' : '' }}"
+              aria-hidden="true"
+            ></i>
+            <div class="control-panel-submenu">
+              <map-layer-filter
+                *ngIf="activePanel === 'asset-layers'"
+                [mapSettings]="mapSettings"
+                [setVisibilityForAssetNames]="setVisibilityForAssetNames"
+                [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
+                [setVisibilityForFlags]="setVisibilityForFlags"
+                [setVisibilityForTracks]="setVisibilityForTracks"
+                [setVisibilityForForecast]="setVisibilityForForecast"
+                [flagsDisabled]="mapZoom < 10"
+                [tracksDisabled]="false"
+                [namesDisabled]="mapZoom < 10"
+                [speedsDisabled]="mapZoom < 10"
+                [forecastsDisabled]="mapZoom < 10"
+                [map]="map"
+                [saveViewport]="saveViewport"
+              ></map-layer-filter>
+            </div>
+          </li>
+          <li>
+            <i
+              (click)="centerOnDefaultPosition()"
+              title="Back to chosen start position."
+              class="icon-center-sweden {{activePanel === 'information' ? 'active' : '' }}"
+              aria-hidden="true"
+            ></i>
+          </li>
+        </ul>
+      </div>
     </ng-container>
   </div>
   <map-right-column
     [centerMapOnPosition]="centerMapOnPosition"
   ></map-right-column>
-  <!-- <map-layer-filter
-    [mapSettings]="mapSettings"
-    [setVisibilityForAssetNames]="setVisibilityForAssetNames"
-    [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
-    [setVisibilityForFlags]="setVisibilityForFlags"
-    [setVisibilityForTracks]="setVisibilityForTracks"
-    [setVisibilityForForecast]="setVisibilityForForecast"
-    [flagsDisabled]="mapZoom < 10"
-    [tracksDisabled]="mapZoom < 10"
-    [namesDisabled]="mapZoom < 10"
-    [speedsDisabled]="mapZoom < 10"
-    [forecastsDisabled]="mapZoom < 10"
-    [map]="map"
-    [saveViewport]="saveViewport"
-  ></map-layer-filter>
+  <!--
 
   <div class="control-panel">
     <map-control-panel
@@ -78,12 +115,6 @@
       [clearTracks]="clearTracks"
       [clearForecasts]="clearForecasts"
     ></map-control-panel>
-    <map-distance-between-points
-      *ngIf="map !== undefined"
-      [map]="map"
-      [registerOnClickFunction]="registerOnClickFunction"
-      [active]="mapSettings.currentControlPanel === 'map-distance-between-points'"
-    ></map-distance-between-points>
     <map-layers
       *ngIf="(authToken$ | async) !== undefined && (mapLayers$ | async).length > 0"
       [map]="map"

@@ -3,27 +3,34 @@
 .content-container {
   display: grid;
   grid-row-gap: 2px;
-  padding: $small_distance;
+  padding: $small_distance $medium_distance;
 
-  .panel-block-header, .panel-block-content {
+  .panel-block-content {
     background: white;
-    padding: $small_distance;
+    padding: $medium_distance;
   }
 
-  .panel-block-header .arrowToggle {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    padding: $medium_distance;
-    cursor: pointer;
+  .panel-block-header {
+    color: $color_turquoise;
+    padding: $large_distance $medium_distance;
+    background: white;
 
-    .label {
+    & > .arrowToggle {
       display: grid;
-      grid-column-gap: $medium_distance;
-      grid-template-columns: auto 1fr;
-    }
+      grid-template-columns: 1fr auto;
+      font-weight: 600;
+      // padding: $medium_distance;
+      cursor: pointer;
 
-    i.fas {
-      font-size: $large_distance;
+      .label {
+        display: grid;
+        grid-column-gap: $medium_distance;
+        grid-template-columns: auto 1fr;
+      }
+
+      i.fas {
+        font-size: $large_distance;
+      }
     }
   }
 }

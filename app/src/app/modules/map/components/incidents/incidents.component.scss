@@ -13,9 +13,10 @@
 
     .incident {
       display: grid;
-      grid-template-columns: $medium_distance 1fr 1fr;
+      grid-template-columns: $medium_distance 2fr 1fr;
       grid-column-gap: $medium_distance;
-      padding: $medium_distance;
+      grid-row-gap: $small_distance;
+      padding: distance(1.5);
       background: $color_cold_gray;
       cursor: pointer;
 
@@ -29,7 +30,16 @@
         display: inline-block;
       }
 
+      .name {
+        font-weight: bold;
+        color: $color_turquoise;
+      }
+      .ircs {
+        color: $color_turquoise;
+      }
+
       .time {
+        font-size: 12px;
         grid-column: 2 / span 2;
       }
     }

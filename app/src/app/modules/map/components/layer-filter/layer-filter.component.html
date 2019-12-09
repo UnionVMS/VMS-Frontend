@@ -1,52 +1,42 @@
 <div class="content-container-minimal">
-  <div class="layer-filter-buttons">
-    <button
-      class="btn {{mapSettings.settings.flagsVisible ? 'active' : ''}}"
-      (click)="toggleFlags()"
-      title="{{flagsDisabled ? 'Flags disabled due to zoom-level' : (mapSettings.settings.flagsVisible ? 'Hide flags' : 'Show flags')}}"
-      [disabled]="flagsDisabled"
-    >
-      <i class="fas fa-flag" alt="Flags" aria-hidden="true"></i>
-    </button>
-    <button
-      class="btn {{mapSettings.settings.tracksVisible ? 'active' : ''}}"
-      (click)="toggleTracks()"
-      title="{{tracksDisabled ? 'Tracks disabled due to zoom-level' : (mapSettings.settings.tracksVisible ? 'Hide tracks' : 'Show tracks')}}"
-      [disabled]="tracksDisabled"
-    >
-      <i class="fas fa-angle-double-up" aria-hidden="true"></i>
-    </button>
-    <button
-      class="btn {{mapSettings.settings.namesVisible ? 'active' : ''}}"
-      (click)="toggleNames()"
+  <div class="layer-filters">
+    <mat-checkbox
+      (change)="toggleNames()"
       title="{{namesDisabled ? 'Names disabled due to zoom-level' : (mapSettings.settings.namesVisible ? 'Hide names' : 'Show names')}}"
       [disabled]="namesDisabled"
-    >
-      <i class="fas fa-signature" aria-hidden="true"></i>
-    </button>
-    <button
-      class="btn {{mapSettings.settings.speedsVisible ? 'active' : ''}}"
-      (click)="toggleSpeeds()"
+      [checked]="mapSettings.settings.namesVisible"
+    >Asset names</mat-checkbox>
+    <mat-checkbox
+      (change)="toggleSpeeds()"
       title="{{speedsDisabled ? 'Speeds disabled due to zoom-level' : (mapSettings.settings.speedsVisible ? 'Hide speeds' : 'Show speeds')}}"
       [disabled]="speedsDisabled"
-    >
-      <i class="fas fa-tachometer-alt" aria-hidden="true"></i>
-    </button>
-    <button
-      class="btn {{mapSettings.settings.forecastsVisible ? 'active' : ''}}"
-      (click)="toggleForecast()"
+      [checked]="mapSettings.settings.speedsVisible"
+    >Speed</mat-checkbox>
+    <mat-checkbox
+      (change)="toggleFlags()"
+      title="{{flagsDisabled ? 'Flags disabled due to zoom-level' : (mapSettings.settings.flagsVisible ? 'Hide flags' : 'Show flags')}}"
+      [disabled]="flagsDisabled"
+      [checked]="mapSettings.settings.flagsVisible"
+    >Nationality</mat-checkbox>
+    <mat-checkbox
+      (change)="toggleTracks()"
+      title="{{tracksDisabled ? 'Tracks disabled due to zoom-level' : (mapSettings.settings.tracksVisible ? 'Hide tracks' : 'Show tracks')}}"
+      [disabled]="tracksDisabled"
+      [checked]="mapSettings.settings.tracksVisible"
+    >Tracks</mat-checkbox>
+    <mat-checkbox
+      (change)="toggleForecast()"
       title="{{forecastsDisabled ? 'Forecasts disabled due to zoom-level' : (mapSettings.settings.forecastsVisible ? 'Hide forecasts' : 'Show forecasts')}}"
       [disabled]="forecastsDisabled"
-    >
-      <i class="fas fa-fast-forward" aria-hidden="true"></i>
-    </button>
-  </div>
-  <div class="viewport-wrapper {{viewportKeys.length > 0 ? 'visible' : ''}}">
-    <b class="headline" *ngIf="viewportKeys.length > 0">Saved Viewports</b>
-    <map-viewports
-      [map]="map"
-      [mapSettings]="mapSettings"
-      [saveViewport]="saveViewport"
-    ></map-viewports>
+      [checked]="mapSettings.settings.forecastsVisible"
+    >Forecasts</mat-checkbox>
   </div>
 </div>
+<!-- <div class="viewport-wrapper {{viewportKeys.length > 0 ? 'visible' : ''}}">
+  <b class="headline" *ngIf="viewportKeys.length > 0">Saved Viewports</b>
+  <map-viewports
+    [map]="map"
+    [mapSettings]="mapSettings"
+    [saveViewport]="saveViewport"
+  ></map-viewports>
+</div> -->

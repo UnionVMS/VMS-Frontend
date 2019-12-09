@@ -22,13 +22,50 @@
 .realtime-container {
   height: calc(100% - #{$navbar_height});
   display: grid;
-  grid-template-columns: 250px 1fr 250px;
+  grid-template-columns: 320px 1fr 320px;
 
   .map-container {
     height: 100%;
+    position: relative;
+
     #realtime-map {
       height: 100%;
       width: 100%;
+    }
+
+    .control-panel {
+      position: absolute;
+      bottom: $medium_distance;
+      right: 100px;
+
+      .control-panel-menu {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-auto-flow: column;
+        grid-column-gap: $medium_distance;
+
+        li {
+          white-space: nowrap;
+          cursor: pointer;
+
+          .control-panel-submenu {
+            position: absolute;
+            bottom: $x4large_distance;
+          }
+
+          .icon-center-sweden {
+            @include icon('/assets/svg-icons/target.svg');
+          }
+          .icon-asset-layers {
+            @include icon('/assets/svg-icons/eye.svg');
+          }
+          .icon-distance-between-points {
+            @include icon('/assets/svg-icons/messure.svg');
+          }
+        }
+      }
     }
   }
 
@@ -36,23 +73,23 @@
     background: $color_cold_gray;
   }
 
-  map-layer-filter {
-    position: fixed;
-    right: $small_distance;
-    top: calc(#{$navbar_height} + 83px);
-  }
-  map-top-panel {
-    position: fixed;
-    left: 0px;
-    right: 0px;
-    top: $navbar_height;
-  }
-
-  .control-panel {
-    position: fixed;
-    left: $small_distance;
-    top: calc(#{$navbar_height} * 2 + #{$small_distance});
-  }
+  // map-layer-filter {
+  //   position: fixed;
+  //   right: 350px; //$small_distance;
+  //   top: calc(#{$navbar_height} + 83px);
+  // }
+  // map-top-panel {
+  //   position: fixed;
+  //   left: 0px;
+  //   right: 0px;
+  //   top: $navbar_height;
+  // }
+  //
+  // .control-panel {
+  //   position: fixed;
+  //   left: $small_distance;
+  //   top: calc(#{$navbar_height} * 2 + #{$small_distance});
+  // }
 }
 
 map-right-column {

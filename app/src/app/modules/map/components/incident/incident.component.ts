@@ -1,8 +1,11 @@
 import { Component, Input } from '@angular/core';
+import getContryISO2 from 'country-iso-3-to-2';
+
 import { formatDate } from '@app/helpers/helpers';
 import { AssetInterfaces } from '@data/asset';
 import { NotesInterfaces } from '@data/notes';
 import { Position } from '@data/generic.interfaces';
+
 
 @Component({
   selector: 'map-incident',
@@ -29,5 +32,13 @@ export class IncidentComponent {
 
   public changeStatus = (status: string) => {
     return this.saveNewIncidentStatus(this.incident.id, status);
+  }
+
+  public formatDate(date) {
+    return formatDate(date);
+  }
+
+  getCountryCode(asset) {
+    return getContryISO2(asset.asset.flagStateCode).toLowerCase();
   }
 }

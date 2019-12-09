@@ -11,8 +11,7 @@ type QueryParam = Readonly<{
 @Component({
   selector: 'map-asset-search',
   templateUrl: './asset-search.component.html',
-  styleUrls: ['./asset-search.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./asset-search.component.scss']
 })
 export class AssetSearchComponent implements OnChanges {
   // tslint:disable:ban-types

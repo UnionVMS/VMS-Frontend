@@ -57,7 +57,7 @@ export class AssetService {
       that.mapEventSource.addEventListener('Updated Asset', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('Merged Asset', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('Ticket', (message) => observer.next(translateMessage(message)));
-      that.mapEventSource.addEventListener('TicketUpdate', (message) => observer.next(observer.next(translateMessage(message))));
+      that.mapEventSource.addEventListener('TicketUpdate', (message) => observer.next(translateMessage(message)));
     });
   }
 
@@ -211,6 +211,177 @@ export class AssetService {
           },
           status: 'Poll Failed',
         },
+        // {
+        //   id: 1227,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0968',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1228,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0967',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1229,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc096',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b475',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1230,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0966',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1231,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0965',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1232,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0964',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1233,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0963',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1234,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0962',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1235,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0961',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
       ]);
       observer.complete();
     });
