@@ -52,6 +52,25 @@
         <ul class="control-panel-menu">
           <li>
             <i
+              (click)="toggleActivePanel('map-layers')"
+              class="icon-map-layers {{activePanel === 'map-layers' ? 'active' : '' }}"
+              aria-hidden="true"
+            ></i>
+            <div class="control-panel-submenu">
+              <map-layers
+                *ngIf="(authToken$ | async) !== undefined && (mapLayers$ | async).length > 0"
+                [map]="map"
+                [authToken]="authToken$ | async"
+                [mapLayers]="mapLayers$ | async"
+                [activeMapLayers]="activeMapLayers$ | async"
+                [menuActive]="activePanel === 'map-layers'"
+                [addActiveLayerFunction]="addActiveLayer"
+                [removeActiveLayerFunction]="removeActiveLayer"
+              ></map-layers>
+            </div>
+          </li>
+          <li>
+            <i
               (click)="toggleActivePanel('distance-between-points')"
               class="icon-distance-between-points {{activePanel === 'distance-between-points' ? 'active' : '' }}"
               aria-hidden="true"
@@ -115,15 +134,5 @@
       [clearTracks]="clearTracks"
       [clearForecasts]="clearForecasts"
     ></map-control-panel>
-    <map-layers
-      *ngIf="(authToken$ | async) !== undefined && (mapLayers$ | async).length > 0"
-      [map]="map"
-      [authToken]="authToken$ | async"
-      [mapLayers]="mapLayers$ | async"
-      [activeMapLayers]="activeMapLayers$ | async"
-      [menuActive]="mapSettings.currentControlPanel === 'map-layers'"
-      [addActiveLayerFunction]="addActiveLayer"
-      [removeActiveLayerFunction]="removeActiveLayer"
-    ></map-layers>
   </div> -->
 </div>

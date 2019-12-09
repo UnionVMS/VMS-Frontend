@@ -29,12 +29,17 @@
     }
 
     button {
-      padding: 5px;
-      min-width: 25px;
-      min-height: 25px;
-      border: 1px solid transparent;
+      display: grid;
+      background: $color_turquoise;
+      width: $x3large_distance;
+      height: $x3large_distance;
       font-size: 20px;
-      margin: 0px;
+      cursor: pointer;
+      border: 0px;
+
+      &:hover {
+        background: $color_light_turquoise;
+      }
     }
   }
 }

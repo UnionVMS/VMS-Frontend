@@ -36,7 +36,7 @@
     .control-panel {
       position: absolute;
       bottom: $medium_distance;
-      right: 100px;
+      right: 148px;
 
       .control-panel-menu {
         list-style-type: none;
@@ -55,14 +55,17 @@
             bottom: $x4large_distance;
           }
 
-          .icon-center-sweden {
-            @include icon('/assets/svg-icons/target.svg');
+          .icon-map-layers {
+            @include icon('/assets/svg-icons/layers.svg');
+          }
+          .icon-distance-between-points {
+            @include icon('/assets/svg-icons/messure.svg');
           }
           .icon-asset-layers {
             @include icon('/assets/svg-icons/eye.svg');
           }
-          .icon-distance-between-points {
-            @include icon('/assets/svg-icons/messure.svg');
+          .icon-center-sweden {
+            @include icon('/assets/svg-icons/target.svg');
           }
         }
       }

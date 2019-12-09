@@ -1,14 +1,10 @@
 @import 'variables.scss';
 .content-container {
-  @include control-panel;
-  grid-row-gap: $medium_distance;
+  display: grid;
+  grid-row-gap: $small_distance;
 
-  h4 {
-    margin: 0px;
-  }
-
-  .map-layers {
-    display: grid;
-    grid-row-gap: $medium_distance;
+  mat-checkbox {
+    background: white;
+    padding: $small_distance $medium_distance;
   }
 }
