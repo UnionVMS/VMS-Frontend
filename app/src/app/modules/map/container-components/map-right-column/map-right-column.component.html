@@ -4,6 +4,7 @@
       (click)="setActivePanel('information')"
     ><i class="icon-information {{activePanel === 'information' ? 'active' : '' }}" aria-hidden="true"></i></li>
     <li
+      *ngIf="activeLeftPanel === 'workflows'"
       (click)="setActivePanel('incident')"
     ><i class="icon-incident {{activePanel === 'incident' ? 'active' : '' }}" aria-hidden="true"></i></li>
   </ul>

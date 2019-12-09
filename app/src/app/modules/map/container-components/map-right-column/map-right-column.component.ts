@@ -21,6 +21,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   @Input() centerMapOnPosition: (position: Position) => void;
 
   public activePanel: string;
+  public activeLeftPanel: string;
   public assetsNotSendingIncidents: Readonly<{ [assetId: string]: AssetInterfaces.assetNotSendingIncident }>;
   public mapSettings: MapSettingsInterfaces.State;
   public forecasts$: Observable<any>;
@@ -46,6 +47,9 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   mapStateToProps() {
     this.store.select(MapSelectors.getActiveRightPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
       this.activePanel = activePanel;
+    });
+    this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
+      this.activeLeftPanel = activePanel;
     });
     this.addForecast = (assetId: string) =>
       this.store.dispatch(AssetActions.addForecast({ assetId }));
