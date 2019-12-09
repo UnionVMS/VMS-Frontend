@@ -6,7 +6,7 @@
       class="incident"
       (click)="selectIncident(incident)"
     >
-      <div class="status"></div>
+      <div class="status {{incidentStatusClass[incident.status]}}"></div>
       <ui-truncated-text class="name" [text]="incident.assetName" length="16"></ui-truncated-text>
       <div class="ircs">{{incident.assetIrcs}}</div>
       <div class="time">Last seen: {{formatDate(incident)}}</div>

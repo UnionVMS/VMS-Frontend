@@ -65,7 +65,6 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     });
     this.store.select(AssetSelectors.getAssetNotSendingIncidentsByAssetId)
       .pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
-        console.warn(assetsNotSendingIncicents);
         this.assetsNotSendingIncidents = assetsNotSendingIncicents;
       });
   }

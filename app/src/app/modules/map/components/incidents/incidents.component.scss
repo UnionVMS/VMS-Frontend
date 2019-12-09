@@ -28,6 +28,13 @@
         width: $medium_distance;
         height: $medium_distance;
         display: inline-block;
+
+        &.dangerLvl5 {
+          background: $color_warn;
+        }
+        &.dangerLvl1 {
+          background: $color_yellow;
+        }
       }
 
       .name {

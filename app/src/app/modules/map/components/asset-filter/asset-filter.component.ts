@@ -108,7 +108,6 @@ export class AssetFilterComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
-    console.warn(this.hideInfoFunction);
     // console.warn(this.filterQuerySaved);
     // this.filterQuery = this.filterQuerySaved;
   }

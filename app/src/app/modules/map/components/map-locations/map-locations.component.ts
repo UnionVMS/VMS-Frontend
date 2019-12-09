@@ -19,7 +19,6 @@ export class MapLocationsComponent implements OnChanges {
   public imageUrls = {};
 
   ngOnChanges() {
-    console.warn(this.menuActive);
     this.locationKeys = Object.keys(this.mapLocations);
   }
 
@@ -32,7 +31,6 @@ export class MapLocationsComponent implements OnChanges {
         const view = this.map.getView();
         const zoom = view.getZoom();
         const center = view.getCenter();
-        console.warn(event.key);
         const exportOptions = {
           filter: (element) => {
             return element.className ? element.className.indexOf('ol-control') === -1 : true;

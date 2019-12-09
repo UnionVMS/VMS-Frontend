@@ -1,4 +1,5 @@
 @import '~@angular/material/theming';
+@import 'variables.scss';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -29,9 +30,9 @@ $accent-color: (
 );
 
 $warn-color: (
-  300: #FF988B,
-  500: #F7220B,
-  700: #780C00,
+  300: $color_warn_light,
+  500: $color_warn,
+  700: $color_warn_dark,
    contrast: (
     300: $dark-primary-text,
     500: $dark-primary-text,
