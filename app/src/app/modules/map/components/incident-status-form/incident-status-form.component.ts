@@ -18,12 +18,11 @@ export class IncidentStatusFormComponent implements OnChanges {
 
   public statuses = [
     'Poll Failed',
-    'Not sending',
-    'Captain contacted - No answer',
-    'Captain contacted',
-    'Asset down for service',
+    'Attempted Contacted',
+    'Manual Position Mode',
     'Longterm parked',
-    'Resolved'
+    'Technical issue',
+    'Resolved',
   ];
 
   ngOnChanges() {

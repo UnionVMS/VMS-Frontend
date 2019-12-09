@@ -18,7 +18,7 @@ export const initialState: Interfaces.State = {
     },
     assetColorMethod: 'Shiptype',
   },
-  viewports: {},
+  mapLocations: {},
   currentControlPanel: null,
 };
 
@@ -55,11 +55,11 @@ export const mapSettingsReducer = createReducer(initialState,
     ...state,
     currentControlPanel: controlPanelName
   })),
-  on(MapSettingsActions.saveViewport, (state, { key, viewport }) => ({
+  on(MapSettingsActions.saveMapLocation, (state, { key, mapLocation }) => ({
     ...state,
-    viewports: {
-      ...state.viewports,
-      [key]: viewport
+    mapLocations: {
+      ...state.mapLocations,
+      [key]: mapLocation
     }
   })),
   on(MapSettingsActions.replaceSettings, (state, { settings }) => ({

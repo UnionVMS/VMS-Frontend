@@ -1,0 +1,34 @@
+@import 'variables.scss';
+
+.content-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: $medium_distance;
+  background: white;
+  padding: $medium_distance;
+
+  .location-wrapper {
+    background: $color_dark_gray;
+    position: relative;
+    min-width: 150px;
+    height: 130px;
+
+    img.location-image {
+      max-width: 150px;
+      height: 130px;
+    }
+
+    .location-text {
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      font-size: 40px;
+      color: white;
+    }
+  }
+}

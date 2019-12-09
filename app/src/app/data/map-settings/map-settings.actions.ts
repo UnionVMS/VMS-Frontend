@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { State, Settings, Viewport } from './map-settings.interfaces';
+import { State, Settings, MapLocation } from './map-settings.interfaces';
 
 export const setVisibilityForAssetNames = createAction(
   '[MapSettings] Set visibility for asset names',
@@ -41,9 +41,9 @@ export const setCurrentControlPanel = createAction(
   props<{ controlPanelName: string|null }>()
 );
 
-export const saveViewport = createAction(
-  '[MapSettings] Save viewport',
-  props<{ key: number, viewport: Viewport }>()
+export const saveMapLocation = createAction(
+  '[MapSettings] Save map location',
+  props<{ key: number, mapLocation: MapLocation }>()
 );
 
 export const replaceSettings = createAction(

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { formatDate } from '../../../../helpers/helpers';
 import * as AssetInterfaces from '@data/asset/asset.interfaces';
 
@@ -13,11 +13,13 @@ type QueryParam = Readonly<{
   templateUrl: './asset-filter.component.html',
   styleUrls: ['./asset-filter.component.scss']
 })
-export class AssetFilterComponent implements OnChanges {
+export class AssetFilterComponent implements OnChanges, OnInit {
   @Input() filterFunction: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
   @Input() filterQuerySaved: string;
 
   public filterQuery = '';
+  public displayInfo = false;
+  public hideInfoFunction: () => void;
 
   private handleQueryString = ({ queryObject, queryString }: QueryParam): QueryParam => {
     if(!queryObject.isNumber && !(queryString.indexOf('/') === 0)) {
@@ -99,7 +101,14 @@ export class AssetFilterComponent implements OnChanges {
     }).filter(queryObject => queryObject.values.length > 0));
   }
 
+  ngOnInit() {
+    this.hideInfoFunction = () => {
+      this.displayInfo = false;
+    };
+  }
+
   ngOnChanges() {
+    console.warn(this.hideInfoFunction);
     // console.warn(this.filterQuerySaved);
     // this.filterQuery = this.filterQuerySaved;
   }

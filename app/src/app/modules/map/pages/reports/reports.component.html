@@ -58,8 +58,6 @@
       [namesDisabled]="mapZoom < 10"
       [speedsDisabled]="mapZoom < 10"
       [forecastsDisabled]="mapZoom < 10"
-      [map]="map"
-      [saveViewport]="saveViewport"
     ></map-layer-filter>
     <map-asset-panel
       *ngIf="(selectedAssets$|async).length > 0"

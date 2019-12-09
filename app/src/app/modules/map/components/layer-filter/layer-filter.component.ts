@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MapSettingsInterfaces } from '@data/map-settings';
 
 @Component({
@@ -6,7 +6,7 @@ import { MapSettingsInterfaces } from '@data/map-settings';
   templateUrl: './layer-filter.component.html',
   styleUrls: ['./layer-filter.component.scss']
 })
-export class LayerFilterComponent implements OnChanges {
+export class LayerFilterComponent {
   @Input() mapSettings: MapSettingsInterfaces.State;
   @Input() setVisibilityForAssetNames: (visibility: boolean) => void;
   @Input() setVisibilityForAssetSpeeds: (visibility: boolean) => void;
@@ -18,14 +18,6 @@ export class LayerFilterComponent implements OnChanges {
   @Input() namesDisabled: boolean;
   @Input() speedsDisabled: boolean;
   @Input() forecastsDisabled: boolean;
-  @Input() map;
-  @Input() saveViewport;
-
-  public viewportKeys = [];
-
-  ngOnChanges() {
-    this.viewportKeys = Object.keys(this.mapSettings.viewports);
-  }
 
   public toggleNames = (): void => {
     this.setVisibilityForAssetNames(!this.mapSettings.settings.namesVisible);

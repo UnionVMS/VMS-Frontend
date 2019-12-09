@@ -41,7 +41,6 @@
         [registerOnSelectFunction]="registerOnSelectFunction"
         [unregisterOnSelectFunction]="unregisterOnSelectFunction"
       ></map-flagstates>
-      <map-information-panel></map-information-panel>
       <map-asset-forecast
         *ngIf="mapSettings.settings.forecastsVisible && mapZoom > 9"
         [map]="map"
@@ -103,9 +102,23 @@
                 [namesDisabled]="mapZoom < 10"
                 [speedsDisabled]="mapZoom < 10"
                 [forecastsDisabled]="mapZoom < 10"
-                [map]="map"
-                [saveViewport]="saveViewport"
               ></map-layer-filter>
+            </div>
+          </li>
+          <li>
+            <i
+              (click)="toggleActivePanel('map-locations')"
+              class="icon-map-locations {{activePanel === 'map-locations' ? 'active' : '' }}"
+              aria-hidden="true"
+            ></i>
+            <div class="control-panel-submenu" *ngIf="mapSettings">
+              <map-locations
+                [menuActive]="activePanel === 'map-locations'"
+                [centerMapOnPosition]="centerMapOnPosition"
+                [mapLocations]="mapSettings.mapLocations"
+                [map]="map"
+                [saveMapLocation]="saveMapLocation"
+              ></map-locations>
             </div>
           </li>
           <li>

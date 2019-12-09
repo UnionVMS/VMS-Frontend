@@ -9,7 +9,9 @@
       <mat-option value="l">Length over all</mat-option>
     </mat-select>
   </mat-form-field> -->
-  <mat-form-field>
-    <input matInput placeholder="Filter" [(ngModel)]="filterQuery" (keyup)="filterKeyUp($event)">
-  </mat-form-field>
+    <mat-form-field>
+      <div title="Help & manual for filter" class="open-information-panel" (click)="displayInfo = true">?</div>
+      <map-information-panel *ngIf="displayInfo" [hideFunction]="hideInfoFunction"></map-information-panel>
+      <input matInput placeholder="Filter" [(ngModel)]="filterQuery" (keyup)="filterKeyUp($event)">
+    </mat-form-field>
 </div>

@@ -64,6 +64,9 @@
           .icon-asset-layers {
             @include icon('/assets/svg-icons/eye.svg');
           }
+          .icon-map-locations {
+            @include icon('/assets/svg-icons/map.svg');
+          }
           .icon-center-sweden {
             @include icon('/assets/svg-icons/target.svg');
           }

@@ -55,7 +55,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public clearForecasts: () => void;
   public clearTracks: () => void;
   public deselectAsset: (assetId: string) => void;
-  public saveViewport: Function;
   public setForecastInterval: (forecastTimeLength: number) => void;
   public setVisibilityForAssetNames: Function;
   public setVisibilityForAssetSpeeds: Function;
@@ -68,6 +67,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public removeActiveLayer: (layerName: string) => void;
   public removePositionForInspection: (inspectionId: string) => void;
   public searchAutocomplete: (searchQuery: string) => void;
+  public saveMapLocation: (key: number, mapLocation: MapSettingsInterfaces.MapLocation) => void;
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
@@ -154,8 +154,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
     this.deselectAsset = (assetId) =>
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
-    this.saveViewport = (key: number, viewport: MapSettingsInterfaces.Viewport) =>
-      this.store.dispatch(MapSettingsActions.saveViewport({key, viewport}));
+    this.saveMapLocation = (key: number, mapLocation: MapSettingsInterfaces.MapLocation) =>
+      this.store.dispatch(MapSettingsActions.saveMapLocation({key, mapLocation}));
     this.setVisibilityForAssetNames = (visible: boolean) =>
       this.store.dispatch(MapSettingsActions.setVisibilityForAssetNames({ visibility: visible }));
     this.setVisibilityForAssetSpeeds = (visible: boolean) =>
@@ -258,7 +258,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       layers: [
         new TileLayer({
           source: new XYZ({
-            url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            crossOrigin: 'anonymous'
           })
         })
       ],

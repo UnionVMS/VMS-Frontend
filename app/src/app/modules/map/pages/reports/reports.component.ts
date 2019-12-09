@@ -65,7 +65,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public clearForecasts: Function;
   public clearTracks: Function;
   public deselectAsset: (assetId: string) => void;
-  public saveViewport: Function;
   public setForecastInterval: Function;
   public setVisibilityForAssetNames: Function;
   public setVisibilityForAssetSpeeds: Function;
@@ -84,6 +83,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public getTracksByTimeInterval: (assetIds: string[], from: string, to: string, sources: string[]) => void;
   public removeActiveLayer: (layerName: string) => void;
   public removePositionForInspection: (inspectionId: string) => void;
+  public saveMapLocation: (key: number, mapLocation: MapSettingsInterfaces.MapLocation) => void;
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public setAssetPositionsFromTripByTimestamp: (assetTripTimestamp: number) => void;
 
@@ -176,8 +176,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
       this.store.dispatch(AssetActions.setAssetGroup({ assetGroup }));
-    this.saveViewport = (key: number, viewport: MapSettingsInterfaces.Viewport) =>
-      this.store.dispatch(MapSettingsActions.saveViewport({key, viewport}));
+    this.saveMapLocation = (key: number, mapLocation: MapSettingsInterfaces.MapLocation) =>
+      this.store.dispatch(MapSettingsActions.saveMapLocation({key, mapLocation}));
     this.setVisibilityForAssetNames = (visible: boolean) =>
       this.store.dispatch(MapSettingsActions.setVisibilityForAssetNames({ visibility: visible }));
     this.setVisibilityForAssetSpeeds = (visible: boolean) =>

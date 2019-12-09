@@ -75,6 +75,7 @@ export class MapLayersComponent implements OnChanges, OnDestroy {
       xhr.responseType = 'arraybuffer';
       xhr.onload = function() {
         const img = imageTile.getImage();
+        img.crossOrigin = 'anonymous';
         if (typeof window.btoa === 'function') {
           if (this.status === 200) {
             const uInt8Array = new Uint8Array(this.response);

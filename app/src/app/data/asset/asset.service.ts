@@ -58,6 +58,14 @@ export class AssetService {
       that.mapEventSource.addEventListener('Merged Asset', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('Ticket', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('TicketUpdate', (message) => observer.next(translateMessage(message)));
+      that.mapEventSource.addEventListener('Incident', (message) => {
+        console.warn('---Incident', message);
+        return observer.next(translateMessage(message));
+      });
+      that.mapEventSource.addEventListener('IncidentUpdate', (message) => {
+        console.warn('---IncidentUpdate', message);
+        return observer.next(translateMessage(message));
+      });
     });
   }
 
@@ -162,15 +170,15 @@ export class AssetService {
   }
 
   getAssetNotSendingEvents(authToken: string) {
-    // return this.http.get(
-    //   environment.baseApiUrl + `reporting/rest/incident/assetNotSending`,
-    //   {
-    //     headers: new HttpHeaders({
-    //       Authorization: authToken,
-    //       'Cache-Control': 'no-cache'
-    //     })
-    //   }
-    // );
+    return this.http.get(
+      environment.baseApiUrl + `reporting/rest/incident/assetNotSending`,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
     return new Observable((observer) => {
       observer.next([
         {
@@ -439,6 +447,16 @@ export class AssetService {
   }
 
   saveNewIncidentStatus(authToken: string, incidentId: number, status: string) {
+    return this.http.post(
+      environment.baseApiUrl + `reporting/rest/incident/assetNotSending/${incidentId}/status`,
+      { status },
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
     console.warn(incidentId, status);
     return new Observable((observer) => {
       observer.next(true);
