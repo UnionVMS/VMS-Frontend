@@ -34,6 +34,11 @@ export class IncidentComponent {
     return this.saveNewIncidentStatus(this.incident.id, status);
   }
 
+  public createNoteWithId = (note: NotesInterfaces.Note) => {
+    console.warn(this.asset);
+    return this.createNote({ ...note, assetId: this.asset.asset.id });
+  }
+
   public formatDate(date) {
     return formatDate(date);
   }

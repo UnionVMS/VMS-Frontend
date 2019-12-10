@@ -4,7 +4,7 @@ import { NotesInterfaces } from '@data/notes';
 export const createNotesFormValidator = (note: NotesInterfaces.Note) => {
   return new FormGroup({
     essentailFields: new FormGroup({
-      notes: new FormControl(note.note, [Validators.required, Validators.maxLength(255)]),
+      note: new FormControl(note.note, [Validators.required, Validators.maxLength(255)]),
     }),
   });
 };

@@ -6,8 +6,8 @@
 
       <mat-form-field id="note-form--notes">
         <mat-label>Note</mat-label>
-        <textarea matInput formControlName="notes" required></textarea>
-        <mat-error *ngFor="let error of getErrors(['essentailFields', 'notes'])">{{ errorMessage(error) }}</mat-error>
+        <textarea matInput formControlName="note" required></textarea>
+        <mat-error *ngFor="let error of getErrors(['essentailFields', 'note'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
     </fieldset>

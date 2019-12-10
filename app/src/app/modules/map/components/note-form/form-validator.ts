@@ -3,6 +3,6 @@ import { NotesInterfaces } from '@data/notes';
 
 export const createNotesFormValidator = () => {
   return new FormGroup({
-    notes: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+    note: new FormControl('', [Validators.required, Validators.maxLength(255)]),
   });
 };

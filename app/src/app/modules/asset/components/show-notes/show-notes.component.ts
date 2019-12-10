@@ -10,4 +10,5 @@ import { NotesInterfaces } from '@data/notes';
 export class ShowNotesComponent {
   @Input() asset: AssetInterfaces.Asset;
   @Input() notes: Array<NotesInterfaces.Note>;
+
 }

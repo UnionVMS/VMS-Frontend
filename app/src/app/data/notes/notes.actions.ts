@@ -12,7 +12,7 @@ export const setNotes = createAction(
 
 export const saveNote = createAction(
   '[Notes] Save note',
-  props<{ note: NotesInterfaces.Note }>()
+  props<{ note: NotesInterfaces.Note, redirect?: boolean }>()
 );
 
 export const getSelectedNote = createAction(

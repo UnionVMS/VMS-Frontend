@@ -15,6 +15,7 @@ export class NoteFormComponent implements OnInit {
 
   public formValidator: FormGroup;
   public save = () => {
+    console.warn(this.formValidator.value);
     return this.createNote({
       note: this.formValidator.value.note as string
     } as NotesInterfaces.Note);

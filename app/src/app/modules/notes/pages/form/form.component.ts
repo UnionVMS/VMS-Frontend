@@ -44,9 +44,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.save = () => {
       const note = {
         ...this.note,
-        notes: this.formValidator.value.essentailFields.notes,
+        note: this.formValidator.value.essentailFields.note,
       };
-      this.store.dispatch(NotesActions.saveNote({ note }));
+      this.store.dispatch(NotesActions.saveNote({ note, redirect: true }));
     };
   }
 

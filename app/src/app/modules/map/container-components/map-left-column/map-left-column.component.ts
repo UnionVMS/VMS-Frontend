@@ -89,6 +89,9 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   mapDispatchToProps() {
     this.setActivePanel = (activeLeftPanel: string) => {
+      if(activeLeftPanel === 'filters') {
+        this.setActiveRightPanel('information');
+      }
       this.store.dispatch(AssetActions.clearSelectedAssets());
       this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
     };

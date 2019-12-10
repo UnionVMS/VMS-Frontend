@@ -85,9 +85,12 @@ export class NotesEffects {
       mergeMap(([pipedAction, authToken, selectedAsset]: Array<any>) => {
         const isNew = pipedAction.note.id === undefined || pipedAction.note.id === null;
         let request: Observable<object>;
+        console.warn(isNew);
         if(isNew) {
           if(typeof pipedAction.note.assetId === 'undefined' && typeof selectedAsset !== 'undefined') {
             request = this.notesService.createNote(authToken, { ...pipedAction.note, assetId: selectedAsset.id });
+          } else {
+            request = this.notesService.createNote(authToken, { ...pipedAction.note, assetId: pipedAction.note.assetId });
           }
         } else {
           request = this.notesService.updateNote(authToken, action.note);
@@ -95,7 +98,9 @@ export class NotesEffects {
         return request.pipe(
           map((note: any) => {
             let notification = 'Notes updated successfully!';
-            this.router.navigate(['/asset/' + note.assetId]);
+            if(pipedAction.redirect) {
+              this.router.navigate(['/asset/' + note.assetId]);
+            }
             if(isNew) {
               notification = 'Note created successfully!';
             }

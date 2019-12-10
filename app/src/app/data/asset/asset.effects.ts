@@ -444,7 +444,7 @@ export class AssetEffects {
         return this.assetService.getAsset(authToken, mergedRoute.params.assetId).pipe(
           map((asset: AssetInterfaces.Asset) => {
             const returnActions: Array<any> = [AssetActions.setFullAsset({ asset })];
-            if(asset.mobileTerminalIds.length > 0) {
+            if(typeof asset.mobileTerminalIds !== 'undefined' && asset.mobileTerminalIds.length > 0) {
               returnActions.push(MobileTerminalActions.search({
                 query: { mobileterminalIds: asset.mobileTerminalIds },
                 includeArchived: false,
