@@ -224,6 +224,34 @@ export class AssetEffects {
                 actions.push(AssetActions.removeAssets({ assetIds: messagesByType['Merged Asset'].map(message => message.oldAssetId) }));
               }
 
+              if(typeof messagesByType.Incident !== 'undefined') {
+                messagesByType.Incident.map(message => {
+                  actions.push(NotificationsActions.addNotice(
+                    `New incident #${message.id} for ${message.assetName}.`
+                  ));
+                });
+                actions.push(AssetActions.updateAssetNotSendingIncidents({
+                  assetNotSendingIncidents: messagesByType.Inciden.reduce((acc, message) => {
+                    acc[message.assetId] = message;
+                    return acc;
+                  }, {})
+                }));
+              }
+
+              if(typeof messagesByType.IncidentUpdate !== 'undefined') {
+                messagesByType.IncidentUpdate.map(message => {
+                  actions.push(NotificationsActions.addNotice(
+                    `Incident #${message.id} for asset ${message.assetName} updated.`
+                  ));
+                });
+                actions.push(AssetActions.updateAssetNotSendingIncidents({
+                  assetNotSendingIncidents: messagesByType.IncidentUpdate.reduce((acc, message) => {
+                    acc[message.assetId] = message;
+                    return acc;
+                  }, {})
+                }));
+              }
+
               if(actions.length > 0) {
                 return of(actions);
               }

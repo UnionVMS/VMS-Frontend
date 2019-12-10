@@ -253,6 +253,13 @@ export const assetReducer = createReducer(initialState,
     ...state,
     assetNotSendingIncidents
   })),
+  on(AssetActions.updateAssetNotSendingIncidents, (state, { assetNotSendingIncidents }) => ({
+    ...state,
+    assetNotSendingIncidents: {
+      ...state.assetNotSendingIncidents,
+      ...assetNotSendingIncidents
+    }
+  })),
   on(AssetActions.setTracksForAsset, (state, { tracks, assetId }) => {
     const finishedLineSegments = tracks.reduce((lineSegments, position) => {
       const lastSegment = lineSegments[lineSegments.length - 1];

@@ -1,6 +1,6 @@
 <div class="content-container">
   <div class="information-wrapper">
-    <div class="asset-information">
+    <div class="asset-information" *ngIf="asset.currentPosition !== undefined">
       <ng-container>
         <ng-container *ngIf="asset.asset.ircs">
           <legend>Ircs:</legend>

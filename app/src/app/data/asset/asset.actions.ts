@@ -177,6 +177,12 @@ export const setAssetNotSendingIncidents = createAction(
   props<{ assetNotSendingIncidents: { readonly [assetId: string]: AssetInterfaces.assetNotSendingIncident }}>()
 );
 
+export const updateAssetNotSendingIncidents = createAction(
+  '[Asset] Update asset not sending incidents',
+  props<{ assetNotSendingIncidents: { readonly [assetId: string]: AssetInterfaces.assetNotSendingIncident }}>()
+);
+
+
 export const setAutocompleteQuery = createAction(
   '[Asset] Set autocomplete query',
   props<{ searchQuery: string }>()
