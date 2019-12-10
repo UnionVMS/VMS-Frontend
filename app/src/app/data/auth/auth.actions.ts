@@ -28,6 +28,9 @@ export const logout = createAction(
   '[Auth] Logut',
   (payload: void) => {
     delete window.localStorage.authToken;
+    localStorage.removeItem("ngStorage-token");
+    localStorage.removeItem("ngStorage-roleName");
+    localStorage.removeItem("ngStorage-scopeName");
     return {};
   }
 );
