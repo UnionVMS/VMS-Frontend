@@ -16,14 +16,14 @@ export class IncidentStatusFormComponent implements OnChanges {
 
   public formValidator: FormGroup;
 
-  public statuses = [
-    'Poll Failed',
-    'Attempted Contacted',
-    'Manual Position Mode',
-    'Longterm parked',
-    'Technical issue',
-    'Resolved',
-  ];
+  public statuses = {
+    POLL_FAILED: 'Poll Failed',
+    ATTEMPTED_CONTACT: 'Attempted Contact',
+    MANUAL_POSITION_MODE: 'Manual Position Mode',
+    LONG_TERM_PARKED: 'Long term parked',
+    TECHNICAL_ISSUE: 'Technical issue',
+    RESOLVED: 'Resolved'
+  };
 
   ngOnChanges() {
     this.formValidator = createIncidentStatusFormValidator(this.status);
@@ -31,6 +31,10 @@ export class IncidentStatusFormComponent implements OnChanges {
 
   save() {
     this.changeStatus(this.formValidator.value.status);
+  }
+
+  getStatusKeys() {
+    return Object.keys(this.statuses);
   }
 
   getErrors(path: string[]) {

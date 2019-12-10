@@ -1,7 +1,7 @@
 <form class="notes-form" [formGroup]="formValidator">
   <mat-form-field id="note-form--notes">
     <mat-select formControlName="status" required>
-      <mat-option *ngFor="let status of statuses" id="mat-option-plugin--{{status.replace(' ', '-')}}" [value]="status">{{status}}</mat-option>
+      <mat-option *ngFor="let status of getStatusKeys()" id="mat-option-plugin--{{status}}" [value]="status">{{statuses[status]}}</mat-option>
     </mat-select>
   </mat-form-field>
 

@@ -231,7 +231,7 @@ export class AssetEffects {
                   ));
                 });
                 actions.push(AssetActions.updateAssetNotSendingIncidents({
-                  assetNotSendingIncidents: messagesByType.Inciden.reduce((acc, message) => {
+                  assetNotSendingIncidents: messagesByType.Incident.reduce((acc, message) => {
                     acc[message.assetId] = message;
                     return acc;
                   }, {})

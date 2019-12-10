@@ -1,8 +1,15 @@
 @import 'variables.scss';
 
 .content-container {
+  display: grid;
   color: black;
   padding: $medium_distance;
+
+  #show-full-log {
+    margin-top: $large_distance;
+    background: white;
+  }
+
   h4 {
     margin: 0;
     padding-bottom: $medium_distance;
