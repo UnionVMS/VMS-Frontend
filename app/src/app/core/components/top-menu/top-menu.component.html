@@ -24,6 +24,7 @@
       <a class="nav-link waves-light" routerLink="/settings/user">My Settings</a>
     </li>
   </ul>
+
   <!-- Links -->
   <ul class="navbar-nav right-bar">
     <li class="nav-item" routerLinkActive="active">
@@ -31,6 +32,15 @@
         Logout
       </a>
     </li>
+    <span *ngIf= "isAdmin">
+      <li class="nav-item" routerLinkActive="active">
+       <strong><a class="nav-link waves-light" routerLink="/unionvms">
+          ADMIN
+        </a></strong>
+      </li>
+    </span>
+
   </ul>
+
 </div>
 <!--/.Navbar-->

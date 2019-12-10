@@ -31,3 +31,7 @@ export const logout = createAction(
     return {};
   }
 );
+
+export const isAdmin = createAction(
+  '[Auth] isAdmin',
+);
