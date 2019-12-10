@@ -4,6 +4,7 @@
       (click)="setActivePanel('filters')"
     ><i class="icon-search {{activePanel === 'filters' ? 'active' : '' }}" aria-hidden="true"></i></li>
     <li
+      *ngIf="!noWorkflow"
       (click)="setActivePanel('workflows')"
     ><i class="icon-workflow {{activePanel === 'workflows' ? 'active' : '' }}" aria-hidden="true"></i></li>
   </ul>

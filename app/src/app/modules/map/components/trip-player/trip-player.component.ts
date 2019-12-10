@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
 import { formatDate, formatTimestamp } from '@app/helpers/helpers';
 import { AssetInterfaces } from '@data/asset';
@@ -10,7 +10,7 @@ import { Position } from '@data/generic.interfaces';
   templateUrl: './trip-player.component.html',
   styleUrls: ['./trip-player.component.scss']
 })
-export class TripPlayerComponent {
+export class TripPlayerComponent implements OnDestroy {
   @Input() tripGranularity: number;
   @Input() tripTimestamps: ReadonlyArray<number>;
   @Input() tripTimestamp: number;
@@ -76,5 +76,9 @@ export class TripPlayerComponent {
       this.pause();
       this.play();
     }
+  }
+
+  ngOnDestroy() {
+    this.pause();
   }
 }

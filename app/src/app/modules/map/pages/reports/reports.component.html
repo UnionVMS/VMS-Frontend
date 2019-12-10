@@ -1,19 +1,11 @@
+<map-period-selector *ngIf="showPeriodSelector" [setPeriod]="setTimeInterval"></map-period-selector>
 <div class="reports-container">
-  <map-period-selector *ngIf="showPeriodSelector" [setPeriod]="setTimeInterval"></map-period-selector>
+  <map-left-column
+    [centerMapOnPosition]="centerMapOnPosition"
+    [noWorkflow]="true"
+  ></map-left-column>
   <div class="map-container">
     <div id="reports-map"></div>
-    <map-top-panel
-      [autocompleteFunction]="searchAutocomplete"
-      [autocompleteResult]="searchAutocompleteAsset$ | async"
-      [centerMapOnPosition]="centerMapOnPosition"
-      [filterFunction]="filterAssets"
-      [selectAsset]="selectAsset"
-      [currentControlPanel]="mapSettings.currentControlPanel"
-      [setCurrentControlPanel]="setCurrentControlPanel"
-      hidePanelButtons="['map-control-panel']"
-    >
-      <div id="mouse-position"></div>
-    </map-top-panel>
     <ng-container *ngIf="mapSettingsLoaded">
       <map-assets
         *ngIf="registerOnSelectFunction !== undefined"
@@ -30,10 +22,12 @@
         [unregisterOnSelectFunction]="unregisterOnSelectFunction"
       ></map-assets>
       <map-tracks-segments
+        *ngIf="mapSettings.settings.tracksVisible"
         [assetTracks]="assetTracks$|async"
         [map]="map"
       ></map-tracks-segments>
       <map-tracks
+        *ngIf="mapSettings.settings.tracksVisible && mapZoom > 5"
         [assetTracks]="assetTracks$|async"
         [map]="map"
       ></map-tracks>
@@ -45,73 +39,105 @@
         [registerOnSelectFunction]="registerOnSelectFunction"
         [unregisterOnSelectFunction]="unregisterOnSelectFunction"
       ></map-flagstates>
+      <map-asset-forecast
+        *ngIf="mapSettings.settings.forecastsVisible && mapZoom > 9"
+        [map]="map"
+        [assetMovements]="forecasts$|async"
+        [forecastInterval]="mapSettings.settings.forecastInterval"
+      ></map-asset-forecast>
+      <map-trip-player
+        [tripGranularity]="tripGranularity$ | async"
+        [tripTimestamps]="tripTimestamps$ | async"
+        [tripTimestamp]="tripTimestamp$ | async"
+        [setTripTimestamp]="setAssetPositionsFromTripByTimestamp"
+      ></map-trip-player>
+      <div class="control-panel">
+        <ul class="control-panel-menu">
+          <li>
+            <i
+              (click)="toggleActivePanel('map-layers')"
+              class="icon-map-layers {{activePanel === 'map-layers' ? 'active' : '' }}"
+              aria-hidden="true"
+            ></i>
+            <div class="control-panel-submenu">
+              <map-layers
+                *ngIf="(authToken$ | async) !== undefined && (mapLayers$ | async).length > 0"
+                [map]="map"
+                [authToken]="authToken$ | async"
+                [mapLayers]="mapLayers$ | async"
+                [activeMapLayers]="activeMapLayers$ | async"
+                [menuActive]="activePanel === 'map-layers'"
+                [addActiveLayerFunction]="addActiveLayer"
+                [removeActiveLayerFunction]="removeActiveLayer"
+              ></map-layers>
+            </div>
+          </li>
+          <li>
+            <i
+              (click)="toggleActivePanel('distance-between-points')"
+              class="icon-distance-between-points {{activePanel === 'distance-between-points' ? 'active' : '' }}"
+              aria-hidden="true"
+            ></i>
+            <div class="control-panel-submenu">
+              <map-distance-between-points
+                [map]="map"
+                [registerOnClickFunction]="registerOnClickFunction"
+                [active]="activePanel === 'distance-between-points'"
+              ></map-distance-between-points>
+            </div>
+          </li>
+          <li>
+            <i
+              (click)="toggleActivePanel('asset-layers')"
+              class="icon-asset-layers {{activePanel === 'asset-layers' ? 'active' : '' }}"
+              aria-hidden="true"
+            ></i>
+            <div class="control-panel-submenu">
+              <map-layer-filter
+                *ngIf="activePanel === 'asset-layers'"
+                [mapSettings]="mapSettings"
+                [setVisibilityForAssetNames]="setVisibilityForAssetNames"
+                [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
+                [setVisibilityForFlags]="setVisibilityForFlags"
+                [setVisibilityForTracks]="setVisibilityForTracks"
+                [setVisibilityForForecast]="setVisibilityForForecast"
+                [flagsDisabled]="mapZoom < 10"
+                [tracksDisabled]="false"
+                [namesDisabled]="mapZoom < 10"
+                [speedsDisabled]="mapZoom < 10"
+                [forecastsDisabled]="mapZoom < 10"
+              ></map-layer-filter>
+            </div>
+          </li>
+          <li>
+            <i
+              (click)="toggleActivePanel('map-locations')"
+              class="icon-map-locations {{activePanel === 'map-locations' ? 'active' : '' }}"
+              aria-hidden="true"
+            ></i>
+            <div class="control-panel-submenu" *ngIf="mapSettings">
+              <map-locations
+                [menuActive]="activePanel === 'map-locations'"
+                [centerMapOnPosition]="centerMapOnPosition"
+                [mapLocations]="mapSettings.mapLocations"
+                [map]="map"
+                [saveMapLocation]="saveMapLocation"
+              ></map-locations>
+            </div>
+          </li>
+          <li>
+            <i
+              (click)="centerOnDefaultPosition()"
+              title="Back to chosen start position."
+              class="icon-center-sweden {{activePanel === 'information' ? 'active' : '' }}"
+              aria-hidden="true"
+            ></i>
+          </li>
+        </ul>
+      </div>
     </ng-container>
-    <map-layer-filter
-      [mapSettings]="mapSettings"
-      [setVisibilityForAssetNames]="setVisibilityForAssetNames"
-      [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
-      [setVisibilityForFlags]="setVisibilityForFlags"
-      [setVisibilityForTracks]="setVisibilityForTracks"
-      [setVisibilityForForecast]="setVisibilityForForecast"
-      [flagsDisabled]="mapZoom < 10"
-      [tracksDisabled]="mapZoom < 10"
-      [namesDisabled]="mapZoom < 10"
-      [speedsDisabled]="mapZoom < 10"
-      [forecastsDisabled]="mapZoom < 10"
-    ></map-layer-filter>
-    <map-asset-panel
-      *ngIf="(selectedAssets$|async).length > 0"
-      [assets]="selectedAssets$|async"
-      [selectAsset]="selectAsset"
-      [deselectAsset]="deselectAsset"
-      [forecasts]="forecasts$|async"
-      [getAssetTrack]="getAssetTrack"
-      [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
-      [untrackAsset]="untrackAsset"
-      [addForecast]="addForecast"
-      [removeForecast]="removeForecast"
-      [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
-      [centerMapOnPosition]="centerMapOnPosition"
-    ></map-asset-panel>
-    <map-trip-player
-      [tripGranularity]="tripGranularity$ | async"
-      [tripTimestamps]="tripTimestamps$ | async"
-      [tripTimestamp]="tripTimestamp$ | async"
-      [setTripTimestamp]="setAssetPositionsFromTripByTimestamp"
-    ></map-trip-player>
-    <div class="control-panel">
-      <map-distance-between-points
-        *ngIf="map !== undefined"
-        [map]="map"
-        [registerOnClickFunction]="registerOnClickFunction"
-        [active]="mapSettings.currentControlPanel === 'map-distance-between-points'"
-      ></map-distance-between-points>
-      <map-saved-filters
-        *ngIf="mapSettings.currentControlPanel === 'map-saved-filters'"
-        [filterQuery]="currentFilterQuery$ | async"
-        [addSavedFilter]="addSavedFilter"
-        [savedFilters]="savedFilters$ | async"
-        [activeFilters]="activeFilterNames$ | async"
-        [activateFilter]="activateSavedFilter"
-        [deactivateFilter]="deactivateSavedFilter"
-      ></map-saved-filters>
-      <map-asset-groups
-        *ngIf="mapSettings.currentControlPanel === 'map-asset-groups'"
-        [assetGroups]="assetGroups$ | async"
-        [selectedAssetGroups]="selectedAssetGroups$ | async"
-        [setAssetGroup]="setAssetGroup"
-        [clearAssetGroup]="clearAssetGroup"
-      ></map-asset-groups>
-      <map-layers
-        *ngIf="(authToken$ | async) !== undefined && (mapLayers$ | async).length > 0"
-        [map]="map"
-        [authToken]="authToken$ | async"
-        [mapLayers]="mapLayers$ | async"
-        [activeMapLayers]="activeMapLayers$ | async"
-        [menuActive]="mapSettings.currentControlPanel === 'map-layers'"
-        [addActiveLayerFunction]="addActiveLayer"
-        [removeActiveLayerFunction]="removeActiveLayer"
-      ></map-layers>
-    </div>
   </div>
+  <map-right-column
+    [centerMapOnPosition]="centerMapOnPosition"
+  ></map-right-column>
 </div>

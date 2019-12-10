@@ -115,10 +115,13 @@ export class ReportsComponent implements OnInit, OnDestroy {
   private unregisterOnSelectFunction: (name: string) => void;
   // private unregisterOnHoverFunction: (name: string) => void;
 
+  public activePanel = '';
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
   // Map functions to props:
-  public centerMapOnPosition: (position: Position) => void;
+  public centerMapOnPosition: (position: Position, zoom?: number) => void;
+  public centerOnDefaultPosition: () => void;
+  public toggleActivePanel: (panelName: string) => void;
 
   constructor(private store: Store<any>) { }
 
@@ -233,11 +236,29 @@ export class ReportsComponent implements OnInit, OnDestroy {
       );
       this.showPeriodSelector = false;
     };
-    this.centerMapOnPosition = (position) => {
-      if(this.mapZoom < 10) {
+    this.centerMapOnPosition = (position, zoom = null) => {
+      if(zoom !== null) {
+        this.mapZoom = zoom;
+      } else if(this.mapZoom < 10) {
         this.mapZoom = 10;
       }
+
       this.map.getView().animate({zoom: this.mapZoom, center: fromLonLat([position.longitude, position.latitude])});
+    };
+
+    this.centerOnDefaultPosition = () => {
+      this.centerMapOnPosition(
+        this.mapSettings.settings.startPosition,
+        this.mapSettings.settings.startZoomLevel
+      );
+    };
+
+    this.toggleActivePanel = (panelName) => {
+      if(this.activePanel === panelName) {
+        this.activePanel = '';
+      } else {
+        this.activePanel = panelName;
+      }
     };
   }
 

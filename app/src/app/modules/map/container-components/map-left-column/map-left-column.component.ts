@@ -16,6 +16,7 @@ import { MapSavedFiltersActions, MapSavedFiltersInterfaces, MapSavedFiltersSelec
 export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   @Input() centerMapOnPosition: (position: Position) => void;
+  @Input() noWorkflow = false;
 
   public activePanel: string;
   public setActivePanel: (activeLeftPanel: string) => void;
