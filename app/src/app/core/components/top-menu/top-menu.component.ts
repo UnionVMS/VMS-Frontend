@@ -11,6 +11,7 @@ import { Observable, Subscription } from 'rxjs';
 
 export class TopMenuComponent implements OnInit{
   public isAdmin;
+  public baseUrl = window.location.origin;
   constructor(
     private store: Store<any>
   ){
