@@ -14,3 +14,18 @@ export const setReportSearching = createAction(
   '[Map] Set report searching',
   props<{ searching: boolean }>()
 );
+
+export const setGivenFilterActive = createAction(
+  '[Map] Set given filter active',
+  props<{ filterTypeName: string, status: boolean }>()
+);
+
+export const setActiveLeftPanel = createAction(
+  '[Map] Set active left panel',
+  props<{ activeLeftPanel: string }>()
+);
+
+export const setActiveRightPanel = createAction(
+  '[Map] Set active right panel',
+  props<{ activeRightPanel: string }>()
+);

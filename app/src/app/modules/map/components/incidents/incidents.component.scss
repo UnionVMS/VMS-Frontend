@@ -1,0 +1,60 @@
+@import 'variables.scss';
+
+.content-container {
+  grid-row-gap: $medium_distance;
+
+  h4 {
+    margin: 0px;
+  }
+
+  .incidents {
+    display: grid;
+    grid-row-gap: $medium_distance;
+
+    .incident {
+      display: grid;
+      grid-template-columns: $medium_distance 2fr 1fr;
+      grid-column-gap: $medium_distance;
+      grid-row-gap: $small_distance;
+      padding: distance(1.5);
+      background: $color_cold_gray;
+      cursor: pointer;
+
+      .status {
+        place-self: center;
+        border: 1px solid #000000;
+        background: $color_light_orange;
+        border-radius: $small_distance;
+        width: $medium_distance;
+        height: $medium_distance;
+        display: inline-block;
+
+        &.dangerLvl5 {
+          background: $color_warn;
+        }
+        &.dangerLvl1 {
+          background: $color_yellow;
+        }
+      }
+
+      .name {
+        font-weight: bold;
+        color: $color_turquoise;
+      }
+      .ircs {
+        color: $color_turquoise;
+      }
+
+      .time {
+        font-size: 12px;
+        grid-column: 2 / span 2;
+      }
+    }
+  }
+
+  button.btn {
+    padding: $medium_distance $large_distance;
+    background-color: $color_light_green;
+  }
+
+}

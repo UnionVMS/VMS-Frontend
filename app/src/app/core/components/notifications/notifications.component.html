@@ -2,19 +2,19 @@
   <li *ngFor="let successNotification of notifications.success; let i = index" class="alert alert-success">
     <span [innerHTML]="successNotification"></span>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismiss('success', i)">
-      <i class="fas fa-times"></i>
+      <i class="fas fa-times" aria-hidden="true"></i>
     </button>
   </li>
   <li *ngFor="let noticesNotification of notifications.notices; let i = index" class="alert alert-notice">
     <span [innerHTML]="noticesNotification"></span>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismiss('notices', i)">
-      <i class="fas fa-times"></i>
+      <i class="fas fa-times" aria-hidden="true"></i>
     </button>
   </li>
   <li *ngFor="let errorsNotification of notifications.errors; let i = index" class="alert alert-error">
     <span [innerHTML]="errorsNotification"></span>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismiss('errors', i)">
-      <i class="fas fa-times"></i>
+      <i class="fas fa-times" aria-hidden="true"></i>
     </button>
   </li>
 </ul>

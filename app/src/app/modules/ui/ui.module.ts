@@ -7,6 +7,7 @@ import { CloseButtonComponent } from './components/button/close/close.component'
 import { ToggleButtonComponent } from './components/button/toggle/toggle.component';
 import { LoadingDotsComponent } from './components/loading-dots/loading-dots.component';
 import { CountdownComponent } from './components/countdown/countdown.component';
+import { TruncatedTextComponent } from './components/truncated-text/truncated-text.component';
 
 @NgModule({
   imports: [
@@ -19,12 +20,14 @@ import { CountdownComponent } from './components/countdown/countdown.component';
     ToggleButtonComponent,
     LoadingDotsComponent,
     CountdownComponent,
+    TruncatedTextComponent,
   ],
   exports: [
     CloseButtonComponent,
     ToggleButtonComponent,
     LoadingDotsComponent,
     CountdownComponent,
+    TruncatedTextComponent,
   ]
 })
 

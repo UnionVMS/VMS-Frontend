@@ -4,12 +4,6 @@
     <fieldset formGroupName="essentailFields">
       <legend>Note</legend>
 
-      <mat-form-field id="note-form--noteuser">
-        <mat-label>User</mat-label>
-        <input matInput formControlName="user" required>
-        <mat-error *ngFor="let error of getErrors(['essentailFields', 'user'])">{{ errorMessage(error) }}</mat-error>
-      </mat-form-field>
-
       <mat-form-field id="note-form--notes">
         <mat-label>Note</mat-label>
         <textarea matInput formControlName="notes" required></textarea>
@@ -18,7 +12,7 @@
 
     </fieldset>
     <div>
-      <button id="mobile-terminal-form--save" mat-raised-button color="primary" type="button"  (click)="save()">Save</button>
+      <button id="notes-edit-form--save" mat-raised-button color="primary" type="button"  (click)="save()">Save</button>
     </div>
   </form>
 </ng-container>

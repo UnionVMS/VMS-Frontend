@@ -43,7 +43,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }>>;
   public currentFilterQuery$: Observable<ReadonlyArray<AssetInterfaces.AssetFilterQuery>>;
   public savedFilters$: Observable<{ [filterName: string]: Array<AssetInterfaces.AssetFilterQuery> }>;
-  public activeFilterNames$: Observable<Array<string>>;
+  public activeFilterNames$: Observable<ReadonlyArray<string>>;
   public assetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
   public selectedAssetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
   public authToken$: Observable<string|null>;
@@ -65,7 +65,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public clearForecasts: Function;
   public clearTracks: Function;
   public deselectAsset: (assetId: string) => void;
-  public saveViewport: Function;
   public setForecastInterval: Function;
   public setVisibilityForAssetNames: Function;
   public setVisibilityForAssetSpeeds: Function;
@@ -84,6 +83,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public getTracksByTimeInterval: (assetIds: string[], from: string, to: string, sources: string[]) => void;
   public removeActiveLayer: (layerName: string) => void;
   public removePositionForInspection: (inspectionId: string) => void;
+  public saveMapLocation: (key: number, mapLocation: MapSettingsInterfaces.MapLocation) => void;
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public setAssetPositionsFromTripByTimestamp: (assetTripTimestamp: number) => void;
 
@@ -115,10 +115,13 @@ export class ReportsComponent implements OnInit, OnDestroy {
   private unregisterOnSelectFunction: (name: string) => void;
   // private unregisterOnHoverFunction: (name: string) => void;
 
+  public activePanel = '';
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
   // Map functions to props:
-  public centerMapOnPosition: (position: Position) => void;
+  public centerMapOnPosition: (position: Position, zoom?: number) => void;
+  public centerOnDefaultPosition: () => void;
+  public toggleActivePanel: (panelName: string) => void;
 
   constructor(private store: Store<any>) { }
 
@@ -176,8 +179,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
       this.store.dispatch(AssetActions.setAssetGroup({ assetGroup }));
-    this.saveViewport = (key: number, viewport: MapSettingsInterfaces.Viewport) =>
-      this.store.dispatch(MapSettingsActions.saveViewport({key, viewport}));
+    this.saveMapLocation = (key: number, mapLocation: MapSettingsInterfaces.MapLocation) =>
+      this.store.dispatch(MapSettingsActions.saveMapLocation({key, mapLocation}));
     this.setVisibilityForAssetNames = (visible: boolean) =>
       this.store.dispatch(MapSettingsActions.setVisibilityForAssetNames({ visibility: visible }));
     this.setVisibilityForAssetSpeeds = (visible: boolean) =>
@@ -233,11 +236,29 @@ export class ReportsComponent implements OnInit, OnDestroy {
       );
       this.showPeriodSelector = false;
     };
-    this.centerMapOnPosition = (position) => {
-      if(this.mapZoom < 10) {
+    this.centerMapOnPosition = (position, zoom = null) => {
+      if(zoom !== null) {
+        this.mapZoom = zoom;
+      } else if(this.mapZoom < 10) {
         this.mapZoom = 10;
       }
+
       this.map.getView().animate({zoom: this.mapZoom, center: fromLonLat([position.longitude, position.latitude])});
+    };
+
+    this.centerOnDefaultPosition = () => {
+      this.centerMapOnPosition(
+        this.mapSettings.settings.startPosition,
+        this.mapSettings.settings.startZoomLevel
+      );
+    };
+
+    this.toggleActivePanel = (panelName) => {
+      if(this.activePanel === panelName) {
+        this.activePanel = '';
+      } else {
+        this.activePanel = panelName;
+      }
     };
   }
 

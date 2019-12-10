@@ -4,14 +4,17 @@ export type Movement = Readonly<{
   location: Position;
   heading: number;
   guid: string;
-  timestamp: string;
+  timestamp: string|number;
   speed: number | null;
   source: string;
 }>;
 
-export type UnitTonnage = Readonly<{
-  name: string;
-  code: string;
+export type ManualMovement = Readonly<{
+  movement: Movement;
+  asset: Readonly<{
+    cfr: string,
+    ircs: string,
+  }>;
 }>;
 
 export type AssetMovement = Readonly<{
@@ -152,8 +155,8 @@ export type AssetGroup = Readonly<{
   assetGroupFields: ReadonlyArray<AssetGroupField>;
 }>;
 
-export type AssetNotSendingEvent = Readonly<{
-  id: string,
+export type assetNotSendingIncident = Readonly<{
+  id: number,
   assetId: string,
   assetName: string,
   assetIrcs: string,
@@ -163,6 +166,11 @@ export type AssetNotSendingEvent = Readonly<{
 
 export type AssetTrips = Readonly<{
   [dateTime: string]: { readonly [assetId: string]: AssetMovement }
+}>;
+
+export type UnitTonnage = Readonly<{
+  name: string;
+  code: string;
 }>;
 
 export type State = Readonly<{
@@ -176,7 +184,7 @@ export type State = Readonly<{
   assets: { readonly [uid: string]: Asset };
   assetsEssentials: { readonly [uid: string]: AssetEssentialProperties };
   assetLists: { readonly [identifier: string]: AssetList };
-  assetNotSendingEvents: { readonly [assetId: string]: AssetNotSendingEvent };
+  assetNotSendingIncidents: { readonly [assetId: string]: assetNotSendingIncident };
   currentAssetList: CurrentAssetList;
   assetMovements: { readonly [assetId: string]: AssetMovement };
   assetTracks: { readonly [assetId: string]: AssetTrack };

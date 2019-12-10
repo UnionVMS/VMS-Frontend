@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, Renderer2, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { formatDate } from '@app/helpers/helpers';
 import { AssetInterfaces } from '@data/asset';
 import { Position } from '@data/generic.interfaces';
@@ -8,8 +8,8 @@ import { Position } from '@data/generic.interfaces';
   templateUrl: './asset-panel.component.html',
   styleUrls: ['./asset-panel.component.scss']
 })
-export class AssetPanelComponent implements OnChanges {
-  @Input() assets: Array<AssetInterfaces.AssetData>;
+export class AssetPanelComponent {
+  @Input() asset: AssetInterfaces.AssetData;
 
   @Input() deselectAsset: (assetId: string) => void;
   @Input() getAssetTrack: (assetId: string, movementGuid: string) => void;
@@ -22,15 +22,8 @@ export class AssetPanelComponent implements OnChanges {
   @Input() tracksMinuteCap: number;
   @Input() centerMapOnPosition: (longAndLat: Position) => void;
 
-  public hidePanel = false;
   public activeAsset = null;
   public showButtons = false;
-
-  constructor(private elementRef: ElementRef) { }
-
-  ngOnChanges() {
-    this.activeAsset = this.assets.find((asset) => asset.currentlyShowing && asset.currentPosition !== undefined) || null;
-  }
 
   toggleShowButtons() {
     this.showButtons = !this.showButtons;
@@ -46,16 +39,8 @@ export class AssetPanelComponent implements OnChanges {
     return formatDate(Date.now() - tracksMillisecondCap);
   }
 
-  private scrollTabs(direction: string) {
-    if(direction === 'left') {
-      this.elementRef.nativeElement.getElementsByClassName('tabs')[0].scrollLeft -= 150;
-    } else if(direction === 'right') {
-      this.elementRef.nativeElement.getElementsByClassName('tabs')[0].scrollLeft += 150;
-    }
-  }
-
   // We need this because angular templates are worthless, it does not support anonymous functions as parameters...
-  private toggleTracksFactory = (asset: AssetInterfaces.AssetData) => {
+  public toggleTracksFactory = (asset: AssetInterfaces.AssetData) => {
     return () => this.toggleTracks(asset);
   }
 
@@ -74,7 +59,7 @@ export class AssetPanelComponent implements OnChanges {
   }
 
   // We need this because angular templates are worthless, it does not support anonymous functions as parameters...
-  private toggleForecastFactory = (assetId: string) => {
+  public toggleForecastFactory = (assetId: string) => {
     return () => this.toggleForecast(assetId);
   }
 
@@ -85,14 +70,11 @@ export class AssetPanelComponent implements OnChanges {
       this.addForecast(assetId);
     }
   }
-  private toggleVisibility = (): void => {
-    this.hidePanel = !this.hidePanel;
-  }
 
-  private tracksIsVisible = (asset: AssetInterfaces.AssetData): boolean => {
+  public tracksIsVisible = (asset: AssetInterfaces.AssetData): boolean => {
     return typeof asset.assetTracks !== 'undefined';
   }
-  private forecastIsVisible = (assetId: string): boolean => {
+  public forecastIsVisible = (assetId: string): boolean => {
     return Object.keys(this.forecasts).indexOf(assetId) !== -1;
   }
 }

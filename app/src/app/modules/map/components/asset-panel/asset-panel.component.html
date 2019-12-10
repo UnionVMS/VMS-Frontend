@@ -1,92 +1,84 @@
-<div class="content-container" *ngIf="!hidePanel">
+<div class="content-container">
   <div class="information-wrapper">
-    <div class="tabs-wrapper">
-      <span class="left-scroll" (click)="scrollTabs('left')"><i class="fas fa-chevron-left"></i></span>
-      <ul class="tabs">
-        <li *ngFor="let asset of assets" (click)="selectAsset(asset.asset.id)" class="{{ asset.currentlyShowing ? 'active' : ''}}">
-          <span>{{asset.asset.name}} <i class="fas fa-times" (click)="deselectAsset(asset.asset.id)"></i></span>
-        </li>
-      </ul>
-      <span class="right-scroll" (click)="scrollTabs('right')"><i class="fas fa-chevron-right"></i></span>
-    </div>
-    <div class="asset-information">
-      <ng-container *ngIf="activeAsset">
-        <ng-container *ngIf="activeAsset.asset.ircs">
+    <div class="asset-information" *ngIf="asset.currentPosition !== undefined">
+      <ng-container>
+        <ng-container *ngIf="asset.asset.ircs">
           <legend>Ircs:</legend>
-          <div>{{activeAsset.asset.ircs}}</div>
+          <div>{{asset.asset.ircs}}</div>
         </ng-container>
-        <ng-container *ngIf="activeAsset.asset.mmsi">
+        <ng-container *ngIf="asset.asset.mmsi">
           <legend>Mmsi:</legend>
           <div>
             <a
-              href="https://www.marinetraffic.com/en/ais/index/search/all?keyword={{activeAsset.asset.mmsi}}"
+              href="https://www.marinetraffic.com/en/ais/index/search/all?keyword={{asset.asset.mmsi}}"
               target="_blank"
-            >{{activeAsset.asset.mmsi}}</a>
+            >{{asset.asset.mmsi}}</a>
           </div>
         </ng-container>
-        <ng-container *ngIf="activeAsset.currentPosition.microMove.speed !== null">
+        <ng-container *ngIf="asset.currentPosition.microMove.speed !== null">
           <legend>Speed:</legend>
-          <div>{{activeAsset.currentPosition.microMove.speed.toFixed(2)}}</div>
+          <div>{{asset.currentPosition.microMove.speed.toFixed(2)}}</div>
         </ng-container>
-        <ng-container *ngIf="activeAsset.currentPosition.microMove.heading !== null">
+        <ng-container *ngIf="asset.currentPosition.microMove.heading !== null">
           <legend>Heading:</legend>
-          <div>{{activeAsset.currentPosition.microMove.heading.toFixed(2)}}</div>
+          <div>{{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
         </ng-container>
-        <ng-container *ngIf="activeAsset.asset.flagStateCode">
+        <ng-container *ngIf="asset.asset.flagStateCode">
           <legend>Flagstate:</legend>
-          <div>{{activeAsset.asset.flagStateCode}}</div>
+          <div>{{asset.asset.flagStateCode}}</div>
         </ng-container>
-        <ng-container *ngIf="activeAsset.asset.externalMarking">
+        <ng-container *ngIf="asset.asset.externalMarking">
           <legend>External marking:</legend>
-          <div>{{activeAsset.asset.externalMarking}}</div>
+          <div>{{asset.asset.externalMarking}}</div>
         </ng-container>
-        <ng-container *ngIf="activeAsset.asset.lengthOverAll">
+        <ng-container *ngIf="asset.asset.lengthOverAll">
           <legend>Length:</legend>
-          <div>{{activeAsset.asset.lengthOverAll}}</div>
+          <div>{{asset.asset.lengthOverAll}}</div>
         </ng-container>
-        <ng-container *ngIf="activeAsset.asset.licenceType">
+        <ng-container *ngIf="asset.asset.licenceType">
           <legend>LicenceType:</legend>
-          <div>{{activeAsset.asset.licenceType}}</div>
+          <div>{{asset.asset.licenceType}}</div>
         </ng-container>
-        <ng-container *ngIf="activeAsset.asset.vesselType">
+        <ng-container *ngIf="asset.asset.vesselType">
           <legend>Vessel type:</legend>
-          <div>{{activeAsset.asset.vesselType}}</div>
+          <div>{{asset.asset.vesselType}}</div>
         </ng-container>
 
-        <ng-container *ngIf="activeAsset.asset.prodOrgCode">
+        <ng-container *ngIf="asset.asset.prodOrgCode">
           <legend>Org. Nr:</legend>
-          <div>{{activeAsset.asset.prodOrgCode}}</div>
+          <div>{{asset.asset.prodOrgCode}}</div>
         </ng-container>
-        <ng-container *ngIf="activeAsset.asset.prodOrgName">
+        <ng-container *ngIf="asset.asset.prodOrgName">
           <legend>Org. namn:</legend>
-          <div>{{activeAsset.asset.prodOrgName}}</div>
+          <div>{{asset.asset.prodOrgName}}</div>
         </ng-container>
       </ng-container>
     </div>
   </div>
   <div class="button-wrapper">
-    <span *ngIf="!showButtons" class="show-button" (click)="showButtons = true"><i class="fas fa-chevron-right"></i></span>
-    <span *ngIf="showButtons" class="hide-button" (click)="showButtons = false"><i class="fas fa-chevron-left"></i></span>
-    <div class="button-block" *ngIf="activeAsset && showButtons">
-      <button
-        class="btn btn-small"
-        (click)="goToAsset(activeAsset)"
-      >Go To</button>
-      <button
-        mat-raised-button
-        routerLink="/asset/{{activeAsset.asset.id}}"
-        class="btn btn-small"
-      >Show asset</button>
+    <div class="button-block">
       <ui-button-toggle
         [label]="'Track'"
-        [value]="tracksIsVisible(activeAsset)"
-        [switchFunction]="toggleTracksFactory(activeAsset)"
+        [value]="tracksIsVisible(asset)"
+        [switchFunction]="toggleTracksFactory(asset)"
       ></ui-button-toggle>
       <ui-button-toggle
         [label]="'Forecast'"
-        [value]="forecastIsVisible(activeAsset.asset.id)"
-        [switchFunction]="toggleForecastFactory(activeAsset.asset.id)"
+        [value]="forecastIsVisible(asset.asset.id)"
+        [switchFunction]="toggleForecastFactory(asset.asset.id)"
       ></ui-button-toggle>
+      <button
+        mat-stroked-button
+        class="btn btn-small"
+        (click)="goToAsset(asset)"
+        color="primary"
+      >Go To</button>
+      <button
+        mat-stroked-button
+        routerLink="/asset/{{asset.asset.id}}"
+        class="btn btn-small"
+        color="primary"
+      >Show asset</button>
     </div>
   </div>
 </div>

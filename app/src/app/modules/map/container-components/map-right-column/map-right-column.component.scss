@@ -1,0 +1,44 @@
+@import 'variables.scss';
+
+.content-container {
+  background: $color_cold_gray;
+  min-height: 100%;
+  max-height: calc(100vh - #{$navbar_height});
+  overflow: auto;
+
+  #realtime-right-column-menu {
+    position: absolute;
+    right: 320px;
+    top: 60px;
+    z-index: 200;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-row-gap: $medium_distance;
+
+    li {
+      white-space: nowrap;
+      cursor: pointer;
+
+      .icon-information {
+        @include right-icon('/assets/svg-icons/info-outline.svg');
+      }
+      .icon-incident {
+        @include right-icon('/assets/svg-icons/check-square.svg');
+      }
+    }
+  }
+  .panel {
+    display: grid;
+
+    h3 {
+      justify-self: center;
+    }
+  }
+}
+
+.flag-image {
+  width: 20px;
+  place-self: center;
+}

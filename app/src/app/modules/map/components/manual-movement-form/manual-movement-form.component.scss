@@ -1,0 +1,13 @@
+@import 'variables.scss';
+
+form.manual-position-form {
+  background: white;
+  padding: $small_distance;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: $small_distance;
+
+  #manual-position-form--timestamp {
+    grid-column: 1 / span 2;
+  }
+}

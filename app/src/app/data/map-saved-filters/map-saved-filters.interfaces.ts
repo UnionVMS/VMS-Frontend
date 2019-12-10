@@ -1,11 +1,11 @@
 import { AssetFilterQuery } from '../asset/asset.interfaces';
 
-export interface SavedFilter {
+export type SavedFilter = Readonly<{
   name: string;
-  filter: Array<AssetFilterQuery>;
-}
+  filter: ReadonlyArray<AssetFilterQuery>;
+}>;
 
-export interface State {
-  activeFilters: Array<string>;
-  savedFilters: { [filterName: string]: Array<AssetFilterQuery> };
-}
+export type State = Readonly<{
+  activeFilters: ReadonlyArray<string>;
+  savedFilters: { readonly [filterName: string]: ReadonlyArray<AssetFilterQuery> };
+}>;

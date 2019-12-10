@@ -1,4 +1,4 @@
-$color_black: #000000;
+$color_black: rgba(#000000, 0.87);
 
 $color_cold_dark_gray: #DAE3E6;
 $color_cold_gray: #E9EDED;
@@ -25,6 +25,12 @@ $color_light_yellow: #E8D186;
 $color_warm_dark_gray: #E3DCD5;
 $color_warm_gray: #F0EDE7;
 
+$color_gray: #CCCCCC;
+$color_dark_gray: #818181;
+
+$color_warn_light: #FF988B;
+$color_warn: #F7220B;
+$color_warn_dark: #780C00;
 
 $default_font_size: 14px;
 $h1_font_size: 20px;
@@ -32,11 +38,18 @@ $navbar_height: 45px;
 
 $map_overlay_background: rgba( $color_turquoise, 0.7);
 
-$small_distance: 5px;
-$medium_distance: 10px;
-$large_distance: 15px;
-$xlarge_distance: 20px;
-$xxlarge_distance: 25px;
+$distance: 8px;
+@function distance($times) {
+  @return $times * $distance;
+}
+
+$small_distance: distance(0.5); // 4px
+$medium_distance: distance(1);  // 8px
+$large_distance: distance(2);   // 16px
+$xlarge_distance: distance(3);  // 24px
+$x2large_distance: distance(4); // 32px
+$x3large_distance: distance(5); // 40px
+$x4large_distance: distance(6); // 48px
 
 @mixin no-scrollbar {
   -ms-overflow-style: none;  // IE 10+
@@ -59,4 +72,44 @@ $xxlarge_distance: 25px;
   &::-webkit-scrollbar {
     display: none;  // Safari and Chrome
   }
+}
+
+@mixin icon($url) {
+  display: grid;
+  background: $color_turquoise;
+  width: $x3large_distance;
+  height: $x3large_distance;
+  &::before {
+    place-self: center;
+    height: distance(2.5);
+    width: distance(2.5);
+    content: '';
+    background-size: distance(2.5) distance(2.5);
+    background-image: url($url);
+    background-repeat: no-repeat;
+    filter: brightness(0%) invert(1);
+  }
+  &:hover {
+    background: $color_light_turquoise;
+  }
+
+  &.active {
+    background: white;
+  }
+
+  &.active::before {
+    filter: none;
+  }
+}
+
+@mixin left-icon($url) {
+  @include icon($url);
+  border-top-right-radius: $small_distance;
+  border-bottom-right-radius: $small_distance;
+}
+
+@mixin right-icon($url) {
+  @include icon($url);
+  border-top-left-radius: $small_distance;
+  border-bottom-left-radius: $small_distance;
 }

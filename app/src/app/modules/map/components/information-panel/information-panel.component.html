@@ -1,5 +1,5 @@
-<div class="content-container {{hidePanel ? 'hidden' : ''}}">
-  <ui-button-close [clickFunction]="toggleVisibility"></ui-button-close>
+<div class="content-container">
+  <ui-button-close [clickFunction]="hideFunction"></ui-button-close>
   <h2>User manual</h2>
   <div class="information-grid">
     <div class="line"></div>
@@ -111,6 +111,3 @@
     </div>
   </div>
 </div>
-<button class="show-button btn btn-primary" *ngIf="hidePanel" (click)="hidePanel = !hidePanel">
-  <i class="fas fa-question"></i>
-</button>

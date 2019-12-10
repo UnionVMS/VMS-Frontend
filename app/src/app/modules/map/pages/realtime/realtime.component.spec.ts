@@ -29,7 +29,7 @@ import { DistanceBetweenPointsComponent } from '../../components/distance-betwee
 import { FlagstatesComponent } from '../../components/flagstates/flagstates.component';
 import { InformationPanelComponent } from '../../components/information-panel/information-panel.component';
 import { LayerFilterComponent } from '../../components/layer-filter/layer-filter.component'; // Not tested yet.
-import { MapViewportsComponent } from '../../components/map-viewports/map-viewports.component';
+import { MapLocationsComponent } from '../../components/map-locations/map-locations.component';
 import { SavedFiltersComponent } from '../../components/saved-filters/saved-filters.component'; // Not tested yet.
 import { TopPanelComponent } from '../../components/top-panel/top-panel.component'; // Not tested yet.
 import { TracksComponent } from '../../components/tracks/tracks.component';
@@ -69,7 +69,7 @@ describe('RealtimeComponent', () => {
         FlagstatesComponent,
         InformationPanelComponent,
         LayerFilterComponent,
-        MapViewportsComponent,
+        MapLocationsComponent,
         SavedFiltersComponent,
         TopPanelComponent,
         TracksComponent,
@@ -312,12 +312,12 @@ describe('RealtimeComponent', () => {
     it('should dispatch MapSettingsActions.saveViewport when saveViewport is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
-      const viewport = { zoom: 10, center: [1.213, 12.321] };
+      const mapLocation = { zoom: 10, center: [1.213, 12.321] };
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component.saveViewport(1, viewport);
+      component.saveMapLocation(1, mapLocation);
 
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.saveViewport({key: 1, viewport}));
+      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.saveMapLocation({key: 1, mapLocation}));
     });
 
     it('should dispatch MapSettingsActions.setVisibilityForAssetNames when setVisibilityForAssetNames is called.', () => {

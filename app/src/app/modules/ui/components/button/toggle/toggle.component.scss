@@ -3,8 +3,13 @@
 /* The toggle - the box around the slider */
 .toggle {
   position: relative;
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr auto;
   cursor: pointer;
+
+  .label {
+    align-self: center;
+  }
 
   /* The slider */
   .slider {
@@ -16,6 +21,7 @@
     display: inline-block;
     position: relative;
     float: right;
+    color: white;
 
     &:before, &:after {
       text-align: center;
@@ -30,14 +36,15 @@
     &:before {
       content: 'On';
       left: 10px;
-      top: 4px;
+      top: 5px;
       opacity: 0;
     }
     &:after {
       content: 'Off';
       opacity: 1;
       right: 6px;
-      top: 4px;
+      top: 5px;
+      color: black;
     }
 
     .handle {
@@ -50,6 +57,7 @@
       background-color: white;
       -webkit-transition: .4s;
       transition: .4s;
+      z-index: 1;
     }
 
     /* Rounded sliders */
@@ -76,7 +84,7 @@
   }
 
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: $color_turquoise;
     &:before {
       opacity: 1;
       -webkit-transform: opacity 0.25s;
@@ -97,7 +105,7 @@
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px $color_turquoise;
   }
 
   &.big {

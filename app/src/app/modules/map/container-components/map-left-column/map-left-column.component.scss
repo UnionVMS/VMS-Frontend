@@ -1,0 +1,70 @@
+@import 'variables.scss';
+
+.content-container {
+  background: $color_cold_gray;
+  min-height: 100%;
+  max-height: calc(100vh - #{$navbar_height});
+  overflow: auto;
+
+  #realtime-left-column-menu {
+    position: absolute;
+    left: 320px;
+    top: 60px;
+    z-index: 200;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-row-gap: $medium_distance;
+
+    li {
+      white-space: nowrap;
+      cursor: pointer;
+
+      .icon-search {
+        @include left-icon('/assets/svg-icons/search.svg');
+      }
+      .icon-workflow {
+        @include left-icon('/assets/svg-icons/workflow.svg');
+      }
+
+    }
+  }
+  .panel {
+    display: grid;
+    height: calc(100vh - #{$navbar_height});
+
+    h3 {
+      justify-self: center;
+    }
+
+    .filter-for-panel-content {
+      padding-bottom: $large_distance;
+    }
+  }
+
+  .filter-panel {
+    grid-template-rows: auto auto auto auto 1fr;
+
+    .search-container {
+      align-self: end;
+      border-top: 2px solid $color_dark_gray;
+
+      display: grid;
+      grid-row-gap: 2px;
+      padding: $medium_distance;
+
+      & > * {
+        background: white;
+        padding: $medium_distance;
+      }
+      .search-content {
+        display: grid;
+      }
+    }
+  }
+
+  .workflow-panel {
+    grid-template-rows: repeat(10, auto) 1fr;
+  }
+}

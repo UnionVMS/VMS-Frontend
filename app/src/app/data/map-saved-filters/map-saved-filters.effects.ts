@@ -3,10 +3,11 @@ import { Store } from '@ngrx/store';
 import { State } from '@app/app-reducer.ts';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY, Observable } from 'rxjs';
-import { mergeMap, withLatestFrom, catchError } from 'rxjs/operators';
+import { mergeMap, map, withLatestFrom, catchError } from 'rxjs/operators';
 
 import { AuthReducer, AuthSelectors } from '../auth';
 
+import { NotificationsActions } from '../notifications';
 import { MapSavedFiltersActions, MapSavedFiltersSelectors } from './';
 import { UserSettingsService } from '../user-settings/user-settings.service';
 
@@ -27,15 +28,12 @@ export class MapSavedFiltersEffects {
     ),
     mergeMap(([action, authToken, savedFilters]: Array<any>, index: number) => {
       let filtersToSave = { ...savedFilters };
-      if(typeof savedFilters[action.payload.name] === 'undefined') {
-        filtersToSave = { ...filtersToSave, [action.payload.name]: action.payload.filter };
+      if(typeof savedFilters[action.filter.name] === 'undefined') {
+        filtersToSave = { ...filtersToSave, [action.filter.name]: action.filter.filter };
       }
-      // return EMPTY;
       return this.userSettingsService.saveMapFilters(authToken, filtersToSave).pipe(
-        // @ts-ignore
-        mergeMap((response: any) => {
-          console.warn('Response: ', response);
-          // return this.store$.dispatch(new MapSettingsActions.ReplaceSettings(action.payload));
+        map((response: any) => {
+          return NotificationsActions.addSuccess(`Filter '${action.filter.name}' saved!`);
         }),
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );
