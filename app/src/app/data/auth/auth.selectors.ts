@@ -46,7 +46,7 @@ export const isAdmin = createSelector(
   getAuthState,
   (state: State) => {
     let returnBoolean = false;
-    let adminAccess = (e) => { if(e === 100000 || e === 100001 || e === 100009 || e === 100010 || e === 100011 ){ returnBoolean = true; }};
+    let adminAccess = (e) => { if( e === 100001 || e === 100018  || e === 100011 || e === 100047 || e === 100030 ){ returnBoolean = true; }};
     state.user.jwtToken.decoded.features.some( adminAccess );
     return returnBoolean;
   }
