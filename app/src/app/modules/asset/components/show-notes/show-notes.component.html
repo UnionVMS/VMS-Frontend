@@ -6,8 +6,8 @@
   <legend>{{note.id}}</legend>
   <a class="edit-link" routerLink="/notes/{{note.id}}/edit">Edit</a>
 
-  <ng-container *ngIf="note.notes">
-    <label>Notes</label>
-    <div>{{note.notes}}</div>
+  <ng-container *ngIf="note.note">
+    <label>Note</label>
+    <div>{{note.note}}</div>
   </ng-container>
 </fieldset>

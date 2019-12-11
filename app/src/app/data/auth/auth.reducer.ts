@@ -15,6 +15,14 @@ export const authReducer = createReducer(initialState,
       data
     }
   })),
+  on(AuthActions.setRoleAndScope, (state, { role, scope }) => ({
+    ...state,
+    user: {
+      ...state.user,
+      role,
+      scope
+    }
+  })),
   on(AuthActions.logout, (state) => ({
     ...state,
     user: null

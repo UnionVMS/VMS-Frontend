@@ -1,0 +1,15 @@
+<div class="content-container">
+  <div class="incidents" *ngIf="incidents.length > 0">
+    <div
+      *ngFor="let incident of incidents"
+      title="{{incident.assetName}}"
+      class="incident"
+      (click)="selectIncident(incident)"
+    >
+      <div class="status {{incidentStatusClass[incident.status]}}"></div>
+      <ui-truncated-text class="name" [text]="incident.assetName" length="16"></ui-truncated-text>
+      <div class="ircs">{{incident.assetIrcs}}</div>
+      <div class="time">Last seen: {{formatDate(incident)}}</div>
+    </div>
+  </div>
+</div>

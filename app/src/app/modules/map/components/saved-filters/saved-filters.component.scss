@@ -1,7 +1,6 @@
 @import 'variables.scss';
 
 .content-container {
-  @include control-panel;
   grid-row-gap: $medium_distance;
 
   h4 {
@@ -10,14 +9,12 @@
 
   .saved-filters {
     display: grid;
+    width: 100%;
     grid-row-gap: $medium_distance;
   }
 
-  button.btn {
-    padding: $medium_distance $large_distance;
-    background-color: $color_light_green;
+  .create-new-filter {
+    display: grid;
+    margin-top: $medium_distance;
   }
-
-
-
 }

@@ -1,0 +1,50 @@
+@import '~@angular/material/theming';
+@import 'variables.scss';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// **Be sure that you only ever include this mixin once!**
+@include mat-core();
+
+$primary-color: (
+  300: #2280A7,
+  500: #005F88,
+  700: #005074,
+   contrast: (
+    300: $light-primary-text,
+    500: $light-primary-text,
+    700: $light-primary-text,
+  )
+);
+
+$accent-color: (
+  300: #66C622,
+  500: #227E00,
+  700: #01763B,
+   contrast: (
+    300: $dark-primary-text,
+    500: $light-primary-text,
+    700: $light-primary-text,
+  )
+);
+
+$warn-color: (
+  300: $color_warn_light,
+  500: $color_warn,
+  700: $color_warn_dark,
+   contrast: (
+    300: $dark-primary-text,
+    500: $dark-primary-text,
+    700: $light-primary-text,
+  )
+);
+
+// Define the default theme (same as the example above).
+$primary-color-palette: mat-palette($primary-color);
+$accent-color-palette:  mat-palette($accent-color);
+$warn-color-palette:  mat-palette($warn-color);
+$candy-app-theme:   mat-light-theme($primary-color-palette, $accent-color-palette, $warn-color-palette);
+
+// Include the default theme styles.
+@include angular-material-theme($candy-app-theme);

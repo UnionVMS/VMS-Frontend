@@ -10,6 +10,10 @@ export const formatTimestamp = (unixTimestamp: number) => {
   return iso[1] + ' ' + iso[2];
 };
 
+export const convertToTimestamp = (datetime) => {
+  return Math.floor(new Date(datetime).getTime() / 1000);
+};
+
 export const deg2rad = (degrees: number) => {
   return degrees * Math.PI / 180;
 };

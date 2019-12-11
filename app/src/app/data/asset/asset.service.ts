@@ -57,7 +57,15 @@ export class AssetService {
       that.mapEventSource.addEventListener('Updated Asset', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('Merged Asset', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('Ticket', (message) => observer.next(translateMessage(message)));
-      that.mapEventSource.addEventListener('TicketUpdate', (message) => observer.next(observer.next(translateMessage(message))));
+      that.mapEventSource.addEventListener('TicketUpdate', (message) => observer.next(translateMessage(message)));
+      that.mapEventSource.addEventListener('Incident', (message) => {
+        console.warn('---Incident', message);
+        return observer.next(translateMessage(message));
+      });
+      that.mapEventSource.addEventListener('IncidentUpdate', (message) => {
+        console.warn('---IncidentUpdate', message);
+        return observer.next(translateMessage(message));
+      });
     });
   }
 
@@ -162,17 +170,26 @@ export class AssetService {
   }
 
   getAssetNotSendingEvents(authToken: string) {
+    return this.http.get(
+      environment.baseApiUrl + `reporting/rest/incident/assetNotSending`,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
     return new Observable((observer) => {
       observer.next([
         {
-          id: 'blubb-blubb-blubb-Ship5XXX',
-          assetName: 'Ship5XXX',
+          id: 1225,
+          assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
           assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc096',
           assetIrcs: 'F5XXX',
           lastKnownLocation: {
             location: {
-              longitude: 7.640111666666667,
-              latitude: 54.40071666666667,
+              longitude: 11.640111666666667,
+              latitude: 57.40071666666667,
               altitude: null
             },
             heading: 225,
@@ -184,14 +201,14 @@ export class AssetService {
           status: 'Poll Failed',
         },
         {
-          id: 'blubb-blubb-blubb-ship1002',
+          id: 1226,
           assetName: 'Ship1002',
           assetId: 'c6bccbb8-e737-4195-8603-2688273a75e8',
           assetIrcs: 'F1002',
           lastKnownLocation: {
             location: {
-              longitude: 8.640111666666667,
-              latitude: 53.40071666666667,
+              longitude: 10.640111666666667,
+              latitude: 58.00071666666667,
               altitude: null
             },
             heading: 105,
@@ -202,6 +219,177 @@ export class AssetService {
           },
           status: 'Poll Failed',
         },
+        // {
+        //   id: 1227,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0968',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1228,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0967',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1229,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc096',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b475',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1230,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0966',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1231,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0965',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1232,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0964',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1233,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0963',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1234,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0962',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
+        // {
+        //   id: 1235,
+        //   assetName: 'Ship5XXX hej kom och hjälp mig är du snäll',
+        //   assetId: '03bb12a0-79e4-4a70-a376-6a5d450fc0961',
+        //   assetIrcs: 'F5XXX',
+        //   lastKnownLocation: {
+        //     location: {
+        //       longitude: 11.640111666666667,
+        //       latitude: 57.40071666666667,
+        //       altitude: null
+        //     },
+        //     heading: 225,
+        //     guid: '70aa09c3-a68f-4c7e-a828-ef658fbe7b45',
+        //     timestamp: '2019-11-22T04:21:30Z',
+        //     speed: 102.30000305175781,
+        //     source: 'INMARSAT_C'
+        //   },
+        //   status: 'Poll Failed',
+        // },
       ]);
       observer.complete();
     });
@@ -232,6 +420,19 @@ export class AssetService {
     );
   }
 
+  createManualMovement(authToken: string, manualMovement: AssetInterfaces.ManualMovement) {
+    return this.http.post(
+      environment.baseApiUrl + `movement/rest/manualMovement`,
+      manualMovement,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
   updateAsset(authToken: string, asset: AssetInterfaces.Asset) {
     return this.http.put(
       environment.baseApiUrl + `asset/rest/asset`,
@@ -245,6 +446,22 @@ export class AssetService {
     );
   }
 
+  saveNewIncidentStatus(authToken: string, incidentId: number, status: string) {
+    return this.http.post(
+      environment.baseApiUrl + `reporting/rest/incident/assetNotSending/${incidentId}/status`,
+      { status },
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+    console.warn(incidentId, status);
+    return new Observable((observer) => {
+      observer.next(true);
+    });
+  }
 
   // return this.http.get(
   //   environment.baseApiUrl + 'asset/rest/group/list?user=vms_admin_se', {

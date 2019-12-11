@@ -1,0 +1,10 @@
+<div class="content-container" *ngIf="menuActive">
+  <div
+    class="location-wrapper"
+    *ngFor="let locationKey of locationKeys"
+    (click)="setLocation(locationKey)"
+  >
+    <img class="location-image" *ngIf="imageUrls[locationKey] !== undefined" src="{{imageUrls[locationKey]}}" alt="{{locationKey}}" />
+    <div class="location-text">{{locationKey}}</div>
+  </div>
+</div>

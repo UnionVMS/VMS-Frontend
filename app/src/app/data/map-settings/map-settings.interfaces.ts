@@ -1,6 +1,6 @@
 import { Position } from '../generic.interfaces';
 
-export type Viewport = Readonly<{
+export type MapLocation = Readonly<{
   zoom: number;
   center: ReadonlyArray<number>;
 }>;
@@ -20,6 +20,6 @@ export type Settings = Readonly<{
 
 export type State = Readonly<{
   settings: Settings;
-  viewports: { readonly [key: number]: Viewport };
+  mapLocations: { readonly [key: number]: MapLocation };
   currentControlPanel: string|null;
 }>;

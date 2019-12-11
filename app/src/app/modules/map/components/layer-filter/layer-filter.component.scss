@@ -3,25 +3,16 @@
 .content-container-minimal {
   display: grid;
   grid-row-gap: $medium_distance;
+  color: $color_turquoise;
 
-  .layer-filter-buttons {
+  .layer-filters {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-column-gap: $small_distance;
-    .btn {
-      padding: $small_distance;
-      min-width: $xxlarge_distance;
-      margin: 0px;
+    grid-auto-flow: row;
+    grid-row-gap: $small_distance;
 
-      &.active {
-        color: white;
-        background-color: $color_light_green;
-      }
-
-      &[disabled] {
-        background: $color_cold_gray;
-        color: $color_cold_dark_gray;
-      }
+    mat-checkbox {
+      background: white;
+      padding: $small_distance $medium_distance;
     }
   }
 

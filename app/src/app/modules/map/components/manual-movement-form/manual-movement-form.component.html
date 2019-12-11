@@ -1,0 +1,44 @@
+<form class="manual-position-form" [formGroup]="formValidator">
+  <mat-form-field id="manual-position-form--latitude">
+    <mat-label>Latitude</mat-label>
+    <input matInput formControlName="latitude" required />
+    <mat-error *ngFor="let error of getErrors(['latitude'])">{{ errorMessage(error) }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field id="manual-position-form--longitude">
+    <mat-label>Longitude</mat-label>
+    <input matInput formControlName="longitude" required />
+    <mat-error *ngFor="let error of getErrors(['longitude'])">{{ errorMessage(error) }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field id="manual-position-form--speed">
+    <mat-label>Speed</mat-label>
+    <input matInput formControlName="speed" required />
+    <mat-error *ngFor="let error of getErrors(['speed'])">{{ errorMessage(error) }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field id="manual-position-form--heading">
+    <mat-label>Heading</mat-label>
+    <input matInput formControlName="heading" required />
+    <mat-error *ngFor="let error of getErrors(['heading'])">{{ errorMessage(error) }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field id="manual-position-form--timestamp">
+    <mat-label>Time</mat-label>
+    <!-- <input matInput formControlName="timestamp" required /> -->
+    <input matInput required formControlName="timestamp" [owlDateTime]="timestampTimePicker">
+    <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="timestampTimePicker"></mat-datepicker-toggle>
+    <owl-date-time #timestampTimePicker></owl-date-time>
+    <mat-error *ngFor="let error of getErrors(['timestamp'])">{{ errorMessage(error) }}</mat-error>
+  </mat-form-field>
+
+  <button id="manual-position-form--all" mat-stroked-button color="accent" type="button">Show all</button>
+  <button
+    id="manual-position-form--save"
+    mat-raised-button
+    color="primary"
+    type="button"
+    [disabled]="!formValidator.valid"
+    (click)="save()"
+  >Save</button>
+</form>

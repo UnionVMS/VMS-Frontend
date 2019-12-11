@@ -2,7 +2,8 @@
 
 map-distance-between-points {
   .content-container {
-    @include control-panel;
+    background: white;
+    padding: $medium_distance;
   }
 }
 

@@ -9,7 +9,14 @@ export const initialState: Interfaces.State = {
   },
   report: {
     searching: false,
-  }
+  },
+  filtersActive: {
+    filter: true,
+    savedFilters: true,
+    assetGroups: true
+  },
+  activeLeftPanel: 'filters',
+  activeRightPanel: 'information',
 };
 
 export const mapReducer = createReducer(initialState,
@@ -24,5 +31,17 @@ export const mapReducer = createReducer(initialState,
   on(MapsActions.setReportSearching, (state, { searching }) => ({
     ...state,
     report: { ...state.report, searching }
+  })),
+  on(MapsActions.setGivenFilterActive, (state, { filterTypeName, status }) => ({
+    ...state,
+    filtersActive: { ...state.filtersActive, [filterTypeName]: status },
+  })),
+  on(MapsActions.setActiveLeftPanel, (state, { activeLeftPanel }) => ({
+    ...state,
+    activeLeftPanel
+  })),
+  on(MapsActions.setActiveRightPanel, (state, { activeRightPanel }) => ({
+    ...state,
+    activeRightPanel
   })),
 );

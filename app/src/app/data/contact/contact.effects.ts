@@ -34,7 +34,8 @@ export class ContactEffects {
         if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {
           return this.contactService.getContactsFromAssetId(authToken, mergedRoute.params.assetId).pipe(
             map((response: any) => {
-                return ContactActions.setContacts({
+              console.warn(response);
+              return ContactActions.setContacts({
                 contacts: response.reduce((acc: { [id: string]: ContactInterfaces.Contact }, contact: ContactInterfaces.Contact) => {
                   acc[contact.id] = contact;
                   return acc;

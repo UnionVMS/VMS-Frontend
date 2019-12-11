@@ -1,7 +1,9 @@
 <label class="toggle {{size}}{{stacked ? 'stacked' : ''}}">
   <span class="label">{{label}}</span>
-  <input type="checkbox" [checked]="value" (change)="switchFunction()">
-  <span class="slider round">
-    <div class="handle"></div>
-  </span>
+  <div>
+    <input type="checkbox" [checked]="value" (change)="switchFunction()">
+    <span class="slider round">
+      <div class="handle"></div>
+    </span>
+  </div>
 </label>

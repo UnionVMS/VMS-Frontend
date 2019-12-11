@@ -14,7 +14,7 @@ export const initialState: Interfaces.State = {
   assets: {},
   assetsEssentials: {},
   assetLists: {},
-  assetNotSendingEvents: {},
+  assetNotSendingIncidents: {},
   currentAssetList: null,
   assetMovements: {},
   assetTracks: {},
@@ -118,6 +118,7 @@ export const assetReducer = createReducer(initialState,
   })),
   on(AssetActions.clearForecasts, (state) => ({ ...state, forecasts: [] })),
   on(AssetActions.clearTracks, (state) => ({ ...state, assetTracks: {}, positionsForInspection: {} })),
+  on(AssetActions.clearSelectedAssets, (state) => ({ ...state, selectedAsset: null, selectedAssets: [] })),
   on(AssetActions.deselectAsset, (state, { assetId }) => {
     let selectedAsset = state.selectedAsset;
     const selectedAssets = state.selectedAssets.filter((selectedAssetId) => selectedAssetId !== assetId);
@@ -177,12 +178,20 @@ export const assetReducer = createReducer(initialState,
     }
     return returnState;
   }),
+  on(AssetActions.selectIncident, (state, { incident, incidentType }) => {
+    let returnState = { ...state, selectedAsset: incident.assetId };
+    if(!state.selectedAssets.some((selectedAssetId) => selectedAssetId === incident.assetId )) {
+      returnState = { ...returnState, selectedAssets: [ ...state.selectedAssets, incident.assetId] };
+    }
+
+    return state;
+  }),
   on(AssetActions.setAssetTripGranularity, (state, { assetTripGranularity }) => ({ ...state, assetTripGranularity })),
   on(AssetActions.setAssetTrips, (state, { assetMovements }) => {
     const granularityInSeconds = state.assetTripGranularity * 60;
     const assetTrips = assetMovements.reduce((tripAccumilator, movement) => {
       const timestamps = Object.keys(tripAccumilator);
-      const timestampOfMovement = Date.parse(movement.microMove.timestamp) / 1000;
+      const timestampOfMovement = Date.parse(movement.microMove.timestamp as string) / 1000;
       if(timestamps.length === 0) {
         return { [timestampOfMovement + granularityInSeconds]: { [movement.asset]: movement } };
       } else {
@@ -240,9 +249,16 @@ export const assetReducer = createReducer(initialState,
       }
     };
   }),
-  on(AssetActions.setAssetNotSendingEvents, (state, { assetNotSendingEvents }) => ({
+  on(AssetActions.setAssetNotSendingIncidents, (state, { assetNotSendingIncidents }) => ({
     ...state,
-    assetNotSendingEvents
+    assetNotSendingIncidents
+  })),
+  on(AssetActions.updateAssetNotSendingIncidents, (state, { assetNotSendingIncidents }) => ({
+    ...state,
+    assetNotSendingIncidents: {
+      ...state.assetNotSendingIncidents,
+      ...assetNotSendingIncidents
+    }
   })),
   on(AssetActions.setTracksForAsset, (state, { tracks, assetId }) => {
     const finishedLineSegments = tracks.reduce((lineSegments, position) => {

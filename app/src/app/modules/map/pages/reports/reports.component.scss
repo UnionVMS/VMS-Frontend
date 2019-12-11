@@ -2,36 +2,78 @@
 
 .reports-container {
   height: calc(100% - #{$navbar_height});
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+
   .map-container {
     height: 100%;
+    position: relative;
+
     #reports-map {
       height: 100%;
       width: 100%;
     }
+
+    map-trip-player {
+      position: absolute;
+      // position: fixed;
+      bottom: calc(#{$medium_distance} + #{$x4large_distance});
+      // left: 0;
+      // right: 0;
+      // margin: 0px auto;
+      right: $medium_distance;
+      width: 500px;
+    }
+
+
+    .control-panel {
+      position: absolute;
+      bottom: $medium_distance;
+      right: 148px;
+
+      .control-panel-menu {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-auto-flow: column;
+        grid-column-gap: $medium_distance;
+
+        li {
+          white-space: nowrap;
+          cursor: pointer;
+
+          .control-panel-submenu {
+            position: absolute;
+            bottom: $x4large_distance;
+          }
+
+          .icon-map-layers {
+            @include icon('/assets/svg-icons/layers.svg');
+          }
+          .icon-distance-between-points {
+            @include icon('/assets/svg-icons/messure.svg');
+          }
+          .icon-asset-layers {
+            @include icon('/assets/svg-icons/eye.svg');
+          }
+          .icon-map-locations {
+            @include icon('/assets/svg-icons/map.svg');
+          }
+          .icon-center-sweden {
+            @include icon('/assets/svg-icons/target.svg');
+          }
+        }
+      }
+    }
   }
 
-  map-layer-filter {
-    position: fixed;
-    right: $small_distance;
-    top: calc(#{$navbar_height} + 83px);
+  #realtime-right-column {
+    background: $color_cold_gray;
   }
-  map-top-panel {
-    position: fixed;
-    left: 0px;
-    right: 0px;
-    top: $navbar_height;
+
+  map-right-column {
+    height: 100%;
   }
-  map-asset-panel {
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
-  }
-  map-trip-player {
-    position: fixed;
-    bottom: 0px;
-    left: 0;
-    right: 0;
-    margin: 0px auto;
-    width: 500px;
-  }
+
 }

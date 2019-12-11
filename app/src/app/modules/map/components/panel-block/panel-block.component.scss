@@ -1,0 +1,36 @@
+@import 'variables.scss';
+
+.content-container {
+  display: grid;
+  grid-row-gap: 2px;
+  padding: $small_distance $medium_distance;
+
+  .panel-block-content {
+    background: white;
+    padding: $medium_distance;
+  }
+
+  .panel-block-header {
+    color: $color_turquoise;
+    padding: $large_distance $medium_distance;
+    background: white;
+
+    & > .arrowToggle {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      font-weight: 600;
+      // padding: $medium_distance;
+      cursor: pointer;
+
+      .label {
+        display: grid;
+        grid-column-gap: $medium_distance;
+        grid-template-columns: auto 1fr;
+      }
+
+      i.fas {
+        font-size: $large_distance;
+      }
+    }
+  }
+}

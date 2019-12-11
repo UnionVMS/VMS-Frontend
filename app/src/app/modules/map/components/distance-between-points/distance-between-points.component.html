@@ -1,3 +1,7 @@
 <div class="content-container" *ngIf="active">
-  <button (click)="clearMeasurements()" class="btn btn-default">Clear all measurements</button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="clearMeasurements()"
+  >Clear all measurements</button>
 </div>

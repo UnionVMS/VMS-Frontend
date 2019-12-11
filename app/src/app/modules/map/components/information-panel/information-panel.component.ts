@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, OnChanges, OnInit } from '@angular/core';
 import { formatDate } from '../../../../helpers/helpers';
 
 @Component({
@@ -7,8 +7,6 @@ import { formatDate } from '../../../../helpers/helpers';
   styleUrls: ['./information-panel.component.scss']
 })
 export class InformationPanelComponent {
+  @Input() hideFunction: () => void;
   public hidePanel = true;
-  public toggleVisibility = (): void => {
-    this.hidePanel = !this.hidePanel;
-  }
 }

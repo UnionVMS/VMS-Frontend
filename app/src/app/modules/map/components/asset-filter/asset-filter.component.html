@@ -1,0 +1,17 @@
+<div class="content-container">
+  <!-- <mat-form-field>
+    <mat-select>
+      <mat-option value="f">Flagstate</mat-option>
+      <mat-option value="i">Ircs</mat-option>
+      <mat-option value="c">Cfr</mat-option>
+      <mat-option value="v">Vessel type</mat-option>
+      <mat-option value="e">External marking</mat-option>
+      <mat-option value="l">Length over all</mat-option>
+    </mat-select>
+  </mat-form-field> -->
+    <mat-form-field>
+      <div title="Help & manual for filter" class="open-information-panel" (click)="displayInfo = true">?</div>
+      <map-information-panel *ngIf="displayInfo" [hideFunction]="hideInfoFunction"></map-information-panel>
+      <input matInput placeholder="Filter" [(ngModel)]="filterQuery" (keyup)="filterKeyUp($event)">
+    </mat-form-field>
+</div>

@@ -1,7 +1,7 @@
 @import 'variables.scss';
 
 .content-container {
-  z-index: 100;
+  z-index: 300;
   position: fixed;
   margin: auto;
   right: 0;
@@ -51,14 +51,4 @@
       display: inline-block;
     }
   }
-}
-
-.show-button {
-  position: fixed;
-  margin: auto;
-  right: 0;
-  left: 0;
-  width: 3em;
-  padding: 6px 10px;
-  top: calc(#{$navbar_height} * 2);
 }

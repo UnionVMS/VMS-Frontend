@@ -1,7 +1,6 @@
 @import 'variables.scss';
 
 .content-container {
-  @include control-panel;
   grid-row-gap: $medium_distance;
 
   h4 {
