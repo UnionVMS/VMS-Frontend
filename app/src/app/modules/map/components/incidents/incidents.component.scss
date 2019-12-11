@@ -22,7 +22,7 @@
 
       .status {
         place-self: center;
-        border: 1px solid #000000;
+        // border: 1px solid #000000;
         background: $color_light_orange;
         border-radius: $small_distance;
         width: $medium_distance;
@@ -34,6 +34,9 @@
         }
         &.dangerLvl1 {
           background: $color_yellow;
+        }
+        &.dangerLvl0 {
+          background: $color_accent_light;
         }
       }
 

@@ -14,6 +14,7 @@ export class IncidentsComponent {
   public incidentStatusClass = {
     MANUAL_POSITION_MODE: 'dangerLvl1',
     ATTEMPTED_CONTACT: 'dangerLvl5',
+    RESOLVED: 'dangerLvl0',
   };
 
   formatDate(incident) {
