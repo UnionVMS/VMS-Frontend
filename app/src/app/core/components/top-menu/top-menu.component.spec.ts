@@ -3,7 +3,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { TopMenuComponent } from './top-menu.component';
 
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+
 describe('TopMenuComponent', () => {
+// let store: MockStore<{ }>;
+const initialState = { };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -12,6 +16,9 @@ describe('TopMenuComponent', () => {
       ],
       declarations: [
         TopMenuComponent
+      ],
+      providers: [
+        provideMockStore({ initialState }),
       ]
     })
     .compileComponents();
