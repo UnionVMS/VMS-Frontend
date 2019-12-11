@@ -54,6 +54,20 @@ export class AuthEffects {
           );
 
           const response = [];
+
+          response.push(AuthActions.setRoleAndScope({
+            role: {
+              name: context.contextSet.contexts[0].role.roleName,
+              features: context.contextSet.contexts[0].role.features,
+            },
+            scope: {
+              name: context.contextSet.contexts[0].scope.scopeName,
+              datasets: context.contextSet.contexts[0].scope.datasets,
+              activeFrom: context.contextSet.contexts[0].scope.activeFrom,
+              activeTo: context.contextSet.contexts[0].scope.activeTo,
+            }
+          }));
+
           if(typeof mapSettings !== 'undefined' && mapSettings.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
             response.push(MapSettings.replaceSettings({ settings: JSON.parse(mapSettings.optionValue) }));
           }

@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import jwtDecode from 'jwt-decode';
+import * as AuthInterfaces from './auth.interfaces';
 
 export const login = createAction(
   '[Auth] Login',
@@ -30,4 +31,9 @@ export const logout = createAction(
     delete window.localStorage.authToken;
     return {};
   }
+);
+
+export const setRoleAndScope = createAction(
+  '[Auth] Set role and scrope',
+  props<{ role: AuthInterfaces.Role, scope: AuthInterfaces.Scope }>()
 );

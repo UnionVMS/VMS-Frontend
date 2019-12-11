@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Observable } from 'rxjs';
 import { toUTF8Array } from '@app/helpers/helpers';
-
+import { AuthInterfaces } from '@data/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -24,31 +24,31 @@ export class UserSettingsService {
     );
   }
 
-  saveUserPreferences(authToken, preferences) {
-    return this.saveSetting(authToken, 'VMSFrontend', preferences);
+  saveUserPreferences(user: AuthInterfaces.User, preferences) {
+    return this.saveSetting(user, 'VMSFrontend', preferences);
   }
 
-  saveMapFilters(authToken, filters) {
-    return this.saveSetting(authToken, 'VMSMapFilters', filters);
+  saveMapFilters(user: AuthInterfaces.User, filters) {
+    return this.saveSetting(user, 'VMSMapFilters', filters);
   }
 
-  private saveSetting(authToken, applicationName, value) {
+  private saveSetting(user: AuthInterfaces.User, applicationName, value) {
     const valueAsString = JSON.stringify(value);
     const arrayBuffer = toUTF8Array(valueAsString);
 
     return this.http.put(
       environment.baseApiUrl + `user/rest/user/putPreference`,
       {
-        userName: 'vms_admin_se',
+        userName: user.data.username,
         applicationName,
-        roleName: 'AdminAllUVMS',
-        scopeName: 'All Vessels',
+        roleName: user.role.name,
+        scopeName: user.scope.name,
         optionName: 'settings',
         optionValue: arrayBuffer // To byte array for some reason...
       },
       {
         headers: new HttpHeaders({
-          Authorization: authToken,
+          Authorization: user.jwtToken.raw,
           'Cache-Control': 'no-cache'
         })
       }

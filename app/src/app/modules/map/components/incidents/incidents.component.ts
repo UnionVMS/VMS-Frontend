@@ -17,7 +17,7 @@ export class IncidentsComponent {
   };
 
   formatDate(incident) {
-    const date = new Date(incident.lastKnownLocation.timestamp);
+    const date = new Date(incident.lastKnownLocation.timestamp * 1000);
     const iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2})/);
     return iso[1] + ' • ' + iso[2];
   }

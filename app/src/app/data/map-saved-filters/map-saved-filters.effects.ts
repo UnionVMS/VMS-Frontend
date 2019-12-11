@@ -23,15 +23,15 @@ export class MapSavedFiltersEffects {
   saveMapFiltersObserver$ = this.actions$.pipe(
     ofType(MapSavedFiltersActions.addSavedFilter),
     withLatestFrom(
-      this.store$.select(AuthSelectors.getAuthToken),
+      this.store$.select(AuthSelectors.getUser),
       this.store$.select(MapSavedFiltersSelectors.getSavedFilters)
     ),
-    mergeMap(([action, authToken, savedFilters]: Array<any>, index: number) => {
+    mergeMap(([action, user, savedFilters]: Array<any>, index: number) => {
       let filtersToSave = { ...savedFilters };
       if(typeof savedFilters[action.filter.name] === 'undefined') {
         filtersToSave = { ...filtersToSave, [action.filter.name]: action.filter.filter };
       }
-      return this.userSettingsService.saveMapFilters(authToken, filtersToSave).pipe(
+      return this.userSettingsService.saveMapFilters(user, filtersToSave).pipe(
         map((response: any) => {
           return NotificationsActions.addSuccess(`Filter '${action.filter.name}' saved!`);
         }),

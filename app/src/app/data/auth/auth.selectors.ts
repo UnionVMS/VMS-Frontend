@@ -13,6 +13,11 @@ export const getAuthToken = createSelector(
   }
 );
 
+export const getUser = createSelector(
+  getAuthState,
+  (state: State) => state.user
+);
+
 export const getUserName = createSelector(
   getAuthState,
   (state: State) => {
