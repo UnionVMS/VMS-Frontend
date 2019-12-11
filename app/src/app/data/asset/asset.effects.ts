@@ -232,15 +232,7 @@ export class AssetEffects {
                 });
                 actions.push(AssetActions.updateAssetNotSendingIncidents({
                   assetNotSendingIncidents: messagesByType.Incident.reduce((acc, message) => {
-                    acc[message.assetId] = {
-                      ...message,
-                      createdDate: new Date(message.createdDate).getTime() / 1000,
-                      updateDate: new Date(message.updateDate).getTime() / 1000,
-                      lastKnownLocation: {
-                        ...message.lastKnownLocation,
-                        timestamp: new Date(message.lastKnownLocation.timestamp).getTime() / 1000
-                      }
-                    };
+                    acc[message.assetId] = message;
                     return acc;
                   }, {})
                 }));
@@ -254,15 +246,7 @@ export class AssetEffects {
                 });
                 actions.push(AssetActions.updateAssetNotSendingIncidents({
                   assetNotSendingIncidents: messagesByType.IncidentUpdate.reduce((acc, message) => {
-                    acc[message.assetId] = {
-                      ...message,
-                      createdDate: new Date(message.createdDate).getTime() / 1000,
-                      updateDate: new Date(message.updateDate).getTime() / 1000,
-                      lastKnownLocation: {
-                        ...message.lastKnownLocation,
-                        timestamp: new Date(message.lastKnownLocation.timestamp).getTime() / 1000
-                      }
-                    };
+                    acc[message.assetId] = message;
                     return acc;
                   }, {})
                 }));
