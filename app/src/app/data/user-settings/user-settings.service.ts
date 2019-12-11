@@ -24,6 +24,10 @@ export class UserSettingsService {
     );
   }
 
+  saveMapSettings(user: AuthInterfaces.User, preferences) {
+    return this.saveSetting(user, 'VMSMapSettings', preferences);
+  }
+
   saveUserPreferences(user: AuthInterfaces.User, preferences) {
     return this.saveSetting(user, 'VMSFrontend', preferences);
   }
