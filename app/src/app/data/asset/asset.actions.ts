@@ -82,7 +82,7 @@ export const getAssetNotSendingIncidents = createAction(
 
 export const getTracksByTimeInterval = createAction(
   '[Asset] Get asset tracks by time interval',
-  props<{ assetIds: string[], startDate: string, endDate: string, sources: string[] }>()
+  props<{ query: any, startDate: string, endDate: string, sources: string[] }>()
 );
 
 export const getSelectedAsset = createAction(

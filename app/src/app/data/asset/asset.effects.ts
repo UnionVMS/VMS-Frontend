@@ -370,7 +370,7 @@ export class AssetEffects {
     ofType(AssetActions.getTracksByTimeInterval),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.getTracksByTimeInterval(authToken, action.assetIds, action.startDate, action.endDate, action.sources).pipe(
+      return this.assetService.getTracksByTimeInterval(authToken, action.query, action.startDate, action.endDate, action.sources).pipe(
         map((assetMovements: any) => {
           const assetMovementsOrdered = assetMovements.reverse();
           const movementsByAsset = assetMovementsOrdered.reduce((accMovementsByAsset, track) => {
