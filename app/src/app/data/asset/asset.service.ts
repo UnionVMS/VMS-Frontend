@@ -239,7 +239,7 @@ export class AssetService {
 
   saveNewIncidentStatus(authToken: string, incidentId: number, status: string) {
     return this.http.post(
-      environment.baseApiUrl + `reporting/rest/incident/assetNotSending/${incidentId}/status`,
+      environment.baseApiUrl + `incident/rest/incident/assetNotSending/${incidentId}/status`,
       { status },
       {
         headers: new HttpHeaders({

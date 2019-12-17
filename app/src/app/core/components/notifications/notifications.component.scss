@@ -8,8 +8,12 @@ ul.notifications {
 
   &.overlay {
     position: absolute;
-    bottom: 0px;
+    top: calc(#{$navbar_height} + #{$medium_distance});
+
     right: 0px;
+    left: 0px;
+    margin: 0px auto;
+    max-width: 560px;
   }
 
   .alert {
