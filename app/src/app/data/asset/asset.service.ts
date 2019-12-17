@@ -176,7 +176,7 @@ export class AssetService {
 
   getAssetNotSendingEvents(authToken: string) {
     return this.http.get(
-      environment.baseApiUrl + `reporting/rest/incident/assetNotSending`,
+      environment.baseApiUrl + `incident/rest/incident/assetNotSending`,
       {
         headers: new HttpHeaders({
           Authorization: authToken,
