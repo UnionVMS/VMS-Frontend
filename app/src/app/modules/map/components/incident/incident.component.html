@@ -77,7 +77,9 @@
   ></map-incident-status-form>
   <h4>Create manual position</h4>
   <map-manual-movement-form
+    *ngIf="map !== undefined"
     [createManualMovement]="createManualMovementCurried"
+    [map]="map"
   ></map-manual-movement-form>
   <h4>New note</h4>
   <map-note-form [createNote]="createNoteWithId"></map-note-form>

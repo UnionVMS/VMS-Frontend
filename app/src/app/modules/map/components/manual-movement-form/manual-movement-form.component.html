@@ -1,25 +1,25 @@
 <form class="manual-position-form" [formGroup]="formValidator">
   <mat-form-field id="manual-position-form--latitude">
     <mat-label>Latitude</mat-label>
-    <input matInput formControlName="latitude" required />
+    <input matInput formControlName="latitude" required (blur)="renderPreview()" />
     <mat-error *ngFor="let error of getErrors(['latitude'])">{{ errorMessage(error) }}</mat-error>
   </mat-form-field>
 
   <mat-form-field id="manual-position-form--longitude">
     <mat-label>Longitude</mat-label>
-    <input matInput formControlName="longitude" required />
+    <input matInput formControlName="longitude" required (blur)="renderPreview()" />
     <mat-error *ngFor="let error of getErrors(['longitude'])">{{ errorMessage(error) }}</mat-error>
   </mat-form-field>
 
   <mat-form-field id="manual-position-form--speed">
     <mat-label>Speed</mat-label>
-    <input matInput formControlName="speed" required />
+    <input matInput  formControlName="speed" required />
     <mat-error *ngFor="let error of getErrors(['speed'])">{{ errorMessage(error) }}</mat-error>
   </mat-form-field>
 
   <mat-form-field id="manual-position-form--heading">
     <mat-label>Heading</mat-label>
-    <input matInput formControlName="heading" required />
+    <input matInput formControlName="heading" required (blur)="renderPreview()" />
     <mat-error *ngFor="let error of getErrors(['heading'])">{{ errorMessage(error) }}</mat-error>
   </mat-form-field>
 

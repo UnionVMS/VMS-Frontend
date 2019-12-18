@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import getContryISO2 from 'country-iso-3-to-2';
 
+import Map from 'ol/Map';
+
 import { formatDate } from '@app/helpers/helpers';
 import { AssetInterfaces } from '@data/asset';
 import { NotesInterfaces } from '@data/notes';
@@ -15,6 +17,7 @@ import { Position } from '@data/generic.interfaces';
 export class IncidentComponent {
   @Input() asset: AssetInterfaces.AssetData;
   @Input() incident: AssetInterfaces.assetNotSendingIncident;
+  @Input() map: Map;
 
   @Input() createManualMovement: (manualMovement: AssetInterfaces.ManualMovement) => void;
   @Input() saveNewIncidentStatus: (incidentId: number, status: string) => void;

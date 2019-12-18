@@ -8,10 +8,10 @@
       (click)="setActivePanel('incident')"
     ><i class="icon-incident {{activePanel === 'incident' ? 'active' : '' }}" aria-hidden="true"></i></li>
   </ul>
-  <div class="panel filter-panel" *ngIf="activePanel === 'information'">
+  <div class="panel information-panel" *ngIf="activePanel === 'information'">
     <h3>Map information</h3>
     <map-panel-block
-      *ngFor="let currentAsset of selectedAssets"
+      *ngFor="let currentAsset of selectedAssets; trackBy: trackBySelectedAssets"
       [blockTitle]="currentAsset.asset.name"
       [active]="currentAsset.currentlyShowing"
       [setActiveFunction]="selectAssetWrapper(currentAsset.asset.id)"
@@ -19,10 +19,10 @@
     >
       <img
         header
-        *ngIf="currentAsset.asset.flagStateCode !== '???' && currentAsset.asset.flagStateCode !== undefined"
+        *ngIf="currentAsset.asset.flagStateCode !== '???' && currentAsset.asset.flagStateCode !== undefined && getCountryCode(currentAsset) !== '???'"
         class="flag-image"
         src="/assets/flags/4x3/{{getCountryCode(currentAsset)}}.svg"
-        alt="getCountryCode(currentAsset)" />
+        [alt]="getCountryCode(currentAsset)" />
       <map-asset-panel
         body
         [asset]="currentAsset"
@@ -32,7 +32,6 @@
         [getAssetTrack]="getAssetTrack"
         [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
         [untrackAsset]="untrackAsset"
-
         [addForecast]="addForecast"
         [removeForecast]="removeForecast"
         [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
@@ -40,7 +39,7 @@
       ></map-asset-panel>
     </map-panel-block>
   </div>
-  <div class="panel filter-panel" *ngIf="activePanel === 'incident'">
+  <div class="panel incident-panel" *ngIf="activePanel === 'incident'">
     <h3>
       Incident
       <span *ngIf="selectedAsset !== undefined && assetsNotSendingIncidents[selectedAsset.asset.id] !== undefined">
@@ -51,6 +50,7 @@
       *ngIf="selectedAsset !== undefined && assetsNotSendingIncidents[selectedAsset.asset.id] !== undefined"
       [asset]="selectedAsset"
       [incident]="assetsNotSendingIncidents[selectedAsset.asset.id]"
+      [map]="map"
       [createManualMovement]="createManualMovement"
       [saveNewIncidentStatus]="saveNewIncidentStatus"
       [createNote]="createNote"

@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import getContryISO2 from 'country-iso-3-to-2';
+import Map from 'ol/Map';
 
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
 import { MapActions, MapSelectors } from '@data/map';
@@ -19,6 +20,7 @@ import { MapSettingsInterfaces, MapSettingsSelectors } from '@data/map-settings'
 export class MapRightColumnComponent implements OnInit, OnDestroy {
 
   @Input() centerMapOnPosition: (position: Position) => void;
+  @Input() map: Map;
 
   public activePanel: string;
   public activeLeftPanel: string;
@@ -95,8 +97,17 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   selectAssetWrapper(assetId) {
     return () => this.selectAsset(assetId);
   }
+
+  trackBySelectedAssets(index: number, asset: AssetInterfaces.AssetData) {
+    return asset.asset.id;
+  }
+
   getCountryCode(asset) {
-    return getContryISO2(asset.asset.flagStateCode).toLowerCase();
+    const countryCode = getContryISO2(asset.asset.flagStateCode);
+    if(typeof countryCode === 'undefined') {
+      return '???';
+    }
+    return countryCode.toLowerCase();
   }
 
   ngOnInit() {
