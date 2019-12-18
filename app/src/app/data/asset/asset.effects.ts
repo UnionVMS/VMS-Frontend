@@ -12,6 +12,7 @@ import { MapSettingsSelectors } from '../map-settings';
 
 import { AssetService } from './asset.service';
 import { AssetSelectors, AssetInterfaces, AssetActions } from './';
+import { IncidentActions } from '@data/incident';
 import * as MapActions from '@data/map/map.actions';
 import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
@@ -230,7 +231,7 @@ export class AssetEffects {
                     `New incident #${message.id} for ${message.assetName}.`
                   ));
                 });
-                actions.push(AssetActions.updateAssetNotSendingIncidents({
+                actions.push(IncidentActions.updateAssetNotSendingIncidents({
                   assetNotSendingIncidents: messagesByType.Incident.reduce((acc, message) => {
                     acc[message.assetId] = message;
                     return acc;
@@ -244,7 +245,7 @@ export class AssetEffects {
                     `Incident #${message.id} for asset ${message.assetName} updated.`
                   ));
                 });
-                actions.push(AssetActions.updateAssetNotSendingIncidents({
+                actions.push(IncidentActions.updateAssetNotSendingIncidents({
                   assetNotSendingIncidents: messagesByType.IncidentUpdate.reduce((acc, message) => {
                     acc[message.assetId] = message;
                     return acc;
@@ -388,32 +389,6 @@ export class AssetEffects {
   );
 
   @Effect()
-  getAssetNotSendingIncidents$ = this.actions$.pipe(
-    ofType(AssetActions.getAssetNotSendingIncidents),
-    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
-    mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.getAssetNotSendingEvents(authToken).pipe(
-        map((assetNotSendingIncidents: ReadonlyArray<AssetInterfaces.assetNotSendingIncident>) => {
-          return [
-            AssetActions.setAssetNotSendingIncidents({
-              assetNotSendingIncidents: assetNotSendingIncidents.reduce((acc, assetNotSendingIncident) => {
-                acc[assetNotSendingIncident.assetId] = assetNotSendingIncident;
-                return acc;
-              }, {})
-            }),
-            AssetActions.checkForAssetEssentials({
-              assetMovements: assetNotSendingIncidents.map((incident) => ({
-                microMove: incident.lastKnownLocation, asset: incident.assetId, decayPercentage: undefined
-              }))
-            })
-          ];
-        }),
-        flatMap(a => a),
-      );
-    })
-  );
-
-  @Effect()
   getAssetUnitTonnage$ = this.actions$.pipe(
     ofType(AssetActions.getUnitTonnage),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
@@ -483,22 +458,6 @@ export class AssetEffects {
     }),
     flatMap((action, index) => action)
   );
-
-  @Effect()
-  saveNewIncidentStatus$ = this.actions$.pipe(
-    ofType(AssetActions.saveNewIncidentStatus),
-    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
-    mergeMap(([action, authToken]: Array<any>) => {
-      console.warn(action);
-      return this.assetService.saveNewIncidentStatus(authToken, action.incidentId, action.status).pipe(
-        map((asset: AssetInterfaces.Asset) => {
-          return [NotificationsActions.addSuccess('Incident status successfully changed!')];
-        })
-      );
-    }),
-    flatMap(a => a)
-  );
-
 
   @Effect()
   createManualMovement$ = this.actions$.pipe(

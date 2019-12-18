@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AssetInterfaces } from '@data/asset';
+import { IncidentInterfaces } from '@data/incident';
 import { formatDate } from '@app/helpers/helpers';
 
 @Component({
@@ -8,8 +8,8 @@ import { formatDate } from '@app/helpers/helpers';
   styleUrls: ['./incidents.component.scss']
 })
 export class IncidentsComponent {
-  @Input() incidents: ReadonlyArray<AssetInterfaces.assetNotSendingIncident>;
-  @Input() selectIncident: (incident: AssetInterfaces.assetNotSendingIncident) => void;
+  @Input() incidents: ReadonlyArray<IncidentInterfaces.assetNotSendingIncident>;
+  @Input() selectIncident: (incident: IncidentInterfaces.assetNotSendingIncident) => void;
 
   public incidentStatusClass = {
     MANUAL_POSITION_MODE: 'dangerLvl1',

@@ -2,6 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as AssetInterfaces from './asset.interfaces';
 import { State } from '@app/app-reducer';
 import { MapSavedFiltersSelectors } from '@data/map-saved-filters';
+import { IncidentInterfaces, IncidentSelectors } from '@data/incident';
 import { MapSelectors } from '@data/map';
 import { getMergedRoute } from '@data/router/router.selectors';
 
@@ -14,7 +15,6 @@ export const selectAssetForecasts = (state: State) => state.asset.forecasts;
 export const selectAssetsEssentials = (state: State) => state.asset.assetsEssentials;
 export const selectAssetGroups = (state: State) => state.asset.assetGroups;
 export const selectAssetsTracks = (state: State) => state.asset.assetTracks;
-export const selectAssetNotSendingIncidents = (state: State) => state.asset.assetNotSendingIncidents;
 export const selectAssetTrips = (state: State) => state.asset.assetTrips;
 export const selectAssetTripGranularity = (state: State) => state.asset.assetTripGranularity;
 export const selectAssetTripTimestamp = (state: State) => state.asset.assetTripTimestamp;
@@ -31,12 +31,12 @@ export const getAssetsMovementsDependingOnLeftPanel = createSelector(
   selectAssetMovements,
   MapSelectors.getFiltersActive,
   MapSelectors.getActiveLeftPanel,
-  selectAssetNotSendingIncidents,
+  IncidentSelectors.selectAssetNotSendingIncidents,
   (
     assetMovements: { readonly [uid: string]: AssetInterfaces.AssetMovement },
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
     activeLeftPanel: string,
-    assetsNotSendingIncicents: { readonly [assetId: string]: AssetInterfaces.assetNotSendingIncident }
+    assetsNotSendingIncicents: { readonly [assetId: string]: IncidentInterfaces.assetNotSendingIncident }
   ) => {
     if(activeLeftPanel === 'workflows') {
       if(filtersActive.assetsNotSendingIncicents) {
@@ -105,7 +105,7 @@ export const getAssetMovements = createSelector(
   selectSelectedAssetGroups,
   MapSelectors.getFiltersActive,
   MapSelectors.getActiveLeftPanel,
-  selectAssetNotSendingIncidents,
+  IncidentSelectors.selectAssetNotSendingIncidents,
   (
     assetMovements: { readonly [uid: string]: AssetInterfaces.AssetMovement },
     assetsEssentials: { readonly [uid: string]: AssetInterfaces.AssetEssentialProperties },
@@ -114,7 +114,7 @@ export const getAssetMovements = createSelector(
     selectedAssetGroups: ReadonlyArray<AssetInterfaces.AssetGroup>,
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
     activeLeftPanel: string,
-    assetsNotSendingIncicents: { readonly [assetId: string]: AssetInterfaces.assetNotSendingIncident }
+    assetsNotSendingIncicents: { readonly [assetId: string]: IncidentInterfaces.assetNotSendingIncident }
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
 
@@ -203,19 +203,6 @@ export const getAssetTracks = createSelector(
   selectAssetsTracks,
   (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }) => Object.values(assetTracks)
 );
-
-export const getAssetNotSendingIncidents = createSelector(
-  selectAssetNotSendingIncidents,
-  (assetNotSendingIncidents) => {
-    return Object.values(assetNotSendingIncidents);
-  }
-);
-
-export const getAssetNotSendingIncidentsByAssetId = createSelector(
-  selectAssetNotSendingIncidents,
-  (assetNotSendingIncidents) => assetNotSendingIncidents
-);
-
 
 export const getTripTimestamp = createSelector(
   selectAssetTripTimestamp,

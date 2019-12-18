@@ -1,5 +1,6 @@
 import { Action, createAction, props } from '@ngrx/store';
 import * as AssetInterfaces from './asset.interfaces';
+import * as IncidentInterfaces from '@data/incident/incident.interfaces';
 
 export const addForecast = createAction(
   '[Asset] Add forecast',
@@ -76,10 +77,6 @@ export const getAssetTrackTimeInterval = createAction(
   props<{ assetId: string, startDate: string, endDate: string }>()
 );
 
-export const getAssetNotSendingIncidents = createAction(
-  '[Asset] Get asset not sending incidents'
-);
-
 export const getTracksByTimeInterval = createAction(
   '[Asset] Get asset tracks by time interval',
   props<{ query: any, startDate: string, endDate: string, sources: string[] }>()
@@ -117,11 +114,6 @@ export const saveAsset = createAction(
   props<{ asset: AssetInterfaces.Asset }>()
 );
 
-export const saveNewIncidentStatus = createAction(
-  '[Asset] Save new incident status',
-  props<{ incidentId: number, status: string }>()
-);
-
 export const searchAssets = createAction(
   '[Asset] search',
   props<{ searchQuery: any }>()
@@ -134,7 +126,7 @@ export const selectAsset = createAction(
 
 export const selectIncident = createAction(
   '[Asset] Select incident',
-  props<{ incident: AssetInterfaces.assetNotSendingIncident, incidentType: string }>()
+  props<{ incident: IncidentInterfaces.assetNotSendingIncident, incidentType: string }>()
 );
 
 export const setAssetTripGranularity = createAction(
@@ -171,17 +163,6 @@ export const setAssetList = createAction(
   '[Asset] Set list',
   props<{ searchParams: any, assets: { [uid: string]: AssetInterfaces.Asset }, currentPage: number, totalNumberOfPages: number  }>()
 );
-
-export const setAssetNotSendingIncidents = createAction(
-  '[Asset] Set asset not sending incidents',
-  props<{ assetNotSendingIncidents: { readonly [assetId: string]: AssetInterfaces.assetNotSendingIncident }}>()
-);
-
-export const updateAssetNotSendingIncidents = createAction(
-  '[Asset] Update asset not sending incidents',
-  props<{ assetNotSendingIncidents: { readonly [assetId: string]: AssetInterfaces.assetNotSendingIncident }}>()
-);
-
 
 export const setAutocompleteQuery = createAction(
   '[Asset] Set autocomplete query',

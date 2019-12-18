@@ -5,6 +5,7 @@ import Map from 'ol/Map';
 
 import { formatDate } from '@app/helpers/helpers';
 import { AssetInterfaces } from '@data/asset';
+import { IncidentInterfaces } from '@data/incident';
 import { NotesInterfaces } from '@data/notes';
 import { Position } from '@data/generic.interfaces';
 
@@ -16,7 +17,7 @@ import { Position } from '@data/generic.interfaces';
 })
 export class IncidentComponent {
   @Input() asset: AssetInterfaces.AssetData;
-  @Input() incident: AssetInterfaces.assetNotSendingIncident;
+  @Input() incident: IncidentInterfaces.assetNotSendingIncident;
   @Input() map: Map;
 
   @Input() createManualMovement: (manualMovement: AssetInterfaces.ManualMovement) => void;

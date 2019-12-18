@@ -16,6 +16,7 @@ import { click, pointerMove } from 'ol/events/condition.js';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
+import { IncidentActions } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
 import { MapLayersActions, MapLayersSelectors, MapLayersInterfaces } from '@data/map-layers';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
@@ -231,7 +232,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.store.dispatch(AssetActions.subscribeToMovements());
     this.store.dispatch(AssetActions.getSelectedAsset());
     this.store.dispatch(AssetActions.getAssetGroups());
-    this.store.dispatch(AssetActions.getAssetNotSendingIncidents());
+    this.store.dispatch(IncidentActions.getAssetNotSendingIncidents());
     this.store.dispatch(MapLayersActions.getAreas());
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe((mergedRoute) => {
       if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {

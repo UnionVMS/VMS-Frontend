@@ -39,6 +39,7 @@ import { NotesModule } from './modules/notes/notes.module';
 import { AssetEffects } from '@data/asset/asset.effects';
 import { AuthEffects } from '@data/auth/auth.effects';
 import { ContactEffects } from '@data/contact/contact.effects';
+import { IncidentEffects } from '@data/incident/incident.effects';
 import { MapSettingsEffects } from '@data/map-settings/map-settings.effects';
 import { MapSavedFiltersEffects } from '@data/map-saved-filters/map-saved-filters.effects';
 import { MapLayersEffects } from '@data/map-layers/map-layers.effects';
@@ -68,6 +69,7 @@ const imports = [
     AuthEffects,
     AssetEffects,
     ContactEffects,
+    IncidentEffects,
     MapSettingsEffects,
     MapSavedFiltersEffects,
     MapLayersEffects,

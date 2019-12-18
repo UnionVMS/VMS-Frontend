@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
+import { IncidentInterfaces, IncidentSelectors } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
 import { MapSavedFiltersActions, MapSavedFiltersInterfaces, MapSavedFiltersSelectors } from '@data/map-saved-filters';
 
@@ -47,11 +48,11 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public selectAsset: (assetId: string) => void;
 
 
-  public assetNotSendingIncidents: ReadonlyArray<AssetInterfaces.assetNotSendingIncident>;
+  public assetNotSendingIncidents: ReadonlyArray<IncidentInterfaces.assetNotSendingIncident>;
 
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
-  public selectIncident: (incident: AssetInterfaces.assetNotSendingIncident) => void;
+  public selectIncident: (incident: IncidentInterfaces.assetNotSendingIncident) => void;
 
   // Curried functions
   public setGivenFilterActiveCurry = (filterTypeName: string) => (status: boolean) => this.setGivenFilterActive(filterTypeName, status);
@@ -82,7 +83,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.assetGroups$ = this.store.select(AssetSelectors.getAssetGroups);
     this.selectedAssetGroups$ = this.store.select(AssetSelectors.getSelectedAssetGroups);
     this.searchAutocompleteResult$ = this.store.select(AssetSelectors.getSearchAutocomplete);
-    this.store.select(AssetSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
+    this.store.select(IncidentSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
       this.assetNotSendingIncidents = assetsNotSendingIncicents;
     });
   }
@@ -122,7 +123,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   }
 
   mapFunctionsToProps() {
-    this.selectIncident = (incident: AssetInterfaces.assetNotSendingIncident) => {
+    this.selectIncident = (incident: IncidentInterfaces.assetNotSendingIncident) => {
       this.selectAsset(incident.assetId);
       this.setActiveRightPanel('incident');
     };

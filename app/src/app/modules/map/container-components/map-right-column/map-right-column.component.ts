@@ -6,6 +6,7 @@ import getContryISO2 from 'country-iso-3-to-2';
 import Map from 'ol/Map';
 
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
+import { IncidentActions, IncidentInterfaces, IncidentSelectors } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
 import { NotesActions, NotesInterfaces } from '@data/notes';
 import { MapSavedFiltersActions, MapSavedFiltersInterfaces, MapSavedFiltersSelectors } from '@data/map-saved-filters';
@@ -24,7 +25,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
 
   public activePanel: string;
   public activeLeftPanel: string;
-  public assetsNotSendingIncidents: Readonly<{ [assetId: string]: AssetInterfaces.assetNotSendingIncident }>;
+  public assetsNotSendingIncidents: Readonly<{ [assetId: string]: IncidentInterfaces.assetNotSendingIncident }>;
   public mapSettings: MapSettingsInterfaces.State;
   public forecasts$: Observable<any>;
   public selectedAsset: Readonly<AssetInterfaces.AssetData>;
@@ -65,7 +66,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.selectedAssets = selectedAssets;
       this.selectedAsset = this.selectedAssets.find(selectedAsset => selectedAsset.currentlyShowing);
     });
-    this.store.select(AssetSelectors.getAssetNotSendingIncidentsByAssetId)
+    this.store.select(IncidentSelectors.getAssetNotSendingIncidentsByAssetId)
       .pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
         this.assetsNotSendingIncidents = assetsNotSendingIncicents;
       });
@@ -88,7 +89,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       return this.store.dispatch(AssetActions.createManualMovement({ manualMovement }));
     };
     this.saveNewIncidentStatus = (incidentId: number, status: string) => {
-      return this.store.dispatch(AssetActions.saveNewIncidentStatus({ incidentId, status }));
+      return this.store.dispatch(IncidentActions.saveNewIncidentStatus({ incidentId, status }));
     };
     this.createNote = (note: NotesInterfaces.Note) =>
       this.store.dispatch(NotesActions.saveNote({ note }));
