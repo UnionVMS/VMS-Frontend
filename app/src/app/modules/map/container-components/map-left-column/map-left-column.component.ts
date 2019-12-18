@@ -49,10 +49,15 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
 
   public assetNotSendingIncidents: ReadonlyArray<IncidentInterfaces.assetNotSendingIncident>;
+  public incidentNotificationsByType: Readonly<{ readonly [type: string]: IncidentInterfaces.incidentNotificationsCollections }>;
 
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
   public selectIncident: (incident: IncidentInterfaces.assetNotSendingIncident) => void;
+  public countNotificationsOfType: (
+    incidentNotifications: IncidentInterfaces.incidentNotificationsCollections,
+    type: IncidentInterfaces.incidentNotificationTypes.created | IncidentInterfaces.incidentNotificationTypes.updated
+  ) => number;
 
   // Curried functions
   public setGivenFilterActiveCurry = (filterTypeName: string) => (status: boolean) => this.setGivenFilterActive(filterTypeName, status);
@@ -62,13 +67,6 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   }
 
   constructor(private store: Store<any>) { }
-
-  // public setGivenFilterActiveCurry: (filterTypeName: string) => (status: boolean) => void;
-  //
-  // ngOnChanges() {
-  //   this.setGivenFilterActiveCurry = (filterTypeName: string) =>
-  //     (status: boolean) => this.setGivenFilterActive(filterTypeName, status);
-  // }
 
   mapStateToProps() {
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
@@ -86,6 +84,9 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.store.select(IncidentSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
       this.assetNotSendingIncidents = assetsNotSendingIncicents;
     });
+    this.store.select(IncidentSelectors.getIncidentNotificationsByType).pipe(takeUntil(this.unmount$)).subscribe(
+      incidentNotificationsByType => { this.incidentNotificationsByType = incidentNotificationsByType; }
+    );
   }
 
   mapDispatchToProps() {
@@ -126,6 +127,20 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.selectIncident = (incident: IncidentInterfaces.assetNotSendingIncident) => {
       this.selectAsset(incident.assetId);
       this.setActiveRightPanel('incident');
+    };
+    this.countNotificationsOfType = (
+      incidentNotifications: IncidentInterfaces.incidentNotificationsCollections,
+      type: IncidentInterfaces.incidentNotificationTypes.created | IncidentInterfaces.incidentNotificationTypes.updated
+    ) => {
+      if(typeof incidentNotifications !== 'undefined') {
+        return Object.values(incidentNotifications).reduce(
+          (acc: number, incidentNotification: IncidentInterfaces.incidentNotifications) => {
+            acc += incidentNotification[type];
+            return acc;
+          }, 0
+        );
+      }
+      return 0;
     };
   }
 

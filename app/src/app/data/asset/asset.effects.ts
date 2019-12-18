@@ -12,7 +12,7 @@ import { MapSettingsSelectors } from '../map-settings';
 
 import { AssetService } from './asset.service';
 import { AssetSelectors, AssetInterfaces, AssetActions } from './';
-import { IncidentActions } from '@data/incident';
+import { IncidentActions, IncidentInterfaces } from '@data/incident';
 import * as MapActions from '@data/map/map.actions';
 import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
@@ -235,7 +235,8 @@ export class AssetEffects {
                   assetNotSendingIncidents: messagesByType.Incident.reduce((acc, message) => {
                     acc[message.assetId] = message;
                     return acc;
-                  }, {})
+                  }, {}),
+                  updateType: IncidentInterfaces.incidentNotificationTypes.created
                 }));
               }
 
@@ -249,7 +250,8 @@ export class AssetEffects {
                   assetNotSendingIncidents: messagesByType.IncidentUpdate.reduce((acc, message) => {
                     acc[message.assetId] = message;
                     return acc;
-                  }, {})
+                  }, {}),
+                  updateType: IncidentInterfaces.incidentNotificationTypes.updated
                 }));
               }
 

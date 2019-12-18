@@ -70,6 +70,14 @@
       [setActiveFunction]="setGivenWorkflowActive('assetsNotSendingIncicents')"
       [useArrowsAsToggle]="true"
     >
+      <div header class="notifications" *ngIf="incidentNotificationsByType !== undefined && incidentNotificationsByType.assetNotSending !== undefined">
+        <span class="created" *ngIf="countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'created') > 0">
+          {{countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'created')}}
+        </span>
+        <span class="updated" *ngIf="countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'updated') > 0">
+          {{countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'updated')}}
+        </span>
+      </div>
       <div body>
         <div class="filter-for-panel-content">
           <ui-button-toggle

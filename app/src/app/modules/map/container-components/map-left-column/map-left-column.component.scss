@@ -66,5 +66,22 @@
 
   .workflow-panel {
     grid-template-rows: repeat(10, auto) 1fr;
+
+    .notifications {
+      grid-area: right;
+
+      & > * {
+        border-radius: 16px;
+        padding: 4px 8px;
+        color: black;
+        margin-right: $medium_distance;
+      }
+      .updated {
+        background: $color_yellow;
+      }
+      .created {
+        background: $color_warn;
+      }
+    }
   }
 }
