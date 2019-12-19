@@ -10,6 +10,14 @@
       <ui-truncated-text class="name" [text]="incident.assetName" length="16"></ui-truncated-text>
       <div class="ircs">{{incident.assetIrcs}}</div>
       <div class="time">Last seen: {{formatDate(incident)}}</div>
+      <div class="notifications" *ngIf="incidentNotifications[incident.id] !== undefined">
+        <span class="created-notifications" *ngIf="incidentNotifications[incident.id].created > 0">
+          {{incidentNotifications[incident.id].created}}
+        </span>
+        <span class="updated-notifications" *ngIf="incidentNotifications[incident.id].updated > 0">
+          {{incidentNotifications[incident.id].updated}}
+        </span>
+      </div>
     </div>
   </div>
 </div>

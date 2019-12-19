@@ -71,10 +71,7 @@
       grid-area: right;
 
       & > * {
-        border-radius: 16px;
-        padding: 4px 8px;
-        color: black;
-        margin-right: $medium_distance;
+        @include badge();
       }
       .updated {
         background: $color_yellow;

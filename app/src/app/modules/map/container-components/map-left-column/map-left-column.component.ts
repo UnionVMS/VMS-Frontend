@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
-import { IncidentInterfaces, IncidentSelectors } from '@data/incident';
+import { IncidentActions, IncidentInterfaces, IncidentSelectors } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
 import { MapSavedFiltersActions, MapSavedFiltersInterfaces, MapSavedFiltersSelectors } from '@data/map-saved-filters';
 
@@ -39,6 +39,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public clearSelectedAssets: () => void;
+  public clearNotificationsForIncident: (incident: IncidentInterfaces.assetNotSendingIncident) => void;
 
   public searchAutocomplete: (searchQuery: string) => void;
   public searchAutocompleteResult$: Observable<ReadonlyArray<Readonly<{
@@ -121,11 +122,14 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     };
     this.clearSelectedAssets = () =>
       this.store.dispatch(AssetActions.clearSelectedAssets());
+    this.clearNotificationsForIncident = (incident: IncidentInterfaces.assetNotSendingIncident) =>
+      this.store.dispatch(IncidentActions.clearNotificationsForIncident({ incident }));
   }
 
   mapFunctionsToProps() {
     this.selectIncident = (incident: IncidentInterfaces.assetNotSendingIncident) => {
       this.selectAsset(incident.assetId);
+      this.clearNotificationsForIncident(incident);
       this.setActiveRightPanel('incident');
     };
     this.countNotificationsOfType = (

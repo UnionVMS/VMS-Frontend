@@ -226,11 +226,11 @@ export class AssetEffects {
               }
 
               if(typeof messagesByType.Incident !== 'undefined') {
-                messagesByType.Incident.map(message => {
-                  actions.push(NotificationsActions.addNotice(
-                    `New incident #${message.id} for ${message.assetName}.`
-                  ));
-                });
+                // messagesByType.Incident.map(message => {
+                //   actions.push(NotificationsActions.addNotice(
+                //     `New incident #${message.id} for ${message.assetName}.`
+                //   ));
+                // });
                 actions.push(IncidentActions.updateAssetNotSendingIncidents({
                   assetNotSendingIncidents: messagesByType.Incident.reduce((acc, message) => {
                     acc[message.assetId] = message;
@@ -241,11 +241,11 @@ export class AssetEffects {
               }
 
               if(typeof messagesByType.IncidentUpdate !== 'undefined') {
-                messagesByType.IncidentUpdate.map(message => {
-                  actions.push(NotificationsActions.addNotice(
-                    `Incident #${message.id} for asset ${message.assetName} updated.`
-                  ));
-                });
+                // messagesByType.IncidentUpdate.map(message => {
+                //   actions.push(NotificationsActions.addNotice(
+                //     `Incident #${message.id} for asset ${message.assetName} updated.`
+                //   ));
+                // });
                 actions.push(IncidentActions.updateAssetNotSendingIncidents({
                   assetNotSendingIncidents: messagesByType.IncidentUpdate.reduce((acc, message) => {
                     acc[message.assetId] = message;
