@@ -342,8 +342,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
       delete this.onSelectFunctions[name];
     };
 
-    this.selection = new Select({hitTolerance: 7, condition: click });
-    this.selection.style_ = false;
+    this.selection = new Select({hitTolerance: 7, condition: click, style: false });
     this.map.addInteraction(this.selection);
 
     this.selection.on('select', (event) => {
