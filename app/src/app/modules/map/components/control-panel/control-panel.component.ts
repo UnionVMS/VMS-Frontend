@@ -15,14 +15,14 @@ export class ControlPanelComponent implements OnChanges {
 
   public trackLength = '360';
 
-  private setTracksMinuteCapFunction = (event): void => {
+  public setTracksMinuteCapFunction = (event): void => {
     let minutes = parseInt(event.value, 10);
     if(event.value.length === 0) {
       minutes = 360;
     }
     this.setTracksMinuteCap(minutes);
   }
-  private setForecastIntervalFunction = (event): void => {
+  public setForecastIntervalFunction = (event): void => {
     let minutes = parseInt(event.target.value, 10);
     if(event.target.value.length === 0) {
       minutes = 30;
