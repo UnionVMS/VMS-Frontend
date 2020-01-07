@@ -243,7 +243,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   setupMap() {
     this.mapZoom = this.mapSettings.settings.startZoomLevel;
-    const scaleLineControl = new ScaleLine();
+    const scaleLineControl = new ScaleLine({
+      units: this.mapSettings.settings.unitOfDistance
+    });
     const mousePositionControl = new MousePosition({
       coordinateFormat: (coordinates) => format(coordinates, 'Lat: {y}, Lon: {x}', 4),
       projection: 'EPSG:4326',

@@ -55,6 +55,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
           speedsVisible: this.formValidator.value.speedsVisible,
           forecastsVisible: this.formValidator.value.forecastsVisible,
           startZoomLevel: this.formValidator.value.mapStartPosition.startZoomLevel,
+          unitOfDistance: this.formValidator.value.unitOfDistance,
           startPosition: {
             latitude: parseFloat(this.formValidator.value.mapStartPosition.latitude),
             longitude: parseFloat(this.formValidator.value.mapStartPosition.longitude)
