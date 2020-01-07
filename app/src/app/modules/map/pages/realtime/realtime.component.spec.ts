@@ -17,6 +17,10 @@ import { MatInputModule } from '@angular/material/input';
 
 import { RealtimeComponent } from './realtime.component';
 
+/* Container-components */
+import { MapLeftColumnComponent } from '../../container-components/map-left-column/map-left-column.component';
+import { MapRightColumnComponent } from '../../container-components/map-right-column/map-right-column.component';
+
 /* Components */
 import { AssetsComponent } from '../../components/assets/assets.component';
 import { AssetGroupsComponent } from '../../components/asset-groups/asset-groups.component'; // Not tested yet.
@@ -71,6 +75,8 @@ describe('RealtimeComponent', () => {
         InformationPanelComponent,
         LayerFilterComponent,
         MapLocationsComponent,
+        MapLeftColumnComponent,
+        MapRightColumnComponent,
         SavedFiltersComponent,
         TopPanelComponent,
         TracksComponent,
