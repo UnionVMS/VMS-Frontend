@@ -7,6 +7,10 @@
     margin: 0px;
   }
 
+  .filter-for-panel-content {
+    padding-bottom: $large_distance;
+  }
+
   .incidents {
     display: grid;
     grid-row-gap: $medium_distance;

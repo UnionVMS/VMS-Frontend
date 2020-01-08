@@ -78,20 +78,13 @@
           {{countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'updated')}}
         </span>
       </div>
-      <div body>
-        <div class="filter-for-panel-content">
-          <ui-button-toggle
-            label="Recently resolved"
-            [value]="false"
-            [switchFunction]="emptyClick"
-          ></ui-button-toggle>
-        </div>
-        <map-incidents
-          [incidents]="assetNotSendingIncidents"
-          [selectIncident]="selectIncident"
-          [incidentNotifications]="incidentNotificationsByType.assetNotSending"
-        ></map-incidents>
-      </div>
+      <map-incidents
+        body
+        *ngIf="filtersActive.assetsNotSendingIncicents"
+        [incidents]="assetNotSendingIncidents"
+        [selectIncident]="selectIncident"
+        [incidentNotifications]="incidentNotificationsByType.assetNotSending"
+      ></map-incidents>
     </map-panel-block>
     <map-panel-block
       blockTitle="Fishing Activity"
