@@ -49,13 +49,21 @@
 
       <label>Choose ship color logic:</label>
       <mat-radio-group
-        aria-labelledby="example-radio-group-label"
+        aria-labelledby="map-asset-colors"
         class="map-asset-colors"
         formControlName="assetColorMethod">
         <mat-radio-button class="map-asset-color-button" *ngFor="let assetColorMethod of assetColorMethods" [value]="assetColorMethod">
           {{assetColorMethod}}
         </mat-radio-button>
       </mat-radio-group>
+
+      <mat-form-field>
+        <legend>Unit of distance</legend>
+        <mat-select formControlName="unitOfDistance">
+          <mat-option value="metric">Metric</mat-option>
+          <mat-option value="nautical">Nautical mile</mat-option>
+        </mat-select>
+      </mat-form-field>
     </fieldset>
 
 

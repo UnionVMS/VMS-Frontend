@@ -1,6 +1,11 @@
 import { Action, createAction, props } from '@ngrx/store';
 import * as IncidentInterfaces from './incident.interfaces';
 
+export const clearNotificationsForIncident = createAction(
+  '[Incident] clear notification for incident',
+  props<{ incident: IncidentInterfaces.assetNotSendingIncident}>()
+);
+
 export const getAssetNotSendingIncidents = createAction(
   '[Incident] Get asset not sending incidents'
 );

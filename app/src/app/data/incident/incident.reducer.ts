@@ -44,5 +44,17 @@ export const incidentReducer = createReducer(initialState,
         }
       }, state.incidentNotificationsByType.assetNotSending)
     }
+  })),
+  on(IncidentActions.clearNotificationsForIncident, (state, { incident }) => ({
+    ...state,
+    incidentNotificationsByType: Object.keys(state.incidentNotificationsByType).reduce((acc, type) => {
+      acc[type] = Object.keys(state.incidentNotificationsByType[type]).reduce((incidentNotifications, incidentId) => {
+        if(parseInt(incidentId, 10) !== incident.id) {
+          incidentNotifications[incidentId] = state.incidentNotificationsByType[type][incidentId];
+        }
+        return incidentNotifications;
+      }, {});
+      return acc;
+    }, {})
   }))
 );

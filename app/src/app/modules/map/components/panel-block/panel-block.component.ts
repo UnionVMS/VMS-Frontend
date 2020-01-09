@@ -16,7 +16,6 @@ export class PanelBlockComponent implements OnChanges {
   public switchFunction: () => void;
 
   ngOnChanges() {
-    // console.warn(this.useArrowsAsToggle);
     this.switchFunction = () => this.setActiveFunction(!this.active);
   }
 }

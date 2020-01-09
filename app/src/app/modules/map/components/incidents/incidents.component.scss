@@ -7,6 +7,10 @@
     margin: 0px;
   }
 
+  .filter-for-panel-content {
+    padding-bottom: $large_distance;
+  }
+
   .incidents {
     display: grid;
     grid-row-gap: $medium_distance;
@@ -49,8 +53,24 @@
       }
 
       .time {
-        font-size: 12px;
-        grid-column: 2 / span 2;
+        font-size: 11px;
+        grid-column: 2 / span 1;
+      }
+
+      .notifications {
+        position: relative;
+        & > * {
+          @include small-badge();
+          position: absolute;
+        }
+        .created-notifications {
+          background: $color_warn;
+          right: $xlarge_distance;
+        }
+        .updated-notifications {
+          background: $color_yellow;
+          right: 0px;
+        }
       }
     }
   }

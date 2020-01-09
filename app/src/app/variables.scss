@@ -117,3 +117,16 @@ $x4large_distance: distance(6); // 48px
   border-top-left-radius: $small_distance;
   border-bottom-left-radius: $small_distance;
 }
+
+@mixin badge() {
+  border-radius: $large_distance;
+  padding: $small_distance $medium_distance;
+  color: black;
+  margin-right: $medium_distance;
+}
+
+@mixin small-badge() {
+  @include badge();
+  padding: distance(0.25) distance(0.5);
+  font-size: 11px;
+}

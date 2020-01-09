@@ -17,6 +17,10 @@ import { MatInputModule } from '@angular/material/input';
 
 import { RealtimeComponent } from './realtime.component';
 
+/* Container-components */
+import { MapLeftColumnComponent } from '../../container-components/map-left-column/map-left-column.component';
+import { MapRightColumnComponent } from '../../container-components/map-right-column/map-right-column.component';
+
 /* Components */
 import { AssetsComponent } from '../../components/assets/assets.component';
 import { AssetGroupsComponent } from '../../components/asset-groups/asset-groups.component'; // Not tested yet.
@@ -38,6 +42,7 @@ import { AssetReducer, AssetActions } from '@data/asset';
 import AssetStub from '@data/asset/stubs/asset.stub';
 import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWithEssentials.stub';
 import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
+import { IncidentReducer } from '@data/incident';
 import { MapSettingsReducer, MapSettingsActions } from '@data/map-settings';
 import { MapSavedFiltersReducer } from '@data/map-saved-filters';
 
@@ -70,6 +75,8 @@ describe('RealtimeComponent', () => {
         InformationPanelComponent,
         LayerFilterComponent,
         MapLocationsComponent,
+        MapLeftColumnComponent,
+        MapRightColumnComponent,
         SavedFiltersComponent,
         TopPanelComponent,
         TracksComponent,
@@ -98,7 +105,14 @@ describe('RealtimeComponent', () => {
 
     function setupForMapStateToProps() {
       const setupObject = setup();
-      return { ...setupObject, baseState: { mapSavedFilters: MapSavedFiltersReducer.initialState, map: { realtime: { ready: true } } } };
+      return {
+        ...setupObject,
+        baseState: {
+          mapSavedFilters: MapSavedFiltersReducer.initialState,
+          map: { realtime: { ready: true } },
+          incident: IncidentReducer.initialState,
+        }
+      };
     }
 
     it('should update assets when state is updated.', () => {
@@ -189,8 +203,7 @@ describe('RealtimeComponent', () => {
       component.mapStateToProps();
 
       let selectedAssets;
-      const selectedAssetSubscription =
-        component.selectedAssets$.subscribe(newSelectedAssets => selectedAssets = newSelectedAssets);
+      const selectedAssetSubscription = component.selectedAssets$.subscribe(newSelectedAssets => { selectedAssets = newSelectedAssets; });
       expect(selectedAssets).toEqual([]);
       currentState = { ...currentState, asset: {
         ...currentState.asset,
@@ -523,6 +536,7 @@ describe('RealtimeComponent', () => {
         mapSettings: MapSettingsReducer.initialState,
         mapSavedFilters: MapSavedFiltersReducer.initialState,
         map: { realtime: { ready: true }, mapSettingsLoaded: true },
+        incident: IncidentReducer.initialState,
       };
       store.setState(currentState);
       component.ngOnInit();

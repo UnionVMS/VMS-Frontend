@@ -12,6 +12,7 @@ export const initialState: Interfaces.State = {
     forecastInterval: 30,
     tracksMinuteCap: 360,
     startZoomLevel: 10,
+    unitOfDistance: 'metric',
     startPosition: {
       latitude: 57.6806116,
       longitude: 12.1047925

@@ -17,6 +17,7 @@ export const createUserSettingsFormValidator = (mapSettings: MapSettingsInterfac
     namesVisible: new FormControl(mapSettings.namesVisible),
     speedsVisible: new FormControl(mapSettings.speedsVisible),
     forecastsVisible: new FormControl(mapSettings.forecastsVisible),
+    unitOfDistance: new FormControl(mapSettings.unitOfDistance),
     mapStartPosition: new FormGroup({
       startZoomLevel: new FormControl(mapSettings.startZoomLevel, [Validators.required]),
       latitude: new FormControl(mapSettings.startPosition.latitude, [Validators.required]),

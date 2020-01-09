@@ -9,7 +9,10 @@ import { formatDate } from '@app/helpers/helpers';
 })
 export class IncidentsComponent {
   @Input() incidents: ReadonlyArray<IncidentInterfaces.assetNotSendingIncident>;
+  @Input() incidentNotifications: IncidentInterfaces.incidentNotificationsCollections;
   @Input() selectIncident: (incident: IncidentInterfaces.assetNotSendingIncident) => void;
+
+  public resolved = false;
 
   public incidentStatusClass = {
     MANUAL_POSITION_MODE: 'dangerLvl1',
@@ -17,8 +20,16 @@ export class IncidentsComponent {
     RESOLVED: 'dangerLvl0',
   };
 
-  formatDate(incident) {
-    const date = new Date(incident.lastKnownLocation.timestamp * 1000);
+  public trackByIncidents = (index: number, item: IncidentInterfaces.assetNotSendingIncident) => {
+    return item.assetId + '-' + (this.resolved ? 'r' : 'nr');
+  }
+
+  public switchShowResolved = () => {
+    this.resolved = !this.resolved;
+  }
+
+  formatDate(incident: IncidentInterfaces.assetNotSendingIncident) {
+    const date = new Date((incident.lastKnownLocation.timestamp as number) * 1000);
     const iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2})/);
     return iso[1] + ' • ' + iso[2];
   }

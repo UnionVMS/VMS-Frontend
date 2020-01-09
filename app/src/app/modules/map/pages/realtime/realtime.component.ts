@@ -243,7 +243,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   setupMap() {
     this.mapZoom = this.mapSettings.settings.startZoomLevel;
-    const scaleLineControl = new ScaleLine();
+    const scaleLineControl = new ScaleLine({
+      units: this.mapSettings.settings.unitOfDistance
+    });
     const mousePositionControl = new MousePosition({
       coordinateFormat: (coordinates) => format(coordinates, 'Lat: {y}, Lon: {x}', 4),
       projection: 'EPSG:4326',
@@ -313,8 +315,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       delete this.onSelectFunctions[name];
     };
 
-    this.selection = new Select({hitTolerance: 7, condition: click });
-    this.selection.style_ = false;
+    this.selection = new Select({hitTolerance: 7, condition: click, style: false });
     this.map.addInteraction(this.selection);
 
     this.selection.on('select', (event) => {
@@ -322,8 +323,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.selection.getFeatures().clear();
     });
 
-    // this.hoverSelection = new Select({hitTolerance: 3, condition: pointerMove });
-    // this.hoverSelection.style_ = false;
+    // this.hoverSelection = new Select({hitTolerance: 3, condition: pointerMove, style: false });
     // this.map.addInteraction(this.hoverSelection);
     //
     // this.hoverSelection.on('select', (event) => {
