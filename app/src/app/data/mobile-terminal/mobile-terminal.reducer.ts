@@ -6,6 +6,7 @@ export const initialState: MobileTerminalInterfaces.State = {
   mobileTerminals: {},
   transponders: [],
   plugins: [],
+  formFieldsValid: { isSerialNumberValid: false, isMemberNumberAndDnidValid: false }
 };
 
 export const mobileTerminalReducer = createReducer(initialState,
@@ -32,5 +33,12 @@ export const mobileTerminalReducer = createReducer(initialState,
   on(MobileTerminalActions.setPlugins, (state, { plugins }) => ({
     ...state,
     plugins
+  })),
+  on(MobileTerminalActions.setIsValidSerialNumber, (state, { isSerialNumberValid }) => ({
+    ...state,
+    formFieldsValid: {
+      ...state.formFieldsValid,
+      isSerialNumberValid
+    }
   })),
 );

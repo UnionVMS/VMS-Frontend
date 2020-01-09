@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Subscription, Observable, Subject } from 'rxjs';
+import { map, take, takeUntil } from 'rxjs/operators';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { formatDate } from '@app/helpers/helpers';
@@ -11,7 +11,7 @@ import { AssetActions } from '@data/asset';
 import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
 import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
-import { createMobileTerminalFormValidator, addChannelToFormValidator, removeChannelAtFromFromValidator } from './form-validator';
+import { createMobileTerminalFormValidator, addChannelToFormValidator, removeChannelAtFromFromValidator, validateSerialNumberFromValidator, validateMemberNumberAndDnidFromValidator } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 
 @Component({
@@ -26,6 +26,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public formValidator: FormGroup;
   public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
+  public validateSerialNumber: (serialNumber: string) => void;
+  public formFieldsValid: MobileTerminalInterfaces.FormFieldsValid;
+  public checkingIfSerialNumberExists = false;
 
   public mobileTerminal = {
     channels: []
@@ -40,6 +43,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public save: () => void;
   public mergedRoute: RouterInterfaces.MergedRoute;
 
+  private unmount$: Subject<boolean> = new Subject<boolean>();
 
   mapStateToProps() {
     this.mobileTerminalSubscription = this.store.select(MobileTerminalSelectors.getMobileTerminalsByUrl).subscribe(
@@ -68,6 +72,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
       if(typeof this.mergedRoute.params.assetId !== 'undefined') {
         this.store.dispatch(AssetActions.getSelectedAsset());
       }
+    });
+    this.store.select(MobileTerminalSelectors.getFormFieldsValid).pipe(takeUntil(this.unmount$)).subscribe((formFieldsValid) => {
+      this.formFieldsValid = formFieldsValid;
+      this.checkingIfSerialNumberExists = false;
     });
   }
 
@@ -119,6 +127,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
         }),
       }}));
     };
+    this.validateSerialNumber = (serialNumber: string) => this.store.dispatch(MobileTerminalActions.validateSerialNumber({ serialNumber }))
   }
 
   ngOnInit() {
@@ -135,6 +144,8 @@ export class FormPageComponent implements OnInit, OnDestroy {
     if(this.pluginSubscription !== undefined) {
       this.pluginSubscription.unsubscribe();
     }
+    this.unmount$.next(true);
+    this.unmount$.unsubscribe();
   }
 
   trackChannelsBy(index: number, channel: MobileTerminalInterfaces.Channel): string | number {
@@ -158,15 +169,36 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   getErrors(path: string[]) {
+    if(path[0] === 'essentailFields' && path[1] === 'serialNo') {
+      // TODO: Check that the existing serialnumber issen't the mobileterminal that you are changing.
+      return !this.checkingIfSerialNumberExists && !this.formFieldsValid.isSerialNumberValid ? [{ errorType: 'serialNumberNotValid' }] : [];
+    }
     const errors = this.formValidator.get(path).errors;
     return errors === null ? [] : Object.keys(errors).map(errorType => ({ errorType, error: errors[errorType] }));
   }
 
   errorMessage(error: any) {
+    if(error.errorType === 'serialNumberNotValid') {
+      return 'Serial number already exists, choose another one!';
+    }
     if(error.errorType === 'validateAlphanumericHyphenAndSpace') {
       return 'Invalid characters given, only letters, digits, space and hypen is allowed.';
     }
     return errorMessage(error.errorType, error.error);
   }
-
+  // TODO: change name on isValid to exists. The api returns true if it already exists.
+  validateSerialNumberForForm() {
+    const newSerialNumber = this.formValidator.value.essentailFields.serialNo;
+    if(this.mobileTerminal.serialNo === newSerialNumber) {
+      return false;
+    }
+    this.checkingIfSerialNumberExists = true;
+    this.validateSerialNumber(newSerialNumber);
+  }
+  validateMemberNumberAndDnid() {
+    validateMemberNumberAndDnidFromValidator();
+  }
 }
+
+
+//validateSerialNumber

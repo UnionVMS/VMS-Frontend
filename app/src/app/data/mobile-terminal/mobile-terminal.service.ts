@@ -82,4 +82,26 @@ export class MobileTerminalService {
     );
   }
 
+  validateSerialNumber(authToken: string, serialNr: any) {
+    return this.http.get(
+      environment.baseApiUrl + 'asset/rest/mobileterminal/checkIfExists/serialNr/'+serialNr, {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
+  validateMemberAndDnid(authToken: string, memberNumber:any, dnid:any) {
+    return this.http.get(
+      environment.baseApiUrl + 'asset/rest/mobileterminal/checkIfExists/memberNbr/dnid/'+memberNumber+"/"+dnid, {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
 }

@@ -84,3 +84,12 @@ export const removeChannelAtFromFromValidator = (formValidator: FormGroup, index
   const channels = formValidator.get('channels') as FormArray;
   return channels.removeAt(index);
 };
+
+export const validateSerialNumberFromValidator = (): void => {
+};
+
+export const validateMemberNumberAndDnidFromValidator = (): void => {
+
+};
+
+

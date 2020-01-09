@@ -47,3 +47,16 @@ export const setPlugins = createAction(
   '[Mobile Terminal] Set Plugins',
   props<{ plugins: Array<MobileTerminalInterfaces.Plugin> }>()
 );
+
+export const getIsValidSerialNumber = createAction(
+  '[Mobile Terminal] Get is valid serial number'
+);
+export const setIsValidSerialNumber = createAction(
+  '[Mobile Terminal] Set is valid serial number',
+  props<{ isSerialNumberValid: boolean }>()
+);
+
+export const validateSerialNumber = createAction(
+  '[Mobile Terminal] validate serialNumber',
+  props<{ serialNumber: string}>()
+);

@@ -14,7 +14,7 @@
 
       <mat-form-field id="mobile-terminal-form--serialNo">
         <mat-label>Serial no.</mat-label>
-        <input matInput formControlName="serialNo" required>
+        <input matInput formControlName="serialNo" required (blur)="validateSerialNumberForForm()" />
         <mat-error *ngFor="let error of getErrors(['essentailFields', 'serialNo'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
@@ -34,7 +34,6 @@
 
     <fieldset formGroupName="mobileTerminalFields">
       <legend>Mobile terminal fields</legend>
-
       <mat-form-field id="mobile-terminal-form--softwareVersion">
         <mat-label>Software version</mat-label>
         <input matInput formControlName="softwareVersion">
@@ -83,7 +82,7 @@
         (click)="createNewChannel()"
       >New channel</button>
 
-      <ng-container *ngIf="formValidator.controls.channels?.length > 0">
+      <ng-container *ngIf="formValidator.controls.channels?.value.length > 0">
         <fieldset class="channel" *ngFor="let channel of formValidator.controls.channels?.value; let i = index; trackBy: trackChannelsBy" formGroupName="{{i}}">
           <legend>{{channel.name}} - {{channel.id}} </legend>
           <button *ngIf="formValidator.controls.channels?.value.length > 1" type="button" name="button" (click)="removeChannel(i)">Remove channel</button>

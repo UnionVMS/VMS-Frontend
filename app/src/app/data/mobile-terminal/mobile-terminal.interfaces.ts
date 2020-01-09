@@ -74,8 +74,14 @@ export interface Transponder {
   terminalSystemType: string;
 }
 
+export type FormFieldsValid = Readonly<{
+  isSerialNumberValid: boolean;
+  isMemberNumberAndDnidValid: boolean;
+}>;
+
 export interface State {
   mobileTerminals: { [id: string]: MobileTerminal };
   transponders: Array<Transponder>;
   plugins: Array<Plugin>;
+  formFieldsValid: FormFieldsValid;
 }
