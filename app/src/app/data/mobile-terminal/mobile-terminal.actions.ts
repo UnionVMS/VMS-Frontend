@@ -48,15 +48,15 @@ export const setPlugins = createAction(
   props<{ plugins: Array<MobileTerminalInterfaces.Plugin> }>()
 );
 
-export const getIsValidSerialNumber = createAction(
+export const getSerialNumberExists = createAction(
   '[Mobile Terminal] Get is valid serial number'
 );
-export const setIsValidSerialNumber = createAction(
+export const setSerialNumberExists = createAction(
   '[Mobile Terminal] Set is valid serial number',
-  props<{ isSerialNumberValid: boolean }>()
+  props<{ serialNumberExists: boolean }>()
 );
 
-export const validateSerialNumber = createAction(
+export const serialNumberExists = createAction(
   '[Mobile Terminal] validate serialNumber',
   props<{ serialNumber: string}>()
 );

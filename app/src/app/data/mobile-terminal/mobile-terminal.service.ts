@@ -82,7 +82,7 @@ export class MobileTerminalService {
     );
   }
 
-  validateSerialNumber(authToken: string, serialNr: any) {
+  serialNumberExists(authToken: string, serialNr: any) {
     return this.http.get(
       environment.baseApiUrl + 'asset/rest/mobileterminal/checkIfExists/serialNr/'+serialNr, {
         headers: new HttpHeaders({

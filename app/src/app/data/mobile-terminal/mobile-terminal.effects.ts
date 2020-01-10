@@ -137,13 +137,13 @@ export class MobileTerminalEffects {
 
   @Effect()
   validateSerialNumber$ = this.actions$.pipe(
-    ofType(MobileTerminalActions.validateSerialNumber),
+    ofType(MobileTerminalActions.serialNumberExists),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken]: Array<any>) => {
-        return this.mobileTerminalService.validateSerialNumber(authToken, pipedAction.serialNumber).pipe(
+        return this.mobileTerminalService.serialNumberExists(authToken, pipedAction.serialNumber).pipe(
           map((response: any) => {
-            return MobileTerminalActions.setIsValidSerialNumber({ isSerialNumberValid: response });
+            return MobileTerminalActions.setSerialNumberExists({ serialNumberExists: response });
           })
         );
       })

@@ -1,6 +1,8 @@
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { MobileTerminalInterfaces } from '@data/mobile-terminal';
+import { map, take, skip } from 'rxjs/operators';
 import CustomValidators from '@validators/.';
+import { Observable } from 'rxjs';
 
 interface MobileTerminalFormValidator {
   essentailFields: FormGroup;
@@ -8,12 +10,18 @@ interface MobileTerminalFormValidator {
   channels: FormArray;
 }
 
-export const alphanumericWithHyphenAndSpace = (c: FormControl) => {
+const alphanumericWithHyphenAndSpace = (c: FormControl) => {
   const EMAIL_REGEXP = /^[a-z0-9\- ]*$/i;
   return c.value === null || c.value.length === 0 || EMAIL_REGEXP.test(c.value) ? null : {
     validateAlphanumericHyphenAndSpace: true
   };
 };
+
+export const validateSerialNoExistsFactory = (serialNoObservable: Observable<boolean>) => {
+  return (control: AbstractControl) => serialNoObservable.pipe(skip(1), take(1), map(res => {
+    return res ? { serialNumberAlreadyExists: true } : null;
+  }));
+}
 
 const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null): FormGroup => {
   return new FormGroup({
@@ -39,7 +47,7 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
   });
 };
 
-export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminalInterfaces.MobileTerminal): FormGroup => {
+export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminalInterfaces.MobileTerminal, validateSerialNoExists): FormGroup => {
   const selectedOceanRegions = [];
   if(mobileTerminal.eastAtlanticOceanRegion) { selectedOceanRegions.push('East Atlantic'); }
   if(mobileTerminal.indianOceanRegion) { selectedOceanRegions.push('Indian'); }
@@ -58,7 +66,7 @@ export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminal
   return new FormGroup({
     essentailFields: new FormGroup({
       mobileTerminalType: new FormControl(mobileTerminal.mobileTerminalType, Validators.required),
-      serialNo: new FormControl(mobileTerminal.serialNo, [Validators.required, alphanumericWithHyphenAndSpace]),
+      serialNo: new FormControl(mobileTerminal.serialNo, [Validators.required, alphanumericWithHyphenAndSpace], validateSerialNoExists),
       selectedOceanRegions: new FormControl(selectedOceanRegions, [Validators.required]),
       transceiverType: new FormControl(mobileTerminal.transceiverType, [Validators.required]),
     }),

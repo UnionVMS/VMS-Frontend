@@ -11,7 +11,7 @@ import { AssetActions } from '@data/asset';
 import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
 import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
-import { createMobileTerminalFormValidator, addChannelToFormValidator, removeChannelAtFromFromValidator, validateSerialNumberFromValidator, validateMemberNumberAndDnidFromValidator } from './form-validator';
+import { createMobileTerminalFormValidator, addChannelToFormValidator, removeChannelAtFromFromValidator, validateSerialNumberFromValidator, validateMemberNumberAndDnidFromValidator, validateSerialNoExistsFactory } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 
 @Component({
@@ -26,9 +26,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public formValidator: FormGroup;
   public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
-  public validateSerialNumber: (serialNumber: string) => void;
-  public formFieldsValid: MobileTerminalInterfaces.FormFieldsValid;
-  public checkingIfSerialNumberExists = false;
+  public serialNumberExists: (serialNumber: string) => void;
+  public formFieldsValid$: Observable<MobileTerminalInterfaces.FormFieldsValid>;
+  public isSameSerielNumber = false;
 
   public mobileTerminal = {
     channels: []
@@ -46,12 +46,19 @@ export class FormPageComponent implements OnInit, OnDestroy {
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
   mapStateToProps() {
+    validateSerialNoExistsFactory
+    this.formFieldsValid$ = this.store.select(MobileTerminalSelectors.getFormFieldsValid);
+    const serialNoExists$ = this.formFieldsValid$.pipe(map((formFieldsValid: MobileTerminalInterfaces.FormFieldsValid) => {
+      return formFieldsValid.serialNumberExists;
+    }));
+    let validateSerialNoExistsFunction = validateSerialNoExistsFactory(serialNoExists$);
+
     this.mobileTerminalSubscription = this.store.select(MobileTerminalSelectors.getMobileTerminalsByUrl).subscribe(
       (mobileTerminal) => {
         if(typeof mobileTerminal !== 'undefined') {
           this.mobileTerminal = mobileTerminal;
         }
-        this.formValidator = createMobileTerminalFormValidator(this.mobileTerminal);
+        this.formValidator = createMobileTerminalFormValidator(this.mobileTerminal, validateSerialNoExistsFunction);
       }
     );
     this.pluginSubscription = this.store.select(MobileTerminalSelectors.getPlugins).subscribe((plugins) => {
@@ -63,7 +70,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
         if(typeof this.mobileTerminal.plugin === 'undefined' && typeof basePlugin !== 'undefined') {
           this.mobileTerminal.plugin = basePlugin;
           this.mobileTerminal.mobileTerminalType = this.mobileTerminal.plugin.pluginSatelliteType;
-          this.formValidator = createMobileTerminalFormValidator(this.mobileTerminal);
+          this.formValidator = createMobileTerminalFormValidator(this.mobileTerminal, validateSerialNoExistsFunction);
         }
       }
     });
@@ -72,10 +79,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
       if(typeof this.mergedRoute.params.assetId !== 'undefined') {
         this.store.dispatch(AssetActions.getSelectedAsset());
       }
-    });
-    this.store.select(MobileTerminalSelectors.getFormFieldsValid).pipe(takeUntil(this.unmount$)).subscribe((formFieldsValid) => {
-      this.formFieldsValid = formFieldsValid;
-      this.checkingIfSerialNumberExists = false;
     });
   }
 
@@ -127,7 +130,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
         }),
       }}));
     };
-    this.validateSerialNumber = (serialNumber: string) => this.store.dispatch(MobileTerminalActions.validateSerialNumber({ serialNumber }))
+    this.serialNumberExists = (serialNumber: string) => this.store.dispatch(MobileTerminalActions.serialNumberExists({ serialNumber }))
   }
 
   ngOnInit() {
@@ -169,16 +172,12 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   getErrors(path: string[]) {
-    if(path[0] === 'essentailFields' && path[1] === 'serialNo') {
-      // TODO: Check that the existing serialnumber issen't the mobileterminal that you are changing.
-      return !this.checkingIfSerialNumberExists && !this.formFieldsValid.isSerialNumberValid ? [{ errorType: 'serialNumberNotValid' }] : [];
-    }
     const errors = this.formValidator.get(path).errors;
     return errors === null ? [] : Object.keys(errors).map(errorType => ({ errorType, error: errors[errorType] }));
   }
 
   errorMessage(error: any) {
-    if(error.errorType === 'serialNumberNotValid') {
+    if(error.errorType === 'serialNumberAlreadyExists') {
       return 'Serial number already exists, choose another one!';
     }
     if(error.errorType === 'validateAlphanumericHyphenAndSpace') {
@@ -187,18 +186,16 @@ export class FormPageComponent implements OnInit, OnDestroy {
     return errorMessage(error.errorType, error.error);
   }
   // TODO: change name on isValid to exists. The api returns true if it already exists.
-  validateSerialNumberForForm() {
+  serialNumberExistsForForm() {
     const newSerialNumber = this.formValidator.value.essentailFields.serialNo;
     if(this.mobileTerminal.serialNo === newSerialNumber) {
+      this.serialNumberExists("99999999999999999999999999999999999");
       return false;
     }
-    this.checkingIfSerialNumberExists = true;
-    this.validateSerialNumber(newSerialNumber);
+
+    this.serialNumberExists(newSerialNumber);
   }
   validateMemberNumberAndDnid() {
     validateMemberNumberAndDnidFromValidator();
   }
 }
-
-
-//validateSerialNumber
