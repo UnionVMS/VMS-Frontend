@@ -93,7 +93,7 @@ export class MobileTerminalService {
     );
   }
 
-  validateMemberAndDnid(authToken: string, memberNumber:any, dnid:any) {
+  memberAndDnidCombinationExists(authToken: string, memberNumber:any, dnid:any) {
     return this.http.get(
       environment.baseApiUrl + 'asset/rest/mobileterminal/checkIfExists/memberNbr/dnid/'+memberNumber+"/"+dnid, {
         headers: new HttpHeaders({

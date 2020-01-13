@@ -136,11 +136,18 @@ export class MobileTerminalEffects {
 
 
   @Effect()
-  validateSerialNumber$ = this.actions$.pipe(
+  checkIfSerialNumberExists$ = this.actions$.pipe(
     ofType(MobileTerminalActions.serialNumberExists),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken]: Array<any>) => {
+        if(pipedAction.serialNumber === "oldSerialNumber"){
+          return this.mobileTerminalService.serialNumberExists(authToken, pipedAction.serialNumber).pipe(
+            map(() => {
+              return MobileTerminalActions.setSerialNumberExists({ serialNumberExists: false });
+            })
+          );
+        }
         return this.mobileTerminalService.serialNumberExists(authToken, pipedAction.serialNumber).pipe(
           map((response: any) => {
             return MobileTerminalActions.setSerialNumberExists({ serialNumberExists: response });
@@ -149,4 +156,22 @@ export class MobileTerminalEffects {
       })
     ))
   );
+
+
+  @Effect()
+  checkIfMemberNumberAndDnidCombinationExists$ = this.actions$.pipe(
+    ofType(MobileTerminalActions.memberAndDnidCombinationExists),
+    mergeMap((action) => of(action).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([pipedAction, authToken]: Array<any>) => {
+        return this.mobileTerminalService.memberAndDnidCombinationExists(authToken, pipedAction.memberNumber, pipedAction.dnid).pipe(
+          map((response: any) => {
+            return MobileTerminalActions.setMemberAndDnidCombinationExists({ memberNumberAndDnidCombinationExists: response });
+          })
+        );
+      })
+    ))
+  );
+
+
 }

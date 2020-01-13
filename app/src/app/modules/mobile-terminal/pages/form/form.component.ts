@@ -138,6 +138,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.mapDispatchToProps();
     this.store.dispatch(MobileTerminalActions.getSelectedMobileTerminal());
     this.store.dispatch(MobileTerminalActions.getPlugins());
+    this.serialNumberExistsForForm();
   }
 
   ngOnDestroy() {
@@ -189,12 +190,11 @@ export class FormPageComponent implements OnInit, OnDestroy {
   serialNumberExistsForForm() {
     const newSerialNumber = this.formValidator.value.essentailFields.serialNo;
     if(this.mobileTerminal.serialNo === newSerialNumber) {
-      this.serialNumberExists("99999999999999999999999999999999999");
-      return false;
+      return this.serialNumberExists("oldSerialNumber");
     }
-
     this.serialNumberExists(newSerialNumber);
   }
+
   validateMemberNumberAndDnid() {
     validateMemberNumberAndDnidFromValidator();
   }
