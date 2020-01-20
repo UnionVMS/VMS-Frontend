@@ -41,4 +41,11 @@ export const mobileTerminalReducer = createReducer(initialState,
       serialNumberExists
     }
   })),
+  on(MobileTerminalActions.setMemberAndDnidCombinationExists, (state, { memberNumberAndDnidCombinationExists }) => ({
+    ...state,
+    formFieldsValid: {
+      ...state.formFieldsValid,
+      memberNumberAndDnidCombinationExists
+    }
+  })),
 );

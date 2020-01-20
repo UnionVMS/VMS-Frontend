@@ -1,6 +1,6 @@
 import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { MobileTerminalInterfaces } from '@data/mobile-terminal';
-import { map, take, skip } from 'rxjs/operators';
+import { map, take, skip, toArray } from 'rxjs/operators';
 import CustomValidators from '@validators/.';
 import { Observable } from 'rxjs';
 
@@ -23,7 +23,22 @@ export const validateSerialNoExistsFactory = (serialNoObservable: Observable<boo
   }));
 }
 
-const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null): FormGroup => {
+export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationExistsObservable: Observable<boolean>) => {
+  return (control: AbstractControl) => memberNumberAndDnidCombinationExistsObservable.pipe( take(5), toArray(), map(res => {
+    console.warn("res: ", res)
+    let someinvalid = false
+    res.forEach( (valValue) =>{
+      if(valValue){
+        someinvalid = true
+      }
+    });
+    return someinvalid ? { memberNumberAndDnidCombinationExists: true } : null;
+  }));
+}
+
+//const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null): FormGroup => {
+const createNewChannel = (channel: MobileTerminalInterfaces.Channel, memberNumberAndDnidCombinationExists): FormGroup  => {
+  console.warn("channel ",channel)
   return new FormGroup({
     name: new FormControl(channel === null ? '' : channel.name),
     pollChannel: new FormControl(channel === null ? '' : channel.pollChannel),
@@ -31,11 +46,13 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
     defaultChannel: new FormControl(channel === null ? '' : channel.defaultChannel),
     dnid: new FormControl(
       channel === null ? '' : channel.dnid,
-      [Validators.required, CustomValidators.minLengthOfNumber(5), CustomValidators.maxLengthOfNumber(5)]
+      [Validators.required, CustomValidators.minLengthOfNumber(5), CustomValidators.maxLengthOfNumber(5)],
+      memberNumberAndDnidCombinationExists
     ),
     memberNumber: new FormControl(
       channel === null ? '' : channel.memberNumber,
-      [Validators.required, Validators.min(1), Validators.max(255)]
+      [Validators.required, Validators.min(1), Validators.max(255)],
+      memberNumberAndDnidCombinationExists
     ),
     lesDescription: new FormControl(channel === null ? '' : channel.lesDescription, [Validators.required]),
     startDate: new FormControl(channel === null ? '' : channel.startDate),
@@ -47,7 +64,7 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
   });
 };
 
-export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminalInterfaces.MobileTerminal, validateSerialNoExists): FormGroup => {
+export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminalInterfaces.MobileTerminal, validateSerialNoExists, memberNumberAndDnidCombinationExists): FormGroup => {
   const selectedOceanRegions = [];
   if(mobileTerminal.eastAtlanticOceanRegion) { selectedOceanRegions.push('East Atlantic'); }
   if(mobileTerminal.indianOceanRegion) { selectedOceanRegions.push('Indian'); }
@@ -58,9 +75,9 @@ export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminal
     selectedOceanRegions.push('Indian');
   }
 
-  const channels = mobileTerminal.channels.map((channel) => createNewChannel(channel));
+  const channels = mobileTerminal.channels.map((channel) => createNewChannel(channel, memberNumberAndDnidCombinationExists));
   if(channels.length === 0) {
-    channels.push(createNewChannel());
+    channels.push(createNewChannel(null, memberNumberAndDnidCombinationExists));
   }
 
   return new FormGroup({
@@ -85,7 +102,7 @@ export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminal
 
 export const addChannelToFormValidator = (formValidator: FormGroup): void => {
   const channels = formValidator.get('channels') as FormArray;
-  channels.push(createNewChannel());
+  channels.push(createNewChannel(null, null));
 };
 
 export const removeChannelAtFromFromValidator = (formValidator: FormGroup, index: number): void => {

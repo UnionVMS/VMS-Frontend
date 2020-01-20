@@ -160,10 +160,17 @@ export class MobileTerminalEffects {
 
   @Effect()
   checkIfMemberNumberAndDnidCombinationExists$ = this.actions$.pipe(
-    ofType(MobileTerminalActions.memberAndDnidCombinationExists),
+    ofType(MobileTerminalActions.memberNumberAndDnidCombinationExists),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken]: Array<any>) => {
+        if(pipedAction.memberNumber === "isOld" && pipedAction.dnid === "isOld"){
+          return this.mobileTerminalService.memberAndDnidCombinationExists(authToken, pipedAction.memberNumber, pipedAction.dnid).pipe(
+            map(() => {
+              return MobileTerminalActions.setMemberAndDnidCombinationExists({ memberNumberAndDnidCombinationExists: false });
+            })
+          );
+        }
         return this.mobileTerminalService.memberAndDnidCombinationExists(authToken, pipedAction.memberNumber, pipedAction.dnid).pipe(
           map((response: any) => {
             return MobileTerminalActions.setMemberAndDnidCombinationExists({ memberNumberAndDnidCombinationExists: response });

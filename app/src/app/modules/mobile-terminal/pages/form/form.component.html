@@ -23,7 +23,7 @@
         <mat-select formControlName="selectedOceanRegions" multiple required>
           <mat-option *ngFor="let oceanRegion of oceanRegions" id="mat-option-oceanRegion-{{oceanRegion.replace(' ', '')}}" [value]="oceanRegion">{{oceanRegion}}</mat-option>
         </mat-select>
-        <mat-error *ngFor="let error of getErrors(['essentailFields', 'serialNo'])">{{ errorMessage(error) }}</mat-error>
+        <mat-error *ngFor="let error of getErrors(['essentailFields', 'selectedOceanRegions'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
       <mat-form-field id="mobile-terminal-form--transceiverType">
@@ -94,13 +94,13 @@
 
           <mat-form-field class="mobile-terminal-form--channel-dnid">
             <mat-label>DNID</mat-label>
-            <input matInput type="number" formControlName="dnid" required>
+            <input matInput type="number" formControlName="dnid" required  required (blur)="checkIfMemberNumberAndDnidExists()" >
             <mat-error *ngFor="let error of getErrors(['channels', i, 'dnid'])">{{ errorMessage(error) }}</mat-error>
           </mat-form-field>
 
           <mat-form-field class="mobile-terminal-form--channel-memberNumber">
             <mat-label>Member no.</mat-label>
-            <input matInput type="number" formControlName="memberNumber" required>
+            <input matInput type="number" formControlName="memberNumber" required  required (blur)="checkIfMemberNumberAndDnidExists()" >
             <mat-error *ngFor="let error of getErrors(['channels', i, 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
           </mat-form-field>
 

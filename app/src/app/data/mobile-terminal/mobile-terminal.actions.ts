@@ -68,7 +68,7 @@ export const setMemberAndDnidCombinationExists = createAction(
   '[Mobile Terminal] Set is valid of DNID and membernumber',
   props<{ memberNumberAndDnidCombinationExists: boolean }>()
 );
-export const memberAndDnidCombinationExists = createAction(
+export const memberNumberAndDnidCombinationExists = createAction(
   '[Mobile Terminal] validate serialNumber',
   props<{  memberNumber: string, dnid: string}>()
 );
