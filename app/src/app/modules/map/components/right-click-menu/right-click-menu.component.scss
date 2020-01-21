@@ -1,0 +1,8 @@
+@import 'variables.scss';
+
+#right-click-popup {
+  display: none;
+  &.active {
+    display: grid;
+  }
+}

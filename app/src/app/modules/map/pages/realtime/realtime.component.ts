@@ -13,6 +13,9 @@ import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/contro
 import { format } from 'ol/coordinate.js';
 import Select from 'ol/interaction/Select.js';
 import { click, pointerMove } from 'ol/events/condition.js';
+import Overlay from 'ol/Overlay';
+
+import { registerProjectionDefinitions } from '@app/helpers/projection-definitions';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
@@ -99,10 +102,47 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public activePanel = '';
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
+
   // Map functions to props:
   public centerMapOnPosition: (position: Position, zoom?: number) => void;
   public centerOnDefaultPosition: () => void;
   public toggleActivePanel: (panelName: string) => void;
+
+  public overlays = {};
+
+  public addOverlay = (id: string, content: HTMLElement, position: ReadonlyArray<number>) => {
+    if(typeof this.overlays[id] !== 'undefined') {
+      return false;
+    }
+    content.setAttribute('id', id);
+    const overlay = new Overlay({
+      element: content,
+      autoPan: true,
+      autoPanAnimation: {
+        duration: 250
+      },
+      position
+    });
+    this.overlays[id] = overlay;
+    overlay.setPosition(position);
+
+    this.map.addOverlay(overlay);
+  }
+
+  public removeOverlay = (id: string) => {
+    if(typeof this.overlays[id] === 'undefined') {
+      return false;
+    }
+    this.map.removeOverlay(this.overlays[id]);
+    delete this.overlays[id];
+  }
+
+  public moveOverlay = (id: string, position: Array<number>) => {
+    if(typeof this.overlays[id] === 'undefined') {
+      return false;
+    }
+    this.overlays[id].setPosition(position);
+  }
 
   constructor(private store: Store<any>) { }
 
@@ -242,6 +282,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   }
 
   setupMap() {
+    registerProjectionDefinitions();
+
     this.mapZoom = this.mapSettings.settings.startZoomLevel;
     const scaleLineControl = new ScaleLine({
       units: this.mapSettings.settings.unitOfDistance
@@ -282,9 +324,23 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
     this.mapFunctionsToProps();
 
-    setTimeout(() => {
-      this.map.updateSize();
-    }, 1000);
+    // set up the mutation observer
+    const observer = new MutationObserver((mutations, mutationObserver) => {
+      // `mutations` is an array of mutations that occurred
+      // `mutationObserver` is the MutationObserver instance
+      const canvasList = document.getElementById('realtime-map').getElementsByTagName('canvas');
+      if (canvasList.length === 1) {
+        this.map.updateSize();
+        mutationObserver.disconnect(); // stop observing
+        return;
+      }
+    });
+
+    // start observing
+    observer.observe(document.getElementById('realtime-map'), {
+      childList: true,
+      subtree: true
+    });
   }
 
   ngOnDestroy() {

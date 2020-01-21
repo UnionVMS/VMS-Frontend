@@ -1,7 +1,7 @@
 <div class="content-container">
   <div class="saved-filters" *ngIf="savedFilterNames.length > 0">
     <mat-checkbox
-      *ngFor="let savedFilterName of savedFilterNames"
+      *ngFor="let savedFilterName of savedFilterNames; trackBy: trackBySavedFilterNames"
       (change)="toggleFilter(savedFilterName)"
       title="{{savedFilterName}}"
       [checked]="activeFilters.includes(savedFilterName)"

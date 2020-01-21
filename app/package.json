@@ -38,6 +38,7 @@
     "jwt-decode": "^2.2.0",
     "ng-pick-datetime": "^7.0.0",
     "ol": "^6.1.1",
+    "proj4": "^2.6.0",
     "rxjs": "~7.0.0-alpha.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

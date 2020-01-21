@@ -1,0 +1,9 @@
+<div id="right-click-popup">
+  <button type="button" mat-raised-button (click)="createCoordinatesPopup()">Show all coordinate information</button>
+</div>
+<map-coordinates-popup
+  *ngFor="let coordinatePopup of coordinatePopups;trackBy: coordinatePopupsTrackByFunction"
+  [popupInfo]="coordinatePopup"
+  [addOverlay]="addOverlay"
+  [removeOverlay]="removeOverlay"
+></map-coordinates-popup>

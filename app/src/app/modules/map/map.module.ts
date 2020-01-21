@@ -33,6 +33,7 @@ import { AssetPanelComponent } from './components/asset-panel/asset-panel.compon
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
 import { AssetsComponent } from './components/assets/assets.component';
 import { ControlPanelComponent } from './components/control-panel/control-panel.component';
+import { CoordinatesPopupComponent } from './components/coordinates-popup/coordinates-popup.component';
 import { DistanceBetweenPointsComponent } from './components/distance-between-points/distance-between-points.component';
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
 import { IncidentComponent } from './components/incident/incident.component';
@@ -44,8 +45,9 @@ import { MapLayersComponent } from './components/map-layers/map-layers.component
 import { MapLocationsComponent } from './components/map-locations/map-locations.component';
 import { ManualMovementFormComponent } from './components/manual-movement-form/manual-movement-form.component';
 import { NoteFormComponent } from './components/note-form/note-form.component';
-import { PeriodSelectorComponent } from './components/period-selector/period-selector.component';
 import { PanelBlockComponent } from './components/panel-block/panel-block.component';
+import { PeriodSelectorComponent } from './components/period-selector/period-selector.component';
+import { RightClickMenuComponent } from './components/right-click-menu/right-click-menu.component';
 import { SavedFiltersComponent } from './components/saved-filters/saved-filters.component';
 import { TopPanelComponent } from './components/top-panel/top-panel.component';
 import { TracksComponent } from './components/tracks/tracks.component';
@@ -82,6 +84,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     AssetPanelComponent,
     AssetSearchComponent,
     ControlPanelComponent,
+    CoordinatesPopupComponent,
     DistanceBetweenPointsComponent,
     FlagstatesComponent,
     IncidentComponent,
@@ -95,8 +98,9 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MapRightColumnComponent,
     ManualMovementFormComponent,
     NoteFormComponent,
-    PeriodSelectorComponent,
     PanelBlockComponent,
+    PeriodSelectorComponent,
+    RightClickMenuComponent,
     SavedFiltersComponent,
     TopPanelComponent,
     TracksComponent,

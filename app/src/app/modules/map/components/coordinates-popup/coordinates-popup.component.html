@@ -1,0 +1,13 @@
+<div #overlayElement [id]="popupInfo.id" class="popup-coordinates">
+  <ui-button-close [clickFunction]="closeCoordinatesPopup"></ui-button-close>
+  <h4>WGS84 DD (LAT, LONG)</h4>
+  <div>{{popupInfo.coordinates['WGS84 DD']}}</div>
+  <h4>WGS84 DDM (LAT, LONG)</h4>
+  <div>{{popupInfo.coordinates['WGS84 DDM']}}</div>
+  <h4>WGS84 DMS (LAT, LONG)</h4>
+  <div>{{popupInfo.coordinates['WGS84 DMS']}}</div>
+  <h4>RT 90</h4>
+  <div>{{popupInfo.coordinates.RT90}}</div>
+  <h4>SWEREF 99</h4>
+  <div>{{popupInfo.coordinates.SWEREF99}}</div>
+</div>

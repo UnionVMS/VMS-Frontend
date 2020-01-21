@@ -9,6 +9,14 @@
   <div class="map-container">
     <div id="realtime-map"></div>
     <ng-container *ngIf="mapReady && mapSettingsLoaded">
+      <map-right-click-menu
+        [map]="map"
+        [addOverlay]="addOverlay"
+        [moveOverlay]="moveOverlay"
+        [removeOverlay]="removeOverlay"
+        [registerOnClickFunction]="registerOnClickFunction"
+        [unregisterOnClickFunction]="unregisterOnClickFunction"
+      ></map-right-click-menu>
       <map-assets
         *ngIf="registerOnSelectFunction !== undefined"
         [assets]="assetMovements"
