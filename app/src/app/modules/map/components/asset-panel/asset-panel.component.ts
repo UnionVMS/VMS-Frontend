@@ -22,13 +22,6 @@ export class AssetPanelComponent {
   @Input() tracksMinuteCap: number;
   @Input() centerMapOnPosition: (longAndLat: Position) => void;
 
-  public activeAsset = null;
-  public showButtons = false;
-
-  toggleShowButtons() {
-    this.showButtons = !this.showButtons;
-  }
-
   goToAsset(asset: AssetInterfaces.AssetData) {
     this.centerMapOnPosition(asset.currentPosition.microMove.location);
   }
@@ -39,12 +32,7 @@ export class AssetPanelComponent {
     return formatDate(Date.now() - tracksMillisecondCap);
   }
 
-  // We need this because angular templates are worthless, it does not support anonymous functions as parameters...
-  public toggleTracksFactory = (asset: AssetInterfaces.AssetData) => {
-    return () => this.toggleTracks(asset);
-  }
-
-  private toggleTracks = (asset: AssetInterfaces.AssetData): void => {
+  public toggleTracks = (asset: AssetInterfaces.AssetData) => () => {
     if(this.tracksIsVisible(asset)) {
       this.untrackAsset(asset.asset.id);
     } else if(this.tracksMinuteCap === null) {
@@ -58,12 +46,7 @@ export class AssetPanelComponent {
     }
   }
 
-  // We need this because angular templates are worthless, it does not support anonymous functions as parameters...
-  public toggleForecastFactory = (assetId: string) => {
-    return () => this.toggleForecast(assetId);
-  }
-
-  private toggleForecast = (assetId: string): void => {
+  public toggleForecast = (assetId: string) => () => {
     if(this.forecastIsVisible(assetId)) {
       this.removeForecast(assetId);
     } else {

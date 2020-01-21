@@ -60,12 +60,12 @@
       <ui-button-toggle
         [label]="'Track'"
         [value]="tracksIsVisible(asset)"
-        [switchFunction]="toggleTracksFactory(asset)"
+        [switchFunction]="toggleTracks(asset)"
       ></ui-button-toggle>
       <ui-button-toggle
         [label]="'Forecast'"
         [value]="forecastIsVisible(asset.asset.id)"
-        [switchFunction]="toggleForecastFactory(asset.asset.id)"
+        [switchFunction]="toggleForecast(asset.asset.id)"
       ></ui-button-toggle>
       <button
         mat-stroked-button
