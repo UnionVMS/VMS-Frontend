@@ -170,6 +170,10 @@ export const assetReducer = createReducer(initialState,
     assetMovements: {},
     assetTracks: {},
   })),
+  on(AssetActions.removeTracks, (state) => ({
+    ...state,
+    assetTracks: {},
+  })),
   on(AssetActions.selectAsset, (state, { assetId }) => {
     let returnState = { ...state, selectedAsset: assetId };
     if(!state.selectedAssets.some((selectedAssetId) => selectedAssetId === assetId )) {

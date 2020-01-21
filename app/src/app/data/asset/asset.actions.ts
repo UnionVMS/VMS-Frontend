@@ -109,6 +109,10 @@ export const removeMovementsAndTracks = createAction(
   '[Asset] Remove movements and tracks'
 );
 
+export const removeTracks = createAction(
+  '[Asset] Remove tracks'
+);
+
 export const saveAsset = createAction(
   '[Asset] Save',
   props<{ asset: AssetInterfaces.Asset }>()

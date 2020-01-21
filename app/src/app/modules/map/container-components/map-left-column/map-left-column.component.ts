@@ -65,6 +65,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public setGivenWorkflowActive = (filterTypeName: string) => (status: boolean) => {
     this.clearSelectedAssets();
     this.setGivenFilterActive(filterTypeName, status);
+    this.store.dispatch(AssetActions.removeTracks());
   }
 
   constructor(private store: Store<any>) { }
@@ -97,6 +98,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       }
       this.store.dispatch(AssetActions.clearSelectedAssets());
       this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
+      this.store.dispatch(AssetActions.removeTracks());
     };
     this.setGivenFilterActive = (filterTypeName: string, status: boolean) =>
       this.store.dispatch(MapActions.setGivenFilterActive({ filterTypeName, status }));
