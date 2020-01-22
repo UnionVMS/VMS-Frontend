@@ -3,6 +3,8 @@ import { formatDate } from '@app/helpers/helpers';
 import { AssetInterfaces } from '@data/asset';
 import { Position } from '@data/generic.interfaces';
 
+import getContryISO2 from 'country-iso-3-to-2';
+
 @Component({
   selector: 'map-asset-panel',
   templateUrl: './asset-panel.component.html',
@@ -60,4 +62,17 @@ export class AssetPanelComponent {
   public forecastIsVisible = (assetId: string): boolean => {
     return Object.keys(this.forecasts).indexOf(assetId) !== -1;
   }
+
+  public getCountryCode() {
+    const countryCode = getContryISO2(this.asset.asset.flagStateCode);
+    if(typeof countryCode === 'undefined') {
+      return '???';
+    }
+    return countryCode.toLowerCase();
+  }
+
+  public selectAssetWrapper() {
+    return () => this.selectAsset(this.asset.asset.id);
+  }
+
 }

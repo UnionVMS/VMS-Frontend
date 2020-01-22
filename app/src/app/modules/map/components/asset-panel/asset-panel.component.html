@@ -1,7 +1,21 @@
-<div class="content-container">
-  <div class="information-wrapper">
-    <div class="asset-information" *ngIf="asset.currentPosition !== undefined">
-      <ng-container>
+<map-panel-block
+  [blockTitle]="asset.asset.name"
+  [active]="asset.currentlyShowing"
+  [setActiveFunction]="selectAssetWrapper()"
+  [useArrowsAsToggle]="true"
+  [showFooter]="true"
+  [unstyledFooter]="true"
+>
+  <img
+    header
+    *ngIf="asset.asset.flagStateCode !== '???' && asset.asset.flagStateCode !== undefined && getCountryCode() !== '???'"
+    class="flag-image"
+    src="/assets/flags/4x3/{{getCountryCode()}}.svg"
+    [alt]="getCountryCode(asset)"
+  />
+  <div body class="content-container">
+    <div class="information-wrapper">
+      <div class="asset-information" *ngIf="asset.currentPosition !== undefined">
         <ng-container *ngIf="asset.asset.ircs">
           <legend>Ircs:</legend>
           <div>{{asset.asset.ircs}}</div>
@@ -52,11 +66,18 @@
           <legend>Org. namn:</legend>
           <div>{{asset.asset.prodOrgName}}</div>
         </ng-container>
-      </ng-container>
+        <mat-checkbox color="primary">Track</mat-checkbox>
+        <mat-checkbox color="primary">Forecast</mat-checkbox>
+      </div>
     </div>
   </div>
-  <div class="button-wrapper">
-    <div class="button-block">
+  <div footer class="button-wrapper">
+    <div class="deselect-asset" (click)="deselectAsset(asset.asset.id)">
+      <i class="fas fa-trash-alt" aria-hidden="true"></i>
+      <div class="deselect-asset-text">Remove from selected</div>
+    </div>
+    <div class="expand-asset-options"><i class="fas fa-ellipsis-h"></i></div>
+    <!-- <div class="button-block">
       <ui-button-toggle
         [label]="'Track'"
         [value]="tracksIsVisible(asset)"
@@ -79,6 +100,6 @@
         class="btn btn-small"
         color="primary"
       >Show asset</button>
-    </div>
+    </div>-->
   </div>
-</div>
+</map-panel-block>

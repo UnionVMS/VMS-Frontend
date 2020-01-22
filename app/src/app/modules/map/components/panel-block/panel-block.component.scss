@@ -34,4 +34,9 @@
       }
     }
   }
+
+  .panel-block-footer:not(.unstyled) {
+    padding: $medium_distance;
+    background: white;
+  }
 }

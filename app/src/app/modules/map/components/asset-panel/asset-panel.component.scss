@@ -1,5 +1,10 @@
 @import 'variables.scss';
 
+.flag-image {
+  width: 20px;
+  place-self: center;
+}
+
 .content-container {
   color: black;
 
@@ -9,7 +14,8 @@
 
     .asset-information {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: auto 1fr;
+      grid-column-gap: $medium_distance;
       overflow-y: scroll;
       -ms-overflow-style: none;  // IE 10+
       overflow: -moz-scrollbars-none;  // Firefox
@@ -30,28 +36,56 @@
       a {
         color: black;
       }
+
+      mat-checkbox {
+        color: $color_turquoise;
+        padding: $medium_distance $small_distance;
+      }
+    }
+  }
+}
+.button-wrapper {
+  display: grid;
+  grid-template-columns: 1fr auto;
+
+  & > * {
+    padding: $medium_distance;
+    background: white;
+  }
+
+  .deselect-asset {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-column-gap: $medium_distance;
+    align-items: center;
+    color: $color_warn;
+    cursor: pointer;
+
+    .deselect-asset-text {
+      display: none;
+    }
+
+    &:hover {
+      background: $color_warn;
+      color: white;
+
+      .deselect-asset-text {
+        display: block;
+      }
+    }
+
+    i {
+      font-size: 20px;
     }
   }
 
-  .button-wrapper {
-    display: grid;
-    grid-template-rows: 1fr auto;
-    grid-row-gap: 5px;
-
-    .button-block {
-      padding: $small_distance $medium_distance;
-      display: grid;
-      grid-row-gap: $small_distance;
-      align-self: end;
-
-      ui-button-toggle {
-        display: block;
-        min-height: 24px;
-      }
-
-      button.mat-stroked-button {
-        background: white;
-      }
+  .expand-asset-options {
+    min-width: 50px;
+    text-align: right;
+    font-size: 20px;
+    color: $color_turquoise;
+    i {
+      cursor: pointer;
     }
   }
 }
