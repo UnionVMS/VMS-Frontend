@@ -11,7 +11,7 @@ import { AssetActions } from '@data/asset';
 import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
 import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
-import { createMobileTerminalFormValidator, addChannelToFormValidator, removeChannelAtFromFromValidator, validateSerialNumberFromValidator, validateMemberNumberAndDnidFromValidator, validateSerialNoExistsFactory, memberNumberAndDnidExistsFactory } from './form-validator';
+import { createMobileTerminalFormValidator, addChannelToFormValidator, removeChannelAtFromFromValidator, validateSerialNoExistsFactory, memberNumberAndDnidExistsFactory } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 
 @Component({
@@ -26,8 +26,8 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public formValidator: FormGroup;
   public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
-  public serialNumberExists: (serialNumber: string) => void;
-  public memberNumberAndDnidCombinationExists: (memberNumber: string, dnid: string) => void;
+  public serialNumberExists: (serialNumber: string, isSelf?: boolean) => void;
+  public memberNumberAndDnidCombinationExists: (memberNumber: string, dnid: string, channelId: string, isSelf?: boolean) => void;
   public formFieldsValid$: Observable<MobileTerminalInterfaces.FormFieldsValid>;
   public isSameSerielNumber = false;
 
@@ -138,8 +138,8 @@ export class FormPageComponent implements OnInit, OnDestroy {
         }),
       }}));
     };
-    this.serialNumberExists = (serialNumber: string) => this.store.dispatch(MobileTerminalActions.serialNumberExists({ serialNumber }))
-    this.memberNumberAndDnidCombinationExists = (memberNumber: string, dnid: string) => this.store.dispatch(MobileTerminalActions.memberNumberAndDnidCombinationExists({ memberNumber, dnid }))
+    this.serialNumberExists = (serialNumber: string, isSelf?: boolean) => this.store.dispatch(MobileTerminalActions.serialNumberExists({ serialNumber, isSelf }))
+    this.memberNumberAndDnidCombinationExists = (memberNumber: string, dnid: string, channelId: string, isSelf?: boolean) => this.store.dispatch(MobileTerminalActions.memberNumberAndDnidCombinationExists({ memberNumber, dnid, channelId, isSelf }))
   }
 
   ngOnInit() {
@@ -147,7 +147,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.mapDispatchToProps();
     this.store.dispatch(MobileTerminalActions.getSelectedMobileTerminal());
     this.store.dispatch(MobileTerminalActions.getPlugins());
-    this.serialNumberExistsForForm();
+    //this.serialNumberExistsForForm();
   }
 
   ngOnDestroy() {
@@ -198,11 +198,11 @@ export class FormPageComponent implements OnInit, OnDestroy {
     }
     return errorMessage(error.errorType, error.error);
   }
-  // TODO: change name on isValid to exists. The api returns true if it already exists.
+
   serialNumberExistsForForm() {
     const newSerialNumber = this.formValidator.value.essentailFields.serialNo;
     if(this.mobileTerminal.serialNo === newSerialNumber) {
-      return this.serialNumberExists("oldSerialNumber");
+      return this.serialNumberExists(newSerialNumber, true);
     }
     this.serialNumberExists(newSerialNumber);
   }
@@ -211,15 +211,14 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.mobileTerminal.channels.forEach( (channel, index) =>
       {
         console.warn("this.formValidator.value.channels[index] ", this.formValidator.value.channels[index])
-        console.warn("channel.memberNumber ", channel.memberNumber )
-        console.warn("channel.dnid ", channel.dnid)
         const newMemberNumber = this.formValidator.value.channels[index].memberNumber
         const newDnid = this.formValidator.value.channels[index].dnid;
+        const channelId = this.formValidator.value.channels[index].id;
+        console.log("channelId", channelId)
         if(channel.memberNumber === newMemberNumber && channel.dnid === newDnid){
-          this.memberNumberAndDnidCombinationExists("isOld", "isOld");
-          return false;
+          return this.memberNumberAndDnidCombinationExists(newMemberNumber, newDnid, channelId, true);
         }
-        this.memberNumberAndDnidCombinationExists(newMemberNumber, newDnid);
+        this.memberNumberAndDnidCombinationExists(newMemberNumber, newDnid, channelId);
        }
     );
   }

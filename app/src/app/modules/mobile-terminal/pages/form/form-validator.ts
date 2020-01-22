@@ -1,8 +1,9 @@
 import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { MobileTerminalInterfaces } from '@data/mobile-terminal';
-import { map, take, skip, toArray } from 'rxjs/operators';
+import { map, take, skip, takeLast, toArray } from 'rxjs/operators';
 import CustomValidators from '@validators/.';
 import { Observable } from 'rxjs';
+import { getFormFieldsValid } from '@data/mobile-terminal/mobile-terminal.selectors';
 
 interface MobileTerminalFormValidator {
   essentailFields: FormGroup;
@@ -22,23 +23,22 @@ export const validateSerialNoExistsFactory = (serialNoObservable: Observable<boo
     return res ? { serialNumberAlreadyExists: true } : null;
   }));
 }
-
-export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationExistsObservable: Observable<boolean>) => {
-  return (control: AbstractControl) => memberNumberAndDnidCombinationExistsObservable.pipe( take(5), toArray(), map(res => {
+export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationExistsObservable: Observable< Readonly<{readonly [channelId: string]: boolean}>>) => {
+  return (control: AbstractControl) => memberNumberAndDnidCombinationExistsObservable.pipe( take(1),  map(res => {
     console.warn("res: ", res)
-    let someinvalid = false
+
+ /*    let someinvalid = false
     res.forEach( (valValue) =>{
       if(valValue){
         someinvalid = true
       }
-    });
-    return someinvalid ? { memberNumberAndDnidCombinationExists: true } : null;
+    }); */
+    return res ? res: null;
   }));
 }
 
 //const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null): FormGroup => {
-const createNewChannel = (channel: MobileTerminalInterfaces.Channel, memberNumberAndDnidCombinationExists): FormGroup  => {
-  console.warn("channel ",channel)
+const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null, memberNumberAndDnidCombinationExists): FormGroup  => {
   return new FormGroup({
     name: new FormControl(channel === null ? '' : channel.name),
     pollChannel: new FormControl(channel === null ? '' : channel.pollChannel),
@@ -110,11 +110,5 @@ export const removeChannelAtFromFromValidator = (formValidator: FormGroup, index
   return channels.removeAt(index);
 };
 
-export const validateSerialNumberFromValidator = (): void => {
-};
-
-export const validateMemberNumberAndDnidFromValidator = (): void => {
-
-};
 
 

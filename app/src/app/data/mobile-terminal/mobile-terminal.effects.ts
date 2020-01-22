@@ -141,12 +141,12 @@ export class MobileTerminalEffects {
     mergeMap((action) => of(action).pipe(
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken]: Array<any>) => {
-        if(pipedAction.serialNumber === "oldSerialNumber"){
-          return this.mobileTerminalService.serialNumberExists(authToken, pipedAction.serialNumber).pipe(
-            map(() => {
-              return MobileTerminalActions.setSerialNumberExists({ serialNumberExists: false });
-            })
-          );
+        console.warn(pipedAction);
+        if(pipedAction.isSelf === true){
+          return new Observable((observer) => {
+            observer.next(MobileTerminalActions.setSerialNumberExists({ serialNumberExists: false }));
+            observer.complete();
+          });
         }
         return this.mobileTerminalService.serialNumberExists(authToken, pipedAction.serialNumber).pipe(
           map((response: any) => {
@@ -162,18 +162,22 @@ export class MobileTerminalEffects {
   checkIfMemberNumberAndDnidCombinationExists$ = this.actions$.pipe(
     ofType(MobileTerminalActions.memberNumberAndDnidCombinationExists),
     mergeMap((action) => of(action).pipe(
-      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
-      mergeMap(([pipedAction, authToken]: Array<any>) => {
-        if(pipedAction.memberNumber === "isOld" && pipedAction.dnid === "isOld"){
-          return this.mobileTerminalService.memberAndDnidCombinationExists(authToken, pipedAction.memberNumber, pipedAction.dnid).pipe(
-            map(() => {
-              return MobileTerminalActions.setMemberAndDnidCombinationExists({ memberNumberAndDnidCombinationExists: false });
-            })
-          );
+      withLatestFrom(
+        this.store$.select(AuthSelectors.getAuthToken),
+        this.store$.select(MobileTerminalSelectors.getMemberNumberAndDnidCombinationExists)
+      ),
+      mergeMap(([pipedAction, authToken, memberAndDnidCombinationExists]: Array<any>) => {
+        console.warn("memberAndDnidCombinationExists..................", memberAndDnidCombinationExists)
+        console.warn("pipedAction", pipedAction)
+        if(pipedAction.isSelf === true){
+          return new Observable((observer) => {
+            observer.next(MobileTerminalActions.setMemberAndDnidCombinationExists({ channelId: pipedAction.channelId, dnidMemberNumberComboExists: false }));
+            observer.complete();
+          });
         }
         return this.mobileTerminalService.memberAndDnidCombinationExists(authToken, pipedAction.memberNumber, pipedAction.dnid).pipe(
           map((response: any) => {
-            return MobileTerminalActions.setMemberAndDnidCombinationExists({ memberNumberAndDnidCombinationExists: response });
+            return MobileTerminalActions.setMemberAndDnidCombinationExists({ channelId: pipedAction.channelId, dnidMemberNumberComboExists: response });
           })
         );
       })

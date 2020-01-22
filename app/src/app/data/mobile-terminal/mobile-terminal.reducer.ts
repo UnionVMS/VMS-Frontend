@@ -6,7 +6,9 @@ export const initialState: MobileTerminalInterfaces.State = {
   mobileTerminals: {},
   transponders: [],
   plugins: [],
-  formFieldsValid: { serialNumberExists: false, memberNumberAndDnidCombinationExists: false }
+  formFieldsValid: { serialNumberExists: false,
+    memberNumberAndDnidCombinationExists: {},
+   }
 };
 
 export const mobileTerminalReducer = createReducer(initialState,
@@ -41,11 +43,14 @@ export const mobileTerminalReducer = createReducer(initialState,
       serialNumberExists
     }
   })),
-  on(MobileTerminalActions.setMemberAndDnidCombinationExists, (state, { memberNumberAndDnidCombinationExists }) => ({
+  on(MobileTerminalActions.setMemberAndDnidCombinationExists, (state, { channelId, dnidMemberNumberComboExists }) => ({
     ...state,
     formFieldsValid: {
       ...state.formFieldsValid,
-      memberNumberAndDnidCombinationExists
+      memberNumberAndDnidCombinationExists:  {
+        ...state.formFieldsValid.memberNumberAndDnidCombinationExists,
+        [channelId]: dnidMemberNumberComboExists
+      }
     }
   })),
 );
