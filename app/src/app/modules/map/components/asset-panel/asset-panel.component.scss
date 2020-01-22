@@ -44,48 +44,61 @@
     }
   }
 }
-.button-wrapper {
-  display: grid;
-  grid-template-columns: 1fr auto;
 
-  & > * {
-    padding: $medium_distance;
-    background: white;
-  }
+.button-wrapper-minified {
+  display: none;
 
-  .deselect-asset {
+  &.active {
     display: grid;
-    grid-template-columns: auto 1fr;
-    grid-column-gap: $medium_distance;
-    align-items: center;
-    color: $color_warn;
-    cursor: pointer;
+    grid-template-columns: 1fr auto;
 
-    .deselect-asset-text {
-      display: none;
+    & > * {
+      padding: $medium_distance;
+      background: white;
     }
 
-    &:hover {
-      background: $color_warn;
-      color: white;
+    .deselect-asset {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-column-gap: $medium_distance;
+      align-items: center;
+      color: $color_warn;
+      cursor: pointer;
 
       .deselect-asset-text {
-        display: block;
+        display: none;
+      }
+
+      &:hover {
+        background: $color_warn;
+        color: white;
+
+        .deselect-asset-text {
+          display: block;
+        }
+      }
+
+      i {
+        font-size: 20px;
       }
     }
 
-    i {
+    .expand-asset-options {
+      min-width: 50px;
+      text-align: right;
       font-size: 20px;
+      color: $color_turquoise;
+      i {
+        cursor: pointer;
+      }
     }
   }
+}
 
-  .expand-asset-options {
-    min-width: 50px;
-    text-align: right;
-    font-size: 20px;
-    color: $color_turquoise;
-    i {
-      cursor: pointer;
-    }
+.button-wrapper-expanded {
+  display: none;
+
+  &.active {
+    display: grid;
   }
 }

@@ -24,7 +24,13 @@ export class AssetPanelComponent {
   @Input() tracksMinuteCap: number;
   @Input() centerMapOnPosition: (longAndLat: Position) => void;
 
-  goToAsset(asset: AssetInterfaces.AssetData) {
+  public expandFooterButtons = false;
+
+  public toggleExpandFooterButtons() {
+    this.expandFooterButtons = !this.expandFooterButtons;
+  }
+
+  public goToAsset(asset: AssetInterfaces.AssetData) {
     this.centerMapOnPosition(asset.currentPosition.microMove.location);
   }
 
