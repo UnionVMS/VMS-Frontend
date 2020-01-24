@@ -167,8 +167,6 @@ export class MobileTerminalEffects {
         this.store$.select(MobileTerminalSelectors.getMemberNumberAndDnidCombinationExists)
       ),
       mergeMap(([pipedAction, authToken, memberAndDnidCombinationExists]: Array<any>) => {
-        console.warn("memberAndDnidCombinationExists..................", memberAndDnidCombinationExists)
-        console.warn("pipedAction", pipedAction)
         if(pipedAction.isSelf === true){
           return new Observable((observer) => {
             observer.next(MobileTerminalActions.setMemberAndDnidCombinationExists({ channelId: pipedAction.channelId, dnidMemberNumberComboExists: false }));

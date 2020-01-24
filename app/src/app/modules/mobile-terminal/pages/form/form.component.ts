@@ -1,15 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
-import { map, take, takeUntil } from 'rxjs/operators';
-import { FormGroup, FormControl } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
-import { formatDate } from '@app/helpers/helpers';
+import { take} from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
 
 import { State } from '@app/app-reducer';
 import { AssetActions } from '@data/asset';
 import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
-import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
 import { createMobileTerminalFormValidator, addChannelToFormValidator, removeChannelAtFromFromValidator, validateSerialNoExistsFactory, memberNumberAndDnidExistsFactory } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
@@ -28,7 +25,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public pluginSubscription: Subscription;
   public serialNumberExists: (serialNumber: string, isSelf?: boolean) => void;
   public memberNumberAndDnidCombinationExists: (memberNumber: string, dnid: string, channelId: string, isSelf?: boolean) => void;
-  public formFieldsValid$: Observable<MobileTerminalInterfaces.FormFieldsValid>;
+  public serialNumberExists$: Observable<boolean>;
+  public memberNumberAndDnidCombinationExists$: Observable<Readonly<{
+    readonly [channelId: string]: boolean;
+  }>>;
   public isSameSerielNumber = false;
 
   public mobileTerminal = {
@@ -49,17 +49,12 @@ export class FormPageComponent implements OnInit, OnDestroy {
   mapStateToProps() {
     validateSerialNoExistsFactory
     memberNumberAndDnidExistsFactory
-    this.formFieldsValid$ = this.store.select(MobileTerminalSelectors.getFormFieldsValid);
+    this.serialNumberExists$ = this.store.select(MobileTerminalSelectors.getSerialNumberExists);
 
-    const serialNoExists$ = this.formFieldsValid$.pipe(map((formFieldsValid: MobileTerminalInterfaces.FormFieldsValid) => {
-      return formFieldsValid.serialNumberExists;
-    }));
-    let validateSerialNoExistsFunction = validateSerialNoExistsFactory(serialNoExists$);
+    const validateSerialNoExistsFunction = validateSerialNoExistsFactory(this.serialNumberExists$);
 
-    const memberNumberAndDnidCombinationExists$ = this.formFieldsValid$.pipe(map((formFieldsValid: MobileTerminalInterfaces.FormFieldsValid) => {
-      return formFieldsValid.memberNumberAndDnidCombinationExists;
-    }));
-    let memberNumberAndDnidExistsFunction = memberNumberAndDnidExistsFactory(memberNumberAndDnidCombinationExists$);
+    this.memberNumberAndDnidCombinationExists$ = this.store.select(MobileTerminalSelectors.getMemberNumberAndDnidCombinationExists);
+    const memberNumberAndDnidExistsFunction = memberNumberAndDnidExistsFactory(this.memberNumberAndDnidCombinationExists$);
 
     this.mobileTerminalSubscription = this.store.select(MobileTerminalSelectors.getMobileTerminalsByUrl).subscribe(
       (mobileTerminal) => {
@@ -138,8 +133,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
         }),
       }}));
     };
-    this.serialNumberExists = (serialNumber: string, isSelf?: boolean) => this.store.dispatch(MobileTerminalActions.serialNumberExists({ serialNumber, isSelf }))
-    this.memberNumberAndDnidCombinationExists = (memberNumber: string, dnid: string, channelId: string, isSelf?: boolean) => this.store.dispatch(MobileTerminalActions.memberNumberAndDnidCombinationExists({ memberNumber, dnid, channelId, isSelf }))
+    this.serialNumberExists = (serialNumber: string, isSelf?: boolean) =>
+      this.store.dispatch(MobileTerminalActions.serialNumberExists({ serialNumber, isSelf }))
+    this.memberNumberAndDnidCombinationExists = (memberNumber: string, dnid: string, channelId: string, isSelf?: boolean) =>
+      this.store.dispatch(MobileTerminalActions.memberNumberAndDnidCombinationExists({ memberNumber, dnid, channelId, isSelf }))
   }
 
   ngOnInit() {
@@ -147,7 +144,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.mapDispatchToProps();
     this.store.dispatch(MobileTerminalActions.getSelectedMobileTerminal());
     this.store.dispatch(MobileTerminalActions.getPlugins());
-    //this.serialNumberExistsForForm();
   }
 
   ngOnDestroy() {
@@ -207,20 +203,15 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.serialNumberExists(newSerialNumber);
   }
 
-  checkIfMemberNumberAndDnidExists() {
-    this.mobileTerminal.channels.forEach( (channel, index) =>
-      {
-        console.warn("this.formValidator.value.channels[index] ", this.formValidator.value.channels[index])
-        const newMemberNumber = this.formValidator.value.channels[index].memberNumber
-        const newDnid = this.formValidator.value.channels[index].dnid;
-        const channelId = this.formValidator.value.channels[index].id;
-        console.log("channelId", channelId)
-        if(channel.memberNumber === newMemberNumber && channel.dnid === newDnid){
-          return this.memberNumberAndDnidCombinationExists(newMemberNumber, newDnid, channelId, true);
-        }
-        this.memberNumberAndDnidCombinationExists(newMemberNumber, newDnid, channelId);
-       }
-    );
+  checkIfMemberNumberAndDnidExists(channel, alsoTriggerPath: string[]) {
+    const alsoTrigger = this.formValidator.get(alsoTriggerPath);
+    alsoTrigger.updateValueAndValidity({ onlySelf: true });
+    const mtChannel = this.mobileTerminal.channels.find(mtChannel => mtChannel.id === channel.id);
+
+    if(channel.memberNumber === mtChannel.memberNumber && channel.dnid === mtChannel.dnid){
+      return this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id, true);
+    }
+    this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
   }
 
 }

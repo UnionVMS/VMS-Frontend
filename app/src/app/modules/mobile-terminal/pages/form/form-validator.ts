@@ -1,9 +1,8 @@
 import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { MobileTerminalInterfaces } from '@data/mobile-terminal';
-import { map, take, skip, takeLast, toArray } from 'rxjs/operators';
+import { map, take, skip } from 'rxjs/operators';
 import CustomValidators from '@validators/.';
 import { Observable } from 'rxjs';
-import { getFormFieldsValid } from '@data/mobile-terminal/mobile-terminal.selectors';
 
 interface MobileTerminalFormValidator {
   essentailFields: FormGroup;
@@ -23,21 +22,12 @@ export const validateSerialNoExistsFactory = (serialNoObservable: Observable<boo
     return res ? { serialNumberAlreadyExists: true } : null;
   }));
 }
-export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationExistsObservable: Observable< Readonly<{readonly [channelId: string]: boolean}>>) => {
-  return (control: AbstractControl) => memberNumberAndDnidCombinationExistsObservable.pipe( take(1),  map(res => {
-    console.warn("res: ", res)
+export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationExistsObservable: Observable< Readonly<{readonly [channelId: string]: boolean}>>) =>
+  (type: string) =>
+    (control: AbstractControl) => memberNumberAndDnidCombinationExistsObservable.pipe( skip(1), take(1), map(res => {
+      return res[control.parent.value.id] === true ? { memberNumberAndDnidCombinationExists: true }: null;
+    }));
 
- /*    let someinvalid = false
-    res.forEach( (valValue) =>{
-      if(valValue){
-        someinvalid = true
-      }
-    }); */
-    return res ? res: null;
-  }));
-}
-
-//const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null): FormGroup => {
 const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null, memberNumberAndDnidCombinationExists): FormGroup  => {
   return new FormGroup({
     name: new FormControl(channel === null ? '' : channel.name),
@@ -47,12 +37,12 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
     dnid: new FormControl(
       channel === null ? '' : channel.dnid,
       [Validators.required, CustomValidators.minLengthOfNumber(5), CustomValidators.maxLengthOfNumber(5)],
-      memberNumberAndDnidCombinationExists
+      memberNumberAndDnidCombinationExists('dnid')
     ),
     memberNumber: new FormControl(
       channel === null ? '' : channel.memberNumber,
       [Validators.required, Validators.min(1), Validators.max(255)],
-      memberNumberAndDnidCombinationExists
+      memberNumberAndDnidCombinationExists('memberNumber')
     ),
     lesDescription: new FormControl(channel === null ? '' : channel.lesDescription, [Validators.required]),
     startDate: new FormControl(channel === null ? '' : channel.startDate),

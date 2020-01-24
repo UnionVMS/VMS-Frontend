@@ -78,7 +78,7 @@ export type FormFieldsValid = Readonly<{
   serialNumberExists: boolean;
   memberNumberAndDnidCombinationExists: Readonly<{
     readonly [channelId: string]: boolean;
-  }>;// Array<{ channelId: string, dnidMemberNumberComboExists: boolean }>;
+  }>;
 }>;
 
 export interface State {

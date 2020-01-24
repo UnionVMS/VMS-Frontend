@@ -8,6 +8,7 @@ export const selectMobileTerminals = (state: State) => state.mobileTerminal.mobi
 export const selectTransponders = (state: State) => state.mobileTerminal.transponders;
 export const selectPlugins = (state: State) => state.mobileTerminal.plugins;
 export const selectFormFieldsValid = (state: State) => state.mobileTerminal.formFieldsValid;
+export const selectSerialNumberExists = (state: State) => state.mobileTerminal.formFieldsValid.serialNumberExists;
 export const selectMemberNumberAndDnidCombinationExists = (state: State) => state.mobileTerminal.formFieldsValid.memberNumberAndDnidCombinationExists;
 
 
@@ -52,9 +53,9 @@ export const getPlugins = createSelector(
   (plugins) => plugins
 );
 
-export const getFormFieldsValid = createSelector(
-  selectFormFieldsValid,
-  (formFieldsValid) => formFieldsValid
+export const getSerialNumberExists = createSelector(
+  selectSerialNumberExists,
+  (serialNumberExists) => serialNumberExists
 );
 
 export const getMemberNumberAndDnidCombinationExists = createSelector(
