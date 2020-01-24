@@ -65,6 +65,21 @@
       color: $color_warn;
       cursor: pointer;
 
+      .icon-trash {
+        display: grid;
+        width: $x3large_distance;
+        height: $x3large_distance;
+        &::before {
+          place-self: center;
+          height: distance(2.5);
+          width: distance(2.5);
+          content: '';
+          background-size: distance(2.5) distance(2.5);
+          background-image: url('/assets/svg-icons/trash.svg');
+          background-repeat: no-repeat;
+        }
+      }
+
       .deselect-asset-text {
         display: none;
       }
@@ -72,6 +87,10 @@
       &:hover {
         background: $color_warn;
         color: white;
+
+        .icon-trash {
+          filter: brightness(0%) invert(1);
+        }
 
         .deselect-asset-text {
           display: block;
@@ -87,9 +106,21 @@
       min-width: 50px;
       text-align: right;
       font-size: 20px;
-      color: $color_turquoise;
-      i {
+
+      .icon-elipsis {
         cursor: pointer;
+        display: grid;
+        width: $x3large_distance;
+        height: $x3large_distance;
+        &::before {
+          place-self: center;
+          height: distance(2.5);
+          width: distance(2.5);
+          content: '';
+          background-size: distance(2.5) distance(2.5);
+          background-image: url('/assets/svg-icons/elipsis.svg');
+          background-repeat: no-repeat;
+        }
       }
     }
   }
@@ -100,5 +131,14 @@
 
   &.active {
     display: grid;
+    background: white;
+    align-items: center;
+    justify-items: center;
+
+    .minify-button-wrapper {
+      cursor: pointer;
+      color: $color_turquoise;
+      padding: $small_distance;
+    }
   }
 }

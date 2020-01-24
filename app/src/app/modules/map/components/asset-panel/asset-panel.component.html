@@ -74,25 +74,30 @@
   <div footer class="button-wrapper">
     <div class="button-wrapper-minified {{!expandFooterButtons ? 'active' : ''}}">
       <div class="deselect-asset" (click)="deselectAsset(asset.asset.id)">
-        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+        <!-- <i class="fas fa-trash-alt" aria-hidden="true"></i> -->
+        <i class="icon-trash" aria-hidden="true"></i>
         <div class="deselect-asset-text">Remove from selected</div>
       </div>
-      <div class="expand-asset-options"><i class="fas fa-ellipsis-h" aria-hidden="true" (click)="toggleExpandFooterButtons()"></i></div>
+      <div class="expand-asset-options"><i class="icon-elipsis" aria-hidden="true" (click)="toggleExpandFooterButtons()"></i></div>
     </div>
     <div class="button-wrapper-expanded {{expandFooterButtons ? 'active' : ''}}">
       <button
-        mat-stroked-button
-        class="btn btn-small"
+        mat-button
         (click)="goToAsset(asset)"
         color="primary"
-      >Go To</button>
+      >Go to on map</button>
       <button
-        mat-stroked-button
+        mat-button
         routerLink="/asset/{{asset.asset.id}}"
-        class="btn btn-small"
         color="primary"
-      >Show asset</button>
-      <div (click)="toggleExpandFooterButtons()"><i class="fas fa-times-circle" aria-hidden="true"></i></div>
+      >Show more information</button>
+      <button
+        mat-button
+        routerLink="/asset/{{asset.asset.id}}"
+        color="primary"
+        disabled
+      >Add to asset group</button>
+      <div class="minify-button-wrapper" (click)="toggleExpandFooterButtons()"><i class="fas fa-times-circle" aria-hidden="true"></i></div>
     </div>
     <!-- <div class="button-block">
       <ui-button-toggle
