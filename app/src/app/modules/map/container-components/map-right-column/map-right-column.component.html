@@ -9,7 +9,7 @@
     ><i class="icon-incident {{activePanel === 'incident' ? 'active' : '' }}" aria-hidden="true"></i></li>
   </ul>
   <div class="panel information-panel" *ngIf="activePanel === 'information'">
-    <h3>Map information</h3>
+    <h3 i18n>Map information</h3>
     <map-selected-assets-panel
       [selectedAssets]="selectedAssets"
       [selectAsset]="selectAsset"
@@ -27,7 +27,7 @@
   </div>
   <div class="panel incident-panel" *ngIf="activePanel === 'incident'">
     <h3>
-      Incident
+      <ng-container i18n>Incident</ng-container>
       <span *ngIf="selectedAsset !== undefined && assetsNotSendingIncidents[selectedAsset.asset.id] !== undefined">
         #{{ assetsNotSendingIncidents[selectedAsset.asset.id].id }}
       </span>

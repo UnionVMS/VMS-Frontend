@@ -11,25 +11,25 @@
     <ui-truncated-text [text]="asset.asset.name" length="40"></ui-truncated-text>
   </h4>
   <div class="asset-information">
-    <h5>Last known position</h5>
-    <legend>Latitude:</legend>
+    <h5 i18n>Last known position</h5>
+    <legend i18n>Latitude:</legend>
     <div>{{incident.lastKnownLocation.location.latitude.toFixed(2)}}</div>
-    <legend>Longitude:</legend>
+    <legend i18n>Longitude:</legend>
     <div>{{incident.lastKnownLocation.location.longitude.toFixed(2)}}</div>
-    <legend>Heading:</legend>
+    <legend i18n>Heading:</legend>
     <div>{{incident.lastKnownLocation.heading.toFixed(2)}}</div>
-    <legend>Speed:</legend>
+    <legend i18n>Speed:</legend>
     <div>{{incident.lastKnownLocation.speed.toFixed(2)}}</div>
-    <legend>Time:</legend>
+    <legend i18n>Time:</legend>
     <div>{{formatDate(incident.lastKnownLocation.timestamp)}}</div>
 
-    <h5>Asset information</h5>
+    <h5 i18n>Asset information</h5>
     <ng-container *ngIf="asset.asset.ircs">
-      <legend>Ircs:</legend>
+      <legend i18n>Ircs:</legend>
       <div>{{asset.asset.ircs}}</div>
     </ng-container>
     <ng-container *ngIf="asset.asset.mmsi">
-      <legend>Mmsi:</legend>
+      <legend i18n>Mmsi:</legend>
       <div>
         <a
           href="https://www.marinetraffic.com/en/ais/index/search/all?keyword={{asset.asset.mmsi}}"
@@ -38,49 +38,49 @@
       </div>
     </ng-container>
     <ng-container *ngIf="asset.asset.flagStateCode">
-      <legend>Flagstate:</legend>
+      <legend i18n>Flagstate:</legend>
       <div>{{asset.asset.flagStateCode}}</div>
     </ng-container>
     <ng-container *ngIf="asset.asset.externalMarking">
-      <legend>External marking:</legend>
+      <legend i18n>External marking:</legend>
       <div>{{asset.asset.externalMarking}}</div>
     </ng-container>
     <ng-container *ngIf="asset.asset.lengthOverAll">
-      <legend>Length:</legend>
+      <legend i18n>Length:</legend>
       <div>{{asset.asset.lengthOverAll}}</div>
     </ng-container>
     <ng-container *ngIf="asset.asset.licenceType">
-      <legend>LicenceType:</legend>
+      <legend i18n>LicenceType:</legend>
       <div>{{asset.asset.licenceType}}</div>
     </ng-container>
     <ng-container *ngIf="asset.asset.vesselType">
-      <legend>Vessel type:</legend>
+      <legend i18n>Vessel type:</legend>
       <div>{{asset.asset.vesselType}}</div>
     </ng-container>
 
     <ng-container *ngIf="asset.asset.prodOrgCode">
-      <legend>Org. Nr:</legend>
+      <legend i18n>Org. Nr:</legend>
       <div>{{asset.asset.prodOrgCode}}</div>
     </ng-container>
     <ng-container *ngIf="asset.asset.prodOrgName">
-      <legend>Org. namn:</legend>
+      <legend i18n>Org. namn:</legend>
       <div>{{asset.asset.prodOrgName}}</div>
     </ng-container>
   </div>
 
-  <button disabled title="Not implemented yet" id="show-full-log" mat-stroked-button color="primary" type="button">Show full log</button>
+  <button disabled title="Not implemented yet" id="show-full-log" mat-stroked-button color="primary" type="button" i18n>Show full log</button>
 
-  <h4>Change incident status</h4>
+  <h4 i18n>Change incident status</h4>
   <map-incident-status-form
     [status]="incident.status"
     [changeStatus]="changeStatus"
   ></map-incident-status-form>
-  <h4>Create manual position</h4>
+  <h4 i18n>Create manual position</h4>
   <map-manual-movement-form
     *ngIf="map !== undefined"
     [createManualMovement]="createManualMovementCurried"
     [map]="map"
   ></map-manual-movement-form>
-  <h4>New note</h4>
+  <h4 i18n>New note</h4>
   <map-note-form [createNote]="createNoteWithId"></map-note-form>
 </div>

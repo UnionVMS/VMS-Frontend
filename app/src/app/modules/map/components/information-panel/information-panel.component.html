@@ -1,45 +1,49 @@
 <div class="content-container">
   <ui-button-close [clickFunction]="hideFunction"></ui-button-close>
-  <h2>User manual</h2>
+  <h2 i18n>User manual</h2>
   <div class="information-grid">
     <div class="line"></div>
-    <h3>Search</h3>
+    <h3 i18n>Search</h3>
     <div>
-      The search field is used for centering the map on a specific ship.<br />
-      You can search ships by name in this field and once you have chosen the desired ship in the dropdown the
-      map will center around that ship. The dropdown is sorted alphabetically and shows the top 10 results.<br />
-      The search will try to find any ship containing that letter combination.
-      For example the search query <b><u>as</u></b> will give you ships such as <b><u>As</u></b>kungen but also ships like B<b><u>as</u></b>to.<br />
+      <ng-container i18n>
+        The search field is used for centering the map on a specific ship.<br />
+        You can search ships by name in this field and once you have chosen the desired ship in the dropdown the
+        map will center around that ship. The dropdown is sorted alphabetically and shows the top 10 results.<br />
+        The search will try to find any ship containing that letter combination.
+        For example the search query <b><u>as</u></b> will give you ships such as <b><u>As</u></b>kungen but also ships like B<b><u>as</u></b>to.<br />
+      </ng-container>
       <br />
-      <u>Special commands:</u><br />
+      <u i18n>Special commands:</u><br />
       <div class="special_commands">
         <h4>!</h4>
-        <div>
+        <div i18n>
           By starting with an exlamation mark the search will instead try to find any ship <u>not</u> containing the given text.
           I.e <b><u>!as</u></b> will give the reverse result.
         </div>
         <h4>/c</h4>
-        <div>
+        <div i18n>
           By starting your command with <b><u>/c</u></b> you can go directly to a specific cordinate.
           Example: <b><u>/c 58.43562 17.45620</u></b>
         </div>
       </div>
     </div>
     <div class="line"></div>
-    <h3>Filter</h3>
+    <h3 i18n>Filter</h3>
     <div>
-      The filter field is used for filtering ships that will be shown on the map.
-      Just like the search function it will try to find any ship with the text in the name per default.<br />
+      <ng-container i18n>
+        The filter field is used for filtering ships that will be shown on the map.
+        Just like the search function it will try to find any ship with the text in the name per default.<br />
+      </ng-container>
       <br />
-      <u>Special commands:</u><br />
+      <u i18n>Special commands:</u><br />
       <div class="special_commands">
         <h4>!</h4>
-        <div>
+        <div i18n>
           By starting with an exlamation mark the filter will instead try to find any ship <u>not</u> containing the given text.<br />
           Will only work on searches of type string.
         </div>
         <h4>/f</h4>
-        <div>
+        <div i18n>
           By starting with <b><u>/f</u></b> the filter will instead filter on flagstate.<br />
           <b>Type:</b> string<br />
           Examples:
@@ -50,27 +54,27 @@
           </ul>
         </div>
         <h4>/i</h4>
-        <div>
+        <div i18n>
           By starting with <b><u>/i</u></b> the filter will instead filter on ircs.<br />
           <b>Type:</b> string<br />
         </div>
         <h4>/c</h4>
-        <div>
+        <div i18n>
           By starting with <b><u>/c</u></b> the filter will instead filter on cfr.<br />
           <b>Type:</b> string<br />
         </div>
         <h4>/v</h4>
-        <div>
+        <div i18n>
           By starting with <b><u>/v</u></b> the filter will instead filter on vessel type.<br />
           <b>Type:</b> string<br />
         </div>
         <h4>/e</h4>
-        <div>
+        <div i18n>
           By starting with <b><u>/e</u></b> the filter will instead filter on external marking.<br />
           <b>Type:</b> string<br />
         </div>
         <h4>/l</h4>
-        <div>
+        <div i18n>
           By starting with <b><u>/l</u></b> the filter will instead filter on ship length.<br />
           <b>Type:</b> number<br />
           Examples:
@@ -84,7 +88,7 @@
           </ul>
         </div>
         <h4>&</h4>
-        <div>
+        <div i18n>
           Is a separator, by using it you can filter on multiple things. All arguments given to the filter must be true for the ships to be visible.<br />
           Examples:
           <ul>
@@ -97,8 +101,8 @@
       </div>
     </div>
     <div class="line"></div>
-    <h3>Screen locations</h3>
-    <div>
+    <h3 i18n>Screen locations</h3>
+    <div i18n>
       You can save screen locations, both zoom level and center position using the save slots.<br />
       By pressing the alt-key and a number you can save your location to that number-key.<br />
       To go to that location again you just press the number you saved to again.<br />

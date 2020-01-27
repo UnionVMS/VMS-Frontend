@@ -5,9 +5,12 @@
     "ng": "ng",
     "start": "ng serve --host=0.0.0.0 --configuration=dev --hmr=true",
     "build": "ng build --configuration=production",
+    "build:sv": "ng build --configuration=sv",
     "test": "ng test --code-coverage",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "i18n": "ng xi18n --outputPath=i18n",
+    "extract-i18n": "ng xi18n --output-path i18n && xliffmerge --profile xliffmerge.json"
   },
   "private": true,
   "dependencies": {

@@ -1,5 +1,5 @@
 <div class="content-container" *ngIf="tripTimestamp">
-  <div>Current timestamp: {{getCurrentTime()}}</div>
+  <div><ng-container i18n>Current timestamp</ng-container>: {{getCurrentTime()}}</div>
   <mat-slider
     tickInterval="1"
     min="1"
@@ -13,7 +13,7 @@
     <button type="button" (click)="pause()" *ngIf="intervalId"><i class="fas fa-pause" aria-hidden="true"></i></button>
     <button type="button" (click)="stepForward()"><i class="fas fa-step-forward" aria-hidden="true"></i></button>
 
-    <button type="button" (click)="decreaseSpeed()">Half speed</button>
-    <button type="button" (click)="increaseSpeed()">Double speed</button>
+    <button type="button" (click)="decreaseSpeed()" i18n>Half speed</button>
+    <button type="button" (click)="increaseSpeed()" i18n>Double speed</button>
   </div>
 </div>

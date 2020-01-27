@@ -1,5 +1,5 @@
 <div class="content-container">
-  <p>
+  <p i18n="Logout page notification with automatic countdown.">
     You are now being logged out of the system<ui-loading-dots *ngIf="(isLoggedIn$ | async) === true"></ui-loading-dots>
     <span *ngIf="(isLoggedIn$ | async) === false">... done.</span><br />
     Redirecting you back to login page in <ui-countdown seconds="5" [doneFunction]="redirectFactory()" *ngIf="(isLoggedIn$ | async) === false"></ui-countdown> seconds.

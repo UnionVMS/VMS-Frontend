@@ -16,7 +16,7 @@
       color="primary"
       type="button"
       (click)="creatingNewFilter = true"
-    ><i class="fas fa-plus" aria-hidden="true"></i> Create new</button>
+    ><i class="fas fa-plus" aria-hidden="true"></i> <ng-container i18n>Create new</ng-container></button>
     <mat-form-field *ngIf="creatingNewFilter">
       <input matInput placeholder="Name" [(ngModel)]="newFilterName">
     </mat-form-field>
@@ -27,6 +27,7 @@
       type="button"
       class="save-new-filter"
       (click)="saveFilter()"
+      i18n
     >Save</button>
   </div>
 </div>

@@ -35,7 +35,6 @@ import { InformationPanelComponent } from '../../components/information-panel/in
 import { LayerFilterComponent } from '../../components/layer-filter/layer-filter.component'; // Not tested yet.
 import { MapLocationsComponent } from '../../components/map-locations/map-locations.component';
 import { SavedFiltersComponent } from '../../components/saved-filters/saved-filters.component'; // Not tested yet.
-import { TopPanelComponent } from '../../components/top-panel/top-panel.component'; // Not tested yet.
 import { TracksComponent } from '../../components/tracks/tracks.component';
 
 import { AssetReducer, AssetActions } from '@data/asset';
@@ -78,7 +77,6 @@ describe('RealtimeComponent', () => {
         MapLeftColumnComponent,
         MapRightColumnComponent,
         SavedFiltersComponent,
-        TopPanelComponent,
         TracksComponent,
       ],
       providers: [

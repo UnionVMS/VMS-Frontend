@@ -5,30 +5,35 @@
       title="{{namesDisabled ? 'Names disabled due to zoom-level' : (mapSettings.settings.namesVisible ? 'Hide names' : 'Show names')}}"
       [disabled]="namesDisabled"
       [checked]="mapSettings.settings.namesVisible"
+      i18n
     >Asset names</mat-checkbox>
     <mat-checkbox
       (change)="toggleSpeeds()"
       title="{{speedsDisabled ? 'Speeds disabled due to zoom-level' : (mapSettings.settings.speedsVisible ? 'Hide speeds' : 'Show speeds')}}"
       [disabled]="speedsDisabled"
       [checked]="mapSettings.settings.speedsVisible"
+      i18n
     >Speed</mat-checkbox>
     <mat-checkbox
       (change)="toggleFlags()"
       title="{{flagsDisabled ? 'Flags disabled due to zoom-level' : (mapSettings.settings.flagsVisible ? 'Hide flags' : 'Show flags')}}"
       [disabled]="flagsDisabled"
       [checked]="mapSettings.settings.flagsVisible"
+      i18n
     >Nationality</mat-checkbox>
     <mat-checkbox
       (change)="toggleTracks()"
       title="{{tracksDisabled ? 'Tracks disabled due to zoom-level' : (mapSettings.settings.tracksVisible ? 'Hide tracks' : 'Show tracks')}}"
       [disabled]="tracksDisabled"
       [checked]="mapSettings.settings.tracksVisible"
+      i18n
     >Tracks</mat-checkbox>
     <mat-checkbox
       (change)="toggleForecast()"
       title="{{forecastsDisabled ? 'Forecasts disabled due to zoom-level' : (mapSettings.settings.forecastsVisible ? 'Hide forecasts' : 'Show forecasts')}}"
       [disabled]="forecastsDisabled"
       [checked]="mapSettings.settings.forecastsVisible"
+      i18n
     >Forecasts</mat-checkbox>
   </div>
 </div>
