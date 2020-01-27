@@ -9,6 +9,7 @@ import { AssetPanelComponent } from './asset-panel.component';
 import AssetMovementStub from '@data/asset/stubs/assetMovement.stub';
 import AssetStub from '@data/asset/stubs/asset.stub';
 import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
+import { PanelBlockComponent } from '../panel-block/panel-block.component';
 
 /* tslint:disable:no-string-literal */
 describe('AssetPanelComponent', () => {
@@ -19,7 +20,8 @@ describe('AssetPanelComponent', () => {
         UIModule
       ],
       declarations: [
-        AssetPanelComponent
+        AssetPanelComponent,
+        PanelBlockComponent
       ]
     })
     .compileComponents();
