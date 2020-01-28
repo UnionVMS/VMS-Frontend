@@ -40,7 +40,7 @@ export class AssetPanelComponent {
     return formatDate(Date.now() - tracksMillisecondCap);
   }
 
-  public toggleTracks = (asset: AssetInterfaces.AssetData) => () => {
+  public toggleTracks = (asset: AssetInterfaces.AssetData) => {
     if(this.tracksIsVisible(asset)) {
       this.untrackAsset(asset.asset.id);
     } else if(this.tracksMinuteCap === null) {
@@ -54,7 +54,7 @@ export class AssetPanelComponent {
     }
   }
 
-  public toggleForecast = (assetId: string) => () => {
+  public toggleForecast = (assetId: string) => {
     if(this.forecastIsVisible(assetId)) {
       this.removeForecast(assetId);
     } else {

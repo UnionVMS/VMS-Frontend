@@ -57,7 +57,6 @@
           <legend i18n>Vessel type:</legend>
           <div>{{asset.asset.vesselType}}</div>
         </ng-container>
-
         <ng-container *ngIf="asset.asset.prodOrgCode">
           <legend i18n>Org. Nr:</legend>
           <div>{{asset.asset.prodOrgCode}}</div>
@@ -66,8 +65,8 @@
           <legend i18n>Org. namn:</legend>
           <div>{{asset.asset.prodOrgName}}</div>
         </ng-container>
-        <mat-checkbox color="primary" i18n>Track</mat-checkbox>
-        <mat-checkbox color="primary" i18n>Forecast</mat-checkbox>
+        <mat-checkbox color="primary" [checked]="tracksIsVisible(asset)" (change)="toggleTracks(asset)" i18n>Track</mat-checkbox>
+        <mat-checkbox color="primary" [checked]="forecastIsVisible(asset.asset.id)" (change)="toggleForecast(asset.asset.id)" i18n>Forecast</mat-checkbox>
       </div>
     </div>
   </div>
