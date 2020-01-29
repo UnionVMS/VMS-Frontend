@@ -24,6 +24,7 @@ import { NotFoundComponent } from './pages/404/404.component';
 // Components
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { DontTranslateComponent } from './components/dont-translate/dont-translate.component';
 import { TypescriptTranslationsComponent } from './components/typescript-translations/typescript-translations.component';
 
 @NgModule({
@@ -43,6 +44,7 @@ import { TypescriptTranslationsComponent } from './components/typescript-transla
     LogoutComponent,
     TopMenuComponent,
     TypescriptTranslationsComponent,
+    DontTranslateComponent,
     NotificationsComponent,
     NotFoundComponent,
   ],

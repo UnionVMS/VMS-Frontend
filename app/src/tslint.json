@@ -10,7 +10,7 @@
         "component-selector": [
             true,
             "element",
-            ["app", "core", "map", "ui", "asset", "settings", "mobile-terminal", "contact", "notes"],
+            ["app", "core", "map", "ui", "asset", "settings", "mobile-terminal", "contact", "notes", "dont"],
             "kebab-case"
         ],
         "whitespace": [

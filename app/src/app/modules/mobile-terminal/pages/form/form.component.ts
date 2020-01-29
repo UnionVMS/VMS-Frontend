@@ -149,12 +149,12 @@ export class FormPageComponent implements OnInit, OnDestroy {
     removeChannelAtFromFromValidator(this.formValidator, index);
   }
 
-  isCreateOrUpdate() {
-    return typeof this.mergedRoute.params.mobileTerminalId === 'undefined' ? 'Create' : 'Edit';
+  isCreate() {
+    return typeof this.mergedRoute.params.mobileTerminalId === 'undefined';
   }
 
   isFormReady() {
-    return this.isCreateOrUpdate() === 'Create' || Object.entries(this.mobileTerminal).length !== 0;
+    return this.isCreate() || Object.entries(this.mobileTerminal).length !== 0;
   }
 
   getErrors(path: string[]) {
@@ -164,7 +164,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   errorMessage(error: any) {
     if(error.errorType === 'validateAlphanumericHyphenAndSpace') {
-      return 'Invalid characters given, only letters, digits, space and hypen is allowed.';
+      return $localize`:@@ts-mobileTerminal-form-error:Invalid characters given, only letters, digits, space and hypen is allowed.`;
     }
     return errorMessage(error.errorType, error.error);
   }

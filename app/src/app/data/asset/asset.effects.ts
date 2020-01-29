@@ -18,6 +18,8 @@ import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
 import { MobileTerminalInterfaces, MobileTerminalActions } from '@data/mobile-terminal';
 
+import { replaceDontTranslate } from '@app/helpers/helpers';
+
 @Injectable()
 export class AssetEffects {
   constructor(
@@ -218,9 +220,13 @@ export class AssetEffects {
                     newAssetName = newAsset.assetName;
                   }
 
-                  actions.push(NotificationsActions.addNotice(
-                    `Asset '${oldAssetName}' merged with '${newAssetName}', and has been removed from the map.`
-                  ));
+                  const noticeMessage = replaceDontTranslate(
+                    // tslint:disable-next-line max-line-length
+                    $localize`:@@ts-asset-notice-merged:Asset '${oldAssetName}' merged with '${newAssetName}', and has been removed from the map.`,
+                    { oldAssetName, newAssetName }
+                  );
+
+                  actions.push(NotificationsActions.addNotice(noticeMessage));
                 });
                 actions.push(AssetActions.removeAssets({ assetIds: messagesByType['Merged Asset'].map(message => message.oldAssetId) }));
               }

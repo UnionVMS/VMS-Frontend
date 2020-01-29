@@ -125,3 +125,15 @@ export const findLastIndex = (array: Array<any> | ReadonlyArray<any>, predicate:
   }
   return -1;
 };
+
+export const replaceDontTranslate = (stringWithReplacements: string, replacements: any) => {
+  const matches = stringWithReplacements.match(/<dont-translate>([^<]*)<\/dont-translate>/g);
+  const replacementsAndValues = matches.map(match => {
+    const replacementName = match.replace(/<dont-translate>([^<]*)<\/dont-translate>/g, '$1');
+    return { match, value: replacements[replacementName] };
+  });
+
+  return replacementsAndValues.reduce((acc, value) => {
+    return acc.replace(value.match, value.value);
+  }, stringWithReplacements);
+};

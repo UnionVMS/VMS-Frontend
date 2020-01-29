@@ -6,5 +6,3 @@ import { Component, Input } from '@angular/core';
 })
 
 export class TypescriptTranslationsComponent {}
-// const test = $localize`:@@ts-tracks-test:You have 10 users`;
-// console.warn(test);

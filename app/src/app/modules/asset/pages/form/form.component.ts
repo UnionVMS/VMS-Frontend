@@ -104,12 +104,12 @@ export class FormPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  isCreateOrUpdate() {
-    return typeof this.mergedRoute.params.assetId === 'undefined' ? 'Create' : 'Edit';
+  isCreate() {
+    return typeof this.mergedRoute.params.assetId === 'undefined';
   }
 
   isFormReady() {
-    return this.isCreateOrUpdate() === 'Create' || Object.entries(this.asset).length !== 0;
+    return this.isCreate() || Object.entries(this.asset).length !== 0;
   }
 
   getErrors(path: string[]) {

@@ -63,7 +63,7 @@ describe('AssetPanelComponent', () => {
 
     let selectedAsset = component.asset;
     expect(untrackAssetSpy).toHaveBeenCalledTimes(0);
-    component['toggleTracks'](selectedAsset)();
+    component['toggleTracks'](selectedAsset);
     expect(untrackAssetSpy).toHaveBeenCalledTimes(1);
     expect(untrackAssetSpy).toHaveBeenCalledWith(selectedAsset.asset.id);
 
@@ -71,7 +71,7 @@ describe('AssetPanelComponent', () => {
 
     selectedAsset = { ...selectedAsset, assetTracks: undefined };
     expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledTimes(0);
-    component['toggleTracks'](selectedAsset)();
+    component['toggleTracks'](selectedAsset);
     expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledTimes(1);
     expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledWith(
       selectedAsset.asset.id,
@@ -81,7 +81,7 @@ describe('AssetPanelComponent', () => {
 
     component.tracksMinuteCap = null;
     expect(getAssetTrackSpy).toHaveBeenCalledTimes(0);
-    component['toggleTracks'](selectedAsset)();
+    component['toggleTracks'](selectedAsset);
     expect(getAssetTrackSpy).toHaveBeenCalledTimes(1);
     expect(getAssetTrackSpy).toHaveBeenCalledWith(
       selectedAsset.asset.id, selectedAsset.currentPosition.microMove.guid
@@ -96,14 +96,14 @@ describe('AssetPanelComponent', () => {
     const selectedAsset = component.asset;
 
     expect(addForecastSpy).toHaveBeenCalledTimes(0);
-    component['toggleForecast'](selectedAsset.asset.id)();
+    component['toggleForecast'](selectedAsset.asset.id);
     expect(addForecastSpy).toHaveBeenCalledTimes(1);
     expect(addForecastSpy).toHaveBeenCalledWith(selectedAsset.asset.id);
 
     component.forecasts = { [selectedAsset.asset.id]: {}};
 
     expect(removeForecastSpy).toHaveBeenCalledTimes(0);
-    component['toggleForecast'](selectedAsset.asset.id)();
+    component['toggleForecast'](selectedAsset.asset.id);
     expect(removeForecastSpy).toHaveBeenCalledTimes(1);
     expect(removeForecastSpy).toHaveBeenCalledWith(selectedAsset.asset.id);
   });

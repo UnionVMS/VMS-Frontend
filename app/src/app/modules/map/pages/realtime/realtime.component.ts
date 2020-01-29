@@ -183,7 +183,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
             this.centerMapOnPosition(assetMovement.assetMovement.microMove.location);
           } else {
             this.store.dispatch(NotificationsActions.addError(
-              `Asset has not sent a position for the last 8 hours and is not shown on map.`
+              // tslint:disable-next-line max-line-length
+              $localize`:@@ts-map-realtime-selected-asset-dont-exist-error:Asset has not sent a position for the last 8 hours and is not shown on map.`
             ));
           }
         }

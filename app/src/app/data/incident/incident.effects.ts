@@ -60,7 +60,9 @@ export class IncidentEffects {
       console.warn(action);
       return this.assetService.saveNewIncidentStatus(authToken, action.incidentId, action.status).pipe(
         map((asset: AssetInterfaces.Asset) => {
-          return [NotificationsActions.addSuccess('Incident status successfully changed!')];
+          return [NotificationsActions.addSuccess(
+            $localize`:@@ts-incident-changed:Incident status successfully changed!`
+          )];
         })
       );
     }),

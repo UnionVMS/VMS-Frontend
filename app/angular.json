@@ -79,7 +79,8 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb"
                 }
-              ]
+              ],
+              "outputPath": "dist/sv/",
             },
             "sv": {
               "fileReplacements": [
