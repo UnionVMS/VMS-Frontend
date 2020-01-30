@@ -31,6 +31,10 @@ export class SavedFiltersComponent implements OnChanges {
     }
   }
 
+  trackBySavedFilterNames(index: number, name: string) {
+    return name;
+  }
+
   saveFilter() {
     if(this.newFilterName.length > 0 && this.filterQuery.length > 0) {
       this.addSavedFilter({ name: this.newFilterName, filter: this.filterQuery });

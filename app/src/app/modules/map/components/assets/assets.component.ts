@@ -8,7 +8,7 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style';
+import { Fill, Stroke, Style, Icon, Text } from 'ol/style';
 import { fromLonLat } from 'ol/proj';
 import Select from 'ol/interaction/Select.js';
 import { getName as getCountryName, registerLocale } from 'i18n-iso-countries';
@@ -258,18 +258,30 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   getShipColor(asset) {
     switch (this.shipColorLogic) {
       case 'Shiptype':
-        if(typeof asset.assetEssentials === 'undefined' || asset.assetEssentials.vesselType === null) {
+        if(
+          typeof asset.assetEssentials === 'undefined' ||
+          asset.assetEssentials.vesselType === null ||
+          typeof asset.assetEssentials.vesselType === 'undefined'
+        ) {
           return '#FFFFFF';
         }
         return '#' + intToRGB(hashCode(asset.assetEssentials.vesselType));
       case 'Flagstate':
-        if(typeof asset.assetEssentials === 'undefined' || asset.assetEssentials.flagstate === null) {
+        if(
+          typeof asset.assetEssentials === 'undefined' ||
+          asset.assetEssentials.flagstate === null ||
+          typeof asset.assetEssentials.flagstate === 'undefined'
+        ) {
           return '#FFFFFF';
         }
         const country = getCountryName(asset.assetEssentials.flagstate, 'en') || asset.assetEssentials.flagstate;
         return '#' + intToRGB(hashCode(country));
       case 'Size (length)':
-        if(typeof asset.assetEssentials === 'undefined' || asset.assetEssentials.lengthOverAll === null) {
+        if(
+          typeof asset.assetEssentials === 'undefined' ||
+          asset.assetEssentials.lengthOverAll === null ||
+          typeof asset.assetEssentials.lengthOverAll === 'undefined'
+        ) {
           return '#FFFFFF';
         }
         let color;
@@ -359,9 +371,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       if(Array.isArray(style)) {
         actualStyle = style[0];
       }
-      style.setImage(new Icon({
+      actualStyle.setImage(new Icon({
         src: '/assets/Vessel.png',
-        opacity: style.getImage().getOpacity(),
+        opacity: actualStyle.getImage().getOpacity(),
         rotation: deg2rad(asset.assetMovement.microMove.heading),
         color: this.getShipColor(asset)
       }));

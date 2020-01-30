@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
+import { IncidentActions, IncidentInterfaces, IncidentSelectors } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
 import { MapSavedFiltersActions, MapSavedFiltersInterfaces, MapSavedFiltersSelectors } from '@data/map-saved-filters';
 
@@ -38,6 +39,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public clearSelectedAssets: () => void;
+  public clearNotificationsForIncident: (incident: IncidentInterfaces.assetNotSendingIncident) => void;
 
   public searchAutocomplete: (searchQuery: string) => void;
   public searchAutocompleteResult$: Observable<ReadonlyArray<Readonly<{
@@ -47,27 +49,26 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public selectAsset: (assetId: string) => void;
 
 
-  public assetNotSendingIncidents: ReadonlyArray<AssetInterfaces.assetNotSendingIncident>;
+  public assetNotSendingIncidents: ReadonlyArray<IncidentInterfaces.assetNotSendingIncident>;
+  public incidentNotificationsByType: Readonly<{ readonly [type: string]: IncidentInterfaces.incidentNotificationsCollections }>;
 
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
-  public selectIncident: (incident: AssetInterfaces.assetNotSendingIncident) => void;
+  public selectIncident: (incident: IncidentInterfaces.assetNotSendingIncident) => void;
+  public countNotificationsOfType: (
+    incidentNotifications: IncidentInterfaces.incidentNotificationsCollections,
+    type: IncidentInterfaces.incidentNotificationTypes.created | IncidentInterfaces.incidentNotificationTypes.updated
+  ) => number;
 
   // Curried functions
   public setGivenFilterActiveCurry = (filterTypeName: string) => (status: boolean) => this.setGivenFilterActive(filterTypeName, status);
   public setGivenWorkflowActive = (filterTypeName: string) => (status: boolean) => {
     this.clearSelectedAssets();
     this.setGivenFilterActive(filterTypeName, status);
+    this.store.dispatch(AssetActions.removeTracks());
   }
 
   constructor(private store: Store<any>) { }
-
-  // public setGivenFilterActiveCurry: (filterTypeName: string) => (status: boolean) => void;
-  //
-  // ngOnChanges() {
-  //   this.setGivenFilterActiveCurry = (filterTypeName: string) =>
-  //     (status: boolean) => this.setGivenFilterActive(filterTypeName, status);
-  // }
 
   mapStateToProps() {
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
@@ -82,9 +83,12 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.assetGroups$ = this.store.select(AssetSelectors.getAssetGroups);
     this.selectedAssetGroups$ = this.store.select(AssetSelectors.getSelectedAssetGroups);
     this.searchAutocompleteResult$ = this.store.select(AssetSelectors.getSearchAutocomplete);
-    this.store.select(AssetSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
+    this.store.select(IncidentSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
       this.assetNotSendingIncidents = assetsNotSendingIncicents;
     });
+    this.store.select(IncidentSelectors.getIncidentNotificationsByType).pipe(takeUntil(this.unmount$)).subscribe(
+      incidentNotificationsByType => { this.incidentNotificationsByType = incidentNotificationsByType; }
+    );
   }
 
   mapDispatchToProps() {
@@ -94,6 +98,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       }
       this.store.dispatch(AssetActions.clearSelectedAssets());
       this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
+      this.store.dispatch(AssetActions.removeTracks());
     };
     this.setGivenFilterActive = (filterTypeName: string, status: boolean) =>
       this.store.dispatch(MapActions.setGivenFilterActive({ filterTypeName, status }));
@@ -119,12 +124,29 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     };
     this.clearSelectedAssets = () =>
       this.store.dispatch(AssetActions.clearSelectedAssets());
+    this.clearNotificationsForIncident = (incident: IncidentInterfaces.assetNotSendingIncident) =>
+      this.store.dispatch(IncidentActions.clearNotificationsForIncident({ incident }));
   }
 
   mapFunctionsToProps() {
-    this.selectIncident = (incident: AssetInterfaces.assetNotSendingIncident) => {
+    this.selectIncident = (incident: IncidentInterfaces.assetNotSendingIncident) => {
       this.selectAsset(incident.assetId);
+      this.clearNotificationsForIncident(incident);
       this.setActiveRightPanel('incident');
+    };
+    this.countNotificationsOfType = (
+      incidentNotifications: IncidentInterfaces.incidentNotificationsCollections,
+      type: IncidentInterfaces.incidentNotificationTypes.created | IncidentInterfaces.incidentNotificationTypes.updated
+    ) => {
+      if(typeof incidentNotifications !== 'undefined') {
+        return Object.values(incidentNotifications).reduce(
+          (acc: number, incidentNotification: IncidentInterfaces.incidentNotifications) => {
+            acc += incidentNotification[type];
+            return acc;
+          }, 0
+        );
+      }
+      return 0;
     };
   }
 

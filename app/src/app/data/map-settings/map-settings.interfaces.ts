@@ -15,6 +15,7 @@ export type Settings = Readonly<{
   tracksMinuteCap: number|null;
   startZoomLevel: number;
   startPosition: Position;
+  unitOfDistance: string;
   assetColorMethod: string;
 }>;
 

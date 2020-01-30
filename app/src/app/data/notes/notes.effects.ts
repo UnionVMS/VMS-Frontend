@@ -97,12 +97,12 @@ export class NotesEffects {
         }
         return request.pipe(
           map((note: any) => {
-            let notification = 'Notes updated successfully!';
+            let notification = $localize`:@@ts-notes-updated:Notes updated successfully!`;
             if(pipedAction.redirect) {
               this.router.navigate(['/asset/' + note.assetId]);
             }
             if(isNew) {
-              notification = 'Note created successfully!';
+              notification = $localize`:@@ts-notes-created:Note created successfully!`;
             }
             return [NotesActions.setNotes({ notes: { [note.id]: note } }), NotificationsActions.addSuccess(notification)];
           })

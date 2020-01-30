@@ -8,29 +8,23 @@
   <!-- Links -->
   <ul class="navbar-nav">
     <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link waves-light" routerLink="/asset">Assets</a>
+      <a class="nav-link waves-light" routerLink="/asset" i18n>Assets</a>
     </li>
     <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link waves-light" routerLink="/map/realtime" routerLinkActive="active">
-        Realtime map
-      </a>
+      <a class="nav-link waves-light" routerLink="/map/realtime" routerLinkActive="active" i18n>Realtime map</a>
     </li>
     <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link waves-light" routerLink="/map/reports" routerLinkActive="active">
-        Reports map
-      </a>
+      <a class="nav-link waves-light" routerLink="/map/reports" routerLinkActive="active" i18n>Reports map</a>
     </li>
     <li class="nav-item"  routerLinkActive="active">
-      <a class="nav-link waves-light" routerLink="/settings/user">My Settings</a>
+      <a class="nav-link waves-light" routerLink="/settings/user" i18n>My Settings</a>
     </li>
   </ul>
 
   <!-- Links -->
   <ul class="navbar-nav right-bar">
     <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link waves-light" routerLink="/logout">
-        Logout
-      </a>
+      <a class="nav-link waves-light" routerLink="/logout" i18n>Logout</a>
     </li>
     <span *ngIf= "isAdmin">
       <li class="nav-item" routerLinkActive="active">

@@ -11,6 +11,7 @@ import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { AssetReducer, AssetInterfaces } from './data/asset/';
 import { AuthReducer, AuthInterfaces, AuthActions } from './data/auth/';
 import { ContactReducer, ContactInterfaces } from './data/contact/';
+import { IncidentReducer, IncidentInterfaces } from './data/incident/';
 import { MapReducer, MapInterfaces } from './data/map/';
 import { MapSettingsReducer, MapSettingsInterfaces } from './data/map-settings/';
 import { MapLayersReducer, MapLayersInterfaces } from './data/map-layers/';
@@ -25,6 +26,7 @@ export interface State {
   asset: AssetInterfaces.State;
   auth: AuthInterfaces.State;
   contact: ContactInterfaces.State;
+  incident: IncidentInterfaces.State;
   map: MapInterfaces.State;
   mapLayers: MapLayersInterfaces.State;
   mapSettings: MapSettingsInterfaces.State;
@@ -39,6 +41,7 @@ export const reducers: ActionReducerMap<State> = {
   asset: AssetReducer.assetReducer,
   auth: AuthReducer.authReducer,
   contact: ContactReducer.contactReducer,
+  incident: IncidentReducer.incidentReducer,
   map: MapReducer.mapReducer,
   mapLayers: MapLayersReducer.mapLayersReducer,
   mapSettings: MapSettingsReducer.mapSettingsReducer,

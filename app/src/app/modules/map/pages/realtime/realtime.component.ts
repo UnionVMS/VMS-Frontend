@@ -13,9 +13,13 @@ import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/contro
 import { format } from 'ol/coordinate.js';
 import Select from 'ol/interaction/Select.js';
 import { click, pointerMove } from 'ol/events/condition.js';
+import Overlay from 'ol/Overlay';
+
+import { registerProjectionDefinitions } from '@app/helpers/projection-definitions';
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
+import { IncidentActions } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
 import { MapLayersActions, MapLayersSelectors, MapLayersInterfaces } from '@data/map-layers';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
@@ -98,10 +102,47 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public activePanel = '';
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
+
   // Map functions to props:
   public centerMapOnPosition: (position: Position, zoom?: number) => void;
   public centerOnDefaultPosition: () => void;
   public toggleActivePanel: (panelName: string) => void;
+
+  public overlays = {};
+
+  public addOverlay = (id: string, content: HTMLElement, position: ReadonlyArray<number>) => {
+    if(typeof this.overlays[id] !== 'undefined') {
+      return false;
+    }
+    content.setAttribute('id', id);
+    const overlay = new Overlay({
+      element: content,
+      autoPan: true,
+      autoPanAnimation: {
+        duration: 250
+      },
+      position
+    });
+    this.overlays[id] = overlay;
+    overlay.setPosition(position);
+
+    this.map.addOverlay(overlay);
+  }
+
+  public removeOverlay = (id: string) => {
+    if(typeof this.overlays[id] === 'undefined') {
+      return false;
+    }
+    this.map.removeOverlay(this.overlays[id]);
+    delete this.overlays[id];
+  }
+
+  public moveOverlay = (id: string, position: Array<number>) => {
+    if(typeof this.overlays[id] === 'undefined') {
+      return false;
+    }
+    this.overlays[id].setPosition(position);
+  }
 
   constructor(private store: Store<any>) { }
 
@@ -142,7 +183,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
             this.centerMapOnPosition(assetMovement.assetMovement.microMove.location);
           } else {
             this.store.dispatch(NotificationsActions.addError(
-              `Asset has not sent a position for the last 8 hours and is not shown on map.`
+              // tslint:disable-next-line max-line-length
+              $localize`:@@ts-map-realtime-selected-asset-dont-exist-error:Asset has not sent a position for the last 8 hours and is not shown on map.`
             ));
           }
         }
@@ -231,7 +273,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.store.dispatch(AssetActions.subscribeToMovements());
     this.store.dispatch(AssetActions.getSelectedAsset());
     this.store.dispatch(AssetActions.getAssetGroups());
-    this.store.dispatch(AssetActions.getAssetNotSendingIncidents());
+    this.store.dispatch(IncidentActions.getAssetNotSendingIncidents());
     this.store.dispatch(MapLayersActions.getAreas());
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe((mergedRoute) => {
       if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {
@@ -241,8 +283,12 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   }
 
   setupMap() {
+    registerProjectionDefinitions();
+
     this.mapZoom = this.mapSettings.settings.startZoomLevel;
-    const scaleLineControl = new ScaleLine();
+    const scaleLineControl = new ScaleLine({
+      units: this.mapSettings.settings.unitOfDistance
+    });
     const mousePositionControl = new MousePosition({
       coordinateFormat: (coordinates) => format(coordinates, 'Lat: {y}, Lon: {x}', 4),
       projection: 'EPSG:4326',
@@ -279,9 +325,23 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
     this.mapFunctionsToProps();
 
-    setTimeout(() => {
-      this.map.updateSize();
-    }, 1000);
+    // set up the mutation observer
+    const observer = new MutationObserver((mutations, mutationObserver) => {
+      // `mutations` is an array of mutations that occurred
+      // `mutationObserver` is the MutationObserver instance
+      const canvasList = document.getElementById('realtime-map').getElementsByTagName('canvas');
+      if (canvasList.length === 1) {
+        this.map.updateSize();
+        mutationObserver.disconnect(); // stop observing
+        return;
+      }
+    });
+
+    // start observing
+    observer.observe(document.getElementById('realtime-map'), {
+      childList: true,
+      subtree: true
+    });
   }
 
   ngOnDestroy() {
@@ -312,8 +372,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       delete this.onSelectFunctions[name];
     };
 
-    this.selection = new Select({hitTolerance: 7, condition: click });
-    this.selection.style_ = false;
+    this.selection = new Select({hitTolerance: 7, condition: click, style: false });
     this.map.addInteraction(this.selection);
 
     this.selection.on('select', (event) => {
@@ -321,8 +380,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.selection.getFeatures().clear();
     });
 
-    // this.hoverSelection = new Select({hitTolerance: 3, condition: pointerMove });
-    // this.hoverSelection.style_ = false;
+    // this.hoverSelection = new Select({hitTolerance: 3, condition: pointerMove, style: false });
     // this.map.addInteraction(this.hoverSelection);
     //
     // this.hoverSelection.on('select', (event) => {

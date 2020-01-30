@@ -3,6 +3,8 @@ import { formatDate } from '@app/helpers/helpers';
 import { AssetInterfaces } from '@data/asset';
 import { Position } from '@data/generic.interfaces';
 
+import getContryISO2 from 'country-iso-3-to-2';
+
 @Component({
   selector: 'map-asset-panel',
   templateUrl: './asset-panel.component.html',
@@ -22,14 +24,13 @@ export class AssetPanelComponent {
   @Input() tracksMinuteCap: number;
   @Input() centerMapOnPosition: (longAndLat: Position) => void;
 
-  public activeAsset = null;
-  public showButtons = false;
+  public expandFooterButtons = false;
 
-  toggleShowButtons() {
-    this.showButtons = !this.showButtons;
+  public toggleExpandFooterButtons() {
+    this.expandFooterButtons = !this.expandFooterButtons;
   }
 
-  goToAsset(asset: AssetInterfaces.AssetData) {
+  public goToAsset(asset: AssetInterfaces.AssetData) {
     this.centerMapOnPosition(asset.currentPosition.microMove.location);
   }
 
@@ -39,12 +40,7 @@ export class AssetPanelComponent {
     return formatDate(Date.now() - tracksMillisecondCap);
   }
 
-  // We need this because angular templates are worthless, it does not support anonymous functions as parameters...
-  public toggleTracksFactory = (asset: AssetInterfaces.AssetData) => {
-    return () => this.toggleTracks(asset);
-  }
-
-  private toggleTracks = (asset: AssetInterfaces.AssetData): void => {
+  public toggleTracks = (asset: AssetInterfaces.AssetData) => {
     if(this.tracksIsVisible(asset)) {
       this.untrackAsset(asset.asset.id);
     } else if(this.tracksMinuteCap === null) {
@@ -58,12 +54,7 @@ export class AssetPanelComponent {
     }
   }
 
-  // We need this because angular templates are worthless, it does not support anonymous functions as parameters...
-  public toggleForecastFactory = (assetId: string) => {
-    return () => this.toggleForecast(assetId);
-  }
-
-  private toggleForecast = (assetId: string): void => {
+  public toggleForecast = (assetId: string) => {
     if(this.forecastIsVisible(assetId)) {
       this.removeForecast(assetId);
     } else {
@@ -77,4 +68,17 @@ export class AssetPanelComponent {
   public forecastIsVisible = (assetId: string): boolean => {
     return Object.keys(this.forecasts).indexOf(assetId) !== -1;
   }
+
+  public getCountryCode() {
+    const countryCode = getContryISO2(this.asset.asset.flagStateCode);
+    if(typeof countryCode === 'undefined') {
+      return '???';
+    }
+    return countryCode.toLowerCase();
+  }
+
+  public selectAssetWrapper() {
+    return () => this.selectAsset(this.asset.asset.id);
+  }
+
 }

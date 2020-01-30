@@ -26,11 +26,17 @@
         display: grid;
         grid-column-gap: $medium_distance;
         grid-template-columns: auto 1fr;
+        grid-template-areas: 'left right';
       }
 
       i.fas {
         font-size: $large_distance;
       }
     }
+  }
+
+  .panel-block-footer:not(.unstyled) {
+    padding: $medium_distance;
+    background: white;
   }
 }

@@ -12,10 +12,13 @@ import { MapSettingsSelectors } from '../map-settings';
 
 import { AssetService } from './asset.service';
 import { AssetSelectors, AssetInterfaces, AssetActions } from './';
+import { IncidentActions, IncidentInterfaces } from '@data/incident';
 import * as MapActions from '@data/map/map.actions';
 import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
 import { MobileTerminalInterfaces, MobileTerminalActions } from '@data/mobile-terminal';
+
+import { replaceDontTranslate } from '@app/helpers/helpers';
 
 @Injectable()
 export class AssetEffects {
@@ -217,54 +220,44 @@ export class AssetEffects {
                     newAssetName = newAsset.assetName;
                   }
 
-                  actions.push(NotificationsActions.addNotice(
-                    `Asset '${oldAssetName}' merged with '${newAssetName}', and has been removed from the map.`
-                  ));
+                  const noticeMessage = replaceDontTranslate(
+                    // tslint:disable-next-line max-line-length
+                    $localize`:@@ts-asset-notice-merged:Asset '${oldAssetName}' merged with '${newAssetName}', and has been removed from the map.`,
+                    { oldAssetName, newAssetName }
+                  );
+
+                  actions.push(NotificationsActions.addNotice(noticeMessage));
                 });
                 actions.push(AssetActions.removeAssets({ assetIds: messagesByType['Merged Asset'].map(message => message.oldAssetId) }));
               }
 
               if(typeof messagesByType.Incident !== 'undefined') {
-                messagesByType.Incident.map(message => {
-                  actions.push(NotificationsActions.addNotice(
-                    `New incident #${message.id} for ${message.assetName}.`
-                  ));
-                });
-                actions.push(AssetActions.updateAssetNotSendingIncidents({
+                // messagesByType.Incident.map(message => {
+                //   actions.push(NotificationsActions.addNotice(
+                //     `New incident #${message.id} for ${message.assetName}.`
+                //   ));
+                // });
+                actions.push(IncidentActions.updateAssetNotSendingIncidents({
                   assetNotSendingIncidents: messagesByType.Incident.reduce((acc, message) => {
-                    acc[message.assetId] = {
-                      ...message,
-                      createdDate: new Date(message.createdDate).getTime() / 1000,
-                      updateDate: new Date(message.updateDate).getTime() / 1000,
-                      lastKnownLocation: {
-                        ...message.lastKnownLocation,
-                        timestamp: new Date(message.lastKnownLocation.timestamp).getTime() / 1000
-                      }
-                    };
+                    acc[message.assetId] = message;
                     return acc;
-                  }, {})
+                  }, {}),
+                  updateType: IncidentInterfaces.incidentNotificationTypes.created
                 }));
               }
 
               if(typeof messagesByType.IncidentUpdate !== 'undefined') {
-                messagesByType.IncidentUpdate.map(message => {
-                  actions.push(NotificationsActions.addNotice(
-                    `Incident #${message.id} for asset ${message.assetName} updated.`
-                  ));
-                });
-                actions.push(AssetActions.updateAssetNotSendingIncidents({
+                // messagesByType.IncidentUpdate.map(message => {
+                //   actions.push(NotificationsActions.addNotice(
+                //     `Incident #${message.id} for asset ${message.assetName} updated.`
+                //   ));
+                // });
+                actions.push(IncidentActions.updateAssetNotSendingIncidents({
                   assetNotSendingIncidents: messagesByType.IncidentUpdate.reduce((acc, message) => {
-                    acc[message.assetId] = {
-                      ...message,
-                      createdDate: new Date(message.createdDate).getTime() / 1000,
-                      updateDate: new Date(message.updateDate).getTime() / 1000,
-                      lastKnownLocation: {
-                        ...message.lastKnownLocation,
-                        timestamp: new Date(message.lastKnownLocation.timestamp).getTime() / 1000
-                      }
-                    };
+                    acc[message.assetId] = message;
                     return acc;
-                  }, {})
+                  }, {}),
+                  updateType: IncidentInterfaces.incidentNotificationTypes.updated
                 }));
               }
 
@@ -370,7 +363,7 @@ export class AssetEffects {
     ofType(AssetActions.getTracksByTimeInterval),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.getTracksByTimeInterval(authToken, action.assetIds, action.startDate, action.endDate, action.sources).pipe(
+      return this.assetService.getTracksByTimeInterval(authToken, action.query, action.startDate, action.endDate, action.sources).pipe(
         map((assetMovements: any) => {
           const assetMovementsOrdered = assetMovements.reverse();
           const movementsByAsset = assetMovementsOrdered.reduce((accMovementsByAsset, track) => {
@@ -396,32 +389,6 @@ export class AssetEffects {
             AssetActions.setAssetPositionsWithoutAffectingTracks({ movementsByAsset: lastAssetMovements }),
             AssetActions.checkForAssetEssentials({ assetMovements: Object.values(lastAssetMovements) }),
             AssetActions.setAssetTrips({ assetMovements: assetMovementsOrdered }),
-          ];
-        }),
-        flatMap(a => a),
-      );
-    })
-  );
-
-  @Effect()
-  getAssetNotSendingIncidents$ = this.actions$.pipe(
-    ofType(AssetActions.getAssetNotSendingIncidents),
-    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
-    mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.getAssetNotSendingEvents(authToken).pipe(
-        map((assetNotSendingIncidents: ReadonlyArray<AssetInterfaces.assetNotSendingIncident>) => {
-          return [
-            AssetActions.setAssetNotSendingIncidents({
-              assetNotSendingIncidents: assetNotSendingIncidents.reduce((acc, assetNotSendingIncident) => {
-                acc[assetNotSendingIncident.assetId] = assetNotSendingIncident;
-                return acc;
-              }, {})
-            }),
-            AssetActions.checkForAssetEssentials({
-              assetMovements: assetNotSendingIncidents.map((incident) => ({
-                microMove: incident.lastKnownLocation, asset: incident.assetId, decayPercentage: undefined
-              }))
-            })
           ];
         }),
         flatMap(a => a),
@@ -499,22 +466,6 @@ export class AssetEffects {
     }),
     flatMap((action, index) => action)
   );
-
-  @Effect()
-  saveNewIncidentStatus$ = this.actions$.pipe(
-    ofType(AssetActions.saveNewIncidentStatus),
-    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
-    mergeMap(([action, authToken]: Array<any>) => {
-      console.warn(action);
-      return this.assetService.saveNewIncidentStatus(authToken, action.incidentId, action.status).pipe(
-        map((asset: AssetInterfaces.Asset) => {
-          return [NotificationsActions.addSuccess('Incident status successfully changed!')];
-        })
-      );
-    }),
-    flatMap(a => a)
-  );
-
 
   @Effect()
   createManualMovement$ = this.actions$.pipe(

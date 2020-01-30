@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ../../
+      dockerfile: docker/prod-sv/Dockerfile
+    ports:
+      - '8085:80'
+    volumes:
+      - ../../app/dist/sv:/usr/share/nginx/html

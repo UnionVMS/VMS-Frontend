@@ -80,7 +80,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public deactivateSavedFilter: (filterName: string) => void;
   public filterAssets: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
-  public getTracksByTimeInterval: (assetIds: string[], from: string, to: string, sources: string[]) => void;
+  public getTracksByTimeInterval: (query: any, from: string, to: string, sources: string[]) => void;
   public removeActiveLayer: (layerName: string) => void;
   public removePositionForInspection: (inspectionId: string) => void;
   public saveMapLocation: (key: number, mapLocation: MapSettingsInterfaces.MapLocation) => void;
@@ -129,9 +129,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
     this.store.select(AssetSelectors.getAssetMovements).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
       this.assetMovements = assets;
     });
-    this.store.select(AssetSelectors.getCurrentAssetList).pipe(takeUntil(this.unmount$)).subscribe(assets => {
-      this.assets = assets;
-    });
     this.selectedAssets$ = this.store.select(AssetSelectors.extendedDataForSelectedAssets);
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.positionsForInspection$ = this.store.select(AssetSelectors.getPositionsForInspection);
@@ -163,8 +160,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
   mapDispatchToProps() {
     this.setAssetPositionsFromTripByTimestamp = (assetTripTimestamp: number) =>
       this.store.dispatch(AssetActions.setAssetPositionsFromTripByTimestamp({ assetTripTimestamp }));
-    this.getTracksByTimeInterval = (assetIds: string[], from: string, to: string, sources: string[]) =>
-      this.store.dispatch(AssetActions.getTracksByTimeInterval({ assetIds, startDate: from, endDate: to, sources }));
+    this.getTracksByTimeInterval = (query: any, from: string, to: string, sources: string[]) =>
+      this.store.dispatch(AssetActions.getTracksByTimeInterval({ query, startDate: from, endDate: to, sources }));
     this.addActiveLayer = (layerName: string) =>
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
     this.addSavedFilter = (filter: MapSavedFiltersInterfaces.SavedFilter) =>
@@ -229,7 +226,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   mapFunctionsToProps() {
     this.setTimeInterval = (from: string, to: string) => {
       this.getTracksByTimeInterval(
-        this.assets.map(asset => asset.id),
+        { vesselType: ['Fishing'], flagState: ['SWE'] },
         from,
         to,
         ['INMARSAT_C'] // ['NAF']
@@ -265,8 +262,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
-    // TODO: Fix this, should be shipType: Fishing and flagState: ['SWE', 'NOK', 'DNK', 'FIN']
-    this.store.dispatch(AssetActions.searchAssets({ searchQuery: { vesselType: ['Fishing'], flagState: ['SWE'] } }));
     this.store.dispatch(AssetActions.getSelectedAsset());
     this.store.dispatch(AssetActions.getAssetGroups());
     this.store.dispatch(MapLayersActions.getAreas());
@@ -347,8 +342,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
       delete this.onSelectFunctions[name];
     };
 
-    this.selection = new Select({hitTolerance: 7, condition: click });
-    this.selection.style_ = false;
+    this.selection = new Select({hitTolerance: 7, condition: click, style: false });
     this.map.addInteraction(this.selection);
 
     this.selection.on('select', (event) => {

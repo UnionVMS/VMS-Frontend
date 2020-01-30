@@ -25,6 +25,7 @@ export class DistanceBetweenPointsComponent implements OnInit, OnDestroy, OnChan
   @Input() map: Map;
   @Input() registerOnClickFunction: (name: string, clickEvent: (event) => void) => void;
   @Input() active: boolean;
+  @Input() unitOfDistance: string;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -69,14 +70,18 @@ export class DistanceBetweenPointsComponent implements OnInit, OnDestroy, OnChan
       })
     });
 
-
     const formatLength = (line) => {
       const length = getLength(line);
       let output;
-      if (length > 100) {
-        output = (Math.round(length / 1000 * 100) / 100) + ' km';
+      if(this.unitOfDistance === 'nautical') {
+        const distanceInKm = length / 1000;
+        output = Math.round((distanceInKm / 1.852) * 100) / 100  + ' nm';
       } else {
-        output = (Math.round(length * 100) / 100) + ' m';
+        if (length > 100) {
+          output = (Math.round(length / 1000 * 100) / 100) + ' km';
+        } else {
+          output = (Math.round(length * 100) / 100) + ' m';
+        }
       }
       return output;
     };

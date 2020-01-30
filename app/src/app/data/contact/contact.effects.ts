@@ -93,10 +93,10 @@ export class ContactEffects {
 
         return request.pipe(
           map((contact: any) => {
-            let notification = 'Contact updated successfully!';
+            let notification = $localize`:@@ts-contact-update-success:Contact updated successfully!`;
             this.router.navigate(['/asset/' + contact.assetId]);
             if(isNew) {
-              notification = 'Contact created successfully!';
+              notification = $localize`:@@ts-contact-created-success:Contact created successfully!`;
             }
             return [ContactActions.setContacts({ contacts: { [contact.id]: contact } }), NotificationsActions.addSuccess(notification)];
           })

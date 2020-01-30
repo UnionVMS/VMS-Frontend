@@ -1,0 +1,54 @@
+<div class="content-container">
+  <div id="assets-map-panels">
+    <ng-container *ngFor="let currentAsset of selectedAssets; trackBy: trackBySelectedAssets">
+      <map-asset-panel
+        [asset]="currentAsset"
+        [selectAsset]="selectAsset"
+        [deselectAsset]="deselectAsset"
+        [forecasts]="forecasts"
+        [getAssetTrack]="getAssetTrack"
+        [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
+        [untrackAsset]="untrackAsset"
+        [addForecast]="addForecast"
+        [removeForecast]="removeForecast"
+        [tracksMinuteCap]="tracksMinuteCap"
+        [centerMapOnPosition]="centerMapOnPosition"
+      ></map-asset-panel>
+    </ng-container>
+  </div>
+  <div id="selected-assets-control-panel">
+    <button
+      *ngIf="!showControlPanel"
+      mat-raised-button
+      color="primary"
+      (click)="toggleControlPanel()"
+      i18n
+    >Tools for selected assets</button>
+    <ng-container *ngIf="showControlPanel">
+      <button
+        mat-stroked-button
+        disabled
+        color="primary"
+        i18n
+      >Add to watchlist</button>
+      <button
+        mat-stroked-button
+        color="primary"
+        disabled
+        i18n
+      >Add to asset group</button>
+      <button
+        mat-stroked-button
+        color="error"
+        (click)="clearSelectedAssets()"
+        i18n
+      >Clear selected assets</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="toggleControlPanel()"
+        i18n
+      >Close menu</button>
+    </ng-container>
+  </div>
+</div>

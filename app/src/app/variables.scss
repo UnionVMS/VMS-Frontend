@@ -32,6 +32,10 @@ $color_warn_light: #FF988B;
 $color_warn: #F7220B;
 $color_warn_dark: #780C00;
 
+$color_accent_light: #66C622;
+$color_accent: #227E00;
+$color_accent_dark: #01763B;
+
 $default_font_size: 14px;
 $h1_font_size: 20px;
 $navbar_height: 45px;
@@ -112,4 +116,17 @@ $x4large_distance: distance(6); // 48px
   @include icon($url);
   border-top-left-radius: $small_distance;
   border-bottom-left-radius: $small_distance;
+}
+
+@mixin badge() {
+  border-radius: $large_distance;
+  padding: $small_distance $medium_distance;
+  color: black;
+  margin-right: $medium_distance;
+}
+
+@mixin small-badge() {
+  @include badge();
+  padding: distance(0.25) distance(0.5);
+  font-size: 11px;
 }

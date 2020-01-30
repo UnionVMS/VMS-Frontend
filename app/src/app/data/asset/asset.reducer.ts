@@ -14,7 +14,6 @@ export const initialState: Interfaces.State = {
   assets: {},
   assetsEssentials: {},
   assetLists: {},
-  assetNotSendingIncidents: {},
   currentAssetList: null,
   assetMovements: {},
   assetTracks: {},
@@ -171,6 +170,10 @@ export const assetReducer = createReducer(initialState,
     assetMovements: {},
     assetTracks: {},
   })),
+  on(AssetActions.removeTracks, (state) => ({
+    ...state,
+    assetTracks: {},
+  })),
   on(AssetActions.selectAsset, (state, { assetId }) => {
     let returnState = { ...state, selectedAsset: assetId };
     if(!state.selectedAssets.some((selectedAssetId) => selectedAssetId === assetId )) {
@@ -249,17 +252,6 @@ export const assetReducer = createReducer(initialState,
       }
     };
   }),
-  on(AssetActions.setAssetNotSendingIncidents, (state, { assetNotSendingIncidents }) => ({
-    ...state,
-    assetNotSendingIncidents
-  })),
-  on(AssetActions.updateAssetNotSendingIncidents, (state, { assetNotSendingIncidents }) => ({
-    ...state,
-    assetNotSendingIncidents: {
-      ...state.assetNotSendingIncidents,
-      ...assetNotSendingIncidents
-    }
-  })),
   on(AssetActions.setTracksForAsset, (state, { tracks, assetId }) => {
     const finishedLineSegments = tracks.reduce((lineSegments, position) => {
       const lastSegment = lineSegments[lineSegments.length - 1];

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, ContentChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'map-panel-block',
@@ -13,10 +13,13 @@ export class PanelBlockComponent implements OnChanges {
 
   @Input() setActiveFunction: (status: boolean) => void;
 
+  @Input() showFooter = false;
+  @Input() unstyledFooter = false;
+
   public switchFunction: () => void;
 
   ngOnChanges() {
-    // console.warn(this.useArrowsAsToggle);
+    // console.warn(this.showFooter);
     this.switchFunction = () => this.setActiveFunction(!this.active);
   }
 }

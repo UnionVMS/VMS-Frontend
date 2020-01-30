@@ -1,8 +1,11 @@
 import { Component, Input } from '@angular/core';
 import getContryISO2 from 'country-iso-3-to-2';
 
+import Map from 'ol/Map';
+
 import { formatDate } from '@app/helpers/helpers';
 import { AssetInterfaces } from '@data/asset';
+import { IncidentInterfaces } from '@data/incident';
 import { NotesInterfaces } from '@data/notes';
 import { Position } from '@data/generic.interfaces';
 
@@ -14,7 +17,8 @@ import { Position } from '@data/generic.interfaces';
 })
 export class IncidentComponent {
   @Input() asset: AssetInterfaces.AssetData;
-  @Input() incident: AssetInterfaces.assetNotSendingIncident;
+  @Input() incident: IncidentInterfaces.assetNotSendingIncident;
+  @Input() map: Map;
 
   @Input() createManualMovement: (manualMovement: AssetInterfaces.ManualMovement) => void;
   @Input() saveNewIncidentStatus: (incidentId: number, status: string) => void;
@@ -39,8 +43,10 @@ export class IncidentComponent {
     return this.createNote({ ...note, assetId: this.asset.asset.id });
   }
 
-  public formatDate(date) {
-    return formatDate(date);
+  formatDate(dateTime) {
+    const date = new Date(dateTime * 1000);
+    const iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2})/);
+    return iso[1] + ' • ' + iso[2];
   }
 
   getCountryCode(asset) {

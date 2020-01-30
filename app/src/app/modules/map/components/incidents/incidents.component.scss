@@ -7,6 +7,10 @@
     margin: 0px;
   }
 
+  .filter-for-panel-content {
+    padding-bottom: $large_distance;
+  }
+
   .incidents {
     display: grid;
     grid-row-gap: $medium_distance;
@@ -22,7 +26,7 @@
 
       .status {
         place-self: center;
-        border: 1px solid #000000;
+        // border: 1px solid #000000;
         background: $color_light_orange;
         border-radius: $small_distance;
         width: $medium_distance;
@@ -35,6 +39,9 @@
         &.dangerLvl1 {
           background: $color_yellow;
         }
+        &.dangerLvl0 {
+          background: $color_accent_light;
+        }
       }
 
       .name {
@@ -46,8 +53,24 @@
       }
 
       .time {
-        font-size: 12px;
-        grid-column: 2 / span 2;
+        font-size: 11px;
+        grid-column: 2 / span 1;
+      }
+
+      .notifications {
+        position: relative;
+        & > * {
+          @include small-badge();
+          position: absolute;
+        }
+        .created-notifications {
+          background: $color_warn;
+          right: $xlarge_distance;
+        }
+        .updated-notifications {
+          background: $color_yellow;
+          right: 0px;
+        }
       }
     }
   }

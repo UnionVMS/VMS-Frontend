@@ -1,17 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
-import { takeWhile, endWith, map } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
+import { takeWhile, endWith, map, take } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
 import { getAlpha3Codes, langs } from 'i18n-iso-countries';
+import { errorMessage } from '@app/helpers/validators/error-messages';
 // import enLang from 'i18n-iso-countries/langs/en.json';
 // countries.registerLocale(enLang);
+
+import { createAssetFormValidator } from './form-validator';
 
 const allFlagstates = Object.keys(getAlpha3Codes());
 
 import { State } from '@app/app-reducer';
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
+import { RouterInterfaces, RouterSelectors } from '@data/router';
 
 @Component({
   selector: 'asset-edit-page',
@@ -22,12 +26,15 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<State>) { }
 
+  public asset = {} as AssetInterfaces.Asset;
   public assetSubscription: Subscription;
   public unitTonnagesSubscription: Subscription;
   public unitTonnages: ReadonlyArray<AssetInterfaces.UnitTonnage>;
   public flagstates = allFlagstates.sort();
   public assetObject = {} as AssetInterfaces.Asset;
+  public formValidator: FormGroup;
   public save: () => void;
+  public mergedRoute: RouterInterfaces.MergedRoute;
 
   mapStateToProps() {
     this.unitTonnagesSubscription = this.store.select(AssetSelectors.getUnitTonnages).subscribe((unitTonnages) => {
@@ -46,21 +53,38 @@ export class FormPageComponent implements OnInit, OnDestroy {
     });
     this.assetSubscription = this.store.select(AssetSelectors.getSelectedAsset).subscribe((asset: AssetInterfaces.Asset) => {
       if(typeof asset !== 'undefined') {
-        this.assetObject = { ...asset };
+        this.asset = asset;
+      }
+      this.formValidator = createAssetFormValidator(this.asset);
+    });
+    this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
+      this.mergedRoute = mergedRoute;
+      if(typeof this.mergedRoute.params.assetId !== 'undefined') {
+        this.store.dispatch(AssetActions.getSelectedAsset());
       }
     });
   }
 
   mapDispatchToProps() {
     this.save = () => {
-      const formValidation = this.validateForm();
-      if(formValidation === true) {
-        this.store.dispatch(AssetActions.saveAsset({ asset: this.assetObject }));
-      } else {
-        formValidation.map((notification) => {
-          this.store.dispatch(NotificationsActions.addNotification(notification));
-        });
-      }
+      this.store.dispatch(AssetActions.saveAsset({ asset: {
+        ...this.asset,
+        flagStateCode: this.formValidator.value.essentailFields.flagState,
+        externalMarking: this.formValidator.value.essentailFields.externalMarking,
+        name: this.formValidator.value.essentailFields.name,
+        cfr: this.formValidator.value.identificationFields.cfr,
+        ircs: this.formValidator.value.identificationFields.ircs,
+        imo: this.formValidator.value.identificationFields.imo,
+        portOfRegistration: this.formValidator.value.identificationFields.portOfRegistration,
+        mmsi: this.formValidator.value.identificationFields.mmsi,
+        lengthOverAll: this.formValidator.value.metrics.lengthOverAll,
+        lengthBetweenPerpendiculars: this.formValidator.value.metrics.lengthBetweenPerpendiculars,
+        grossTonnage: this.formValidator.value.metrics.grossTonnage,
+        grossTonnageUnit: this.formValidator.value.metrics.grossTonnageUnit,
+        powerOfMainEngine: this.formValidator.value.metrics.powerOfMainEngine,
+        prodOrgName: this.formValidator.value.companyInformation.prodOrgName,
+        prodOrgCode: this.formValidator.value.companyInformation.prodOrgCode,
+      }}));
     };
   }
 
@@ -80,43 +104,20 @@ export class FormPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  isCreateOrUpdate() {
-    return typeof this.assetObject.id !== 'undefined' ? 'Edit' : 'Create';
+  isCreate() {
+    return typeof this.mergedRoute.params.assetId === 'undefined';
   }
 
-  validateForm() {
-    const errors = [];
-    if(
-      typeof this.assetObject.flagStateCode === 'undefined' ||
-      this.assetObject.flagStateCode === null ||
-      this.assetObject.flagStateCode.length === 0
-    ) {
-      errors.push({
-        notificationType: 'errors',
-        notification: 'Form validaiton error: Require field <b>Flagstate</b> is not set.'
-      });
-    }
-    if(
-      typeof this.assetObject.externalMarking === 'undefined' ||
-      this.assetObject.externalMarking === null ||
-      this.assetObject.externalMarking.length === 0
-    ) {
-      errors.push({
-        notificationType: 'errors',
-        notification: 'Form validaiton error: Require field <b>External marking</b> is not set.'
-      });
-    }
-    if(
-      typeof this.assetObject.name === 'undefined' ||
-      this.assetObject.name === null ||
-      this.assetObject.name.length === 0
-    ) {
-      errors.push({
-        notificationType: 'errors',
-        notification: 'Form validaiton error: Require field <b>Name</b> is not set.'
-      });
-    }
+  isFormReady() {
+    return this.isCreate() || Object.entries(this.asset).length !== 0;
+  }
 
-    return errors.length > 0 ? errors : true;
+  getErrors(path: string[]) {
+    const errors = this.formValidator.get(path).errors;
+    return errors === null ? [] : Object.keys(errors);
+  }
+
+  errorMessage(error: string) {
+    return errorMessage(error);
   }
 }
