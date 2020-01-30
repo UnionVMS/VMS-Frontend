@@ -22,7 +22,8 @@ export const validateSerialNoExistsFactory = (serialNoObservable: Observable<boo
     return res ? { serialNumberAlreadyExists: true } : null;
   }));
 }
-export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationExistsObservable: Observable< Readonly<{readonly [channelId: string]: boolean}>>) =>
+export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationExistsObservable:
+  Observable< Readonly<{readonly [channelId: string]: boolean}>>) =>
   (type: string) =>
     (control: AbstractControl) => memberNumberAndDnidCombinationExistsObservable.pipe( skip(1), take(1), map(res => {
       return res[control.parent.value.id] === true ? { memberNumberAndDnidCombinationExists: true }: null;
@@ -54,7 +55,8 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
   });
 };
 
-export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminalInterfaces.MobileTerminal, validateSerialNoExists, memberNumberAndDnidCombinationExists): FormGroup => {
+export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminalInterfaces.MobileTerminal,
+  validateSerialNoExists, memberNumberAndDnidCombinationExists): FormGroup => {
   const selectedOceanRegions = [];
   if(mobileTerminal.eastAtlanticOceanRegion) { selectedOceanRegions.push('East Atlantic'); }
   if(mobileTerminal.indianOceanRegion) { selectedOceanRegions.push('Indian'); }

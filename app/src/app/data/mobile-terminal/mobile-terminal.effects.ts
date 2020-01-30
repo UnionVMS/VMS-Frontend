@@ -141,7 +141,6 @@ export class MobileTerminalEffects {
     mergeMap((action) => of(action).pipe(
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken]: Array<any>) => {
-        console.warn(pipedAction);
         if(pipedAction.isSelf === true){
           return new Observable((observer) => {
             observer.next(MobileTerminalActions.setSerialNumberExists({ serialNumberExists: false }));
