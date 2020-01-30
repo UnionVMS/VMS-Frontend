@@ -14,6 +14,7 @@ export class FullLayoutComponent implements OnInit {
   public appVersion: string = version;
   public notifications$: Observable<NotificationsInterfaces.State>;
   public dismissNotification: (type: string, index: number) => void;
+  public isAdmin: string = version;
 
   constructor(private store: Store<any>) { }
 

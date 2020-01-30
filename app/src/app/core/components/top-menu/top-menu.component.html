@@ -26,14 +26,11 @@
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link waves-light" routerLink="/logout" i18n>Logout</a>
     </li>
-    <span *ngIf= "isAdmin">
-      <li class="nav-item" routerLinkActive="active">
+      <li *ngIf="isAdmin" class="nav-item" routerLinkActive="active">
        <strong><a class="nav-link waves-light" href="{{baseUrl}}/unionvms/">
           ADMIN
         </a></strong>
       </li>
-    </span>
-
   </ul>
 
 </div>

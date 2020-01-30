@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { version } from '@app/../../package.json';
 import { Subscription, Observable } from 'rxjs';
 import { NotificationsActions, NotificationsSelectors, NotificationsInterfaces } from '@data/notifications';
+import { AuthSelectors } from '@data/auth';
 
 @Component({
   selector: 'core-default-layout-component',
@@ -12,6 +13,7 @@ import { NotificationsActions, NotificationsSelectors, NotificationsInterfaces }
 
 export class DefaultLayoutComponent implements OnInit {
   public appVersion: string = version;
+  public isAdmin: boolean;
   public notifications$: Observable<NotificationsInterfaces.State>;
   public dismissNotification: (type: string, index: number) => void;
 
@@ -29,5 +31,7 @@ export class DefaultLayoutComponent implements OnInit {
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
+    this.store.select(AuthSelectors.isAdmin)
+    .subscribe((isAdmin: boolean) => this.isAdmin = isAdmin);
   }
 }

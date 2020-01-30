@@ -1,7 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AuthSelectors } from '@data/auth';
-import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'core-top-menu-component',
@@ -9,17 +6,10 @@ import { Observable, Subscription } from 'rxjs';
   styleUrls: ['./top-menu.component.scss']
 })
 
-export class TopMenuComponent implements OnInit{
-  public isAdmin;
+export class TopMenuComponent{
   public baseUrl = window.location.origin;
-  constructor(
-    private store: Store<any>
-  ){
-  }
-  ngOnInit(){
-    this.store.select(AuthSelectors.isAdmin)
-      .subscribe((isAdmin: boolean) => this.isAdmin = isAdmin);
-}
+
   @Input() appVersion: string;
+  @Input() isAdmin: boolean;
 }
 
