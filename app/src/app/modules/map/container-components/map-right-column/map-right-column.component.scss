@@ -32,13 +32,13 @@
   .panel {
     display: grid;
 
+    &.information-panel {
+      grid-template-rows: auto 1fr;
+      height: calc(100vh -  #{$navbar_height});
+    }
+
     h3 {
       justify-self: center;
     }
   }
-}
-
-.flag-image {
-  width: 20px;
-  place-self: center;
 }

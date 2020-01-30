@@ -1,0 +1,15 @@
+@import 'variables.scss';
+
+.content-container {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: 100%;
+
+  #selected-assets-control-panel {
+    background: white;
+    align-self: end;
+    display: grid;
+    padding: $medium_distance;
+    grid-row-gap: $medium_distance;
+  }
+}

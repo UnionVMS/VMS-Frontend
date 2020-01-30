@@ -1,12 +1,15 @@
-<h1>{{isCreateOrUpdate()}} Asset</h1>
+<h1>
+  <ng-container *ngIf="isCreate()" i18n>Create Asset</ng-container>
+  <ng-container *ngIf="!isCreate()" i18n>Edit Asset</ng-container>
+</h1>
 
 <ng-container *ngIf="isFormReady()">
   <form class="asset-edit-form" [formGroup]="formValidator">
     <fieldset formGroupName="essentailFields">
-      <legend>Essential fields</legend>
+      <legend i18n>Essential fields</legend>
 
       <mat-form-field id="asset-form--flagstate">
-        <mat-label>Flagstate</mat-label>
+        <mat-label i18n>Flagstate</mat-label>
         <mat-select formControlName="flagState" required>
           <mat-option *ngFor="let flagstate of flagstates" id="mat-option-{{flagstate}}" [value]="flagstate">{{flagstate}}</mat-option>
         </mat-select>
@@ -14,69 +17,69 @@
       </mat-form-field>
 
       <mat-form-field id="asset-form--externalMarking">
-        <mat-label>External marking</mat-label>
+        <mat-label i18n>External marking</mat-label>
         <input matInput formControlName="externalMarking" required>
         <mat-error *ngFor="let error of getErrors(['essentailFields', 'externalMarking'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
       <mat-form-field id="asset-form--name">
-        <mat-label>Name</mat-label>
+        <mat-label i18n>Name</mat-label>
         <input matInput formControlName="name" required>
         <mat-error *ngFor="let error of getErrors(['essentailFields', 'name'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
     </fieldset>
 
     <fieldset formGroupName="identificationFields">
-      <legend>Identification fields</legend>
+      <legend i18n>Identification fields</legend>
 
       <mat-form-field id="asset-form--cfr">
-        <mat-label>CFR</mat-label>
+        <mat-label i18n>CFR</mat-label>
         <input matInput formControlName="cfr">
         <mat-error *ngFor="let error of getErrors(['identificationFields', 'cfr'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
       <mat-form-field id="asset-form--ircs">
-        <mat-label>IRCS</mat-label>
+        <mat-label i18n>IRCS</mat-label>
         <input matInput formControlName="ircs">
         <mat-error *ngFor="let error of getErrors(['identificationFields', 'ircs'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
       <mat-form-field id="asset-form--imo">
-        <mat-label>IMO</mat-label>
+        <mat-label i18n>IMO</mat-label>
         <input matInput formControlName="imo">
         <mat-error *ngFor="let error of getErrors(['identificationFields', 'imo'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
       <mat-form-field id="asset-form--portOfRegistration">
-        <mat-label>Home port</mat-label>
+        <mat-label i18n>Home port</mat-label>
         <input matInput formControlName="portOfRegistration">
         <mat-error *ngFor="let error of getErrors(['identificationFields', 'portOfRegistration'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
       <mat-form-field id="asset-form--mmsi">
-        <mat-label>MMSI No.</mat-label>
+        <mat-label i18n>MMSI No.</mat-label>
         <input matInput type="number" formControlName="mmsi">
         <mat-error *ngFor="let error of getErrors(['identificationFields', 'mmsi'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
     </fieldset>
 
     <fieldset formGroupName="metrics">
-      <legend>Metrics</legend>
+      <legend i18n>Metrics</legend>
 
       <mat-form-field id="asset-form--lengthOverAll">
-        <mat-label>Length over all</mat-label>
+        <mat-label i18n>Length over all</mat-label>
         <input matInput type="number" formControlName="lengthOverAll">
         <mat-error *ngFor="let error of getErrors(['metrics', 'lengthOverAll'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
       <mat-form-field id="asset-form--lengthBetweenPerpendiculars">
-        <mat-label>Length between perpendiculars</mat-label>
+        <mat-label i18n>Length between perpendiculars</mat-label>
         <input matInput type="number" formControlName="lengthBetweenPerpendiculars">
         <mat-error *ngFor="let error of getErrors(['metrics', 'lengthBetweenPerpendiculars'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
       <mat-form-field class="tonnage-form-field" id="asset-form--grossTonnage">
-        <mat-label>G.tonnage</mat-label>
+        <mat-label i18n>G.tonnage</mat-label>
         <input matInput type="number" formControlName="grossTonnage">
         <mat-select formControlName="grossTonnageUnit">
           <mat-option *ngFor="let unit of unitTonnages" id="mat-option-{{unit.code}}" [value]="unit.code">{{unit.name}}</mat-option>
@@ -86,30 +89,30 @@
       </mat-form-field>
 
       <mat-form-field id="asset-form--powerOfMainEngine">
-        <mat-label>Main power</mat-label>
+        <mat-label i18n>Main power</mat-label>
         <input matInput type="number" formControlName="powerOfMainEngine">
         <mat-error *ngFor="let error of getErrors(['metrics', 'powerOfMainEngine'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
     </fieldset>
 
     <fieldset formGroupName="companyInformation">
-      <legend>Company information</legend>
+      <legend i18n>Company information</legend>
 
       <mat-form-field id="asset-form--prodOrgName">
-        <mat-label>Organization name</mat-label>
+        <mat-label i18n>Organization name</mat-label>
         <input matInput formControlName="prodOrgName">
         <mat-error *ngFor="let error of getErrors(['companyInformation', 'prodOrgName'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
 
       <mat-form-field id="asset-form--prodOrgCode">
-        <mat-label>Organization number</mat-label>
+        <mat-label i18n>Organization number</mat-label>
         <input matInput type="number" formControlName="prodOrgCode">
         <mat-error *ngFor="let error of getErrors(['companyInformation', 'prodOrgCode'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
     </fieldset>
 
     <div>
-      <button id="asset-form--save" mat-raised-button color="primary" type="button" (click)="save()">Save</button>
+      <button id="asset-form--save" mat-raised-button color="primary" type="button" (click)="save()" i18n>Save</button>
     </div>
   </form>
 </ng-container>

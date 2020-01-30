@@ -1,4 +1,7 @@
-<h1>{{isCreateOrUpdate()}} contact</h1>
+<h1>
+  <ng-container *ngIf="isCreate()">Create contact</ng-container>
+  <ng-container *ngIf="!isCreate()">Edit contact</ng-container>
+</h1>
 
 <ng-container *ngIf="isFormReady()">
   <form class="mobile-terminal-edit-form" [formGroup]="formValidator">

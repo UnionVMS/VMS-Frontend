@@ -9,39 +9,25 @@
     ><i class="icon-incident {{activePanel === 'incident' ? 'active' : '' }}" aria-hidden="true"></i></li>
   </ul>
   <div class="panel information-panel" *ngIf="activePanel === 'information'">
-    <h3>Map information</h3>
-    <map-panel-block
-      *ngFor="let currentAsset of selectedAssets; trackBy: trackBySelectedAssets"
-      [blockTitle]="currentAsset.asset.name"
-      [active]="currentAsset.currentlyShowing"
-      [setActiveFunction]="selectAssetWrapper(currentAsset.asset.id)"
-      [useArrowsAsToggle]="true"
-    >
-      <img
-        header
-        *ngIf="currentAsset.asset.flagStateCode !== '???' && currentAsset.asset.flagStateCode !== undefined && getCountryCode(currentAsset) !== '???'"
-        class="flag-image"
-        src="/assets/flags/4x3/{{getCountryCode(currentAsset)}}.svg"
-        [alt]="getCountryCode(currentAsset)" />
-      <map-asset-panel
-        body
-        [asset]="currentAsset"
-        [selectAsset]="selectAsset"
-        [deselectAsset]="deselectAsset"
-        [forecasts]="forecasts$|async"
-        [getAssetTrack]="getAssetTrack"
-        [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
-        [untrackAsset]="untrackAsset"
-        [addForecast]="addForecast"
-        [removeForecast]="removeForecast"
-        [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
-        [centerMapOnPosition]="centerMapOnPosition"
-      ></map-asset-panel>
-    </map-panel-block>
+    <h3 i18n>Map information</h3>
+    <map-selected-assets-panel
+      [selectedAssets]="selectedAssets"
+      [selectAsset]="selectAsset"
+      [clearSelectedAssets]="clearSelectedAssets"
+      [deselectAsset]="deselectAsset"
+      [forecasts]="forecasts$|async"
+      [getAssetTrack]="getAssetTrack"
+      [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
+      [untrackAsset]="untrackAsset"
+      [addForecast]="addForecast"
+      [removeForecast]="removeForecast"
+      [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
+      [centerMapOnPosition]="centerMapOnPosition"
+    ></map-selected-assets-panel>
   </div>
   <div class="panel incident-panel" *ngIf="activePanel === 'incident'">
     <h3>
-      Incident
+      <ng-container i18n>Incident</ng-container>
       <span *ngIf="selectedAsset !== undefined && assetsNotSendingIncidents[selectedAsset.asset.id] !== undefined">
         #{{ assetsNotSendingIncidents[selectedAsset.asset.id].id }}
       </span>

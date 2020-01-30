@@ -11,6 +11,8 @@ import { NotificationsActions } from '../notifications';
 import { MapSavedFiltersActions, MapSavedFiltersSelectors } from './';
 import { UserSettingsService } from '../user-settings/user-settings.service';
 
+import { replaceDontTranslate } from '@app/helpers/helpers';
+
 @Injectable()
 export class MapSavedFiltersEffects {
   constructor(
@@ -33,7 +35,8 @@ export class MapSavedFiltersEffects {
       }
       return this.userSettingsService.saveMapFilters(user, filtersToSave).pipe(
         map((response: any) => {
-          return NotificationsActions.addSuccess(`Filter '${action.filter.name}' saved!`);
+          const message = $localize`:@@ts-savedfilters-saved:Filter '<dont-translate>filterName</dont-translate>' saved!`;
+          return NotificationsActions.addSuccess(replaceDontTranslate(message, { filterName: action.filter.name }));
         }),
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );

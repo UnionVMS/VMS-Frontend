@@ -26,7 +26,7 @@ export class MapSettingsEffects {
     mergeMap(([action, user]: Array<any>) => {
       return this.userSettingsService.saveMapSettings(user, action.settings).pipe(
         map((response: any, index: number) => [
-          NotificationsActions.addSuccess('Settings saved'),
+          NotificationsActions.addSuccess($localize`:@@ts-map-settings-saved:Settings saved`),
           MapSettingsActions.replaceSettings({ settings: action.settings })
         ]),
         flatMap(a => a),

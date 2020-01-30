@@ -17,4 +17,9 @@
   <div class="panel-block-content" *ngIf="active">
     <ng-content select="[body]"></ng-content>
   </div>
+
+
+  <div class="panel-block-footer {{unstyledFooter ? 'unstyled' : ''}}" *ngIf="showFooter && active">
+    <ng-content select="[footer]"></ng-content>
+  </div>
 </div>

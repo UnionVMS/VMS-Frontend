@@ -1,9 +1,9 @@
 <div class="content-container">
   <div>
-  <h1>404 - Not found</h1>
+  <h1 i18n="Headline with http status-code acording to: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">404 - Not found</h1>
   <p>
-    The page you are looking for does not exist.<br />
-    You might want to go to the <a routerLink="/" routerLinkActive="active">startpage</a> and try again?
+    <ng-container i18n="Body part 1 describing the http status-code">The page you are looking for does not exist.</ng-container><br />
+    <ng-container i18n="Body part 2 describing the http status-code">You might want to go to the</ng-container>&nbsp;<a routerLink="/" routerLinkActive="active" i18n="Body part 3 describing the http status-code">startpage</a>&nbsp;<ng-container i18n="Body part 4 describing the http status-code">and try again?</ng-container>
   </p>
   </div>
 </div>

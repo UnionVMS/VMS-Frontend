@@ -1,19 +1,19 @@
-<h1>Settings</h1>
+<h1 i18n>Settings</h1>
 
 <ng-container *ngIf="isFormReady">
   <form class="mobile-terminal-edit-form" [formGroup]="formValidator">
     <fieldset class="map-settings">
-      <legend>Map default settings</legend>
+      <legend i18n>Map default settings</legend>
       <div class="map-toggle-buttons">
-        <mat-slide-toggle formControlName="flagsVisible" color="primary">Show flags</mat-slide-toggle>
-        <mat-slide-toggle formControlName="tracksVisible" color="primary">Show tracks</mat-slide-toggle>
-        <mat-slide-toggle formControlName="namesVisible" color="primary">Show names</mat-slide-toggle>
-        <mat-slide-toggle formControlName="speedsVisible" color="primary">Show speeds</mat-slide-toggle>
-        <mat-slide-toggle formControlName="forecastsVisible" color="primary">Show forecasts</mat-slide-toggle>
+        <mat-slide-toggle formControlName="flagsVisible" color="primary" i18n>Show flags</mat-slide-toggle>
+        <mat-slide-toggle formControlName="tracksVisible" color="primary" i18n>Show tracks</mat-slide-toggle>
+        <mat-slide-toggle formControlName="namesVisible" color="primary" i18n>Show names</mat-slide-toggle>
+        <mat-slide-toggle formControlName="speedsVisible" color="primary" i18n>Show speeds</mat-slide-toggle>
+        <mat-slide-toggle formControlName="forecastsVisible" color="primary" i18n>Show forecasts</mat-slide-toggle>
       </div>
 
       <fieldset formGroupName="mapStartPosition">
-        <legend>Map start position</legend>
+        <legend i18n>Map start position</legend>
         <mat-form-field>
           <input matInput placeholder="Start zoom level" formControlName="startZoomLevel" required>
         </mat-form-field>
@@ -30,15 +30,15 @@
       </fieldset>
 
       <fieldset formGroupName="mapLimits">
-        <legend>Tracks and forecasts</legend>
+        <legend i18n>Tracks and forecasts</legend>
         <div class="map-limits">
           <mat-form-field>
             <mat-select formControlName="tracksMinuteCap" placeholder="Track length">
-              <mat-option value="60">1 hour</mat-option>
-              <mat-option value="180">3 hour</mat-option>
-              <mat-option value="360">6 hours</mat-option>
-              <mat-option value="720">12 hours</mat-option>
-              <mat-option value="1440">1 day</mat-option>
+              <mat-option value="60" i18n>1 hour</mat-option>
+              <mat-option value="180" i18n>3 hours</mat-option>
+              <mat-option value="360" i18n>6 hours</mat-option>
+              <mat-option value="720" i18n>12 hours</mat-option>
+              <mat-option value="1440" i18n>1 day</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field>
@@ -47,7 +47,7 @@
         </div>
       </fieldset>
 
-      <label>Choose ship color logic:</label>
+      <label i18n>Choose ship color logic:</label>
       <mat-radio-group
         aria-labelledby="map-asset-colors"
         class="map-asset-colors"
@@ -58,10 +58,10 @@
       </mat-radio-group>
 
       <mat-form-field>
-        <legend>Unit of distance</legend>
+        <legend i18n>Unit of distance</legend>
         <mat-select formControlName="unitOfDistance">
-          <mat-option value="metric">Metric</mat-option>
-          <mat-option value="nautical">Nautical mile</mat-option>
+          <mat-option value="metric" i18n>Metric</mat-option>
+          <mat-option value="nautical" i18n>Nautical mile</mat-option>
         </mat-select>
       </mat-form-field>
     </fieldset>
@@ -70,8 +70,8 @@
 
 
     <fieldset class="button-block">
-      <button mat-raised-button [disabled]="!formValidator.valid" color="primary" type="button" (click)="save()">Save settings</button>
-      <button mat-stroked-button color="warn" type="button" (click)="resetToDefault()">Reset to default</button>
+      <button mat-raised-button [disabled]="!formValidator.valid" color="primary" type="button" (click)="save()" i18n>Save settings</button>
+      <button mat-stroked-button color="warn" type="button" (click)="resetToDefault()" i18n>Reset to default</button>
     </fieldset>
   </form>
 </ng-container>

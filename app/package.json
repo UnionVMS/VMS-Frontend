@@ -5,9 +5,11 @@
     "ng": "ng",
     "start": "ng serve --host=0.0.0.0 --configuration=dev --hmr=true",
     "build": "ng build --configuration=production",
+    "build:sv": "ng build --configuration=sv",
     "test": "ng test --code-coverage",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "extract-i18n": "ng xi18n --output-path i18n && xliffmerge --profile xliffmerge.json"
   },
   "private": true,
   "dependencies": {
@@ -38,6 +40,7 @@
     "jwt-decode": "^2.2.0",
     "ng-pick-datetime": "^7.0.0",
     "ol": "^6.1.1",
+    "proj4": "^2.6.0",
     "rxjs": "~7.0.0-alpha.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

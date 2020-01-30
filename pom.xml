@@ -130,7 +130,7 @@
 					<warName>${project.artifactId}</warName>
 					<webResources>
 						<resource>
-							<directory>${basedir}/app/dist/vms-frontend</directory>
+							<directory>${basedir}/app/dist/en</directory>
 						</resource>
 						<resource>
 							<directory>${basedir}/webContent</directory>

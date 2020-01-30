@@ -9,6 +9,7 @@ import { AssetPanelComponent } from './asset-panel.component';
 import AssetMovementStub from '@data/asset/stubs/assetMovement.stub';
 import AssetStub from '@data/asset/stubs/asset.stub';
 import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
+import { PanelBlockComponent } from '../panel-block/panel-block.component';
 
 /* tslint:disable:no-string-literal */
 describe('AssetPanelComponent', () => {
@@ -19,7 +20,8 @@ describe('AssetPanelComponent', () => {
         UIModule
       ],
       declarations: [
-        AssetPanelComponent
+        AssetPanelComponent,
+        PanelBlockComponent
       ]
     })
     .compileComponents();
@@ -29,14 +31,12 @@ describe('AssetPanelComponent', () => {
     const fixture = TestBed.createComponent(AssetPanelComponent);
     const component = fixture.componentInstance;
 
-    component.assets = [
-      {
-        asset: AssetStub,
-        assetTracks: AssetTrackStub,
-        currentPosition: AssetMovementStub,
-        currentlyShowing: true
-      }
-    ];
+    component.asset = {
+      asset: AssetStub,
+      assetTracks: AssetTrackStub,
+      currentPosition: AssetMovementStub,
+      currentlyShowing: true
+    };
 
     component.getAssetTrack = (historyId: string, movementGuid: string) => {};
     component.getAssetTrackTimeInterval = (historyId: string, startDate: string, endDate: string) => {};
@@ -45,6 +45,7 @@ describe('AssetPanelComponent', () => {
     component.removeForecast = (historyId: string) => {};
     component.forecasts = {};
     component.tracksMinuteCap = 30;
+    component.centerMapOnPosition = (longAndLat) => {};
 
     return { fixture, component };
   }
@@ -60,14 +61,13 @@ describe('AssetPanelComponent', () => {
     const getAssetTrackSpy              = spyOn(component, 'getAssetTrack');
     const getAssetTrackTimeIntervalSpy  = spyOn(component, 'getAssetTrackTimeInterval');
 
-    let selectedAsset = component.assets.find(asset => asset.currentlyShowing);
+    let selectedAsset = component.asset;
     expect(untrackAssetSpy).toHaveBeenCalledTimes(0);
     component['toggleTracks'](selectedAsset);
     expect(untrackAssetSpy).toHaveBeenCalledTimes(1);
     expect(untrackAssetSpy).toHaveBeenCalledWith(selectedAsset.asset.id);
 
     component['getTracksMillisecondCap'] = () => formatDate(1555490596000 - component.tracksMinuteCap * 60 * 1000);
-
 
     selectedAsset = { ...selectedAsset, assetTracks: undefined };
     expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledTimes(0);
@@ -93,7 +93,7 @@ describe('AssetPanelComponent', () => {
     const removeForecastSpy = spyOn(component, 'removeForecast');
     const addForecastSpy    = spyOn(component, 'addForecast');
 
-    const selectedAsset = component.assets.find(asset => asset.currentlyShowing);
+    const selectedAsset = component.asset;
 
     expect(addForecastSpy).toHaveBeenCalledTimes(0);
     component['toggleForecast'](selectedAsset.asset.id);
@@ -106,5 +106,18 @@ describe('AssetPanelComponent', () => {
     component['toggleForecast'](selectedAsset.asset.id);
     expect(removeForecastSpy).toHaveBeenCalledTimes(1);
     expect(removeForecastSpy).toHaveBeenCalledWith(selectedAsset.asset.id);
+  });
+
+  it('should correctly center map on asset', () => {
+    const { component } = setup();
+    const centerMapOnPositionSpy = spyOn(component, 'centerMapOnPosition');
+
+
+    expect(centerMapOnPositionSpy).toHaveBeenCalledTimes(0);
+    component['goToAsset'](component.asset);
+    expect(centerMapOnPositionSpy).toHaveBeenCalledTimes(1);
+    expect(centerMapOnPositionSpy).toHaveBeenCalledWith(
+      component.asset.currentPosition.microMove.location
+    );
   });
 });

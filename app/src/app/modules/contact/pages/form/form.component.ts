@@ -92,8 +92,8 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.unmount$.unsubscribe();
   }
 
-  isCreateOrUpdate() {
-    return typeof this.mergedRoute.params.contactId === 'undefined' ? 'Create' : 'Edit';
+  isCreate() {
+    return typeof this.mergedRoute.params.contactId === 'undefined';
   }
 
   isFormReady() {

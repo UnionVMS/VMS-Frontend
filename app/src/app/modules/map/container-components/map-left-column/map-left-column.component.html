@@ -9,8 +9,9 @@
     ><i class="icon-workflow {{activePanel === 'workflows' ? 'active' : '' }}" aria-hidden="true"></i></li>
   </ul>
   <div class="panel filter-panel" *ngIf="activePanel === 'filters'">
-    <h3>Filter map</h3>
+    <h3 i18n>Filter map</h3>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="Filter"
       [active]="filtersActive.filter"
       [setActiveFunction]="setGivenFilterActiveCurry('filter')"
@@ -22,6 +23,7 @@
       ></map-asset-filter>
     </map-panel-block>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="Saved filters"
       [active]="filtersActive.savedFilters"
       [setActiveFunction]="setGivenFilterActiveCurry('savedFilters')"
@@ -37,6 +39,7 @@
       ></map-saved-filters>
     </map-panel-block>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="Asset groups"
       [active]="filtersActive.assetGroups"
       [setActiveFunction]="setGivenFilterActiveCurry('assetGroups')"
@@ -63,8 +66,9 @@
     </div>
   </div>
   <div class="panel workflow-panel" *ngIf="activePanel === 'workflows'">
-    <h3>Workflows</h3>
+    <h3 i18n>Workflows</h3>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="Assets not sending"
       [active]="filtersActive.assetsNotSendingIncicents"
       [setActiveFunction]="setGivenWorkflowActive('assetsNotSendingIncicents')"
@@ -87,6 +91,7 @@
       ></map-incidents>
     </map-panel-block>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="Fishing Activity"
       [active]="false"
       [setActiveFunction]="emptyClick"
@@ -94,6 +99,7 @@
     >
     </map-panel-block>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="Long termed parked"
       [active]="false"
       [setActiveFunction]="emptyClick"
@@ -101,6 +107,7 @@
     >
     </map-panel-block>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="New Assets"
       [active]="false"
       [setActiveFunction]="emptyClick"
@@ -108,6 +115,7 @@
     >
     </map-panel-block>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="AIS Assets"
       [active]="false"
       [setActiveFunction]="emptyClick"
@@ -115,6 +123,7 @@
     >
     </map-panel-block>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="Static VMS Assets"
       [active]="false"
       [setActiveFunction]="emptyClick"
@@ -122,6 +131,7 @@
     >
     </map-panel-block>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="Risk Assets"
       [active]="false"
       [setActiveFunction]="emptyClick"
@@ -129,6 +139,7 @@
     >
     </map-panel-block>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="MMSI duplicates"
       [active]="false"
       [setActiveFunction]="emptyClick"
@@ -136,6 +147,7 @@
     >
     </map-panel-block>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="Active Prior Notification"
       [active]="false"
       [setActiveFunction]="emptyClick"
@@ -143,6 +155,7 @@
     >
     </map-panel-block>
     <map-panel-block
+      i18n-blockTitle
       blockTitle="Entry & Exit Assets"
       [active]="false"
       [setActiveFunction]="emptyClick"

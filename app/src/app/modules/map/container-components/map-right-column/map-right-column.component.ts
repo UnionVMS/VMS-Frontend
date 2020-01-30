@@ -2,7 +2,6 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import getContryISO2 from 'country-iso-3-to-2';
 import Map from 'ol/Map';
 
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
@@ -34,6 +33,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public addForecast: (assetId: string) => void;
   public createManualMovement: (manualMovement: AssetInterfaces.ManualMovement) => void;
   public createNote: (note: NotesInterfaces.Note) => void;
+  public clearSelectedAssets: () => void;
   public deselectAsset: (assetId: string) => void;
   public getAssetTrack: (assetId: string, movementGuid: string) => void;
   public getAssetTrackTimeInterval: (assetId: string, startDate: string, endDate: string) => void;
@@ -73,6 +73,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   }
 
   mapDispatchToProps() {
+    this.clearSelectedAssets = () =>
+      this.store.dispatch(AssetActions.clearSelectedAssets());
     this.deselectAsset = (assetId) =>
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     this.getAssetTrack = (assetId: string, movementGuid: string) =>
@@ -93,22 +95,6 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     };
     this.createNote = (note: NotesInterfaces.Note) =>
       this.store.dispatch(NotesActions.saveNote({ note }));
-  }
-
-  selectAssetWrapper(assetId) {
-    return () => this.selectAsset(assetId);
-  }
-
-  trackBySelectedAssets(index: number, asset: AssetInterfaces.AssetData) {
-    return asset.asset.id;
-  }
-
-  getCountryCode(asset) {
-    const countryCode = getContryISO2(asset.asset.flagStateCode);
-    if(typeof countryCode === 'undefined') {
-      return '???';
-    }
-    return countryCode.toLowerCase();
   }
 
   ngOnInit() {

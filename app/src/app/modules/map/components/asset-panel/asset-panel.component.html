@@ -1,13 +1,27 @@
-<div class="content-container">
-  <div class="information-wrapper">
-    <div class="asset-information" *ngIf="asset.currentPosition !== undefined">
-      <ng-container>
+<map-panel-block
+  [blockTitle]="asset.asset.name"
+  [active]="asset.currentlyShowing"
+  [setActiveFunction]="selectAssetWrapper()"
+  [useArrowsAsToggle]="true"
+  [showFooter]="true"
+  [unstyledFooter]="true"
+>
+  <img
+    header
+    *ngIf="asset.asset.flagStateCode !== '???' && asset.asset.flagStateCode !== undefined && getCountryCode() !== '???'"
+    class="flag-image"
+    src="/assets/flags/4x3/{{getCountryCode()}}.svg"
+    [alt]="getCountryCode(asset)"
+  />
+  <div body class="content-container">
+    <div class="information-wrapper">
+      <div class="asset-information" *ngIf="asset.currentPosition !== undefined">
         <ng-container *ngIf="asset.asset.ircs">
-          <legend>Ircs:</legend>
+          <legend i18n>Ircs:</legend>
           <div>{{asset.asset.ircs}}</div>
         </ng-container>
         <ng-container *ngIf="asset.asset.mmsi">
-          <legend>Mmsi:</legend>
+          <legend i18n>Mmsi:</legend>
           <div>
             <a
               href="https://www.marinetraffic.com/en/ais/index/search/all?keyword={{asset.asset.mmsi}}"
@@ -16,69 +30,76 @@
           </div>
         </ng-container>
         <ng-container *ngIf="asset.currentPosition.microMove.speed !== null">
-          <legend>Speed:</legend>
+          <legend i18n>Speed:</legend>
           <div>{{asset.currentPosition.microMove.speed.toFixed(2)}}</div>
         </ng-container>
         <ng-container *ngIf="asset.currentPosition.microMove.heading !== null">
-          <legend>Heading:</legend>
+          <legend i18n>Heading:</legend>
           <div>{{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
         </ng-container>
         <ng-container *ngIf="asset.asset.flagStateCode">
-          <legend>Flagstate:</legend>
+          <legend i18n>Flagstate:</legend>
           <div>{{asset.asset.flagStateCode}}</div>
         </ng-container>
         <ng-container *ngIf="asset.asset.externalMarking">
-          <legend>External marking:</legend>
+          <legend i18n>External marking:</legend>
           <div>{{asset.asset.externalMarking}}</div>
         </ng-container>
         <ng-container *ngIf="asset.asset.lengthOverAll">
-          <legend>Length:</legend>
+          <legend i18n>Length:</legend>
           <div>{{asset.asset.lengthOverAll}}</div>
         </ng-container>
         <ng-container *ngIf="asset.asset.licenceType">
-          <legend>LicenceType:</legend>
+          <legend i18n>LicenceType:</legend>
           <div>{{asset.asset.licenceType}}</div>
         </ng-container>
         <ng-container *ngIf="asset.asset.vesselType">
-          <legend>Vessel type:</legend>
+          <legend i18n>Vessel type:</legend>
           <div>{{asset.asset.vesselType}}</div>
         </ng-container>
-
         <ng-container *ngIf="asset.asset.prodOrgCode">
-          <legend>Org. Nr:</legend>
+          <legend i18n>Org. Nr:</legend>
           <div>{{asset.asset.prodOrgCode}}</div>
         </ng-container>
         <ng-container *ngIf="asset.asset.prodOrgName">
-          <legend>Org. namn:</legend>
+          <legend i18n>Org. namn:</legend>
           <div>{{asset.asset.prodOrgName}}</div>
         </ng-container>
-      </ng-container>
+        <mat-checkbox color="primary" [checked]="tracksIsVisible(asset)" (change)="toggleTracks(asset)" i18n>Track</mat-checkbox>
+        <mat-checkbox color="primary" [checked]="forecastIsVisible(asset.asset.id)" (change)="toggleForecast(asset.asset.id)" i18n>Forecast</mat-checkbox>
+      </div>
     </div>
   </div>
-  <div class="button-wrapper">
-    <div class="button-block">
-      <ui-button-toggle
-        [label]="'Track'"
-        [value]="tracksIsVisible(asset)"
-        [switchFunction]="toggleTracksFactory(asset)"
-      ></ui-button-toggle>
-      <ui-button-toggle
-        [label]="'Forecast'"
-        [value]="forecastIsVisible(asset.asset.id)"
-        [switchFunction]="toggleForecastFactory(asset.asset.id)"
-      ></ui-button-toggle>
+  <div footer class="button-wrapper">
+    <div class="button-wrapper-minified {{!expandFooterButtons ? 'active' : ''}}">
+      <div class="deselect-asset" (click)="deselectAsset(asset.asset.id)">
+        <!-- <i class="fas fa-trash-alt" aria-hidden="true"></i> -->
+        <i class="icon-trash" aria-hidden="true"></i>
+        <div class="deselect-asset-text" i18n>Remove from selected</div>
+      </div>
+      <div class="expand-asset-options"><i class="icon-elipsis" aria-hidden="true" (click)="toggleExpandFooterButtons()"></i></div>
+    </div>
+    <div class="button-wrapper-expanded {{expandFooterButtons ? 'active' : ''}}">
       <button
-        mat-stroked-button
-        class="btn btn-small"
+        i18n
+        mat-button
         (click)="goToAsset(asset)"
         color="primary"
-      >Go To</button>
+      >Go to on map</button>
       <button
-        mat-stroked-button
+        i18n
+        mat-button
         routerLink="/asset/{{asset.asset.id}}"
-        class="btn btn-small"
         color="primary"
-      >Show asset</button>
+      >Show more information</button>
+      <button
+        i18n
+        mat-button
+        routerLink="/asset/{{asset.asset.id}}"
+        color="primary"
+        disabled
+      >Add to asset group</button>
+      <div class="minify-button-wrapper" (click)="toggleExpandFooterButtons()"><i class="fas fa-times-circle" aria-hidden="true"></i></div>
     </div>
   </div>
-</div>
+</map-panel-block>
