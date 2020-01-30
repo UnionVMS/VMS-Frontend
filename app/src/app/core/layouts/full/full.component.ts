@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { version } from '@app/../../package.json';
 import { Subscription, Observable } from 'rxjs';
 import { NotificationsActions, NotificationsSelectors, NotificationsInterfaces } from '@data/notifications';
+import { AuthSelectors } from '@data/auth';
 
 @Component({
   selector: 'core-full-layout-component',
@@ -14,7 +15,7 @@ export class FullLayoutComponent implements OnInit {
   public appVersion: string = version;
   public notifications$: Observable<NotificationsInterfaces.State>;
   public dismissNotification: (type: string, index: number) => void;
-  public isAdmin: string = version;
+  public isAdmin: boolean;
 
   constructor(private store: Store<any>) { }
 
@@ -26,9 +27,12 @@ export class FullLayoutComponent implements OnInit {
     this.dismissNotification = (type: string, index: number) =>
       this.store.dispatch(NotificationsActions.dismiss({ notificationType: type, index }));
   }
-
+  blablaAdmin() {
+    this.store.select(AuthSelectors.isAdmin).subscribe((isAdmin: boolean) => this.isAdmin = isAdmin);
+  }
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
+    this.store.select(AuthSelectors.isAdmin).subscribe((isAdmin: boolean) => this.isAdmin = isAdmin);
   }
 }
