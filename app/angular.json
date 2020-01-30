@@ -80,7 +80,7 @@
                   "maximumWarning": "6kb"
                 }
               ],
-              "outputPath": "dist/sv/",
+              "outputPath": "dist/en/",
             },
             "sv": {
               "fileReplacements": [
