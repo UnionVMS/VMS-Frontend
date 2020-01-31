@@ -31,7 +31,6 @@ export class DefaultLayoutComponent implements OnInit {
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
-    this.store.select(AuthSelectors.isAdmin)
-    .subscribe((isAdmin: boolean) => this.isAdmin = isAdmin);
+    this.store.select(AuthSelectors.isAdmin).subscribe((isAdmin: boolean) => this.isAdmin = isAdmin);
   }
 }

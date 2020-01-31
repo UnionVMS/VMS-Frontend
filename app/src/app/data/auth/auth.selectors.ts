@@ -7,7 +7,6 @@ export const getAuthToken = createSelector(
   getAuthState,
   (state: State) => {
     if (state.user !== null) {
-
       return state.user.jwtToken.raw;
     }
     return null;

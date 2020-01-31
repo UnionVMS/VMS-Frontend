@@ -3,10 +3,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { TopMenuComponent } from './top-menu.component';
 
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('TopMenuComponent', () => {
-// let store: MockStore<{ }>;
 const initialState = { };
 
   beforeEach(async(() => {
@@ -39,11 +38,14 @@ const initialState = { };
     const { fixture } = setup();
     const layoutElement: HTMLElement = fixture.nativeElement;
     const navbar = layoutElement.querySelector('.navbar');
+
     expect(navbar).not.toBeNull();
   });
 
   it(`should have correct links`, () => {
-    const { fixture } = setup();
+    const { fixture, component} = setup();
+    component.isAdmin = true;
+    fixture.detectChanges();
     const layoutElement: HTMLElement = fixture.nativeElement;
     const links = layoutElement.querySelectorAll('.navbar a');
     expect(links[0].textContent).toBe('VMS');
@@ -51,6 +53,15 @@ const initialState = { };
     expect(links[2].textContent).toContain('Realtime map');
     expect(links[3].textContent).toContain('Reports map');
     expect(links[4].textContent).toContain('My Settings');
+    expect(links[5].textContent).toContain('Logout');
+    expect(links[6].textContent).toBe('ADMIN');
+
+    // check so admin link don´t show when isAdmin = false
+    component.isAdmin = false;
+    fixture.detectChanges();
+    const layoutElement_after_isAdmin_updated: HTMLElement = fixture.nativeElement;
+    const links_after_isAdmin_updated = layoutElement_after_isAdmin_updated.querySelectorAll('.navbar a');
+    expect(links_after_isAdmin_updated[6]).toBeUndefined();
   });
 
 });

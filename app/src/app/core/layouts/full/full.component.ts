@@ -27,9 +27,6 @@ export class FullLayoutComponent implements OnInit {
     this.dismissNotification = (type: string, index: number) =>
       this.store.dispatch(NotificationsActions.dismiss({ notificationType: type, index }));
   }
-  blablaAdmin() {
-    this.store.select(AuthSelectors.isAdmin).subscribe((isAdmin: boolean) => this.isAdmin = isAdmin);
-  }
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
