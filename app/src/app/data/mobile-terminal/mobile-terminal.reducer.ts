@@ -6,7 +6,8 @@ export const initialState: MobileTerminalInterfaces.State = {
   mobileTerminals: {},
   transponders: [],
   plugins: [],
-  formFieldsValid: { serialNumberExists: false,
+  formFieldsValid: {
+    serialNumberExists: false,
     memberNumberAndDnidCombinationExists: {},
    }
 };

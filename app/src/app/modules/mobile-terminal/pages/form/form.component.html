@@ -11,8 +11,11 @@
       <mat-form-field id="mobile-terminal-form--mobileTerminalType">
         <mat-label i18n>Transceiver system</mat-label>
         <mat-select formControlName="mobileTerminalType" required>
-          <mat-option *ngFor="let plugin of plugins" id="mat-option-plugin-{{plugin.pluginSatelliteType}}"
-          [value]="plugin.pluginSatelliteType">{{plugin.pluginSatelliteType}}</mat-option>
+          <mat-option
+            *ngFor="let plugin of plugins"
+            id="mat-option-plugin-{{plugin.pluginSatelliteType}}"
+            [value]="plugin.pluginSatelliteType"
+          >{{plugin.pluginSatelliteType}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -26,8 +29,11 @@
       <mat-form-field id="mobile-terminal-form--oceanRegions">
         <mat-label i18n>Ocean region</mat-label>
         <mat-select formControlName="selectedOceanRegions" multiple required>
-          <mat-option *ngFor="let oceanRegion of oceanRegions" id="mat-option-oceanRegion-{{oceanRegion.replace(' ', '')}}"
-          [value]="oceanRegion">{{oceanRegion}}</mat-option>
+          <mat-option
+            *ngFor="let oceanRegion of oceanRegions"
+            id="mat-option-oceanRegion-{{oceanRegion.replace(' ', '')}}"
+            [value]="oceanRegion"
+          >{{oceanRegion}}</mat-option>
         </mat-select>
         <mat-error *ngFor="let error of getErrors(['essentailFields', 'selectedOceanRegions'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
@@ -91,12 +97,19 @@
       >New channel</button>
 
       <ng-container *ngIf="formValidator.controls.channels?.value.length > 0">
-        <fieldset class="channel" *ngFor="let channel of formValidator.controls.channels?.value; let i = index; trackBy: trackChannelsBy"
-        formGroupName="{{i}}">
+        <fieldset
+          class="channel"
+          *ngFor="let channel of formValidator.controls.channels?.value; let i = index; trackBy: trackChannelsBy"
+          formGroupName="{{i}}">
           <legend>{{channel.name}} - {{channel.id}} </legend>
 
-          <button *ngIf="formValidator.controls.channels?.value.length > 1" type="button" name="button"
-            (click)="removeChannel(i)" i18n>Remove channel</button>
+          <button
+            *ngIf="formValidator.controls.channels?.value.length > 1"
+            type="button"
+            name="button"
+            (click)="removeChannel(i)"
+            i18n
+          >Remove channel</button>
 
           <mat-form-field class="mobile-terminal-form--channel-lesDescription">
             <mat-label i18n>Land station</mat-label>
@@ -105,16 +118,23 @@
 
           <mat-form-field class="mobile-terminal-form--channel-dnid">
             <mat-label i18n>DNID</mat-label>
-            <input matInput type="number" formControlName="dnid" require
-            (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', i, 'memberNumber'])">
-            <mat-error *ngFor="let error of getErrors(['channels', i, 'dnid'])">{{ errorMessage(error) }}</mat-error>
+            <input
+              matInput
+              type="number"
+              formControlName="dnid"
+              require
+              (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', i, 'memberNumber'])"
+            ><mat-error *ngFor="let error of getErrors(['channels', i, 'dnid'])">{{ errorMessage(error) }}</mat-error>
           </mat-form-field>
 
           <mat-form-field class="mobile-terminal-form--channel-memberNumber">
             <mat-label i18n>Member no.</mat-label>
-            <input matInput type="number" formControlName="memberNumber" required
-            (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', i, 'dnid'])">
-            <mat-error *ngFor="let error of getErrors(['channels', i, 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
+            <input
+              matInput type="number"
+              formControlName="memberNumber"
+              required
+              (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', i, 'dnid'])"
+            ><mat-error *ngFor="let error of getErrors(['channels', i, 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
           </mat-form-field>
 
           <mat-form-field class="mobile-terminal-form--channel-name">
@@ -169,6 +189,7 @@
         mat-raised-button
         color="primary"
         type="button"
+
         [disabled]="!formValidator.valid"
         (click)="save()"
         i18n

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ɵConsole } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { take} from 'rxjs/operators';
@@ -47,8 +47,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
   mapStateToProps() {
-    validateSerialNoExistsFactory
-    memberNumberAndDnidExistsFactory
     this.serialNumberExists$ = this.store.select(MobileTerminalSelectors.getSerialNumberExists);
 
     const validateSerialNoExistsFunction = validateSerialNoExistsFactory(this.serialNumberExists$);
@@ -162,7 +160,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   createNewChannel() {
-    addChannelToFormValidator(this.formValidator);
+    addChannelToFormValidator(this.formValidator, this.memberNumberAndDnidCombinationExists);
   }
 
   removeChannel(index: number) {
@@ -178,6 +176,8 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   getErrors(path: string[]) {
+
+    console.warn("this.formValidator ", this.formValidator)
     const errors = this.formValidator.get(path).errors;
     return errors === null ? [] : Object.keys(errors).map(errorType => ({ errorType, error: errors[errorType] }));
   }

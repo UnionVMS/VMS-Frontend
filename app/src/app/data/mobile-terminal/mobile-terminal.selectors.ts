@@ -7,7 +7,6 @@ import { getMergedRoute } from '@data/router/router.selectors';
 export const selectMobileTerminals = (state: State) => state.mobileTerminal.mobileTerminals;
 export const selectTransponders = (state: State) => state.mobileTerminal.transponders;
 export const selectPlugins = (state: State) => state.mobileTerminal.plugins;
-export const selectFormFieldsValid = (state: State) => state.mobileTerminal.formFieldsValid;
 export const selectSerialNumberExists = (state: State) => state.mobileTerminal.formFieldsValid.serialNumberExists;
 export const selectMemberNumberAndDnidCombinationExists = (state: State) => state.mobileTerminal.formFieldsValid.memberNumberAndDnidCombinationExists;
 

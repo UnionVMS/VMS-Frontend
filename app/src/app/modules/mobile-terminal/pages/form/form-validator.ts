@@ -92,15 +92,12 @@ export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminal
   });
 };
 
-export const addChannelToFormValidator = (formValidator: FormGroup): void => {
+export const addChannelToFormValidator = (formValidator: FormGroup, memberNumberAndDnidCombinationExists): void => {
   const channels = formValidator.get('channels') as FormArray;
-  channels.push(createNewChannel(null, null));
+  channels.push(createNewChannel(null, memberNumberAndDnidCombinationExists));
 };
 
 export const removeChannelAtFromFromValidator = (formValidator: FormGroup, index: number): void => {
   const channels = formValidator.get('channels') as FormArray;
   return channels.removeAt(index);
 };
-
-
-
