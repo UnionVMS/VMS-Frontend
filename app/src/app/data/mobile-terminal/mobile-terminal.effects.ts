@@ -137,7 +137,7 @@ export class MobileTerminalEffects {
 
   @Effect()
   checkIfSerialNumberExists$ = this.actions$.pipe(
-    ofType(MobileTerminalActions.serialNumberExists),
+    ofType(MobileTerminalActions.getSerialNumberExists),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken]: Array<any>) => {
@@ -147,7 +147,7 @@ export class MobileTerminalEffects {
             observer.complete();
           });
         }
-        return this.mobileTerminalService.serialNumberExists(authToken, pipedAction.serialNumber).pipe(
+        return this.mobileTerminalService.getSerialNumberExists(authToken, pipedAction.serialNumber).pipe(
           map((response: any) => {
             return MobileTerminalActions.setSerialNumberExists({ serialNumberExists: response });
           })
@@ -159,7 +159,7 @@ export class MobileTerminalEffects {
 
   @Effect()
   checkIfMemberNumberAndDnidCombinationExists$ = this.actions$.pipe(
-    ofType(MobileTerminalActions.memberNumberAndDnidCombinationExists),
+    ofType(MobileTerminalActions.getMemberNumberAndDnidCombinationExists),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.select(AuthSelectors.getAuthToken),
@@ -172,7 +172,7 @@ export class MobileTerminalEffects {
             observer.complete();
           });
         }
-        return this.mobileTerminalService.memberAndDnidCombinationExists(authToken, pipedAction.memberNumber, pipedAction.dnid).pipe(
+        return this.mobileTerminalService.getMemberAndDnidCombinationExists(authToken, pipedAction.memberNumber, pipedAction.dnid).pipe(
           map((response: any) => {
             return MobileTerminalActions.setMemberAndDnidCombinationExists({ channelId: pipedAction.channelId, dnidMemberNumberComboExists: response });
           })
