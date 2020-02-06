@@ -58,12 +58,12 @@ export const getSerialNumberExists = createAction(
   props<{ serialNumber: string, isSelf?: boolean}>()
 );
 
-export const setMemberAndDnidCombinationExists = createAction(
-  '[Mobile Terminal] Set channel with valid of DNID and membernumber',
+export const setMemberNumberAndDnidCombinationExists = createAction(
+  '[Mobile Terminal] Set channel with valid of DNID and memberNumber',
   props<{ channelId: string, dnidMemberNumberComboExists: boolean; }>()
 );
 
 export const getMemberNumberAndDnidCombinationExists = createAction(
-  '[Mobile Terminal] validate serialNumber',
+  '[Mobile Terminal] Get memberNumber and dnid combination exists',
   props<{  memberNumber: string, dnid: string, channelId: string, isSelf?: boolean}>()
 );

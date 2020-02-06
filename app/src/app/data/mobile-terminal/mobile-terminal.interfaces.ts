@@ -75,9 +75,9 @@ export interface Transponder {
 }
 
 export type FormFieldsValid = Readonly<{
-  serialNumberExists: boolean;
+  serialNumberExists: boolean | null;
   memberNumberAndDnidCombinationExists: Readonly<{
-    readonly [channelId: string]: boolean;
+    readonly [channelId: string]: boolean | null;
   }>;
 }>;
 

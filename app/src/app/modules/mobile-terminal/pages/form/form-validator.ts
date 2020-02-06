@@ -1,6 +1,6 @@
 import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { MobileTerminalInterfaces } from '@data/mobile-terminal';
-import { map, take, skip } from 'rxjs/operators';
+import { map, take, skip, skipWhile } from 'rxjs/operators';
 import CustomValidators from '@validators/.';
 import { Observable } from 'rxjs';
 
@@ -18,16 +18,19 @@ const alphanumericWithHyphenAndSpace = (c: FormControl) => {
 };
 
 export const validateSerialNoExistsFactory = (serialNoObservable: Observable<boolean>) => {
-  return (control: AbstractControl) => serialNoObservable.pipe(skip(1), take(1), map(res => {
+  return (control: AbstractControl) => serialNoObservable.pipe(skipWhile((val => val === null)), take(1), map(res => {
     return res ? { serialNumberAlreadyExists: true } : null;
   }));
-}
+};
+
 export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationExistsObservable:
   Observable< Readonly<{readonly [channelId: string]: boolean}>>) =>
   (type: string) =>
-    (control: AbstractControl) => memberNumberAndDnidCombinationExistsObservable.pipe( skip(1), take(1), map(res => {
-      return res[control.parent.value.id] === true ? { memberNumberAndDnidCombinationExists: true }: null;
-    }));
+    (control: AbstractControl) => memberNumberAndDnidCombinationExistsObservable.pipe(
+      skipWhile((val => val === null || typeof control.parent === 'undefined')), take(1), map(res => {
+        return res[control.parent.value.id] === true ? { memberNumberAndDnidCombinationExists: true } : null;
+      })
+    );
 
 const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null, memberNumberAndDnidCombinationExists): FormGroup  => {
   return new FormGroup({

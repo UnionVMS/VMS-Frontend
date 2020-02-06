@@ -190,7 +190,7 @@
         color="primary"
         type="button"
 
-        [disabled]="!this.formValidator.valid"
+        [disabled]="debug()"
         (click)="save()"
         i18n
       >Save</button>
