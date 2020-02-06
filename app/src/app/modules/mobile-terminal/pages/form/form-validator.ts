@@ -1,6 +1,8 @@
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { MobileTerminalInterfaces } from '@data/mobile-terminal';
+import { map, take, skip, skipWhile } from 'rxjs/operators';
 import CustomValidators from '@validators/.';
+import { Observable } from 'rxjs';
 
 interface MobileTerminalFormValidator {
   essentailFields: FormGroup;
@@ -8,14 +10,29 @@ interface MobileTerminalFormValidator {
   channels: FormArray;
 }
 
-export const alphanumericWithHyphenAndSpace = (c: FormControl) => {
+const alphanumericWithHyphenAndSpace = (c: FormControl) => {
   const EMAIL_REGEXP = /^[a-z0-9\- ]*$/i;
   return c.value === null || c.value.length === 0 || EMAIL_REGEXP.test(c.value) ? null : {
     validateAlphanumericHyphenAndSpace: true
   };
 };
 
-const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null): FormGroup => {
+export const validateSerialNoExistsFactory = (serialNoObservable: Observable<boolean>) => {
+  return (control: AbstractControl) => serialNoObservable.pipe(skipWhile((val => val === null)), take(1), map(res => {
+    return res ? { serialNumberAlreadyExists: true } : null;
+  }));
+};
+
+export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationExistsObservable:
+  Observable< Readonly<{readonly [channelId: string]: boolean}>>) =>
+  (type: string) =>
+    (control: AbstractControl) => memberNumberAndDnidCombinationExistsObservable.pipe(
+      skipWhile((val => val === null || typeof control.parent === 'undefined')), take(1), map(res => {
+        return res[control.parent.value.id] === true ? { memberNumberAndDnidCombinationExists: true } : null;
+      })
+    );
+
+const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null, memberNumberAndDnidCombinationExists): FormGroup  => {
   return new FormGroup({
     name: new FormControl(channel === null ? '' : channel.name),
     pollChannel: new FormControl(channel === null ? '' : channel.pollChannel),
@@ -23,11 +40,13 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
     defaultChannel: new FormControl(channel === null ? '' : channel.defaultChannel),
     dnid: new FormControl(
       channel === null ? '' : channel.dnid,
-      [Validators.required, CustomValidators.minLengthOfNumber(5), CustomValidators.maxLengthOfNumber(5)]
+      [Validators.required, CustomValidators.minLengthOfNumber(5), CustomValidators.maxLengthOfNumber(5)],
+      memberNumberAndDnidCombinationExists('dnid')
     ),
     memberNumber: new FormControl(
       channel === null ? '' : channel.memberNumber,
-      [Validators.required, Validators.min(1), Validators.max(255)]
+      [Validators.required, Validators.min(1), Validators.max(255)],
+      memberNumberAndDnidCombinationExists('memberNumber')
     ),
     lesDescription: new FormControl(channel === null ? '' : channel.lesDescription, [Validators.required]),
     startDate: new FormControl(channel === null ? '' : channel.startDate),
@@ -39,7 +58,12 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
   });
 };
 
-export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminalInterfaces.MobileTerminal): FormGroup => {
+export const createMobileTerminalFormValidator = (
+  mobileTerminal: MobileTerminalInterfaces.MobileTerminal,
+  validateSerialNoExists: (control: AbstractControl) => Observable<{ serialNumberAlreadyExists: boolean }|null>,
+  memberNumberAndDnidCombinationExists: (type: string) =>
+    (control: AbstractControl) => Observable<{ memberNumberAndDnidCombinationExists: boolean }|null>
+): FormGroup => {
   const selectedOceanRegions = [];
   if(mobileTerminal.eastAtlanticOceanRegion) { selectedOceanRegions.push('East Atlantic'); }
   if(mobileTerminal.indianOceanRegion) { selectedOceanRegions.push('Indian'); }
@@ -50,15 +74,15 @@ export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminal
     selectedOceanRegions.push('Indian');
   }
 
-  const channels = mobileTerminal.channels.map((channel) => createNewChannel(channel));
+  const channels = mobileTerminal.channels.map((channel) => createNewChannel(channel, memberNumberAndDnidCombinationExists));
   if(channels.length === 0) {
-    channels.push(createNewChannel());
+    channels.push(createNewChannel(null, memberNumberAndDnidCombinationExists));
   }
 
   return new FormGroup({
     essentailFields: new FormGroup({
       mobileTerminalType: new FormControl(mobileTerminal.mobileTerminalType, Validators.required),
-      serialNo: new FormControl(mobileTerminal.serialNo, [Validators.required, alphanumericWithHyphenAndSpace]),
+      serialNo: new FormControl(mobileTerminal.serialNo, [Validators.required, alphanumericWithHyphenAndSpace], validateSerialNoExists),
       selectedOceanRegions: new FormControl(selectedOceanRegions, [Validators.required]),
       transceiverType: new FormControl(mobileTerminal.transceiverType, [Validators.required]),
     }),
@@ -75,9 +99,9 @@ export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminal
   });
 };
 
-export const addChannelToFormValidator = (formValidator: FormGroup): void => {
+export const addChannelToFormValidator = (formValidator: FormGroup, memberNumberAndDnidCombinationExists): void => {
   const channels = formValidator.get('channels') as FormArray;
-  channels.push(createNewChannel());
+  channels.push(createNewChannel(null, memberNumberAndDnidCombinationExists));
 };
 
 export const removeChannelAtFromFromValidator = (formValidator: FormGroup, index: number): void => {

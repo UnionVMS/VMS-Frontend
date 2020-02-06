@@ -133,4 +133,59 @@ export class MobileTerminalEffects {
     ))
   );
 
+
+
+  @Effect()
+  checkIfSerialNumberExists$ = this.actions$.pipe(
+    ofType(MobileTerminalActions.getSerialNumberExists),
+    mergeMap((action) => of(action).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([pipedAction, authToken]: Array<any>) => {
+        if(pipedAction.isSelf === true) {
+          return new Observable((observer) => {
+            observer.next(MobileTerminalActions.setSerialNumberExists({ serialNumberExists: false }));
+            observer.complete();
+          });
+        }
+        return this.mobileTerminalService.getSerialNumberExists(authToken, pipedAction.serialNumber).pipe(
+          map((response: any) => {
+            return MobileTerminalActions.setSerialNumberExists({ serialNumberExists: response });
+          })
+        );
+      })
+    ))
+  );
+
+
+  @Effect()
+  checkIfMemberNumberAndDnidCombinationExists$ = this.actions$.pipe(
+    ofType(MobileTerminalActions.getMemberNumberAndDnidCombinationExists),
+    mergeMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.select(AuthSelectors.getAuthToken),
+        this.store$.select(MobileTerminalSelectors.getMemberNumberAndDnidCombinationExists)
+      ),
+      mergeMap(([pipedAction, authToken, memberAndDnidCombinationExists]: Array<any>) => {
+        if(pipedAction.isSelf === true) {
+          return new Observable((observer) => {
+            observer.next(MobileTerminalActions.setMemberNumberAndDnidCombinationExists({
+              channelId: pipedAction.channelId,
+              dnidMemberNumberComboExists: false
+            }));
+            observer.complete();
+          });
+        }
+        return this.mobileTerminalService.getMemberAndDnidCombinationExists(authToken, pipedAction.memberNumber, pipedAction.dnid).pipe(
+          map((response: any) => {
+            return MobileTerminalActions.setMemberNumberAndDnidCombinationExists({
+              channelId: pipedAction.channelId,
+              dnidMemberNumberComboExists: response
+            });
+          })
+        );
+      })
+    ))
+  );
+
+
 }
