@@ -1,0 +1,39 @@
+@import 'variables.scss';
+.content-container {
+  display: grid;
+  color: white;
+  padding: 10px;
+  background: $map_overlay_background;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+  height: $navbar_height;
+
+  -ms-overflow-style: none;  // IE 10+
+  overflow: -moz-scrollbars-none;  // Firefox
+  &::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+
+  .panel-config-buttons {
+    button {
+      margin: 0;
+      width: 3em;
+      padding: 7px 10px;
+      line-height: normal;
+      &.active {
+        color: white;
+        background-color: #3B847B;
+      }
+      margin-right: $small_distance;
+
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
+
+  map-asset-search {
+    justify-self: end;
+    display: inline-block;
+  }
+}

@@ -25,6 +25,10 @@
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link waves-light" routerLink="/logout" i18n>Logout</a>
     </li>
+    <li *ngIf="isAdmin" class="nav-item" routerLinkActive="active">
+      <a class="nav-link waves-light" href="{{baseUrl}}/unionvms/"><strong>ADMIN</strong></a>
+    </li>
   </ul>
+
 </div>
 <!--/.Navbar-->
