@@ -1,14 +1,3 @@
-<div class="header-row">
-  <h1>{{getHeadline()}}</h1>
-  <div class="action-row">
-    <button
-      mat-raised-button
-      routerLink="/map/realtime/{{asset.id}}"
-      class="btn btn-small btn-primary"
-      i18n
-    >Show on map</button>
-  </div>
-</div>
 <div class="column-wrapper">
   <div class="left-column">
     <asset-show [asset]="asset"></asset-show>
@@ -22,3 +11,15 @@
     </div>
   </div>
 </div>
+<ng-template #toolbox>
+  <div class="toolbox-wrapper">
+    <div class="toolbox">
+      <button
+        mat-raised-button
+        color="primary"
+        routerLink="/map/realtime/{{asset.id}}"
+        i18n
+      >Show on map</button>
+    </div>
+  </div>
+</ng-template>

@@ -128,6 +128,9 @@ export const findLastIndex = (array: Array<any> | ReadonlyArray<any>, predicate:
 
 export const replaceDontTranslate = (stringWithReplacements: string, replacements: any) => {
   const matches = stringWithReplacements.match(/<dont-translate>([^<]*)<\/dont-translate>/g);
+  if(matches === null) {
+    return stringWithReplacements;
+  }
   const replacementsAndValues = matches.map(match => {
     const replacementName = match.replace(/<dont-translate>([^<]*)<\/dont-translate>/g, '$1');
     return { match, value: replacements[replacementName] };

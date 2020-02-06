@@ -11,6 +11,7 @@ import { UIModule } from '@modules/ui/ui.module';
 import { AuthGuard } from './guards/auth.guard';
 
 // Layouts
+import { AssetLayoutComponent } from './layouts/asset/asset.component';
 import { DefaultLayoutComponent } from './layouts/default/default.component';
 import { LoginLayoutComponent } from './layouts/login/login.component';
 import { FullLayoutComponent } from './layouts/full/full.component';
@@ -36,6 +37,7 @@ import { TypescriptTranslationsComponent } from './components/typescript-transla
     UIModule,
   ],
   declarations: [
+    AssetLayoutComponent,
     DefaultLayoutComponent,
     LoginLayoutComponent,
     FullLayoutComponent,

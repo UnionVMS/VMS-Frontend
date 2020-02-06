@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -19,13 +19,16 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormPageComponent implements OnInit, OnDestroy {
+export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  constructor(private store: Store<State>) { }
+  @ViewChild('toolbox') toolbox;
+  constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef) { }
 
   public formValidator: FormGroup;
   public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
+
+  public m = true;
 
   public mobileTerminal = {
     channels: []
@@ -40,6 +43,11 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public save: () => void;
   public mergedRoute: RouterInterfaces.MergedRoute;
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.viewContainerRef.createEmbeddedView(this.toolbox);
+    }, 1);
+  }
 
   mapStateToProps() {
     this.mobileTerminalSubscription = this.store.select(MobileTerminalSelectors.getMobileTerminalsByUrl).subscribe(
@@ -167,6 +175,14 @@ export class FormPageComponent implements OnInit, OnDestroy {
       return $localize`:@@ts-mobileTerminal-form-error:Invalid characters given, only letters, digits, space and hypen is allowed.`;
     }
     return errorMessage(error.errorType, error.error);
+  }
+
+  toggleMenu() {
+    this.m = !this.m;
+  }
+
+  menuContent() {
+    return this.m ? 'toggle - ON' : 'toggle - OFF';
   }
 
 }

@@ -8,7 +8,8 @@
   fieldset {
     display: grid;
     grid-template-columns: 1fr;
-    border-left: $small_distance solid $color_turquoise;
+    padding: $distance;
+    background: white;
     margin-bottom: $medium_distance;
 
     &:last-child {
@@ -64,3 +65,7 @@
 .load-spinner {
   margin: 150px auto;
 }
+
+// .toolbox-content {
+//   grid-area: toolbox;
+// }

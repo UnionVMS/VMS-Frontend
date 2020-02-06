@@ -1,0 +1,68 @@
+<div class="asset-layout--grid">
+  <core-top-menu-component
+    [appVersion]="appVersion"
+  ></core-top-menu-component>
+
+  <core-notifications
+    [notifications]="notifications$ | async"
+    [dismiss]="dismissNotification"
+  ></core-notifications>
+
+  <h1 class="page-title">{{getTitleName()}}</h1>
+
+  <div class="side-menu">
+    <ul>
+      <li routerLink="/asset" routerLinkActive="active">
+        <span class="short-key">S</span>
+        <span class="text">Search</span>
+      </li>
+      <li class="divider"></li>
+      <ng-container *ngIf="selectedAsset">
+        <li routerLink="/asset/{{selectedAsset.id}}" routerLinkActive="active">
+          <span class="short-key">1</span>
+          <span class="text">Asset info</span>
+        </li>
+        <li routerLink="/asset" routerLinkActive="active">
+          <span class="short-key">2</span>
+          <span class="text">Mobile terminal</span>
+        </li>
+        <li routerLink="/asset" routerLinkActive="active">
+          <span class="short-key">3</span>
+          <span class="text">Contact</span>
+        </li>
+        <li routerLink="/asset" routerLinkActive="active">
+          <span class="short-key">4</span>
+          <span class="text">History</span>
+        </li>
+      </ng-container>
+      <ng-container *ngIf="!selectedAsset">
+        <li class="deactivated">
+          <span class="short-key">1</span>
+          <span class="text">Asset info</span>
+        </li>
+        <li class="deactivated">
+          <span class="short-key">2</span>
+          <span class="text">Mobile terminal</span>
+        </li>
+        <li class="deactivated">
+          <span class="short-key">3</span>
+          <span class="text">Contact</span>
+        </li>
+        <li class="deactivated">
+          <span class="short-key">4</span>
+          <span class="text">History</span>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <!-- <div class="asset-page"> -->
+  <router-outlet></router-outlet>
+  <!-- </div> -->
+
+  <!-- <div class="toolbox-wrapper">
+    <!-- content depending on route, also use store to send simple actions to page -->
+    <!-- <div class="toolbox">This is a floating toolbox...</div>
+  </div> -->
+
+</div>

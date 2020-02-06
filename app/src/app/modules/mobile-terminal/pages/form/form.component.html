@@ -1,8 +1,3 @@
-<h1>
-  <ng-container *ngIf="isCreate()" i18n>Create mobile terminal</ng-container>
-  <ng-container *ngIf="!isCreate()" i18n>Edit mobile terminal</ng-container>
-</h1>
-
 <ng-container *ngIf="isFormReady()">
   <form class="mobile-terminal-edit-form" [formGroup]="formValidator">
     <fieldset formGroupName="essentailFields">
@@ -168,3 +163,13 @@
     </div>
   </form>
 </ng-container>
+<ng-template #toolbox>
+  <div class="toolbox-wrapper">
+    <div class="toolbox">
+      this is the toolbox that is located in MT.
+      <button (click)="toggleMenu()">Toggle!</button>
+      <div *ngIf="m">toogle - ON</div>
+      <div *ngIf="!m">toogle - OFF</div>
+    </div>
+  </div>
+</ng-template>

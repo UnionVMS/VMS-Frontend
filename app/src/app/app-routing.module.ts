@@ -7,7 +7,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { DefaultLayoutComponent } from './core/layouts/default/default.component';
 import { LoginLayoutComponent } from './core/layouts/login/login.component';
 import { FullLayoutComponent } from './core/layouts/full/full.component';
-
+import { AssetLayoutComponent } from './core/layouts/asset/asset.component';
 
 // Core-pages
 import { LoginComponent } from './core/pages/login/login.component';
@@ -43,17 +43,36 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'settings/user', component: UserSettingsComponent, pathMatch: 'full'},
-      { path: 'asset/create', component: AssetFormPage, pathMatch: 'full'},
-      { path: 'asset/:assetId/edit', component: AssetFormPage, pathMatch: 'full'},
-      { path: 'asset/:assetId', component: AssetShowPage, pathMatch: 'full'},
-      { path: 'asset', component: AssetSearchPage, pathMatch: 'full'},
-      { path: 'mobileTerminal/:mobileTerminalId/edit', component: MobileTerminalFormPage, pathMatch: 'full' },
-      { path: 'mobileTerminal/:assetId/create', component: MobileTerminalFormPage, pathMatch: 'full' },
       { path: 'contact/:contactId/edit', component: ContactFormPage, pathMatch: 'full' },
       { path: 'contact/:assetId/create', component: ContactFormPage, pathMatch: 'full' },
       { path: 'notes/:noteId/edit', component: NotesFormPage, pathMatch: 'full' },
       { path: 'notes/:assetId/create', component: NotesFormPage, pathMatch: 'full' },
       { path: 'logout', component: LogoutComponent, pathMatch: 'full'},
+    ]
+  },
+  {
+    path: '',
+    component: AssetLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'asset/create', component: AssetFormPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-create:Assets — Create asset`
+      }},
+      { path: 'asset/:assetId/edit', component: AssetFormPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-edit:<dont-translate>assetName</dont-translate> — Edit asset`
+      }},
+      { path: 'asset/:assetId', component: AssetShowPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Asset information`
+      }},
+      { path: 'asset', component: AssetSearchPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-search:Assets — Asset search`
+      }},
+      { path: 'mobileTerminal/:mobileTerminalId/edit', component: MobileTerminalFormPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-mobileTerminal-edit:<dont-translate>assetName</dont-translate> — Mobile Terminal`
+      }},
+      { path: 'mobileTerminal/:assetId/create', component: MobileTerminalFormPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-mobileTerminal-create:<dont-translate>assetName</dont-translate> — Mobile Terminal`
+      }},
     ]
   },
   {
