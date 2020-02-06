@@ -23,7 +23,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<State>) { }
 
-  public contactSubscription: Subscription;
   public contact = {} as ContactInterfaces.Contact;
   public save: () => void;
   public mergedRoute: RouterInterfaces.MergedRoute;
@@ -32,7 +31,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public selectedAsset: AssetInterfaces.Asset;
 
   mapStateToProps() {
-    this.contactSubscription = this.store.select(ContactSelectors.getContactByUrl).subscribe((contact) => {
+    this.store.select(ContactSelectors.getContactByUrl).pipe(takeUntil(this.unmount$)).subscribe((contact) => {
       if(typeof contact !== 'undefined') {
         this.contact = contact;
       }
@@ -84,9 +83,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.contactSubscription !== undefined) {
-      this.contactSubscription.unsubscribe();
-    }
     this.unmount$.next(true);
     // Now let's also unsubscribe from the subject itself:
     this.unmount$.unsubscribe();

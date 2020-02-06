@@ -47,3 +47,23 @@ export const setPlugins = createAction(
   '[Mobile Terminal] Set Plugins',
   props<{ plugins: Array<MobileTerminalInterfaces.Plugin> }>()
 );
+
+export const setSerialNumberExists = createAction(
+  '[Mobile Terminal] Set is valid serial number',
+  props<{ serialNumberExists: boolean }>()
+);
+
+export const getSerialNumberExists = createAction(
+  '[Mobile Terminal] validate serialNumber',
+  props<{ serialNumber: string, isSelf?: boolean}>()
+);
+
+export const setMemberNumberAndDnidCombinationExists = createAction(
+  '[Mobile Terminal] Set channel with valid of DNID and memberNumber',
+  props<{ channelId: string, dnidMemberNumberComboExists: boolean; }>()
+);
+
+export const getMemberNumberAndDnidCombinationExists = createAction(
+  '[Mobile Terminal] Get memberNumber and dnid combination exists',
+  props<{  memberNumber: string, dnid: string, channelId: string, isSelf?: boolean}>()
+);

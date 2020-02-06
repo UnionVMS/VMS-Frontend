@@ -1,17 +1,17 @@
 import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
-import { FormGroup, FormControl } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
-import { formatDate } from '@app/helpers/helpers';
+import { Subscription, Observable, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
 
 import { State } from '@app/app-reducer';
 import { AssetActions } from '@data/asset';
 import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
-import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
-import { createMobileTerminalFormValidator, addChannelToFormValidator, removeChannelAtFromFromValidator } from './form-validator';
+import {
+  createMobileTerminalFormValidator, addChannelToFormValidator, removeChannelAtFromFromValidator,
+  validateSerialNoExistsFactory, memberNumberAndDnidExistsFactory
+} from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 
 @Component({
@@ -30,6 +30,14 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public m = true;
 
+  public serialNumberExists: (serialNumber: string, isSelf?: boolean) => void;
+  public memberNumberAndDnidCombinationExists: (memberNumber: string, dnid: string, channelId: string, isSelf?: boolean) => void;
+  public serialNumberExists$: Observable<boolean>;
+  public memberNumberAndDnidCombinationExists$: Observable<Readonly<{
+    readonly [channelId: string]: boolean;
+  }>>;
+  public isSameSerielNumber = false;
+  public unmount$: Subject<boolean> = new Subject<boolean>();
   public mobileTerminal = {
     channels: []
   } as MobileTerminalInterfaces.MobileTerminal;
@@ -50,15 +58,25 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   mapStateToProps() {
-    this.mobileTerminalSubscription = this.store.select(MobileTerminalSelectors.getMobileTerminalsByUrl).subscribe(
-      (mobileTerminal) => {
+    this.serialNumberExists$ = this.store.select(MobileTerminalSelectors.getSerialNumberExists);
+
+    const validateSerialNoExistsFunction = validateSerialNoExistsFactory(this.serialNumberExists$);
+
+    this.memberNumberAndDnidCombinationExists$ = this.store.select(MobileTerminalSelectors.getMemberNumberAndDnidCombinationExists);
+    const memberNumberAndDnidExistsFunction = memberNumberAndDnidExistsFactory(this.memberNumberAndDnidCombinationExists$);
+
+    this.mobileTerminalSubscription = this.store.select(MobileTerminalSelectors.getMobileTerminalsByUrl)
+      .pipe(takeUntil(this.unmount$)).subscribe((mobileTerminal) => {
         if(typeof mobileTerminal !== 'undefined') {
           this.mobileTerminal = mobileTerminal;
         }
-        this.formValidator = createMobileTerminalFormValidator(this.mobileTerminal);
-      }
-    );
-    this.pluginSubscription = this.store.select(MobileTerminalSelectors.getPlugins).subscribe((plugins) => {
+        this.formValidator = createMobileTerminalFormValidator(
+          this.mobileTerminal,
+          validateSerialNoExistsFunction,
+          memberNumberAndDnidExistsFunction
+        );
+    });
+    this.pluginSubscription = this.store.select(MobileTerminalSelectors.getPlugins).pipe(takeUntil(this.unmount$)).subscribe((plugins) => {
       if(typeof plugins !== 'undefined') {
         // Only show INMARSAT_C at this time.
         this.plugins = plugins.filter((plugin) => plugin.pluginSatelliteType === 'INMARSAT_C');
@@ -67,7 +85,11 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
         if(typeof this.mobileTerminal.plugin === 'undefined' && typeof basePlugin !== 'undefined') {
           this.mobileTerminal.plugin = basePlugin;
           this.mobileTerminal.mobileTerminalType = this.mobileTerminal.plugin.pluginSatelliteType;
-          this.formValidator = createMobileTerminalFormValidator(this.mobileTerminal);
+          this.formValidator = createMobileTerminalFormValidator(
+            this.mobileTerminal,
+            validateSerialNoExistsFunction,
+            memberNumberAndDnidExistsFunction
+          );
         }
       }
     });
@@ -127,6 +149,10 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }),
       }}));
     };
+    this.serialNumberExists = (serialNumber: string, isSelf?: boolean) =>
+      this.store.dispatch(MobileTerminalActions.getSerialNumberExists({ serialNumber, isSelf }));
+    this.memberNumberAndDnidCombinationExists = (memberNumber: string, dnid: string, channelId: string, isSelf?: boolean) =>
+      this.store.dispatch(MobileTerminalActions.getMemberNumberAndDnidCombinationExists({ memberNumber, dnid, channelId, isSelf }));
   }
 
   ngOnInit() {
@@ -137,12 +163,8 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    if(this.mobileTerminalSubscription !== undefined) {
-      this.mobileTerminalSubscription.unsubscribe();
-    }
-    if(this.pluginSubscription !== undefined) {
-      this.pluginSubscription.unsubscribe();
-    }
+    this.unmount$.next(true);
+    this.unmount$.unsubscribe();
   }
 
   trackChannelsBy(index: number, channel: MobileTerminalInterfaces.Channel): string | number {
@@ -150,7 +172,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   createNewChannel() {
-    addChannelToFormValidator(this.formValidator);
+    addChannelToFormValidator(this.formValidator, this.memberNumberAndDnidCombinationExists);
   }
 
   removeChannel(index: number) {
@@ -171,12 +193,37 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   errorMessage(error: any) {
+    if(error.errorType === 'serialNumberAlreadyExists') {
+      return $localize`:@@ts-mobileTerminal-form-error-serialnumber:Serial number already exists, choose another one!`;
+    }
+    if(error.errorType === 'memberNumberAndDnidCombinationExists') {
+      // tslint:disable-next-line max-line-length
+      return $localize`:@@ts-mobileTerminal-form-error-membernumber-and-dnid:MemberNr and DNID Combination already exists, change one of the fields!`;
+    }
     if(error.errorType === 'validateAlphanumericHyphenAndSpace') {
       return $localize`:@@ts-mobileTerminal-form-error:Invalid characters given, only letters, digits, space and hypen is allowed.`;
     }
     return errorMessage(error.errorType, error.error);
   }
 
+  serialNumberExistsForForm() {
+    const newSerialNumber = this.formValidator.value.essentailFields.serialNo;
+    if(this.mobileTerminal.serialNo === newSerialNumber) {
+      return this.serialNumberExists(newSerialNumber, true);
+    }
+    this.serialNumberExists(newSerialNumber);
+  }
+
+  checkIfMemberNumberAndDnidExists(channel: MobileTerminalInterfaces.Channel, alsoTriggerPath: string[]) {
+    const alsoTrigger = this.formValidator.get(alsoTriggerPath);
+    alsoTrigger.updateValueAndValidity({ onlySelf: true });
+    const mtChannel = this.mobileTerminal.channels.find(mbtChannel => mbtChannel.id === channel.id);
+
+    if(channel.memberNumber === mtChannel.memberNumber && channel.dnid === mtChannel.dnid) {
+      return this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id, true);
+    }
+    this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
+  }
   toggleMenu() {
     this.m = !this.m;
   }
