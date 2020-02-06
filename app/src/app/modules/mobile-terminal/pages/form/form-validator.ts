@@ -58,8 +58,12 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
   });
 };
 
-export const createMobileTerminalFormValidator = (mobileTerminal: MobileTerminalInterfaces.MobileTerminal,
-  validateSerialNoExists, memberNumberAndDnidCombinationExists): FormGroup => {
+export const createMobileTerminalFormValidator = (
+  mobileTerminal: MobileTerminalInterfaces.MobileTerminal,
+  validateSerialNoExists: (control: AbstractControl) => Observable<{ serialNumberAlreadyExists: boolean }|null>,
+  memberNumberAndDnidCombinationExists: (type: string) =>
+    (control: AbstractControl) => Observable<{ memberNumberAndDnidCombinationExists: boolean }|null>
+): FormGroup => {
   const selectedOceanRegions = [];
   if(mobileTerminal.eastAtlanticOceanRegion) { selectedOceanRegions.push('East Atlantic'); }
   if(mobileTerminal.indianOceanRegion) { selectedOceanRegions.push('Indian'); }

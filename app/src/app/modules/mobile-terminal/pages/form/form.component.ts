@@ -57,9 +57,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
     this.mobileTerminalSubscription = this.store.select(MobileTerminalSelectors.getMobileTerminalsByUrl)
       .pipe(takeUntil(this.unmount$)).subscribe((mobileTerminal) => {
-        let validateMobileTerminal = false;
         if(typeof mobileTerminal !== 'undefined') {
-          validateMobileTerminal = typeof this.mobileTerminal.id === 'undefined';
           this.mobileTerminal = mobileTerminal;
         }
         this.formValidator = createMobileTerminalFormValidator(
@@ -67,17 +65,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
           validateSerialNoExistsFunction,
           memberNumberAndDnidExistsFunction
         );
-      /*   if(validateMobileTerminal) {
-          const alsoTrigger = this.formValidator.get(['essentailFields', 'serialNo']);
-          alsoTrigger.updateValueAndValidity({ onlySelf: true });
-          this.serialNumberExistsForForm();
-          this.serialNumberExistsForForm();
-          this.formValidator.controls.channels.value.map((channel, index) => {
-            this.checkIfMemberNumberAndDnidExists(channel, ['channels', index, 'memberNumber']);
-            this.checkIfMemberNumberAndDnidExists(channel, ['channels', index, 'dnid']);
-          });
-        } */
-
     });
     this.pluginSubscription = this.store.select(MobileTerminalSelectors.getPlugins).pipe(takeUntil(this.unmount$)).subscribe((plugins) => {
       if(typeof plugins !== 'undefined') {
@@ -226,9 +213,5 @@ export class FormPageComponent implements OnInit, OnDestroy {
       return this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id, true);
     }
     this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
-  }
-  debug() {
-    console.warn(this.formValidator);
-    return !this.formValidator.valid;
   }
 }
