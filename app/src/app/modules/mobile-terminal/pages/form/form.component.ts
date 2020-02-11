@@ -5,7 +5,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 
 import { State } from '@app/app-reducer';
-import { AssetActions } from '@data/asset';
+import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
 import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
 import {
@@ -27,8 +27,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public formValidator: FormGroup;
   public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
-
-  public m = true;
+  public selectedAsset: AssetInterfaces.Asset;
 
   public serialNumberExists: (serialNumber: string, isSelf?: boolean) => void;
   public memberNumberAndDnidCombinationExists: (memberNumber: string, dnid: string, channelId: string, isSelf?: boolean) => void;
@@ -98,6 +97,9 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
       if(typeof this.mergedRoute.params.assetId !== 'undefined') {
         this.store.dispatch(AssetActions.getSelectedAsset());
       }
+    });
+    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
+      this.selectedAsset = asset;
     });
   }
 
@@ -224,12 +226,4 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
   }
-  toggleMenu() {
-    this.m = !this.m;
-  }
-
-  menuContent() {
-    return this.m ? 'toggle - ON' : 'toggle - OFF';
-  }
-
 }

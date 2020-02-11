@@ -21,7 +21,6 @@
       margin-top: $small_distance;
       margin-bottom: $small_distance;
     }
-
   }
 
   button#mobile-terminal-form--save {
@@ -48,12 +47,23 @@
   #mobile-terminal-form--channel-name mat-checkbox {
     margin-right: $medium_distance;
   }
+
   .channels {
+    padding: 0;
+    margin: 0;
+    background: none;
     position: relative;
+    display: grid;
+    grid-row-gap: distance(2);
+
     .mobile-terminal-form--new-channel-button {
       position: absolute;
       right: 0px;
       top: 0px;
+    }
+
+    .channel {
+      margin: 0;
     }
   }
 }
@@ -66,6 +76,6 @@
   margin: 150px auto;
 }
 
-// .toolbox-content {
-//   grid-area: toolbox;
-// }
+.toolbox button {
+  text-transform: uppercase;
+}

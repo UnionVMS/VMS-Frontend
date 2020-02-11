@@ -1,7 +1,7 @@
 <ng-container *ngIf="isFormReady()">
   <form class="mobile-terminal-edit-form" [formGroup]="formValidator">
     <fieldset formGroupName="essentailFields">
-      <legend i18n>Essential fields</legend>
+      <h2 i18n>Essential fields</h2>
 
       <mat-form-field id="mobile-terminal-form--mobileTerminalType">
         <mat-label i18n>Transceiver system</mat-label>
@@ -15,7 +15,6 @@
       </mat-form-field>
 
       <mat-form-field id="mobile-terminal-form--serialNo">
-
         <mat-label i18n>Serial no.</mat-label>
         <input matInput formControlName="serialNo" required (blur)="serialNumberExistsForForm()" />
         <mat-error *ngFor="let error of getErrors(['essentailFields', 'serialNo'])">{{ errorMessage(error) }}</mat-error>
@@ -40,7 +39,7 @@
     </fieldset>
 
     <fieldset formGroupName="mobileTerminalFields">
-      <legend i18n>Mobile terminal fields</legend>
+      <h2 i18n>Mobile terminal fields</h2>
 
       <mat-form-field id="mobile-terminal-form--softwareVersion">
         <mat-label i18n>Software version</mat-label>
@@ -79,24 +78,22 @@
         <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="uninstallDateTimePicker"></mat-datepicker-toggle>
         <owl-date-time #uninstallDateTimePicker></owl-date-time>
       </mat-form-field>
-
     </fieldset>
 
+    <h2 i18n>Channels</h2>
     <fieldset class="channels" formArrayName="channels">
-      <legend i18n>Channels</legend>
       <button
         type="button" name="button"
         class="mobile-terminal-form--new-channel-button"
         (click)="createNewChannel()"
         i18n
       >New channel</button>
-
       <ng-container *ngIf="formValidator.controls.channels?.value.length > 0">
         <fieldset
           class="channel"
           *ngFor="let channel of formValidator.controls.channels?.value; let i = index; trackBy: trackChannelsBy"
           formGroupName="{{i}}">
-          <legend>{{channel.name}} - {{channel.id}} </legend>
+          <h3>{{channel.name}} - {{channel.id}}</h3>
 
           <button
             *ngIf="formValidator.controls.channels?.value.length > 1"
@@ -177,28 +174,31 @@
         </fieldset>
       </ng-container>
     </fieldset>
+  </form>
+</ng-container>
 
-    <div>
+
+<ng-template #toolbox>
+  <div class="toolbox-wrapper">
+    <div class="toolbox">
       <button
-        id="mobile-terminal-form--save"
+        class="deactive-mobile-terminal"
+        mat-stroked-button
+        color="warn"
+        type="button"
+        routerLink="/asset/{{selectedAsset.id}}/mobileTerminals"
+        i18n
+      >Close without saving</button>
+      <button
+        class="active-mobile-terminal"
         mat-raised-button
-        color="primary"
+        color="accent"
         type="button"
 
         [disabled]="!this.formValidator.valid"
         (click)="save()"
         i18n
-      >Save</button>
-    </div>
-  </form>
-</ng-container>
-<ng-template #toolbox>
-  <div class="toolbox-wrapper">
-    <div class="toolbox">
-      this is the toolbox that is located in MT.
-      <button (click)="toggleMenu()">Toggle!</button>
-      <div *ngIf="m">toogle - ON</div>
-      <div *ngIf="!m">toogle - OFF</div>
+      >Save changes</button>
     </div>
   </div>
 </ng-template>

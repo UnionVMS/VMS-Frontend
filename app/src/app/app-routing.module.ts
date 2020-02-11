@@ -26,9 +26,13 @@ import { ShowPageComponent as AssetShowPage } from './modules/asset/pages/show/s
 
 // MobileTerminal-pages
 import { FormPageComponent as MobileTerminalFormPage } from './modules/mobile-terminal/pages/form/form.component';
+import {
+  ShowByAssetPageComponent as MobileTerminalsShowByAssetPage
+} from './modules/mobile-terminal/pages/show-by-asset/show-by-asset.component';
 
 // Contact-pages
 import { FormPageComponent as ContactFormPage } from './modules/contact/pages/form/form.component';
+import { ShowByAssetPageComponent as ContactShowByAssetPage } from './modules/contact/pages/show-by-asset/show-by-asset.component';
 
 // Notes-pages
 import { FormPageComponent as NotesFormPage } from './modules/notes/pages/form/form.component';
@@ -61,17 +65,23 @@ const routes: Routes = [
       { path: 'asset/:assetId/edit', component: AssetFormPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-edit:<dont-translate>assetName</dont-translate> — Edit asset`
       }},
+      { path: 'asset/:assetId/mobileTerminals', component: MobileTerminalsShowByAssetPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Mobile Terminals`
+      }},
       { path: 'asset/:assetId', component: AssetShowPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Asset information`
       }},
       { path: 'asset', component: AssetSearchPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-search:Assets — Asset search`
       }},
-      { path: 'mobileTerminal/:mobileTerminalId/edit', component: MobileTerminalFormPage, pathMatch: 'full', data: {
+      { path: 'asset/:assetId/mobileTerminal/:mobileTerminalId/edit', component: MobileTerminalFormPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-mobileTerminal-edit:<dont-translate>assetName</dont-translate> — Mobile Terminal`
       }},
       { path: 'mobileTerminal/:assetId/create', component: MobileTerminalFormPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-mobileTerminal-create:<dont-translate>assetName</dont-translate> — Mobile Terminal`
+      }},
+      { path: 'asset/:assetId/contacts', component: ContactShowByAssetPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Contacts`
       }},
     ]
   },

@@ -1,0 +1,87 @@
+@import 'variables.scss';
+
+.contacts {
+  display: grid;
+  grid-row-gap: distance(2);
+
+  .contact {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+
+    .left-block {
+      padding: distance(4);
+      background: white;
+
+      h2 {
+        padding-top: 0;
+      }
+
+      .field-wrapper {
+        display: grid;
+        grid-template-columns: 1fr auto;
+
+        label .text{
+          display: grid;
+          grid-template-columns: auto 1fr;
+
+          &:after {
+            content: "";
+            border-bottom: 2px dotted $color_gray;
+            margin-left: $distance;
+            margin-right: $distance;
+          }
+        }
+      }
+    }
+
+    .right-block {
+
+      display: grid;
+      color: white;
+
+      .contact-type {
+        place-self: center;
+        display: grid;
+        grid-row-gap: $distance;
+
+        .icon-wrapper {
+          border: 1px solid white;
+          border-radius: 40px;
+          i.icon {
+            display: grid;
+            width: 80px;
+            height: 80px;
+            &::before {
+              place-self: center;
+              height: distance(5);
+              width: distance(5);
+              content: '';
+              background-size: distance(5) distance(5);
+              background-repeat: no-repeat;
+            }
+          }
+        }
+      }
+
+      &.person {
+        background-color: $color_dark_green;
+       .icon-wrapper {
+          background-color: $color_green;
+          i.icon::before {
+            background-image: url('/assets/svg-icons/person.svg');
+          }
+        }
+      }
+
+      &.organization {
+        background-color: $color_dark_blue;
+        .icon-wrapper {
+          background-color: $color_blue;
+          i.icon::before {
+            background-image: url('/assets/svg-icons/conference.svg');
+          }
+        }
+      }
+    }
+  }
+}

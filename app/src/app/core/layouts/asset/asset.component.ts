@@ -48,7 +48,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
     this.notifications$ = this.store.select(NotificationsSelectors.getNotifications);
     this.store.select(RouterSelectors.getMergedRoute).pipe(takeUntil(this.unmount$)).subscribe(mergedRoute => {
       // console.warn(mergedRoute);
-      // this.mergedRoute = mergedRoute;
+      this.mergedRoute = mergedRoute;
       this.pageTitle = mergedRoute.data.title;
     });
     this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset: AssetInterfaces.Asset) => {
@@ -79,10 +79,10 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
             this.router.navigate(['/asset/' + this.selectedAsset.id ]);
             break;
           case '2':
-            this.router.navigate(['/asset/']);
+            this.router.navigate(['/asset/' + this.selectedAsset.id + '/mobileTerminals']);
             break;
           case '3':
-            this.router.navigate(['/asset']);
+            this.router.navigate(['/asset/' + this.selectedAsset.id + '/contacts']);
             break;
           case '4':
             this.router.navigate(['/asset']);
@@ -103,6 +103,11 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
     return replaceDontTranslate(this.pageTitle, {
       assetName: typeof this.selectedAsset !== 'undefined' ? this.selectedAsset.name : 'Assets'
     });
+  }
+
+  matchMobileTerminalEdit() {
+    return this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminal\/.*\/edit$/g) !== null ||
+      this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminals$/g) !== null;
   }
 
 }
