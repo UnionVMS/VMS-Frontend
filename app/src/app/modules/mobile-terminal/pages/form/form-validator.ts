@@ -54,7 +54,7 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
     expectedFrequency: new FormControl(channel === null ? 60 : channel.expectedFrequency),
     frequencyGracePeriod: new FormControl(channel === null ? 140 : channel.frequencyGracePeriod),
     expectedFrequencyInPort: new FormControl(channel === null ? 140 : channel.expectedFrequencyInPort),
-    id: new FormControl(channel === null ? '' : channel.id),
+    id: new FormControl(channel === null ? 'temp-' + Math.random().toString(36) : channel.id)
   });
 };
 

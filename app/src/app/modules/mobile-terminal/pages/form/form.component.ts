@@ -133,7 +133,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
         uninstallDate: this.formValidator.value.mobileTerminalFields.uninstallDate,
         installedBy: this.formValidator.value.mobileTerminalFields.installedBy,
         channels: this.formValidator.value.channels.map((channel) => {
-          if(channel.id !== null && channel.id.length > 0) {
+          if(channel.id.indexOf('temp-') === -1) {
             return {
               ...channelsById[channel.id],
               ...channel
@@ -169,8 +169,12 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.unmount$.unsubscribe();
   }
 
-  trackChannelsBy(index: number, channel: MobileTerminalInterfaces.Channel): string | number {
-    return channel.id > '' ? channel.id : index;
+  trackChannelsBy(index: number, channel: any): string | number {
+    return channel.id;
+  }
+
+  nrOfChannels() {
+    return this.formValidator.value.channels.length;
   }
 
   createNewChannel() {

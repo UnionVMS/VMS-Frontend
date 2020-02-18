@@ -80,98 +80,109 @@
       </mat-form-field>
     </fieldset>
 
-    <h2 i18n>Channels</h2>
-    <fieldset class="channels" formArrayName="channels">
+    <div class="mobile-terminal-form--channel-title">
+      <h2 i18n>Channels</h2>
       <button
-        type="button" name="button"
+        mat-raised-button
+        color="accent"
         class="mobile-terminal-form--new-channel-button"
         (click)="createNewChannel()"
         i18n
       >New channel</button>
+    </div>
+    <fieldset class="channels" formArrayName="channels">
       <ng-container *ngIf="formValidator.controls.channels?.value.length > 0">
-        <fieldset
-          class="channel"
-          *ngFor="let channel of formValidator.controls.channels?.value; let i = index; trackBy: trackChannelsBy"
-          formGroupName="{{i}}">
-          <h3>{{channel.name}} - {{channel.id}}</h3>
+        <mat-accordion id="channels">
+          <mat-expansion-panel
+            *ngFor="let channel of formValidator.controls.channels?.value.slice().reverse(); let i = index; trackBy: trackChannelsBy"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>{{channel.name ? channel.name : channel.id}}</mat-panel-title>
+              <mat-panel-description>Channel {{nrOfChannels() - i}}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <fieldset
+              class="channel"
+              formGroupName="{{nrOfChannels() - (i + 1)}}"
+            >
+              <button
+                *ngIf="formValidator.controls.channels?.value.length > 1"
+                type="button"
+                name="button"
+                (click)="removeChannel(nrOfChannels() - (i + 1))"
+                i18n
+              >Remove channel</button>
 
-          <button
-            *ngIf="formValidator.controls.channels?.value.length > 1"
-            type="button"
-            name="button"
-            (click)="removeChannel(i)"
-            i18n
-          >Remove channel</button>
+              <mat-form-field class="mobile-terminal-form--channel-lesDescription">
+                <mat-label i18n>Land station</mat-label>
+                <input matInput formControlName="lesDescription" required>
+              </mat-form-field>
 
-          <mat-form-field class="mobile-terminal-form--channel-lesDescription">
-            <mat-label i18n>Land station</mat-label>
-            <input matInput formControlName="lesDescription" required>
-          </mat-form-field>
+              <mat-form-field class="mobile-terminal-form--channel-dnid">
+                <mat-label i18n>DNID</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  formControlName="dnid"
+                  require
+                  (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', nrOfChannels() - (i + 1), 'memberNumber'])"
+                ><mat-error *ngFor="let error of getErrors(['channels', nrOfChannels() - (i + 1), 'dnid'])">{{ errorMessage(error) }}</mat-error>
+              </mat-form-field>
 
-          <mat-form-field class="mobile-terminal-form--channel-dnid">
-            <mat-label i18n>DNID</mat-label>
-            <input
-              matInput
-              type="number"
-              formControlName="dnid"
-              require
-              (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', i, 'memberNumber'])"
-            ><mat-error *ngFor="let error of getErrors(['channels', i, 'dnid'])">{{ errorMessage(error) }}</mat-error>
-          </mat-form-field>
+              <mat-form-field class="mobile-terminal-form--channel-memberNumber">
+                <mat-label i18n>Member no.</mat-label>
+                <input
+                  matInput type="number"
+                  formControlName="memberNumber"
+                  required
+                  (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', nrOfChannels() - (i + 1), 'dnid'])"
+                ><mat-error *ngFor="let error of getErrors(['channels', nrOfChannels() - (i + 1), 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
+              </mat-form-field>
 
-          <mat-form-field class="mobile-terminal-form--channel-memberNumber">
-            <mat-label i18n>Member no.</mat-label>
-            <input
-              matInput type="number"
-              formControlName="memberNumber"
-              required
-              (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', i, 'dnid'])"
-            ><mat-error *ngFor="let error of getErrors(['channels', i, 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
-          </mat-form-field>
+              <mat-form-field class="mobile-terminal-form--channel-name">
+                <mat-label i18n>Channel</mat-label>
+                <input matInput formControlName="name">
+              </mat-form-field>
 
-          <mat-form-field class="mobile-terminal-form--channel-name">
-            <mat-label i18n>Channel</mat-label>
-            <input matInput formControlName="name">
-          </mat-form-field>
+              <div id="mobile-terminal-form--channel-name">
+                <mat-checkbox formControlName="pollChannel" i18n>Poll</mat-checkbox>
+                <mat-checkbox formControlName="configChannel" i18n>Config</mat-checkbox>
+                <mat-checkbox formControlName="defaultChannel" i18n>Default</mat-checkbox>
+              </div>
 
-          <div id="mobile-terminal-form--channel-name">
-            <mat-checkbox formControlName="pollChannel" i18n>Poll</mat-checkbox>
-            <mat-checkbox formControlName="configChannel" i18n>Config</mat-checkbox>
-            <mat-checkbox formControlName="defaultChannel" i18n>Default</mat-checkbox>
-          </div>
+              <mat-form-field class="mobile-terminal-form--channel-startDate">
+                <mat-label i18n>Started</mat-label>
+                <input matInput formControlName="startDate" [owlDateTime]="startDateTimePicker">
+                <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="startDateTimePicker"></mat-datepicker-toggle>
+                <owl-date-time #startDateTimePicker></owl-date-time>
+              </mat-form-field>
 
-          <mat-form-field class="mobile-terminal-form--channel-startDate">
-            <mat-label i18n>Started</mat-label>
-            <input matInput formControlName="startDate" [owlDateTime]="startDateTimePicker">
-            <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="startDateTimePicker"></mat-datepicker-toggle>
-            <owl-date-time #startDateTimePicker></owl-date-time>
-          </mat-form-field>
+              <mat-form-field class="mobile-terminal-form--channel-endDate">
+                <mat-label i18n>Stopped</mat-label>
+                <input matInput formControlName="endDate" [owlDateTime]="endDateTimePicker">
+                <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="endDateTimePicker"></mat-datepicker-toggle>
+                <owl-date-time #endDateTimePicker></owl-date-time>
+              </mat-form-field>
 
-          <mat-form-field class="mobile-terminal-form--channel-endDate">
-            <mat-label i18n>Stopped</mat-label>
-            <input matInput formControlName="endDate" [owlDateTime]="endDateTimePicker">
-            <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="endDateTimePicker"></mat-datepicker-toggle>
-            <owl-date-time #endDateTimePicker></owl-date-time>
-          </mat-form-field>
+              <mat-form-field class="mobile-terminal-form--channel-expectedFrequency">
+                <mat-label i18n>Expected Frequency</mat-label>
+                <input matInput formControlName="expectedFrequency">
+                <span matSuffix i18n>minutes</span>
+              </mat-form-field>
 
-          <mat-form-field class="mobile-terminal-form--channel-expectedFrequency">
-            <mat-label i18n>Expected Frequency</mat-label>
-            <input matInput formControlName="expectedFrequency">
-            <span matSuffix i18n>minutes</span>
-          </mat-form-field>
+              <mat-form-field class="mobile-terminal-form--channel-frequencyGracePeriod">
+                <mat-label i18n>Frequency Grace Period</mat-label>
+                <input matInput formControlName="frequencyGracePeriod">
+                <span matSuffix i18n>minutes</span>
+              </mat-form-field>
 
-          <mat-form-field class="mobile-terminal-form--channel-frequencyGracePeriod">
-            <mat-label i18n>Frequency Grace Period</mat-label>
-            <input matInput formControlName="frequencyGracePeriod">
-            <span matSuffix i18n>minutes</span>
-          </mat-form-field>
-
-          <mat-form-field class="mobile-terminal-form--channel-expectedFrequencyInPort">
-            <mat-label i18n>Expected Frequency In Port</mat-label>
-            <input matInput formControlName="expectedFrequencyInPort">
-            <span matSuffix i18n>minutes</span>
-          </mat-form-field>
-        </fieldset>
+              <mat-form-field class="mobile-terminal-form--channel-expectedFrequencyInPort">
+                <mat-label i18n>Expected Frequency In Port</mat-label>
+                <input matInput formControlName="expectedFrequencyInPort">
+                <span matSuffix i18n>minutes</span>
+              </mat-form-field>
+            </fieldset>
+          </mat-expansion-panel>
+        </mat-accordion>
       </ng-container>
     </fieldset>
   </form>
@@ -180,7 +191,7 @@
 
 <ng-template #toolbox>
   <div class="toolbox-wrapper">
-    <div class="toolbox">
+    <div class="toolbox" *ngIf="selectedAsset">
       <button
         class="deactive-mobile-terminal"
         mat-stroked-button

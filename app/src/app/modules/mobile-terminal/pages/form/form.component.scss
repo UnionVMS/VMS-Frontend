@@ -48,6 +48,15 @@
     margin-right: $medium_distance;
   }
 
+  .mobile-terminal-form--channel-title {
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+    button {
+      place-self: center;
+    }
+  }
+
   .channels {
     padding: 0;
     margin: 0;
