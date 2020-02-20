@@ -1,0 +1,10 @@
+<form class="notes-edit-form" [formGroup]="formValidator">
+  <fieldset formGroupName="essentailFields">
+    <mat-form-field id="note-form--notes">
+      <mat-label i18n>Note</mat-label>
+      <textarea matInput formControlName="note" required></textarea>
+      <mat-error *ngFor="let error of getErrors(['essentailFields', 'note'])">{{ errorMessage(error) }}</mat-error>
+    </mat-form-field>
+  </fieldset>
+  <button id="notes-form--save" mat-raised-button color="primary" (click)="saveFromFormValidator()" i18n>Add note</button>
+</form>

@@ -36,6 +36,8 @@ import { ShowByAssetPageComponent as ContactShowByAssetPage } from './modules/co
 
 // Notes-pages
 import { FormPageComponent as NotesFormPage } from './modules/notes/pages/form/form.component';
+import { NotesListComponent as NotesListPage } from './modules/notes/pages/list/list.component';
+
 
 // Settings-pages
 import { UserSettingsComponent } from './modules/settings/pages/user-settings/user-settings.component';
@@ -82,6 +84,9 @@ const routes: Routes = [
       }},
       { path: 'asset/:assetId/contacts', component: ContactShowByAssetPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Contacts`
+      }},
+      { path: 'asset/:assetId/notes', component: NotesListPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Notes`
       }},
     ]
   },

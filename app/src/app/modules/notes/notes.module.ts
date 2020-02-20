@@ -13,8 +13,10 @@ import { MatButtonModule } from '@angular/material/button';
 
 /* Pages */
 import { FormPageComponent } from './pages/form/form.component';
+import { NotesListComponent } from './pages/list/list.component';
 
 /* Components */
+import { FormComponent } from './components/form/form.component';
 
 @NgModule({
   imports: [
@@ -31,6 +33,8 @@ import { FormPageComponent } from './pages/form/form.component';
   ],
   declarations: [
     FormPageComponent,
+    NotesListComponent,
+    FormComponent,
   ]
 })
 

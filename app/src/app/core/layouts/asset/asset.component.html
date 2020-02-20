@@ -34,9 +34,9 @@
           <span class="short-key">3</span>
           <span class="text">Contact</span>
         </li>
-        <li class="deactivated">
+        <li routerLink="/asset/{{selectedAsset.id}}/notes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <span class="short-key">4</span>
-          <span class="text">History</span>
+          <span class="text">Notes</span>
         </li>
       </ng-container>
       <ng-container *ngIf="!selectedAsset">
@@ -54,7 +54,7 @@
         </li>
         <li class="deactivated">
           <span class="short-key">4</span>
-          <span class="text">History</span>
+          <span class="text">Notes</span>
         </li>
       </ng-container>
     </ul>

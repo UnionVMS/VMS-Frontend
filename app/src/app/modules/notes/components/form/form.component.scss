@@ -1,0 +1,24 @@
+@import 'variables.scss';
+
+.notes-edit-form {
+  display: grid;
+  // grid-column-gap: $x2large_distance;
+  grid-template-columns: 1fr;
+
+  fieldset {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  button#notes-form--save {
+    justify-self: end;
+  }
+
+  textarea{
+    min-height: 100px;
+  }
+  mat-label > .required {
+    margin-left: $small_distance;
+    color: red;
+  }
+}
