@@ -28,7 +28,7 @@ export class AuthEffects {
       return this.authService.login(action.username, action.password).pipe(
         map((auth: any) => {
           this.router.navigate(['/map/realtime']);
-          return AuthActions.loginSuccess({ jwtToken: auth.jwtoken });
+          return AuthActions.loginSuccess({ jwtToken: auth.JWToken });
         }),
         catchError((err) => {
           if(typeof err === 'object' && typeof err.message !== 'undefined') {
