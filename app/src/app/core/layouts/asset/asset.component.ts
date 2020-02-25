@@ -105,9 +105,10 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  matchMobileTerminalEdit() {
+  matchMobileTerminalUrl() {
     return this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminal\/.*\/edit$/g) !== null ||
-      this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminals$/g) !== null;
+      this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminals$/g) !== null ||
+      this.mergedRoute.url.match(/^\/mobileTerminal\/.*\/create$/g) !== null;
   }
 
 }

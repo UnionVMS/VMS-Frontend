@@ -128,11 +128,11 @@
       >Mobile Terminal Deactive</div>
       <div class="divider"></div>
       <button
-        *ngIf="currentMobileTerminal && currentMobileTerminal.assetId"
+        *ngIf="selectedAsset && selectedAsset.id"
         mat-raised-button
         color="accent"
         type="button"
-        routerLink="/mobileTerminal/{{currentMobileTerminal.assetId}}/create"
+        routerLink="/mobileTerminal/{{selectedAsset.id}}/create"
         i18n
       >Create</button>
       <button

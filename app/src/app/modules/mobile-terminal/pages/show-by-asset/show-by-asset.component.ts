@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { State } from '@app/app-reducer';
-import { AssetActions, AssetInterfaces } from '@data/asset';
+import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
 import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
 
@@ -24,6 +24,8 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   public mobileTerminals: ReadonlyArray<MobileTerminalInterfaces.MobileTerminal>;
   public currentMobileTerminal: MobileTerminalInterfaces.MobileTerminal;
   public mergedRoute: RouterInterfaces.MergedRoute;
+  public selectedAsset: AssetInterfaces.Asset;
+
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -43,6 +45,9 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
       if(typeof this.mergedRoute.params.assetId !== 'undefined') {
         this.store.dispatch(AssetActions.getSelectedAsset());
       }
+    });
+    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
+      this.selectedAsset = asset;
     });
   }
 

@@ -23,7 +23,7 @@
           <span class="text">Asset info</span>
         </li>
         <li
-          class="{{ matchMobileTerminalEdit() ? 'active' : '' }}"
+          class="{{ matchMobileTerminalUrl() ? 'active' : '' }}"
           routerLink="/asset/{{selectedAsset.id}}/mobileTerminals"
           [routerLinkActiveOptions]="{exact: true}"
         >
