@@ -17,7 +17,7 @@ export class TripPlayerComponent implements OnDestroy {
   @Input() setTripTimestamp: (assetTripTimestamp: number) => void;
 
   public currentStep = 1;
-  private intervalId;
+  public intervalId;
   public playSpeed = 1;
 
   changeTimestamp(event: MatSliderChange) {

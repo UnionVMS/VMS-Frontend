@@ -18,7 +18,7 @@ export class AssetGroupsComponent implements OnChanges {
     this.selectedAssetGroupIds = this.selectedAssetGroups.map(assetGroup => assetGroup.id);
   }
 
-  private toggleGroup = (assetGroup): void => {
+  public toggleGroup = (assetGroup): void => {
     if(this.selectedAssetGroups.some((selectedAssetGroup) => selectedAssetGroup.id === assetGroup.id)) {
       this.clearAssetGroup(assetGroup);
     } else {

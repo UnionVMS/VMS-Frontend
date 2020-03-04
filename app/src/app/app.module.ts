@@ -45,6 +45,8 @@ import { MapSavedFiltersEffects } from '@data/map-saved-filters/map-saved-filter
 import { MapLayersEffects } from '@data/map-layers/map-layers.effects';
 import { MobileTerminalEffects } from '@data/mobile-terminal/mobile-terminal.effects';
 import { NotesEffects } from '@data/notes/notes.effects';
+import { UserSettingsEffects } from '@data/user-settings/user-settings.effects';
+
 
 /* Services */
 import { AuthService } from './data/auth/auth.service';
@@ -75,6 +77,7 @@ const imports = [
     MapLayersEffects,
     MobileTerminalEffects,
     NotesEffects,
+    UserSettingsEffects,
   ]),
   BrowserAnimationsModule,
   CoreModule,

@@ -4,6 +4,7 @@ import { Subscription, Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
@@ -35,7 +36,11 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
 
   mapStateToProps() {
     this.store.select(MobileTerminalSelectors.getMobileTerminalsForUrlAsset).pipe(takeUntil(this.unmount$)).subscribe((mobileTerminals) => {
-      this.mobileTerminals = mobileTerminals;
+      this.mobileTerminals = mobileTerminals.map((mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => ({
+        ...mobileTerminal,
+        installDateFormatted: formatUnixtime(mobileTerminal.installDate),
+        uninstallDateFormatted: formatUnixtime(mobileTerminal.uninstallDate)
+      }));
       if(this.mobileTerminals.length > 0) {
         this.currentMobileTerminal = this.mobileTerminals[0];
       }

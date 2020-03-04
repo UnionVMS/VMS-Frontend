@@ -50,6 +50,8 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public save: () => void;
   public mergedRoute: RouterInterfaces.MergedRoute;
 
+  private mobileTerminalIsFetched = false;
+
   ngAfterViewInit() {
     setTimeout(() => {
       this.viewContainerRef.createEmbeddedView(this.toolbox);
@@ -68,6 +70,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.unmount$)).subscribe((mobileTerminal) => {
         if(typeof mobileTerminal !== 'undefined') {
           this.mobileTerminal = mobileTerminal;
+          this.mobileTerminalIsFetched = true;
         }
         this.formValidator = createMobileTerminalFormValidator(
           this.mobileTerminal,
@@ -190,13 +193,14 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   isFormReady() {
-    return this.isCreate() || Object.entries(this.mobileTerminal).length !== 0;
+    return this.isCreate() || (this.mobileTerminalIsFetched && Object.entries(this.mobileTerminal).length !== 0);
   }
 
-  getErrors(path: string[]) {
+  getErrors(path: string[]): Array<{errorType: string, error: string }> {
     const errors = this.formValidator.get(path).errors;
     return errors === null ? [] : Object.keys(errors).map(errorType => ({ errorType, error: errors[errorType] }));
   }
+
 
   errorMessage(error: any) {
     if(error.errorType === 'serialNumberAlreadyExists') {
@@ -210,6 +214,10 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
       return $localize`:@@ts-mobileTerminal-form-error:Invalid characters given, only letters, digits, space and hypen is allowed.`;
     }
     return errorMessage(error.errorType, error.error);
+  }
+
+  getErrorMessages(path: string[]): string[] {
+    return this.getErrors(path).map(error => this.errorMessage(error));
   }
 
   serialNumberExistsForForm() {
@@ -229,5 +237,10 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
       return this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id, true);
     }
     this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
+  }
+
+  updateValue(path: string[], value: any) {
+    const formControl = this.formValidator.get(path);
+    formControl.setValue(value);
   }
 }

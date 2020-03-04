@@ -1,6 +1,6 @@
 <div class="page-content">
   <mat-tab-group animationDuration="0ms" (selectedTabChange)="changeCurrentMobileTerminal($event)">
-    <mat-tab *ngFor="let mobileTerminal of mobileTerminals" [label]="mobileTerminal.serialNo" (click)="setCurrentMobileTerminal(mobileTerminal.id)">
+    <mat-tab *ngFor="let mobileTerminal of mobileTerminals" [label]="mobileTerminal.serialNo">
 
       <div class="mobileTerminal">
         <div class="row">
@@ -42,11 +42,11 @@
         </div>
         <div class="row">
           <div class="title"><span class="text" i18n>Installed on</span></div>
-          <div class="value">{{mobileTerminal.installDate}}</div>
+          <div class="value">{{mobileTerminal.installDateFormatted}}</div>
         </div>
         <div class="row">
           <div class="title"><span class="text" i18n>Unistalled on</span></div>
-          <div class="value">{{mobileTerminal.uninstallDate}}</div>
+          <div class="value">{{mobileTerminal.uninstallDateFormatted}}</div>
         </div>
       </div>
       <h2>Channels</h2>

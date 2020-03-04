@@ -11,7 +11,7 @@
     *ngIf="asset.asset.flagStateCode !== '???' && asset.asset.flagStateCode !== undefined && getCountryCode() !== '???'"
     class="flag-image"
     src="/assets/flags/4x3/{{getCountryCode()}}.svg"
-    [alt]="getCountryCode(asset)"
+    [alt]="getCountryCode()"
   />
   <div body class="content-container">
     <div class="information-wrapper">

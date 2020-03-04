@@ -2,7 +2,7 @@ export interface Note {
   id: string;
   assetId: string;
   note: string;
-  createdOn: string;
+  createdOn: number;
   createdBy: string;
 }
 

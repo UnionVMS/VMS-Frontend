@@ -11,6 +11,8 @@ import * as MapSettings from '../map-settings/map-settings.actions';
 import { MapSavedFiltersActions } from '../map-saved-filters/';
 import * as NotificationsActions from '../notifications/notifications.actions';
 import { MapActions } from '@data/map';
+import { UserSettingsActions, UserSettingsReducer } from '@data/user-settings';
+
 
 
 @Injectable()
@@ -52,6 +54,9 @@ export class AuthEffects {
           const mapFilters = context.contextSet.contexts[0].preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSMapFilters'
           );
+          const userSettings = context.contextSet.contexts[0].preferences.preferences.find(
+            (settings) => settings.applicationName === 'VMSFrontend'
+          );
 
           const response = [];
 
@@ -67,6 +72,13 @@ export class AuthEffects {
               activeTo: context.contextSet.contexts[0].scope.activeTo,
             }
           }));
+
+          if(typeof userSettings !== 'undefined' && userSettings.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
+            const timezone = JSON.parse(userSettings.optionValue).timezone || UserSettingsReducer.initialState.timezone;
+            response.push(UserSettingsActions.setTimezone({ timezone }));
+          } else {
+            response.push(UserSettingsActions.setTimezone({ timezone: UserSettingsReducer.initialState.timezone }));
+          }
 
           if(typeof mapSettings !== 'undefined' && mapSettings.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
             response.push(MapSettings.replaceSettings({ settings: JSON.parse(mapSettings.optionValue) }));

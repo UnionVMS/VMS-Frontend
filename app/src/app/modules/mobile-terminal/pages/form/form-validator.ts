@@ -3,6 +3,8 @@ import { MobileTerminalInterfaces } from '@data/mobile-terminal';
 import { map, take, skip, skipWhile } from 'rxjs/operators';
 import CustomValidators from '@validators/.';
 import { Observable } from 'rxjs';
+// @ts-ignore
+import moment from 'moment-timezone';
 
 interface MobileTerminalFormValidator {
   essentailFields: FormGroup;
@@ -91,8 +93,8 @@ export const createMobileTerminalFormValidator = (
       antenna: new FormControl(mobileTerminal.antenna),
       satelliteNumber: new FormControl(mobileTerminal.satelliteNumber),
       active: new FormControl(mobileTerminal.active),
-      installDate: new FormControl(mobileTerminal.installDate),
-      uninstallDate: new FormControl(mobileTerminal.uninstallDate),
+      installDate: new FormControl(moment(mobileTerminal.installDate), [CustomValidators.momentValid]),
+      uninstallDate: new FormControl(moment(mobileTerminal.uninstallDate)),
       installedBy: new FormControl(mobileTerminal.installedBy),
     }),
     channels: new FormArray(channels),

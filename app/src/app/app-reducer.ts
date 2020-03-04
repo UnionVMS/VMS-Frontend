@@ -20,6 +20,7 @@ import { NotificationsReducer, NotificationsInterfaces } from './data/notificati
 import { MergedRouteReducerState } from './data/router/router.interfaces';
 import { MobileTerminalReducer, MobileTerminalInterfaces } from './data/mobile-terminal/';
 import { NotesReducer, NotesInterfaces } from './data/notes/';
+import { UserSettingsReducer, UserSettingsInterfaces } from './data/user-settings/';
 
 
 export interface State {
@@ -35,6 +36,7 @@ export interface State {
   notifications: NotificationsInterfaces.State;
   router: MergedRouteReducerState;
   notes: NotesInterfaces.State;
+  userSettings: UserSettingsInterfaces.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -50,6 +52,7 @@ export const reducers: ActionReducerMap<State> = {
   notifications: NotificationsReducer.notificationsReducer,
   router: routerReducer,
   notes: NotesReducer.notesReducer,
+  userSettings: UserSettingsReducer.userSettingsReducer,
 };
 
 

@@ -57,7 +57,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public selectIncident: (incident: IncidentInterfaces.assetNotSendingIncident) => void;
   public countNotificationsOfType: (
     incidentNotifications: IncidentInterfaces.incidentNotificationsCollections,
-    type: IncidentInterfaces.incidentNotificationTypes.created | IncidentInterfaces.incidentNotificationTypes.updated
+    type: string
   ) => number;
 
   // Curried functions
@@ -136,7 +136,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     };
     this.countNotificationsOfType = (
       incidentNotifications: IncidentInterfaces.incidentNotificationsCollections,
-      type: IncidentInterfaces.incidentNotificationTypes.created | IncidentInterfaces.incidentNotificationTypes.updated
+      type: string
     ) => {
       if(typeof incidentNotifications !== 'undefined') {
         return Object.values(incidentNotifications).reduce(

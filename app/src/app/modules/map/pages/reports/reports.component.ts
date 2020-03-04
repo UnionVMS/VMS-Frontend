@@ -93,15 +93,15 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
   public setTimeInterval: (from: string, to: string) => void;
 
-  private assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
+  public assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
   private onSelectFunctions: { [name: string]: (event) => void } = {};
   // private onHoverFunctions: { [name: string]: (event) => void } = {};
 
-  private assetTracks$: Observable<any>;
-  private forecasts$: Observable<any>;
+  public assetTracks$: Observable<any>;
+  public forecasts$: Observable<any>;
   public searchAutocompleteAsset$: Observable<any>;
   private selection: Select;
   // private hoverSelection: Select;
@@ -111,8 +111,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
   private removeForecast: (assetId: string) => void;
   public selectAsset: (assetId: string) => void;
   private untrackAsset: (assetId: string) => void;
-  private unregisterOnClickFunction: (name: string) => void;
-  private unregisterOnSelectFunction: (name: string) => void;
+  public unregisterOnClickFunction: (name: string) => void;
+  public unregisterOnSelectFunction: (name: string) => void;
   // private unregisterOnHoverFunction: (name: string) => void;
 
   public activePanel = '';

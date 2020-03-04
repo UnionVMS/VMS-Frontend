@@ -9,6 +9,7 @@ import { State } from '@app/app-reducer';
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
 import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
+import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
 @Component({
   selector: 'notes-list',
@@ -29,10 +30,13 @@ export class NotesListComponent implements OnInit, OnDestroy {
 
   mapStateToProps() {
     this.store.select(NotesSelectors.getNotes).pipe(takeUntil(this.unmount$)).subscribe((notes) => {
-      this.notes = notes.map(note => {
+      this.notes = notes.map(note => ({
+        ...note,
+        createdOnFormatted: formatUnixtime(note.createdOn)
+      })).map(note => {
         return {
           note,
-          searchableString: note.createdBy + ' ' + note.createdOn + ' ' + note.note
+          searchableString: note.createdBy + ' ' + note.createdOnFormatted + ' ' + note.note
         };
       });
       this.filteredNotes = this.notes

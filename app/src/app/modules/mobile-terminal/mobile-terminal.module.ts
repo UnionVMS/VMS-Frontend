@@ -15,8 +15,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
 
-
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { DatetimePickerModule } from 'ngx-moment-tz-picker';
 
 /* Pages */
 import { FormPageComponent } from './pages/form/form.component';
@@ -28,6 +29,7 @@ import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.co
 @NgModule({
   imports: [
     CommonModule,
+    DatetimePickerModule,
     RouterModule,
     UIModule,
     MatProgressSpinnerModule,
@@ -41,6 +43,7 @@ import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.co
     ReactiveFormsModule,
     MatCheckboxModule,
     MatDatepickerModule,
+    MatMomentDateModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
   ],

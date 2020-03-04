@@ -65,19 +65,23 @@
         <input matInput formControlName="installedBy">
       </mat-form-field>
 
-      <mat-form-field class="mobile-terminal-form--channel-installDate">
-        <mat-label i18n>Installed on</mat-label>
-        <input matInput formControlName="installDate" [owlDateTime]="installDateTimePicker">
-        <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="installDateTimePicker"></mat-datepicker-toggle>
-        <owl-date-time #installDateTimePicker></owl-date-time>
-      </mat-form-field>
+      <ngx-datetime-picker
+        [(dateTime)]="formValidator.value.mobileTerminalFields.installDate"
+        (dateTimeChange)="updateValue(['mobileTerminalFields', 'installDate'], $event)"
+        label="Installed on"
+        [errorMessages]="getErrorMessages(['mobileTerminalFields', 'installDate'])"
+      ></ngx-datetime-picker>
 
-      <mat-form-field class="mobile-terminal-form--channel-uninstallDate">
-        <mat-label i18n>Unistalled on</mat-label>
-        <input matInput formControlName="uninstallDate" [owlDateTime]="uninstallDateTimePicker">
-        <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="uninstallDateTimePicker"></mat-datepicker-toggle>
-        <owl-date-time #uninstallDateTimePicker></owl-date-time>
-      </mat-form-field>
+      <ngx-datetime-picker
+        [(dateTime)]="formValidator.value.mobileTerminalFields.uninstallDate"
+        (dateTimeChange)="updateValue(['mobileTerminalFields', 'uninstallDate'], $event)"
+        label="Unistalled on"
+        [errorMessages]="getErrorMessages(['mobileTerminalFields', 'uninstallDate'])"
+      ></ngx-datetime-picker>
+      <!-- TODO: insert label into compoenent and show it to get i18n. -->
+      <!-- <mat-label i18n>Unistalled on</mat-label> -->
+
+
     </fieldset>
 
     <div class="mobile-terminal-form--channel-title">
@@ -124,8 +128,8 @@
                   type="number"
                   formControlName="dnid"
                   require
-                  (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', nrOfChannels() - (i + 1), 'memberNumber'])"
-                ><mat-error *ngFor="let error of getErrors(['channels', nrOfChannels() - (i + 1), 'dnid'])">{{ errorMessage(error) }}</mat-error>
+                  (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', (nrOfChannels() - (i + 1)) + '', 'memberNumber'])"
+                ><mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'dnid'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
               <mat-form-field class="mobile-terminal-form--channel-memberNumber">
@@ -134,8 +138,8 @@
                   matInput type="number"
                   formControlName="memberNumber"
                   required
-                  (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', nrOfChannels() - (i + 1), 'dnid'])"
-                ><mat-error *ngFor="let error of getErrors(['channels', nrOfChannels() - (i + 1), 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
+                  (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', (nrOfChannels() - (i + 1)) + '', 'dnid'])"
+                ><mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
               <mat-form-field class="mobile-terminal-form--channel-name">
