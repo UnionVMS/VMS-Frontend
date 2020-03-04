@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { IncidentInterfaces } from '@data/incident';
-import { formatDate } from '@app/helpers/helpers';
+import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
 
 @Component({
   selector: 'map-incidents',
@@ -29,8 +29,6 @@ export class IncidentsComponent {
   }
 
   formatDate(incident: IncidentInterfaces.assetNotSendingIncident) {
-    const date = new Date((incident.lastKnownLocation.timestamp as number) * 1000);
-    const iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2})/);
-    return iso[1] + ' • ' + iso[2];
+    return formatUnixtimeWithDot(incident.lastKnownLocation.timestamp);
   }
 }

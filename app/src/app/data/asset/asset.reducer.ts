@@ -194,7 +194,7 @@ export const assetReducer = createReducer(initialState,
     const granularityInSeconds = state.assetTripGranularity * 60;
     const assetTrips = assetMovements.reduce((tripAccumilator, movement) => {
       const timestamps = Object.keys(tripAccumilator);
-      const timestampOfMovement = Date.parse(movement.microMove.timestamp as string) / 1000;
+      const timestampOfMovement = movement.microMove.timestamp;
       if(timestamps.length === 0) {
         return { [timestampOfMovement + granularityInSeconds]: { [movement.asset]: movement } };
       } else {

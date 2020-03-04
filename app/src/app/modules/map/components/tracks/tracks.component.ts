@@ -16,7 +16,7 @@ import { pointerMove } from 'ol/events/condition.js';
 import { toStringXY } from 'ol/coordinate';
 
 
-import { formatDate } from '@app/helpers/helpers';
+import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
 @Component({
   selector: 'map-tracks',
@@ -107,7 +107,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
           padding: [5, 5, 5, 5],
           offsetX: 30,
           textAlign: 'left',
-          text: formatDate(track.timestamp) + ', ' + track.speed.toFixed(2) + ' kts, ' + track.source
+          text: formatUnixtime(track.timestamp) + ', ' + track.speed.toFixed(2) + ' kts, ' + track.source
         }));
         changed = true;
 

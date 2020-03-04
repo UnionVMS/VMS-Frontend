@@ -4,7 +4,7 @@ export type Movement = Readonly<{
   location: Position;
   heading: number;
   guid: string;
-  timestamp: string|number;
+  timestamp: number;
   speed: number | null;
   source: string;
 }>;
