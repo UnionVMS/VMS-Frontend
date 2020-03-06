@@ -3,7 +3,8 @@ import { async, TestBed } from '@angular/core/testing';
 import { TestingModule } from '@src/testing/Utils';
 import { UIModule } from '@app/modules/ui/ui.module';
 
-import { formatDate } from '@app/helpers/helpers';
+// @ts-ignore
+import moment from 'moment-timezone';
 
 import { AssetPanelComponent } from './asset-panel.component';
 import AssetMovementStub from '@data/asset/stubs/assetMovement.stub';
@@ -39,7 +40,7 @@ describe('AssetPanelComponent', () => {
     };
 
     component.getAssetTrack = (historyId: string, movementGuid: string) => {};
-    component.getAssetTrackTimeInterval = (historyId: string, startDate: string, endDate: string) => {};
+    component.getAssetTrackTimeInterval = (historyId: string, startDate: number, endDate: number) => {};
     component.untrackAsset = (historyId: string) => {};
     component.addForecast = (historyId: string) => {};
     component.removeForecast = (historyId: string) => {};
@@ -67,7 +68,7 @@ describe('AssetPanelComponent', () => {
     expect(untrackAssetSpy).toHaveBeenCalledTimes(1);
     expect(untrackAssetSpy).toHaveBeenCalledWith(selectedAsset.asset.id);
 
-    component['getTracksMillisecondCap'] = () => formatDate(1555490596000 - component.tracksMinuteCap * 60 * 1000);
+    component['getTracksMillisecondCap'] = () => 1555490596 - component.tracksMinuteCap * 60;
 
     selectedAsset = { ...selectedAsset, assetTracks: undefined };
     expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledTimes(0);
@@ -76,7 +77,7 @@ describe('AssetPanelComponent', () => {
     expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledWith(
       selectedAsset.asset.id,
       component['getTracksMillisecondCap'](),
-      formatDate(Date.now())
+      moment().format('X')
     );
 
     component.tracksMinuteCap = null;

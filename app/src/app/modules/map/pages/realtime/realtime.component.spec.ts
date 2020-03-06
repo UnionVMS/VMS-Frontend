@@ -2,6 +2,9 @@ import { async, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
+// @ts-ignore
+import moment from 'moment-timezone';
+
 import { Store } from '@ngrx/store';
 import { TestingModule } from '@src/testing/Utils';
 
@@ -257,7 +260,7 @@ describe('RealtimeComponent', () => {
           },
           heading: 55,
           guid: '47fc3ee8-dd32-41a9-a733-ffe2021fdaed',
-          timestamp: '2019-03-31T05:48:30Z',
+          timestamp: 1554004110,
           speed: 19.5,
           source: 'AIS'
         },
@@ -268,7 +271,7 @@ describe('RealtimeComponent', () => {
           },
           heading: 57,
           guid: '0152820f-33f0-4ee1-86a3-a2cd24d1e66c',
-          timestamp: '2019-03-31T05:55:00Z',
+          timestamp: 1554004500,
           speed: 19.5,
           source: 'AIS'
         }
@@ -412,20 +415,6 @@ describe('RealtimeComponent', () => {
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
         AssetActions.getAssetTrack({ assetId: 'asset-id', movementGuid: 'movement-guid' })
-      );
-    });
-
-    it('should dispatch AssetActions.getAssetTrackFromTime when getAssetTrackFromTime is called.', () => {
-      const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      const startDate = formatDate(new Date(Date.now()));
-      const endDate =  formatDate(Date.now());
-      component['getAssetTrackTimeInterval']('asset-id', startDate, endDate);
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        AssetActions.getAssetTrackTimeInterval({ assetId: 'asset-id', startDate, endDate })
       );
     });
 

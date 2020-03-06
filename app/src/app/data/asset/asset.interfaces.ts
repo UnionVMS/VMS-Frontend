@@ -47,7 +47,7 @@ export type Asset = Readonly<{
   commissionDate: any;
   constructionYear: any;
   constructionPlace: any;
-  updateTime: string;
+  updateTime: number;
   source: string;
   vesselType: string;
   vesselDateOfEntry: any;

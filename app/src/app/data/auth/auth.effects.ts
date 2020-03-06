@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { of, EMPTY } from 'rxjs';
 import { map, mergeMap, flatMap, catchError } from 'rxjs/operators';
 
 import * as AuthActions from './auth.actions';
@@ -99,4 +99,15 @@ export class AuthEffects {
     })
   );
 
+  @Effect()
+  logout$ = this.actions$.pipe(
+    ofType(AuthActions.logout),
+    mergeMap((action) => {
+      delete window.localStorage.authToken;
+      localStorage.removeItem('ngStorage-token');
+      localStorage.removeItem('ngStorage-roleName');
+      localStorage.removeItem('ngStorage-scopeName');
+      return EMPTY;
+    })
+  );
 }

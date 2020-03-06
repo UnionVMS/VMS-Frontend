@@ -9,7 +9,7 @@ import { AssetLayoutComponent } from './asset.component';
 import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 
-describe('DefaultLayoutComponent', () => {
+describe('AssetLayoutComponent', () => {
 
   // let store: MockStore<{ }>;
   const initialState = { };
@@ -42,10 +42,10 @@ describe('DefaultLayoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a continer with router-outlet in it', () => {
+  it('should have a asset-layout--grid with router-outlet in it', () => {
     const { fixture } = setup();
     const layoutElement: HTMLElement = fixture.nativeElement;
-    const routerOutlet = layoutElement.querySelector('.container router-outlet');
+    const routerOutlet = layoutElement.querySelector('.asset-layout--grid router-outlet');
     expect(routerOutlet).not.toBeNull();
   });
 });
