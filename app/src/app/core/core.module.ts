@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { UIModule } from '@modules/ui/ui.module';
 
@@ -34,6 +35,7 @@ import { TypescriptTranslationsComponent } from './components/typescript-transla
     RouterModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     UIModule,
   ],
   declarations: [

@@ -1,6 +1,9 @@
 <div class="asset-layout--grid">
   <core-top-menu-component
     [appVersion]="appVersion"
+    [isAdmin]="isAdmin$ | async"
+    [setTimezone]="setTimezone"
+    [timezone]="timezone$ | async"
   ></core-top-menu-component>
 
   <core-notifications

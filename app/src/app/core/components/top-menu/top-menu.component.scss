@@ -1,6 +1,6 @@
 @import 'variables.scss';
 
-.navbar {
+.layout-top-menu.navbar {
   background: $color_turquoise;
   color: white;
   height: $navbar_height;
@@ -55,6 +55,17 @@
     padding-right: $large_distance;
     a {
       cursor: pointer;
+    }
+
+    .timezone-selector {
+      padding: 0px;
+      min-width: 200px;
+      .mat-select-value-text {
+        color: white;
+      }
+      .mat-select-arrow {
+        color: white;
+      }
     }
   }
 }

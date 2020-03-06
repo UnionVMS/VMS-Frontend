@@ -6,7 +6,7 @@ import { TopMenuComponent } from './top-menu.component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 describe('TopMenuComponent', () => {
-const initialState = { };
+  const initialState = { };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -59,9 +59,9 @@ const initialState = { };
     // check so admin link don´t show when isAdmin = false
     component.isAdmin = false;
     fixture.detectChanges();
-    const layoutElement_after_isAdmin_updated: HTMLElement = fixture.nativeElement;
-    const links_after_isAdmin_updated = layoutElement_after_isAdmin_updated.querySelectorAll('.navbar a');
-    expect(links_after_isAdmin_updated[6]).toBeUndefined();
+    const layoutElementNoLongerAdmin: HTMLElement = fixture.nativeElement;
+    const linksNoLongerAdmin = layoutElementNoLongerAdmin.querySelectorAll('.navbar a');
+    expect(linksNoLongerAdmin[6]).toBeUndefined();
   });
 
 });

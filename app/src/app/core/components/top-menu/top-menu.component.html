@@ -1,5 +1,5 @@
 <!--Navbar-->
-<div class="navbar">
+<div class="navbar layout-top-menu">
   <!-- Navbar brand -->
   <div class="navbar-brand-and-version">
     <div class="app-version">v {{appVersion}}</div>
@@ -22,6 +22,13 @@
   </ul>
   <!-- Links -->
   <ul class="navbar-nav right-bar">
+    <li class="nav-item">
+      <fieldset *ngIf="currentTimezone" class="timezone-selector">
+        <mat-select [(value)]="currentTimezone" (selectionChange)="setTimezone($event.value)">
+          <mat-option *ngFor="let timezoneName of timezones" value="{{timezoneName}}">{{timezoneName}}</mat-option>
+        </mat-select>
+      </fieldset>
+    </li>
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link waves-light" routerLink="/logout" i18n>Logout</a>
     </li>

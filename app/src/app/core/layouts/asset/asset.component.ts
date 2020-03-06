@@ -4,7 +4,9 @@ import { version } from '@app/../../package.json';
 import { Router } from '@angular/router';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AuthSelectors } from '@data/auth';
 import { NotificationsActions, NotificationsSelectors, NotificationsInterfaces } from '@data/notifications';
+import { UserSettingsActions, UserSettingsSelectors, UserSettingsInterfaces } from '@data/user-settings';
 import { AssetSelectors, AssetInterfaces } from '@data/asset';
 import { replaceDontTranslate } from '@app/helpers/helpers';
 
@@ -19,8 +21,13 @@ import { RouterInterfaces, RouterSelectors } from '@data/router';
 
 export class AssetLayoutComponent implements OnInit, OnDestroy {
   public appVersion: string = version;
+
+  public isAdmin$: Observable<boolean>;
+  public timezone$: Observable<string>;
   public notifications$: Observable<NotificationsInterfaces.State>;
+
   public dismissNotification: (type: string, index: number) => void;
+  public setTimezone: (timezone: string) => void;
 
   private unmount$: Subject<boolean> = new Subject<boolean>();
   public mergedRoute: RouterInterfaces.MergedRoute;
@@ -56,11 +63,15 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
         this.selectedAsset = asset;
       }
     });
+    this.timezone$ = this.store.select(UserSettingsSelectors.getTimezone);
+    this.isAdmin$ = this.store.select(AuthSelectors.isAdmin);
   }
 
   mapDispatchToProps() {
     this.dismissNotification = (type: string, index: number) =>
       this.store.dispatch(NotificationsActions.dismiss({ notificationType: type, index }));
+    this.setTimezone = (timezone: string) =>
+      this.store.dispatch(UserSettingsActions.setTimezone({ timezone, save: true }));
   }
 
   ngOnInit() {
