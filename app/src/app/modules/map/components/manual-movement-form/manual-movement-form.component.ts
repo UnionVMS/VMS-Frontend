@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
+// @ts-ignore
+import moment from 'moment-timezone';
+
 import Map from 'ol/Map';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
@@ -51,7 +54,7 @@ export class ManualMovementFormComponent implements OnInit {
         latitude: parseFloat(this.formValidator.value.latitude),
       },
       heading: parseFloat(this.formValidator.value.heading),
-      timestamp: Math.floor(new Date(this.formValidator.value.timestamp).getTime() / 1000),
+      timestamp: Math.floor(this.formValidator.value.timestamp.format('X')),
       speed: parseFloat(this.formValidator.value.speed),
     } as AssetInterfaces.Movement);
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
@@ -114,5 +117,14 @@ export class ManualMovementFormComponent implements OnInit {
     }
 
     return errorMessage(error);
+  }
+
+  getErrorMessages(path: string[]): string[] {
+    return this.getErrors(path).map(error => this.errorMessage(error));
+  }
+
+  updateTimestamp(dateTime: moment.Moment) {
+    const formControl = this.formValidator.get('timestamp');
+    formControl.setValue(dateTime);
   }
 }

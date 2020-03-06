@@ -23,14 +23,12 @@
     <mat-error *ngFor="let error of getErrors(['heading'])">{{ errorMessage(error) }}</mat-error>
   </mat-form-field>
 
-  <mat-form-field id="manual-position-form--timestamp">
-    <mat-label i18n>Time</mat-label>
-    <!-- <input matInput formControlName="timestamp" required /> -->
-    <input matInput required formControlName="timestamp" [owlDateTime]="timestampTimePicker">
-    <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="timestampTimePicker"></mat-datepicker-toggle>
-    <owl-date-time #timestampTimePicker></owl-date-time>
-    <mat-error *ngFor="let error of getErrors(['timestamp'])">{{ errorMessage(error) }}</mat-error>
-  </mat-form-field>
+  <ngx-datetime-picker
+    [(dateTime)]="formValidator.value.timestamp"
+    (dateTimeChange)="updateTimestamp($event)"
+    label="Time"
+    [errorMessages]="getErrorMessages(['timestamp'])"
+  ></ngx-datetime-picker>
 
   <button disabled title="Not implemented yet" id="manual-position-form--all" mat-stroked-button color="accent" type="button" i18n>Show all</button>
   <button

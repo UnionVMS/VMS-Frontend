@@ -153,19 +153,19 @@
                 <mat-checkbox formControlName="defaultChannel" i18n>Default</mat-checkbox>
               </div>
 
-              <mat-form-field class="mobile-terminal-form--channel-startDate">
-                <mat-label i18n>Started</mat-label>
-                <input matInput formControlName="startDate" [owlDateTime]="startDateTimePicker">
-                <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="startDateTimePicker"></mat-datepicker-toggle>
-                <owl-date-time #startDateTimePicker></owl-date-time>
-              </mat-form-field>
+              <ngx-datetime-picker
+                [(dateTime)]="channel.startDate"
+                (dateTimeChange)="updateValue(['channels', (nrOfChannels() - (i + 1)) + '', 'startDate'], $event)"
+                label="Started"
+                [errorMessages]="getErrorMessages(['channels', (nrOfChannels() - (i + 1)) + '', 'startDate'])"
+              ></ngx-datetime-picker>
 
-              <mat-form-field class="mobile-terminal-form--channel-endDate">
-                <mat-label i18n>Stopped</mat-label>
-                <input matInput formControlName="endDate" [owlDateTime]="endDateTimePicker">
-                <mat-datepicker-toggle matSuffix [owlDateTimeTrigger]="endDateTimePicker"></mat-datepicker-toggle>
-                <owl-date-time #endDateTimePicker></owl-date-time>
-              </mat-form-field>
+              <ngx-datetime-picker
+                [(dateTime)]="channel.endDate"
+                (dateTimeChange)="updateValue(['channels', (nrOfChannels() - (i + 1)) + '', 'endDate'], $event)"
+                label="Stopped"
+                [errorMessages]="getErrorMessages(['channels', (nrOfChannels() - (i + 1)) + '', 'endDate'])"
+              ></ngx-datetime-picker>
 
               <mat-form-field class="mobile-terminal-form--channel-expectedFrequency">
                 <mat-label i18n>Expected Frequency</mat-label>

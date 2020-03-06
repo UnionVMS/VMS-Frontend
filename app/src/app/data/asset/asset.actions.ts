@@ -74,12 +74,12 @@ export const getAssetTrack = createAction(
 
 export const getAssetTrackTimeInterval = createAction(
   '[Asset] Get asset track time interval',
-  props<{ assetId: string, startDate: string, endDate: string }>()
+  props<{ assetId: string, startDate: number, endDate: number }>()
 );
 
 export const getTracksByTimeInterval = createAction(
   '[Asset] Get asset tracks by time interval',
-  props<{ query: any, startDate: string, endDate: string, sources: string[] }>()
+  props<{ query: any, startDate: number, endDate: number, sources: string[] }>()
 );
 
 export const getSelectedAsset = createAction(

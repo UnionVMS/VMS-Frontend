@@ -12,7 +12,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSliderModule } from '@angular/material/slider';
 import { RouterModule } from '@angular/router';
 
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DatetimePickerModule } from 'ngx-moment-tz-picker';
 
 /* Modules */
 import { UIModule } from '../ui/ui.module';
@@ -71,8 +72,8 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MatDatepickerModule,
     MatSliderModule,
     RouterModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
+    MatMomentDateModule,
+    DatetimePickerModule
   ],
   declarations: [
     RealtimeComponent,

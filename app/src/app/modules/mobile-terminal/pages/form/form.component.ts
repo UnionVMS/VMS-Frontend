@@ -201,7 +201,6 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     return errors === null ? [] : Object.keys(errors).map(errorType => ({ errorType, error: errors[errorType] }));
   }
 
-
   errorMessage(error: any) {
     if(error.errorType === 'serialNumberAlreadyExists') {
       return $localize`:@@ts-mobileTerminal-form-error-serialnumber:Serial number already exists, choose another one!`;

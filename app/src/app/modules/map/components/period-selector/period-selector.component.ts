@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { formatDate, formatTimestamp } from '@app/helpers/helpers';
+// @ts-ignore
+import moment from 'moment-timezone';
+import { errorMessage } from '@app/helpers/validators/error-messages';
 
 import { createPeriodSelectorFormValidator } from './form-validator';
 
@@ -11,7 +14,7 @@ import { createPeriodSelectorFormValidator } from './form-validator';
 })
 export class PeriodSelectorComponent implements OnInit {
 
-  @Input() setPeriod: (from: string, to: string) => void;
+  @Input() setPeriod: (from: number, to: number) => void;
   public formValidator: FormGroup;
 
   public periods = [
@@ -26,7 +29,22 @@ export class PeriodSelectorComponent implements OnInit {
   }
 
   public getReport = () => {
-    const startDateTimestamp = (this.formValidator.value.to.getTime() - (this.formValidator.value.periodLength * 1000)) / 1000;
-    this.setPeriod(formatTimestamp(startDateTimestamp), formatDate(this.formValidator.value.to));
+    const startDateTimestamp = this.formValidator.value.to.fromat('X') - this.formValidator.value.periodLength;
+    this.setPeriod(startDateTimestamp, this.formValidator.value.to.format('X'));
+  }
+
+
+  public getErrors(path: string[]): Array<{errorType: string, error: string }> {
+    const errors = this.formValidator.get(path).errors;
+    return errors === null ? [] : Object.keys(errors).map(errorType => ({ errorType, error: errors[errorType] }));
+  }
+
+  public getErrorMessages(path: string[]): string[] {
+    return this.getErrors(path).map(error => errorMessage(error.errorType, error.error));
+  }
+
+  public updateTo(datetime: moment.Moment) {
+    const formControl = this.formValidator.get('to');
+    formControl.setValue(datetime);
   }
 }

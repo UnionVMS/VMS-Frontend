@@ -5,6 +5,9 @@ import { Position } from '@data/generic.interfaces';
 
 import getContryISO2 from 'country-iso-3-to-2';
 
+// @ts-ignore
+import moment from 'moment-timezone';
+
 @Component({
   selector: 'map-asset-panel',
   templateUrl: './asset-panel.component.html',
@@ -15,7 +18,7 @@ export class AssetPanelComponent {
 
   @Input() deselectAsset: (assetId: string) => void;
   @Input() getAssetTrack: (assetId: string, movementGuid: string) => void;
-  @Input() getAssetTrackTimeInterval: (assetId: string, startDate: string, endDate: string) => void;
+  @Input() getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
   @Input() untrackAsset: (assetId: string) => void;
   @Input() addForecast: (assetId: string) => void;
   @Input() removeForecast: (assetId: string) => void;
@@ -37,7 +40,7 @@ export class AssetPanelComponent {
   // Extracting this code to separete function so we can override this code in unit-tests.
   private getTracksMillisecondCap() {
     const tracksMillisecondCap = this.tracksMinuteCap * 60 * 1000;
-    return formatDate(Date.now() - tracksMillisecondCap);
+    return moment().subtract(tracksMillisecondCap, 'ms').format('X');
   }
 
   public toggleTracks = (asset: AssetInterfaces.AssetData) => {
@@ -49,7 +52,7 @@ export class AssetPanelComponent {
       this.getAssetTrackTimeInterval(
         asset.asset.id,
         this.getTracksMillisecondCap(),
-        formatDate(Date.now())
+        moment().format('X')
       );
     }
   }
