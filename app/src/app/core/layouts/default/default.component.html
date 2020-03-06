@@ -1,6 +1,8 @@
 <core-top-menu-component
   [appVersion]="appVersion"
-  [isAdmin]="isAdmin"
+  [isAdmin]="isAdmin$ | async"
+  [setTimezone]="setTimezone"
+  [timezone]="timezone$ | async"
 ></core-top-menu-component>
 
 <div class="container">

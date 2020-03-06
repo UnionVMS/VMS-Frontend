@@ -12,7 +12,7 @@ const AssetStub: Asset = {
   commissionDate: null,
   constructionYear: null,
   constructionPlace: null,
-  updateTime: '2019-02-03T21:35:48.096Z',
+  updateTime: 1583509117,
   source: 'INTERNAL',
   vesselType: 'Cargo all ships of this type',
   vesselDateOfEntry: null,

@@ -36,7 +36,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public clearSelectedAssets: () => void;
   public deselectAsset: (assetId: string) => void;
   public getAssetTrack: (assetId: string, movementGuid: string) => void;
-  public getAssetTrackTimeInterval: (assetId: string, startDate: string, endDate: string) => void;
+  public getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
   public removeForecast: (assetId: string) => void;
   public saveNewIncidentStatus: (incidentId: number, status: string) => void;
   public selectAsset: (assetId: string) => void;

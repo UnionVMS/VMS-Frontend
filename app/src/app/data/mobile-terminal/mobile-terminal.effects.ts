@@ -121,7 +121,7 @@ export class MobileTerminalEffects {
         return request.pipe(
           map((mobileTerminal: any) => {
             let notification = $localize`:@@ts-mobile-terminal-updated:Mobile terminal updated successfully!`;
-            this.router.navigate(['/asset/' + mobileTerminal.assetId]);
+            this.router.navigate(['/asset/' + mobileTerminal.assetId + '/mobileTerminals']);
             if(isNew) {
               notification = $localize`:@@ts-mobile-terminal-created:Mobile terminal created successfully!`;
             }

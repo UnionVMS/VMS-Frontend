@@ -2,13 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { FormGroup, FormControl } from '@angular/forms';
 
 import { State } from '@app/app-reducer';
 import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
-import { createNotesFormValidator } from './form-validator';
-import { errorMessage } from '@app/helpers/validators/error-messages';
 
 @Component({
   selector: 'notes-edit-page',
@@ -21,16 +18,14 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   public notesSubscription: Subscription;
   public note = {} as NotesInterfaces.Note;
-  public save: () => void;
+  public save: (note: NotesInterfaces.Note, redirect: boolean) => void;
   public mergedRoute: RouterInterfaces.MergedRoute;
-  public formValidator: FormGroup;
 
   mapStateToProps() {
     this.notesSubscription = this.store.select(NotesSelectors.getNoteByUrl).subscribe((note) => {
       if(typeof note !== 'undefined') {
         this.note = note;
       }
-      this.formValidator = createNotesFormValidator(this.note);
     });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
       this.mergedRoute = mergedRoute;
@@ -41,12 +36,8 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   mapDispatchToProps() {
-    this.save = () => {
-      const note = {
-        ...this.note,
-        note: this.formValidator.value.essentailFields.note,
-      };
-      this.store.dispatch(NotesActions.saveNote({ note, redirect: true }));
+    this.save = (note: NotesInterfaces.Note, redirect: boolean) => {
+      this.store.dispatch(NotesActions.saveNote({ note, redirect }));
     };
   }
 
@@ -68,18 +59,5 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   isFormReady() {
     return this.isCreate() || Object.entries(this.note).length !== 0;
-  }
-
-  getErrors(path: string[]) {
-    const errors = this.formValidator.get(path).errors;
-    return errors === null ? [] : Object.keys(errors);
-  }
-
-  errorMessage(error: string) {
-    if(error === 'maxlength') {
-      return 'Text can not be longer then 255 characters.';
-    }
-
-    return errorMessage(error);
   }
 }

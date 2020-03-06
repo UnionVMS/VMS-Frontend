@@ -1,15 +1,11 @@
 @import 'variables.scss';
 
-.header-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-}
-
 .column-wrapper {
+  background: white;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: $medium_distance;
+  padding: $distance;
 
   .left-column {
     display: grid;

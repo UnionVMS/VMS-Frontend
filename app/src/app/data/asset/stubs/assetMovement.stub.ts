@@ -8,7 +8,7 @@ const AssetMovementStub: AssetMovement = {
     },
     heading: 189,
     guid: '4eea28b6-0844-4a6b-f5be-6b655a4e0343',
-    timestamp: '2019-05-02T09:04:58Z',
+    timestamp: 1583509117,
     speed: 11.2,
     source: 'AIS',
   },

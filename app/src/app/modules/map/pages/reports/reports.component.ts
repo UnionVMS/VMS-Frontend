@@ -80,7 +80,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public deactivateSavedFilter: (filterName: string) => void;
   public filterAssets: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
-  public getTracksByTimeInterval: (query: any, from: string, to: string, sources: string[]) => void;
+  public getTracksByTimeInterval: (query: any, from: number, to: number, sources: string[]) => void;
   public removeActiveLayer: (layerName: string) => void;
   public removePositionForInspection: (inspectionId: string) => void;
   public saveMapLocation: (key: number, mapLocation: MapSettingsInterfaces.MapLocation) => void;
@@ -91,28 +91,27 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
   // public registerOnHoverFunction: (name: string, vectorLayer: VectorLayer, hoverFunction: (event) => void) => void;
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
-  public setTimeInterval: (from: string, to: string) => void;
+  public setTimeInterval: (from: number, to: number) => void;
 
-  private assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
+  public assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
   private onSelectFunctions: { [name: string]: (event) => void } = {};
   // private onHoverFunctions: { [name: string]: (event) => void } = {};
 
-  private assetTracks$: Observable<any>;
-  private forecasts$: Observable<any>;
+  public assetTracks$: Observable<any>;
+  public forecasts$: Observable<any>;
   public searchAutocompleteAsset$: Observable<any>;
   private selection: Select;
   // private hoverSelection: Select;
 
   private getAssetTrack: (assetId: string, movementGuid: string) => void;
-  private getAssetTrackTimeInterval: (assetId: string, startDate: string, endDate: string) => void;
   private removeForecast: (assetId: string) => void;
   public selectAsset: (assetId: string) => void;
   private untrackAsset: (assetId: string) => void;
-  private unregisterOnClickFunction: (name: string) => void;
-  private unregisterOnSelectFunction: (name: string) => void;
+  public unregisterOnClickFunction: (name: string) => void;
+  public unregisterOnSelectFunction: (name: string) => void;
   // private unregisterOnHoverFunction: (name: string) => void;
 
   public activePanel = '';
@@ -160,7 +159,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   mapDispatchToProps() {
     this.setAssetPositionsFromTripByTimestamp = (assetTripTimestamp: number) =>
       this.store.dispatch(AssetActions.setAssetPositionsFromTripByTimestamp({ assetTripTimestamp }));
-    this.getTracksByTimeInterval = (query: any, from: string, to: string, sources: string[]) =>
+    this.getTracksByTimeInterval = (query: any, from: number, to: number, sources: string[]) =>
       this.store.dispatch(AssetActions.getTracksByTimeInterval({ query, startDate: from, endDate: to, sources }));
     this.addActiveLayer = (layerName: string) =>
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
@@ -194,8 +193,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
     this.getAssetTrack = (assetId: string, movementGuid: string) =>
       this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementGuid }));
-    this.getAssetTrackTimeInterval = (assetId, startDate, endDate) =>
-      this.store.dispatch(AssetActions.getAssetTrackTimeInterval({ assetId, startDate, endDate }));
     this.untrackAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
     this.addPositionForInspection = (track) =>
@@ -224,7 +221,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   mapFunctionsToProps() {
-    this.setTimeInterval = (from: string, to: string) => {
+    this.setTimeInterval = (from: number, to: number) => {
       this.getTracksByTimeInterval(
         { vesselType: ['Fishing'], flagState: ['SWE'] },
         from,

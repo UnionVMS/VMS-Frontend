@@ -15,9 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 
 /* Pages */
 import { FormPageComponent } from './pages/form/form.component';
-
-/* Components */
-
+import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.component';
 
 @NgModule({
   imports: [
@@ -36,6 +34,7 @@ import { FormPageComponent } from './pages/form/form.component';
   ],
   declarations: [
     FormPageComponent,
+    ShowByAssetPageComponent
   ]
 })
 

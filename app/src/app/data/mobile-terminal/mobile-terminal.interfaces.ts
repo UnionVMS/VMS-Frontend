@@ -62,9 +62,9 @@ export interface MobileTerminal {
   softwareVersion: string;
   source: string;
   transceiverType: string;
-  installDate: string;
+  installDate: number;
   installedBy: string;
-  uninstallDate: string;
+  uninstallDate: number;
   updatetime: string;
   updateuser: string;
   westAtlanticOceanRegion: boolean;

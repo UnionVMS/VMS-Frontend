@@ -78,25 +78,24 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   // public registerOnHoverFunction: (name: string, vectorLayer: VectorLayer, hoverFunction: (event) => void) => void;
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
 
-  private assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
+  public assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
   private onSelectFunctions: { [name: string]: (event) => void } = {};
   // private onHoverFunctions: { [name: string]: (event) => void } = {};
 
-  private assetTracks$: Observable<any>;
-  private forecasts$: Observable<any>;
+  public assetTracks$: Observable<any>;
+  public forecasts$: Observable<any>;
   private selection: Select;
   // private hoverSelection: Select;
 
   private getAssetTrack: (assetId: string, movementGuid: string) => void;
-  private getAssetTrackTimeInterval: (assetId: string, startDate: string, endDate: string) => void;
   private removeForecast: (assetId: string) => void;
   public selectAsset: (assetId: string) => void;
   private untrackAsset: (assetId: string) => void;
-  private unregisterOnClickFunction: (name: string) => void;
-  private unregisterOnSelectFunction: (name: string) => void;
+  public unregisterOnClickFunction: (name: string) => void;
+  public unregisterOnSelectFunction: (name: string) => void;
   // private unregisterOnHoverFunction: (name: string) => void;
 
   public activePanel = '';
@@ -214,8 +213,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
     this.getAssetTrack = (assetId: string, movementGuid: string) =>
       this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementGuid }));
-    this.getAssetTrackTimeInterval = (assetId, startDate, endDate) =>
-      this.store.dispatch(AssetActions.getAssetTrackTimeInterval({ assetId, startDate, endDate }));
     this.untrackAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
     this.addPositionForInspection = (track) =>

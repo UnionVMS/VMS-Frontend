@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { UIModule } from '@modules/ui/ui.module';
 
@@ -11,6 +12,7 @@ import { UIModule } from '@modules/ui/ui.module';
 import { AuthGuard } from './guards/auth.guard';
 
 // Layouts
+import { AssetLayoutComponent } from './layouts/asset/asset.component';
 import { DefaultLayoutComponent } from './layouts/default/default.component';
 import { LoginLayoutComponent } from './layouts/login/login.component';
 import { FullLayoutComponent } from './layouts/full/full.component';
@@ -33,9 +35,11 @@ import { TypescriptTranslationsComponent } from './components/typescript-transla
     RouterModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     UIModule,
   ],
   declarations: [
+    AssetLayoutComponent,
     DefaultLayoutComponent,
     LoginLayoutComponent,
     FullLayoutComponent,

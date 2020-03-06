@@ -114,7 +114,7 @@ export class AssetService {
   }
 
   // /unionvms/movement/rest/micro/track/asset/{id}/{timestamp}
-  getAssetTrackTimeInterval(authToken: string, assetId: string, startDate: string, endDate) {
+  getAssetTrackTimeInterval(authToken: string, assetId: string, startDate: number, endDate: number) {
     // const datetime = "2019-03-28 12:00:00 +0100";
     return this.http.post(
       environment.baseApiUrl + `movement/rest/micro/track/asset/${assetId}?startDate=${startDate}&endDate=${endDate}`,
@@ -129,7 +129,7 @@ export class AssetService {
   }
 
   // /unionvms/movement/rest/micro/track/assets
-  getTracksByTimeInterval(authToken: string, query: any, startDate: string, endDate: string, sources: string[]) {
+  getTracksByTimeInterval(authToken: string, query: any, startDate: number, endDate: number, sources: string[]) {
     // const datetime = "2019-03-28 12:00:00 +0100";
     return this.http.post(
       environment.baseApiUrl + `stream-collector/rest/reports/tracksByAssetSearch`,

@@ -8,7 +8,8 @@
   fieldset {
     display: grid;
     grid-template-columns: 1fr;
-    border-left: $small_distance solid $color_turquoise;
+    padding: $distance;
+    background: white;
     margin-bottom: $medium_distance;
 
     &:last-child {
@@ -20,7 +21,6 @@
       margin-top: $small_distance;
       margin-bottom: $small_distance;
     }
-
   }
 
   button#mobile-terminal-form--save {
@@ -47,12 +47,32 @@
   #mobile-terminal-form--channel-name mat-checkbox {
     margin-right: $medium_distance;
   }
+
+  .mobile-terminal-form--channel-title {
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+    button {
+      place-self: center;
+    }
+  }
+
   .channels {
+    padding: 0;
+    margin: 0;
+    background: none;
     position: relative;
+    display: grid;
+    grid-row-gap: distance(2);
+
     .mobile-terminal-form--new-channel-button {
       position: absolute;
       right: 0px;
       top: 0px;
+    }
+
+    .channel {
+      margin: 0;
     }
   }
 }
@@ -63,4 +83,8 @@
 
 .load-spinner {
   margin: 150px auto;
+}
+
+.toolbox button {
+  text-transform: uppercase;
 }

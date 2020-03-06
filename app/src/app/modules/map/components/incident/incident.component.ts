@@ -3,7 +3,7 @@ import getContryISO2 from 'country-iso-3-to-2';
 
 import Map from 'ol/Map';
 
-import { formatDate } from '@app/helpers/helpers';
+import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
 import { AssetInterfaces } from '@data/asset';
 import { IncidentInterfaces } from '@data/incident';
 import { NotesInterfaces } from '@data/notes';
@@ -39,14 +39,11 @@ export class IncidentComponent {
   }
 
   public createNoteWithId = (note: NotesInterfaces.Note) => {
-    console.warn(this.asset);
     return this.createNote({ ...note, assetId: this.asset.asset.id });
   }
 
   formatDate(dateTime) {
-    const date = new Date(dateTime * 1000);
-    const iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2})/);
-    return iso[1] + ' • ' + iso[2];
+    return formatUnixtimeWithDot(dateTime);
   }
 
   getCountryCode(asset) {

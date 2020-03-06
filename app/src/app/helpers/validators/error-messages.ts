@@ -8,6 +8,7 @@ export const errorMessages = {
   minlength: 'To few characters, minimum {requiredLength} required, {actualLength} given.',
   max: 'Number too big. Number maxsize: {max}, number given: {actual}',
   min: 'Number too small. Number minimumsize: {min}, number given: {actual}',
+  momentNotValid: 'Not a valid date given.',
 };
 
 export const errorMessage = (errorType: string, errorObject: any = null) => {

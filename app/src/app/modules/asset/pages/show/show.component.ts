@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { takeWhile, endWith, map } from 'rxjs/operators';
@@ -21,15 +21,22 @@ import { NotificationsInterfaces, NotificationsActions } from '@data/notificatio
   templateUrl: './show.component.html',
   styleUrls: ['./show.component.scss']
 })
-export class ShowPageComponent implements OnInit, OnDestroy {
+export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  constructor(private store: Store<State>) { }
+  @ViewChild('toolbox') toolbox;
+  constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef) { }
 
   public assetSubscription: Subscription;
-  public contacts$: Observable<ContactInterfaces.Contact[]>;
+  // public contacts$: Observable<ContactInterfaces.Contact[]>;
   public notes$: Observable<NotesInterfaces.Note[]>;
-  public mobileTerminals$: Observable<Array<MobileTerminalInterfaces.MobileTerminal>>;
+  // public mobileTerminals$: Observable<Array<MobileTerminalInterfaces.MobileTerminal>>;
   public asset = {} as AssetInterfaces.Asset;
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.viewContainerRef.createEmbeddedView(this.toolbox);
+    }, 1);
+  }
 
   mapStateToProps() {
     this.assetSubscription = this.store.select(AssetSelectors.getSelectedAsset).subscribe((asset) => {
@@ -37,8 +44,8 @@ export class ShowPageComponent implements OnInit, OnDestroy {
         this.asset = asset;
       }
     });
-    this.mobileTerminals$ = this.store.select(MobileTerminalSelectors.getMobileTerminalsForUrlAsset);
-    this.contacts$ = this.store.select(ContactSelectors.getContactsOnAsset);
+    // this.mobileTerminals$ = this.store.select(MobileTerminalSelectors.getMobileTerminalsForUrlAsset);
+    // this.contacts$ = this.store.select(ContactSelectors.getContactsOnAsset);
     this.notes$ = this.store.select(NotesSelectors.getNotes);
   }
 
@@ -49,7 +56,7 @@ export class ShowPageComponent implements OnInit, OnDestroy {
     this.mapStateToProps();
     this.mapDispatchToProps();
     this.store.dispatch(AssetActions.getSelectedAsset());
-    this.store.dispatch(ContactActions.getContactsForSelectedAsset());
+    // this.store.dispatch(ContactActions.getContactsForSelectedAsset());
     this.store.dispatch(NotesActions.getNotesForSelectedAsset());
   }
 

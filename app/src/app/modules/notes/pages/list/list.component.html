@@ -1,0 +1,32 @@
+<div class="notes-list" *ngIf="asset">
+  <div class="notes-list--create">
+    <h2>Create new note</h2>
+    <notes-form note="{}" [save]="save"></notes-form>
+  </div>
+  <h2 class="all-notes">All notes</h2>
+  <div class="search-wrapper">
+    <mat-form-field>
+      <mat-label>Search for notes</mat-label>
+      <input matInput [(ngModel)]="searchString" (ngModelChange)="searchNotes($event)">
+      <!-- <input matInput (keyup)="searchNotes($event)"> -->
+    </mat-form-field>
+  </div>
+  <div class="notes">
+    <div class="note" *ngFor="let note of filteredNotes">
+      <div class="left-column">
+        <div>
+          <span class="user">{{note.createdBy}}</span>
+          <span class="date">{{note.createdOnFormatted}}</span>
+        </div>
+        <div>{{note.note}}</div>
+      </div>
+      <div class="right-column">
+        <div class="menu">
+          <a class="edit-link" routerLink="/notes/{{note.id}}/edit" i18n>
+            <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

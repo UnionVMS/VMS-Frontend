@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 
 import { State } from '@app/app-reducer';
-import { AssetActions } from '@data/asset';
+import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
 import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
 import {
@@ -19,13 +19,16 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormPageComponent implements OnInit, OnDestroy {
+export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  constructor(private store: Store<State>) { }
+  @ViewChild('toolbox') toolbox;
+  constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef) { }
 
   public formValidator: FormGroup;
   public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
+  public selectedAsset: AssetInterfaces.Asset;
+
   public serialNumberExists: (serialNumber: string, isSelf?: boolean) => void;
   public memberNumberAndDnidCombinationExists: (memberNumber: string, dnid: string, channelId: string, isSelf?: boolean) => void;
   public serialNumberExists$: Observable<boolean>;
@@ -47,6 +50,14 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public save: () => void;
   public mergedRoute: RouterInterfaces.MergedRoute;
 
+  private mobileTerminalIsFetched = false;
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.viewContainerRef.createEmbeddedView(this.toolbox);
+    }, 1);
+  }
+
   mapStateToProps() {
     this.serialNumberExists$ = this.store.select(MobileTerminalSelectors.getSerialNumberExists);
 
@@ -59,6 +70,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unmount$)).subscribe((mobileTerminal) => {
         if(typeof mobileTerminal !== 'undefined') {
           this.mobileTerminal = mobileTerminal;
+          this.mobileTerminalIsFetched = true;
         }
         this.formValidator = createMobileTerminalFormValidator(
           this.mobileTerminal,
@@ -88,6 +100,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
       if(typeof this.mergedRoute.params.assetId !== 'undefined') {
         this.store.dispatch(AssetActions.getSelectedAsset());
       }
+    });
+    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
+      this.selectedAsset = asset;
     });
   }
 
@@ -121,7 +136,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
         uninstallDate: this.formValidator.value.mobileTerminalFields.uninstallDate,
         installedBy: this.formValidator.value.mobileTerminalFields.installedBy,
         channels: this.formValidator.value.channels.map((channel) => {
-          if(channel.id !== null && channel.id.length > 0) {
+          if(channel.id.indexOf('temp-') === -1) {
             return {
               ...channelsById[channel.id],
               ...channel
@@ -157,8 +172,12 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.unmount$.unsubscribe();
   }
 
-  trackChannelsBy(index: number, channel: MobileTerminalInterfaces.Channel): string | number {
-    return channel.id > '' ? channel.id : index;
+  trackChannelsBy(index: number, channel: any): string | number {
+    return channel.id;
+  }
+
+  nrOfChannels() {
+    return this.formValidator.value.channels.length;
   }
 
   createNewChannel() {
@@ -174,10 +193,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   isFormReady() {
-    return this.isCreate() || Object.entries(this.mobileTerminal).length !== 0;
+    return this.isCreate() || (this.mobileTerminalIsFetched && Object.entries(this.mobileTerminal).length !== 0);
   }
 
-  getErrors(path: string[]) {
+  getErrors(path: string[]): Array<{errorType: string, error: string }> {
     const errors = this.formValidator.get(path).errors;
     return errors === null ? [] : Object.keys(errors).map(errorType => ({ errorType, error: errors[errorType] }));
   }
@@ -194,6 +213,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
       return $localize`:@@ts-mobileTerminal-form-error:Invalid characters given, only letters, digits, space and hypen is allowed.`;
     }
     return errorMessage(error.errorType, error.error);
+  }
+
+  getErrorMessages(path: string[]): string[] {
+    return this.getErrors(path).map(error => this.errorMessage(error));
   }
 
   serialNumberExistsForForm() {
@@ -213,5 +236,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
       return this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id, true);
     }
     this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
+  }
+
+  updateValue(path: string[], value: any) {
+    const formControl = this.formValidator.get(path);
+    formControl.setValue(value);
   }
 }
