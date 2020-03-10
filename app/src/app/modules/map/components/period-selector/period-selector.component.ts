@@ -29,7 +29,7 @@ export class PeriodSelectorComponent implements OnInit {
   }
 
   public getReport = () => {
-    const startDateTimestamp = this.formValidator.value.to.fromat('X') - this.formValidator.value.periodLength;
+    const startDateTimestamp = this.formValidator.value.to.format('X') - this.formValidator.value.periodLength;
     this.setPeriod(startDateTimestamp, this.formValidator.value.to.format('X'));
   }
 
