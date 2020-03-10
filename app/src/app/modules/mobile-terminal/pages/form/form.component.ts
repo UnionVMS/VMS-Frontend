@@ -232,7 +232,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     alsoTrigger.updateValueAndValidity({ onlySelf: true });
     const mtChannel = this.mobileTerminal.channels.find(mbtChannel => mbtChannel.id === channel.id);
 
-    if(channel.memberNumber === mtChannel.memberNumber && channel.dnid === mtChannel.dnid) {
+    if(typeof mtChannel !== 'undefined' && channel.memberNumber === mtChannel.memberNumber && channel.dnid === mtChannel.dnid) {
       return this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id, true);
     }
     this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
