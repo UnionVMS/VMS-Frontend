@@ -3,8 +3,8 @@ export interface Channel {
   archived: boolean;
   configChannel: boolean;
   defaultChannel: boolean;
-  dnid: string;
-  endDate: string;
+  dnid: number;
+  endDate: number;
   expectedFrequency: number;
   expectedFrequencyInPort: number;
   frequencyGracePeriod: number;
@@ -14,8 +14,8 @@ export interface Channel {
   memberNumber: string;
   name: string;
   pollChannel: boolean;
-  startDate: string;
-  updateTime: string;
+  startDate: number;
+  updateTime: number;
   updateUser: string;
 }
 

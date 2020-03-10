@@ -14,10 +14,10 @@
         <div class="row">
           <div class="title"><span class="text" i18n>Ocean regions</span></div>
           <div class="value ocean-regions">
-            <span *ngIf="!mobileTerminal.eastAtlanticOceanRegion" i18n>East Atlantic</span>
-            <span *ngIf="!mobileTerminal.westAtlanticOceanRegion" i18n>West Atlantic</span>
-            <span *ngIf="!mobileTerminal.pacificOceanRegion" i18n>Pacific</span>
-            <span *ngIf="!mobileTerminal.indianOceanRegion" i18n>Indian</span>
+            <span *ngIf="mobileTerminal.eastAtlanticOceanRegion" i18n>East Atlantic</span>
+            <span *ngIf="mobileTerminal.westAtlanticOceanRegion" i18n>West Atlantic</span>
+            <span *ngIf="mobileTerminal.pacificOceanRegion" i18n>Pacific</span>
+            <span *ngIf="mobileTerminal.indianOceanRegion" i18n>Indian</span>
           </div>
         </div>
         <div class="row">
@@ -86,12 +86,12 @@
               <div class="value"><span *ngIf="channel.defaultChannel">Active</span></div>
             </div>
             <div class="row">
-              <div class="title"><span class="text" i18n></span></div>
-              <div class="value">{{channel.startDate}}</div>
+              <div class="title"><span class="text" i18n>Start date</span></div>
+              <div class="value">{{channel.startDateFormatted}}</div>
             </div>
             <div class="row">
               <div class="title"><span class="text" i18n>End date</span></div>
-              <div class="value">{{channel.endDate}}</div>
+              <div class="value">{{channel.endDateFormatted}}</div>
             </div>
             <div class="row">
               <div class="title"><span class="text" i18n>Expected Frequency</span></div>

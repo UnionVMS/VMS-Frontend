@@ -14,6 +14,8 @@ import {
 } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 
+import { Moment } from 'moment-timezone';
+
 @Component({
   selector: 'mobile-terminal-edit-page',
   templateUrl: './form.component.html',
@@ -30,7 +32,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public selectedAsset: AssetInterfaces.Asset;
 
   public serialNumberExists: (serialNumber: string, isSelf?: boolean) => void;
-  public memberNumberAndDnidCombinationExists: (memberNumber: string, dnid: string, channelId: string, isSelf?: boolean) => void;
+  public memberNumberAndDnidCombinationExists: (memberNumber: string, dnid: number, channelId: string, isSelf?: boolean) => void;
   public serialNumberExists$: Observable<boolean>;
   public memberNumberAndDnidCombinationExists$: Observable<Readonly<{
     readonly [channelId: string]: boolean;
@@ -116,10 +118,10 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
         ...this.mobileTerminal,
         mobileTerminalType: this.formValidator.value.essentailFields.mobileTerminalType,
         serialNo: this.formValidator.value.essentailFields.serialNo,
-        eastAtlanticOceanRegion: this.formValidator.value.essentailFields.eastAtlanticOceanRegion,
-        indianOceanRegion: this.formValidator.value.essentailFields.indianOceanRegion,
-        pacificOceanRegion: this.formValidator.value.essentailFields.pacificOceanRegion,
-        westAtlanticOceanRegion: this.formValidator.value.essentailFields.westAtlanticOceanRegion,
+        eastAtlanticOceanRegion: this.formValidator.value.essentailFields.selectedOceanRegions.includes('East Atlantic'),
+        indianOceanRegion: this.formValidator.value.essentailFields.selectedOceanRegions.includes('Indian'),
+        pacificOceanRegion: this.formValidator.value.essentailFields.selectedOceanRegions.includes('Pacific'),
+        westAtlanticOceanRegion: this.formValidator.value.essentailFields.selectedOceanRegions.includes('West Atlantic'),
         transceiverType: this.formValidator.value.essentailFields.transceiverType,
         softwareVersion: this.formValidator.value.mobileTerminalFields.softwareVersion > ''
           ? this.formValidator.value.mobileTerminalFields.softwareVersion
@@ -132,17 +134,31 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
           : null,
         active: this.formValidator.value.mobileTerminalFields.active === null ?
           false : this.formValidator.value.mobileTerminalFields.active,
-        installDate: this.formValidator.value.mobileTerminalFields.installDate,
-        uninstallDate: this.formValidator.value.mobileTerminalFields.uninstallDate,
+        installDate: this.formValidator.value.mobileTerminalFields.installDate === null
+          ? null
+          : this.formValidator.value.mobileTerminalFields.installDate.format('X'),
+        uninstallDate: this.formValidator.value.mobileTerminalFields.uninstallDate === null
+          ? null
+          : this.formValidator.value.mobileTerminalFields.uninstallDate.format('X'),
         installedBy: this.formValidator.value.mobileTerminalFields.installedBy,
         channels: this.formValidator.value.channels.map((channel) => {
+          const dateFixedChannel = {
+            ...channel,
+            startDate: channel.startDate === null
+             ? null
+             : (channel.startDate as unknown as Moment).format('X'),
+           endDate: channel.endDate === null
+            ? null
+            : (channel.endDate as unknown as Moment).format('X'),
+          };
+
           if(channel.id.indexOf('temp-') === -1) {
             return {
               ...channelsById[channel.id],
-              ...channel
+              ...dateFixedChannel
             };
           } else {
-            const newChannel = { ...channel };
+            const newChannel = { ...dateFixedChannel };
             Object.keys(newChannel).forEach(key => {
               if(newChannel[key] === '') {
                 newChannel[key] = null;
@@ -156,7 +172,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.serialNumberExists = (serialNumber: string, isSelf?: boolean) =>
       this.store.dispatch(MobileTerminalActions.getSerialNumberExists({ serialNumber, isSelf }));
-    this.memberNumberAndDnidCombinationExists = (memberNumber: string, dnid: string, channelId: string, isSelf?: boolean) =>
+    this.memberNumberAndDnidCombinationExists = (memberNumber: string, dnid: number, channelId: string, isSelf?: boolean) =>
       this.store.dispatch(MobileTerminalActions.getMemberNumberAndDnidCombinationExists({ memberNumber, dnid, channelId, isSelf }));
   }
 

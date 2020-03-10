@@ -51,8 +51,18 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
       memberNumberAndDnidCombinationExists('memberNumber')
     ),
     lesDescription: new FormControl(channel === null ? '' : channel.lesDescription, [Validators.required]),
-    startDate: new FormControl(moment(channel === null ? '' : channel.startDate), [CustomValidators.momentValid]),
-    endDate: new FormControl(moment(channel === null ? '' : channel.endDate), [CustomValidators.momentValid]),
+    startDate: new FormControl(
+      (channel === null || typeof channel.startDate === 'undefined' || channel.startDate === null
+        ? null
+        : moment(channel.startDate)
+      ),
+      [CustomValidators.momentValid]),
+    endDate: new FormControl(
+      (channel === null || typeof channel.endDate === 'undefined' || channel.endDate === null
+        ? null
+        : moment(channel.endDate)
+      ),
+      [CustomValidators.momentValid]),
     expectedFrequency: new FormControl(channel === null ? 60 : channel.expectedFrequency),
     frequencyGracePeriod: new FormControl(channel === null ? 140 : channel.frequencyGracePeriod),
     expectedFrequencyInPort: new FormControl(channel === null ? 140 : channel.expectedFrequencyInPort),
@@ -80,7 +90,6 @@ export const createMobileTerminalFormValidator = (
   if(channels.length === 0) {
     channels.push(createNewChannel(null, memberNumberAndDnidCombinationExists));
   }
-
   return new FormGroup({
     essentailFields: new FormGroup({
       mobileTerminalType: new FormControl(mobileTerminal.mobileTerminalType, Validators.required),
@@ -93,8 +102,20 @@ export const createMobileTerminalFormValidator = (
       antenna: new FormControl(mobileTerminal.antenna),
       satelliteNumber: new FormControl(mobileTerminal.satelliteNumber),
       active: new FormControl(mobileTerminal.active),
-      installDate: new FormControl(moment(mobileTerminal.installDate), [CustomValidators.momentValid]),
-      uninstallDate: new FormControl(moment(mobileTerminal.uninstallDate), [CustomValidators.momentValid]),
+      installDate: new FormControl(
+        (typeof mobileTerminal.installDate === 'undefined' || mobileTerminal.installDate === null
+          ? null
+          : moment(mobileTerminal.installDate)
+        ),
+        [CustomValidators.momentValid]
+      ),
+      uninstallDate: new FormControl(
+        (typeof mobileTerminal.uninstallDate === 'undefined' || mobileTerminal.uninstallDate === null
+          ? null
+          : moment(mobileTerminal.uninstallDate)
+        ),
+        [CustomValidators.momentValid]
+      ),
       installedBy: new FormControl(mobileTerminal.installedBy),
     }),
     channels: new FormArray(channels),

@@ -127,7 +127,7 @@
                   matInput
                   type="number"
                   formControlName="dnid"
-                  require
+                  required
                   (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', (nrOfChannels() - (i + 1)) + '', 'memberNumber'])"
                 ><mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'dnid'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>

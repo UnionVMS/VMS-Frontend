@@ -65,5 +65,5 @@ export const setMemberNumberAndDnidCombinationExists = createAction(
 
 export const getMemberNumberAndDnidCombinationExists = createAction(
   '[Mobile Terminal] Get memberNumber and dnid combination exists',
-  props<{  memberNumber: string, dnid: string, channelId: string, isSelf?: boolean}>()
+  props<{  memberNumber: string, dnid: number, channelId: string, isSelf?: boolean}>()
 );

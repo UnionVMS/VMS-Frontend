@@ -39,11 +39,17 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
       this.mobileTerminals = mobileTerminals.map((mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => ({
         ...mobileTerminal,
         installDateFormatted: formatUnixtime(mobileTerminal.installDate),
-        uninstallDateFormatted: formatUnixtime(mobileTerminal.uninstallDate)
+        uninstallDateFormatted: formatUnixtime(mobileTerminal.uninstallDate),
+        channels: mobileTerminal.channels.map(channel => ({
+          ...channel,
+          startDateFormatted: formatUnixtime(channel.startDate),
+          endDateFormatted: formatUnixtime(channel.endDate)
+        }))
       }));
       if(this.mobileTerminals.length > 0) {
         this.currentMobileTerminal = this.mobileTerminals[0];
       }
+      console.warn(this.mobileTerminals);
     });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
       this.mergedRoute = mergedRoute;
