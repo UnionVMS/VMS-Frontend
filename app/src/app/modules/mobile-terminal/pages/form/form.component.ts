@@ -142,23 +142,20 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
           : this.formValidator.value.mobileTerminalFields.uninstallDate.format('X'),
         installedBy: this.formValidator.value.mobileTerminalFields.installedBy,
         channels: this.formValidator.value.channels.map((channel) => {
-          const dateFixedChannel = {
+          console.warn(channel);
+          const fixedChannel = {
             ...channel,
-            startDate: channel.startDate === null
-             ? null
-             : (channel.startDate as unknown as Moment).format('X'),
-           endDate: channel.endDate === null
-            ? null
-            : (channel.endDate as unknown as Moment).format('X'),
+            startDate: channel.startDate === null ? null : (channel.startDate as unknown as Moment).format('X'),
+            endDate: channel.endDate === null ? null : (channel.endDate as unknown as Moment).format('X'),
           };
-
+          console.warn(fixedChannel);
           if(channel.id.indexOf('temp-') === -1) {
             return {
               ...channelsById[channel.id],
-              ...dateFixedChannel
+              ...fixedChannel
             };
           } else {
-            const newChannel = { ...dateFixedChannel };
+            const newChannel = { ...fixedChannel };
             Object.keys(newChannel).forEach(key => {
               if(newChannel[key] === '') {
                 newChannel[key] = null;

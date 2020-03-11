@@ -49,7 +49,6 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
       if(this.mobileTerminals.length > 0) {
         this.currentMobileTerminal = this.mobileTerminals[0];
       }
-      console.warn(this.mobileTerminals);
     });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
       this.mergedRoute = mergedRoute;

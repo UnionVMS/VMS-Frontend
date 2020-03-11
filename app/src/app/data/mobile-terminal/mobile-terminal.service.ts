@@ -48,7 +48,13 @@ export class MobileTerminalService {
   createMobileTerminal(authToken: string, mobileTerminal: MobileTerminalInterfaces.MobileTerminal) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/mobileterminal`,
-      mobileTerminal,
+      {
+        ...mobileTerminal,
+        channels: mobileTerminal.channels.map(channel => ({
+          ...channel,
+          DNID: channel.dnid + ''
+        }))
+      },
       {
         headers: new HttpHeaders({
           Authorization: authToken,

@@ -37,9 +37,9 @@ export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationE
 const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null, memberNumberAndDnidCombinationExists): FormGroup  => {
   return new FormGroup({
     name: new FormControl(channel === null ? '' : channel.name),
-    pollChannel: new FormControl(channel === null ? '' : channel.pollChannel),
-    configChannel: new FormControl(channel === null ? '' : channel.configChannel),
-    defaultChannel: new FormControl(channel === null ? '' : channel.defaultChannel),
+    pollChannel: new FormControl(channel === null || channel.pollChannel == null ? false : channel.pollChannel),
+    configChannel: new FormControl(channel === null || channel.configChannel == null ? false : channel.configChannel),
+    defaultChannel: new FormControl(channel === null || channel.defaultChannel == null ? false : channel.defaultChannel),
     dnid: new FormControl(
       channel === null ? '' : channel.dnid,
       [Validators.required, CustomValidators.minLengthOfNumber(5), CustomValidators.maxLengthOfNumber(5)],
