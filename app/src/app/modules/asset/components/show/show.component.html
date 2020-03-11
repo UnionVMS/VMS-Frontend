@@ -1,63 +1,92 @@
-<h2 i18n>Asset information</h2>
-<a *ngIf="asset.source !== 'NATIONAL'" class="edit-link" routerLink="/asset/{{asset.id}}/edit" i18n>Edit asset</a>
-<span *ngIf="asset.source === 'NATIONAL'" class="edit-link" i18n>Read only asset</span>
+<div class="content-container">
+  <div class="header">
+    <img
+      *ngIf="asset.flagStateCode !== '???' && asset.flagStateCode !== undefined && getCountryCode() !== '???'"
+      class="flag-image"
+      src="/assets/flags/4x3/{{getCountryCode()}}.svg"
+      [alt]="getCountryCode()"
+    />
+    <div class="title">
+      <h2 i18n>{{asset.name}} — {{asset.flagStateCode}}</h2>
+      <span>{{asset.prodOrgName}} • Org. nr: {{asset.prodOrgCode}}</span>
+    </div>
+    <div class="links">
+      <a *ngIf="asset.source !== 'NATIONAL'" class="edit-link" routerLink="/asset/{{asset.id}}/edit" i18n>Edit asset</a>
+      <span *ngIf="asset.source === 'NATIONAL'" class="edit-link" i18n>Read only asset</span>
+    </div>
+  </div>
 
-<ng-container *ngIf="asset.flagStateCode">
-  <label i18n>Flagstate</label>
-  <div>{{asset.flagStateCode}}</div>
-</ng-container>
-<ng-container *ngIf="asset.externalMarking">
-  <label i18n>External marking</label>
-  <div>{{asset.externalMarking}}</div>
-</ng-container>
+  <div class="content-body">
+    <div class="fields">
+      <div class="row">
+        <div class="title"><span class="text" i18n>Flagstate</span></div>
+        <div class="value">{{asset.flagStateCode}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>External marking</span></div>
+        <div class="value">{{asset.externalMarking}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>CFR</span></div>
+        <div class="value">{{asset.cfr}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>IRCS</span></div>
+        <div class="value">{{asset.ircs}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>IMO</span></div>
+        <div class="value">{{asset.imo}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>MMSI</span></div>
+        <div class="value">{{asset.mmsi}}</div>
+      </div>
+    </div>
+    <div class="asset-image">
+      <div class="image-and-text">
+        <i class="ri-image-fill"></i>
+        <span>Image missing</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-<ng-container *ngIf="asset.cfr">
-  <label i18n>Cfr</label>
-  <div>{{asset.cfr}}</div>
-</ng-container>
-<ng-container *ngIf="asset.ircs">
-  <label i18n>Ircs</label>
-  <div>{{asset.ircs}}</div>
-</ng-container>
-<ng-container *ngIf="asset.imo">
-  <label i18n>imo</label>
-  <div>{{asset.imo}}</div>
-</ng-container>
-<ng-container *ngIf="asset.portOfRegistration">
-  <label i18n>Port of registration</label>
-  <div>{{asset.portOfRegistration}}</div>
-</ng-container>
-<ng-container *ngIf="asset.mmsi">
-  <label i18n>Mmsi</label>
-  <div>{{asset.mmsi}}</div>
-</ng-container>
-
-<ng-container *ngIf="asset.lengthOverAll">
-  <label i18n>Length over all</label>
-  <div>{{asset.lengthOverAll}}</div>
-</ng-container>
-<ng-container *ngIf="asset.lengthBetweenPerpendiculars">
-  <label i18n>Length between perpendiculars</label>
-  <div>{{asset.lengthBetweenPerpendiculars}}</div>
-</ng-container>
-<ng-container *ngIf="asset.grossTonnage">
-  <label i18n>Gross tonnage</label>
-  <div>{{asset.grossTonnage}} {{asset.grossTonnageUnit}}</div>
-</ng-container>
-<ng-container *ngIf="asset.powerOfMainEngine">
-  <label i18n>Power of main engine</label>
-  <div>{{asset.powerOfMainEngine}}</div>
-</ng-container>
-<ng-container *ngIf="asset.vesselType">
-  <label i18n>Vessel type</label>
-  <div>{{asset.vesselType}}</div>
-</ng-container>
-
-<ng-container *ngIf="asset.prodOrgCode">
-  <label i18n>Org. Nr</label>
-  <div>{{asset.prodOrgCode}}</div>
-</ng-container>
-<ng-container *ngIf="asset.prodOrgName">
-  <label i18n>Org. namn</label>
-  <div>{{asset.prodOrgName}}</div>
-</ng-container>
+<div class="vessel-details">
+  <div class="content-container">
+    <div class="fields">
+      <div class="row">
+        <div class="title"><span class="text" i18n>Vessel type</span></div>
+        <div class="value">{{asset.vesselType}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>Port of registration</span></div>
+        <div class="value">{{asset.portOfRegistration}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>Gross tonnage</span></div>
+        <div class="value">{{asset.grossTonnage}} {{asset.grossTonnageUnit}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>Power of main engine</span></div>
+        <div class="value">{{asset.powerOfMainEngine}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>Length over all</span></div>
+        <div class="value">{{asset.lengthOverAll}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>Length between perpendiculars</span></div>
+        <div class="value">{{asset.lengthBetweenPerpendiculars}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="image-wrapper">
+    <div class="image-and-text">
+      <div class="ship-wrapper">
+        <i class="ri-ship-fill"></i>
+      </div>
+      <span>VESSEL DETAILS</span>
+    </div>
+  </div>
+</div>

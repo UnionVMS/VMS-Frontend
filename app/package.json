@@ -44,6 +44,7 @@
     "ngx-moment-tz-picker": "^0.1.1",
     "ol": "^6.1.1",
     "proj4": "^2.6.0",
+    "remixicon": "^2.3.0",
     "rxjs": "~7.0.0-alpha.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
