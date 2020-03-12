@@ -23,8 +23,36 @@ export class MapLayersEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.mapLayersService.getAreas(authToken).pipe(
-        map((response: any) => MapLayersActions.setAreas({ mapLayers: response }))
+        map((response: any) => MapLayersActions.addAreas({ mapLayers: response }))
       );
     })
+  );
+
+  @Effect()
+  getUserAreas$ = this.actions$.pipe(
+    ofType(MapLayersActions.getUserAreas),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(
+        this.store$.select(AuthSelectors.getAuthToken),
+        this.store$.select(AuthSelectors.getUser),
+      ),
+      mergeMap(([action, authToken, user]: Array<any>) => {
+        return this.mapLayersService.getUserAreas(authToken, user.scope.name, user.role.name).pipe(
+          map((response: any) =>
+            MapLayersActions.addAreas({ mapLayers: response.data.reduce((userLayers, userLayer) => ([
+              ...userLayers,
+              ...userLayer.data.map(cqlFilter => ({
+                areaTypeDesc: `${userLayer.layerDesc}: ${cqlFilter.name}`,
+                geoName: 'uvms:userareas',
+                serviceType: 'WMS',
+                style: 'userareas_label_geom',
+                typeName: `${userLayer.name}-${cqlFilter.name}`,
+                cqlFilter: `type='${cqlFilter.name}'`
+              }))
+            ]), [])
+          }))
+        );
+      })
+    ))
   );
 }

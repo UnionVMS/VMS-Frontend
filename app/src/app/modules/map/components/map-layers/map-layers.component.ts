@@ -108,8 +108,8 @@ export class MapLayersComponent implements OnChanges, OnDestroy {
         params: {
           LAYERS: mapLayer.geoName,
           TILED: true,
-          STYLE: mapLayer.style,
-          // cql_filter: cql
+          STYLES: mapLayer.style,
+          cql_filter: mapLayer.cqlFilter
         },
         tileLoadFunction: customTileLoaderFunction,
         serverType: 'geoserver',

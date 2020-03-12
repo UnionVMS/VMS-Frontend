@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { take, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { take, takeUntil, withLatestFrom, skipWhile } from 'rxjs/operators';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -187,6 +187,13 @@ export class RealtimeComponent implements OnInit, OnDestroy {
             ));
           }
         }
+    });
+    this.store.select(AuthSelectors.getUser).pipe(
+      takeUntil(this.unmount$),
+      skipWhile(user => typeof user.role === 'undefined' && typeof user.scope === 'undefined'),
+      take(1)
+    ).subscribe((user) => {
+      this.store.dispatch(MapLayersActions.getUserAreas());
     });
   }
 

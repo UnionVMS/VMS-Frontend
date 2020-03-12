@@ -8,6 +8,16 @@ export const initialState: Interfaces.State = {
 };
 
 export const mapLayersReducer = createReducer(initialState,
+  on(MapLayersActions.addAreas, (state, { mapLayers }) => {
+    console.warn(state.mapLayers, mapLayers);
+    return ({
+    ...state,
+    mapLayers: [
+      ...state.mapLayers,
+      ...mapLayers
+    ]
+    });
+  }),
   on(MapLayersActions.setAreas, (state, { mapLayers }) => ({
     ...state,
     mapLayers

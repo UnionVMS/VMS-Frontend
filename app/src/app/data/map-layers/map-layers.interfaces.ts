@@ -4,6 +4,7 @@ export interface MapLayer {
   serviceType: string;
   style: string;
   typeName: string;
+  cqlFilter?: string;
 }
 
 export interface State {

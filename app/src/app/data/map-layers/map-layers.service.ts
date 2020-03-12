@@ -19,4 +19,17 @@ export class MapLayersService {
       }
     );
   }
+
+  getUserAreas(authToken: string, scopeName: string, roleName: string) {
+    return this.http.get(
+      environment.baseApiUrl + 'spatial/rest/servicelayer/layer/AREAGROUP', {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache',
+          scopeName,
+          roleName
+        })
+      }
+    );
+  }
 }
