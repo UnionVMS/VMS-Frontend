@@ -12,6 +12,7 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
 })
 export class NoteFormComponent implements OnInit {
   @Input() createNote: (note: NotesInterfaces.Note) => void;
+  @Input() assetId: string;
 
   public formValidator: FormGroup;
   public save = () => {

@@ -24,6 +24,7 @@
   </mat-form-field>
 
   <ngx-datetime-picker
+    id="manual-position-form--timestamp"
     [(dateTime)]="formValidator.value.timestamp"
     (dateTimeChange)="updateTimestamp($event)"
     label="Time"
