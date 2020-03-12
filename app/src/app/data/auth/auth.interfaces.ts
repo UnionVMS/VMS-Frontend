@@ -15,8 +15,8 @@ export type Role = Readonly<{
 export type Scope = Readonly<{
   name: string;
   datasets: ReadonlyArray<any>;
-  activeFrom: string;
-  activeTo: string;
+  activeFrom: number;
+  activeTo: number;
 }>;
 
 
