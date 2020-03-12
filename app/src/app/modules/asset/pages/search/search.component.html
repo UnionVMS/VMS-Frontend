@@ -32,8 +32,8 @@
   <div class="asset-container mat-elevation-z8" *ngIf="tableReadyForDisplay">
     <div class="asset-table-container">
 
-      <table mat-table [dataSource]="(assets$ | async)" class="asset-table"
-             matSort matSortActive="name" matSortDisableClear matSortDirection="desc">
+      <table mat-table [dataSource]="sortedAssets" class="asset-table"
+        matSort matSortActive="name" matSortDisableClear matSortDirection="desc" (matSortChange)="sortData($event)">
 
         <!-- name Column -->
         <ng-container matColumnDef="name">

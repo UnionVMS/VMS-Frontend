@@ -397,6 +397,22 @@ export class AssetEffects {
   );
 
   @Effect()
+  selectAssetTracksAssetIdObserver$ = this.actions$.pipe(
+    ofType(AssetActions.getNrOfTracksForAsset),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([action, authToken]: Array<any>) => {
+        return this.assetService.getNrOfTracksForAsset(authToken, action.assetId, action.amount, action.sources).pipe(
+          map((assetMovements: any) => {
+            const assetMovementsOrdered = assetMovements.reverse();
+            return AssetActions.setTracks({ tracksByAsset: { [action.assetId]: assetMovementsOrdered } });
+          })
+        );
+      })
+    ))
+  );
+
+  @Effect()
   getAssetUnitTonnage$ = this.actions$.pipe(
     ofType(AssetActions.getUnitTonnage),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),

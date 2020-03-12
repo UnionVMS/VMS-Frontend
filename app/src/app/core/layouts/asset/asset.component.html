@@ -17,46 +17,54 @@
     <ul>
       <li routerLink="/asset" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <span class="short-key">S</span>
-        <span class="text">Search</span>
+        <span class="text" i18n>Search</span>
       </li>
       <li class="divider"></li>
       <ng-container *ngIf="selectedAsset">
         <li routerLink="/asset/{{selectedAsset.id}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <span class="short-key">1</span>
-          <span class="text">Asset info</span>
+          <span class="text" i18n>Asset info</span>
         </li>
         <li
           class="{{ matchMobileTerminalUrl() ? 'active' : '' }}"
           routerLink="/asset/{{selectedAsset.id}}/mobileTerminals"
         >
           <span class="short-key">2</span>
-          <span class="text">Mobile terminals</span>
+          <span class="text" i18n>Mobile terminals</span>
         </li>
         <li routerLink="/asset/{{selectedAsset.id}}/contacts" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <span class="short-key">3</span>
-          <span class="text">Contact</span>
+          <span class="text" i18n>Contact</span>
         </li>
         <li routerLink="/asset/{{selectedAsset.id}}/notes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <span class="short-key">4</span>
-          <span class="text">Notes</span>
+          <span class="text" i18n>Notes</span>
+        </li>
+        <li  routerLink="/asset/{{selectedAsset.id}}/positions" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span class="short-key">5</span>
+          <span class="text" i18n>Last positions</span>
         </li>
       </ng-container>
       <ng-container *ngIf="!selectedAsset">
         <li class="deactivated">
           <span class="short-key">1</span>
-          <span class="text">Asset info</span>
+          <span class="text" i18n>Asset info</span>
         </li>
         <li class="deactivated">
           <span class="short-key">2</span>
-          <span class="text">Mobile terminal</span>
+          <span class="text" i18n>Mobile terminal</span>
         </li>
         <li class="deactivated">
           <span class="short-key">3</span>
-          <span class="text">Contact</span>
+          <span class="text" i18n>Contact</span>
         </li>
         <li class="deactivated">
           <span class="short-key">4</span>
-          <span class="text">Notes</span>
+          <span class="text" i18n>Notes</span>
+        </li>
+        <li class="deactivated">
+          <span class="short-key">5</span>
+          <span class="text" i18n>Last positions</span>
         </li>
       </ng-container>
     </ul>

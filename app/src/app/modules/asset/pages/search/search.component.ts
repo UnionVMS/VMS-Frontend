@@ -1,12 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable } from 'rxjs';
-import { takeWhile, endWith } from 'rxjs/operators';
+import { Subscription, Subject } from 'rxjs';
+import { takeWhile, endWith, takeUntil } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { getAlpha3Codes, langs } from 'i18n-iso-countries';
+import { Sort } from '@angular/material/sort';
 // import enLang from 'i18n-iso-countries/langs/en.json';
 // countries.registerLocale(enLang);
-
+import { compareTableSortString, compareTableSortNumber } from '@app/helpers/helpers';
 const allFlagstates = Object.keys(getAlpha3Codes());
 
 
@@ -21,7 +22,9 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<AssetInterfaces.State>) { }
 
-  public assets$: Observable<AssetInterfaces.Asset[]>;
+  public unmount$: Subject<boolean> = new Subject<boolean>();
+  public assets: AssetInterfaces.Asset[];
+  public sortedAssets: AssetInterfaces.Asset[];
   public loadingData = false;
   public tableReadyForDisplay = false;
   public dataLoadedSubscription: Subscription;
@@ -37,12 +40,13 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   public search: () => void;
 
   mapStateToProps() {
-    this.assets$ = this.store.select(AssetSelectors.getCurrentAssetList);
-    this.dataLoadedSubscription = this.assets$.subscribe(assets => {
+    this.store.select(AssetSelectors.getCurrentAssetList).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
       this.loadingData = false;
       if(assets.length > 0) {
         this.tableReadyForDisplay = true;
       }
+      this.assets = assets;
+      this.sortedAssets = assets;
     });
   }
 
@@ -72,8 +76,29 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.dataLoadedSubscription !== undefined) {
-      this.dataLoadedSubscription.unsubscribe();
+    this.unmount$.next(true);
+    this.unmount$.unsubscribe();
+  }
+
+  sortData(sort: Sort) {
+    const assets = this.assets.slice();
+    console.warn(this.assets, assets);
+    if (!sort.active || sort.direction === '') {
+      this.sortedAssets = assets;
+      return;
     }
+
+    this.sortedAssets = assets.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'name': return compareTableSortString(a.name, b.name, isAsc);
+        case 'ircs': return compareTableSortString(a.ircs, b.ircs, isAsc);
+        case 'mmsi': return compareTableSortNumber(a.mmsi as unknown as number, b.mmsi as unknown as number, isAsc);
+        case 'flagstate': return compareTableSortString(a.flagStateCode, b.flagStateCode, isAsc);
+        case 'externalMarking': return compareTableSortString(a.externalMarking, b.externalMarking, isAsc);
+        case 'cfr': return compareTableSortString(a.cfr, b.cfr, isAsc);
+        default: return 0;
+      }
+    });
   }
 }

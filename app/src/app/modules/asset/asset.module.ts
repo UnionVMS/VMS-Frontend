@@ -18,6 +18,7 @@ import { MatRadioModule } from '@angular/material/radio';
 
 /* Pages */
 import { FormPageComponent } from './pages/form/form.component';
+import { PositionsPageComponent } from './pages/positions/positions.component';
 import { SearchPageComponent } from './pages/search/search.component';
 import { ShowPageComponent } from './pages/show/show.component';
 
@@ -47,6 +48,7 @@ import { ShowNotesComponent } from './components/show-notes/show-notes.component
   ],
   declarations: [
     FormPageComponent,
+    PositionsPageComponent,
     SearchPageComponent,
     ShowPageComponent,
     ShowComponent,

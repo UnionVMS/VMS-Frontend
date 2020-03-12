@@ -311,3 +311,9 @@ export const getSelectedAsset = createSelector(
     return undefined;
   }
 );
+
+export const getAssetTracksForSelectedAsset = createSelector(
+  selectAssetsTracks, getSelectedAsset,
+  (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }, asset: AssetInterfaces.Asset) =>
+    typeof asset !== 'undefined' ? assetTracks[asset.id] : undefined
+);

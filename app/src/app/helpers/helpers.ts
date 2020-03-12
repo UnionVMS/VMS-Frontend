@@ -38,6 +38,16 @@ export const hashCode = (str: string) => { // java String#hashCode
   return hash;
 };
 
+export const compareTableSortString = (a: string, b: string, isAsc: boolean) => {
+  return ('' + a).localeCompare(b) * (isAsc ? 1 : -1);
+};
+
+export const compareTableSortNumber = (a: number, b: number, isAsc: boolean) => {
+  const aValue = typeof a !== 'undefined' ? a : Number.MIN_VALUE;
+  const bValue = typeof b !== 'undefined' ? b : Number.MIN_VALUE;
+  return (aValue - bValue) * (isAsc ? 1 : -1);
+};
+
 /**
  * Returns the destination point from a given point, having travelled the given distance
  * on the given initial bearing.

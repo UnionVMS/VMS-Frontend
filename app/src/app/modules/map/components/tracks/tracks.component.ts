@@ -52,6 +52,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     const featureArrowsPerHour = {};
     this.vectorSource.addFeatures(
       this.assetTracks.reduce((acc, assetTrack) => {
+        this.renderedFeatureIdsByAssetId[assetTrack.assetId] = [];
         acc.concat(assetTrack.tracks.reduce((newFeatures, movement, index) => {
           newFeatures.push(this.createNewTrackPosition(assetTrack.assetId, movement));
           return newFeatures;

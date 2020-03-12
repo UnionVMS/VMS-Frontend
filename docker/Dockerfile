@@ -1,7 +1,7 @@
 FROM node:10-alpine
 
 # Setup angular cli
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli ngx-i18nsupport
 
 # Add bash
 RUN apk add --no-cache bash

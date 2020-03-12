@@ -82,6 +82,11 @@ export const getTracksByTimeInterval = createAction(
   props<{ query: any, startDate: number, endDate: number, sources: string[] }>()
 );
 
+export const getNrOfTracksForAsset = createAction(
+  '[Asset] Get nr of tracks for asset',
+  props<{ assetId: string, amount: number, sources?: string[] }>()
+);
+
 export const getSelectedAsset = createAction(
   '[Asset] Get selected asset'
 );

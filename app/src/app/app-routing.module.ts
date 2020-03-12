@@ -21,6 +21,7 @@ import { ReportsComponent } from './modules/map/pages/reports/reports.component'
 
 // Asset-pages
 import { SearchPageComponent as AssetSearchPage } from './modules/asset/pages/search/search.component';
+import { PositionsPageComponent as AssetPositionsPage } from './modules/asset/pages/positions/positions.component';
 import { FormPageComponent as AssetFormPage } from './modules/asset/pages/form/form.component';
 import { ShowPageComponent as AssetShowPage } from './modules/asset/pages/show/show.component';
 
@@ -53,7 +54,7 @@ const routes: Routes = [
       { path: 'contact/:assetId/create', component: ContactFormPage, pathMatch: 'full' },
       { path: 'notes/:noteId/edit', component: NotesFormPage, pathMatch: 'full' },
       { path: 'notes/:assetId/create', component: NotesFormPage, pathMatch: 'full' },
-      { path: 'logout', component: LogoutComponent, pathMatch: 'full'},
+      { path: 'logout', component: LogoutComponent, pathMatch: 'full'}
     ]
   },
   {
@@ -62,32 +63,38 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'asset/create', component: AssetFormPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-create:Assets — Create asset`
-      }},
+          title: $localize`:@@ts-layout-asset-create:Assets — Create asset` || 'Assets — Create asset'
+        }
+      },
       { path: 'asset/:assetId/edit', component: AssetFormPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-edit:<dont-translate>assetName</dont-translate> — Edit asset`
+        title: $localize`:@@ts-layout-asset-edit:<dont-translate>assetName</dont-translate> — Edit asset` || 'Edit asset'
       }},
       { path: 'asset/:assetId/mobileTerminals', component: MobileTerminalsShowByAssetPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Mobile Terminals`
+        title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Mobile Terminals` || 'Mobile Terminals'
       }},
       { path: 'asset/:assetId', component: AssetShowPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Asset information`
+        title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Asset information` || 'Asset infromation'
       }},
       { path: 'asset', component: AssetSearchPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-search:Assets — Asset search`
+        title: $localize`:@@ts-layout-asset-search:Assets — Asset search` || 'Asset search'
       }},
       { path: 'asset/:assetId/mobileTerminal/:mobileTerminalId/edit', component: MobileTerminalFormPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-mobileTerminal-edit:<dont-translate>assetName</dont-translate> — Mobile Terminal`
+          || 'Edit Mobile Terminal'
       }},
       { path: 'mobileTerminal/:assetId/create', component: MobileTerminalFormPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-mobileTerminal-create:<dont-translate>assetName</dont-translate> — Mobile Terminal`
+          || 'Create Mobile Terminal'
       }},
       { path: 'asset/:assetId/contacts', component: ContactShowByAssetPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Contacts`
+        title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Contacts` || 'Contacts'
       }},
       { path: 'asset/:assetId/notes', component: NotesListPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Notes`
+        title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Notes` || 'Notes'
       }},
+      { path: 'asset/:assetId/positions', component: AssetPositionsPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Last positions` || 'Last positions'
+      }}
     ]
   },
   {
@@ -97,7 +104,7 @@ const routes: Routes = [
     children: [
       { path: 'map/realtime', component: RealtimeComponent, pathMatch: 'full'},
       { path: 'map/realtime/:assetId', component: RealtimeComponent, pathMatch: 'full'},
-      { path: 'map/reports', component: ReportsComponent, pathMatch: 'full'},
+      { path: 'map/reports', component: ReportsComponent, pathMatch: 'full'}
     ]
   },
   {
@@ -105,7 +112,7 @@ const routes: Routes = [
     component: LoginLayoutComponent,
     children: [
       { path: 'unauthorized', component: UnauthorizedComponent, pathMatch: 'full'},
-      { path: 'login', component: LoginComponent, pathMatch: 'full'},
+      { path: 'login', component: LoginComponent, pathMatch: 'full'}
     ]
   },
   { path: '**', component: NotFoundComponent }

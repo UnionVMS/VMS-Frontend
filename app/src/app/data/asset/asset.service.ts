@@ -148,6 +148,25 @@ export class AssetService {
     );
   }
 
+  getNrOfTracksForAsset(authToken: string, assetId: string, amount: number, sources?: string[]) {
+    let body = {};
+    if(typeof sources !== 'undefined') {
+      body = {
+        sources
+      };
+    }
+    return this.http.post(
+      environment.baseApiUrl + `movement/rest/micro/track/latest/asset/${assetId}?maxNbr=${amount}`,
+      [],
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
   listAssets(authToken: string, searchQuery) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/list/`,
