@@ -112,6 +112,7 @@ describe('RealtimeComponent', () => {
           mapSavedFilters: MapSavedFiltersReducer.initialState,
           map: { realtime: { ready: true } },
           incident: IncidentReducer.initialState,
+          auth: { user: null }
         }
       };
     }
@@ -524,6 +525,7 @@ describe('RealtimeComponent', () => {
         mapSavedFilters: MapSavedFiltersReducer.initialState,
         map: { realtime: { ready: true }, mapSettingsLoaded: true },
         incident: IncidentReducer.initialState,
+        auth: { user: null },
       };
       store.setState(currentState);
       component.ngOnInit();

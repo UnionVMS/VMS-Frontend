@@ -190,7 +190,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     });
     this.store.select(AuthSelectors.getUser).pipe(
       takeUntil(this.unmount$),
-      skipWhile(user => typeof user.role === 'undefined' && typeof user.scope === 'undefined'),
+      skipWhile(user => user === null || typeof user.role === 'undefined' || typeof user.scope === 'undefined'),
       take(1)
     ).subscribe((user) => {
       this.store.dispatch(MapLayersActions.getUserAreas());
