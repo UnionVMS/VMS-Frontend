@@ -1,29 +1,26 @@
 <div class="page-container">
   <form class="asset-search-form">
-    <mat-form-field>
-      <mat-label i18n>Flagstates</mat-label>
-      <mat-select name="flagState" [(ngModel)]="assetSearchObject.flagState" multiple>
-        <mat-option *ngFor="let flagstate of flagstates" id="mat-option-{{flagstate}}" [value]="flagstate">{{flagstate}}</mat-option>
-      </mat-select>
+
+    <mat-form-field class="free-search">
+      <mat-label i18n>Search for Name, External Marking, CFR or IRCS</mat-label>
+      <input matInput placeholder="Search" name="Search" [(ngModel)]="assetSearchObject.search">
     </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="External marking" name="externalMarking" [(ngModel)]="assetSearchObject.externalMarking">
-    </mat-form-field>
+    <mat-radio-group name="searchType" [(ngModel)]="assetSearchObject.serachType">
+      <mat-radio-button value="Swedish Assets">Swedish assets</mat-radio-button>
+      <mat-radio-button value="VMS">Search VMS assets only</mat-radio-button>
+      <mat-radio-button value="other">
+        <mat-form-field class="other-flagstates" floatLabel="never">
+            <mat-label>Choose</mat-label>
+            <mat-select name="flagState" [(ngModel)]="assetSearchObject.flagState" multiple>
+              <mat-option *ngFor="let flagstate of flagstates" id="mat-option-{{flagstate}}" [value]="flagstate">{{flagstate}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+      </mat-radio-button>
+    </mat-radio-group>
 
-    <mat-form-field>
-      <input matInput placeholder="Name" name="name" [(ngModel)]="assetSearchObject.name">
-    </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="CFR" name="cfr" [(ngModel)]="assetSearchObject.cfr">
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="IRCS" name="ircs" [(ngModel)]="assetSearchObject.ircs">
-    </mat-form-field>
-
-    <div>
+    <div class="search-button-wrapper">
       <button mat-raised-button color="primary" type="submit" (click)="search()" i18n>Search</button>
     </div>
   </form>

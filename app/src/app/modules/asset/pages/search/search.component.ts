@@ -31,11 +31,14 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = ['name', 'ircs', 'mmsi', 'flagstate', 'externalMarking', 'cfr'];
   public flagstates = allFlagstates.sort();
   public assetSearchObject = {
-    flagState: ['SWE'],
-    externalMarking: '',
-    name: '',
-    cfr: '',
-    ircs: '',
+    search: '',
+    serachType: 'Swedish Assets',
+    flagState: [],
+
+    // externalMarking: '',
+    // name: '',
+    // cfr: '',
+    // ircs: '',
   };
   public search: () => void;
 
@@ -54,16 +57,75 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.search = () => {
       this.loadingData = true;
       this.tableReadyForDisplay = false;
-      const searchQuery = Object.keys(this.assetSearchObject).reduce((acc, key) => {
-        console.warn(key, ':', Array.isArray(this.assetSearchObject[key]));
-        if(typeof this.assetSearchObject[key] === 'string' && this.assetSearchObject[key].length > 0) {
-          acc[key] = [this.assetSearchObject[key]];
-        } else if(Array.isArray(this.assetSearchObject[key]) && this.assetSearchObject[key].length > 0) {
-          acc[key] = this.assetSearchObject[key];
-        }
 
-        return acc;
-      }, {});
+      let searchQuery = {
+        fields: [],
+        logicalAnd: true
+      };
+
+      if(this.assetSearchObject.serachType === 'Swedish Assets') {
+        searchQuery = { ...searchQuery,
+          fields: [ ...searchQuery.fields,
+            {
+              searchField: 'FLAG_STATE',
+              searchValue: 'SWE'
+            }
+          ]
+        };
+      } else if(this.assetSearchObject.serachType === 'VMS') {
+        searchQuery = { ...searchQuery,
+          fields: [ ...searchQuery.fields,
+            {
+              searchField: 'FLAG_STATE',
+              searchValue: 'SWE'
+            },
+            {
+              searchField: 'MIN_LENGTH',
+              searchValue: '12'
+            },
+            {
+              searchField: 'VESSEL_TYPE',
+              searchValue: 'fishing'
+            },
+          ]
+        };
+      } else if(this.assetSearchObject.serachType === 'other') {
+        searchQuery = { ...searchQuery,
+          fields: [ ...searchQuery.fields,
+            {
+              fields: this.assetSearchObject.flagState.map(flagstate => ({
+                searchField: 'FLAG_STATE',
+                searchValue: flagstate
+              })),
+              logicalAnd: false
+            }
+          ]
+        };
+      }
+
+      if(this.assetSearchObject.search > '') {
+        const searchFields = ['NAME', 'EXTERNAL_MARKING', 'CFR', 'IRCS'];
+        const splitSearch = this.assetSearchObject.search.split('&&');
+
+        const searchStringQuery = {
+          fields: splitSearch.map(searchString => ({
+            fields: searchFields.map(searchField => {
+              return {
+                searchField,
+                searchValue: searchString.trim(),
+              };
+            }),
+            logicalAnd: false
+          })),
+          logicalAnd: true
+        };
+
+        searchQuery = { ...searchQuery,
+          fields: [ ...searchQuery.fields,
+            (splitSearch.length > 1 ? searchStringQuery : searchStringQuery.fields[0]),
+          ]
+        };
+      }
 
       this.store.dispatch(AssetActions.searchAssets({ searchQuery }));
     };
