@@ -3,13 +3,20 @@ import { Store } from '@ngrx/store';
 import { Subscription, Subject } from 'rxjs';
 import { takeWhile, endWith, takeUntil } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { getAlpha3Codes, langs } from 'i18n-iso-countries';
+import { getAlpha3Codes, langs, getNames, registerLocale, alpha2ToAlpha3 } from 'i18n-iso-countries';
 import { Sort } from '@angular/material/sort';
-// import enLang from 'i18n-iso-countries/langs/en.json';
-// countries.registerLocale(enLang);
-import { compareTableSortString, compareTableSortNumber } from '@app/helpers/helpers';
-const allFlagstates = Object.keys(getAlpha3Codes());
 
+// import sv from 'i18n-iso-countries/langs/sv.json';
+// import en from 'i18n-iso-countries/langs/en.json';
+// import fi from 'i18n-iso-countries/langs/fi.json';
+// registerLocale(sv);
+// registerLocale(en);
+// registerLocale(fi);
+
+import { compareTableSortString, compareTableSortNumber } from '@app/helpers/helpers';
+// const allFlagstates = Object.keys(getAlpha3Codes());
+const allCountries = getNames('en');
+const allCountryCodes = Object.entries(allCountries).reduce((obj, [key, value]) => ({ ...obj, [value]: alpha2ToAlpha3(key) }), {});
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 
@@ -29,18 +36,15 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   public tableReadyForDisplay = false;
   public dataLoadedSubscription: Subscription;
   public displayedColumns: string[] = ['name', 'ircs', 'mmsi', 'flagstate', 'externalMarking', 'cfr'];
-  public flagstates = allFlagstates.sort();
   public assetSearchObject = {
     search: '',
     serachType: 'Swedish Assets',
     flagState: [],
-
-    // externalMarking: '',
-    // name: '',
-    // cfr: '',
-    // ircs: '',
   };
   public search: () => void;
+  public commonCountries = ['Sweden', 'Finland', 'Denmark', 'Estonia'].sort();
+  public allCountryCodes = allCountryCodes;
+  public flagstates = Object.values(allCountries).sort().filter(flagstate => !this.commonCountries.includes(flagstate));
 
   mapStateToProps() {
     this.store.select(AssetSelectors.getCurrentAssetList).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
@@ -134,7 +138,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
-    // this.store.dispatch(AssetActions.getAssetList({pageSize: 30}));
   }
 
   ngOnDestroy() {
@@ -144,7 +147,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   sortData(sort: Sort) {
     const assets = this.assets.slice();
-    console.warn(this.assets, assets);
     if (!sort.active || sort.direction === '') {
       this.sortedAssets = assets;
       return;
