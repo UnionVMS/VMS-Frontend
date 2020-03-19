@@ -16,7 +16,7 @@ import { Sort } from '@angular/material/sort';
 import { compareTableSortString, compareTableSortNumber } from '@app/helpers/helpers';
 // const allFlagstates = Object.keys(getAlpha3Codes());
 const allCountries = getNames('en');
-const allCountryCodes = Object.entries(allCountries).reduce((obj, [key, value]) => ({ ...obj, [value]: alpha2ToAlpha3(key) }), {});
+const allCountryCodes = Object.entries(allCountries).reduce((obj, [key, value]) => ({ ...obj, [value]: alpha2ToAlpha3(key) }), { });
 
 import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 

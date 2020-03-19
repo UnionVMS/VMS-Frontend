@@ -223,7 +223,13 @@ export class ReportsComponent implements OnInit, OnDestroy {
   mapFunctionsToProps() {
     this.setTimeInterval = (from: number, to: number) => {
       this.getTracksByTimeInterval(
-        { vesselType: ['Fishing'], flagState: ['SWE'] },
+        {
+          fields: [
+            { searchField: 'VESSEL_TYPE', searchValue: 'fishing' },
+            { searchField: 'FLAG_STATE', searchValue: 'SWE' },
+          ],
+          logicalAnd: true
+        },
         from,
         to,
         ['INMARSAT_C'] // ['NAF']

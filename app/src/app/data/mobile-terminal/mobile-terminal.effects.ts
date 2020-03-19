@@ -31,14 +31,7 @@ export class MobileTerminalEffects {
         map((response: { mobileTerminalList: Array<MobileTerminalInterfaces.MobileTerminal> }) => {
           return MobileTerminalActions.addMobileTerminals({
             mobileTerminals: response.mobileTerminalList.reduce((acc, mobileTerminal) => {
-              acc[mobileTerminal.id] = {
-                ...mobileTerminal,
-                channels: mobileTerminal.channels.map(channel => ({
-                  ...channel,
-                  // @ts-ignore
-                  dnid: channel.DNID === null ? null : parseInt(channel.DNID, 10)
-                }))
-              };
+              acc[mobileTerminal.id] = mobileTerminal;
               return acc;
             }, {})
           });
@@ -68,14 +61,7 @@ export class MobileTerminalEffects {
         }
         return this.mobileTerminalService.getMobileTerminal(authToken, mergedRoute.params.mobileTerminalId).pipe(
           map((mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => {
-            return MobileTerminalActions.setMobileTerminal({ mobileTerminal: {
-              ...mobileTerminal,
-              channels: mobileTerminal.channels.map(channel => ({
-                ...channel,
-                // @ts-ignore
-                dnid: channel.DNID === null ? null : parseInt(channel.DNID, 10)
-              }))
-            } });
+            return MobileTerminalActions.setMobileTerminal({ mobileTerminal });
           })
         );
       })
