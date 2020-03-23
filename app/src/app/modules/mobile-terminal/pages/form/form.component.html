@@ -128,7 +128,7 @@
                   type="number"
                   formControlName="dnid"
                   required
-                  (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', (nrOfChannels() - (i + 1)) + '', 'memberNumber'])"
+                  (blur)="checkIfMemberNumberAndDnidExists(channel, (nrOfChannels() - (i + 1)))"
                 ><mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'dnid'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
@@ -138,7 +138,7 @@
                   matInput type="number"
                   formControlName="memberNumber"
                   required
-                  (blur)="checkIfMemberNumberAndDnidExists(channel, ['channels', (nrOfChannels() - (i + 1)) + '', 'dnid'])"
+                  (blur)="checkIfMemberNumberAndDnidExists(channel, (nrOfChannels() - (i + 1)))"
                 ><mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
@@ -148,9 +148,21 @@
               </mat-form-field>
 
               <div id="mobile-terminal-form--channel-name">
-                <mat-checkbox formControlName="pollChannel" i18n>Poll</mat-checkbox>
-                <mat-checkbox formControlName="configChannel" i18n>Config</mat-checkbox>
-                <mat-checkbox formControlName="defaultChannel" i18n>Default</mat-checkbox>
+                <mat-checkbox
+                  formControlName="pollChannel"
+                  (change)="updateChannelInUse($event, (nrOfChannels() - (i + 1)), 'pollChannel')"
+                  i18n
+                >Poll</mat-checkbox>
+                <mat-checkbox
+                  formControlName="configChannel"
+                  (change)="updateChannelInUse($event, (nrOfChannels() - (i + 1)), 'configChannel')"
+                  i18n
+                >Config</mat-checkbox>
+                <mat-checkbox
+                  formControlName="defaultChannel"
+                  (change)="updateChannelInUse($event, (nrOfChannels() - (i + 1)), 'defaultChannel')"
+                  i18n
+                >Default</mat-checkbox>
               </div>
 
               <ngx-datetime-picker

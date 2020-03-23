@@ -14,6 +14,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTableModule } from '@angular/material/table';
 
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DatetimePickerModule } from 'ngx-moment-tz-picker';
@@ -21,6 +23,7 @@ import { DatetimePickerModule } from 'ngx-moment-tz-picker';
 /* Pages */
 import { FormPageComponent } from './pages/form/form.component';
 import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.component';
+import { SearchPageComponent } from './pages/search/search.component';
 
 /* Components */
 
@@ -42,11 +45,14 @@ import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.co
     ReactiveFormsModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    MatRadioModule,
+    MatTableModule,
   ],
   declarations: [
     FormPageComponent,
     ShowByAssetPageComponent,
+    SearchPageComponent,
   ]
 })
 

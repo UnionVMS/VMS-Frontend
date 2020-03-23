@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, map, skipWhile } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 
 import { State } from '@app/app-reducer';
@@ -32,12 +32,17 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public selectedAsset: AssetInterfaces.Asset;
 
   public serialNumberExists: (serialNumber: string, isSelf?: boolean) => void;
-  public memberNumberAndDnidCombinationExists: (memberNumber: string, dnid: number, channelId: string, isSelf?: boolean) => void;
+  public memberNumberAndDnidCombinationExists: (memberNumber: number, dnid: number, channelId: string, isSelf?: boolean) => void;
   public serialNumberExists$: Observable<boolean>;
   public memberNumberAndDnidCombinationExists$: Observable<Readonly<{
     readonly [channelId: string]: boolean;
   }>>;
   public isSameSerielNumber = false;
+  public channelsAlreadyInUseBy = {
+    poll: null,
+    config: null,
+    default: null,
+  };
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public mobileTerminal = {
     channels: []
@@ -53,11 +58,12 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public mergedRoute: RouterInterfaces.MergedRoute;
 
   private mobileTerminalIsFetched = false;
+  private mobileTerminalPluginsFetched = false;
 
   ngAfterViewInit() {
     setTimeout(() => {
       this.viewContainerRef.createEmbeddedView(this.toolbox);
-    }, 1);
+    }, 1000);
   }
 
   mapStateToProps() {
@@ -69,16 +75,51 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     const memberNumberAndDnidExistsFunction = memberNumberAndDnidExistsFactory(this.memberNumberAndDnidCombinationExists$);
 
     this.mobileTerminalSubscription = this.store.select(MobileTerminalSelectors.getMobileTerminalsByUrl)
-      .pipe(takeUntil(this.unmount$)).subscribe((mobileTerminal) => {
-        if(typeof mobileTerminal !== 'undefined') {
-          this.mobileTerminal = mobileTerminal;
-          this.mobileTerminalIsFetched = true;
-        }
+      .pipe(
+        takeUntil(this.unmount$),
+        skipWhile(mobileTerminal => typeof mobileTerminal === 'undefined'),
+        take(1)
+      ).subscribe((mobileTerminal) => {
+        this.mobileTerminal = mobileTerminal;
+        this.mobileTerminalIsFetched = true;
+
+        this.mobileTerminal.channels.map(channel => {
+          if(channel.pollChannel === true) {
+            console.warn(channel);
+            this.channelsAlreadyInUseBy.poll = channel.id;
+          }
+          if(channel.configChannel === true) {
+            console.warn(channel);
+            this.channelsAlreadyInUseBy.config = channel.id;
+          }
+          if(channel.defaultChannel === true) {
+            this.channelsAlreadyInUseBy.default = channel.id;
+          }
+        });
+
         this.formValidator = createMobileTerminalFormValidator(
           this.mobileTerminal,
           validateSerialNoExistsFunction,
           memberNumberAndDnidExistsFunction
         );
+
+        const channels = this.formValidator.get(['channels']).value;
+        for(let i = 0; i < channels.length; i++) {
+          if(this.channelsAlreadyInUseBy.poll !== null && this.channelsAlreadyInUseBy.poll !== channels[i].id) {
+            this.formValidator.get(['channels', i, 'pollChannel']).disable();
+          }
+          if(this.channelsAlreadyInUseBy.config !== null && this.channelsAlreadyInUseBy.config !== channels[i].id) {
+            this.formValidator.get(['channels', i, 'configChannel']).disable();
+          }
+          if(this.channelsAlreadyInUseBy.default !== null && this.channelsAlreadyInUseBy.default !== channels[i].id) {
+            this.formValidator.get(['channels', i, 'defaultChannel']).disable();
+          }
+        }
+        // this.formValidator.get(['channels', channelNr, field])
+        // this.formValidator.controls.channels['controls'].map(channelControl => {
+        //   console.warn(channelControl.controls.pollChannel);
+        // });
+        // console.warn();
     });
     this.pluginSubscription = this.store.select(MobileTerminalSelectors.getPlugins).pipe(takeUntil(this.unmount$)).subscribe((plugins) => {
       if(typeof plugins !== 'undefined') {
@@ -86,15 +127,16 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.plugins = plugins.filter((plugin) => plugin.pluginSatelliteType === 'INMARSAT_C');
         const basePlugin = this.plugins.find((plugin) => plugin.pluginSatelliteType === 'INMARSAT_C');
 
-        if(typeof this.mobileTerminal.plugin === 'undefined' && typeof basePlugin !== 'undefined') {
-          this.mobileTerminal.plugin = basePlugin;
-          this.mobileTerminal.mobileTerminalType = this.mobileTerminal.plugin.pluginSatelliteType;
-          this.formValidator = createMobileTerminalFormValidator(
-            this.mobileTerminal,
-            validateSerialNoExistsFunction,
-            memberNumberAndDnidExistsFunction
-          );
-        }
+        // if(typeof this.mobileTerminal.plugin === 'undefined' && typeof basePlugin !== 'undefined') {
+        //   this.mobileTerminal.plugin = basePlugin;
+        //   this.mobileTerminal.mobileTerminalType = this.mobileTerminal.plugin.pluginSatelliteType;
+        //   this.formValidator = createMobileTerminalFormValidator(
+        //     this.mobileTerminal,
+        //     validateSerialNoExistsFunction,
+        //     memberNumberAndDnidExistsFunction
+        //   );
+        // }
+        this.mobileTerminalPluginsFetched = true;
       }
     });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
@@ -146,7 +188,12 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
             ...channel,
             startDate: channel.startDate === null ? null : (channel.startDate as unknown as Moment).format('X'),
             endDate: channel.endDate === null ? null : (channel.endDate as unknown as Moment).format('X'),
+            pollChannel: typeof channel.pollChannel === 'undefined' ? false : channel.pollChannel,
+            configChannel: typeof channel.configChannel === 'undefined' ? false : channel.configChannel,
+            defaultChannel: typeof channel.defaultChannel === 'undefined' ? false : channel.defaultChannel,
           };
+
+          console.warn(fixedChannel);
 
           if(channel.id.indexOf('temp-') === -1) {
             return {
@@ -168,8 +215,12 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.serialNumberExists = (serialNumber: string, isSelf?: boolean) =>
       this.store.dispatch(MobileTerminalActions.getSerialNumberExists({ serialNumber, isSelf }));
-    this.memberNumberAndDnidCombinationExists = (memberNumber: string, dnid: number, channelId: string, isSelf?: boolean) =>
-      this.store.dispatch(MobileTerminalActions.getMemberNumberAndDnidCombinationExists({ memberNumber, dnid, channelId, isSelf }));
+    this.memberNumberAndDnidCombinationExists = (memberNumber: number, dnid: number, channelId: string, isSelf?: boolean) => {
+      if(typeof memberNumber !== 'number' || typeof dnid !== 'number') {
+        return false;
+      }
+      return this.store.dispatch(MobileTerminalActions.getMemberNumberAndDnidCombinationExists({ memberNumber, dnid, channelId, isSelf }));
+    };
   }
 
   ngOnInit() {
@@ -193,7 +244,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   createNewChannel() {
-    addChannelToFormValidator(this.formValidator, this.memberNumberAndDnidCombinationExists);
+    addChannelToFormValidator(this.formValidator, memberNumberAndDnidExistsFactory(this.memberNumberAndDnidCombinationExists$));
   }
 
   removeChannel(index: number) {
@@ -205,7 +256,12 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   isFormReady() {
-    return this.isCreate() || (this.mobileTerminalIsFetched && Object.entries(this.mobileTerminal).length !== 0);
+    return this.isCreate()
+      || (
+        this.mobileTerminalIsFetched
+        && this.mobileTerminalPluginsFetched
+        && Object.entries(this.mobileTerminal).length !== 0
+      );
   }
 
   getErrors(path: string[]): Array<{errorType: string, error: string }> {
@@ -239,19 +295,35 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.serialNumberExists(newSerialNumber);
   }
 
-  checkIfMemberNumberAndDnidExists(channel: MobileTerminalInterfaces.Channel, alsoTriggerPath: string[]) {
-    const alsoTrigger = this.formValidator.get(alsoTriggerPath);
-    alsoTrigger.updateValueAndValidity({ onlySelf: true });
+  checkIfMemberNumberAndDnidExists(channel: MobileTerminalInterfaces.Channel, channelNr: number) {
     const mtChannel = this.mobileTerminal.channels.find(mbtChannel => mbtChannel.id === channel.id);
-
     if(typeof mtChannel !== 'undefined' && channel.memberNumber === mtChannel.memberNumber && channel.dnid === mtChannel.dnid) {
-      return this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id, true);
+      this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id, true);
+    } else {
+      this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
     }
-    this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
+
+    ['memberNumber', 'dnid'].map(
+      (field) => this.formValidator.get(['channels', channelNr, field]).updateValueAndValidity({ onlySelf: true })
+    );
   }
 
   updateValue(path: string[], value: any) {
     const formControl = this.formValidator.get(path);
     formControl.setValue(value);
+  }
+
+  updateChannelInUse(event, channelNr: number, field: string) {
+    console.warn(event, channelNr, field);
+
+    this.formValidator.get(['channels']).value.map((channel, i) => {
+      if(i !== channelNr) {
+        if(event.checked) {
+          this.formValidator.get(['channels', i, field]).disable();
+        } else {
+          this.formValidator.get(['channels', i, field]).enable();
+        }
+      }
+    });
   }
 }

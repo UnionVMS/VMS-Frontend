@@ -30,6 +30,7 @@ import { FormPageComponent as MobileTerminalFormPage } from './modules/mobile-te
 import {
   ShowByAssetPageComponent as MobileTerminalsShowByAssetPage
 } from './modules/mobile-terminal/pages/show-by-asset/show-by-asset.component';
+import { SearchPageComponent as MobileTerminalSearchPage } from './modules/mobile-terminal/pages/search/search.component';
 
 // Contact-pages
 import { FormPageComponent as ContactFormPage } from './modules/contact/pages/form/form.component';
@@ -94,7 +95,10 @@ const routes: Routes = [
       }},
       { path: 'asset/:assetId/positions', component: AssetPositionsPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Last positions` || 'Last positions'
-      }}
+      }},
+      { path: 'mobileterminals', component: MobileTerminalSearchPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-mobile-terminal-search:Mobile terminals — Search` || 'Mobile terminals — Search'
+      }},
     ]
   },
   {

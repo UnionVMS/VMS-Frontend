@@ -29,17 +29,24 @@ export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationE
   Observable< Readonly<{readonly [channelId: string]: boolean}>>) =>
   (type: string) =>
     (control: AbstractControl) => memberNumberAndDnidCombinationExistsObservable.pipe(
-      skipWhile((val => val === null || typeof control.parent === 'undefined')), take(1), map(res => {
+      skipWhile(val => val === null || typeof control.parent === 'undefined' || val[control.parent.value.id] === null),
+      take(1),
+      map(res => {
         return res[control.parent.value.id] === true ? { memberNumberAndDnidCombinationExists: true } : null;
       })
     );
 
-const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = null, memberNumberAndDnidCombinationExists): FormGroup  => {
+const createNewChannel = (
+  channel: MobileTerminalInterfaces.Channel | null = null,
+  memberNumberAndDnidCombinationExists: (type: string) =>
+    (control: AbstractControl) => Observable<{ memberNumberAndDnidCombinationExists: boolean }|null>
+): FormGroup  => {
   return new FormGroup({
+    id: new FormControl(channel === null ? 'temp-' + Math.random().toString(36) : channel.id),
     name: new FormControl(channel === null ? '' : channel.name),
-    pollChannel: new FormControl(channel === null || channel.pollChannel == null ? false : channel.pollChannel),
-    configChannel: new FormControl(channel === null || channel.configChannel == null ? false : channel.configChannel),
-    defaultChannel: new FormControl(channel === null || channel.defaultChannel == null ? false : channel.defaultChannel),
+    pollChannel: new FormControl(channel === null || channel.pollChannel === null ? false : channel.pollChannel),
+    configChannel: new FormControl(channel === null || channel.configChannel === null ? false : channel.configChannel),
+    defaultChannel: new FormControl(channel === null || channel.defaultChannel === null ? false : channel.defaultChannel),
     dnid: new FormControl(
       channel === null ? '' : channel.dnid,
       [Validators.required, CustomValidators.minLengthOfNumber(5), CustomValidators.maxLengthOfNumber(5)],
@@ -66,7 +73,6 @@ const createNewChannel = (channel: MobileTerminalInterfaces.Channel | null = nul
     expectedFrequency: new FormControl(channel === null ? 60 : channel.expectedFrequency),
     frequencyGracePeriod: new FormControl(channel === null ? 140 : channel.frequencyGracePeriod),
     expectedFrequencyInPort: new FormControl(channel === null ? 140 : channel.expectedFrequencyInPort),
-    id: new FormControl(channel === null ? 'temp-' + Math.random().toString(36) : channel.id)
   });
 };
 
@@ -122,7 +128,11 @@ export const createMobileTerminalFormValidator = (
   });
 };
 
-export const addChannelToFormValidator = (formValidator: FormGroup, memberNumberAndDnidCombinationExists): void => {
+export const addChannelToFormValidator = (
+  formValidator: FormGroup,
+  memberNumberAndDnidCombinationExists: (type: string) =>
+    (control: AbstractControl) => Observable<{ memberNumberAndDnidCombinationExists: boolean }|null>
+): void => {
   const channels = formValidator.get('channels') as FormArray;
   channels.push(createNewChannel(null, memberNumberAndDnidCombinationExists));
 };

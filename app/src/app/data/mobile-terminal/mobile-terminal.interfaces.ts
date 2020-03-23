@@ -11,7 +11,7 @@ export interface Channel {
   historyId: string;
   id: string;
   lesDescription: string;
-  memberNumber: string;
+  memberNumber: number;
   name: string;
   pollChannel: boolean;
   startDate: number;
