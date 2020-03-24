@@ -19,6 +19,7 @@ export class FormComponent implements OnChanges {
 
   @Input() note: NotesInterfaces.Note;
   @Input() save: (note: NotesInterfaces.Note) => void;
+  @Input() create: boolean;
 
   public notesSubscription: Subscription;
   public formValidator: FormGroup;

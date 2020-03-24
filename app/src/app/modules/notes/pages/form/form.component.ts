@@ -4,6 +4,7 @@ import { Subscription, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer';
+import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
 import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
 import { RouterInterfaces, RouterSelectors } from '@data/router';
 
@@ -20,6 +21,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public note = {} as NotesInterfaces.Note;
   public save: (note: NotesInterfaces.Note, redirect: boolean) => void;
   public mergedRoute: RouterInterfaces.MergedRoute;
+  public redirect = false;
 
   mapStateToProps() {
     this.notesSubscription = this.store.select(NotesSelectors.getNoteByUrl).subscribe((note) => {
@@ -29,6 +31,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
     });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
       this.mergedRoute = mergedRoute;
+      if(typeof this.mergedRoute.params.assetId !== 'undefined') {
+        this.store.dispatch(AssetActions.getSelectedAsset());
+        this.redirect = true;
+      }
       if(typeof this.mergedRoute.params.noteId !== 'undefined') {
         this.store.dispatch(NotesActions.getSelectedNote());
       }
@@ -37,7 +43,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   mapDispatchToProps() {
     this.save = (note: NotesInterfaces.Note, redirect: boolean) => {
-      this.store.dispatch(NotesActions.saveNote({ note, redirect }));
+      this.store.dispatch(NotesActions.saveNote({
+        note,
+        redirect: typeof redirect === 'undefined' ? this.redirect : redirect
+      }));
     };
   }
 

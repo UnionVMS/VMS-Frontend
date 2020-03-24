@@ -96,7 +96,10 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
             this.router.navigate(['/asset/' + this.selectedAsset.id + '/contacts']);
             break;
           case '4':
-            this.router.navigate(['/asset']);
+            this.router.navigate(['/asset/' + this.selectedAsset.id + '/notes']);
+            break;
+          case '5':
+            this.router.navigate(['/asset/' + this.selectedAsset.id + '/positions']);
             break;
           default:
             break;

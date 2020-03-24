@@ -99,6 +99,9 @@ const routes: Routes = [
       { path: 'mobileterminals', component: MobileTerminalSearchPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-mobile-terminal-search:Mobile terminals — Search` || 'Mobile terminals — Search'
       }},
+      { path: 'asset/:assetId/notes/:noteId/edit', component: NotesFormPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-notes-edit:Notes — Edit` || 'Notes — Edit'
+      }},
     ]
   },
   {

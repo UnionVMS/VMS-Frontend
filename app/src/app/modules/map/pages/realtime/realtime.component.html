@@ -60,6 +60,7 @@
           <li>
             <i
               (click)="toggleActivePanel('map-layers')"
+              title="Map layers."
               class="icon-map-layers {{activePanel === 'map-layers' ? 'active' : '' }}"
               aria-hidden="true"
             ></i>
@@ -79,6 +80,7 @@
           <li>
             <i
               (click)="toggleActivePanel('distance-between-points')"
+              title="Messure distance."
               class="icon-distance-between-points {{activePanel === 'distance-between-points' ? 'active' : '' }}"
               aria-hidden="true"
             ></i>
@@ -94,6 +96,7 @@
           <li>
             <i
               (click)="toggleActivePanel('asset-layers')"
+              title="Hide and show asset infromation on map."
               class="icon-asset-layers {{activePanel === 'asset-layers' ? 'active' : '' }}"
               aria-hidden="true"
             ></i>
@@ -117,6 +120,7 @@
           <li>
             <i
               (click)="toggleActivePanel('map-locations')"
+              title="Saved map positions."
               class="icon-map-locations {{activePanel === 'map-locations' ? 'active' : '' }}"
               aria-hidden="true"
             ></i>

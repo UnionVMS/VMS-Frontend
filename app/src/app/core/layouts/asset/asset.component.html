@@ -19,10 +19,10 @@
         <span class="short-key">S</span>
         <span class="text" i18n>Search</span>
       </li>
-      <li routerLink="/mobileterminals" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <!-- <li routerLink="/mobileterminals" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <span class="short-key">M</span>
         <span class="text" i18n>Detached Mobile terminals</span>
-      </li>
+      </li> -->
       <li class="divider"></li>
       <ng-container *ngIf="selectedAsset">
         <li routerLink="/asset/{{selectedAsset.id}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
@@ -40,7 +40,7 @@
           <span class="short-key">3</span>
           <span class="text" i18n>Contact</span>
         </li>
-        <li routerLink="/asset/{{selectedAsset.id}}/notes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <li routerLink="/asset/{{selectedAsset.id}}/notes" routerLinkActive="active">
           <span class="short-key">4</span>
           <span class="text" i18n>Notes</span>
         </li>

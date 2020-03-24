@@ -1,0 +1,50 @@
+<div class="page-container">
+  <mat-spinner class="load-spinner" *ngIf="loadingData"></mat-spinner>
+  <div class="asset-container mat-elevation-z8" *ngIf="tableReadyForDisplay">
+    <div class="asset-table-container">
+
+      <table mat-table [dataSource]="sortedAssets" class="asset-table"
+        matSort matSortActive="name" matSortDisableClear matSortDirection="desc" (matSortChange)="sortData($event)">
+
+        <!-- name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Name</th>
+          <td mat-cell *matCellDef="let row">{{row.name}}</td>
+        </ng-container>
+
+        <!-- ircs Column -->
+        <ng-container matColumnDef="ircs">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>ircs</th>
+          <td mat-cell *matCellDef="let row">{{row.ircs}}</td>
+        </ng-container>
+
+        <!-- mmsi Column -->
+        <ng-container matColumnDef="mmsi">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>mmsi</th>
+          <td mat-cell *matCellDef="let row">{{row.mmsi}}</td>
+        </ng-container>
+
+        <!-- flagstate Column -->
+        <ng-container matColumnDef="flagstate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>F.S.</th>
+          <td mat-cell *matCellDef="let row">{{row.flagStateCode}}</td>
+        </ng-container>
+
+        <!-- ExternalMarking Column -->
+        <ng-container matColumnDef="externalMarking">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Ext. marking</th>
+          <td mat-cell *matCellDef="let row">{{row.externalMarking}}</td>
+        </ng-container>
+
+        <!-- Cfr Column -->
+        <ng-container matColumnDef="cfr">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>CFR</th>
+          <td mat-cell *matCellDef="let row">{{row.cfr}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/asset/{{row.id}}"></tr>
+      </table>
+    </div>
+  </div>
+</div>

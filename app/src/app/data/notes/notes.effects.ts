@@ -99,7 +99,7 @@ export class NotesEffects {
           map((note: any) => {
             let notification = $localize`:@@ts-notes-updated:Notes updated successfully!`;
             if(pipedAction.redirect) {
-              this.router.navigate(['/asset/' + note.assetId]);
+              this.router.navigate(['/asset/' + note.assetId + '/notes']);
             }
             if(isNew) {
               notification = $localize`:@@ts-notes-created:Note created successfully!`;

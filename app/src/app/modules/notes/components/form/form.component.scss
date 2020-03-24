@@ -4,6 +4,8 @@
   display: grid;
   // grid-column-gap: $x2large_distance;
   grid-template-columns: 1fr;
+  background: white;
+  padding: distance(4);
 
   fieldset {
     display: grid;
