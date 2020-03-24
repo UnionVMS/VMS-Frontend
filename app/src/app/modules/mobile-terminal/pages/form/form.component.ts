@@ -85,7 +85,6 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.mobileTerminal.channels.map(channel => {
           if(channel.pollChannel === true) {
-            console.warn(channel);
             this.channelsAlreadyInUseBy.poll = channel.id;
           }
           if(channel.configChannel === true) {
@@ -115,11 +114,6 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
             this.formValidator.get(['channels', i, 'defaultChannel']).disable();
           }
         }
-        // this.formValidator.get(['channels', channelNr, field])
-        // this.formValidator.controls.channels['controls'].map(channelControl => {
-        //   console.warn(channelControl.controls.pollChannel);
-        // });
-        // console.warn();
     });
     this.pluginSubscription = this.store.select(MobileTerminalSelectors.getPlugins).pipe(takeUntil(this.unmount$)).subscribe((plugins) => {
       if(typeof plugins !== 'undefined') {
@@ -127,15 +121,15 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.plugins = plugins.filter((plugin) => plugin.pluginSatelliteType === 'INMARSAT_C');
         const basePlugin = this.plugins.find((plugin) => plugin.pluginSatelliteType === 'INMARSAT_C');
 
-        // if(typeof this.mobileTerminal.plugin === 'undefined' && typeof basePlugin !== 'undefined') {
-        //   this.mobileTerminal.plugin = basePlugin;
-        //   this.mobileTerminal.mobileTerminalType = this.mobileTerminal.plugin.pluginSatelliteType;
-        //   this.formValidator = createMobileTerminalFormValidator(
-        //     this.mobileTerminal,
-        //     validateSerialNoExistsFunction,
-        //     memberNumberAndDnidExistsFunction
-        //   );
-        // }
+        if(typeof this.mobileTerminal.plugin === 'undefined' && typeof basePlugin !== 'undefined') {
+          this.mobileTerminal.plugin = basePlugin;
+          this.mobileTerminal.mobileTerminalType = this.mobileTerminal.plugin.pluginSatelliteType;
+          this.formValidator = createMobileTerminalFormValidator(
+            this.mobileTerminal,
+            validateSerialNoExistsFunction,
+            memberNumberAndDnidExistsFunction
+          );
+        }
         this.mobileTerminalPluginsFetched = true;
       }
     });
@@ -143,6 +137,14 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.mergedRoute = mergedRoute;
       if(typeof this.mergedRoute.params.assetId !== 'undefined') {
         this.store.dispatch(AssetActions.getSelectedAsset());
+      }
+
+      if(this.isCreate()) {
+        this.formValidator = createMobileTerminalFormValidator(
+          this.mobileTerminal,
+          validateSerialNoExistsFunction,
+          memberNumberAndDnidExistsFunction
+        );
       }
     });
     this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
@@ -245,6 +247,17 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   createNewChannel() {
     addChannelToFormValidator(this.formValidator, memberNumberAndDnidExistsFactory(this.memberNumberAndDnidCombinationExists$));
+
+    const lastAddedChannelIndex = this.formValidator.get(['channels']).value.length - 1;
+    if(this.channelsAlreadyInUseBy.poll !== null) {
+      this.formValidator.get(['channels', lastAddedChannelIndex, 'pollChannel']).disable();
+    }
+    if(this.channelsAlreadyInUseBy.config !== null) {
+      this.formValidator.get(['channels', lastAddedChannelIndex, 'configChannel']).disable();
+    }
+    if(this.channelsAlreadyInUseBy.default !== null) {
+      this.formValidator.get(['channels', lastAddedChannelIndex, 'defaultChannel']).disable();
+    }
   }
 
   removeChannel(index: number) {
@@ -290,9 +303,11 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   serialNumberExistsForForm() {
     const newSerialNumber = this.formValidator.value.essentailFields.serialNo;
     if(this.mobileTerminal.serialNo === newSerialNumber) {
-      return this.serialNumberExists(newSerialNumber, true);
+      this.serialNumberExists(newSerialNumber, true);
+    } else {
+      this.serialNumberExists(newSerialNumber);
     }
-    this.serialNumberExists(newSerialNumber);
+    this.formValidator.get(['essentailFields', 'serialNo']).updateValueAndValidity({ onlySelf: true });
   }
 
   checkIfMemberNumberAndDnidExists(channel: MobileTerminalInterfaces.Channel, channelNr: number) {
@@ -314,9 +329,16 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   updateChannelInUse(event, channelNr: number, field: string) {
-    console.warn(event, channelNr, field);
+    const channels = this.formValidator.get(['channels']).value;
+    if(field === 'pollChannel') {
+      this.channelsAlreadyInUseBy.poll = channels[channelNr].id;
+    } else if(field === 'configChannel') {
+      this.channelsAlreadyInUseBy.config = channels[channelNr].id;
+    } else if(field === 'defaultChannel') {
+      this.channelsAlreadyInUseBy.default = channels[channelNr].id;
+    }
 
-    this.formValidator.get(['channels']).value.map((channel, i) => {
+    channels.map((channel, i) => {
       if(i !== channelNr) {
         if(event.checked) {
           this.formValidator.get(['channels', i, field]).disable();
