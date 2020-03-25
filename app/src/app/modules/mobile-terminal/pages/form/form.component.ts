@@ -228,6 +228,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
+    this.store.dispatch(MobileTerminalActions.resetFormFieldValid());
     this.store.dispatch(MobileTerminalActions.getSelectedMobileTerminal());
     this.store.dispatch(MobileTerminalActions.getPlugins());
   }

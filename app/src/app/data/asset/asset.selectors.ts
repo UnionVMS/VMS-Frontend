@@ -287,6 +287,8 @@ export const getSearchAutocomplete = createSelector(
       .filter(key =>
         assetsEssentials[key] !== undefined &&
         assetsEssentials[key].assetName !== null &&
+        assetsEssentials[key].assetName !== undefined &&
+        searchQuery !== undefined &&
         assetsEssentials[key].assetName.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
       )
       .map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] } as Readonly<{

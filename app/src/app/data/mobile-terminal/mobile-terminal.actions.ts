@@ -67,3 +67,7 @@ export const getMemberNumberAndDnidCombinationExists = createAction(
   '[Mobile Terminal] Get memberNumber and dnid combination exists',
   props<{  memberNumber: number, dnid: number, channelId: string, isSelf?: boolean}>()
 );
+
+export const resetFormFieldValid = createAction(
+  '[Mobile Terminal] Reset form field valid'
+);

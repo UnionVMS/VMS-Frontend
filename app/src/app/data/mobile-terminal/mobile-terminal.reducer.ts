@@ -61,6 +61,10 @@ export const mobileTerminalReducer = createReducer(initialState,
       }
     }
   })),
+  on(MobileTerminalActions.resetFormFieldValid, (state) => ({
+    ...state,
+    formFieldsValid: initialState.formFieldsValid
+  })),
   on(MobileTerminalActions.setMemberNumberAndDnidCombinationExists, (state, { channelId, dnidMemberNumberComboExists }) => ({
     ...state,
     formFieldsValid: {
