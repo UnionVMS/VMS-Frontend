@@ -160,21 +160,14 @@ export const getAssetMovements = createSelector(
                   }
                 }, false);
               } else {
+                if(typeof assetsEssentials[key][columnName] === 'undefined') {
+                  return false;
+                }
                 const valueToCheck = assetsEssentials[key][columnName].toLowerCase();
                 if(query.inverse) {
-                  return query.values.reduce((acc, value) => {
-                    if(acc === false) {
-                      return acc;
-                    }
-                    return valueToCheck.indexOf(value.toLowerCase()) === -1;
-                  }, true);
+                  return query.values.some(value => valueToCheck.indexOf(value.toLowerCase()) === -1);
                 } else {
-                  return query.values.reduce((acc, value) => {
-                    if(acc === true) {
-                      return acc;
-                    }
-                    return valueToCheck.indexOf(value.toLowerCase()) !== -1;
-                  }, false);
+                  return query.values.some(value => valueToCheck.indexOf(value.toLowerCase()) !== -1);
                 }
               }
             });

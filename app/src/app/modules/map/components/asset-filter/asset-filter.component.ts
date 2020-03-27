@@ -23,16 +23,14 @@ export class AssetFilterComponent implements OnChanges, OnInit {
 
   private handleQueryString = ({ queryObject, queryString }: QueryParam): QueryParam => {
     if(!queryObject.isNumber && !(queryString.indexOf('/') === 0)) {
-      const values = queryString.split(',').map(value => value.trim()).filter(value => value.length > 0);
-
       if(queryString.indexOf('!') === 0) {
-        return {
-          queryObject: { ...queryObject, values, inverse: true },
-          queryString: queryString.substring(1)
-        };
+        queryString = queryString.substring(1);
+        const values = queryString.split(',').map(value => value.trim()).filter(value => value.length > 0);
+        return { queryObject: { ...queryObject, values, inverse: true }, queryString };
+      } else {
+        const values = queryString.split(',').map(value => value.trim()).filter(value => value.length > 0);
+        return { queryObject: { ...queryObject, values }, queryString };
       }
-
-      return { queryObject: { ...queryObject, values }, queryString };
     }
     return { queryObject, queryString };
   }
