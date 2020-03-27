@@ -86,4 +86,7 @@ export interface State {
   transponders: Array<Transponder>;
   plugins: Array<Plugin>;
   formFieldsValid: FormFieldsValid;
+  searchResults: { [hash: number]: ReadonlyArray<string> };
+  lastSearchHash: number;
+  createWithSerialNo: string;
 }

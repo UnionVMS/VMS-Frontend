@@ -14,11 +14,11 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field id="mobile-terminal-form--serialNo">
+      <!-- <mat-form-field id="mobile-terminal-form--serialNo">
         <mat-label i18n>Serial no.</mat-label>
         <input matInput formControlName="serialNo" required (blur)="serialNumberExistsForForm()" />
         <mat-error *ngFor="let error of getErrors(['essentailFields', 'serialNo'])">{{ errorMessage(error) }}</mat-error>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <mat-form-field id="mobile-terminal-form--oceanRegions">
         <mat-label i18n>Ocean region</mat-label>
@@ -99,6 +99,7 @@
         <mat-accordion id="channels">
           <mat-expansion-panel
             *ngFor="let channel of formValidator.controls.channels?.value.slice().reverse(); let i = index; trackBy: trackChannelsBy"
+            [expanded]="i === 0"
           >
             <mat-expansion-panel-header>
               <mat-panel-title>{{channel.name ? channel.name : channel.id}}</mat-panel-title>

@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 /* Modules */
 import { RouterModule } from '@angular/router';
 import { UIModule } from '../ui/ui.module';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,11 +22,13 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DatetimePickerModule } from 'ngx-moment-tz-picker';
 
 /* Pages */
+import { AttachPageComponent } from './pages/attach/attach.component';
 import { FormPageComponent } from './pages/form/form.component';
 import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.component';
 import { SearchPageComponent } from './pages/search/search.component';
 
 /* Components */
+import { DetachDialogComponent } from './components/detach-dialog/detach-dialog.component';
 
 
 @NgModule({
@@ -34,6 +37,7 @@ import { SearchPageComponent } from './pages/search/search.component';
     DatetimePickerModule,
     RouterModule,
     UIModule,
+    MatDialogModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatInputModule,
@@ -50,9 +54,12 @@ import { SearchPageComponent } from './pages/search/search.component';
     MatTableModule,
   ],
   declarations: [
+    AttachPageComponent,
     FormPageComponent,
     ShowByAssetPageComponent,
     SearchPageComponent,
+    /* Components */
+    DetachDialogComponent,
   ]
 })
 

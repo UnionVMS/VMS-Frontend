@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { take, takeUntil, map, skipWhile } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
@@ -24,8 +25,9 @@ import { Moment } from 'moment-timezone';
 export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('toolbox') toolbox;
-  constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef) { }
+  constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef, private router: Router) { }
 
+  public createWithSerialNo: string | null;
   public formValidator: FormGroup;
   public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
@@ -67,6 +69,12 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   mapStateToProps() {
+    this.store.select(MobileTerminalSelectors.getCreateWithSerialNo)
+      .pipe(takeUntil(this.unmount$))
+      .subscribe((createWithSerialNo) => {
+        this.createWithSerialNo = createWithSerialNo;
+      });
+
     this.serialNumberExists$ = this.store.select(MobileTerminalSelectors.getSerialNumberExists);
 
     const validateSerialNoExistsFunction = validateSerialNoExistsFactory(this.serialNumberExists$);
@@ -140,6 +148,10 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       if(this.isCreate()) {
+        if(typeof this.createWithSerialNo === 'undefined' || this.createWithSerialNo === null) {
+          this.router.navigate(['/asset/' + this.mergedRoute.params.assetId + '/mobileTerminal/attach']);
+        }
+        this.mobileTerminal = { ...this.mobileTerminal, serialNo: this.createWithSerialNo };
         this.formValidator = createMobileTerminalFormValidator(
           this.mobileTerminal,
           validateSerialNoExistsFunction,
@@ -185,6 +197,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
           ? null
           : this.formValidator.value.mobileTerminalFields.uninstallDate.format('X'),
         installedBy: this.formValidator.value.mobileTerminalFields.installedBy,
+        assetId: typeof this.mobileTerminal.assetId !== 'undefined' ? this.mobileTerminal.assetId : this.selectedAsset.id,
         channels: this.formValidator.value.channels.map((channel) => {
           const fixedChannel = {
             ...channel,

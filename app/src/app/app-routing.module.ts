@@ -26,6 +26,7 @@ import { FormPageComponent as AssetFormPage } from './modules/asset/pages/form/f
 import { ShowPageComponent as AssetShowPage } from './modules/asset/pages/show/show.component';
 
 // MobileTerminal-pages
+import { AttachPageComponent as MobileTerminalAttachPage } from './modules/mobile-terminal/pages/attach/attach.component';
 import { FormPageComponent as MobileTerminalFormPage } from './modules/mobile-terminal/pages/form/form.component';
 import {
   ShowByAssetPageComponent as MobileTerminalsShowByAssetPage
@@ -79,13 +80,17 @@ const routes: Routes = [
       { path: 'asset', component: AssetSearchPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-search:Assets — Asset search` || 'Asset search'
       }},
+      { path: 'asset/:assetId/mobileTerminal/attach', component: MobileTerminalAttachPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-mobileTerminal-edit:<dont-translate>assetName</dont-translate> — Attach Mobile Terminal`
+          || 'Attach Mobile Terminal'
+      }},
+      { path: 'asset/:assetId/mobileTerminal/create', component: MobileTerminalFormPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-asset-mobileTerminal-create:<dont-translate>assetName</dont-translate> — Mobile Terminal`
+          || 'Create Mobile Terminal'
+      }},
       { path: 'asset/:assetId/mobileTerminal/:mobileTerminalId/edit', component: MobileTerminalFormPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-mobileTerminal-edit:<dont-translate>assetName</dont-translate> — Mobile Terminal`
           || 'Edit Mobile Terminal'
-      }},
-      { path: 'mobileTerminal/:assetId/create', component: MobileTerminalFormPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-mobileTerminal-create:<dont-translate>assetName</dont-translate> — Mobile Terminal`
-          || 'Create Mobile Terminal'
       }},
       { path: 'asset/:assetId/contacts', component: ContactShowByAssetPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Contacts` || 'Contacts'

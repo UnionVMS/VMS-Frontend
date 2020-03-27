@@ -1,0 +1,75 @@
+<div class="page-container">
+  <form class="mobile-terminal-search-form">
+
+    <mat-form-field class="free-search">
+      <mat-label i18n>Serial number</mat-label>
+      <input matInput placeholder="Serial number" name="Search" [formControl]="serialNo" required>
+      <mat-error *ngIf="serialNo.invalid">{{ errorMessage() }}</mat-error>
+    </mat-form-field>
+
+    <div class="search-button-wrapper">
+      <button mat-raised-button color="primary" [disabled]="serialNo.invalid" type="submit" (click)="search()" i18n>Search</button>
+    </div>
+  </form>
+
+  <mat-spinner class="load-spinner" *ngIf="loadingData"></mat-spinner>
+
+  <div class="new-mobile-terminal-container" *ngIf="tableReadyForDisplay && !noPreviousExistingMobileTerminal()">
+    <div>Create mobile terminal with Serial number: <span class="serial-number">{{lastSearchedSerialNo}}</span>?</div>
+    <button
+      mat-raised-button
+      color="accent"
+      type="button"
+      name="create"
+      (click)="createWithSerialNo(lastSearchedSerialNo)"
+      routerLink="/asset/{{mergedRoute.params.assetId}}/mobileTerminal/create"
+    >Create</button>
+  </div>
+
+  <div class="error-message" *ngIf="tableReadyForDisplay && noPreviousExistingMobileTerminal()">
+    Exact match found, not allowed to create duplicate!<br />
+    You can attach the matched mobile terminal to this asset if you want.
+  </div>
+
+  <div class="mobile-terminals-container mat-elevation-z8" *ngIf="tableReadyForDisplay">
+    <div class="mobile-terminals-table-container">
+
+      <table mat-table [dataSource]="sortedMobileTerminals" class="mobile-terminal-table"
+        matSort matSortActive="status" matSortDisableClear matSortDirection="desc" (matSortChange)="sortData($event)">
+
+        <ng-container matColumnDef="Serial No.">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Serial No.</th>
+          <td mat-cell *matCellDef="let row">{{row.serialNo}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Status</th>
+          <td mat-cell *matCellDef="let row">
+            <ng-container *ngIf="row.archived">Archived</ng-container>
+            <ng-container *ngIf="!row.archived && row.assetId !== undefined && row.assetId !== null">
+              Attached to <span class="assetLink" routerLink="/asset/{{row.assetId}}">{{assets[row.assetId].name}}</span>
+            </ng-container>
+            <ng-container *ngIf="!row.archived && (row.assetId === undefined || row.assetId === null)">Ready</ng-container>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="attach">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Attach</th>
+          <td mat-cell *matCellDef="let row">
+            <button
+              mat-raised-button
+              color="primary"
+              *ngIf="!row.archived && (row.assetId === undefined || row.assetId === null)"
+              type="button"
+              (click)="attach(row)"
+            >Attach</button>
+            <span *ngIf="row.archived || (row.assetId !== undefined && row.assetId !== null)" class="not-ready">Status not ready</span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+</div>

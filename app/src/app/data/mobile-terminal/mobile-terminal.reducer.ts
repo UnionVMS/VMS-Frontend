@@ -9,19 +9,32 @@ export const initialState: MobileTerminalInterfaces.State = {
   formFieldsValid: {
     serialNumberExists: false,
     memberNumberAndDnidCombinationExists: {},
-   }
+  },
+  searchResults: {},
+  lastSearchHash: null,
+  createWithSerialNo: null,
 };
 
 export const mobileTerminalReducer = createReducer(initialState,
-  on(MobileTerminalActions.addMobileTerminals, (state, { mobileTerminals }) => {
-    return ({
-      ...state,
-      mobileTerminals: {
-        ...state.mobileTerminals,
-        ...mobileTerminals
-      }
-    });
-  }),
+  on(MobileTerminalActions.addMobileTerminals, (state, { mobileTerminals }) => ({
+    ...state,
+    mobileTerminals: {
+      ...state.mobileTerminals,
+      ...mobileTerminals
+    }
+  })),
+  on(MobileTerminalActions.addSearchResult, (state, { uniqueHash, mobileTerminalIds }) => ({
+    ...state,
+    searchResults: {
+      ...state.searchResults,
+      [uniqueHash]: mobileTerminalIds
+    },
+    lastSearchHash: uniqueHash
+  })),
+  on(MobileTerminalActions.createWithSerialNo, (state, { serialNo }) => ({
+    ...state,
+    createWithSerialNo: serialNo
+  })),
   on(MobileTerminalActions.setMobileTerminal, (state, { mobileTerminal }) => ({
     ...state,
     mobileTerminals: {

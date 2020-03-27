@@ -13,6 +13,8 @@ import * as NotificationsActions from '../notifications/notifications.actions';
 import { AuthInterfaces, AuthSelectors } from '../auth';
 import * as RouterSelectors from '@data/router/router.selectors';
 
+import { hashCode } from '@app/helpers/helpers';
+
 @Injectable()
 export class MobileTerminalEffects {
   constructor(
@@ -29,13 +31,28 @@ export class MobileTerminalEffects {
     mergeMap(([action, authToken]) => {
       return this.mobileTerminalService.search(authToken, action.query, action.includeArchived).pipe(
         map((response: { mobileTerminalList: Array<MobileTerminalInterfaces.MobileTerminal> }) => {
-          return MobileTerminalActions.addMobileTerminals({
-            mobileTerminals: response.mobileTerminalList.reduce((acc, mobileTerminal) => {
-              acc[mobileTerminal.id] = mobileTerminal;
-              return acc;
-            }, {})
-          });
+          const result = [
+            MobileTerminalActions.addMobileTerminals({
+              mobileTerminals: response.mobileTerminalList.reduce((acc, mobileTerminal) => {
+                acc[mobileTerminal.id] = mobileTerminal;
+                return acc;
+              }, {})
+            })
+          ];
+
+          if(action.saveAsSearchResult === true) {
+            return [
+              ...result,
+              MobileTerminalActions.addSearchResult({
+                uniqueHash: hashCode(JSON.stringify(action.query) + action.includeArchived ? 't' : 'f'),
+                mobileTerminalIds: response.mobileTerminalList.map(mobileTerminal => mobileTerminal.id)
+              })
+            ];
+          } else {
+            return result;
+          }
         }),
+        flatMap((rAction, index) => rAction),
         catchError((err) => {
           if(typeof err === 'object' && typeof err.message !== 'undefined') {
             return of(NotificationsActions.addError(err.message));
@@ -110,18 +127,15 @@ export class MobileTerminalEffects {
         const isNew = action.mobileTerminal.id === undefined || action.mobileTerminal.id === null;
         let request: Observable<object>;
         if(isNew) {
-          if(typeof action.mobileTerminal.assetId === 'undefined' && typeof selectedAsset !== 'undefined') {
-            request = this.mobileTerminalService.createMobileTerminal(authToken, { ...action.mobileTerminal, assetId: selectedAsset.id });
-          } else {
-            request = this.mobileTerminalService.createMobileTerminal(authToken, action.mobileTerminal);
-          }
+          request = this.mobileTerminalService.createMobileTerminal(authToken, action.mobileTerminal);
         } else {
           request = this.mobileTerminalService.updateMobileTerminal(authToken, action.mobileTerminal);
         }
         return request.pipe(
           map((mobileTerminal: any) => {
+            const assetId = typeof mobileTerminal.assetId !== 'undefined' ? mobileTerminal.assetId : selectedAsset.id;
             let notification = $localize`:@@ts-mobile-terminal-updated:Mobile terminal updated successfully!`;
-            this.router.navigate(['/asset/' + mobileTerminal.assetId + '/mobileTerminals']);
+            this.router.navigate(['/asset/' + assetId + '/mobileTerminals']);
             if(isNew) {
               notification = $localize`:@@ts-mobile-terminal-created:Mobile terminal created successfully!`;
             }

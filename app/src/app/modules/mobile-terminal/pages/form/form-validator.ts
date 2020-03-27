@@ -13,8 +13,8 @@ interface MobileTerminalFormValidator {
 }
 
 const alphanumericWithHyphenAndSpace = (c: FormControl) => {
-  const EMAIL_REGEXP = /^[a-z0-9\- ]*$/i;
-  return c.value === null || c.value.length === 0 || EMAIL_REGEXP.test(c.value) ? null : {
+  const REGEXP = /^[a-z0-9\- ]*$/i;
+  return c.value === null || c.value.length === 0 || REGEXP.test(c.value) ? null : {
     validateAlphanumericHyphenAndSpace: true
   };
 };

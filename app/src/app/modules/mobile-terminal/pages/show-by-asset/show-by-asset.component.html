@@ -116,25 +116,42 @@
 <ng-template #toolbox>
   <div class="toolbox-wrapper">
     <div class="toolbox">
-      <div
-        *ngIf="currentMobileTerminal && currentMobileTerminal.active"
-        class="active-mobile-terminal"
-        i18n
-      >Mobile Terminal Active</div>
-      <div
-        *ngIf="currentMobileTerminal && !currentMobileTerminal.active"
-        class="deactive-mobile-terminal"
-        i18n
-      >Mobile Terminal Deactive</div>
+      <ng-container *ngIf="currentMobileTerminal && currentMobileTerminal.active">
+        <div
+          class="active-mobile-terminal"
+          i18n
+        >Mobile terminal active</div>
+        <button
+          mat-stroked-button
+          color="warn"
+          type="button"
+          [disabled]="true"
+          (click)="openDetachDialog()"
+          i18n
+        >Inactivate before detaching</button>
+      </ng-container>
+      <ng-container *ngIf="currentMobileTerminal && !currentMobileTerminal.active">
+        <div
+          class="deactive-mobile-terminal"
+          i18n
+          >Mobile terminal inactive</div>
+        <button
+          mat-stroked-button
+          color="warn"
+          type="button"
+          (click)="openDetachDialog()"
+          i18n
+        >Detach</button>
+      </ng-container>
       <div class="divider"></div>
       <button
         *ngIf="selectedAsset && selectedAsset.id"
         mat-raised-button
         color="accent"
         type="button"
-        routerLink="/mobileTerminal/{{selectedAsset.id}}/create"
+        routerLink="/asset/{{selectedAsset.id}}/mobileTerminal/attach"
         i18n
-      >Create</button>
+      >Attach</button>
       <button
         *ngIf="currentMobileTerminal"
         id="mobile-terminal-show--edit"

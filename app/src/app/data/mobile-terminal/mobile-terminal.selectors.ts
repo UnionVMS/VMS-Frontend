@@ -10,7 +10,12 @@ export const selectPlugins = (state: State) => state.mobileTerminal.plugins;
 export const selectSerialNumberExists = (state: State) => state.mobileTerminal.formFieldsValid.serialNumberExists;
 export const selectMemberNumberAndDnidCombinationExists = (state: State) =>
   state.mobileTerminal.formFieldsValid.memberNumberAndDnidCombinationExists;
+export const selectSearchResults = (state: State) => state.mobileTerminal.searchResults;
+export const selectLastSearchHash = (state: State) => state.mobileTerminal.lastSearchHash;
+export const selectCreateWithSerialNo = (state: State) => state.mobileTerminal.createWithSerialNo;
 
+
+export const getCreateWithSerialNo = createSelector(selectCreateWithSerialNo, (createWithSerialNo) => createWithSerialNo);
 
 export const getMobileTerminals = createSelector(
   selectMobileTerminals,
@@ -61,4 +66,12 @@ export const getSerialNumberExists = createSelector(
 export const getMemberNumberAndDnidCombinationExists = createSelector(
   selectMemberNumberAndDnidCombinationExists,
   (memberNumberAndDnidCombinationExists) => memberNumberAndDnidCombinationExists
+);
+
+
+export const getLastSearchResult = createSelector(
+  selectSearchResults, selectLastSearchHash, selectMobileTerminals,
+  (searchResults, lastSearchHash, mobileTerminals) => typeof searchResults[lastSearchHash] !== 'undefined'
+    ? searchResults[lastSearchHash].map(mobileTerminalId => mobileTerminals[mobileTerminalId])
+    : undefined
 );

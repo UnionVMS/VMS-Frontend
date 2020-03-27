@@ -1,10 +1,13 @@
 import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
+
+import { DetachDialogComponent } from '../../components/detach-dialog/detach-dialog.component';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
@@ -19,13 +22,15 @@ import { RouterInterfaces, RouterSelectors } from '@data/router';
 export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('toolbox') toolbox;
-  constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef) { }
+  constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef, public dialog: MatDialog) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public mobileTerminals: ReadonlyArray<MobileTerminalInterfaces.MobileTerminal>;
   public currentMobileTerminal: MobileTerminalInterfaces.MobileTerminal;
   public mergedRoute: RouterInterfaces.MergedRoute;
   public selectedAsset: AssetInterfaces.Asset;
+
+  public saveMobileTerminal: (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => void;
 
 
   ngAfterViewInit() {
@@ -61,7 +66,10 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
     });
   }
 
-  mapDispatchToProps() {}
+  mapDispatchToProps() {
+    this.saveMobileTerminal = (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) =>
+      this.store.dispatch(MobileTerminalActions.saveMobileTerminal({ mobileTerminal }));
+  }
 
   ngOnInit() {
     this.mapStateToProps();
@@ -72,7 +80,21 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
   }
+
   changeCurrentMobileTerminal(event: MatTabChangeEvent) {
     this.currentMobileTerminal = this.mobileTerminals[event.index];
+  }
+
+  openDetachDialog(): void {
+    const dialogRef = this.dialog.open(DetachDialogComponent);
+
+    dialogRef.afterClosed().subscribe(resultDetach => {
+      if(resultDetach === true) {
+        this.saveMobileTerminal({
+          ...this.currentMobileTerminal,
+          assetId: null
+        });
+      }
+    });
   }
 }

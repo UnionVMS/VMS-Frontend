@@ -3,12 +3,17 @@ import * as MobileTerminalInterfaces from './mobile-terminal.interfaces';
 
 export const search = createAction(
   '[Mobile Terminals] search',
-  props<{ query: object, includeArchived: boolean }>()
+  props<{ query: object, includeArchived: boolean, saveAsSearchResult?: boolean }>()
 );
 
 export const addMobileTerminals = createAction(
   '[Mobile Terminals] Add',
   props<{ mobileTerminals: { [id: string]: MobileTerminalInterfaces.MobileTerminal } }>()
+);
+
+export const addSearchResult = createAction(
+  '[Mobile Terminals] Add search result',
+  props<{ uniqueHash: number, mobileTerminalIds: ReadonlyArray<string> }>()
 );
 
 export const setMobileTerminal = createAction(
@@ -65,9 +70,14 @@ export const setMemberNumberAndDnidCombinationExists = createAction(
 
 export const getMemberNumberAndDnidCombinationExists = createAction(
   '[Mobile Terminal] Get memberNumber and dnid combination exists',
-  props<{  memberNumber: number, dnid: number, channelId: string, isSelf?: boolean}>()
+  props<{ memberNumber: number, dnid: number, channelId: string, isSelf?: boolean}>()
 );
 
 export const resetFormFieldValid = createAction(
   '[Mobile Terminal] Reset form field valid'
+);
+
+export const createWithSerialNo = createAction(
+  '[Mobile Terminal] Create with serial no',
+  props<{ serialNo: string | null }>()
 );

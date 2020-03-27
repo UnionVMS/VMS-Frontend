@@ -7,7 +7,7 @@
   grid-column-gap: $xlarge_distance;
   grid-template-areas:
   "header header header header header"
-  "left-margin notifications notifications . right-margin"
+  "left-margin notifications notifications notifications right-margin"
   "left-margin page-title page-title . right-margin"
   "left-margin side-menu main toolbox right-margin";
 

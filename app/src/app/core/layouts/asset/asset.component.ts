@@ -121,6 +121,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
 
   matchMobileTerminalUrl() {
     return this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminal\/.*\/edit$/g) !== null ||
+      this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminal\/attach$/g) !== null ||
       this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminals$/g) !== null ||
       this.mergedRoute.url.match(/^\/mobileTerminal\/.*\/create$/g) !== null;
   }

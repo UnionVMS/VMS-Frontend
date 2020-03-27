@@ -51,8 +51,7 @@ export class MobileTerminalService {
       {
         ...mobileTerminal,
         channels: mobileTerminal.channels.map(channel => ({
-          ...channel,
-          DNID: channel.dnid + ''
+          ...channel
         }))
       },
       {
