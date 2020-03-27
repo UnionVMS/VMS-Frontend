@@ -42,7 +42,7 @@
     "jwt-decode": "^2.2.0",
     "moment-timezone": "^0.5.28",
     "ng-pick-datetime": "^7.0.0",
-    "ngx-moment-tz-picker": "^0.1.1",
+    "ngx-moment-tz-picker": "^0.1.2",
     "ol": "^6.1.1",
     "proj4": "^2.6.0",
     "remixicon": "^2.3.0",
