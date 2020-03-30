@@ -6,6 +6,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { DetachDialogComponent } from '../../components/detach-dialog/detach-dialog.component';
 import { ArchiveDialogComponent } from '../../components/archive-dialog/archive-dialog.component';
@@ -32,6 +33,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   public selectedAsset: AssetInterfaces.Asset;
 
   public saveMobileTerminal: (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => void;
+  public activeMobileTerminal: MobileTerminalInterfaces.MobileTerminal;
 
 
   ngAfterViewInit() {
@@ -53,7 +55,10 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
         }))
       }));
       if(this.mobileTerminals.length > 0) {
-        this.currentMobileTerminal = this.mobileTerminals[0];
+        if(typeof this.currentMobileTerminal === 'undefined') {
+          this.currentMobileTerminal = this.mobileTerminals[0];
+        }
+        this.activeMobileTerminal = this.mobileTerminals.find(mobileTerminal => mobileTerminal.active);
       }
     });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
@@ -111,5 +116,21 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
         });
       }
     });
+  }
+
+  toggleActive($event: MatSlideToggleChange) {
+    this.currentMobileTerminal = {
+      ...this.currentMobileTerminal,
+      active: $event.checked
+    };
+    this.saveMobileTerminal(this.currentMobileTerminal);
+  }
+
+  activeToggleDisabled() {
+    const disabled = typeof this.activeMobileTerminal !== 'undefined' &&
+      this.activeMobileTerminal !== null &&
+      typeof this.currentMobileTerminal !== 'undefined' &&
+      this.currentMobileTerminal.id !== this.activeMobileTerminal.id;
+    return disabled;
   }
 }

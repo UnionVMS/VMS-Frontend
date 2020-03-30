@@ -116,11 +116,19 @@
 <ng-template #toolbox>
   <div class="toolbox-wrapper">
     <div class="toolbox">
+      <div class="active-toggle-wrapper">
+        <mat-slide-toggle
+          color="primary"
+          [checked]="currentMobileTerminal && currentMobileTerminal.active"
+          [disabled]="activeToggleDisabled()"
+          (change)="toggleActive($event)"
+        >Terminal is active</mat-slide-toggle>
+      </div>
       <ng-container *ngIf="currentMobileTerminal && currentMobileTerminal.active">
-        <div
+        <!-- <div
           class="active-mobile-terminal"
           i18n
-        >Mobile terminal active</div>
+        >Terminal active</div> -->
         <button
           mat-stroked-button
           color="warn"
@@ -131,10 +139,10 @@
         >Inactivate before detaching</button>
       </ng-container>
       <ng-container *ngIf="currentMobileTerminal && !currentMobileTerminal.active">
-        <div
+        <!-- <div
           class="deactive-mobile-terminal"
           i18n
-          >Mobile terminal inactive</div>
+          >Terminal inactive</div> -->
         <button
           mat-stroked-button
           color="warn"
@@ -150,15 +158,6 @@
           i18n
         >Archive</button>
       </ng-container>
-      <div class="divider"></div>
-      <button
-        *ngIf="selectedAsset && selectedAsset.id"
-        mat-raised-button
-        color="accent"
-        type="button"
-        routerLink="/asset/{{selectedAsset.id}}/mobileTerminal/attach"
-        i18n
-      >Attach</button>
       <button
         *ngIf="currentMobileTerminal"
         id="mobile-terminal-show--edit"
@@ -168,6 +167,15 @@
         type="button"
         i18n
       >Edit</button>
+      <div class="divider"></div>
+      <button
+        *ngIf="selectedAsset && selectedAsset.id"
+        mat-raised-button
+        color="accent"
+        type="button"
+        routerLink="/asset/{{selectedAsset.id}}/mobileTerminal/attach"
+        i18n
+      >Attach</button>
     </div>
   </div>
 </ng-template>

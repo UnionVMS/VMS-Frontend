@@ -43,6 +43,11 @@
 }
 
 .toolbox {
+  .active-toggle-wrapper {
+    display: grid;
+    justify-items: center;
+  }
+
   .active-mobile-terminal, .deactive-mobile-terminal {
     text-align: center;
   }
