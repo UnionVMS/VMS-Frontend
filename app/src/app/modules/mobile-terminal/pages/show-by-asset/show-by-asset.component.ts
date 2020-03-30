@@ -8,6 +8,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
 import { DetachDialogComponent } from '../../components/detach-dialog/detach-dialog.component';
+import { ArchiveDialogComponent } from '../../components/archive-dialog/archive-dialog.component';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
@@ -93,6 +94,20 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.saveMobileTerminal({
           ...this.currentMobileTerminal,
           assetId: null
+        });
+      }
+    });
+  }
+
+  openArchiveDialog(): void {
+    const dialogRef = this.dialog.open(ArchiveDialogComponent);
+
+    dialogRef.afterClosed().subscribe(resultDetach => {
+      if(resultDetach === true) {
+        this.saveMobileTerminal({
+          ...this.currentMobileTerminal,
+          assetId: null,
+          archived: true
         });
       }
     });

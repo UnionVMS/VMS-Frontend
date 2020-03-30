@@ -28,6 +28,7 @@ import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.co
 import { SearchPageComponent } from './pages/search/search.component';
 
 /* Components */
+import { ArchiveDialogComponent } from './components/archive-dialog/archive-dialog.component';
 import { DetachDialogComponent } from './components/detach-dialog/detach-dialog.component';
 
 
@@ -59,6 +60,7 @@ import { DetachDialogComponent } from './components/detach-dialog/detach-dialog.
     ShowByAssetPageComponent,
     SearchPageComponent,
     /* Components */
+    ArchiveDialogComponent,
     DetachDialogComponent,
   ]
 })
