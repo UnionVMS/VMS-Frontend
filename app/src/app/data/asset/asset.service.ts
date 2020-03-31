@@ -157,7 +157,7 @@ export class AssetService {
     }
     return this.http.post(
       environment.baseApiUrl + `movement/rest/micro/track/latest/asset/${assetId}?maxNbr=${amount}`,
-      [],
+      sources || [],
       {
         headers: new HttpHeaders({
           Authorization: authToken,

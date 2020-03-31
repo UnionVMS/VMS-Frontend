@@ -55,7 +55,11 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
       this.mergedRoute = mergedRoute;
       if(typeof this.mergedRoute.params.assetId !== 'undefined') {
-        this.store.dispatch(AssetActions.getNrOfTracksForAsset({ assetId: this.mergedRoute.params.assetId, amount: 20 }));
+        this.store.dispatch(AssetActions.getNrOfTracksForAsset({
+          assetId: this.mergedRoute.params.assetId,
+          amount: 20,
+          sources: ['INMARSAT_C'],
+        }));
       }
     });
   }
