@@ -15,7 +15,8 @@
       <fieldset formGroupName="mapStartPosition">
         <legend i18n>Map start position</legend>
         <mat-form-field>
-          <input matInput placeholder="Start zoom level" formControlName="startZoomLevel" required>
+          <input matInput type="number" placeholder="Start zoom level" formControlName="startZoomLevel" required>
+          <mat-error *ngFor="let error of getErrors(['mapStartPosition', 'startZoomLevel'])">{{ errorMessage(error) }}</mat-error>
         </mat-form-field>
 
         <div class="map-starting-positions">

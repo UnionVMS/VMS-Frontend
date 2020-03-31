@@ -2,14 +2,6 @@ import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { MapSettingsInterfaces } from '@data/map-settings';
 import CustomValidators from '@validators/.';
 
-export const alphanumericWithHyphenAndSpace = (c: FormControl) => {
-  const EMAIL_REGEXP = /^[a-z0-9\- ]*$/i;
-  return c.value === null || c.value.length === 0 || EMAIL_REGEXP.test(c.value) ? null : {
-    validateAlphanumericHyphenAndSpace: true
-  };
-};
-
-
 export const createUserSettingsFormValidator = (mapSettings: MapSettingsInterfaces.Settings): FormGroup => {
   return new FormGroup({
     flagsVisible: new FormControl(mapSettings.flagsVisible),
@@ -19,7 +11,11 @@ export const createUserSettingsFormValidator = (mapSettings: MapSettingsInterfac
     forecastsVisible: new FormControl(mapSettings.forecastsVisible),
     unitOfDistance: new FormControl(mapSettings.unitOfDistance),
     mapStartPosition: new FormGroup({
-      startZoomLevel: new FormControl(mapSettings.startZoomLevel, [Validators.required]),
+      startZoomLevel: new FormControl(mapSettings.startZoomLevel, [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(19)
+      ]),
       latitude: new FormControl(mapSettings.startPosition.latitude, [Validators.required]),
       longitude: new FormControl(mapSettings.startPosition.longitude, [Validators.required]),
     }),

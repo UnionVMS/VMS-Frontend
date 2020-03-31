@@ -116,59 +116,61 @@
 <ng-template #toolbox>
   <div class="toolbox-wrapper">
     <div class="toolbox">
-      <div class="active-toggle-wrapper">
-        <mat-slide-toggle
+      <ng-container *ngIf="currentMobileTerminal !== undefined">
+        <div class="active-toggle-wrapper">
+          <mat-slide-toggle
+            color="primary"
+            [checked]="currentMobileTerminal && currentMobileTerminal.active"
+            [disabled]="activeToggleDisabled()"
+            (change)="toggleActive($event)"
+          >Terminal is active</mat-slide-toggle>
+        </div>
+        <ng-container *ngIf="currentMobileTerminal && currentMobileTerminal.active">
+          <!-- <div
+            class="active-mobile-terminal"
+            i18n
+          >Terminal active</div> -->
+          <button
+            mat-stroked-button
+            color="warn"
+            type="button"
+            [disabled]="true"
+            i18n
+          >Inactivate before detaching</button>
+        </ng-container>
+        <ng-container *ngIf="currentMobileTerminal && !currentMobileTerminal.active">
+          <!-- <div
+            class="deactive-mobile-terminal"
+            i18n
+            >Terminal inactive</div> -->
+          <button
+            mat-stroked-button
+            color="warn"
+            type="button"
+            (click)="openDetachDialog()"
+            i18n
+            id="mobile-terminal-show--detach-button"
+          >Detach</button>
+          <button
+            mat-stroked-button
+            color="warn"
+            type="button"
+            (click)="openArchiveDialog()"
+            i18n
+            id="mobile-terminal-show--archive-button"
+          >Archive</button>
+        </ng-container>
+        <button
+          *ngIf="currentMobileTerminal"
+          id="mobile-terminal-show--edit"
+          routerLink="/asset/{{currentMobileTerminal.assetId}}/mobileTerminal/{{currentMobileTerminal.id}}/edit"
+          mat-raised-button
           color="primary"
-          [checked]="currentMobileTerminal && currentMobileTerminal.active"
-          [disabled]="activeToggleDisabled()"
-          (change)="toggleActive($event)"
-        >Terminal is active</mat-slide-toggle>
-      </div>
-      <ng-container *ngIf="currentMobileTerminal && currentMobileTerminal.active">
-        <!-- <div
-          class="active-mobile-terminal"
-          i18n
-        >Terminal active</div> -->
-        <button
-          mat-stroked-button
-          color="warn"
           type="button"
-          [disabled]="true"
           i18n
-        >Inactivate before detaching</button>
+        >Edit</button>
+        <div class="divider"></div>
       </ng-container>
-      <ng-container *ngIf="currentMobileTerminal && !currentMobileTerminal.active">
-        <!-- <div
-          class="deactive-mobile-terminal"
-          i18n
-          >Terminal inactive</div> -->
-        <button
-          mat-stroked-button
-          color="warn"
-          type="button"
-          (click)="openDetachDialog()"
-          i18n
-          id="mobile-terminal-show--detach-button"
-        >Detach</button>
-        <button
-          mat-stroked-button
-          color="warn"
-          type="button"
-          (click)="openArchiveDialog()"
-          i18n
-          id="mobile-terminal-show--archive-button"
-        >Archive</button>
-      </ng-container>
-      <button
-        *ngIf="currentMobileTerminal"
-        id="mobile-terminal-show--edit"
-        routerLink="/asset/{{currentMobileTerminal.assetId}}/mobileTerminal/{{currentMobileTerminal.id}}/edit"
-        mat-raised-button
-        color="primary"
-        type="button"
-        i18n
-      >Edit</button>
-      <div class="divider"></div>
       <button
         *ngIf="selectedAsset && selectedAsset.id"
         mat-raised-button

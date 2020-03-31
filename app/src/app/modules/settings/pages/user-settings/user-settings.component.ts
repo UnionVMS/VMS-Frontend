@@ -30,8 +30,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   public assetColorMethods = ['Shiptype', 'Flagstate', 'Size (length)'];
 
-
-
   public resetToDefault = () => {
     this.formValidator = createUserSettingsFormValidator({ ...MapSettingsReducer.initialState.settings });
   }
@@ -77,6 +75,15 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     if(this.mapSettingsSubscription !== undefined) {
       this.mapSettingsSubscription.unsubscribe();
     }
+  }
+
+  getErrors(path: string[]): Array<{errorType: string, error: string }> {
+    const errors = this.formValidator.get(path).errors;
+    return errors === null ? [] : Object.keys(errors).map(errorType => ({ errorType, error: errors[errorType] }));
+  }
+
+  errorMessage(error: any) {
+    return errorMessage(error.errorType, error.error);
   }
 
 }

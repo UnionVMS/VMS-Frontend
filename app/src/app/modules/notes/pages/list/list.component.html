@@ -1,7 +1,7 @@
 <div class="notes-list" *ngIf="asset">
   <div class="notes-list--create">
     <h2>Create new note</h2>
-    <notes-form note="{}" [save]="save"></notes-form>
+    <notes-form note="{}" [save]="save" [create]="true"></notes-form>
   </div>
   <h2 class="all-notes">All notes</h2>
   <div class="search-wrapper">
