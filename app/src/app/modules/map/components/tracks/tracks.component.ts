@@ -26,6 +26,8 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() assetTracks: Array<AssetInterfaces.AssetTrack>;
   @Input() map: Map;
+  @Input() registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
+  @Input() unregisterOnClickFunction: (name: string) => void;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -34,6 +36,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
   // Optimizations arrays for quick lookup
   private featuresHovered: Array<string> = [];
+  private featuresPinned: Array<string> = [];
   private renderedFeatureIdsByAssetId: { [assetId: string]: Array<string> } = {};
   private lookupIndexLatLonFeature: { [latLon: string]: Feature[] } = {};
 
@@ -114,20 +117,24 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
         const featuresToRemove = this.featuresHovered.filter(id => !currentHoveredFeatures.includes(id));
         featuresToRemove.map(featureIdToRemove => {
-          const feature = this.vectorSource.getFeatureById(featureIdToRemove);
-          if(feature !== null) {
-            feature.getStyle().setImage(null);
-            feature.getStyle().setText(null);
+          if(!this.featuresPinned.includes(featureIdToRemove)) {
+            const feature = this.vectorSource.getFeatureById(featureIdToRemove);
+            if(feature !== null) {
+              feature.getStyle().setImage(null);
+              feature.getStyle().setText(null);
+            }
           }
         });
         this.featuresHovered = currentHoveredFeatures;
       } else if(this.featuresHovered.length > 0) {
         changed = true;
         this.featuresHovered.map(featureId => {
-          const feature = this.vectorSource.getFeatureById(featureId);
-          if(feature !== null) {
-            feature.getStyle().setImage(null);
-            feature.getStyle().setText(null);
+          if(!this.featuresPinned.includes(featureId)) {
+            const feature = this.vectorSource.getFeatureById(featureId);
+            if(feature !== null) {
+              feature.getStyle().setImage(null);
+              feature.getStyle().setText(null);
+            }
           }
         });
         this.featuresHovered = [];
@@ -139,6 +146,20 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
     });
 
+
+    this.registerOnClickFunction('pinTrackPosition', (event) => {
+      const feature = this.vectorSource.getClosestFeatureToCoordinate(event.coordinate);
+
+      if(feature !== null) {
+        const featureId = feature.getId();
+        if(this.featuresPinned.includes(featureId)) {
+          this.featuresPinned = this.featuresPinned.filter(id => id !== featureId);
+        } else {
+          this.featuresPinned.push(featureId);
+          this.featuresHovered = this.featuresHovered.filter(id => id !== featureId);
+        }
+      }
+    });
 
     this.vectorLayer.getSource().changed();
   }

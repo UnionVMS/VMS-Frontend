@@ -40,6 +40,8 @@
         *ngIf="mapSettings.settings.tracksVisible && mapZoom > 5"
         [assetTracks]="assetTracks$|async"
         [map]="map"
+        [registerOnClickFunction]="registerOnClickFunction"
+        [unregisterOnClickFunction]="unregisterOnClickFunction"
       ></map-tracks>
       <map-flagstates
         *ngIf="mapSettings.settings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"
