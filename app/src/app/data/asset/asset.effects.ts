@@ -4,7 +4,9 @@ import { ROUTER_NAVIGATED, RouterNavigationAction } from '@ngrx/router-store';
 import { Store, Action } from '@ngrx/store';
 import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
 import { of, EMPTY, merge, Observable, interval, Subject } from 'rxjs';
-import { map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter, takeUntil } from 'rxjs/operators';
+import {
+  map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter, takeUntil, take, skipWhile
+} from 'rxjs/operators';
 
 import { State } from '@app/app-reducer.ts';
 import { AuthInterfaces, AuthSelectors } from '../auth';
@@ -350,9 +352,11 @@ export class AssetEffects {
     ofType(AssetActions.getAssetTrackTimeInterval),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.getAssetTrackTimeInterval(authToken, action.assetId, action.startDate, action.endDate).pipe(
+      return this.assetService.getAssetTrackTimeInterval(authToken, action.assetId, action.startDate, action.endDate, action.sources).pipe(
+        take(1),
+        skipWhile((assetTrack: any) => assetTrack.length === 0),
         map((assetTrack: any) => {
-          return AssetActions.setTracksForAsset({ tracks: assetTrack.reverse(), assetId: action.assetId });
+          return AssetActions.setTracksForAsset({ tracks: assetTrack.reverse(), assetId: action.assetId, sources: action.sources });
         })
       );
     })

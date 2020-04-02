@@ -80,7 +80,25 @@ $x4large_distance: distance(6); // 48px
   }
 }
 
-@mixin icon($url) {
+.icon {
+  background: $color_turquoise;
+  color: white;
+  font-size: distance(3);
+  height: distance(5);
+  width: distance(5);
+  display: grid;
+  place-content: center;
+  &:hover {
+    background: $color_light_turquoise;
+  }
+
+  &.active {
+    background: white;
+    color: $color_turquoise;
+  }
+}
+
+@mixin svg-icon($url) {
   display: grid;
   background: $color_turquoise;
   width: $x3large_distance;
@@ -108,14 +126,14 @@ $x4large_distance: distance(6); // 48px
   }
 }
 
-@mixin left-icon($url) {
-  @include icon($url);
+@mixin svg-left-icon($url) {
+  @include svg-icon($url);
   border-top-right-radius: $small_distance;
   border-bottom-right-radius: $small_distance;
 }
 
-@mixin right-icon($url) {
-  @include icon($url);
+@mixin svg-right-icon($url) {
+  @include svg-icon($url);
   border-top-left-radius: $small_distance;
   border-bottom-left-radius: $small_distance;
 }

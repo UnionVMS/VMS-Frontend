@@ -116,7 +116,8 @@ const AssetTrackStub: AssetTrack = {
       ],
       color: '#0000FF'
     }
-  ]
+  ],
+  sources: [],
 };
 
 export default AssetTrackStub;

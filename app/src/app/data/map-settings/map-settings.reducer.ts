@@ -21,9 +21,19 @@ export const initialState: Interfaces.State = {
   },
   mapLocations: {},
   currentControlPanel: null,
+  movementSources: [],
+  choosenMovementSources: [],
 };
 
 export const mapSettingsReducer = createReducer(initialState,
+  on(MapSettingsActions.setChoosenMovementSources, (state, { movementSources }) => ({
+    ...state,
+    choosenMovementSources: movementSources
+  })),
+  on(MapSettingsActions.setMovementSources, (state, { movementSources }) => ({
+    ...state,
+    movementSources
+  })),
   on(MapSettingsActions.setVisibilityForAssetNames, (state, { visibility }) => ({
     ...state,
     settings: { ...state.settings, namesVisible: visibility }

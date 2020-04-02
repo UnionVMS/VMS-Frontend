@@ -23,4 +23,6 @@ export type State = Readonly<{
   settings: Settings;
   mapLocations: { readonly [key: number]: MapLocation };
   currentControlPanel: string|null;
+  movementSources: ReadonlyArray<string>;
+  choosenMovementSources: ReadonlyArray<string>;
 }>;

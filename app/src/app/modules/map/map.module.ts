@@ -50,6 +50,7 @@ import { PanelBlockComponent } from './components/panel-block/panel-block.compon
 import { PeriodSelectorComponent } from './components/period-selector/period-selector.component';
 import { RightClickMenuComponent } from './components/right-click-menu/right-click-menu.component';
 import { SavedFiltersComponent } from './components/saved-filters/saved-filters.component';
+import { SourcePickerComponent } from './components/source-picker/source-picker.component';
 import { SelectedAssetsPanelComponent } from './components/selected-assets-panel/selected-assets-panel.component';
 import { TracksComponent } from './components/tracks/tracks.component';
 import { TracksSegmentsComponent } from './components/tracks-segments/tracks-segments.component';
@@ -103,6 +104,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     PeriodSelectorComponent,
     RightClickMenuComponent,
     SavedFiltersComponent,
+    SourcePickerComponent,
     SelectedAssetsPanelComponent,
     TracksComponent,
     TracksSegmentsComponent,

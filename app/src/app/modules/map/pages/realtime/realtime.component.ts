@@ -66,6 +66,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public setVisibilityForTracks: Function;
   public setVisibilityForFlags: Function;
   public setTracksMinuteCap: (minutes: number) => void;
+  public setChoosenMovementSources: (movementSources: ReadonlyArray<string>) => void;
     // tslint:enable:ban-types
   public addActiveLayer: (layerName: string) => void;
   public removeActiveLayer: (layerName: string) => void;
@@ -87,6 +88,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   public assetTracks$: Observable<any>;
   public forecasts$: Observable<any>;
+  public movementSources$: Observable<ReadonlyArray<string>>;
+  public choosenMovementSources$: Observable<ReadonlyArray<string>>;
   private selection: Select;
   // private hoverSelection: Select;
 
@@ -167,6 +170,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.authToken$ = this.store.select(AuthSelectors.getAuthToken);
     this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers);
     this.activeMapLayers$ = this.store.select(MapLayersSelectors.getActiveLayers);
+    this.movementSources$ = this.store.select(MapSettingsSelectors.getMovementSources);
+    this.choosenMovementSources$ = this.store.select(MapSettingsSelectors.getChoosenMovementSources);
     this.store.select(MapSelectors.getRealtimeReadyAndSettingsLoaded)
       .pipe(takeUntil(this.unmount$)).subscribe(({ready, mapSettingsLoaded }) => {
         if(!this.mapSettingsLoaded && mapSettingsLoaded) {
@@ -240,6 +245,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapSettingsActions.setForecastInterval({ interval: forecastTimeLength }));
     this.setCurrentControlPanel = (controlPanelName) =>
       this.store.dispatch(MapSettingsActions.setCurrentControlPanel({ controlPanelName }));
+    this.setChoosenMovementSources = (movementSources) =>
+      this.store.dispatch(MapSettingsActions.setChoosenMovementSources({ movementSources }));
     this.searchAutocomplete = (searchQuery: string) =>
       this.store.dispatch(AssetActions.setAutocompleteQuery({searchQuery}));
   }
@@ -284,6 +291,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
         this.assetIdFromUrl = mergedRoute.params.assetId;
       }
     });
+    this.store.dispatch(MapSettingsActions.getMovementSources());
   }
 
   setupMap() {

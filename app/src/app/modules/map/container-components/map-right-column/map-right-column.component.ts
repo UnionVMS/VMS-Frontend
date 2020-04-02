@@ -29,6 +29,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public forecasts$: Observable<any>;
   public selectedAsset: Readonly<AssetInterfaces.AssetData>;
   public selectedAssets: ReadonlyArray<AssetInterfaces.AssetData>;
+  public choosenMovementSources: ReadonlyArray<string>;
 
   public addForecast: (assetId: string) => void;
   public createManualMovement: (manualMovement: AssetInterfaces.ManualMovement) => void;
@@ -70,6 +71,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
         this.assetsNotSendingIncidents = assetsNotSendingIncicents;
       });
+    this.store.select(MapSettingsSelectors.getChoosenMovementSources)
+      .pipe(takeUntil(this.unmount$)).subscribe(choosenMovementSources => {
+        this.choosenMovementSources = choosenMovementSources;
+      });
   }
 
   mapDispatchToProps() {
@@ -80,7 +85,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     this.getAssetTrack = (assetId: string, movementGuid: string) =>
       this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementGuid }));
     this.getAssetTrackTimeInterval = (assetId, startDate, endDate) =>
-      this.store.dispatch(AssetActions.getAssetTrackTimeInterval({ assetId, startDate, endDate }));
+      this.store.dispatch(AssetActions.getAssetTrackTimeInterval({ assetId, startDate, endDate, sources: this.choosenMovementSources }));
     this.untrackAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
     this.selectAsset = (assetId: string) =>

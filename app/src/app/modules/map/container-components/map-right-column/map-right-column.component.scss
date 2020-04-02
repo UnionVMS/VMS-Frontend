@@ -22,10 +22,10 @@
       cursor: pointer;
 
       .icon-information {
-        @include right-icon('/assets/svg-icons/info-outline.svg');
+        @include svg-right-icon('/assets/svg-icons/info-outline.svg');
       }
       .icon-incident {
-        @include right-icon('/assets/svg-icons/check-square.svg');
+        @include svg-right-icon('/assets/svg-icons/check-square.svg');
       }
     }
   }

@@ -114,11 +114,11 @@ export class AssetService {
   }
 
   // /unionvms/movement/rest/micro/track/asset/{id}/{timestamp}
-  getAssetTrackTimeInterval(authToken: string, assetId: string, startDate: number, endDate: number) {
+  getAssetTrackTimeInterval(authToken: string, assetId: string, startDate: number, endDate: number, sources: ReadonlyArray<string>) {
     // const datetime = "2019-03-28 12:00:00 +0100";
     return this.http.post(
       environment.baseApiUrl + `movement/rest/micro/track/asset/${assetId}?startDate=${startDate}&endDate=${endDate}`,
-      [],
+      sources,
       {
         headers: new HttpHeaders({
           Authorization: authToken,

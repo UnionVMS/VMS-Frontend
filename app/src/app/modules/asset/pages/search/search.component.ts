@@ -71,7 +71,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         searchQuery = { ...searchQuery,
           fields: [ ...searchQuery.fields,
             {
-              searchField: 'FLAG_STATE',
+              searchField: 'flagStateCode',
               searchValue: 'SWE'
             }
           ]
@@ -80,15 +80,16 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         searchQuery = { ...searchQuery,
           fields: [ ...searchQuery.fields,
             {
-              searchField: 'FLAG_STATE',
+              searchField: 'flagStateCode',
               searchValue: 'SWE'
             },
             {
-              searchField: 'MIN_LENGTH',
-              searchValue: '12'
+              searchField: 'lengthOverAll',
+              searchValue: 12,
+              operator: '>=',
             },
             {
-              searchField: 'VESSEL_TYPE',
+              searchField: 'vesselType',
               searchValue: 'fishing'
             },
           ]
@@ -98,7 +99,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
           fields: [ ...searchQuery.fields,
             {
               fields: this.assetSearchObject.flagState.map(flagstate => ({
-                searchField: 'FLAG_STATE',
+                searchField: 'flagStateCode',
                 searchValue: flagstate
               })),
               logicalAnd: false
@@ -108,7 +109,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       }
 
       if(this.assetSearchObject.search > '') {
-        const searchFields = ['NAME', 'EXTERNAL_MARKING', 'CFR', 'IRCS'];
+        const searchFields = ['name', 'externalMarking', 'cfr', 'ircs'];
         const splitSearch = this.assetSearchObject.search.split('&&');
 
         const searchStringQuery = {

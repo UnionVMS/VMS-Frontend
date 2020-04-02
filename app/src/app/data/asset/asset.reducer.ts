@@ -72,7 +72,13 @@ export const assetReducer = createReducer(initialState,
     let newAssetTracks = state.assetTracks;
     if(Object.keys(state.assetTracks).length > 0) {
       newAssetTracks = Object.keys(assetMovements).reduce((assetTracks, assetId, index) => {
-        if(typeof state.assetTracks[assetId] !== 'undefined') {
+        if(
+          typeof state.assetTracks[assetId] !== 'undefined' &&
+          (
+            assetTracks[assetId].sources.length === 0 ||
+            assetTracks[assetId].sources.includes(assetMovements[assetId].microMove.source)
+          )
+        ) {
           const lineSegments = assetTracks[assetId].lineSegments;
           const lastSegment = lineSegments[lineSegments.length - 1];
           const segmentSpeed = speeds.find((speed) => newAssetMovements[assetId].microMove.speed < speed);
@@ -252,7 +258,7 @@ export const assetReducer = createReducer(initialState,
       }
     };
   }),
-  on(AssetActions.setTracksForAsset, (state, { tracks, assetId }) => {
+  on(AssetActions.setTracksForAsset, (state, { tracks, assetId, sources }) => {
     const finishedLineSegments = tracks.reduce((lineSegments, position) => {
       const lastSegment = lineSegments[lineSegments.length - 1];
       const segmentSpeed = speeds.find((speed) => position.speed < speed);
@@ -277,7 +283,7 @@ export const assetReducer = createReducer(initialState,
     }, []);
     return { ...state, assetTracks: {
       ...state.assetTracks,
-      [assetId]: { tracks, assetId, lineSegments: finishedLineSegments }
+      [assetId]: { tracks, assetId, sources, lineSegments: finishedLineSegments }
     }};
   }),
   on(AssetActions.setTracks, (state, { tracksByAsset }) => {

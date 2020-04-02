@@ -105,6 +105,7 @@ export type AssetTrack = Readonly<{
   tracks: ReadonlyArray<Movement>;
   assetId: string;
   lineSegments: ReadonlyArray<LineSegment>;
+  sources: ReadonlyArray<string>;
 }>;
 
 export type AssetFilterQuery = Readonly<{

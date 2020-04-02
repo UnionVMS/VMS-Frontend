@@ -74,7 +74,7 @@ export const getAssetTrack = createAction(
 
 export const getAssetTrackTimeInterval = createAction(
   '[Asset] Get asset track time interval',
-  props<{ assetId: string, startDate: number, endDate: number }>()
+  props<{ assetId: string, startDate: number, endDate: number, sources: ReadonlyArray<string> }>()
 );
 
 export const getTracksByTimeInterval = createAction(
@@ -195,7 +195,7 @@ export const setFullAsset = createAction(
 
 export const setTracksForAsset = createAction(
   '[Asset] Set tracks for asset',
-  props<{ tracks: any, assetId: string }>()
+  props<{ tracks: any, assetId: string, sources: ReadonlyArray<string> }>()
 );
 
 export const setTracks = createAction(

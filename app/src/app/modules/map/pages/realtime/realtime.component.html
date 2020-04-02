@@ -140,9 +140,25 @@
             <i
               (click)="centerOnDefaultPosition()"
               title="Back to chosen start position."
-              class="icon-center-sweden {{activePanel === 'information' ? 'active' : '' }}"
+              class="icon-center-sweden"
               aria-hidden="true"
             ></i>
+          </li>
+          <li>
+            <i
+              (click)="toggleActivePanel('pick-source')"
+              title="Pick source"
+              class="ri-base-station-line icon {{activePanel === 'pick-source' ? 'active' : '' }}"
+              aria-hidden="true"
+            ></i>
+            <div class="control-panel-submenu" *ngIf="mapSettings">
+              <map-source-picker
+                [menuActive]="activePanel === 'pick-source'"
+                [setSourceFunction]="setChoosenMovementSources"
+                [movementSources]="movementSources$ | async"
+                [choosenMovementSources]="choosenMovementSources$ | async"
+              ></map-source-picker>
+            </div>
           </li>
         </ul>
       </div>

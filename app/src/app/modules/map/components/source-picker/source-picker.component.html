@@ -1,0 +1,7 @@
+<div class="content-container" *ngIf="menuActive && movementSources.length > 0">
+  <mat-checkbox
+    *ngFor="let movementSource of movementSources"
+    [checked]="choosenMovementSources.includes(movementSource)"
+    (change)="toggleMovementSource(movementSource)"
+  >{{movementSource}}</mat-checkbox>
+</div>

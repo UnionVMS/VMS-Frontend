@@ -49,19 +49,19 @@
           }
 
           .icon-map-layers {
-            @include icon('/assets/svg-icons/layers.svg');
+            @include svg-icon('/assets/svg-icons/layers.svg');
           }
           .icon-distance-between-points {
-            @include icon('/assets/svg-icons/messure.svg');
+            @include svg-icon('/assets/svg-icons/messure.svg');
           }
           .icon-asset-layers {
-            @include icon('/assets/svg-icons/eye.svg');
+            @include svg-icon('/assets/svg-icons/eye.svg');
           }
           .icon-map-locations {
-            @include icon('/assets/svg-icons/map.svg');
+            @include svg-icon('/assets/svg-icons/map.svg');
           }
           .icon-center-sweden {
-            @include icon('/assets/svg-icons/target.svg');
+            @include svg-icon('/assets/svg-icons/target.svg');
           }
         }
       }

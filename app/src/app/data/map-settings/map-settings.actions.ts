@@ -1,6 +1,21 @@
 import { createAction, props } from '@ngrx/store';
 import { State, Settings, MapLocation } from './map-settings.interfaces';
 
+export const getMovementSources = createAction(
+  '[MapSettings] Get movement sources'
+);
+
+export const setMovementSources = createAction(
+  '[MapSettings] Set movement sources',
+  props<{ movementSources: ReadonlyArray<string> }>()
+);
+
+export const setChoosenMovementSources = createAction(
+  '[MapSettings] Set choosen movement sources',
+  props<{ movementSources: ReadonlyArray<string> }>()
+);
+
+
 export const setVisibilityForAssetNames = createAction(
   '[MapSettings] Set visibility for asset names',
   props<{ visibility: boolean }>()

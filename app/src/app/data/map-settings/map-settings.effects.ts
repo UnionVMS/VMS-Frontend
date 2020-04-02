@@ -9,6 +9,7 @@ import { AuthReducer, AuthSelectors } from '../auth';
 import { NotificationsActions } from '@data/notifications';
 
 import { MapSettingsSelectors, MapSettingsInterfaces, MapSettingsActions } from './';
+import { MapSettingsService } from '@data/map-settings/map-settings.service';
 import { UserSettingsService } from '@data/user-settings/user-settings.service';
 
 @Injectable()
@@ -16,6 +17,7 @@ export class MapSettingsEffects {
   constructor(
     private actions$: Actions,
     private userSettingsService: UserSettingsService,
+    private mapSettingsService: MapSettingsService,
     private store$: Store<State>
   ) {}
 
@@ -30,6 +32,20 @@ export class MapSettingsEffects {
           MapSettingsActions.replaceSettings({ settings: action.settings })
         ]),
         flatMap(a => a),
+        catchError((err) => of({ type: 'API ERROR', payload: err }))
+      );
+    })
+  );
+
+  @Effect()
+  getMovementSourcesObserver$ = this.actions$.pipe(
+    ofType(MapSettingsActions.getMovementSources),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.mapSettingsService.getMovementSources(authToken).pipe(
+        map((sources: any, index: number) =>
+          MapSettingsActions.setMovementSources({ movementSources: sources })
+        ),
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );
     })

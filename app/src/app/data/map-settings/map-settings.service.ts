@@ -34,4 +34,16 @@ export class MapSettingsService {
     );
   }
 
+
+  getMovementSources(authToken: string) {
+    return this.http.get(
+      environment.baseApiUrl + 'movement/rest/config/movementSourceTypes',
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
 }

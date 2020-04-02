@@ -22,10 +22,10 @@
       cursor: pointer;
 
       .icon-search {
-        @include left-icon('/assets/svg-icons/search.svg');
+        @include svg-left-icon('/assets/svg-icons/search.svg');
       }
       .icon-workflow {
-        @include left-icon('/assets/svg-icons/workflow.svg');
+        @include svg-left-icon('/assets/svg-icons/workflow.svg');
       }
 
     }
