@@ -42,7 +42,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     flagState: [],
   };
   public search: () => void;
-  public commonCountries = ['Sweden', 'Finland', 'Denmark', 'Estonia'].sort();
+  public commonCountries = ['Sweden', 'Finland', 'Denmark', 'Estonia', 'Norway'].sort();
   public allCountryCodes = allCountryCodes;
   public flagstates = Object.values(allCountries).sort().filter(flagstate => !this.commonCountries.includes(flagstate));
 

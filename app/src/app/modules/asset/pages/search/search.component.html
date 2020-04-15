@@ -11,7 +11,7 @@
       <mat-radio-button value="VMS">Search VMS assets only</mat-radio-button>
       <mat-radio-button value="other">
         <mat-form-field class="other-flagstates" floatLabel="never">
-            <mat-label>Choose</mat-label>
+            <mat-label>Flag state</mat-label>
             <mat-select name="flagState" [(ngModel)]="assetSearchObject.flagState" multiple>
               <mat-optgroup label="Common countries">
                 <mat-option *ngFor="let country of commonCountries" id="mat-option-{{allCountryCodes[country]}}" [value]="allCountryCodes[country]">{{country}}</mat-option>

@@ -1,12 +1,14 @@
 <div class="content-container">
   <div class="asset-groups" *ngIf="assetGroups.length > 0">
-    <mat-checkbox
-      *ngFor="let assetGroup of assetGroups"
-      (change)="toggleGroup(assetGroup)"
-      title="{{assetGroup.name}}"
-      [checked]="selectedAssetGroupIds.includes(assetGroup.id)"
-    >
-      <ui-truncated-text [text]="assetGroup.name" length="30"></ui-truncated-text>
-    </mat-checkbox>
+    <div *ngFor="let assetGroup of assetGroups" class="asset-group">
+      <mat-checkbox
+        (change)="toggleGroup(assetGroup.id)"
+        title="{{assetGroup.name}}"
+        [checked]="selectedAssetGroups.includes(assetGroup.id)"
+      >
+        <ui-truncated-text [text]="assetGroup.name" length="30"></ui-truncated-text>
+      </mat-checkbox>
+      <!-- <i class="ri-pencil-fill"></i> -->
+      <i class="ri-delete-bin-2-fill" (click)="deleteFilter(assetGroup.id)"></i>
   </div>
 </div>

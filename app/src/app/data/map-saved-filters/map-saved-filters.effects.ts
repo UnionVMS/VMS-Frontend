@@ -3,13 +3,15 @@ import { Store } from '@ngrx/store';
 import { State } from '@app/app-reducer.ts';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY, Observable } from 'rxjs';
-import { mergeMap, map, withLatestFrom, catchError } from 'rxjs/operators';
+import { mergeMap, map, flatMap, withLatestFrom, catchError } from 'rxjs/operators';
 
 import { AuthReducer, AuthSelectors } from '../auth';
 
 import { NotificationsActions } from '../notifications';
 import { MapSavedFiltersActions, MapSavedFiltersSelectors } from './';
 import { UserSettingsService } from '../user-settings/user-settings.service';
+import { MapSavedFiltersService } from './map-saved-filters.service';
+
 
 import { replaceDontTranslate } from '@app/helpers/helpers';
 
@@ -18,29 +20,70 @@ export class MapSavedFiltersEffects {
   constructor(
     private actions$: Actions,
     private userSettingsService: UserSettingsService,
+    private mapSavedFiltersService: MapSavedFiltersService,
     private store$: Store<State>
   ) {}
 
   @Effect()
   saveMapFiltersObserver$ = this.actions$.pipe(
-    ofType(MapSavedFiltersActions.addSavedFilter),
-    withLatestFrom(
-      this.store$.select(AuthSelectors.getUser),
-      this.store$.select(MapSavedFiltersSelectors.getSavedFilters)
-    ),
-    mergeMap(([action, user, savedFilters]: Array<any>, index: number) => {
-      let filtersToSave = { ...savedFilters };
-      if(typeof savedFilters[action.filter.name] === 'undefined') {
-        filtersToSave = { ...filtersToSave, [action.filter.name]: action.filter.filter };
-      }
-      return this.userSettingsService.saveMapFilters(user, filtersToSave).pipe(
-        map((response: any) => {
-          const message = $localize`:@@ts-savedfilters-saved:Filter '<dont-translate>filterName</dont-translate>' saved!`;
-          return NotificationsActions.addSuccess(replaceDontTranslate(message, { filterName: action.filter.name }));
-        }),
-        catchError((err) => of({ type: 'API ERROR', payload: err }))
-      );
-    })
+    ofType(MapSavedFiltersActions.saveFilter),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(
+        this.store$.select(AuthSelectors.getAuthToken)
+      ),
+      mergeMap(([action, authToken]: Array<any>, index: number) => {
+        let request: Observable<any>;
+        if(typeof action.filter.id === 'undefined') {
+          request = this.mapSavedFiltersService.create(authToken, action.filter);
+        } else {
+          request = this.mapSavedFiltersService.update(authToken, action.filter);
+        }
+        return request.pipe(
+          map((response: any) => {
+            const message = $localize`:@@ts-savedfilters-saved:Filter '<dont-translate>filterName</dont-translate>' saved!`;
+            console.warn('Saved filter response: ', response);
+            return [
+              NotificationsActions.addSuccess(replaceDontTranslate(message, { filterName: action.filter.name })),
+              MapSavedFiltersActions.addSavedFilter({ filter: response })
+            ];
+          }),
+          flatMap(a => a),
+          catchError((err) => of({ type: 'API ERROR', payload: err }))
+        );
+      })
+    ))
+  );
+
+  @Effect()
+  getFiltersObserver$ = this.actions$.pipe(
+    ofType(MapSavedFiltersActions.getAll),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([action, authToken]: Array<any>) => {
+        return this.mapSavedFiltersService.list(authToken).pipe(
+          map((response: any) => {
+            console.warn('API RESPONSE: ', response);
+            return MapSavedFiltersActions.setSavedFitlers({ filters: response.savedFilters });
+          })
+        );
+      })
+    ))
+  );
+
+  @Effect()
+  deleteFiltersObserver$ = this.actions$.pipe(
+    ofType(MapSavedFiltersActions.deleteFilter),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([action, authToken]: Array<any>) => {
+        return this.mapSavedFiltersService.delete(authToken, action.filterId).pipe(
+          map((response: any) => {
+            console.warn('API RESPONSE: ', response);
+            return MapSavedFiltersActions.removeSavedFilter({ filterId: action.filterId });
+          })
+        );
+      })
+    ))
   );
 
 }

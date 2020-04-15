@@ -51,9 +51,6 @@ export class AuthEffects {
           const mapSettings = context.contextSet.contexts[0].preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSMapSettings'
           );
-          const mapFilters = context.contextSet.contexts[0].preferences.preferences.find(
-            (settings) => settings.applicationName === 'VMSMapFilters'
-          );
           const userSettings = context.contextSet.contexts[0].preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSFrontend'
           );
@@ -85,9 +82,6 @@ export class AuthEffects {
           }
           response.push(MapActions.setMapSettingsLoaded({ mapSettingsLoaded: true }));
 
-          if(typeof mapFilters !== 'undefined' && mapFilters.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
-            response.push(MapSavedFiltersActions.setSavedFitlers({ filters: JSON.parse(mapFilters.optionValue) }));
-          }
           return response;
         }),
         // tslint:disable-next-line:comment-format

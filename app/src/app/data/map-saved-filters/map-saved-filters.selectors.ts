@@ -1,15 +1,39 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as MapSavedFiltersInterface from './map-saved-filters.interfaces';
+import { SavedFilter } from './map-saved-filters.interfaces';
 import { AssetFilterQuery } from '../asset/asset.interfaces';
 import { State } from '@app/app-reducer';
 
 export const selectActiveFilters = (state: State) => state.mapSavedFilters.activeFilters;
 export const selectSavedFilters = (state: State) => state.mapSavedFilters.savedFilters;
 
-export const getSavedFilters = createSelector(
+export const getAllFilters = createSelector(
   selectSavedFilters,
-  (savedFilters: { [filterName: string]: Array<AssetFilterQuery> }) => {
-    return { ...savedFilters };
+  (savedFilters: Readonly<{ [id: string]: SavedFilter }>) => {
+    return Object.values(savedFilters);
+  }
+);
+
+export const getFilters = createSelector(
+  selectSavedFilters,
+  (savedFilters: Readonly<{ [id: string]: SavedFilter }>) => {
+    return Object.values(savedFilters).reduce((acc: ReadonlyArray<SavedFilter>, filter: SavedFilter) => {
+      if(filter.filter.find((filterQuery) => filterQuery.type === 'GUID') === undefined) {
+        return [ ...acc, filter];
+      }
+      return acc;
+    }, []);
+  }
+);
+
+export const getAssetGroupFilters = createSelector(
+  selectSavedFilters,
+  (savedFilters: Readonly<{ [id: string]: SavedFilter }>) => {
+    return Object.values(savedFilters).reduce((acc: ReadonlyArray<SavedFilter>, filter: SavedFilter) => {
+      if(filter.filter.find((filterQuery) => filterQuery.type === 'GUID') !== undefined) {
+        return [ ...acc, filter];
+      }
+      return acc;
+    }, []);
   }
 );
 
@@ -18,8 +42,8 @@ export const getActiveFilters = createSelector(
   selectSavedFilters,
   (
     activeFilters: Array<string>,
-    savedFilters: { [filterName: string]: Array<AssetFilterQuery> }
+    savedFilters: Readonly<{ [id: string]: SavedFilter }>
   ) => {
-    return activeFilters.map(filterName => savedFilters[filterName]);
+    return activeFilters.map(id => savedFilters[id]);
   }
 );

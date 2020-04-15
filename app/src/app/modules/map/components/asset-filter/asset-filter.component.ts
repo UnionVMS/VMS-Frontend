@@ -15,7 +15,7 @@ type QueryParam = Readonly<{
 })
 export class AssetFilterComponent implements OnChanges, OnInit {
   @Input() filterFunction: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
-  @Input() filterQuerySaved: string;
+  @Input() filterQuerySaved: ReadonlyArray<AssetInterfaces.AssetFilterQuery>;
 
   public filterQuery = '';
   public displayInfo = false;
@@ -99,7 +99,26 @@ export class AssetFilterComponent implements OnChanges, OnInit {
     }).filter(queryObject => queryObject.values.length > 0));
   }
 
+  generateQueryStringFromFilter(filters: ReadonlyArray<AssetInterfaces.AssetFilterQuery>) {
+    const typeList = { flagstate: 'f', ircs: 'i', cfr: 'c', vesselType: 'v', externalMarking: 'e', lengthOverAll: 'l' };
+    const operatorList = { 'less then': '< ', 'greater then': '> ', 'almost equal': '~ ', equal: '' };
+    return filters.map(filter => {
+      let valueString: string;
+      if(filter.isNumber) {
+        valueString = filter.values.map(value => {
+          return `${operatorList[value.operator]}${value.value}`;
+        }).join(',');
+      } else {
+        valueString = filter.values.join(',');
+      }
+      return `/${typeList[filter.type]} ${valueString}`;
+    }).join(' && ');
+  }
+
   ngOnInit() {
+    if(this.filterQuerySaved.length > 0) {
+      this.filterQuery = this.generateQueryStringFromFilter(this.filterQuerySaved);
+    }
     this.hideInfoFunction = () => {
       this.displayInfo = false;
     };

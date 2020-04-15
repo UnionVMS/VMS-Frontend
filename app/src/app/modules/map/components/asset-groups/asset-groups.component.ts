@@ -1,28 +1,24 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { AssetInterfaces } from '@data/asset';
+import { MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+
 
 @Component({
   selector: 'map-asset-groups',
   templateUrl: './asset-groups.component.html',
   styleUrls: ['./asset-groups.component.scss']
 })
-export class AssetGroupsComponent implements OnChanges {
-  @Input() assetGroups: Array<AssetInterfaces.AssetGroup>;
-  @Input() selectedAssetGroups: Array<AssetInterfaces.AssetGroup>;
-  @Input() setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
-  @Input() clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
+export class AssetGroupsComponent {
+  @Input() assetGroups: Array<MapSavedFiltersInterfaces.SavedFilter>;
+  @Input() selectedAssetGroups: Array<string>;
+  @Input() setAssetGroup: (assetGroup: string) => void;
+  @Input() clearAssetGroup: (assetGroup: string) => void;
+  @Input() deleteFilter: (filterId: string) => void;
 
-  public selectedAssetGroupIds: ReadonlyArray<string>;
-
-  ngOnChanges() {
-    this.selectedAssetGroupIds = this.selectedAssetGroups.map(assetGroup => assetGroup.id);
-  }
-
-  public toggleGroup = (assetGroup): void => {
-    if(this.selectedAssetGroups.some((selectedAssetGroup) => selectedAssetGroup.id === assetGroup.id)) {
-      this.clearAssetGroup(assetGroup);
+  public toggleGroup = (assetGroupId: string): void => {
+    if(this.selectedAssetGroups.includes(assetGroupId)) {
+      this.clearAssetGroup(assetGroupId);
     } else {
-      this.setAssetGroup(assetGroup);
+      this.setAssetGroup(assetGroupId);
     }
   }
 }

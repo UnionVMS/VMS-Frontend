@@ -12,7 +12,7 @@
     <h3 i18n>Filter map</h3>
     <map-panel-block
       i18n-blockTitle
-      blockTitle="Filter"
+      blockTitle="Quick filter"
       [active]="filtersActive.filter"
       [setActiveFunction]="setGivenFilterActiveCurry('filter')"
     >
@@ -31,9 +31,9 @@
       <map-saved-filters
         body
         [filterQuery]="currentFilterQuery$ | async"
-        [addSavedFilter]="addSavedFilter"
+        [saveFilterFunction]="saveFilter"
         [savedFilters]="savedFilters$ | async"
-        [activeFilters]="activeFilterNames$ | async"
+        [activeFilters]="activeFilters$ | async"
         [activateFilter]="activateSavedFilter"
         [deactivateFilter]="deactivateSavedFilter"
       ></map-saved-filters>
@@ -46,10 +46,11 @@
     >
       <map-asset-groups
         body
-        [assetGroups]="assetGroups$ | async"
-        [selectedAssetGroups]="selectedAssetGroups$ | async"
-        [setAssetGroup]="setAssetGroup"
-        [clearAssetGroup]="clearAssetGroup"
+        [assetGroups]="assetGroupFilters$ | async"
+        [selectedAssetGroups]="activeFilters$ | async"
+        [setAssetGroup]="activateSavedFilter"
+        [clearAssetGroup]="deactivateSavedFilter"
+        [deleteFilter]="deleteFilter"
       ></map-asset-groups>
     </map-panel-block>
     <div class="search-container">

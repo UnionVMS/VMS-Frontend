@@ -4,8 +4,6 @@ import * as Interfaces from './asset.interfaces';
 import { hashCode } from '@app/helpers/helpers';
 
 export const initialState: Interfaces.State = {
-  assetGroups: [],
-  selectedAssetGroups: [],
   selectedAssets: [],
   selectedAsset: null,
   assetTrips: {},
@@ -117,10 +115,6 @@ export const assetReducer = createReducer(initialState,
       assetTracks: newAssetTracks
     };
   }),
-  on(AssetActions.clearAssetGroup, (state, { assetGroup }) => ({
-    ...state,
-    selectedAssetGroups: state.selectedAssetGroups.filter((selectedAssetGroup) => selectedAssetGroup.id !== assetGroup.id)
-  })),
   on(AssetActions.clearForecasts, (state) => ({ ...state, forecasts: [] })),
   on(AssetActions.clearTracks, (state) => ({ ...state, assetTracks: {}, positionsForInspection: {} })),
   on(AssetActions.clearSelectedAssets, (state) => ({ ...state, selectedAsset: null, selectedAssets: [] })),
@@ -223,17 +217,6 @@ export const assetReducer = createReducer(initialState,
     return { ...state, assetTrips, assetTripTimestamp };
   }),
   on(AssetActions.setAsset, (state, { asset }) => ({ ...state, assets: { ...state.assets, [asset.id]: asset }})),
-  on(AssetActions.setAssetGroup, (state, { assetGroup }) => {
-    let newState = { ...state };
-    if (!state.selectedAssetGroups.some((selectedAssetGroup) => selectedAssetGroup.id === assetGroup.id)) {
-      newState = { ...state, selectedAssetGroups: [ ...state.selectedAssetGroups, assetGroup ]};
-    }
-    return newState;
-  }),
-  on(AssetActions.setAssetGroups, (state, { assetGroups }) => ({
-    ...state,
-    assetGroups
-  })),
   on(AssetActions.setAssetList, (state, { searchParams, assets, currentPage, totalNumberOfPages }) => {
     const identifier = `i-${hashCode(JSON.stringify(searchParams))}`;
     return { ...state,

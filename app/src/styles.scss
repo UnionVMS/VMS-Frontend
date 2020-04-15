@@ -167,6 +167,17 @@ mat-form-field .mat-form-field-infix {
   width: inherit;
 }
 
+.dialog-without-padding {
+  .mat-dialog-container {
+    padding-left: 0px;
+    padding-right: 0px;
+
+    .mat-dialog-content {
+      margin: 0px;
+    }
+  }
+}
+
 .container {
   margin: 0px auto;
 }

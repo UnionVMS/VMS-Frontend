@@ -90,13 +90,11 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
       ).subscribe((mobileTerminal) => {
         this.mobileTerminal = mobileTerminal;
         this.mobileTerminalIsFetched = true;
-
         this.mobileTerminal.channels.map(channel => {
           if(channel.pollChannel === true) {
             this.channelsAlreadyInUseBy.poll = channel.id;
           }
           if(channel.configChannel === true) {
-            console.warn(channel);
             this.channelsAlreadyInUseBy.config = channel.id;
           }
           if(channel.defaultChannel === true) {

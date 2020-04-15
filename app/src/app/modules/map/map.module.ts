@@ -2,13 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { RouterModule } from '@angular/router';
 
@@ -27,6 +29,7 @@ import { MapLeftColumnComponent } from './container-components/map-left-column/m
 import { MapRightColumnComponent } from './container-components/map-right-column/map-right-column.component';
 
 /* Components */
+import { AddToAssetGroupDialogComponent } from './components/add-to-asset-group-dialog/add-to-asset-group-dialog.component';
 import { AssetGroupsComponent } from './components/asset-groups/asset-groups.component';
 import { AssetFilterComponent } from './components/asset-filter/asset-filter.component';
 import { AssetForecastComponent } from './components/asset-forecast/asset-forecast.component';
@@ -64,13 +67,15 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatButtonModule,
-    MatDatepickerModule,
+    MatRadioModule,
     MatSliderModule,
     RouterModule,
     MatMomentDateModule,
@@ -79,6 +84,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
   declarations: [
     RealtimeComponent,
     ReportsComponent,
+    AddToAssetGroupDialogComponent,
     AssetsComponent,
     AssetGroupsComponent,
     AssetFilterComponent,

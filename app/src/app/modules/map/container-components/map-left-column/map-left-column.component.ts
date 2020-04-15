@@ -28,14 +28,14 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public filterAssets: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
 
   public currentFilterQuery$: Observable<ReadonlyArray<AssetInterfaces.AssetFilterQuery>>;
-  public addSavedFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
-  public savedFilters$: Observable<Readonly<{ readonly [filterName: string]: ReadonlyArray<AssetInterfaces.AssetFilterQuery> }>>;
-  public activeFilterNames$: Observable<ReadonlyArray<string>>;
-  public activateSavedFilter: (filterName: string) => void;
-  public deactivateSavedFilter: (filterName: string) => void;
+  public saveFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
+  public deleteFilter: (filterId: string) => void;
+  public savedFilters$: Observable<ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>>;
+  public activeFilters$: Observable<ReadonlyArray<string>>;
+  public activateSavedFilter: (filterId: string) => void;
+  public deactivateSavedFilter: (filterId: string) => void;
 
-  public assetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
-  public selectedAssetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
+  public assetGroupFilters$: Observable<ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>>;
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public clearSelectedAssets: () => void;
@@ -78,10 +78,9 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.filtersActive = filtersActive;
     });
     this.currentFilterQuery$ = this.store.select(AssetSelectors.selectFilterQuery);
-    this.savedFilters$ = this.store.select(MapSavedFiltersSelectors.getSavedFilters);
-    this.activeFilterNames$ = this.store.select(MapSavedFiltersSelectors.selectActiveFilters);
-    this.assetGroups$ = this.store.select(AssetSelectors.getAssetGroups);
-    this.selectedAssetGroups$ = this.store.select(AssetSelectors.getSelectedAssetGroups);
+    this.savedFilters$ = this.store.select(MapSavedFiltersSelectors.getFilters);
+    this.activeFilters$ = this.store.select(MapSavedFiltersSelectors.selectActiveFilters);
+    this.assetGroupFilters$ = this.store.select(MapSavedFiltersSelectors.getAssetGroupFilters);
     this.searchAutocompleteResult$ = this.store.select(AssetSelectors.getSearchAutocomplete);
     this.store.select(IncidentSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
       this.assetNotSendingIncidents = assetsNotSendingIncicents;
@@ -105,12 +104,14 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.filterAssets = (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => {
       return this.store.dispatch(AssetActions.setFilterQuery({filterQuery}));
     };
-    this.addSavedFilter = (filter: MapSavedFiltersInterfaces.SavedFilter) =>
-      this.store.dispatch(MapSavedFiltersActions.addSavedFilter({ filter }));
-    this.activateSavedFilter = (filterName: string) =>
-      this.store.dispatch(MapSavedFiltersActions.activateFilter({ filterName }));
-    this.deactivateSavedFilter = (filterName: string) =>
-      this.store.dispatch(MapSavedFiltersActions.deactivateFilter({ filterName }));
+    this.saveFilter = (filter: MapSavedFiltersInterfaces.SavedFilter) =>
+      this.store.dispatch(MapSavedFiltersActions.saveFilter({ filter }));
+    this.deleteFilter = (filterId: string) =>
+      this.store.dispatch(MapSavedFiltersActions.deleteFilter({ filterId }));
+    this.activateSavedFilter = (filterId: string) =>
+      this.store.dispatch(MapSavedFiltersActions.activateFilter({ filterId }));
+    this.deactivateSavedFilter = (filterId: string) =>
+      this.store.dispatch(MapSavedFiltersActions.deactivateFilter({ filterId }));
     this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
       this.store.dispatch(AssetActions.setAssetGroup({ assetGroup }));
     this.clearAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>

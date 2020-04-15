@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as AssetInterfaces from './asset.interfaces';
 import { State } from '@app/app-reducer';
-import { MapSavedFiltersSelectors } from '@data/map-saved-filters';
+import { MapSavedFiltersSelectors, MapSavedFiltersInterfaces } from '@data/map-saved-filters';
 import { IncidentInterfaces, IncidentSelectors } from '@data/incident';
 import { MapSelectors } from '@data/map';
 import { getMergedRoute } from '@data/router/router.selectors';
@@ -13,7 +13,6 @@ export const selectAssets = (state: State) => state.asset.assets;
 export const selectAssetMovements = (state: State) => state.asset.assetMovements;
 export const selectAssetForecasts = (state: State) => state.asset.forecasts;
 export const selectAssetsEssentials = (state: State) => state.asset.assetsEssentials;
-export const selectAssetGroups = (state: State) => state.asset.assetGroups;
 export const selectAssetsTracks = (state: State) => state.asset.assetTracks;
 export const selectAssetTrips = (state: State) => state.asset.assetTrips;
 export const selectAssetTripGranularity = (state: State) => state.asset.assetTripGranularity;
@@ -23,7 +22,6 @@ export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
 export const selectFilterQuery = (state: State) => state.asset.filterQuery;
 export const selectSearchQuery = (state: State) => state.asset.searchQuery;
 export const selectPositionsForInspection = (state: State) => state.asset.positionsForInspection;
-export const selectSelectedAssetGroups = (state: State) => state.asset.selectedAssetGroups;
 export const selectUnitTonnages = (state: State) => state.asset.unitTonnages;
 
 
@@ -87,22 +85,11 @@ export const getAssetsEssentials = createSelector(
   (assetsEssentials) => assetsEssentials
 );
 
-export const getAssetGroups = createSelector(
-  selectAssetGroups,
-  (assetGroups) => assetGroups
-);
-
-export const getSelectedAssetGroups = createSelector(
-  selectSelectedAssetGroups,
-  (assetGroups) => assetGroups
-);
-
 export const getAssetMovements = createSelector(
   getAssetsMovementsDependingOnLeftPanel,
   selectAssetsEssentials,
   selectFilterQuery,
   MapSavedFiltersSelectors.getActiveFilters,
-  selectSelectedAssetGroups,
   MapSelectors.getFiltersActive,
   MapSelectors.getActiveLeftPanel,
   IncidentSelectors.selectAssetNotSendingIncidents,
@@ -110,8 +97,7 @@ export const getAssetMovements = createSelector(
     assetMovements: { readonly [uid: string]: AssetInterfaces.AssetMovement },
     assetsEssentials: { readonly [uid: string]: AssetInterfaces.AssetEssentialProperties },
     currentFilterQuery: ReadonlyArray<AssetInterfaces.AssetFilterQuery>,
-    savedFilterQuerys: ReadonlyArray<ReadonlyArray<AssetInterfaces.AssetFilterQuery>>,
-    selectedAssetGroups: ReadonlyArray<AssetInterfaces.AssetGroup>,
+    savedFilterQuerys: ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>,
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
     activeLeftPanel: string,
     assetsNotSendingIncicents: { readonly [assetId: string]: IncidentInterfaces.assetNotSendingIncident }
@@ -121,7 +107,7 @@ export const getAssetMovements = createSelector(
     if(activeLeftPanel === 'filters') {
       let filterQuerys: ReadonlyArray<ReadonlyArray<AssetInterfaces.AssetFilterQuery>> = [];
       if(filtersActive.savedFilters) {
-        filterQuerys = [ ...savedFilterQuerys ];
+        filterQuerys = savedFilterQuerys.map(savedFilter => savedFilter.filter);
       }
 
       if(filtersActive.filter) {
@@ -134,6 +120,8 @@ export const getAssetMovements = createSelector(
             let columnName = 'assetName';
             if(['flagstate', 'ircs', 'cfr', 'vesselType', 'externalMarking', 'lengthOverAll'].indexOf(query.type) !== -1) {
               columnName = query.type;
+            } else if(query.type === 'GUID') {
+              columnName = 'assetId';
             }
             assetMovementKeys = assetMovementKeys.filter(key => {
               if(typeof assetsEssentials[key] === 'undefined') {
@@ -175,18 +163,18 @@ export const getAssetMovements = createSelector(
         }
       });
 
-      if(filtersActive.assetGroups && selectedAssetGroups.length > 0) {
-        // Filter on selected assetGroups
-        const selectedAssetIds = selectedAssetGroups.reduce((acc, assetGroup) => {
-          assetGroup.assetGroupFields.map(assetField => {
-            if(acc.indexOf(assetField.value) === -1) {
-              acc.push(assetField.value);
-            }
-          });
-          return acc;
-        }, []);
-        assetMovementKeys = assetMovementKeys.filter(key => selectedAssetIds.indexOf(key) !== -1);
-      }
+      // if(filtersActive.assetGroups && selectedAssetGroups.length > 0) {
+      //   // Filter on selected assetGroups
+      //   const selectedAssetIds = selectedAssetGroups.reduce((acc, assetGroup) => {
+      //     assetGroup.assetGroupFields.map(assetField => {
+      //       if(acc.indexOf(assetField.value) === -1) {
+      //         acc.push(assetField.value);
+      //       }
+      //     });
+      //     return acc;
+      //   }, []);
+      //   assetMovementKeys = assetMovementKeys.filter(key => selectedAssetIds.indexOf(key) !== -1);
+      // }
     }
     return assetMovementKeys.map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] }));
   }

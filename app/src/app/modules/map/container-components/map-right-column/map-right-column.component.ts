@@ -30,6 +30,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public selectedAsset: Readonly<AssetInterfaces.AssetData>;
   public selectedAssets: ReadonlyArray<AssetInterfaces.AssetData>;
   public choosenMovementSources: ReadonlyArray<string>;
+  public assetGroupFilters: ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>;
 
   public addForecast: (assetId: string) => void;
   public createManualMovement: (manualMovement: AssetInterfaces.ManualMovement) => void;
@@ -43,6 +44,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public selectAsset: (assetId: string) => void;
   public setActivePanel: (activeRightPanel: string) => void;
   public untrackAsset: (assetId: string) => void;
+  public saveFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
 
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
@@ -75,6 +77,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unmount$)).subscribe(choosenMovementSources => {
         this.choosenMovementSources = choosenMovementSources;
       });
+    this.store.select(MapSavedFiltersSelectors.getAssetGroupFilters)
+      .pipe(takeUntil(this.unmount$)).subscribe(assetGroupFilters => {
+        this.assetGroupFilters = assetGroupFilters;
+      });
   }
 
   mapDispatchToProps() {
@@ -100,6 +106,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     };
     this.createNote = (note: NotesInterfaces.Note) =>
       this.store.dispatch(NotesActions.saveNote({ note }));
+    this.saveFilter = (filter: MapSavedFiltersInterfaces.SavedFilter) =>
+      this.store.dispatch(MapSavedFiltersActions.saveFilter({ filter }));
   }
 
   ngOnInit() {

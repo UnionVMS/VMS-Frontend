@@ -119,11 +119,14 @@
       <ng-container *ngIf="currentMobileTerminal !== undefined">
         <div class="active-toggle-wrapper">
           <mat-slide-toggle
-            color="primary"
+            color="accent"
             [checked]="currentMobileTerminal && currentMobileTerminal.active"
             [disabled]="activeToggleDisabled()"
             (change)="toggleActive($event)"
-          >Terminal is active</mat-slide-toggle>
+          >
+            <b *ngIf="currentMobileTerminal.active" class="active-mobile-terminal">Terminal is active</b>
+            <b *ngIf="!currentMobileTerminal.active" class="deactive-mobile-terminal">Terminal is inactive</b>
+          </mat-slide-toggle>
         </div>
         <ng-container *ngIf="currentMobileTerminal && currentMobileTerminal.active">
           <!-- <div

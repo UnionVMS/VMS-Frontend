@@ -110,7 +110,7 @@ export type AssetTrack = Readonly<{
 
 export type AssetFilterQuery = Readonly<{
   type: string;
-  values: ReadonlyArray<any>;
+  values: ReadonlyArray<any>; // ReadonlyArray<string|Readonly<{ operator?: string, value: number }>>
   inverse: boolean;
   isNumber: boolean;
 }>;
@@ -166,8 +166,6 @@ export type UnitTonnage = Readonly<{
 }>;
 
 export type State = Readonly<{
-  assetGroups: ReadonlyArray<AssetGroup>;
-  selectedAssetGroups: ReadonlyArray<AssetGroup>;
   selectedAssets: ReadonlyArray<string>;
   selectedAsset: string|null;
   assetTrips: AssetTrips;

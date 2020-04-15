@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
 import getContryISO2 from 'country-iso-3-to-2';
+import { MatDialog } from '@angular/material/dialog';
 
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
+import { AddToAssetGroupDialogComponent } from '../add-to-asset-group-dialog/add-to-asset-group-dialog.component';
+import { MapSavedFiltersInterfaces } from '@data/map-saved-filters';
 
 @Component({
   selector: 'map-selected-assets-panel',
@@ -22,12 +25,16 @@ export class SelectedAssetsPanelComponent {
   @Input() removeForecast: (assetId: string) => void;
   @Input() tracksMinuteCap: number;
   @Input() centerMapOnPosition: (position: Position) => void;
+  @Input() assetGroupFilters: Readonly<{ [id: string]: MapSavedFiltersInterfaces.SavedFilter }>;
+  @Input() saveFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
 
   public showControlPanel = false;
 
   public toggleControlPanel = () => {
     this.showControlPanel = !this.showControlPanel;
   }
+
+  constructor(public dialog: MatDialog) { }
 
   getCountryCode(asset) {
     const countryCode = getContryISO2(asset.asset.flagStateCode);
@@ -43,5 +50,19 @@ export class SelectedAssetsPanelComponent {
 
   trackBySelectedAssets(index: number, asset: AssetInterfaces.AssetData) {
     return asset.asset.id;
+  }
+
+  openAddToAssetGroupDialog(): void {
+    const dialogRef = this.dialog.open(AddToAssetGroupDialogComponent, {
+      data: { selectedAssets: this.selectedAssets, assetGroupFilters: this.assetGroupFilters },
+      panelClass: 'dialog-without-padding'
+    });
+
+    dialogRef.afterClosed().subscribe(resultDetach => {
+      console.warn(resultDetach);
+      if(typeof resultDetach !== 'undefined' && resultDetach !== '') {
+        this.saveFilter(resultDetach);
+      }
+    });
   }
 }

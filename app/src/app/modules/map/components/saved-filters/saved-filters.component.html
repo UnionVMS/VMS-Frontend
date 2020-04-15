@@ -1,12 +1,12 @@
 <div class="content-container">
-  <div class="saved-filters" *ngIf="savedFilterNames.length > 0">
+  <div class="saved-filters" *ngIf="savedFilters.length > 0">
     <mat-checkbox
-      *ngFor="let savedFilterName of savedFilterNames; trackBy: trackBySavedFilterNames"
-      (change)="toggleFilter(savedFilterName)"
-      title="{{savedFilterName}}"
-      [checked]="activeFilters.includes(savedFilterName)"
+      *ngFor="let savedFilter of savedFilters; trackBy: trackBySavedFilterIds"
+      (change)="toggleFilter(savedFilter.id)"
+      title="{{savedFilter.name}}"
+      [checked]="activeFilters.includes(savedFilter.name)"
     >
-      <ui-truncated-text [text]="savedFilterName" length="30"></ui-truncated-text>
+      <ui-truncated-text [text]="savedFilter.name" length="30"></ui-truncated-text>
     </mat-checkbox>
   </div>
   <div class="create-new-filter">

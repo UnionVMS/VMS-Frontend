@@ -42,7 +42,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
     currentPosition: AssetInterfaces.AssetMovement
   }>>;
   public currentFilterQuery$: Observable<ReadonlyArray<AssetInterfaces.AssetFilterQuery>>;
-  public savedFilters$: Observable<{ [filterName: string]: Array<AssetInterfaces.AssetFilterQuery> }>;
+  public savedFilters$: Observable<{ [id: string]: MapSavedFiltersInterfaces.SavedFilter }>;
   public activeFilterNames$: Observable<ReadonlyArray<string>>;
   public assetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
   public selectedAssetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
@@ -75,10 +75,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public searchAutocomplete: Function;
   // tslint:enable:ban-types
   public addActiveLayer: (layerName: string) => void;
-  public addSavedFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
-  public activateSavedFilter: (filterName: string) => void;
-  public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
-  public deactivateSavedFilter: (filterName: string) => void;
   public filterAssets: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
   public getTracksByTimeInterval: (query: any, from: number, to: number, sources: string[]) => void;
   public removeActiveLayer: (layerName: string) => void;
@@ -137,10 +133,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.mapSettings = mapSettings;
     });
     this.currentFilterQuery$ = this.store.select(AssetSelectors.selectFilterQuery);
-    this.savedFilters$ = this.store.select(MapSavedFiltersSelectors.getSavedFilters);
     this.activeFilterNames$ = this.store.select(MapSavedFiltersSelectors.selectActiveFilters);
-    this.assetGroups$ = this.store.select(AssetSelectors.getAssetGroups);
-    this.selectedAssetGroups$ = this.store.select(AssetSelectors.getSelectedAssetGroups);
     this.authToken$ = this.store.select(AuthSelectors.getAuthToken);
     this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers);
     this.activeMapLayers$ = this.store.select(MapLayersSelectors.getActiveLayers);
@@ -163,14 +156,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.getTracksByTimeInterval({ query, startDate: from, endDate: to, sources }));
     this.addActiveLayer = (layerName: string) =>
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
-    this.addSavedFilter = (filter: MapSavedFiltersInterfaces.SavedFilter) =>
-      this.store.dispatch(MapSavedFiltersActions.addSavedFilter({ filter }));
-    this.activateSavedFilter = (filterName: string) =>
-      this.store.dispatch(MapSavedFiltersActions.activateFilter({ filterName }));
-    this.clearAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
-      this.store.dispatch(AssetActions.clearAssetGroup({assetGroup}));
-    this.deactivateSavedFilter = (filterName: string) =>
-      this.store.dispatch(MapSavedFiltersActions.deactivateFilter({ filterName }));
     this.deselectAsset = (assetId) =>
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>

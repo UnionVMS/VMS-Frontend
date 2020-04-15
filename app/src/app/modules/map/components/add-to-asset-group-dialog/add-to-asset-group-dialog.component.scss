@@ -1,0 +1,75 @@
+@import 'variables.scss';
+
+$angular_material_margin: 24px;
+
+mobile-terminal-archive-dialog {
+  h1 {
+    margin: 0px;
+    padding: 0px $angular_material_margin distance(1.5);
+
+    span.selected-assets {
+      color: $color_gray;
+      margin-left: distance(2);
+    }
+  }
+
+  .mat-dialog-content {
+    border-top: 1px solid $color_dark_gray;
+    padding: 0px;
+
+    ul {
+      list-style: none;
+      margin: 0px;
+      padding: 0px;
+
+      li {
+        border-bottom: 1px solid $color_dark_gray;
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        grid-column-gap: distance(2);
+        align-items: center;
+        cursor: pointer;
+
+        &:hover {
+          background: $color_cold_gray;
+          color: $color_turquoise;
+
+          i {
+            color: $color_black;
+          }
+        }
+
+        &.create-new-group {
+          padding: distance(1.5) $angular_material_margin;
+        }
+
+        & > * {
+          &:first-child {
+            padding-left: $angular_material_margin;
+          }
+          &:last-child {
+            padding-right: $angular_material_margin;
+          }
+        }
+
+        mat-radio-button label {
+          padding: distance(1.5) 0px;
+        }
+
+        i.ri-pencil-fill, i.ri-delete-bin-2-fill {
+          font-size: distance(3);
+          padding-top: distance(1.5);
+          padding-bottom: distance(1.5);
+
+          &.ri-pencil-fill:hover {
+            color: $color_accent_light;
+          }
+
+          &.ri-delete-bin-2-fill:hover {
+            color: $color_warn;
+          }
+        }
+      }
+    }
+  }
+}

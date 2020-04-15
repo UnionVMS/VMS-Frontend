@@ -114,6 +114,10 @@
     "left-margin side-menu main right-margin"
     "footer footer footer footer";
 
+    & > router-outlet + * {
+      margin-bottom: 120px;
+    }
+
     .toolbox-wrapper {
       grid-area: footer;
       position: fixed;

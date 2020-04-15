@@ -34,7 +34,8 @@
       <button
         mat-stroked-button
         color="primary"
-        disabled
+        [disabled]="selectedAssets.length === 0"
+        (click)="openAddToAssetGroupDialog()"
         i18n
       >Add to asset group</button>
       <button
