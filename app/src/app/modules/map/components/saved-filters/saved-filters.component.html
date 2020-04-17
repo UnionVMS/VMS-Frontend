@@ -1,13 +1,27 @@
 <div class="content-container">
   <div class="saved-filters" *ngIf="savedFilters.length > 0">
-    <mat-checkbox
-      *ngFor="let savedFilter of savedFilters; trackBy: trackBySavedFilterIds"
-      (change)="toggleFilter(savedFilter.id)"
-      title="{{savedFilter.name}}"
-      [checked]="activeFilters.includes(savedFilter.name)"
-    >
-      <ui-truncated-text [text]="savedFilter.name" length="30"></ui-truncated-text>
-    </mat-checkbox>
+    <div *ngFor="let savedFilter of savedFilters; trackBy: trackBySavedFilterIds" class="saved-filter">
+      <mat-checkbox
+        (change)="toggleFilter(savedFilter.id)"
+        title="{{savedFilter.name}}"
+        [checked]="activeFilters.includes(savedFilter.name)"
+      >
+        <ui-truncated-text [text]="savedFilter.name" length="30"></ui-truncated-text>
+      </mat-checkbox>
+      <!-- <i class="ri-pencil-fill"></i> -->
+      <i class="ri-delete-bin-2-fill" (click)="openDialog(myDialog, deleteFilter, savedFilter.id)"></i>
+      <!-- Dialog template -->
+      <ng-template #myDialog>
+        <h1 matDialogTitle i18n>Delete filter?</h1>
+        <mat-dialog-content i18n>
+          You are about to delete the filter <b>{{savedFilter.name}}</b>. Are you sure?
+        </mat-dialog-content>
+        <mat-dialog-actions align="end">
+          <button mat-button matDialogClose cdkFocusInitial color="primary" i18n>Cancel</button>
+          <button mat-button [mat-dialog-close]="true" color="warn" i18n>Delete</button>
+        </mat-dialog-actions>
+      </ng-template>
+    </div>
   </div>
   <div class="create-new-filter">
     <button

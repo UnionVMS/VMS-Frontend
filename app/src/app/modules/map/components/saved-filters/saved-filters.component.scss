@@ -9,8 +9,34 @@
 
   .saved-filters {
     display: grid;
-    width: 100%;
-    grid-row-gap: $medium_distance;
+
+    .saved-filter {
+      padding: distance(0.5) 0px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      grid-column-gap: distance(1);
+      align-items: center;
+
+      i.ri-pencil-fill, i.ri-delete-bin-2-fill {
+        font-size: distance(2.5);
+        display: none;
+        cursor: pointer;
+
+        &.ri-pencil-fill:hover {
+          color: $color_accent_light;
+        }
+
+        &.ri-delete-bin-2-fill:hover {
+          color: $color_warn;
+        }
+      }
+
+      &:hover {
+        i.ri-pencil-fill, i.ri-delete-bin-2-fill {
+          display: block;
+        }
+      }
+    }
   }
 
   .create-new-filter {

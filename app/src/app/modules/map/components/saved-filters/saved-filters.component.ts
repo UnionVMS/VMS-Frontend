@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 import { AssetInterfaces } from '@data/asset';
 import { MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'map-saved-filters',
@@ -12,12 +13,15 @@ export class SavedFiltersComponent {
   @Input() activeFilters: ReadonlyArray<string>;
   @Input() activateFilter: (filterName: string) => void;
   @Input() deactivateFilter: (filterName: string) => void;
+  @Input() deleteFilter: (filterId: string) => void;
   @Input() filterQuery: ReadonlyArray<AssetInterfaces.AssetFilterQuery>;
   @Input() savedFilters: ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>;
 
   public savedFilterNames = [];
   public creatingNewFilter = false;
   public newFilterName = '';
+
+  constructor(private dialog: MatDialog) {}
 
   toggleFilter(filterId: string) {
     if(this.activeFilters.includes(filterId)) {
@@ -43,5 +47,14 @@ export class SavedFiltersComponent {
         alert('Filter query missing!');
       }
     }
+  }
+
+  openDialog(templateRef: TemplateRef<any>, actionFunction: (id: string) => void, id: string) {
+    const dialogRef = this.dialog.open(templateRef);
+    dialogRef.afterClosed().subscribe(result => {
+      if(result === true) {
+        actionFunction(id);
+      }
+    });
   }
 }
