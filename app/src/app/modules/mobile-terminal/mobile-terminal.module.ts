@@ -28,11 +28,6 @@ import { FormPageComponent } from './pages/form/form.component';
 import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.component';
 import { SearchPageComponent } from './pages/search/search.component';
 
-/* Components */
-import { ArchiveDialogComponent } from './components/archive-dialog/archive-dialog.component';
-import { DetachDialogComponent } from './components/detach-dialog/detach-dialog.component';
-
-
 @NgModule({
   imports: [
     CommonModule,
@@ -61,9 +56,6 @@ import { DetachDialogComponent } from './components/detach-dialog/detach-dialog.
     FormPageComponent,
     ShowByAssetPageComponent,
     SearchPageComponent,
-    /* Components */
-    ArchiveDialogComponent,
-    DetachDialogComponent,
   ]
 })
 

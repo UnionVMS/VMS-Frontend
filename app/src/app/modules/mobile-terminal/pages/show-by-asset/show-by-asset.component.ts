@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
@@ -7,9 +7,6 @@ import { FormGroup } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-
-import { DetachDialogComponent } from '../../components/detach-dialog/detach-dialog.component';
-import { ArchiveDialogComponent } from '../../components/archive-dialog/archive-dialog.component';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
@@ -91,8 +88,8 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
     this.currentMobileTerminal = this.mobileTerminals[event.index];
   }
 
-  openDetachDialog(): void {
-    const dialogRef = this.dialog.open(DetachDialogComponent);
+  openDetachDialog(templateRef: TemplateRef<any>): void {
+    const dialogRef = this.dialog.open(templateRef);
 
     dialogRef.afterClosed().subscribe(resultDetach => {
       if(resultDetach === true) {
@@ -104,8 +101,8 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
     });
   }
 
-  openArchiveDialog(): void {
-    const dialogRef = this.dialog.open(ArchiveDialogComponent);
+  openArchiveDialog(templateRef: TemplateRef<any>): void {
+    const dialogRef = this.dialog.open(templateRef);
 
     dialogRef.afterClosed().subscribe(resultDetach => {
       if(resultDetach === true) {
