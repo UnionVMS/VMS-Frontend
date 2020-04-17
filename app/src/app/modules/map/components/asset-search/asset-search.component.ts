@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { formatDate } from '../../../../helpers/helpers';
 import * as AssetInterfaces from '@data/asset/asset.interfaces';
 

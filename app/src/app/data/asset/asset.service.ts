@@ -58,14 +58,8 @@ export class AssetService {
       that.mapEventSource.addEventListener('Merged Asset', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('Ticket', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('TicketUpdate', (message) => observer.next(translateMessage(message)));
-      that.mapEventSource.addEventListener('Incident', (message) => {
-        console.warn('---Incident', message);
-        return observer.next(translateMessage(message));
-      });
-      that.mapEventSource.addEventListener('IncidentUpdate', (message) => {
-        console.warn('---IncidentUpdate', message);
-        return observer.next(translateMessage(message));
-      });
+      that.mapEventSource.addEventListener('Incident', (message) => observer.next(translateMessage(message)));
+      that.mapEventSource.addEventListener('IncidentUpdate', (message) => observer.next(translateMessage(message)));
     });
   }
 

@@ -5,7 +5,7 @@
   color: white;
   height: $navbar_height;
   display: grid;
-  grid-template-columns: 120px 1fr auto;
+  grid-template-columns: 150px 1fr auto;
 
   a {
     color: white;
@@ -15,11 +15,12 @@
   .navbar-brand-and-version {
     margin: auto 0px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto 1fr;
+    grid-column-gap: distance(2);
 
     .app-version {
       margin-top: 2px;
-      margin-left: $medium_distance;
+      padding-left: distance(1);
       font-size: 80%;
       font-style: italic;
     }
