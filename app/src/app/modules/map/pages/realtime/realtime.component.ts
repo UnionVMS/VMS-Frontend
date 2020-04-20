@@ -37,7 +37,6 @@ import { Position } from '@data/generic.interfaces';
 export class RealtimeComponent implements OnInit, OnDestroy {
 
   public mapSettings: MapSettingsInterfaces.State;
-  public positionsForInspection$: Observable<{ [id: number]: AssetInterfaces.Movement }>;
   public selectedAssets$: Observable<Array<{
     asset: AssetInterfaces.Asset,
     assetTracks: AssetInterfaces.AssetTrack,

@@ -245,51 +245,6 @@ describe('RealtimeComponent', () => {
       assetTracksSubscription.unsubscribe();
     });
 
-    it('should update positionsForInspection when state is updated.', () => {
-      const { component, baseState } = setupForMapStateToProps();
-      const store = TestBed.get(Store);
-      let currentState = { ...baseState, asset: AssetReducer.initialState };
-
-      store.setState(currentState);
-      component.mapStateToProps();
-
-      const basePositionsForInspection = {
-        1: {
-          location: {
-            longitude: 17.976566666666667,
-            latitude: 56.5789
-          },
-          heading: 55,
-          guid: '47fc3ee8-dd32-41a9-a733-ffe2021fdaed',
-          timestamp: 1554004110,
-          speed: 19.5,
-          source: 'AIS'
-        },
-        2: {
-          location: {
-            longitude: 18.029166666666665,
-            latitude: 56.59851666666667
-          },
-          heading: 57,
-          guid: '0152820f-33f0-4ee1-86a3-a2cd24d1e66c',
-          timestamp: 1554004500,
-          speed: 19.5,
-          source: 'AIS'
-        }
-      };
-
-      let positionsForInspection;
-      const positionsForInspectionSubscription =
-        component.positionsForInspection$.subscribe(newPositionsForInspection => positionsForInspection = newPositionsForInspection);
-      expect(positionsForInspection).toEqual({});
-      currentState = { ...currentState, asset: {
-        ...currentState.asset, positionsForInspection: basePositionsForInspection
-      } };
-      store.setState(currentState);
-      expect(positionsForInspection).toEqual(basePositionsForInspection);
-      positionsForInspectionSubscription.unsubscribe();
-    });
-
     it('should update forecasts when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
       const store = TestBed.get(Store);
@@ -394,42 +349,6 @@ describe('RealtimeComponent', () => {
       expect(dispatchSpy).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
         AssetActions.selectAsset({ assetId: 'asset-id' })
-      );
-    });
-
-    it('should dispatch AssetActions.getAssetTrack when getAssetTrack is called.', () => {
-      const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['getAssetTrack']('asset-id', 'movement-guid');
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        AssetActions.getAssetTrack({ assetId: 'asset-id', movementGuid: 'movement-guid' })
-      );
-    });
-
-    it('should dispatch AssetActions.untrackAsset when untrackAsset is called.', () => {
-      const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['untrackAsset']('asset-id');
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        AssetActions.untrackAsset({ assetId: 'asset-id' })
-      );
-    });
-
-    it('should dispatch AssetActions.removeForecast when removeForecast is called.', () => {
-      const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component['removeForecast']('asset-id');
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        AssetActions.removeForecast({ assetId: 'asset-id' })
       );
     });
   });
