@@ -1,0 +1,15 @@
+@import 'variables.scss';
+
+$angular_material_margin: 24px;
+
+map-edit-asset-group-dialog {
+  .mat-dialog-content {
+    mat-form-field {
+      width: 100%;
+    }
+    .assets {
+      display: grid;
+      padding-bottom: distance(1);
+    }
+  }
+}

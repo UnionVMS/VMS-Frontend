@@ -53,27 +53,6 @@ export class AssetEffects {
   );
 
   @Effect()
-  assetGetListObserver$ = this.actions$.pipe(
-    ofType(AssetActions.getAssetList),
-    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
-    mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.listAssets(authToken, { pageSize: action.pageSize } ).pipe(
-        map((response: any) => {
-          return AssetActions.setAssetList({
-            searchParams: action.pageSize,
-            totalNumberOfPages: response.totalNumberOfPages,
-            currentPage: response.currentPage,
-            assets: response.assetList.reduce((acc, asset) => {
-              acc[asset.historyId] = asset;
-              return acc;
-            }, {})
-          });
-        })
-      );
-    })
-  );
-
-  @Effect()
   assetMovementUnsubscribeObserver$ = this.actions$.pipe(
     ofType(AssetActions.unsubscribeToMovements),
     mergeMap((action) => {
@@ -198,7 +177,9 @@ export class AssetEffects {
                   return acc;
                 }, {})};
                 actions.push(AssetActions.assetsMoved(assetsMovedData));
-                actions.push(AssetActions.checkForAssetEssentials({ assetMovements: messagesByType.Movement }));
+                actions.push(AssetActions.checkForAssetEssentials({
+                  assetIds: messagesByType.Movement.map((movement: AssetInterfaces.AssetMovement) => movement.asset)
+                }));
               }
               if(typeof messagesByType['Updated Asset'] !== 'undefined') {
                 actions.push(AssetActions.setEssentialProperties({
@@ -295,9 +276,9 @@ export class AssetEffects {
       this.store$.select(AssetSelectors.getAssetsEssentials)
     ),
     mergeMap(([action, authToken, currentAssetsEssentials]: Array<any>) => {
-      const assetIdsWithoutEssentials = action.assetMovements.reduce((acc, assetMovement) => {
-        if(currentAssetsEssentials[assetMovement.asset] === undefined) {
-          acc.push(assetMovement.asset);
+      const assetIdsWithoutEssentials = action.assetIds.reduce((acc, assetId) => {
+        if(currentAssetsEssentials[assetId] === undefined) {
+          acc.push(assetId);
         }
         return acc;
       }, []);
@@ -391,7 +372,9 @@ export class AssetEffects {
           return [
             AssetActions.setTracks({ tracksByAsset: movementsByAsset.movements }),
             AssetActions.setAssetPositionsWithoutAffectingTracks({ movementsByAsset: lastAssetMovements }),
-            AssetActions.checkForAssetEssentials({ assetMovements: Object.values(lastAssetMovements) }),
+            AssetActions.checkForAssetEssentials({
+              assetIds: Object.values(lastAssetMovements).map((movement: AssetInterfaces.AssetMovement) => movement.asset)
+            }),
             AssetActions.setAssetTrips({ assetMovements: assetMovementsOrdered }),
           ];
         }),

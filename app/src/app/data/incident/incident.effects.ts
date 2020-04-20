@@ -41,9 +41,7 @@ export class IncidentEffects {
               }, {})
             }),
             AssetActions.checkForAssetEssentials({
-              assetMovements: assetNotSendingIncidents.map((incident) => ({
-                microMove: incident.lastKnownLocation, asset: incident.assetId, decayPercentage: undefined
-              }))
+              assetIds: assetNotSendingIncidents.map((incident) => incident.assetId)
             })
           ];
         }),

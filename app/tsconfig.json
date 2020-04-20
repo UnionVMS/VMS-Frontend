@@ -10,7 +10,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es5",
+    "target": "es6",
     "paths": {
       "@data/*": ["src/app/data/*"],
       "@app/*": ["src/app/*"],

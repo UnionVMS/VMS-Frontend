@@ -39,6 +39,7 @@ import { AssetsComponent } from './components/assets/assets.component';
 import { ControlPanelComponent } from './components/control-panel/control-panel.component';
 import { CoordinatesPopupComponent } from './components/coordinates-popup/coordinates-popup.component';
 import { DistanceBetweenPointsComponent } from './components/distance-between-points/distance-between-points.component';
+import { EditAssetGroupDialogComponent } from './components/edit-asset-group-dialog/edit-asset-group-dialog.component';
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
 import { IncidentComponent } from './components/incident/incident.component';
 import { IncidentStatusFormComponent } from './components/incident-status-form/incident-status-form.component';
@@ -94,6 +95,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     ControlPanelComponent,
     CoordinatesPopupComponent,
     DistanceBetweenPointsComponent,
+    EditAssetGroupDialogComponent,
     FlagstatesComponent,
     IncidentComponent,
     IncidentStatusFormComponent,

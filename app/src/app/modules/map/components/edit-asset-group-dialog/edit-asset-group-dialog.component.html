@@ -1,0 +1,24 @@
+<h1 mat-dialog-title i18n>Edit {{this.data.assetGroupFilter.name}}</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label i18n>Change name</mat-label>
+    <input matInput [formControl]="filterName" required>
+    <mat-error *ngIf="filterName.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <h2>Remove assets from group:</h2>
+  <div class="assets">
+    <mat-checkbox
+      *ngFor="let assetEssential of assetEssentials" class="asset"
+      title="{{assetEssential.assetName}}"
+      [checked]="this.assetsToRemove.includes(assetEssential.assetId)"
+      (change)="toggleRemoveAsset(assetEssential.assetId)"
+    >
+      <ui-truncated-text [text]="assetEssential.assetName" length="30"></ui-truncated-text>
+    </mat-checkbox>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button MatDialogClose cdkFocusInitial i18n>Cancel</button>
+  <button mat-button [mat-dialog-close]="result()" [disabled]="filterName.invalid" i18n>Save</button>
+</div>

@@ -8,7 +8,7 @@
       >
         <ui-truncated-text [text]="assetGroup.name" length="30"></ui-truncated-text>
       </mat-checkbox>
-      <!-- <i class="ri-pencil-fill"></i> -->
+      <i class="ri-pencil-fill" (click)="openEditDialog(assetGroup)"></i>
       <i class="ri-delete-bin-2-fill" (click)="openDialog(myDialog, deleteFilter, assetGroup.id)"></i>
       <!-- Dialog template -->
       <ng-template #myDialog>

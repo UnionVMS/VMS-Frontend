@@ -266,41 +266,4 @@ export class AssetService {
       observer.next(true);
     });
   }
-
-  // return this.http.get(
-  //   environment.baseApiUrl + 'asset/rest/group/list?user=vms_admin_se', {
-  //     headers: new HttpHeaders({
-  //       Authorization: authToken,
-  //       'Cache-Control': 'no-cache'
-  //     })
-  //   }
-  // );
-
-  // return this.http.get(
-  //   environment.baseApiUrl + 'spatialSwe/rest/area/allNonUserAreas', {
-  //     headers: new HttpHeaders({
-  //       Authorization: authToken,
-  //       'Cache-Control': 'no-cache'
-  //     })
-  //   }
-  // );
-
-  // return this.http.get(
-  //   environment.baseApiUrl + 'spatialSwe/rest/area/getAreaLayer/EEZ', {
-  //     headers: new HttpHeaders({
-  //       Authorization: authToken,
-  //       'Cache-Control': 'no-cache'
-  //     })
-  //   }
-  // );
-
-  // return this.http.get(
-  //   environment.baseApiUrl + 'spatialSwe/rest/area/layers', {
-  //     headers: new HttpHeaders({
-  //       Authorization: authToken,
-  //       'Cache-Control': 'no-cache'
-  //     })
-  //   }
-  // );
-
 }

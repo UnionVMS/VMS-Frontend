@@ -24,7 +24,7 @@ export const assetsMoved = createAction(
 
 export const checkForAssetEssentials = createAction(
   '[Asset] Check for essentials',
-  props<{ assetMovements: Array<AssetInterfaces.AssetMovement> }>()
+  props<{ assetIds: ReadonlyArray<string> }>()
 );
 
 export const clearAssetGroup = createAction(
@@ -60,11 +60,6 @@ export const failedToSubscribeToMovements = createAction(
 
 export const getAssetGroups = createAction(
   '[Asset] Get groups'
-);
-
-export const getAssetList = createAction(
-  '[Asset] Get list',
-  props<{ pageSize: number }>()
 );
 
 export const getAssetTrack = createAction(

@@ -53,53 +53,36 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public mapSettingsLoaded = false;
   public map: Map;
 
-  // tslint:disable:ban-types
-  public addForecast: Function;
-  public addPositionForInspection: Function;
-  public clearForecasts: () => void;
-  public clearTracks: () => void;
   public deselectAsset: (assetId: string) => void;
-  public setForecastInterval: (forecastTimeLength: number) => void;
-  public setVisibilityForAssetNames: Function;
-  public setVisibilityForAssetSpeeds: Function;
-  public setVisibilityForForecast: Function;
-  public setVisibilityForTracks: Function;
-  public setVisibilityForFlags: Function;
-  public setTracksMinuteCap: (minutes: number) => void;
+  public setVisibilityForAssetNames: (visible: boolean) => void;
+  public setVisibilityForAssetSpeeds: (visible: boolean) => void;
+  public setVisibilityForForecast: (visible: boolean) => void;
+  public setVisibilityForTracks: (visible: boolean) => void;
+  public setVisibilityForFlags: (visible: boolean) => void;
   public setChoosenMovementSources: (movementSources: ReadonlyArray<string>) => void;
-    // tslint:enable:ban-types
   public addActiveLayer: (layerName: string) => void;
   public removeActiveLayer: (layerName: string) => void;
-  public removePositionForInspection: (inspectionId: string) => void;
-  public searchAutocomplete: (searchQuery: string) => void;
   public saveMapLocation: (key: number, mapLocation: MapSettingsInterfaces.MapLocation) => void;
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
-  // public registerOnHoverFunction: (name: string, vectorLayer: VectorLayer, hoverFunction: (event) => void) => void;
-  public setCurrentControlPanel: (controlPanelName: string|null) => void;
 
   public assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
   private onSelectFunctions: { [name: string]: (event) => void } = {};
-  // private onHoverFunctions: { [name: string]: (event) => void } = {};
 
   public assetTracks$: Observable<any>;
   public forecasts$: Observable<any>;
   public movementSources$: Observable<ReadonlyArray<string>>;
   public choosenMovementSources$: Observable<ReadonlyArray<string>>;
   private selection: Select;
-  // private hoverSelection: Select;
 
   private getAssetTrack: (assetId: string, movementGuid: string) => void;
-  private removeForecast: (assetId: string) => void;
   public selectAsset: (assetId: string) => void;
-  private untrackAsset: (assetId: string) => void;
   public unregisterOnClickFunction: (name: string) => void;
   public unregisterOnSelectFunction: (name: string) => void;
-  // private unregisterOnHoverFunction: (name: string) => void;
 
   public activePanel = '';
   private unmount$: Subject<boolean> = new Subject<boolean>();
@@ -162,7 +145,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     });
     this.selectedAssets$ = this.store.select(AssetSelectors.extendedDataForSelectedAssets);
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
-    this.positionsForInspection$ = this.store.select(AssetSelectors.getPositionsForInspection);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
     this.store.select(MapSettingsSelectors.getMapSettingsState).pipe(takeUntil(this.unmount$)).subscribe((mapSettings) => {
       this.mapSettings = mapSettings;
@@ -219,36 +201,12 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapSettingsActions.setVisibilityForFlags({ visibility: visible }));
     this.setVisibilityForForecast = (forecasts: boolean) =>
       this.store.dispatch(MapSettingsActions.setVisibilityForForecast({ visibility: forecasts }));
-    this.setTracksMinuteCap = (minutes: number) =>
-      this.store.dispatch(MapSettingsActions.setTracksMinuteCap({ minutes }));
     this.selectAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
-    this.getAssetTrack = (assetId: string, movementGuid: string) =>
-      this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementGuid }));
-    this.untrackAsset = (assetId: string) =>
-      this.store.dispatch(AssetActions.untrackAsset({ assetId }));
-    this.addPositionForInspection = (track) =>
-      this.store.dispatch(AssetActions.addPositionForInspection({ positionForInspection: track }));
     this.removeActiveLayer = (layerName: string) =>
       this.store.dispatch(MapLayersActions.removeActiveLayer({ layerName }));
-    this.removePositionForInspection = (inspectionId) =>
-      this.store.dispatch(AssetActions.removePositionForInspection({ inspectionId }));
-    this.addForecast = (assetId: string) =>
-      this.store.dispatch(AssetActions.addForecast({ assetId }));
-    this.removeForecast = (assetId: string) =>
-      this.store.dispatch(AssetActions.removeForecast({ assetId }));
-    this.clearForecasts = () =>
-      this.store.dispatch(AssetActions.clearForecasts());
-    this.clearTracks = () =>
-      this.store.dispatch(AssetActions.clearTracks());
-    this.setForecastInterval = (forecastTimeLength: number) =>
-      this.store.dispatch(MapSettingsActions.setForecastInterval({ interval: forecastTimeLength }));
-    this.setCurrentControlPanel = (controlPanelName) =>
-      this.store.dispatch(MapSettingsActions.setCurrentControlPanel({ controlPanelName }));
     this.setChoosenMovementSources = (movementSources) =>
       this.store.dispatch(MapSettingsActions.setChoosenMovementSources({ movementSources }));
-    this.searchAutocomplete = (searchQuery: string) =>
-      this.store.dispatch(AssetActions.setAutocompleteQuery({searchQuery}));
   }
 
   mapFunctionsToProps() {
@@ -392,16 +350,5 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       Object.values(this.onSelectFunctions).map((selectFunction) => selectFunction(event));
       this.selection.getFeatures().clear();
     });
-
-    // this.hoverSelection = new Select({hitTolerance: 3, condition: pointerMove, style: false });
-    // this.map.addInteraction(this.hoverSelection);
-    //
-    // this.hoverSelection.on('select', (event) => {
-    //   Object.values(this.onHoverFunctions).map((hoverFunction) => hoverFunction(event));
-    // });
-
-    // this.map.on('pointermove', (event) => {
-    //   Object.values(this.onHoverFunctions).map(hoverFunction => hoverFunction(event));
-    // });
   }
 }

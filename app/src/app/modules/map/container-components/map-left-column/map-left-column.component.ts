@@ -27,6 +27,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public setGivenFilterActive: (filterTypeName: string, status: boolean) => void;
   public filterAssets: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
 
+  public assetEssentialsForAssetGroups: Readonly<{ readonly [assetId: string]: AssetInterfaces.AssetEssentialProperties }>;
   public currentFilterQuery$: Observable<ReadonlyArray<AssetInterfaces.AssetFilterQuery>>;
   public saveFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
   public deleteFilter: (filterId: string) => void;
@@ -35,7 +36,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public activateSavedFilter: (filterId: string) => void;
   public deactivateSavedFilter: (filterId: string) => void;
 
-  public assetGroupFilters$: Observable<ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>>;
+  public assetGroupFilters: ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>;
   public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
   public clearSelectedAssets: () => void;
@@ -80,7 +81,14 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.currentFilterQuery$ = this.store.select(AssetSelectors.selectFilterQuery);
     this.savedFilters$ = this.store.select(MapSavedFiltersSelectors.getFilters);
     this.activeFilters$ = this.store.select(MapSavedFiltersSelectors.selectActiveFilters);
-    this.assetGroupFilters$ = this.store.select(MapSavedFiltersSelectors.getAssetGroupFilters);
+    this.store.select(MapSavedFiltersSelectors.getAssetGroupFilters).pipe(takeUntil(this.unmount$)).subscribe((assetGroupFilters) => {
+      this.assetGroupFilters = assetGroupFilters;
+      const assetIds = [ ...new Set(assetGroupFilters.reduce((acc: ReadonlyArray<string>, assetGroupFilter) => {
+        const filter = assetGroupFilter.filter.find(f => f.type === 'GUID');
+        return [ ...acc, ...filter.values ];
+      }, []))];
+      this.store.dispatch(AssetActions.checkForAssetEssentials({ assetIds }));
+    });
     this.searchAutocompleteResult$ = this.store.select(AssetSelectors.getSearchAutocomplete);
     this.store.select(IncidentSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
       this.assetNotSendingIncidents = assetsNotSendingIncicents;
@@ -88,6 +96,11 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.store.select(IncidentSelectors.getIncidentNotificationsByType).pipe(takeUntil(this.unmount$)).subscribe(
       incidentNotificationsByType => { this.incidentNotificationsByType = incidentNotificationsByType; }
     );
+    this.store.select(AssetSelectors.getAssetEssentialsForAssetGroups)
+      .pipe(takeUntil(this.unmount$))
+      .subscribe((assetEssentials) => {
+        this.assetEssentialsForAssetGroups = assetEssentials;
+      });
   }
 
   mapDispatchToProps() {

@@ -385,16 +385,6 @@ describe('RealtimeComponent', () => {
       expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.setVisibilityForForecast({ visibility: true }));
     });
 
-    it('should dispatch MapSettingsActions.SetTracksMinuteCap when setTracksMinuteCap is called.', () => {
-      const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component.setTracksMinuteCap(10);
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.setTracksMinuteCap({ minutes: 10 }));
-    });
-
     it('should dispatch AssetActions.selectAsset when selectAsset is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
@@ -431,42 +421,6 @@ describe('RealtimeComponent', () => {
       );
     });
 
-    it('should dispatch AssetActions.addPositionForInspection when addPositionForInspection is called.', () => {
-      const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component.addPositionForInspection(AssetMovementWithEssentialsStub.assetMovement.microMove);
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        AssetActions.addPositionForInspection({ positionForInspection: AssetMovementWithEssentialsStub.assetMovement.microMove })
-      );
-    });
-
-    it('should dispatch AssetActions.removePositionForInspection when removePositionForInspection is called.', () => {
-      const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component.removePositionForInspection('track-id');
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        AssetActions.removePositionForInspection({inspectionId: 'track-id'})
-      );
-    });
-
-    it('should dispatch AssetActions.addForecast when addForecast is called.', () => {
-      const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component.addForecast('asset-id');
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        AssetActions.addForecast({ assetId: 'asset-id' })
-      );
-    });
-
     it('should dispatch AssetActions.removeForecast when removeForecast is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
@@ -478,41 +432,6 @@ describe('RealtimeComponent', () => {
         AssetActions.removeForecast({ assetId: 'asset-id' })
       );
     });
-
-    it('should dispatch AssetActions.clearForecasts when clearForecasts is called.', () => {
-      const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component.clearForecasts();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        AssetActions.clearForecasts()
-      );
-    });
-
-    it('should dispatch AssetActions.clearTracks when clearTracks is called.', () => {
-      const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component.clearTracks();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        AssetActions.clearTracks()
-      );
-    });
-
-    it('should dispatch MapSettingsActions.SetForecastInterval when setForecastInterval is called.', () => {
-      const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(0);
-      component.setForecastInterval(11);
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(dispatchSpy).toHaveBeenCalledWith(MapSettingsActions.setForecastInterval({ interval: 11 }));
-    });
-
   });
 
   describe('Initialization', () => {

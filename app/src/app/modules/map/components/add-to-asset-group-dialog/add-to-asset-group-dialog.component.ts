@@ -5,7 +5,7 @@ import { MapSavedFiltersInterfaces } from '@data/map-saved-filters';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'mobile-terminal-archive-dialog',
+  selector: 'map-add-to-asset-group-dialog',
   templateUrl: './add-to-asset-group-dialog.component.html',
   styleUrls: ['./add-to-asset-group-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None

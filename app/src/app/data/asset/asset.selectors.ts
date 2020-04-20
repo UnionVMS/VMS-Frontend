@@ -85,6 +85,23 @@ export const getAssetsEssentials = createSelector(
   (assetsEssentials) => assetsEssentials
 );
 
+export const getAssetEssentialsForAssetGroups = createSelector(
+  selectAssetsEssentials,
+  MapSavedFiltersSelectors.getAssetGroupFilters,
+  (assetEssentials, assetGroupFilters) => {
+    const assetIds = [ ...new Set(assetGroupFilters.reduce((acc: ReadonlyArray<string>, assetGroupFilter) => {
+      const filter = assetGroupFilter.filter.find(f => f.type === 'GUID');
+      return [ ...acc, ...filter.values ];
+    }, []))];
+    return assetIds.reduce((acc, id) => {
+      if(assetEssentials[id] !== undefined) {
+        return { ...acc, [id]: assetEssentials[id]};
+      }
+      return acc;
+    }, {});
+  }
+);
+
 export const getAssetMovements = createSelector(
   getAssetsMovementsDependingOnLeftPanel,
   selectAssetsEssentials,

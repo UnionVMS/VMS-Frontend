@@ -47,11 +47,13 @@
     >
       <map-asset-groups
         body
-        [assetGroups]="assetGroupFilters$ | async"
+        [assetGroups]="assetGroupFilters"
+        [assetEssentials]="assetEssentialsForAssetGroups"
         [selectedAssetGroups]="activeFilters$ | async"
         [setAssetGroup]="activateSavedFilter"
         [clearAssetGroup]="deactivateSavedFilter"
         [deleteFilter]="deleteFilter"
+        [saveFilter]="saveFilter"
       ></map-asset-groups>
     </map-panel-block>
     <div class="search-container">
