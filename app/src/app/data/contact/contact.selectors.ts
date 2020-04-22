@@ -4,7 +4,6 @@ import { State } from '@app/app-reducer';
 import { getMergedRoute } from '@data/router/router.selectors';
 
 
-
 export const selectContacts = (state: State) => state.contact.contacts;
 
 export const getContactsOnAsset = createSelector(

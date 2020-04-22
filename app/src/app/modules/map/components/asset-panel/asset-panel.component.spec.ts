@@ -1,6 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
 
-import { TestingModule } from '@src/testing/Utils';
 import { UIModule } from '@app/modules/ui/ui.module';
 
 // @ts-ignore
@@ -17,7 +16,6 @@ describe('AssetPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        TestingModule,
         UIModule
       ],
       declarations: [

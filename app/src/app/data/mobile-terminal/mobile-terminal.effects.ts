@@ -148,7 +148,6 @@ export class MobileTerminalEffects {
   );
 
 
-
   @Effect()
   checkIfSerialNumberExists$ = this.actions$.pipe(
     ofType(MobileTerminalActions.getSerialNumberExists),

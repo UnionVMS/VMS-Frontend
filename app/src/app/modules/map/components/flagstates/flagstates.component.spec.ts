@@ -2,7 +2,6 @@ import { async, TestBed } from '@angular/core/testing';
 
 import { deg2rad } from '@app/helpers/helpers';
 import { fromLonLat } from 'ol/proj';
-import { TestingModule } from '@src/testing/Utils';
 
 import { FlagstatesComponent } from './flagstates.component';
 import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWithEssentials.stub';
@@ -14,9 +13,6 @@ import getContryISO2 from 'country-iso-3-to-2';
 describe('FlagstatesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TestingModule
-      ],
       declarations: [
         FlagstatesComponent
       ]

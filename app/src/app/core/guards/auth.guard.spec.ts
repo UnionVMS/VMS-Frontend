@@ -1,8 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-import { Store } from '@ngrx/store';
-import { TestingModule } from '@src/testing/Utils';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { AuthGuard } from './auth.guard';
 
@@ -16,19 +15,17 @@ describe('AuthGuard', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TestingModule
-      ],
       providers: [
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        provideMockStore(),
       ]
     })
     .compileComponents();
   }));
 
   function setup() {
-    const store = TestBed.get(Store);
-    const router = TestBed.get(Router);
+    const store = TestBed.inject(MockStore);
+    const router = TestBed.inject(Router);
     store.setState({ auth: { user: null } });
     const authGuard = new AuthGuard(store, router);
     return { store, router, authGuard };

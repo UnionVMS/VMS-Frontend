@@ -5,8 +5,7 @@ import { By } from '@angular/platform-browser';
 // @ts-ignore
 import moment from 'moment-timezone';
 
-import { Store } from '@ngrx/store';
-import { TestingModule } from '@src/testing/Utils';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import Map from 'ol/Map';
 
@@ -56,7 +55,6 @@ describe('RealtimeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        TestingModule,
         UIModule,
         FormsModule,
         MatAutocompleteModule,
@@ -83,7 +81,8 @@ describe('RealtimeComponent', () => {
         TracksComponent,
       ],
       providers: [
-        { provide: Router, useValue: { navigate: () => {} } }
+        { provide: Router, useValue: { navigate: () => {} } },
+        provideMockStore(),
       ]
     })
     .compileComponents();
@@ -119,7 +118,7 @@ describe('RealtimeComponent', () => {
 
     it('should update assets when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
-      const store = TestBed.get(Store);
+      const store = TestBed.inject(MockStore);
       const currentState = { ...baseState, asset: AssetReducer.initialState };
 
       store.setState(currentState);
@@ -142,7 +141,7 @@ describe('RealtimeComponent', () => {
 
     it('should update mapSettings when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
-      const store = TestBed.get(Store);
+      const store = TestBed.inject(MockStore);
       const currentState = {
         ...baseState,
         asset: { assetMovements: {}, filterQuery: [], selectedAssetGroups: [] },
@@ -170,7 +169,7 @@ describe('RealtimeComponent', () => {
 
     it('should update mapSettings when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
-      const store = TestBed.get(Store);
+      const store = TestBed.inject(MockStore);
       const currentState = {
         ...baseState,
         asset: { assetMovements: {}, filterQuery: [], selectedAssetGroups: [] },
@@ -198,7 +197,7 @@ describe('RealtimeComponent', () => {
 
     it('should update selectedAsset when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
-      const store = TestBed.get(Store);
+      const store = TestBed.inject(MockStore);
       let currentState = { ...baseState, asset: AssetReducer.initialState };
 
       store.setState(currentState);
@@ -228,7 +227,7 @@ describe('RealtimeComponent', () => {
 
     it('should update assetTracks when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
-      const store = TestBed.get(Store);
+      const store = TestBed.inject(MockStore);
       let currentState = { ...baseState, asset: AssetReducer.initialState };
 
       store.setState(currentState);
@@ -247,7 +246,7 @@ describe('RealtimeComponent', () => {
 
     it('should update forecasts when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
-      const store = TestBed.get(Store);
+      const store = TestBed.inject(MockStore);
       let currentState = { ...baseState, asset: AssetReducer.initialState };
 
       store.setState(currentState);
@@ -273,7 +272,7 @@ describe('RealtimeComponent', () => {
   describe('mapDispatchToProps', () => {
     function mapDispatchToPropsSetup() {
       const { component } = setup();
-      const store = TestBed.get(Store);
+      const store = TestBed.inject(MockStore);
       const dispatchSpy = spyOn(store, 'dispatch');
       component.mapDispatchToProps();
       return { component, dispatchSpy };
@@ -356,7 +355,7 @@ describe('RealtimeComponent', () => {
   describe('Initialization', () => {
     function initializationSetup() {
       const { component } = setup();
-      const store = TestBed.get(Store);
+      const store = TestBed.inject(MockStore);
       const currentState = {
         asset: AssetReducer.initialState,
         mapSettings: MapSettingsReducer.initialState,

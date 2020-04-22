@@ -248,9 +248,8 @@ export class AssetEffects {
                 return of(actions);
               }
             }
-            return of(null);
+            return EMPTY;
           }),
-          filter(val => val !== null),
           withLatestFrom(this.store$.select(MapSettingsSelectors.getTracksMinuteCap)),
           map(([listOfActions, tracksMinuteCap]: Array<any>) => {
             if(tracksMinuteCap !== null) {

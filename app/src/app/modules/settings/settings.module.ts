@@ -18,7 +18,6 @@ import { UserSettingsComponent } from './pages/user-settings/user-settings.compo
 /* Components */
 
 
-
 @NgModule({
   imports: [
     CommonModule,

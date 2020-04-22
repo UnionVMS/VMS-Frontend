@@ -2,8 +2,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
-import { Store } from '@ngrx/store';
-import { TestingModule } from '@src/testing/Utils';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { LoginComponent } from './login.component';
@@ -16,11 +15,11 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
       imports: [
-        TestingModule,
         MatFormFieldModule,
       ],
       providers: [
-        { provide: Router, useValue: { navigate: () => {} } }
+        { provide: Router, useValue: { navigate: () => {} } },
+        provideMockStore(),
       ]
     })
     .compileComponents();
@@ -40,7 +39,7 @@ describe('LoginComponent', () => {
 
   it('should dispatch AuthActions.Login on submit and redirect', () => {
     const { fixture, component } = setup();
-    const store = TestBed.get(Store);
+    const store = TestBed.inject(MockStore);
     const dispatchSpy = spyOn(store, 'dispatch');
 
     const usernameElement = fixture.debugElement.query(By.css('input#loginFormUsername'));

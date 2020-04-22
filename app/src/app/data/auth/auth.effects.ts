@@ -14,7 +14,6 @@ import { MapActions } from '@data/map';
 import { UserSettingsActions, UserSettingsReducer } from '@data/user-settings';
 
 
-
 @Injectable()
 export class AuthEffects {
   constructor(

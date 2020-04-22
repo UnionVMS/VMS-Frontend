@@ -2,7 +2,6 @@ import { async, TestBed } from '@angular/core/testing';
 
 import { deg2rad } from '@app/helpers/helpers';
 import { fromLonLat } from 'ol/proj';
-import { TestingModule } from '@src/testing/Utils';
 
 import { AssetsComponent } from './assets.component';
 import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWithEssentials.stub';
@@ -11,9 +10,6 @@ import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWith
 describe('AssetsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TestingModule
-      ],
       declarations: [
         AssetsComponent
       ]

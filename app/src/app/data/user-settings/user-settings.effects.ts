@@ -29,9 +29,8 @@ export class UserSettingsEffects {
       if (typeof action.save !== 'undefined' && action.save === true) {
         return of(action);
       }
-      return of(null);
+      return EMPTY;
     }),
-    filter(val => val !== null),
     // If we should save to DB to, then continue with the rest of this code.
     withLatestFrom(this.store$.select(AuthSelectors.getUser), this.store$.select(UserSettingsSelectors.getUserSettings)),
     mergeMap(([setAction, user, settings]: Array<any>) => {
