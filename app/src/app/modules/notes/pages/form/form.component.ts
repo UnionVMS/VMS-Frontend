@@ -4,9 +4,9 @@ import { Subscription, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer';
-import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
-import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
-import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
+import { NotesActions, NotesTypes, NotesSelectors } from '@data/notes';
+import { RouterTypes, RouterSelectors } from '@data/router';
 
 @Component({
   selector: 'notes-edit-page',
@@ -18,9 +18,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
   constructor(private store: Store<State>) { }
 
   public notesSubscription: Subscription;
-  public note = {} as NotesInterfaces.Note;
-  public save: (note: NotesInterfaces.Note, redirect: boolean) => void;
-  public mergedRoute: RouterInterfaces.MergedRoute;
+  public note = {} as NotesTypes.Note;
+  public save: (note: NotesTypes.Note, redirect: boolean) => void;
+  public mergedRoute: RouterTypes.MergedRoute;
   public redirect = false;
 
   mapStateToProps() {
@@ -42,7 +42,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   mapDispatchToProps() {
-    this.save = (note: NotesInterfaces.Note, redirect: boolean) => {
+    this.save = (note: NotesTypes.Note, redirect: boolean) => {
       this.store.dispatch(NotesActions.saveNote({
         note,
         redirect: typeof redirect === 'undefined' ? this.redirect : redirect

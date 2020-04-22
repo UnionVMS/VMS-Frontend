@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { AssetInterfaces } from '@data/asset';
-import { NotesInterfaces } from '@data/notes';
+import { AssetTypes } from '@data/asset';
+import { NotesTypes } from '@data/notes';
 
 @Component({
   selector: 'asset-show-notes',
@@ -8,7 +8,7 @@ import { NotesInterfaces } from '@data/notes';
   styleUrls: ['./show-notes.component.scss']
 })
 export class ShowNotesComponent {
-  @Input() asset: AssetInterfaces.Asset;
-  @Input() notes: Array<NotesInterfaces.Note>;
+  @Input() asset: AssetTypes.Asset;
+  @Input() notes: Array<NotesTypes.Note>;
 
 }

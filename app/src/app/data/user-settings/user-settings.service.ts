@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Observable } from 'rxjs';
 import { toUTF8Array } from '@app/helpers/helpers';
-import { AuthInterfaces } from '@data/auth';
+import { AuthTypes } from '@data/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -24,19 +24,19 @@ export class UserSettingsService {
     );
   }
 
-  saveMapSettings(user: AuthInterfaces.User, preferences) {
+  saveMapSettings(user: AuthTypes.User, preferences) {
     return this.saveSetting(user, 'VMSMapSettings', preferences);
   }
 
-  saveUserPreferences(user: AuthInterfaces.User, preferences) {
+  saveUserPreferences(user: AuthTypes.User, preferences) {
     return this.saveSetting(user, 'VMSFrontend', preferences);
   }
 
-  saveMapFilters(user: AuthInterfaces.User, filters) {
+  saveMapFilters(user: AuthTypes.User, filters) {
     return this.saveSetting(user, 'VMSMapFilters', filters);
   }
 
-  private saveSetting(user: AuthInterfaces.User, applicationName, value) {
+  private saveSetting(user: AuthTypes.User, applicationName, value) {
     const valueAsString = JSON.stringify(value);
     const arrayBuffer = toUTF8Array(valueAsString);
 

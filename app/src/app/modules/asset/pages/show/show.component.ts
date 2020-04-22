@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer';
-import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 
 @Component({
   selector: 'asset-show-page',
@@ -17,7 +17,7 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public asset = {} as AssetInterfaces.Asset;
+  public asset = {} as AssetTypes.Asset;
 
   ngAfterViewInit() {
     setTimeout(() => {

@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import * as ContactInterfaces from './contact.interfaces';
+import * as ContactInterfaces from './contact.types';
 import { State } from '@app/app-reducer';
 import { getMergedRoute } from '@data/router/router.selectors';
 

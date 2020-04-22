@@ -1,4 +1,4 @@
-import { AssetMovementWithEssentials } from '../asset.interfaces';
+import { AssetMovementWithEssentials } from '../asset.types';
 import AssetMovementStub from './assetMovement.stub';
 import AssetEssentialsStub from './assetEssentials.stub';
 

@@ -4,8 +4,8 @@ import { environment } from '../../../environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Observable } from 'rxjs';
 import { toUTF8Array } from '@app/helpers/helpers';
-import { AuthInterfaces } from '@data/auth';
-import { MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+import { AuthTypes } from '@data/auth';
+import { MapSavedFiltersTypes } from '@data/map-saved-filters';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class MapSavedFiltersService {
 
   constructor(private http: HttpClient) {}
 
-  create(authToken: string, filter: MapSavedFiltersInterfaces.SavedFilter) {
+  create(authToken: string, filter: MapSavedFiltersTypes.SavedFilter) {
     return this.http.post(
       environment.baseApiUrl + 'asset/rest/filter',
       filter,
@@ -27,7 +27,7 @@ export class MapSavedFiltersService {
     );
   }
 
-  update(authToken: string, filter: MapSavedFiltersInterfaces.SavedFilter) {
+  update(authToken: string, filter: MapSavedFiltersTypes.SavedFilter) {
     return this.http.put(
       environment.baseApiUrl + 'asset/rest/filter',
       filter,

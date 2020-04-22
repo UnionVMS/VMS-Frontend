@@ -5,12 +5,12 @@ import { Router } from '@angular/router';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthSelectors } from '@data/auth';
-import { NotificationsActions, NotificationsSelectors, NotificationsInterfaces } from '@data/notifications';
-import { UserSettingsActions, UserSettingsSelectors, UserSettingsInterfaces } from '@data/user-settings';
-import { AssetSelectors, AssetInterfaces } from '@data/asset';
+import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
+import { UserSettingsActions, UserSettingsSelectors, UserSettingsTypes } from '@data/user-settings';
+import { AssetSelectors, AssetTypes } from '@data/asset';
 import { replaceDontTranslate } from '@app/helpers/helpers';
 
-import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { RouterTypes, RouterSelectors } from '@data/router';
 
 @Component({
   selector: 'core-asset-layout-component',
@@ -24,15 +24,15 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
 
   public isAdmin$: Observable<boolean>;
   public timezone$: Observable<string>;
-  public notifications$: Observable<NotificationsInterfaces.State>;
+  public notifications$: Observable<NotificationsTypes.State>;
 
   public dismissNotification: (type: string, index: number) => void;
   public setTimezone: (timezone: string) => void;
 
   private unmount$: Subject<boolean> = new Subject<boolean>();
-  public mergedRoute: RouterInterfaces.MergedRoute;
+  public mergedRoute: RouterTypes.MergedRoute;
   public pageTitle: string;
-  public selectedAsset: AssetInterfaces.Asset;
+  public selectedAsset: AssetTypes.Asset;
 
   constructor(private store: Store<any>, private router: Router) { }
 
@@ -58,7 +58,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
       this.mergedRoute = mergedRoute;
       this.pageTitle = mergedRoute.data.title;
     });
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset: AssetInterfaces.Asset) => {
+    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset: AssetTypes.Asset) => {
       if(typeof asset !== 'undefined') {
         this.selectedAsset = asset;
       }

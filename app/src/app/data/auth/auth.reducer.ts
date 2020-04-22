@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as AuthActions from './auth.actions';
-import * as AuthInterfaces from './auth.interfaces';
+import * as AuthInterfaces from './auth.types';
 
 export const initialState: AuthInterfaces.State = {
   user: null,

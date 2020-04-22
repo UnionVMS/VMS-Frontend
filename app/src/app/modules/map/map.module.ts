@@ -14,7 +14,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { RouterModule } from '@angular/router';
 
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DatetimePickerModule } from 'ngx-moment-tz-picker';
 
 /* Modules */
@@ -79,7 +78,6 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MatRadioModule,
     MatSliderModule,
     RouterModule,
-    MatMomentDateModule,
     DatetimePickerModule
   ],
   declarations: [

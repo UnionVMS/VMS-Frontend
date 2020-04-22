@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { ContactInterfaces } from '@data/contact';
+import { ContactTypes } from '@data/contact';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class ContactService {
     );
   }
 
-  updateContact(authToken: string, contact: ContactInterfaces.Contact) {
+  updateContact(authToken: string, contact: ContactTypes.Contact) {
     return this.http.put(
       environment.baseApiUrl + `asset/rest/asset/contacts`,
       contact,
@@ -45,7 +45,7 @@ export class ContactService {
     );
   }
 
-  createContact(authToken: string, contact: ContactInterfaces.Contact) {
+  createContact(authToken: string, contact: ContactTypes.Contact) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/contacts`,
       contact,

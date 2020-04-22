@@ -1,4 +1,4 @@
-export interface Contact {
+export type Contact = Readonly<{
   assetId: string;
   assetUpdateTime: string;
   cityName: string;
@@ -18,8 +18,8 @@ export interface Contact {
   type: string;
   updatedBy: string;
   zipCode: string;
-}
+}>;
 
-export interface State {
-  contacts: { [id: string]: Contact };
-}
+export type State = Readonly<{
+  contacts: Readonly<{ readonly [id: string]: Contact }>;
+}>;

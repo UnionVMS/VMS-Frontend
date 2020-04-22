@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
 
 import { State } from '@app/app-reducer.ts';
 import { getMergedRoute } from '@data/router/router.selectors';
-import { ContactActions, ContactReducer, ContactInterfaces } from './';
+import { ContactActions, ContactReducer, ContactTypes } from './';
 import { ContactService } from './contact.service';
 import * as NotificationsActions from '../notifications/notifications.actions';
-import { AuthInterfaces, AuthSelectors } from '../auth';
+import { AuthTypes, AuthSelectors } from '../auth';
 import * as RouterSelectors from '@data/router/router.selectors';
 
 @Injectable()
@@ -35,7 +35,7 @@ export class ContactEffects {
           return this.contactService.getContactsFromAssetId(authToken, mergedRoute.params.assetId).pipe(
             map((response: any) => {
               return ContactActions.setContacts({
-                contacts: response.reduce((acc: { [id: string]: ContactInterfaces.Contact }, contact: ContactInterfaces.Contact) => {
+                contacts: response.reduce((acc: { [id: string]: ContactTypes.Contact }, contact: ContactTypes.Contact) => {
                   acc[contact.id] = contact;
                   return acc;
                 }, {})
@@ -60,7 +60,7 @@ export class ContactEffects {
       mergeMap(([pipedAction, authToken, mergedRoute]: Array<any>) => {
         if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.contactId !== 'undefined') {
           return this.contactService.getContactById(authToken, mergedRoute.params.contactId).pipe(
-            map((contact: ContactInterfaces.Contact) => {
+            map((contact: ContactTypes.Contact) => {
               return ContactActions.setContacts({
                 contacts: { [contact.id]: contact }
               });

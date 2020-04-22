@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import * as AssetInterfaces from '@data/asset/asset.interfaces';
+import * as AssetInterfaces from '@data/asset/asset.types';
 
 @Component({
   selector: 'map-top-panel',

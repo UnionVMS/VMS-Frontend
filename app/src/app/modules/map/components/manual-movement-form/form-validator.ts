@@ -1,5 +1,5 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NotesInterfaces } from '@data/notes';
+import { NotesTypes } from '@data/notes';
 import CustomValidators from '@validators/.';
 // @ts-ignore
 import moment from 'moment-timezone';

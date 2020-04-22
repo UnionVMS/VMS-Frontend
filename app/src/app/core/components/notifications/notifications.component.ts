@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NotificationsInterfaces } from '@data/notifications';
+import { NotificationsTypes } from '@data/notifications';
 
 @Component({
   selector: 'core-notifications',
@@ -8,7 +8,7 @@ import { NotificationsInterfaces } from '@data/notifications';
 })
 
 export class NotificationsComponent {
-  @Input() notifications: NotificationsInterfaces.State;
+  @Input() notifications: NotificationsTypes.State;
   @Input() dismiss: (type: string, index: number) => void;
   @Input() overlay: boolean;
 

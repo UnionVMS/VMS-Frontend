@@ -10,7 +10,7 @@ import moment from 'moment-timezone';
 import { AuthReducer, AuthSelectors } from '../auth';
 import { NotificationsActions } from '@data/notifications';
 
-import { UserSettingsSelectors, UserSettingsInterfaces, UserSettingsActions } from './';
+import { UserSettingsSelectors, UserSettingsTypes, UserSettingsActions } from './';
 import { UserSettingsService } from '@data/user-settings/user-settings.service';
 
 @Injectable()

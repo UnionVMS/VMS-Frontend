@@ -19,7 +19,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DatetimePickerModule } from 'ngx-moment-tz-picker';
 
 /* Pages */
@@ -46,7 +45,6 @@ import { SearchPageComponent } from './pages/search/search.component';
     ReactiveFormsModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatMomentDateModule,
     MatRadioModule,
     MatSlideToggleModule,
     MatTableModule,

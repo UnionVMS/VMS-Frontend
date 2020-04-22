@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import * as NotesInterfaces from './notes.interfaces';
+import * as NotesInterfaces from './notes.types';
 
 export const getNotesForSelectedAsset = createAction(
   '[Notes] Get notes from asset id'

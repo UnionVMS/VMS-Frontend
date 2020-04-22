@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY, merge, Observable } from 'rxjs';
 import { map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter } from 'rxjs/operators';
 
-import { AuthInterfaces, AuthSelectors } from '../auth';
+import { AuthTypes, AuthSelectors } from '../auth';
 
 import { MapLayersService } from './map-layers.service';
 import { MapLayersActions } from './';
@@ -14,7 +14,7 @@ export class MapLayersEffects {
   constructor(
     private actions$: Actions,
     private mapLayersService: MapLayersService,
-    private store$: Store<AuthInterfaces.State>
+    private store$: Store<AuthTypes.State>
   ) {}
 
   @Effect()

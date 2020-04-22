@@ -8,7 +8,7 @@ import { State } from '@app/app-reducer';
 import { createUserSettingsFormValidator } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 
-import { MapSettingsInterfaces, MapSettingsActions, MapSettingsReducer, MapSettingsSelectors } from '@data/map-settings';
+import { MapSettingsTypes, MapSettingsActions, MapSettingsReducer, MapSettingsSelectors } from '@data/map-settings';
 
 @Component({
   selector: 'settings-user-settings',
@@ -25,7 +25,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   public formValidator: FormGroup;
   public isFormReady = false;
-  private mapSettings: MapSettingsInterfaces.Settings;
+  private mapSettings: MapSettingsTypes.Settings;
   private mapSettingsSubscription: Subscription;
 
   public assetColorMethods = ['Shiptype', 'Flagstate', 'Size (length)'];
@@ -61,7 +61,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
           forecastInterval: parseInt(this.formValidator.value.mapLimits.forecastInterval, 10),
           tracksMinuteCap: parseInt(this.formValidator.value.mapLimits.tracksMinuteCap, 10),
           assetColorMethod: this.formValidator.value.assetColorMethod
-        } as MapSettingsInterfaces.Settings
+        } as MapSettingsTypes.Settings
       }));
     };
   }

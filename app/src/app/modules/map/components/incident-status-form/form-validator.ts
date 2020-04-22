@@ -1,5 +1,5 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NotesInterfaces } from '@data/notes';
+import { NotesTypes } from '@data/notes';
 
 export const createIncidentStatusFormValidator = (status: string) => {
   return new FormGroup({

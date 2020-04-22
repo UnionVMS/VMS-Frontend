@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 import getContryISO2 from 'country-iso-3-to-2';
 
@@ -18,7 +18,7 @@ import { fromLonLat } from 'ol/proj';
 })
 export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetInterfaces.AssetMovementWithEssentials>;
+  @Input() assets: Array<AssetTypes.AssetMovementWithEssentials>;
   @Input() map: Map;
   @Input() selectAsset: (assetId: string) => void;
   @Input() registerOnSelectFunction: (key: string, selectFunction: (event) => void) => void;
@@ -113,7 +113,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  createFeatureFromAsset(asset: AssetInterfaces.AssetMovementWithEssentials) {
+  createFeatureFromAsset(asset: AssetTypes.AssetMovementWithEssentials) {
     if(typeof getContryISO2(asset.assetEssentials.flagstate) === 'undefined') {
       return false;
     }
@@ -143,7 +143,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     return flagFeature;
   }
 
-  updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovement) {
+  updateFeatureFromAsset(assetFeature: Feature, asset: AssetTypes.AssetMovement) {
     assetFeature.setGeometry(new Point(fromLonLat([
       asset.microMove.location.longitude, asset.microMove.location.latitude
     ])));

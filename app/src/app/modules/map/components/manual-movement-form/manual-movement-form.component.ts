@@ -12,8 +12,8 @@ import Feature from 'ol/Feature';
 import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style';
 import { fromLonLat } from 'ol/proj';
 
-import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
-import { AssetInterfaces } from '@data/asset';
+import { NotesActions, NotesTypes, NotesSelectors } from '@data/notes';
+import { AssetTypes } from '@data/asset';
 import { createNotesFormValidator } from './form-validator';
 
 import { errorMessage } from '@app/helpers/validators/error-messages';
@@ -25,7 +25,7 @@ import { formatDate, deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
   styleUrls: ['./manual-movement-form.component.scss']
 })
 export class ManualMovementFormComponent implements OnInit {
-  @Input() createManualMovement: (manualMovement: AssetInterfaces.Movement) => void;
+  @Input() createManualMovement: (manualMovement: AssetTypes.Movement) => void;
   @Input() map: Map;
 
   private vectorSource: VectorSource;
@@ -56,7 +56,7 @@ export class ManualMovementFormComponent implements OnInit {
       heading: parseFloat(this.formValidator.value.heading),
       timestamp: Math.floor(this.formValidator.value.timestamp.format('X')),
       speed: parseFloat(this.formValidator.value.speed),
-    } as AssetInterfaces.Movement);
+    } as AssetTypes.Movement);
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
     this.vectorSource.removeFeature(cachedFeature);
   }

@@ -7,10 +7,10 @@ import { map, mergeMap, flatMap, catchError, withLatestFrom } from 'rxjs/operato
 
 import { State } from '@app/app-reducer.ts';
 import { AssetSelectors } from '../asset';
-import { MobileTerminalActions, MobileTerminalInterfaces, MobileTerminalSelectors } from './';
+import { MobileTerminalActions, MobileTerminalTypes, MobileTerminalSelectors } from './';
 import { MobileTerminalService } from './mobile-terminal.service';
 import * as NotificationsActions from '../notifications/notifications.actions';
-import { AuthInterfaces, AuthSelectors } from '../auth';
+import { AuthTypes, AuthSelectors } from '../auth';
 import * as RouterSelectors from '@data/router/router.selectors';
 
 import { hashCode } from '@app/helpers/helpers';
@@ -30,7 +30,7 @@ export class MobileTerminalEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]) => {
       return this.mobileTerminalService.search(authToken, action.query, action.includeArchived).pipe(
-        map((response: { mobileTerminalList: Array<MobileTerminalInterfaces.MobileTerminal> }) => {
+        map((response: { mobileTerminalList: Array<MobileTerminalTypes.MobileTerminal> }) => {
           const result = [
             MobileTerminalActions.addMobileTerminals({
               mobileTerminals: response.mobileTerminalList.reduce((acc, mobileTerminal) => {
@@ -77,7 +77,7 @@ export class MobileTerminalEffects {
           return EMPTY;
         }
         return this.mobileTerminalService.getMobileTerminal(authToken, mergedRoute.params.mobileTerminalId).pipe(
-          map((mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => {
+          map((mobileTerminal: MobileTerminalTypes.MobileTerminal) => {
             return MobileTerminalActions.setMobileTerminal({ mobileTerminal });
           })
         );

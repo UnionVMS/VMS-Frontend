@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AssetReducer, AssetActions, AssetSelectors, AssetInterfaces } from '@data/asset';
+import { AssetReducer, AssetActions, AssetSelectors, AssetTypes } from '@data/asset';
 import { intToRGB, hashCode, destinationPoint } from '@app/helpers/helpers';
 
 import Map from 'ol/Map';
@@ -17,7 +17,7 @@ import { fromLonLat } from 'ol/proj';
 })
 export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assetMovements: Array<AssetInterfaces.AssetMovement>;
+  @Input() assetMovements: Array<AssetTypes.AssetMovement>;
   @Input() map: Map;
   @Input() forecastInterval: number;
 
@@ -76,7 +76,7 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  drawFuturePosition(asset: AssetInterfaces.AssetMovement) {
+  drawFuturePosition(asset: AssetTypes.AssetMovement) {
     const speed = asset.microMove.speed * 1852; // nautical miles/h to km/h
     const futureFeatures: Array<Feature> = [];
     const forecastInterval = this.forecastInterval === null ? 30 : this.forecastInterval;

@@ -8,7 +8,7 @@ import { mergeMap, map, flatMap, withLatestFrom, catchError } from 'rxjs/operato
 import { AuthReducer, AuthSelectors } from '../auth';
 import { NotificationsActions } from '@data/notifications';
 
-import { MapSettingsSelectors, MapSettingsInterfaces, MapSettingsActions } from './';
+import { MapSettingsSelectors, MapSettingsTypes, MapSettingsActions } from './';
 import { MapSettingsService } from '@data/map-settings/map-settings.service';
 import { UserSettingsService } from '@data/user-settings/user-settings.service';
 

@@ -7,15 +7,15 @@ import { of, EMPTY, merge, Observable, interval, Subject } from 'rxjs';
 import { map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter, takeUntil } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer.ts';
-import { AuthInterfaces, AuthSelectors } from '../auth';
+import { AuthTypes, AuthSelectors } from '../auth';
 import { MapSettingsSelectors } from '../map-settings';
 
 import { IncidentService } from './incident.service';
-import { IncidentActions, IncidentInterfaces } from './';
-import { AssetInterfaces, AssetActions } from '@data/asset';
+import { IncidentActions, IncidentTypes } from './';
+import { AssetTypes, AssetActions } from '@data/asset';
 import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
-import { MobileTerminalInterfaces, MobileTerminalActions } from '@data/mobile-terminal';
+import { MobileTerminalTypes, MobileTerminalActions } from '@data/mobile-terminal';
 
 @Injectable()
 export class IncidentEffects {
@@ -32,7 +32,7 @@ export class IncidentEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.getAssetNotSendingEvents(authToken).pipe(
-        map((assetNotSendingIncidents: ReadonlyArray<IncidentInterfaces.assetNotSendingIncident>) => {
+        map((assetNotSendingIncidents: ReadonlyArray<IncidentTypes.assetNotSendingIncident>) => {
           return [
             IncidentActions.setAssetNotSendingIncidents({
               assetNotSendingIncidents: assetNotSendingIncidents.reduce((acc, assetNotSendingIncident) => {
@@ -57,7 +57,7 @@ export class IncidentEffects {
     mergeMap(([action, authToken]: Array<any>) => {
       console.warn(action);
       return this.assetService.saveNewIncidentStatus(authToken, action.incidentId, action.status).pipe(
-        map((asset: AssetInterfaces.Asset) => {
+        map((asset: AssetTypes.Asset) => {
           return [NotificationsActions.addSuccess(
             $localize`:@@ts-incident-changed:Incident status successfully changed!`
           )];

@@ -1,4 +1,4 @@
-import { Movement } from '@data/asset/asset.interfaces';
+import { Movement } from '@data/asset/asset.types';
 
 export enum incidentNotificationTypes {
   created,

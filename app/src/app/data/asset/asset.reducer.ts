@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as AssetActions from './asset.actions';
-import * as Interfaces from './asset.interfaces';
+import * as Interfaces from './asset.types';
 import { hashCode } from '@app/helpers/helpers';
 
 export const initialState: Interfaces.State = {

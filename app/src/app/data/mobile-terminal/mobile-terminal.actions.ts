@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import * as MobileTerminalInterfaces from './mobile-terminal.interfaces';
+import * as MobileTerminalInterfaces from './mobile-terminal.types';
 
 export const search = createAction(
   '[Mobile Terminals] search',

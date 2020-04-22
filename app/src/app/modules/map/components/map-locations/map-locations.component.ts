@@ -1,5 +1,5 @@
 import { Component, Input, HostListener, OnChanges } from '@angular/core';
-import { MapSettingsInterfaces } from '@data/map-settings';
+import { MapSettingsTypes } from '@data/map-settings';
 import { toPng } from 'html-to-image';
 
 @Component({
@@ -8,10 +8,10 @@ import { toPng } from 'html-to-image';
   styleUrls: ['./map-locations.component.scss']
 })
 export class MapLocationsComponent implements OnChanges {
-  @Input() mapLocations: ReadonlyArray<MapSettingsInterfaces.MapLocation>;
+  @Input() mapLocations: ReadonlyArray<MapSettingsTypes.MapLocation>;
   @Input() centerMapOnPosition: (position: Position, center: number) => void;
   @Input() map;
-  @Input() saveMapLocation: (key: number, mapLocation: MapSettingsInterfaces.MapLocation) => void;
+  @Input() saveMapLocation: (key: number, mapLocation: MapSettingsTypes.MapLocation) => void;
   @Input() menuActive: boolean;
 
 

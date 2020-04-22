@@ -8,9 +8,9 @@ import { Sort } from '@angular/material/sort';
 import { State } from '@app/app-reducer';
 import { compareTableSortString, compareTableSortNumber } from '@app/helpers/helpers';
 
-import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
-import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
-import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
+import { MobileTerminalTypes, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
+import { RouterTypes, RouterSelectors } from '@data/router';
 
 @Component({
   selector: 'mobile-terminal-attach-page',
@@ -25,17 +25,17 @@ export class AttachPageComponent implements OnInit, OnDestroy {
   public tableReadyForDisplay = false;
   public displayedColumns: string[] = ['Serial No.', 'status', 'attach'];
 
-  public assets: { [assetId: string]: AssetInterfaces.Asset };
+  public assets: { [assetId: string]: AssetTypes.Asset };
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public mobileTerminals: ReadonlyArray<MobileTerminalInterfaces.MobileTerminal>;
-  public mergedRoute: RouterInterfaces.MergedRoute;
+  public mobileTerminals: ReadonlyArray<MobileTerminalTypes.MobileTerminal>;
+  public mergedRoute: RouterTypes.MergedRoute;
   public serialNo: FormControl;
   public lastSearchedSerialNo: string;
   public searchMobileTerminals: (query: any, includeArchived: boolean) => void;
-  public sortedMobileTerminals: ReadonlyArray<MobileTerminalInterfaces.MobileTerminal>;
+  public sortedMobileTerminals: ReadonlyArray<MobileTerminalTypes.MobileTerminal>;
 
   public createWithSerialNo: (serialNo: string) => void;
-  public saveMobileTerminal: (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => void;
+  public saveMobileTerminal: (mobileTerminal: MobileTerminalTypes.MobileTerminal) => void;
 
   mapStateToProps() {
     this.store.select(AssetSelectors.getCurrentAssetList).pipe(
@@ -85,7 +85,7 @@ export class AttachPageComponent implements OnInit, OnDestroy {
   mapDispatchToProps() {
     this.searchMobileTerminals = (query: any, includeArchived: boolean) =>
       this.store.dispatch(MobileTerminalActions.search({ query, includeArchived, saveAsSearchResult: true }));
-    this.saveMobileTerminal = (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) =>
+    this.saveMobileTerminal = (mobileTerminal: MobileTerminalTypes.MobileTerminal) =>
       this.store.dispatch(MobileTerminalActions.saveMobileTerminal({ mobileTerminal }));
     this.createWithSerialNo = (serialNo: string) =>
       this.store.dispatch(MobileTerminalActions.createWithSerialNo({ serialNo }));
@@ -150,7 +150,7 @@ export class AttachPageComponent implements OnInit, OnDestroy {
       this.mobileTerminals.some(mobileTerminal => mobileTerminal.serialNo === this.lastSearchedSerialNo);
   }
 
-  attach(mobileTerminal: MobileTerminalInterfaces.MobileTerminal) {
+  attach(mobileTerminal: MobileTerminalTypes.MobileTerminal) {
     this.saveMobileTerminal({
       ...mobileTerminal,
       assetId: this.mergedRoute.params.assetId

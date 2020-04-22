@@ -7,10 +7,10 @@ import { MatSelectChange } from '@angular/material/select';
 import { formatDate } from '@app/helpers/helpers';
 
 import { State } from '@app/app-reducer';
-import { AssetActions, AssetSelectors, AssetInterfaces } from '@data/asset';
-import { ContactActions, ContactInterfaces, ContactSelectors } from '@data/contact';
-import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
-import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { AssetActions, AssetSelectors, AssetTypes } from '@data/asset';
+import { ContactActions, ContactTypes, ContactSelectors } from '@data/contact';
+import { NotificationsTypes, NotificationsActions } from '@data/notifications';
+import { RouterTypes, RouterSelectors } from '@data/router';
 import { createContactFormValidator } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 
@@ -23,12 +23,12 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<State>) { }
 
-  public contact = {} as ContactInterfaces.Contact;
+  public contact = {} as ContactTypes.Contact;
   public save: () => void;
-  public mergedRoute: RouterInterfaces.MergedRoute;
+  public mergedRoute: RouterTypes.MergedRoute;
   public formValidator: FormGroup;
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public selectedAsset: AssetInterfaces.Asset;
+  public selectedAsset: AssetTypes.Asset;
 
   mapStateToProps() {
     this.store.select(ContactSelectors.getContactByUrl).pipe(takeUntil(this.unmount$)).subscribe((contact) => {
@@ -106,6 +106,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   toggleOwner() {
-    return this.contact.owner = !this.contact.owner;
+    return this.contact = { ...this.contact, owner: !this.contact.owner };
   }
 }

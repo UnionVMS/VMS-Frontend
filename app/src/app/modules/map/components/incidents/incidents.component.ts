@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IncidentInterfaces } from '@data/incident';
+import { IncidentTypes } from '@data/incident';
 import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
 
 @Component({
@@ -8,9 +8,9 @@ import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
   styleUrls: ['./incidents.component.scss']
 })
 export class IncidentsComponent {
-  @Input() incidents: ReadonlyArray<IncidentInterfaces.assetNotSendingIncident>;
-  @Input() incidentNotifications: IncidentInterfaces.incidentNotificationsCollections;
-  @Input() selectIncident: (incident: IncidentInterfaces.assetNotSendingIncident) => void;
+  @Input() incidents: ReadonlyArray<IncidentTypes.assetNotSendingIncident>;
+  @Input() incidentNotifications: IncidentTypes.incidentNotificationsCollections;
+  @Input() selectIncident: (incident: IncidentTypes.assetNotSendingIncident) => void;
 
   public resolved = false;
 
@@ -20,7 +20,7 @@ export class IncidentsComponent {
     RESOLVED: 'dangerLvl0',
   };
 
-  public trackByIncidents = (index: number, item: IncidentInterfaces.assetNotSendingIncident) => {
+  public trackByIncidents = (index: number, item: IncidentTypes.assetNotSendingIncident) => {
     return item.assetId + '-' + (this.resolved ? 'r' : 'nr');
   }
 
@@ -28,7 +28,7 @@ export class IncidentsComponent {
     this.resolved = !this.resolved;
   }
 
-  formatDate(incident: IncidentInterfaces.assetNotSendingIncident) {
+  formatDate(incident: IncidentTypes.assetNotSendingIncident) {
     return formatUnixtimeWithDot(incident.lastKnownLocation.timestamp);
   }
 }

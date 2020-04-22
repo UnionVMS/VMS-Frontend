@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { MobileTerminalInterfaces } from '@data/mobile-terminal';
+import { MobileTerminalTypes } from '@data/mobile-terminal';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,7 @@ export class MobileTerminalService {
     );
   }
 
-  createMobileTerminal(authToken: string, mobileTerminal: MobileTerminalInterfaces.MobileTerminal) {
+  createMobileTerminal(authToken: string, mobileTerminal: MobileTerminalTypes.MobileTerminal) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/mobileterminal`,
       {
@@ -63,7 +63,7 @@ export class MobileTerminalService {
     );
   }
 
-  updateMobileTerminal(authToken: string, mobileTerminal: MobileTerminalInterfaces.MobileTerminal) {
+  updateMobileTerminal(authToken: string, mobileTerminal: MobileTerminalTypes.MobileTerminal) {
     return this.http.put(
       environment.baseApiUrl + `asset/rest/mobileterminal`,
       mobileTerminal,

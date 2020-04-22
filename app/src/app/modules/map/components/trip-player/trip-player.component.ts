@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
 import { formatDate, formatTimestamp } from '@app/helpers/helpers';
-import { AssetInterfaces } from '@data/asset';
-import { Position } from '@data/generic.interfaces';
+import { AssetTypes } from '@data/asset';
+import { Position } from '@data/generic.types';
 
 
 @Component({

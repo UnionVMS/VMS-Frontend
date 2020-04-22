@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { version } from '@app/../../package.json';
 import { Subscription, Observable } from 'rxjs';
-import { NotificationsActions, NotificationsSelectors, NotificationsInterfaces } from '@data/notifications';
+import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
 
 @Component({
   selector: 'core-login-layout-component',
@@ -12,7 +12,7 @@ import { NotificationsActions, NotificationsSelectors, NotificationsInterfaces }
 
 export class LoginLayoutComponent implements OnInit {
   public appVersion: string = version;
-  public notifications$: Observable<NotificationsInterfaces.State>;
+  public notifications$: Observable<NotificationsTypes.State>;
   public dismissNotification: (type: string, index: number) => void;
 
   constructor(private store: Store<any>) { }

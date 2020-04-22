@@ -14,16 +14,16 @@ import { format } from 'ol/coordinate.js';
 import Select from 'ol/interaction/Select.js';
 import { click, pointerMove } from 'ol/events/condition.js';
 
-import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
 import { MapSelectors } from '@data/map';
-import { MapLayersActions, MapLayersSelectors, MapLayersInterfaces } from '@data/map-layers';
-import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
-import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+import { MapLayersActions, MapLayersSelectors, MapLayersTypes } from '@data/map-layers';
+import { MapSettingsActions, MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
+import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersTypes } from '@data/map-saved-filters';
 import { NotificationsActions } from '@data/notifications';
 import { RouterSelectors } from '@data/router';
 
-import { Position } from '@data/generic.interfaces';
+import { Position } from '@data/generic.types';
 
 @Component({
   selector: 'map-reports',
@@ -33,21 +33,21 @@ import { Position } from '@data/generic.interfaces';
 export class ReportsComponent implements OnInit, OnDestroy {
 
   public showPeriodSelector = true;
-  public assets: ReadonlyArray<AssetInterfaces.Asset>;
-  public mapSettings: MapSettingsInterfaces.State;
-  public positionsForInspection$: Observable<{ [id: number]: AssetInterfaces.Movement }>;
+  public assets: ReadonlyArray<AssetTypes.Asset>;
+  public mapSettings: MapSettingsTypes.State;
+  public positionsForInspection$: Observable<{ [id: number]: AssetTypes.Movement }>;
   public selectedAssets$: Observable<Array<{
-    asset: AssetInterfaces.Asset,
-    assetTracks: AssetInterfaces.AssetTrack,
-    currentPosition: AssetInterfaces.AssetMovement
+    asset: AssetTypes.Asset,
+    assetTracks: AssetTypes.AssetTrack,
+    currentPosition: AssetTypes.AssetMovement
   }>>;
-  public currentFilterQuery$: Observable<ReadonlyArray<AssetInterfaces.AssetFilterQuery>>;
-  public savedFilters$: Observable<{ [id: string]: MapSavedFiltersInterfaces.SavedFilter }>;
+  public currentFilterQuery$: Observable<ReadonlyArray<AssetTypes.AssetFilterQuery>>;
+  public savedFilters$: Observable<{ [id: string]: MapSavedFiltersTypes.SavedFilter }>;
   public activeFilterNames$: Observable<ReadonlyArray<string>>;
-  public assetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
-  public selectedAssetGroups$: Observable<ReadonlyArray<AssetInterfaces.AssetGroup>>;
+  public assetGroups$: Observable<ReadonlyArray<AssetTypes.AssetGroup>>;
+  public selectedAssetGroups$: Observable<ReadonlyArray<AssetTypes.AssetGroup>>;
   public authToken$: Observable<string|null>;
-  public mapLayers$: Observable<Array<MapLayersInterfaces.MapLayer>>;
+  public mapLayers$: Observable<Array<MapLayersTypes.MapLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
   public tripGranularity$: Observable<number>;
   public tripTimestamps$: Observable<ReadonlyArray<number>>;
@@ -75,12 +75,12 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public searchAutocomplete: Function;
   // tslint:enable:ban-types
   public addActiveLayer: (layerName: string) => void;
-  public filterAssets: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
+  public filterAssets: (filterQuery: Array<AssetTypes.AssetFilterQuery>) => void;
   public getTracksByTimeInterval: (query: any, from: number, to: number, sources: string[]) => void;
   public removeActiveLayer: (layerName: string) => void;
   public removePositionForInspection: (inspectionId: string) => void;
-  public saveMapLocation: (key: number, mapLocation: MapSettingsInterfaces.MapLocation) => void;
-  public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
+  public saveMapLocation: (key: number, mapLocation: MapSettingsTypes.MapLocation) => void;
+  public setAssetGroup: (assetGroup: AssetTypes.AssetGroup) => void;
   public setAssetPositionsFromTripByTimestamp: (assetTripTimestamp: number) => void;
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
@@ -89,7 +89,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
   public setTimeInterval: (from: number, to: number) => void;
 
-  public assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
+  public assetMovements: Array<AssetTypes.AssetMovementWithEssentials>;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
@@ -158,9 +158,9 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
     this.deselectAsset = (assetId) =>
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
-    this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
+    this.setAssetGroup = (assetGroup: AssetTypes.AssetGroup) =>
       this.store.dispatch(AssetActions.setAssetGroup({ assetGroup }));
-    this.saveMapLocation = (key: number, mapLocation: MapSettingsInterfaces.MapLocation) =>
+    this.saveMapLocation = (key: number, mapLocation: MapSettingsTypes.MapLocation) =>
       this.store.dispatch(MapSettingsActions.saveMapLocation({key, mapLocation}));
     this.setVisibilityForAssetNames = (visible: boolean) =>
       this.store.dispatch(MapSettingsActions.setVisibilityForAssetNames({ visibility: visible }));

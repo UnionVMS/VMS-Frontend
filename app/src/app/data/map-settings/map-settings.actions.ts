@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { State, Settings, MapLocation } from './map-settings.interfaces';
+import { State, Settings, MapLocation } from './map-settings.types';
 
 export const getMovementSources = createAction(
   '[MapSettings] Get movement sources'

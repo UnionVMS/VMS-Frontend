@@ -1,4 +1,4 @@
-export interface Channel {
+export type Channel = Readonly<{
   active: boolean;
   archived: boolean;
   configChannel: boolean;
@@ -17,19 +17,19 @@ export interface Channel {
   startDate: number;
   updateTime: number;
   updateUser: string;
-}
+}>;
 
-export interface Capability {
+export type Capability = Readonly<{
   id: string;
   name: string;
   plugin: string;
   updateTime: string;
   updatedBy: string;
   value: string;
-}
+}>;
 
-export interface Plugin {
-  capabilities: Array<Capability>;
+export type Plugin = Readonly<{
+  capabilities: ReadonlyArray<Capability>;
   description: string;
   id: string;
   name: string;
@@ -38,15 +38,15 @@ export interface Plugin {
   pluginServiceName: string;
   updateTime: string;
   updatedBy: string;
-}
+}>;
 
-export interface MobileTerminal {
+export type MobileTerminal = Readonly<{
   asset?: any; // TODO: Remove this when backend is ready.
   active: boolean;
   antenna: string;
   archived: boolean;
   assetId: string;
-  channels: Array<Channel>;
+  channels: ReadonlyArray<Channel>;
   comment: string;
   createTime: string;
   eastAtlanticOceanRegion: boolean;
@@ -68,11 +68,11 @@ export interface MobileTerminal {
   updatetime: string;
   updateuser: string;
   westAtlanticOceanRegion: boolean;
-}
+}>;
 
-export interface Transponder {
+export type Transponder = Readonly<{
   terminalSystemType: string;
-}
+}>;
 
 export type FormFieldsValid = Readonly<{
   serialNumberExists: boolean | null;
@@ -81,12 +81,12 @@ export type FormFieldsValid = Readonly<{
   }>;
 }>;
 
-export interface State {
-  mobileTerminals: { [id: string]: MobileTerminal };
-  transponders: Array<Transponder>;
-  plugins: Array<Plugin>;
+export type State = Readonly<{
+  mobileTerminals: Readonly<{ readonly [id: string]: MobileTerminal }>;
+  transponders: ReadonlyArray<Transponder>;
+  plugins: ReadonlyArray<Plugin>;
   formFieldsValid: FormFieldsValid;
-  searchResults: { [hash: number]: ReadonlyArray<string> };
+  searchResults: Readonly<{ readonly [hash: number]: ReadonlyArray<string> }>;
   lastSearchHash: number;
   createWithSerialNo: string;
-}
+}>;

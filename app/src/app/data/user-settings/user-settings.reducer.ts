@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as UserSettingsActions from './user-settings.actions';
-import * as Interfaces from './user-settings.interfaces';
+import * as Interfaces from './user-settings.types';
 
 export const initialState: Interfaces.State = {
   timezone: 'Europe/Stockholm'

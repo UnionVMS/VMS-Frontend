@@ -1,7 +1,7 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AssetInterfaces } from '@data/asset';
-import { MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+import { AssetTypes } from '@data/asset';
+import { MapSavedFiltersTypes } from '@data/map-saved-filters';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -12,16 +12,16 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class EditAssetGroupDialogComponent {
 
-  public assetGroupFilterQuery: Readonly<MapSavedFiltersInterfaces.AssetFilterQuery>;
+  public assetGroupFilterQuery: Readonly<MapSavedFiltersTypes.AssetFilterQuery>;
   public filterName: FormControl;
-  public assetEssentials: ReadonlyArray<AssetInterfaces.AssetEssentialProperties>;
+  public assetEssentials: ReadonlyArray<AssetTypes.AssetEssentialProperties>;
   public assetsToRemove: ReadonlyArray<string> = [];
 
   constructor(
     public dialogRef: MatDialogRef<EditAssetGroupDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      assetGroupFilter: Readonly<MapSavedFiltersInterfaces.SavedFilter>
-      assetEssentials: Readonly<{ readonly [assetId: string]: AssetInterfaces.AssetEssentialProperties }>
+      assetGroupFilter: Readonly<MapSavedFiltersTypes.SavedFilter>
+      assetEssentials: Readonly<{ readonly [assetId: string]: AssetTypes.AssetEssentialProperties }>
     }
   ) {
     this.assetGroupFilterQuery = data.assetGroupFilter.filter.find(filterQuery => filterQuery.type === 'GUID');

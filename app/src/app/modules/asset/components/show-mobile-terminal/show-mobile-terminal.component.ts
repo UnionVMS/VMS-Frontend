@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { AssetInterfaces } from '@data/asset';
-import { MobileTerminalInterfaces } from '@data/mobile-terminal';
+import { AssetTypes } from '@data/asset';
+import { MobileTerminalTypes } from '@data/mobile-terminal';
 
 @Component({
   selector: 'asset-show-mobile-terminal',
@@ -9,6 +9,6 @@ import { MobileTerminalInterfaces } from '@data/mobile-terminal';
   styleUrls: ['./show-mobile-terminal.component.scss']
 })
 export class ShowMobileTerminalComponent {
-  @Input() asset: AssetInterfaces.Asset;
-  @Input() mobileTerminals: Array<MobileTerminalInterfaces.MobileTerminal>;
+  @Input() asset: AssetTypes.Asset;
+  @Input() mobileTerminals: Array<MobileTerminalTypes.MobileTerminal>;
 }

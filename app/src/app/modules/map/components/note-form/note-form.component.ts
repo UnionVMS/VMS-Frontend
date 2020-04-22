@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
+import { NotesActions, NotesTypes, NotesSelectors } from '@data/notes';
 import { createNotesFormValidator } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 
@@ -11,7 +11,7 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
   styleUrls: ['./note-form.component.scss']
 })
 export class NoteFormComponent implements OnInit {
-  @Input() createNote: (note: NotesInterfaces.Note) => void;
+  @Input() createNote: (note: NotesTypes.Note) => void;
   @Input() assetId: string;
 
   public formValidator: FormGroup;
@@ -19,7 +19,7 @@ export class NoteFormComponent implements OnInit {
     console.warn(this.formValidator.value);
     return this.createNote({
       note: this.formValidator.value.note as string
-    } as NotesInterfaces.Note);
+    } as NotesTypes.Note);
   }
 
   ngOnInit() {

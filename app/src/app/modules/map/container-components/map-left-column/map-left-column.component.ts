@@ -3,10 +3,10 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 
-import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
-import { IncidentActions, IncidentInterfaces, IncidentSelectors } from '@data/incident';
+import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
+import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
-import { MapSavedFiltersActions, MapSavedFiltersInterfaces, MapSavedFiltersSelectors } from '@data/map-saved-filters';
+import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors } from '@data/map-saved-filters';
 
 
 @Component({
@@ -25,39 +25,39 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   public filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>;
   public setGivenFilterActive: (filterTypeName: string, status: boolean) => void;
-  public filterAssets: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
+  public filterAssets: (filterQuery: Array<AssetTypes.AssetFilterQuery>) => void;
 
-  public assetEssentialsForAssetGroups: Readonly<{ readonly [assetId: string]: AssetInterfaces.AssetEssentialProperties }>;
-  public currentFilterQuery$: Observable<ReadonlyArray<AssetInterfaces.AssetFilterQuery>>;
-  public saveFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
+  public assetEssentialsForAssetGroups: Readonly<{ readonly [assetId: string]: AssetTypes.AssetEssentialProperties }>;
+  public currentFilterQuery$: Observable<ReadonlyArray<AssetTypes.AssetFilterQuery>>;
+  public saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
   public deleteFilter: (filterId: string) => void;
-  public savedFilters$: Observable<ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>>;
+  public savedFilters$: Observable<ReadonlyArray<MapSavedFiltersTypes.SavedFilter>>;
   public activeFilters$: Observable<ReadonlyArray<string>>;
   public activateSavedFilter: (filterId: string) => void;
   public deactivateSavedFilter: (filterId: string) => void;
 
-  public assetGroupFilters: ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>;
-  public setAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
-  public clearAssetGroup: (assetGroup: AssetInterfaces.AssetGroup) => void;
+  public assetGroupFilters: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>;
+  public setAssetGroup: (assetGroup: AssetTypes.AssetGroup) => void;
+  public clearAssetGroup: (assetGroup: AssetTypes.AssetGroup) => void;
   public clearSelectedAssets: () => void;
-  public clearNotificationsForIncident: (incident: IncidentInterfaces.assetNotSendingIncident) => void;
+  public clearNotificationsForIncident: (incident: IncidentTypes.assetNotSendingIncident) => void;
 
   public searchAutocomplete: (searchQuery: string) => void;
   public searchAutocompleteResult$: Observable<ReadonlyArray<Readonly<{
-    assetMovement: AssetInterfaces.AssetMovement,
-    assetEssentials: AssetInterfaces.AssetEssentialProperties
+    assetMovement: AssetTypes.AssetMovement,
+    assetEssentials: AssetTypes.AssetEssentialProperties
   }>>>;
   public selectAsset: (assetId: string) => void;
 
 
-  public assetNotSendingIncidents: ReadonlyArray<IncidentInterfaces.assetNotSendingIncident>;
-  public incidentNotificationsByType: Readonly<{ readonly [type: string]: IncidentInterfaces.incidentNotificationsCollections }>;
+  public assetNotSendingIncidents: ReadonlyArray<IncidentTypes.assetNotSendingIncident>;
+  public incidentNotificationsByType: Readonly<{ readonly [type: string]: IncidentTypes.incidentNotificationsCollections }>;
 
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
-  public selectIncident: (incident: IncidentInterfaces.assetNotSendingIncident) => void;
+  public selectIncident: (incident: IncidentTypes.assetNotSendingIncident) => void;
   public countNotificationsOfType: (
-    incidentNotifications: IncidentInterfaces.incidentNotificationsCollections,
+    incidentNotifications: IncidentTypes.incidentNotificationsCollections,
     type: string
   ) => number;
 
@@ -114,10 +114,10 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     };
     this.setGivenFilterActive = (filterTypeName: string, status: boolean) =>
       this.store.dispatch(MapActions.setGivenFilterActive({ filterTypeName, status }));
-    this.filterAssets = (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => {
+    this.filterAssets = (filterQuery: Array<AssetTypes.AssetFilterQuery>) => {
       return this.store.dispatch(AssetActions.setFilterQuery({filterQuery}));
     };
-    this.saveFilter = (filter: MapSavedFiltersInterfaces.SavedFilter) =>
+    this.saveFilter = (filter: MapSavedFiltersTypes.SavedFilter) =>
       this.store.dispatch(MapSavedFiltersActions.saveFilter({ filter }));
     this.deleteFilter = (filterId: string) =>
       this.store.dispatch(MapSavedFiltersActions.deleteFilter({ filterId }));
@@ -125,9 +125,9 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapSavedFiltersActions.activateFilter({ filterId }));
     this.deactivateSavedFilter = (filterId: string) =>
       this.store.dispatch(MapSavedFiltersActions.deactivateFilter({ filterId }));
-    this.setAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
+    this.setAssetGroup = (assetGroup: AssetTypes.AssetGroup) =>
       this.store.dispatch(AssetActions.setAssetGroup({ assetGroup }));
-    this.clearAssetGroup = (assetGroup: AssetInterfaces.AssetGroup) =>
+    this.clearAssetGroup = (assetGroup: AssetTypes.AssetGroup) =>
       this.store.dispatch(AssetActions.clearAssetGroup({assetGroup}));
     this.searchAutocomplete = (searchQuery: string) =>
       this.store.dispatch(AssetActions.setAutocompleteQuery({searchQuery}));
@@ -138,23 +138,23 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     };
     this.clearSelectedAssets = () =>
       this.store.dispatch(AssetActions.clearSelectedAssets());
-    this.clearNotificationsForIncident = (incident: IncidentInterfaces.assetNotSendingIncident) =>
+    this.clearNotificationsForIncident = (incident: IncidentTypes.assetNotSendingIncident) =>
       this.store.dispatch(IncidentActions.clearNotificationsForIncident({ incident }));
   }
 
   mapFunctionsToProps() {
-    this.selectIncident = (incident: IncidentInterfaces.assetNotSendingIncident) => {
+    this.selectIncident = (incident: IncidentTypes.assetNotSendingIncident) => {
       this.selectAsset(incident.assetId);
       this.clearNotificationsForIncident(incident);
       this.setActiveRightPanel('incident');
     };
     this.countNotificationsOfType = (
-      incidentNotifications: IncidentInterfaces.incidentNotificationsCollections,
+      incidentNotifications: IncidentTypes.incidentNotificationsCollections,
       type: string
     ) => {
       if(typeof incidentNotifications !== 'undefined') {
         return Object.values(incidentNotifications).reduce(
-          (acc: number, incidentNotification: IncidentInterfaces.incidentNotifications) => {
+          (acc: number, incidentNotification: IncidentTypes.incidentNotifications) => {
             acc += incidentNotification[type];
             return acc;
           }, 0

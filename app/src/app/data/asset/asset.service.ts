@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Observable } from 'rxjs';
 
-import { AssetInterfaces } from '@data/asset';
+import { AssetTypes } from '@data/asset';
 
 
 @Injectable({
@@ -211,7 +211,7 @@ export class AssetService {
     );
   }
 
-  createAsset(authToken: string, asset: AssetInterfaces.Asset) {
+  createAsset(authToken: string, asset: AssetTypes.Asset) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset`,
       asset,
@@ -224,7 +224,7 @@ export class AssetService {
     );
   }
 
-  createManualMovement(authToken: string, manualMovement: AssetInterfaces.ManualMovement) {
+  createManualMovement(authToken: string, manualMovement: AssetTypes.ManualMovement) {
     return this.http.post(
       environment.baseApiUrl + `movement/rest/manualMovement`,
       manualMovement,
@@ -237,7 +237,7 @@ export class AssetService {
     );
   }
 
-  updateAsset(authToken: string, asset: AssetInterfaces.Asset) {
+  updateAsset(authToken: string, asset: AssetTypes.Asset) {
     return this.http.put(
       environment.baseApiUrl + `asset/rest/asset`,
       asset,

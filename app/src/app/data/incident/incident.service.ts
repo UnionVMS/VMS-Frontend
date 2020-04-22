@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Observable } from 'rxjs';
 
-import { IncidentInterfaces } from './';
+import { IncidentTypes } from './';
 
 
 @Injectable({

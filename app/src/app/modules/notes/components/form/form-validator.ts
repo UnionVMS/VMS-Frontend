@@ -1,7 +1,7 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NotesInterfaces } from '@data/notes';
+import { NotesTypes } from '@data/notes';
 
-export const createNotesFormValidator = (note: NotesInterfaces.Note) => {
+export const createNotesFormValidator = (note: NotesTypes.Note) => {
   return new FormGroup({
     essentailFields: new FormGroup({
       note: new FormControl(note.note, [Validators.required, Validators.maxLength(255)]),

@@ -9,9 +9,9 @@ import { formatUnixtime } from '@app/helpers/datetime-formatter';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { State } from '@app/app-reducer';
-import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
-import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
-import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
+import { MobileTerminalTypes, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
+import { RouterTypes, RouterSelectors } from '@data/router';
 
 @Component({
   selector: 'mobile-terminal-show-by-asset-page',
@@ -24,13 +24,13 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef, public dialog: MatDialog) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public mobileTerminals: ReadonlyArray<MobileTerminalInterfaces.MobileTerminal>;
-  public currentMobileTerminal: MobileTerminalInterfaces.MobileTerminal;
-  public mergedRoute: RouterInterfaces.MergedRoute;
-  public selectedAsset: AssetInterfaces.Asset;
+  public mobileTerminals: ReadonlyArray<MobileTerminalTypes.MobileTerminal>;
+  public currentMobileTerminal: MobileTerminalTypes.MobileTerminal;
+  public mergedRoute: RouterTypes.MergedRoute;
+  public selectedAsset: AssetTypes.Asset;
 
-  public saveMobileTerminal: (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => void;
-  public activeMobileTerminal: MobileTerminalInterfaces.MobileTerminal;
+  public saveMobileTerminal: (mobileTerminal: MobileTerminalTypes.MobileTerminal) => void;
+  public activeMobileTerminal: MobileTerminalTypes.MobileTerminal;
 
 
   ngAfterViewInit() {
@@ -41,7 +41,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
 
   mapStateToProps() {
     this.store.select(MobileTerminalSelectors.getMobileTerminalsForUrlAsset).pipe(takeUntil(this.unmount$)).subscribe((mobileTerminals) => {
-      this.mobileTerminals = mobileTerminals.map((mobileTerminal: MobileTerminalInterfaces.MobileTerminal) => ({
+      this.mobileTerminals = mobileTerminals.map((mobileTerminal: MobileTerminalTypes.MobileTerminal) => ({
         ...mobileTerminal,
         installDateFormatted: formatUnixtime(mobileTerminal.installDate),
         uninstallDateFormatted: formatUnixtime(mobileTerminal.uninstallDate),
@@ -70,7 +70,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   mapDispatchToProps() {
-    this.saveMobileTerminal = (mobileTerminal: MobileTerminalInterfaces.MobileTerminal) =>
+    this.saveMobileTerminal = (mobileTerminal: MobileTerminalTypes.MobileTerminal) =>
       this.store.dispatch(MobileTerminalActions.saveMobileTerminal({ mobileTerminal }));
   }
 

@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as UserSettingsInterface from './user-settings.interfaces';
+import * as UserSettingsInterface from './user-settings.types';
 import { State } from '@app/app-reducer';
 
 export const selectUserSettings = (state: State) => state.userSettings;

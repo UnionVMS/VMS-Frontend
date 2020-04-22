@@ -1,8 +1,8 @@
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
-import { MapSettingsInterfaces } from '@data/map-settings';
+import { MapSettingsTypes } from '@data/map-settings';
 import CustomValidators from '@validators/.';
 
-export const createUserSettingsFormValidator = (mapSettings: MapSettingsInterfaces.Settings): FormGroup => {
+export const createUserSettingsFormValidator = (mapSettings: MapSettingsTypes.Settings): FormGroup => {
   return new FormGroup({
     flagsVisible: new FormControl(mapSettings.flagsVisible),
     tracksVisible: new FormControl(mapSettings.tracksVisible),

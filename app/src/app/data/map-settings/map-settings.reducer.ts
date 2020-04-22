@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as MapSettingsActions from './map-settings.actions';
-import * as Interfaces from './map-settings.interfaces';
+import * as Interfaces from './map-settings.types';
 
 export const initialState: Interfaces.State = {
   settings: {

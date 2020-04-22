@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { NotesInterfaces } from '@data/notes';
+import { NotesTypes } from '@data/notes';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class NotesService {
     );
   }
 
-  createNote(authToken: string, note: NotesInterfaces.Note) {
+  createNote(authToken: string, note: NotesTypes.Note) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/notes`,
       note,
@@ -34,7 +34,7 @@ export class NotesService {
     );
   }
 
-  updateNote(authToken: string, note: NotesInterfaces.Note) {
+  updateNote(authToken: string, note: NotesTypes.Note) {
     return this.http.put(
       environment.baseApiUrl + `asset/rest/asset/notes`,
       note,

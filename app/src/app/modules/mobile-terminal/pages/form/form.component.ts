@@ -6,9 +6,9 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { State } from '@app/app-reducer';
-import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
-import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
-import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
+import { MobileTerminalTypes, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
+import { RouterTypes, RouterSelectors } from '@data/router';
 import {
   createMobileTerminalFormValidator, addChannelToFormValidator, removeChannelAtFromFromValidator,
   validateSerialNoExistsFactory, memberNumberAndDnidExistsFactory
@@ -31,7 +31,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public formValidator: FormGroup;
   public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
-  public selectedAsset: AssetInterfaces.Asset;
+  public selectedAsset: AssetTypes.Asset;
 
   public serialNumberExists: (serialNumber: string, isSelf?: boolean) => void;
   public memberNumberAndDnidCombinationExists: (memberNumber: number, dnid: number, channelId: string, isSelf?: boolean) => void;
@@ -46,10 +46,9 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     default: null,
   };
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public mobileTerminal = {
-    channels: []
-  } as MobileTerminalInterfaces.MobileTerminal;
-  public plugins: Array<MobileTerminalInterfaces.Plugin> = [];
+  public mobileTerminal: MobileTerminalTypes.MobileTerminal;
+  public plugins: Array<MobileTerminalTypes.Plugin> = [];
+  public initialPlugin: MobileTerminalTypes.Plugin;
   public oceanRegions = [
     'East Atlantic',
     'Indian',
@@ -57,7 +56,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     'West Atlantic'
   ];
   public save: () => void;
-  public mergedRoute: RouterInterfaces.MergedRoute;
+  public mergedRoute: RouterTypes.MergedRoute;
 
   private mobileTerminalIsFetched = false;
   private mobileTerminalPluginsFetched = false;
@@ -89,6 +88,13 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
         take(1)
       ).subscribe((mobileTerminal) => {
         this.mobileTerminal = mobileTerminal;
+        if(typeof this.mobileTerminal.plugin === 'undefined' && typeof this.initialPlugin !== 'undefined') {
+          this.mobileTerminal = {
+            ...this.mobileTerminal,
+            plugin: this.initialPlugin,
+            mobileTerminalType: this.initialPlugin.pluginSatelliteType
+          };
+        }
         this.mobileTerminalIsFetched = true;
         this.mobileTerminal.channels.map(channel => {
           if(channel.pollChannel === true) {
@@ -127,14 +133,22 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.plugins = plugins.filter((plugin) => plugin.pluginSatelliteType === 'INMARSAT_C');
         const basePlugin = this.plugins.find((plugin) => plugin.pluginSatelliteType === 'INMARSAT_C');
 
-        if(typeof this.mobileTerminal.plugin === 'undefined' && typeof basePlugin !== 'undefined') {
-          this.mobileTerminal.plugin = basePlugin;
-          this.mobileTerminal.mobileTerminalType = this.mobileTerminal.plugin.pluginSatelliteType;
-          this.formValidator = createMobileTerminalFormValidator(
-            this.mobileTerminal,
-            validateSerialNoExistsFunction,
-            memberNumberAndDnidExistsFunction
-          );
+        if(typeof this.mobileTerminal !== 'undefined') {
+          if(typeof this.mobileTerminal.plugin === 'undefined' && typeof basePlugin !== 'undefined') {
+            this.mobileTerminal = {
+              ...this.mobileTerminal,
+              plugin: basePlugin,
+              mobileTerminalType: basePlugin.pluginSatelliteType
+            };
+
+            this.formValidator = createMobileTerminalFormValidator(
+              this.mobileTerminal,
+              validateSerialNoExistsFunction,
+              memberNumberAndDnidExistsFunction
+            );
+          }
+        } else {
+          this.initialPlugin = basePlugin;
         }
         this.mobileTerminalPluginsFetched = true;
       }
@@ -322,7 +336,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.formValidator.get(['essentailFields', 'serialNo']).updateValueAndValidity({ onlySelf: true });
   }
 
-  checkIfMemberNumberAndDnidExists(channel: MobileTerminalInterfaces.Channel, channelNr: number) {
+  checkIfMemberNumberAndDnidExists(channel: MobileTerminalTypes.Channel, channelNr: number) {
     const mtChannel = this.mobileTerminal.channels.find(mbtChannel => mbtChannel.id === channel.id);
     if(typeof mtChannel !== 'undefined' && channel.memberNumber === mtChannel.memberNumber && channel.dnid === mtChannel.dnid) {
       this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id, true);

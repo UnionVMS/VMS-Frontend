@@ -13,9 +13,9 @@ import { createAssetFormValidator } from './form-validator';
 const allFlagstates = Object.keys(getAlpha3Codes());
 
 import { State } from '@app/app-reducer';
-import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
-import { NotificationsInterfaces, NotificationsActions } from '@data/notifications';
-import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
+import { NotificationsTypes, NotificationsActions } from '@data/notifications';
+import { RouterTypes, RouterSelectors } from '@data/router';
 
 @Component({
   selector: 'asset-edit-page',
@@ -26,15 +26,15 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<State>) { }
 
-  public asset = {} as AssetInterfaces.Asset;
+  public asset = {} as AssetTypes.Asset;
   public assetSubscription: Subscription;
   public unitTonnagesSubscription: Subscription;
-  public unitTonnages: ReadonlyArray<AssetInterfaces.UnitTonnage>;
+  public unitTonnages: ReadonlyArray<AssetTypes.UnitTonnage>;
   public flagstates = allFlagstates.sort();
-  public assetObject = {} as AssetInterfaces.Asset;
+  public assetObject = {} as AssetTypes.Asset;
   public formValidator: FormGroup;
   public save: () => void;
-  public mergedRoute: RouterInterfaces.MergedRoute;
+  public mergedRoute: RouterTypes.MergedRoute;
 
   mapStateToProps() {
     this.unitTonnagesSubscription = this.store.select(AssetSelectors.getUnitTonnages).subscribe((unitTonnages) => {
@@ -51,7 +51,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
         };
       }
     });
-    this.assetSubscription = this.store.select(AssetSelectors.getSelectedAsset).subscribe((asset: AssetInterfaces.Asset) => {
+    this.assetSubscription = this.store.select(AssetSelectors.getSelectedAsset).subscribe((asset: AssetTypes.Asset) => {
       if(typeof asset !== 'undefined') {
         this.asset = asset;
       }

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import getContryISO2 from 'country-iso-3-to-2';
 
-import { AssetInterfaces } from '@data/asset';
+import { AssetTypes } from '@data/asset';
 
 @Component({
   selector: 'asset-show',
@@ -9,7 +9,7 @@ import { AssetInterfaces } from '@data/asset';
   styleUrls: ['./show.component.scss']
 })
 export class ShowComponent {
-  @Input() asset: AssetInterfaces.Asset;
+  @Input() asset: AssetTypes.Asset;
 
   public getCountryCode() {
     const countryCode = getContryISO2(this.asset.flagStateCode);

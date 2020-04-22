@@ -1,6 +1,6 @@
 import { RouterStateSerializer } from '@ngrx/router-store';
 import { ActivatedRouteSnapshot, Data, Params, RouterStateSnapshot } from '@angular/router';
-import { MergedRoute } from './router.interfaces';
+import { MergedRoute } from './router.types';
 
 
 export class MergedRouterStateSerializer implements RouterStateSerializer<MergedRoute> {

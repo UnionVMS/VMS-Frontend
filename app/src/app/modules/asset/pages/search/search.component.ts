@@ -18,7 +18,7 @@ import { compareTableSortString, compareTableSortNumber } from '@app/helpers/hel
 const allCountries = getNames('en');
 const allCountryCodes = Object.entries(allCountries).reduce((obj, [key, value]) => ({ ...obj, [value]: alpha2ToAlpha3(key) }), { });
 
-import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 
 @Component({
   selector: 'asset-search-page',
@@ -27,11 +27,11 @@ import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store<AssetInterfaces.State>) { }
+  constructor(private store: Store<AssetTypes.State>) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public assets: AssetInterfaces.Asset[];
-  public sortedAssets: AssetInterfaces.Asset[];
+  public assets: AssetTypes.Asset[];
+  public sortedAssets: AssetTypes.Asset[];
   public loadingData = false;
   public tableReadyForDisplay = false;
   public dataLoadedSubscription: Subscription;

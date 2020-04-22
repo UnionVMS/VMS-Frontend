@@ -1,4 +1,4 @@
-import { Asset } from '../asset.interfaces';
+import { Asset } from '../asset.types';
 
 const AssetStub: Asset = {
   // id: 'a07dafdc-c99c-4b0d-9615-51f9f7719576',

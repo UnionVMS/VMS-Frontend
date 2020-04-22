@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import * as MapLayersInterface from './map-layers.interfaces';
+import * as MapLayersInterface from './map-layers.types';
 import { State } from '@app/app-reducer';
 
 export const selectMapLayers = (state: State) => state.mapLayers.mapLayers;

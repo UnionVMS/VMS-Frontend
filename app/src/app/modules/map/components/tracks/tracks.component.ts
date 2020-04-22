@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { deg2rad, intToRGB, hashCode, findLastIndex } from '@app/helpers/helpers';
 
 import Map from 'ol/Map';
@@ -24,7 +24,7 @@ import { formatUnixtime } from '@app/helpers/datetime-formatter';
 })
 export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assetTracks: Array<AssetInterfaces.AssetTrack>;
+  @Input() assetTracks: Array<AssetTypes.AssetTrack>;
   @Input() map: Map;
   @Input() registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   @Input() unregisterOnClickFunction: (name: string) => void;
@@ -190,7 +190,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
           // Optimizing for speed
           const renderedFeaturesLength = this.renderedFeatureIdsByAssetId[assetTrack.assetId].length;
           const lastPositionFeatureId = this.renderedFeatureIdsByAssetId[assetTrack.assetId][renderedFeaturesLength - 1];
-          const lastIndexOfRenderedPosition = findLastIndex(assetTrack.tracks, (movement: AssetInterfaces.Movement) =>
+          const lastIndexOfRenderedPosition = findLastIndex(assetTrack.tracks, (movement: AssetTypes.Movement) =>
             lastPositionFeatureId === ('assetId_' + assetTrack.assetId + '_guid_' + movement.guid)
           );
 
@@ -239,7 +239,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  createNewTrackPosition(assetId: string, movement: AssetInterfaces.Movement) {
+  createNewTrackPosition(assetId: string, movement: AssetTypes.Movement) {
     const feature = new Feature(new Point(fromLonLat([
       movement.location.longitude, movement.location.latitude
     ])));

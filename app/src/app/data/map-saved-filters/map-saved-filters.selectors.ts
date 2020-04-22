@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { SavedFilter } from './map-saved-filters.interfaces';
-import { AssetFilterQuery } from '../asset/asset.interfaces';
+import { SavedFilter } from './map-saved-filters.types';
+import { AssetFilterQuery } from '../asset/asset.types';
 import { State } from '@app/app-reducer';
 
 export const selectActiveFilters = (state: State) => state.mapSavedFilters.activeFilters;

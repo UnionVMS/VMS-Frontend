@@ -1,11 +1,11 @@
-export interface UserData {
+export type UserData = Readonly<{
   username: string;
-}
+}>;
 
-export interface JwtTokenData {
+export type JwtTokenData = Readonly<{
   raw: string;
   decoded: any;
-}
+}>;
 
 export type Role = Readonly<{
   name: string;
@@ -20,13 +20,13 @@ export type Scope = Readonly<{
 }>;
 
 
-export interface User {
+export type User = Readonly<{
   jwtToken: JwtTokenData;
   data: UserData;
   role: Role;
   scope: Scope;
-}
+}>;
 
-export interface State {
+export type State = Readonly<{
   user: User|null;
-}
+}>;

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import * as MapSettingsInterfaces from '@data/map-settings/map-settings.interfaces';
+import * as MapSettingsInterfaces from '@data/map-settings/map-settings.types';
 
 @Component({
   selector: 'map-control-panel',

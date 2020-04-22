@@ -8,36 +8,36 @@ import {
 import { environment } from '../environments/environment';
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 
-import { AssetReducer, AssetInterfaces } from './data/asset/';
-import { AuthReducer, AuthInterfaces, AuthActions } from './data/auth/';
-import { ContactReducer, ContactInterfaces } from './data/contact/';
-import { IncidentReducer, IncidentInterfaces } from './data/incident/';
-import { MapReducer, MapInterfaces } from './data/map/';
-import { MapSettingsReducer, MapSettingsInterfaces } from './data/map-settings/';
-import { MapLayersReducer, MapLayersInterfaces } from './data/map-layers/';
-import { MapSavedFiltersReducer, MapSavedFiltersInterfaces } from './data/map-saved-filters/';
-import { NotificationsReducer, NotificationsInterfaces } from './data/notifications/';
-import { MergedRouteReducerState } from './data/router/router.interfaces';
-import { MobileTerminalReducer, MobileTerminalInterfaces } from './data/mobile-terminal/';
-import { NotesReducer, NotesInterfaces } from './data/notes/';
-import { UserSettingsReducer, UserSettingsInterfaces } from './data/user-settings/';
+import { AssetReducer, AssetTypes } from './data/asset/';
+import { AuthReducer, AuthTypes, AuthActions } from './data/auth/';
+import { ContactReducer, ContactTypes } from './data/contact/';
+import { IncidentReducer, IncidentTypes } from './data/incident/';
+import { MapReducer, MapTypes } from './data/map/';
+import { MapSettingsReducer, MapSettingsTypes } from './data/map-settings/';
+import { MapLayersReducer, MapLayersTypes } from './data/map-layers/';
+import { MapSavedFiltersReducer, MapSavedFiltersTypes } from './data/map-saved-filters/';
+import { NotificationsReducer, NotificationsTypes } from './data/notifications/';
+import { MergedRouteReducerState } from './data/router/router.types';
+import { MobileTerminalReducer, MobileTerminalTypes } from './data/mobile-terminal/';
+import { NotesReducer, NotesTypes } from './data/notes/';
+import { UserSettingsReducer, UserSettingsTypes } from './data/user-settings/';
 
 
-export interface State {
-  asset: AssetInterfaces.State;
-  auth: AuthInterfaces.State;
-  contact: ContactInterfaces.State;
-  incident: IncidentInterfaces.State;
-  map: MapInterfaces.State;
-  mapLayers: MapLayersInterfaces.State;
-  mapSettings: MapSettingsInterfaces.State;
-  mapSavedFilters: MapSavedFiltersInterfaces.State;
-  mobileTerminal: MobileTerminalInterfaces.State;
-  notifications: NotificationsInterfaces.State;
+export type State = Readonly<{
+  asset: AssetTypes.State;
+  auth: AuthTypes.State;
+  contact: ContactTypes.State;
+  incident: IncidentTypes.State;
+  map: MapTypes.State;
+  mapLayers: MapLayersTypes.State;
+  mapSettings: MapSettingsTypes.State;
+  mapSavedFilters: MapSavedFiltersTypes.State;
+  mobileTerminal: MobileTerminalTypes.State;
+  notifications: NotificationsTypes.State;
   router: MergedRouteReducerState;
-  notes: NotesInterfaces.State;
-  userSettings: UserSettingsInterfaces.State;
-}
+  notes: NotesTypes.State;
+  userSettings: UserSettingsTypes.State;
+}>;
 
 export const reducers: ActionReducerMap<State> = {
   asset: AssetReducer.assetReducer,

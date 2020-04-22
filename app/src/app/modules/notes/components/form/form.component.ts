@@ -5,8 +5,8 @@ import { map, take } from 'rxjs/operators';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { State } from '@app/app-reducer';
-import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
-import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { NotesActions, NotesTypes, NotesSelectors } from '@data/notes';
+import { RouterTypes, RouterSelectors } from '@data/router';
 import { createNotesFormValidator } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 
@@ -17,8 +17,8 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
 })
 export class FormComponent implements OnChanges {
 
-  @Input() note: NotesInterfaces.Note;
-  @Input() save: (note: NotesInterfaces.Note) => void;
+  @Input() note: NotesTypes.Note;
+  @Input() save: (note: NotesTypes.Note) => void;
   @Input() create: boolean;
 
   public notesSubscription: Subscription;

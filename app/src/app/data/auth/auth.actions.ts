@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import jwtDecode from 'jwt-decode';
-import * as AuthInterfaces from './auth.interfaces';
+import * as AuthInterfaces from './auth.types';
 
 export const login = createAction(
   '[Auth] Login',

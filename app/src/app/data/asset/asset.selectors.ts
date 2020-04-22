@@ -1,8 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as AssetInterfaces from './asset.interfaces';
+import * as AssetInterfaces from './asset.types';
 import { State } from '@app/app-reducer';
-import { MapSavedFiltersSelectors, MapSavedFiltersInterfaces } from '@data/map-saved-filters';
-import { IncidentInterfaces, IncidentSelectors } from '@data/incident';
+import { MapSavedFiltersSelectors, MapSavedFiltersTypes } from '@data/map-saved-filters';
+import { IncidentTypes, IncidentSelectors } from '@data/incident';
 import { MapSelectors } from '@data/map';
 import { getMergedRoute } from '@data/router/router.selectors';
 
@@ -34,7 +34,7 @@ export const getAssetsMovementsDependingOnLeftPanel = createSelector(
     assetMovements: { readonly [uid: string]: AssetInterfaces.AssetMovement },
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
     activeLeftPanel: string,
-    assetsNotSendingIncicents: { readonly [assetId: string]: IncidentInterfaces.assetNotSendingIncident }
+    assetsNotSendingIncicents: { readonly [assetId: string]: IncidentTypes.assetNotSendingIncident }
   ) => {
     if(activeLeftPanel === 'workflows') {
       if(filtersActive.assetsNotSendingIncicents) {
@@ -114,10 +114,10 @@ export const getAssetMovements = createSelector(
     assetMovements: { readonly [uid: string]: AssetInterfaces.AssetMovement },
     assetsEssentials: { readonly [uid: string]: AssetInterfaces.AssetEssentialProperties },
     currentFilterQuery: ReadonlyArray<AssetInterfaces.AssetFilterQuery>,
-    savedFilterQuerys: ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>,
+    savedFilterQuerys: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>,
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
     activeLeftPanel: string,
-    assetsNotSendingIncicents: { readonly [assetId: string]: IncidentInterfaces.assetNotSendingIncident }
+    assetsNotSendingIncicents: { readonly [assetId: string]: IncidentTypes.assetNotSendingIncident }
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
 

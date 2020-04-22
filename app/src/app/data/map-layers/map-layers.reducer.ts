@@ -1,6 +1,6 @@
 import { on, createReducer } from '@ngrx/store';
 import * as MapLayersActions from './map-layers.actions';
-import * as Interfaces from './map-layers.interfaces';
+import * as Interfaces from './map-layers.types';
 
 export const initialState: Interfaces.State = {
   mapLayers: [],

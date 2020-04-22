@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import * as MobileTerminalInterfaces from './mobile-terminal.interfaces';
+import * as MobileTerminalInterfaces from './mobile-terminal.types';
 import { State } from '@app/app-reducer';
 import { getMergedRoute } from '@data/router/router.selectors';
 

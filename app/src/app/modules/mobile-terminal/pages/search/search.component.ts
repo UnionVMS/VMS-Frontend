@@ -8,7 +8,7 @@ import { Sort } from '@angular/material/sort';
 import { State } from '@app/app-reducer';
 import { compareTableSortString, compareTableSortNumber } from '@app/helpers/helpers';
 
-import { MobileTerminalInterfaces, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
+import { MobileTerminalTypes, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
 
 @Component({
   selector: 'mobile-terminal-search-page',
@@ -20,8 +20,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   constructor(private store: Store<State>) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public assets: ReadonlyArray<MobileTerminalInterfaces.MobileTerminal>;
-  public sortedAssets: ReadonlyArray<MobileTerminalInterfaces.MobileTerminal>;
+  public assets: ReadonlyArray<MobileTerminalTypes.MobileTerminal>;
+  public sortedAssets: ReadonlyArray<MobileTerminalTypes.MobileTerminal>;
   public loadingData = true;
   public tableReadyForDisplay = false;
   public displayedColumns: string[] = ['name', 'ircs', 'mmsi', 'flagstate', 'externalMarking', 'cfr'];

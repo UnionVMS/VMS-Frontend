@@ -1,4 +1,4 @@
-import { AssetFilterQuery } from '../asset/asset.interfaces';
+import { AssetFilterQuery } from '../asset/asset.types';
 
 export { AssetFilterQuery };
 

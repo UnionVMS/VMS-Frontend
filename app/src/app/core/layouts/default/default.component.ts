@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { version } from '@app/../../package.json';
 import { Subscription, Observable } from 'rxjs';
-import { NotificationsActions, NotificationsSelectors, NotificationsInterfaces } from '@data/notifications';
-import { UserSettingsActions, UserSettingsSelectors, UserSettingsInterfaces } from '@data/user-settings';
+import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
+import { UserSettingsActions, UserSettingsSelectors, UserSettingsTypes } from '@data/user-settings';
 import { AuthSelectors } from '@data/auth';
 
 @Component({
@@ -17,7 +17,7 @@ export class DefaultLayoutComponent implements OnInit {
 
   public isAdmin$: Observable<boolean>;
   public timezone$: Observable<string>;
-  public notifications$: Observable<NotificationsInterfaces.State>;
+  public notifications$: Observable<NotificationsTypes.State>;
 
   public dismissNotification: (type: string, index: number) => void;
   public setTimezone: (timezone: string) => void;

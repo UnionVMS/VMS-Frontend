@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
+import { NotesActions, NotesTypes, NotesSelectors } from '@data/notes';
 import { createIncidentStatusFormValidator } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 

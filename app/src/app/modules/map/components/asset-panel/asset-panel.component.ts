@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { formatDate } from '@app/helpers/helpers';
-import { AssetInterfaces } from '@data/asset';
-import { Position } from '@data/generic.interfaces';
+import { AssetTypes } from '@data/asset';
+import { Position } from '@data/generic.types';
 
 import getContryISO2 from 'country-iso-3-to-2';
 
@@ -14,7 +14,7 @@ import moment from 'moment-timezone';
   styleUrls: ['./asset-panel.component.scss']
 })
 export class AssetPanelComponent {
-  @Input() asset: AssetInterfaces.AssetData;
+  @Input() asset: AssetTypes.AssetData;
 
   @Input() deselectAsset: (assetId: string) => void;
   @Input() getAssetTrack: (assetId: string, movementGuid: string) => void;
@@ -33,7 +33,7 @@ export class AssetPanelComponent {
     this.expandFooterButtons = !this.expandFooterButtons;
   }
 
-  public goToAsset(asset: AssetInterfaces.AssetData) {
+  public goToAsset(asset: AssetTypes.AssetData) {
     this.centerMapOnPosition(asset.currentPosition.microMove.location);
   }
 
@@ -43,7 +43,7 @@ export class AssetPanelComponent {
     return moment().subtract(tracksMillisecondCap, 'ms').format('X');
   }
 
-  public toggleTracks = (asset: AssetInterfaces.AssetData) => {
+  public toggleTracks = (asset: AssetTypes.AssetData) => {
     if(this.tracksIsVisible(asset)) {
       this.untrackAsset(asset.asset.id);
     } else if(this.tracksMinuteCap === null) {
@@ -65,7 +65,7 @@ export class AssetPanelComponent {
     }
   }
 
-  public tracksIsVisible = (asset: AssetInterfaces.AssetData): boolean => {
+  public tracksIsVisible = (asset: AssetTypes.AssetData): boolean => {
     return typeof asset.assetTracks !== 'undefined';
   }
   public forecastIsVisible = (assetId: string): boolean => {

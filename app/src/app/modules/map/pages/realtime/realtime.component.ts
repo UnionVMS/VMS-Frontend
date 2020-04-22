@@ -17,17 +17,17 @@ import Overlay from 'ol/Overlay';
 
 import { registerProjectionDefinitions } from '@app/helpers/projection-definitions';
 
-import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
 import { IncidentActions } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
-import { MapLayersActions, MapLayersSelectors, MapLayersInterfaces } from '@data/map-layers';
-import { MapSettingsActions, MapSettingsSelectors, MapSettingsInterfaces } from '@data/map-settings';
-import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+import { MapLayersActions, MapLayersSelectors, MapLayersTypes } from '@data/map-layers';
+import { MapSettingsActions, MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
+import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersTypes } from '@data/map-saved-filters';
 import { NotificationsActions } from '@data/notifications';
 import { RouterSelectors } from '@data/router';
 
-import { Position } from '@data/generic.interfaces';
+import { Position } from '@data/generic.types';
 
 @Component({
   selector: 'map-realtime',
@@ -36,14 +36,14 @@ import { Position } from '@data/generic.interfaces';
 })
 export class RealtimeComponent implements OnInit, OnDestroy {
 
-  public mapSettings: MapSettingsInterfaces.State;
+  public mapSettings: MapSettingsTypes.State;
   public selectedAssets$: Observable<Array<{
-    asset: AssetInterfaces.Asset,
-    assetTracks: AssetInterfaces.AssetTrack,
-    currentPosition: AssetInterfaces.AssetMovement
+    asset: AssetTypes.Asset,
+    assetTracks: AssetTypes.AssetTrack,
+    currentPosition: AssetTypes.AssetMovement
   }>>;
   public authToken$: Observable<string|null>;
-  public mapLayers$: Observable<Array<MapLayersInterfaces.MapLayer>>;
+  public mapLayers$: Observable<Array<MapLayersTypes.MapLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
 
   public assetIdFromUrl: string;
@@ -61,12 +61,12 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public setChoosenMovementSources: (movementSources: ReadonlyArray<string>) => void;
   public addActiveLayer: (layerName: string) => void;
   public removeActiveLayer: (layerName: string) => void;
-  public saveMapLocation: (key: number, mapLocation: MapSettingsInterfaces.MapLocation) => void;
+  public saveMapLocation: (key: number, mapLocation: MapSettingsTypes.MapLocation) => void;
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
 
-  public assetMovements: Array<AssetInterfaces.AssetMovementWithEssentials>;
+  public assetMovements: Array<AssetTypes.AssetMovementWithEssentials>;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private onClickFunctions: { [name: string]: Function } = {};
@@ -188,7 +188,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
     this.deselectAsset = (assetId) =>
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
-    this.saveMapLocation = (key: number, mapLocation: MapSettingsInterfaces.MapLocation) =>
+    this.saveMapLocation = (key: number, mapLocation: MapSettingsTypes.MapLocation) =>
       this.store.dispatch(MapSettingsActions.saveMapLocation({key, mapLocation}));
     this.setVisibilityForAssetNames = (visible: boolean) =>
       this.store.dispatch(MapSettingsActions.setVisibilityForAssetNames({ visibility: visible }));

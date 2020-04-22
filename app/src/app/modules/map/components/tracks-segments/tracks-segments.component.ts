@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 
 import Map from 'ol/Map';
@@ -22,7 +22,7 @@ import { formatDate } from '@app/helpers/helpers';
 })
 export class TracksSegmentsComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assetTracks: Array<AssetInterfaces.AssetTrack>;
+  @Input() assetTracks: Array<AssetTypes.AssetTrack>;
   @Input() map: Map;
 
   private vectorSource: VectorSource;
@@ -117,7 +117,7 @@ export class TracksSegmentsComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  createLineSegment(assetId: string, segment: AssetInterfaces.LineSegment, index: number) {
+  createLineSegment(assetId: string, segment: AssetTypes.LineSegment, index: number) {
     const segmentFeature = new Feature(new LineString(segment.positions.map(
       position => fromLonLat([position.longitude, position.latitude])
     )));
@@ -131,7 +131,7 @@ export class TracksSegmentsComponent implements OnInit, OnDestroy, OnChanges {
     return segmentFeature;
   }
 
-  updateLineSegment(lineSegmentFeature: Feature, lineSegment: AssetInterfaces.LineSegment) {
+  updateLineSegment(lineSegmentFeature: Feature, lineSegment: AssetTypes.LineSegment) {
     lineSegmentFeature.setGeometry(new LineString(
       lineSegment.positions.map(position => fromLonLat([position.longitude, position.latitude]))
     ));

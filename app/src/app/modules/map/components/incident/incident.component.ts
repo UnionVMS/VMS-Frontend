@@ -4,10 +4,10 @@ import getContryISO2 from 'country-iso-3-to-2';
 import Map from 'ol/Map';
 
 import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
-import { AssetInterfaces } from '@data/asset';
-import { IncidentInterfaces } from '@data/incident';
-import { NotesInterfaces } from '@data/notes';
-import { Position } from '@data/generic.interfaces';
+import { AssetTypes } from '@data/asset';
+import { IncidentTypes } from '@data/incident';
+import { NotesTypes } from '@data/notes';
+import { Position } from '@data/generic.types';
 
 
 @Component({
@@ -16,15 +16,15 @@ import { Position } from '@data/generic.interfaces';
   styleUrls: ['./incident.component.scss']
 })
 export class IncidentComponent {
-  @Input() asset: AssetInterfaces.AssetData;
-  @Input() incident: IncidentInterfaces.assetNotSendingIncident;
+  @Input() asset: AssetTypes.AssetData;
+  @Input() incident: IncidentTypes.assetNotSendingIncident;
   @Input() map: Map;
 
-  @Input() createManualMovement: (manualMovement: AssetInterfaces.ManualMovement) => void;
+  @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
   @Input() saveNewIncidentStatus: (incidentId: number, status: string) => void;
-  @Input() createNote: (note: NotesInterfaces.Note) => void;
+  @Input() createNote: (note: NotesTypes.Note) => void;
 
-  public createManualMovementCurried = (movement: AssetInterfaces.Movement) => {
+  public createManualMovementCurried = (movement: AssetTypes.Movement) => {
     return this.createManualMovement({
       movement,
       asset: {
@@ -38,7 +38,7 @@ export class IncidentComponent {
     return this.saveNewIncidentStatus(this.incident.id, status);
   }
 
-  public createNoteWithId = (note: NotesInterfaces.Note) => {
+  public createNoteWithId = (note: NotesTypes.Note) => {
     return this.createNote({ ...note, assetId: this.asset.asset.id });
   }
 

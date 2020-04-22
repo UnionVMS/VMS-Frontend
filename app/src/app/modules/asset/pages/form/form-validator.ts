@@ -1,7 +1,7 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AssetInterfaces } from '@data/asset';
+import { AssetTypes } from '@data/asset';
 
-export const createAssetFormValidator = (asset: AssetInterfaces.Asset) => {
+export const createAssetFormValidator = (asset: AssetTypes.Asset) => {
   return new FormGroup({
     essentailFields: new FormGroup({
       flagState: new FormControl(asset.flagStateCode, [Validators.required]),

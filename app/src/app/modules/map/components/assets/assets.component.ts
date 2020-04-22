@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
+import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 
 import Map from 'ol/Map';
@@ -22,15 +22,15 @@ registerLocale(enLocale);
 })
 export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetInterfaces.AssetMovementWithEssentials>;
+  @Input() assets: Array<AssetTypes.AssetMovementWithEssentials>;
   @Input() map: Map;
   @Input() namesVisible: boolean;
   @Input() speedsVisible: boolean;
   @Input() shipColorLogic: string;
   @Input() selectedAssets: Array<{
-    asset: AssetInterfaces.Asset,
-    assetTracks: AssetInterfaces.AssetTrack,
-    currentPosition: AssetInterfaces.AssetMovement
+    asset: AssetTypes.Asset,
+    assetTracks: AssetTypes.AssetTrack,
+    currentPosition: AssetTypes.AssetMovement
   }>;
   @Input() mapZoom: number;
   @Input() selectAsset: (assetId: string) => void;
@@ -214,7 +214,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  createFeatureFromAsset(asset: AssetInterfaces.AssetMovementWithEssentials) {
+  createFeatureFromAsset(asset: AssetTypes.AssetMovementWithEssentials) {
     const assetMovement = asset.assetMovement;
     const assetEssentials = asset.assetEssentials;
     const assetFeature = new Feature(new Point(fromLonLat([
@@ -313,7 +313,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  updateFeatureFromAsset(assetFeature: Feature, asset: AssetInterfaces.AssetMovementWithEssentials) {
+  updateFeatureFromAsset(assetFeature: Feature, asset: AssetTypes.AssetMovementWithEssentials) {
     const currentAssetPosition = [
       asset.assetMovement.microMove.location.latitude,
       asset.assetMovement.microMove.location.longitude,
@@ -381,7 +381,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     return assetFeature;
   }
 
-  getTextStyleForName(asset: AssetInterfaces.AssetMovementWithEssentials) {
+  getTextStyleForName(asset: AssetTypes.AssetMovementWithEssentials) {
     let text = null;
     let offsetY = 20;
     if (this.namesVisibleCalculated && asset.assetEssentials !== undefined) {

@@ -1,6 +1,6 @@
 import { Component, Input, TemplateRef } from '@angular/core';
-import { AssetInterfaces } from '@data/asset';
-import { MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+import { AssetTypes } from '@data/asset';
+import { MapSavedFiltersTypes } from '@data/map-saved-filters';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -9,13 +9,13 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./saved-filters.component.scss'],
 })
 export class SavedFiltersComponent {
-  @Input() saveFilterFunction: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
+  @Input() saveFilterFunction: (filter: MapSavedFiltersTypes.SavedFilter) => void;
   @Input() activeFilters: ReadonlyArray<string>;
   @Input() activateFilter: (filterName: string) => void;
   @Input() deactivateFilter: (filterName: string) => void;
   @Input() deleteFilter: (filterId: string) => void;
-  @Input() filterQuery: ReadonlyArray<AssetInterfaces.AssetFilterQuery>;
-  @Input() savedFilters: ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>;
+  @Input() filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>;
+  @Input() savedFilters: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>;
 
   public savedFilterNames = [];
   public creatingNewFilter = false;
@@ -31,7 +31,7 @@ export class SavedFiltersComponent {
     }
   }
 
-  trackBySavedFilterIds(index: number, savedFilter: MapSavedFiltersInterfaces.SavedFilter) {
+  trackBySavedFilterIds(index: number, savedFilter: MapSavedFiltersTypes.SavedFilter) {
     return savedFilter.id;
   }
 

@@ -1,6 +1,6 @@
 import { Action, createAction, props } from '@ngrx/store';
-import * as AssetInterfaces from './asset.interfaces';
-import * as IncidentInterfaces from '@data/incident/incident.interfaces';
+import * as AssetInterfaces from './asset.types';
+import * as IncidentInterfaces from '@data/incident/incident.types';
 
 export const addForecast = createAction(
   '[Asset] Add forecast',

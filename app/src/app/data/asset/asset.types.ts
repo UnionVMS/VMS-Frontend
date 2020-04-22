@@ -1,4 +1,4 @@
-import { Position } from '../generic.interfaces';
+import { Position } from '../generic.types';
 
 export type Movement = Readonly<{
   location: Position;

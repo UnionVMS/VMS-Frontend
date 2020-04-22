@@ -9,16 +9,16 @@ import {
 } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer.ts';
-import { AuthInterfaces, AuthSelectors } from '../auth';
+import { AuthTypes, AuthSelectors } from '../auth';
 import { MapSettingsSelectors } from '../map-settings';
 
 import { AssetService } from './asset.service';
-import { AssetSelectors, AssetInterfaces, AssetActions } from './';
-import { IncidentActions, IncidentInterfaces } from '@data/incident';
+import { AssetSelectors, AssetTypes, AssetActions } from './';
+import { IncidentActions, IncidentTypes } from '@data/incident';
 import * as MapActions from '@data/map/map.actions';
 import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
-import { MobileTerminalInterfaces, MobileTerminalActions } from '@data/mobile-terminal';
+import { MobileTerminalTypes, MobileTerminalActions } from '@data/mobile-terminal';
 
 import { replaceDontTranslate } from '@app/helpers/helpers';
 
@@ -73,7 +73,7 @@ export class AssetEffects {
           takeUntil(this.removeOldAssetsIntervalDone$),
           withLatestFrom(this.store$.select(AssetSelectors.selectAssetMovements)),
           mergeMap((
-            [ intervalCount, assetMovements ]: [number, { [uid: string]: AssetInterfaces.AssetMovement; }]
+            [ intervalCount, assetMovements ]: [number, { [uid: string]: AssetTypes.AssetMovement; }]
           ): Observable<Action> => {
             const oneHour = 1000 * 60 * 60;
             const positionsToRemoveOrUpdate = Object.values(assetMovements).reduce(
@@ -155,7 +155,7 @@ export class AssetEffects {
           // We need to add any at the end because the buffer is types as Unknown[], we know it to be the first data
           // structure defined but that does not help apparenlty
           mergeMap(([messages, assetsEssentials]: Array<
-            Array<{ type: string, data: any }> | { readonly [uid: string]: AssetInterfaces.AssetEssentialProperties } | any
+            Array<{ type: string, data: any }> | { readonly [uid: string]: AssetTypes.AssetEssentialProperties } | any
           >) => {
             if(messages.length !== 0) {
               const messagesByType = messages.reduce((messagesByTypeAcc, message) => {
@@ -178,7 +178,7 @@ export class AssetEffects {
                 }, {})};
                 actions.push(AssetActions.assetsMoved(assetsMovedData));
                 actions.push(AssetActions.checkForAssetEssentials({
-                  assetIds: messagesByType.Movement.map((movement: AssetInterfaces.AssetMovement) => movement.asset)
+                  assetIds: messagesByType.Movement.map((movement: AssetTypes.AssetMovement) => movement.asset)
                 }));
               }
               if(typeof messagesByType['Updated Asset'] !== 'undefined') {
@@ -225,7 +225,7 @@ export class AssetEffects {
                     acc[message.assetId] = message;
                     return acc;
                   }, {}),
-                  updateType: IncidentInterfaces.incidentNotificationTypes.created
+                  updateType: IncidentTypes.incidentNotificationTypes.created
                 }));
               }
 
@@ -240,7 +240,7 @@ export class AssetEffects {
                     acc[message.assetId] = message;
                     return acc;
                   }, {}),
-                  updateType: IncidentInterfaces.incidentNotificationTypes.updated
+                  updateType: IncidentTypes.incidentNotificationTypes.updated
                 }));
               }
 
@@ -285,7 +285,7 @@ export class AssetEffects {
       if(assetIdsWithoutEssentials.length > 0) {
         return this.assetService.getAssetEssentialProperties(
           authToken, assetIdsWithoutEssentials
-        ).pipe(map((assetsEssentials: Array<AssetInterfaces.AssetEssentialProperties>) => {
+        ).pipe(map((assetsEssentials: Array<AssetTypes.AssetEssentialProperties>) => {
           return AssetActions.setEssentialProperties({
             assetEssentialProperties: assetsEssentials.reduce((acc, assetEssentials) => {
               acc[assetEssentials.assetId] = assetEssentials;
@@ -308,7 +308,7 @@ export class AssetEffects {
     ),
     mergeMap(([action, authToken, userName]: Array<any>) => {
       return this.assetService.getAssetGroups(authToken, userName).pipe(
-        map((response: Array<AssetInterfaces.AssetGroup>) => {
+        map((response: Array<AssetTypes.AssetGroup>) => {
           return AssetActions.setAssetGroups({ assetGroups: response });
         })
       );
@@ -373,7 +373,7 @@ export class AssetEffects {
             AssetActions.setTracks({ tracksByAsset: movementsByAsset.movements }),
             AssetActions.setAssetPositionsWithoutAffectingTracks({ movementsByAsset: lastAssetMovements }),
             AssetActions.checkForAssetEssentials({
-              assetIds: Object.values(lastAssetMovements).map((movement: AssetInterfaces.AssetMovement) => movement.asset)
+              assetIds: Object.values(lastAssetMovements).map((movement: AssetTypes.AssetMovement) => movement.asset)
             }),
             AssetActions.setAssetTrips({ assetMovements: assetMovementsOrdered }),
           ];
@@ -428,7 +428,7 @@ export class AssetEffects {
           return EMPTY;
         }
         return this.assetService.getAsset(authToken, mergedRoute.params.assetId).pipe(
-          map((asset: AssetInterfaces.Asset) => {
+          map((asset: AssetTypes.Asset) => {
             const returnActions: Array<any> = [AssetActions.setFullAsset({ asset })];
             if(typeof asset.mobileTerminalIds !== 'undefined' && asset.mobileTerminalIds.length > 0) {
               returnActions.push(MobileTerminalActions.search({
@@ -457,7 +457,7 @@ export class AssetEffects {
         request = this.assetService.updateAsset(authToken, action.asset);
       }
       return request.pipe(
-        map((asset: AssetInterfaces.Asset) => {
+        map((asset: AssetTypes.Asset) => {
           let notification = 'Asset updated successfully!';
           this.router.navigate(['/asset/' + asset.id]);
           if(isNew) {
@@ -476,7 +476,7 @@ export class AssetEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.createManualMovement(authToken, action.manualMovement).pipe(
-        map((asset: AssetInterfaces.Asset) => {
+        map((asset: AssetTypes.Asset) => {
           return [NotificationsActions.addSuccess('Manual position created successfully!')];
         })
       );

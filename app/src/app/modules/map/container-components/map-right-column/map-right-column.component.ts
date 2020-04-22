@@ -4,12 +4,12 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import Map from 'ol/Map';
 
-import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
-import { IncidentActions, IncidentInterfaces, IncidentSelectors } from '@data/incident';
+import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
+import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
-import { NotesActions, NotesInterfaces } from '@data/notes';
-import { MapSavedFiltersActions, MapSavedFiltersInterfaces, MapSavedFiltersSelectors } from '@data/map-saved-filters';
-import { MapSettingsInterfaces, MapSettingsSelectors } from '@data/map-settings';
+import { NotesActions, NotesTypes } from '@data/notes';
+import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors } from '@data/map-saved-filters';
+import { MapSettingsTypes, MapSettingsSelectors } from '@data/map-settings';
 
 
 @Component({
@@ -24,17 +24,17 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
 
   public activePanel: string;
   public activeLeftPanel: string;
-  public assetsNotSendingIncidents: Readonly<{ [assetId: string]: IncidentInterfaces.assetNotSendingIncident }>;
-  public mapSettings: MapSettingsInterfaces.State;
+  public assetsNotSendingIncidents: Readonly<{ [assetId: string]: IncidentTypes.assetNotSendingIncident }>;
+  public mapSettings: MapSettingsTypes.State;
   public forecasts$: Observable<any>;
-  public selectedAsset: Readonly<AssetInterfaces.AssetData>;
-  public selectedAssets: ReadonlyArray<AssetInterfaces.AssetData>;
+  public selectedAsset: Readonly<AssetTypes.AssetData>;
+  public selectedAssets: ReadonlyArray<AssetTypes.AssetData>;
   public choosenMovementSources: ReadonlyArray<string>;
-  public assetGroupFilters: ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>;
+  public assetGroupFilters: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>;
 
   public addForecast: (assetId: string) => void;
-  public createManualMovement: (manualMovement: AssetInterfaces.ManualMovement) => void;
-  public createNote: (note: NotesInterfaces.Note) => void;
+  public createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
+  public createNote: (note: NotesTypes.Note) => void;
   public clearSelectedAssets: () => void;
   public deselectAsset: (assetId: string) => void;
   public getAssetTrack: (assetId: string, movementGuid: string) => void;
@@ -44,7 +44,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public selectAsset: (assetId: string) => void;
   public setActivePanel: (activeRightPanel: string) => void;
   public untrackAsset: (assetId: string) => void;
-  public saveFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
+  public saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
 
   private unmount$: Subject<boolean> = new Subject<boolean>();
 
@@ -98,15 +98,15 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
     this.setActivePanel = (activeRightPanel: string) =>
       this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel }));
-    this.createManualMovement = (manualMovement: AssetInterfaces.ManualMovement) => {
+    this.createManualMovement = (manualMovement: AssetTypes.ManualMovement) => {
       return this.store.dispatch(AssetActions.createManualMovement({ manualMovement }));
     };
     this.saveNewIncidentStatus = (incidentId: number, status: string) => {
       return this.store.dispatch(IncidentActions.saveNewIncidentStatus({ incidentId, status }));
     };
-    this.createNote = (note: NotesInterfaces.Note) =>
+    this.createNote = (note: NotesTypes.Note) =>
       this.store.dispatch(NotesActions.saveNote({ note }));
-    this.saveFilter = (filter: MapSavedFiltersInterfaces.SavedFilter) =>
+    this.saveFilter = (filter: MapSavedFiltersTypes.SavedFilter) =>
       this.store.dispatch(MapSavedFiltersActions.saveFilter({ filter }));
   }
 

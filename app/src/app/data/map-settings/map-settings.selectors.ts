@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as MapSettingsInterface from './map-settings.interfaces';
+import * as MapSettingsInterface from './map-settings.types';
 import { State } from '@app/app-reducer';
 
 // const getMapSettingsStateObject = createFeatureSelector<MapSettingsInterface.State>('mapSettings');

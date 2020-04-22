@@ -1,5 +1,5 @@
 import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
-import { MobileTerminalInterfaces } from '@data/mobile-terminal';
+import { MobileTerminalTypes } from '@data/mobile-terminal';
 import { map, take, skip, skipWhile } from 'rxjs/operators';
 import CustomValidators from '@validators/.';
 import { Observable } from 'rxjs';
@@ -37,7 +37,7 @@ export const memberNumberAndDnidExistsFactory = (memberNumberAndDnidCombinationE
     );
 
 const createNewChannel = (
-  channel: MobileTerminalInterfaces.Channel | null = null,
+  channel: MobileTerminalTypes.Channel | null = null,
   memberNumberAndDnidCombinationExists: (type: string) =>
     (control: AbstractControl) => Observable<{ memberNumberAndDnidCombinationExists: boolean }|null>
 ): FormGroup  => {
@@ -77,7 +77,7 @@ const createNewChannel = (
 };
 
 export const createMobileTerminalFormValidator = (
-  mobileTerminal: MobileTerminalInterfaces.MobileTerminal,
+  mobileTerminal: MobileTerminalTypes.MobileTerminal,
   validateSerialNoExists: (control: AbstractControl) => Observable<{ serialNumberAlreadyExists: boolean }|null>,
   memberNumberAndDnidCombinationExists: (type: string) =>
     (control: AbstractControl) => Observable<{ memberNumberAndDnidCombinationExists: boolean }|null>
@@ -92,10 +92,14 @@ export const createMobileTerminalFormValidator = (
     selectedOceanRegions.push('Indian');
   }
 
-  const channels = mobileTerminal.channels.map((channel) => createNewChannel(channel, memberNumberAndDnidCombinationExists));
+  let channels = [];
+  if(mobileTerminal.channels !== undefined) {
+    channels = mobileTerminal.channels.map((channel) => createNewChannel(channel, memberNumberAndDnidCombinationExists));
+  }
   if(channels.length === 0) {
     channels.push(createNewChannel(null, memberNumberAndDnidCombinationExists));
   }
+
   return new FormGroup({
     essentailFields: new FormGroup({
       mobileTerminalType: new FormControl(mobileTerminal.mobileTerminalType, Validators.required),

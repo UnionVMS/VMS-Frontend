@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import * as ContactInterfaces from './contact.interfaces';
+import * as ContactInterfaces from './contact.types';
 
 export const getContactsForSelectedAsset = createAction(
   '[Contacts] Get contacts from asset id'

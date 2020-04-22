@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as MobileTerminalActions from './mobile-terminal.actions';
-import * as MobileTerminalInterfaces from './mobile-terminal.interfaces';
+import * as MobileTerminalInterfaces from './mobile-terminal.types';
 
 export const initialState: MobileTerminalInterfaces.State = {
   mobileTerminals: {},

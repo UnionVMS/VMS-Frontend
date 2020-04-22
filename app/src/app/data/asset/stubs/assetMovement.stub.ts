@@ -1,4 +1,4 @@
-import { AssetMovement } from '../asset.interfaces';
+import { AssetMovement } from '../asset.types';
 
 const AssetMovementStub: AssetMovement = {
   microMove: {

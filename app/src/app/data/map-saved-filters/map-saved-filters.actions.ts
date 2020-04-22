@@ -1,6 +1,6 @@
 import { Action, createAction, props } from '@ngrx/store';
-import { SavedFilter } from './map-saved-filters.interfaces';
-import { AssetFilterQuery } from '@data/asset/asset.interfaces';
+import { SavedFilter } from './map-saved-filters.types';
+import { AssetFilterQuery } from '@data/asset/asset.types';
 
 export const activateFilter = createAction(
   '[MapSavedFilters] Activate',

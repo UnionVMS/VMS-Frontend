@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
-import { MapLayersInterfaces } from '@data/map-layers';
+import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
+import { MapLayersTypes } from '@data/map-layers';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 import { environment } from '@src/environments/environment';
 
@@ -24,14 +24,14 @@ export class MapLayersComponent implements OnChanges, OnDestroy {
   @Input() map: Map;
   @Input() authToken: string;
   @Input() activeMapLayers: Array<string>;
-  @Input() mapLayers: Array<MapLayersInterfaces.MapLayer>;
+  @Input() mapLayers: Array<MapLayersTypes.MapLayer>;
   @Input() menuActive: boolean;
   @Input() addActiveLayerFunction: (layerName: string) => void;
   @Input() removeActiveLayerFunction: (layerName: string) => void;
 
   private layers: { [layerName: string]: TileLayer} = {};
 
-  toggleMapLayer(mapLayer: MapLayersInterfaces.MapLayer) {
+  toggleMapLayer(mapLayer: MapLayersTypes.MapLayer) {
     if(!this.activeMapLayers.includes(mapLayer.typeName)) {
       this.addActiveLayerFunction(mapLayer.typeName);
     } else {

@@ -1,11 +1,11 @@
 import * as NotesActions from './notes.actions';
-import * as NotesInterfaces from './notes.interfaces';
+import * as NotesTypes from './notes.types';
 import * as NotesReducer from './notes.reducer';
 import * as NotesSelectors from './notes.selectors';
 
 export {
   NotesActions,
-  NotesInterfaces,
+  NotesTypes,
   NotesReducer,
   NotesSelectors
 };

@@ -7,8 +7,8 @@ import { compareTableSortString, compareTableSortNumber } from '@app/helpers/hel
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
 import { State } from '@app/app-reducer';
-import { AssetInterfaces, AssetActions, AssetSelectors } from '@data/asset';
-import { RouterInterfaces, RouterSelectors } from '@data/router';
+import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
+import { RouterTypes, RouterSelectors } from '@data/router';
 
 @Component({
   selector: 'asset-show-positions',
@@ -21,10 +21,10 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
   constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public asset = {} as AssetInterfaces.Asset;
-  public mergedRoute: RouterInterfaces.MergedRoute;
-  public positions: ReadonlyArray<AssetInterfaces.Movement>;
-  public sortedPositions: ReadonlyArray<AssetInterfaces.Movement>;
+  public asset = {} as AssetTypes.Asset;
+  public mergedRoute: RouterTypes.MergedRoute;
+  public positions: ReadonlyArray<AssetTypes.Movement>;
+  public sortedPositions: ReadonlyArray<AssetTypes.Movement>;
 
   public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'source'];
 

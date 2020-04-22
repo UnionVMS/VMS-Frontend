@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { formatDate } from '../../../../helpers/helpers';
-import * as AssetInterfaces from '@data/asset/asset.interfaces';
+import * as AssetInterfaces from '@data/asset/asset.types';
 
 type QueryParam = Readonly<{
   queryObject: AssetInterfaces.AssetFilterQuery;

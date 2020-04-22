@@ -1,5 +1,5 @@
 import { Action, createAction, props } from '@ngrx/store';
-import * as IncidentInterfaces from './incident.interfaces';
+import * as IncidentInterfaces from './incident.types';
 
 export const clearNotificationsForIncident = createAction(
   '[Incident] clear notification for incident',

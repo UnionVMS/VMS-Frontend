@@ -1,8 +1,8 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ContactInterfaces } from '@data/contact';
+import { ContactTypes } from '@data/contact';
 import CustomValidators from '@validators/.';
 
-export const createContactFormValidator = (contact: ContactInterfaces.Contact) => {
+export const createContactFormValidator = (contact: ContactTypes.Contact) => {
   return new FormGroup({
     essentailFields: new FormGroup({
       name: new FormControl(contact.name, Validators.required),

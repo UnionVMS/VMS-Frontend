@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 import { State } from '@app/app-reducer.ts';
 import { getMergedRoute } from '@data/router/router.selectors';
-import { NotesActions, NotesInterfaces } from './';
+import { NotesActions, NotesTypes } from './';
 import { NotesService } from './notes.service';
 import * as NotificationsActions from '../notifications/notifications.actions';
 import {  AuthSelectors } from '../auth';
@@ -36,7 +36,7 @@ export class NotesEffects {
           return this.notesService.getNotesFromAssetId(authToken, mergedRoute.params.assetId).pipe(
             map((response: any) => {
               return NotesActions.setNotes({
-                notes: response.reduce((acc: { [id: string]: NotesInterfaces.Note }, note: NotesInterfaces.Note) => {
+                notes: response.reduce((acc: { [id: string]: NotesTypes.Note }, note: NotesTypes.Note) => {
                   acc[note.id] = note;
                   return acc;
                 }, {})

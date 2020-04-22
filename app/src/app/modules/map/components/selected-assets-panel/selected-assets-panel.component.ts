@@ -2,9 +2,9 @@ import { Component, Input } from '@angular/core';
 import getContryISO2 from 'country-iso-3-to-2';
 import { MatDialog } from '@angular/material/dialog';
 
-import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
+import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
 import { AddToAssetGroupDialogComponent } from '../add-to-asset-group-dialog/add-to-asset-group-dialog.component';
-import { MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+import { MapSavedFiltersTypes } from '@data/map-saved-filters';
 
 @Component({
   selector: 'map-selected-assets-panel',
@@ -13,7 +13,7 @@ import { MapSavedFiltersInterfaces } from '@data/map-saved-filters';
 })
 export class SelectedAssetsPanelComponent {
 
-  @Input() selectedAssets: ReadonlyArray<AssetInterfaces.AssetData>;
+  @Input() selectedAssets: ReadonlyArray<AssetTypes.AssetData>;
   @Input() selectAsset: (assetId: string) => void;
   @Input() clearSelectedAssets: () => void;
   @Input() deselectAsset: (assetId: string) => void;
@@ -25,8 +25,8 @@ export class SelectedAssetsPanelComponent {
   @Input() removeForecast: (assetId: string) => void;
   @Input() tracksMinuteCap: number;
   @Input() centerMapOnPosition: (position: Position) => void;
-  @Input() assetGroupFilters: Readonly<{ [id: string]: MapSavedFiltersInterfaces.SavedFilter }>;
-  @Input() saveFilter: (filter: MapSavedFiltersInterfaces.SavedFilter) => void;
+  @Input() assetGroupFilters: Readonly<{ [id: string]: MapSavedFiltersTypes.SavedFilter }>;
+  @Input() saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
 
   public showControlPanel = false;
 
@@ -48,7 +48,7 @@ export class SelectedAssetsPanelComponent {
     return () => this.selectAsset(assetId);
   }
 
-  trackBySelectedAssets(index: number, asset: AssetInterfaces.AssetData) {
+  trackBySelectedAssets(index: number, asset: AssetTypes.AssetData) {
     return asset.asset.id;
   }
 

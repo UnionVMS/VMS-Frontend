@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MapSettingsInterfaces } from '@data/map-settings';
+import { MapSettingsTypes } from '@data/map-settings';
 
 @Component({
   selector: 'map-layer-filter',
@@ -7,7 +7,7 @@ import { MapSettingsInterfaces } from '@data/map-settings';
   styleUrls: ['./layer-filter.component.scss']
 })
 export class LayerFilterComponent {
-  @Input() mapSettings: MapSettingsInterfaces.State;
+  @Input() mapSettings: MapSettingsTypes.State;
   @Input() setVisibilityForAssetNames: (visibility: boolean) => void;
   @Input() setVisibilityForAssetSpeeds: (visibility: boolean) => void;
   @Input() setVisibilityForTracks: (visibility: boolean) => void;

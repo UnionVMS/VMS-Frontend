@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { MapLayer } from './map-layers.interfaces';
+import { MapLayer } from './map-layers.types';
 
 export const addAreas = createAction(
   '[Map Layers] Add areas',

@@ -6,9 +6,9 @@ import { FormGroup } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { State } from '@app/app-reducer';
-import { AssetActions, AssetInterfaces, AssetSelectors } from '@data/asset';
-import { RouterInterfaces, RouterSelectors } from '@data/router';
-import { NotesActions, NotesInterfaces, NotesSelectors } from '@data/notes';
+import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
+import { RouterTypes, RouterSelectors } from '@data/router';
+import { NotesActions, NotesTypes, NotesSelectors } from '@data/notes';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
 @Component({
@@ -20,13 +20,13 @@ export class NotesListComponent implements OnInit, OnDestroy {
   constructor(private store: Store<State>) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public mergedRoute: RouterInterfaces.MergedRoute;
-  public asset: AssetInterfaces.Asset;
-  public notes: ReadonlyArray<{ note: NotesInterfaces.Note, searchableString: string }>;
-  public save: (note: NotesInterfaces.Note, redirect: boolean) => void;
+  public mergedRoute: RouterTypes.MergedRoute;
+  public asset: AssetTypes.Asset;
+  public notes: ReadonlyArray<{ note: NotesTypes.Note, searchableString: string }>;
+  public save: (note: NotesTypes.Note, redirect: boolean) => void;
 
   public searchString = '';
-  public filteredNotes: ReadonlyArray<NotesInterfaces.Note>;
+  public filteredNotes: ReadonlyArray<NotesTypes.Note>;
 
   mapStateToProps() {
     this.store.select(NotesSelectors.getNotes).pipe(takeUntil(this.unmount$)).subscribe((notes) => {
@@ -59,7 +59,7 @@ export class NotesListComponent implements OnInit, OnDestroy {
   }
 
   mapDispatchToProps() {
-    this.save = (note: NotesInterfaces.Note) => {
+    this.save = (note: NotesTypes.Note) => {
       this.store.dispatch(NotesActions.saveNote({ note, redirect: false }));
     };
   }

@@ -1,4 +1,4 @@
-import { AssetTrack } from '../asset.interfaces';
+import { AssetTrack } from '../asset.types';
 
 const AssetTrackStub: AssetTrack = {
   tracks: [

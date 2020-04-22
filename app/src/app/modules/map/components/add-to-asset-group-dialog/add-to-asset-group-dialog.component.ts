@@ -1,7 +1,7 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AssetInterfaces } from '@data/asset';
-import { MapSavedFiltersInterfaces } from '@data/map-saved-filters';
+import { AssetTypes } from '@data/asset';
+import { MapSavedFiltersTypes } from '@data/map-saved-filters';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -17,13 +17,13 @@ export class AddToAssetGroupDialogComponent {
   public newGroupName = new FormControl('', Validators.required);
   public selectedGroup: string;
 
-  private assetGroupFilters: Readonly<{ [id: string]: MapSavedFiltersInterfaces.SavedFilter }>;
+  private assetGroupFilters: Readonly<{ [id: string]: MapSavedFiltersTypes.SavedFilter }>;
 
   constructor(
     public dialogRef: MatDialogRef<AddToAssetGroupDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      selectedAssets: ReadonlyArray<AssetInterfaces.AssetData>,
-      assetGroupFilters: ReadonlyArray<MapSavedFiltersInterfaces.SavedFilter>
+      selectedAssets: ReadonlyArray<AssetTypes.AssetData>,
+      assetGroupFilters: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>
     }
   ) {
     this.assetGroupFilters = this.data.assetGroupFilters.reduce((acc, assetGroupFilter) => {
@@ -57,7 +57,7 @@ export class AddToAssetGroupDialogComponent {
     } else if(typeof this.assetGroupFilters[this.selectedGroup] !== 'undefined') {
       return {
         ...this.assetGroupFilters[this.selectedGroup],
-        filter: this.assetGroupFilters[this.selectedGroup].filter.map((filter: MapSavedFiltersInterfaces.AssetFilterQuery) => {
+        filter: this.assetGroupFilters[this.selectedGroup].filter.map((filter: MapSavedFiltersTypes.AssetFilterQuery) => {
           if(filter.type !== 'GUID') {
             return filter;
           } else {

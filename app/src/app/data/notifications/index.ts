@@ -1,11 +1,11 @@
 import * as NotificationsActions from './notifications.actions';
-import * as NotificationsInterfaces from './notifications.interfaces';
+import * as NotificationsTypes from './notifications.types';
 import * as NotificationsReducer from './notifications.reducer';
 import * as NotificationsSelectors from './notifications.selectors';
 
 export {
   NotificationsActions,
-  NotificationsInterfaces,
+  NotificationsTypes,
   NotificationsReducer,
   NotificationsSelectors
 };
