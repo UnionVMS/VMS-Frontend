@@ -18,10 +18,10 @@ import { hashCode } from '@app/helpers/helpers';
 @Injectable()
 export class MobileTerminalEffects {
   constructor(
-    private actions$: Actions,
-    private store$: Store<State>,
-    private mobileTerminalService: MobileTerminalService,
-    private router: Router
+    private readonly actions$: Actions,
+    private readonly store$: Store<State>,
+    private readonly mobileTerminalService: MobileTerminalService,
+    private readonly router: Router
   ) {}
 
   @Effect()

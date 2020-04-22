@@ -83,7 +83,7 @@ export class RightClickMenuComponent implements OnInit, OnDestroy {
     return obj.id;
   }
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private readonly elementRef: ElementRef) {}
 
   ngOnInit() {
     this.contextMenuFunction = (event: MouseEvent) => {

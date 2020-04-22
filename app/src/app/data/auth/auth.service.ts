@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 })
 
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   login(username, password) {
     return this.http.post(

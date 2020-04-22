@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class MapLayersService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 // spatialSwe/rest/userarea/layers
 
   getAreas(authToken: string) {

@@ -20,10 +20,10 @@ import { MobileTerminalTypes, MobileTerminalActions } from '@data/mobile-termina
 @Injectable()
 export class IncidentEffects {
   constructor(
-    private actions$: Actions,
-    private assetService: IncidentService,
-    private store$: Store<State>,
-    private router: Router
+    private readonly actions$: Actions,
+    private readonly assetService: IncidentService,
+    private readonly store$: Store<State>,
+    private readonly router: Router
   ) {}
 
   @Effect()

@@ -16,10 +16,10 @@ import * as RouterSelectors from '@data/router/router.selectors';
 @Injectable()
 export class ContactEffects {
   constructor(
-    private actions$: Actions,
-    private store$: Store<State>,
-    private contactService: ContactService,
-    private router: Router
+    private readonly actions$: Actions,
+    private readonly store$: Store<State>,
+    private readonly contactService: ContactService,
+    private readonly router: Router
   ) {}
 
   @Effect()

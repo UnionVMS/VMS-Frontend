@@ -26,8 +26,8 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
-  private layerTitle = 'Flagstate Layer';
-  private flagCanvasByCountry: any = {};
+  private readonly layerTitle = 'Flagstate Layer';
+  private readonly flagCanvasByCountry: any = {};
   private renderedAssetIds: Array<string> = [];
 
   ngOnInit() {

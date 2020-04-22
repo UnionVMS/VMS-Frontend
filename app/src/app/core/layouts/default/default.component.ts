@@ -22,7 +22,7 @@ export class DefaultLayoutComponent implements OnInit {
   public dismissNotification: (type: string, index: number) => void;
   public setTimezone: (timezone: string) => void;
 
-  constructor(private store: Store<any>) { }
+  constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {
     this.notifications$ = this.store.select(NotificationsSelectors.getNotifications);

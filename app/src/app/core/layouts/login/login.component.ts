@@ -15,7 +15,7 @@ export class LoginLayoutComponent implements OnInit {
   public notifications$: Observable<NotificationsTypes.State>;
   public dismissNotification: (type: string, index: number) => void;
 
-  constructor(private store: Store<any>) { }
+  constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {
     this.notifications$ = this.store.select(NotificationsSelectors.getNotifications);

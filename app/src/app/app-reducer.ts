@@ -56,7 +56,7 @@ export const reducers: ActionReducerMap<State> = {
 };
 
 
-export function saveJwtTokenToStorage(reducer: ActionReducer<any>): ActionReducer<any> {
+export const saveJwtTokenToStorage = (reducer: ActionReducer<any>): ActionReducer<any> => {
   return (state, action: any) => {
     if(action.type === AuthActions.loginSuccess.type) {
       window.localStorage.authToken = action.payload.jwtToken.raw;
@@ -64,7 +64,7 @@ export function saveJwtTokenToStorage(reducer: ActionReducer<any>): ActionReduce
 
     return reducer(state, action);
   };
-}
+};
 
 export const metaReducers: MetaReducer<State>[] =
   environment.production

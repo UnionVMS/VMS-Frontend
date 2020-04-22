@@ -8,7 +8,7 @@ import { NotesTypes } from '@data/notes';
 })
 
 export class NotesService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getNotesFromAssetId(authToken: string, assetId: string) {
     return this.http.get(

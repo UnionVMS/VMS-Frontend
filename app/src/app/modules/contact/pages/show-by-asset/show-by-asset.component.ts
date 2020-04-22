@@ -20,7 +20,7 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
 })
 export class ShowByAssetPageComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store<State>) { }
+  constructor(private readonly store: Store<State>) { }
 
   public contacts: ReadonlyArray<ContactTypes.Contact>;
   public mergedRoute: RouterTypes.MergedRoute;

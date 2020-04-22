@@ -19,7 +19,7 @@ describe('AssetForecastComponent', () => {
     .compileComponents();
   }));
 
-  function setup() {
+  const setup = () => {
     const fixture = TestBed.createComponent(AssetForecastComponent);
     const component = fixture.componentInstance;
 
@@ -28,7 +28,7 @@ describe('AssetForecastComponent', () => {
     component.forecastInterval = 30;
 
     return { fixture, component };
-  }
+  };
 
   it('should create', () => {
     const { component } = setup();

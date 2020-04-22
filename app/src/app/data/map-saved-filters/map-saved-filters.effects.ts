@@ -18,10 +18,10 @@ import { replaceDontTranslate } from '@app/helpers/helpers';
 @Injectable()
 export class MapSavedFiltersEffects {
   constructor(
-    private actions$: Actions,
-    private userSettingsService: UserSettingsService,
-    private mapSavedFiltersService: MapSavedFiltersService,
-    private store$: Store<State>
+    private readonly actions$: Actions,
+    private readonly userSettingsService: UserSettingsService,
+    private readonly mapSavedFiltersService: MapSavedFiltersService,
+    private readonly store$: Store<State>
   ) {}
 
   @Effect()

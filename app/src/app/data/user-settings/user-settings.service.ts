@@ -11,7 +11,7 @@ import { AuthTypes } from '@data/auth';
 })
 export class UserSettingsService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getUserContext(authToken: string) {
     return this.http.get(

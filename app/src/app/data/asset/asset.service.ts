@@ -14,7 +14,7 @@ export class AssetService {
   private mapEventSource: EventSourcePolyfill;
   private mapEventStreamObserver$;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getInitalAssetMovements(authToken: string) {
     return this.http.post(

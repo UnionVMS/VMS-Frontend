@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 export class LogoutComponent implements OnInit {
   public isLoggedIn$: Observable<any>;
   constructor(
-    private store: Store<any>,
-    private router: Router
+    private readonly store: Store<any>,
+    private readonly router: Router
   ) { }
 
 

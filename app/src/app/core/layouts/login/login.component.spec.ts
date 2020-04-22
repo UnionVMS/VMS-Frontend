@@ -31,11 +31,11 @@ describe('LoginLayoutComponent', () => {
     .compileComponents();
   }));
 
-  function setup() {
+  const setup = () => {
     const fixture = TestBed.createComponent(LoginLayoutComponent);
     const component = fixture.componentInstance;
     return { fixture , component };
-  }
+  };
 
   it('should create', () => {
     const { component } = setup();

@@ -12,7 +12,7 @@ import { IncidentTypes } from './';
 })
 export class IncidentService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getAssetNotSendingEvents(authToken: string) {
     return this.http.get(

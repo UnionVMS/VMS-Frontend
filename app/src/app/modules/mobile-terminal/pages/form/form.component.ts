@@ -25,7 +25,11 @@ import { Moment } from 'moment-timezone';
 export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('toolbox') toolbox;
-  constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef, private router: Router) { }
+  constructor(
+    private readonly store: Store<State>,
+    private readonly viewContainerRef: ViewContainerRef,
+    private readonly router: Router
+  ) { }
 
   public createWithSerialNo: string | null;
   public formValidator: FormGroup;
@@ -46,7 +50,9 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     default: null,
   };
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public mobileTerminal: MobileTerminalTypes.MobileTerminal;
+  public mobileTerminal: MobileTerminalTypes.MobileTerminal = {
+    channels: [] as ReadonlyArray<MobileTerminalTypes.Channel>
+  } as MobileTerminalTypes.MobileTerminal;
   public plugins: Array<MobileTerminalTypes.Plugin> = [];
   public initialPlugin: MobileTerminalTypes.Plugin;
   public oceanRegions = [

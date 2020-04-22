@@ -26,7 +26,7 @@ describe('AssetPanelComponent', () => {
     .compileComponents();
   }));
 
-  function setup() {
+  const setup = () => {
     const fixture = TestBed.createComponent(AssetPanelComponent);
     const component = fixture.componentInstance;
 
@@ -47,7 +47,7 @@ describe('AssetPanelComponent', () => {
     component.centerMapOnPosition = (longAndLat) => {};
 
     return { fixture, component };
-  }
+  };
 
   it('should create', () => {
     const { component } = setup();

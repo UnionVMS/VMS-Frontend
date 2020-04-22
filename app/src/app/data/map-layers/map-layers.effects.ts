@@ -12,9 +12,9 @@ import { MapLayersActions } from './';
 @Injectable()
 export class MapLayersEffects {
   constructor(
-    private actions$: Actions,
-    private mapLayersService: MapLayersService,
-    private store$: Store<AuthTypes.State>
+    private readonly actions$: Actions,
+    private readonly mapLayersService: MapLayersService,
+    private readonly store$: Store<AuthTypes.State>
   ) {}
 
   @Effect()

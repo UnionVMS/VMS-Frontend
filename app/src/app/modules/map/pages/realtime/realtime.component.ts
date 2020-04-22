@@ -69,8 +69,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public assetMovements: Array<AssetTypes.AssetMovementWithEssentials>;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
-  private onClickFunctions: { [name: string]: Function } = {};
-  private onSelectFunctions: { [name: string]: (event) => void } = {};
+  private readonly onClickFunctions: { [name: string]: Function } = {};
+  private readonly onSelectFunctions: { [name: string]: (event) => void } = {};
 
   public assetTracks$: Observable<any>;
   public forecasts$: Observable<any>;
@@ -78,13 +78,12 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public choosenMovementSources$: Observable<ReadonlyArray<string>>;
   private selection: Select;
 
-  private getAssetTrack: (assetId: string, movementGuid: string) => void;
   public selectAsset: (assetId: string) => void;
   public unregisterOnClickFunction: (name: string) => void;
   public unregisterOnSelectFunction: (name: string) => void;
 
   public activePanel = '';
-  private unmount$: Subject<boolean> = new Subject<boolean>();
+  private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
 
   // Map functions to props:
@@ -128,7 +127,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.overlays[id].setPosition(position);
   }
 
-  constructor(private store: Store<any>) { }
+  constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {

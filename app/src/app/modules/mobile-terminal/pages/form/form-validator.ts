@@ -41,38 +41,61 @@ const createNewChannel = (
   memberNumberAndDnidCombinationExists: (type: string) =>
     (control: AbstractControl) => Observable<{ memberNumberAndDnidCombinationExists: boolean }|null>
 ): FormGroup  => {
+  let formValues = {
+    id: 'temp-' + Math.random().toString(36),
+    name: '',
+    pollChannel: false,
+    configChannel: false,
+    defaultChannel: false,
+    dnid: null,
+    memberNumber: null,
+    lesDescription: '',
+    startDate: null,
+    endDate: null,
+    expectedFrequency: 60,
+    frequencyGracePeriod: 140,
+    expectedFrequencyInPort: 140,
+  };
+  if(channel !== null) {
+    formValues = {
+      id: channel.id,
+      name: channel.name,
+      pollChannel: channel.pollChannel === null ? false : channel.pollChannel,
+      configChannel: channel.configChannel === null ? false : channel.configChannel,
+      defaultChannel: channel.defaultChannel === null ? false : channel.defaultChannel,
+      dnid: channel.dnid,
+      memberNumber: channel.memberNumber,
+      lesDescription: channel.lesDescription,
+      startDate: typeof channel.startDate === 'undefined' || channel.startDate === null ? null : moment(channel.startDate),
+      endDate: typeof channel.endDate === 'undefined' || channel.endDate === null ? null : moment(channel.endDate),
+      expectedFrequency: channel.expectedFrequency,
+      frequencyGracePeriod: channel.frequencyGracePeriod,
+      expectedFrequencyInPort: channel.expectedFrequencyInPort,
+    };
+  }
+
   return new FormGroup({
-    id: new FormControl(channel === null ? 'temp-' + Math.random().toString(36) : channel.id),
-    name: new FormControl(channel === null ? '' : channel.name),
-    pollChannel: new FormControl(channel === null || channel.pollChannel === null ? false : channel.pollChannel),
-    configChannel: new FormControl(channel === null || channel.configChannel === null ? false : channel.configChannel),
-    defaultChannel: new FormControl(channel === null || channel.defaultChannel === null ? false : channel.defaultChannel),
+    id: new FormControl(formValues.id),
+    name: new FormControl(formValues.name),
+    pollChannel: new FormControl(formValues.pollChannel),
+    configChannel: new FormControl(formValues.configChannel),
+    defaultChannel: new FormControl(formValues.defaultChannel),
     dnid: new FormControl(
-      channel === null ? '' : channel.dnid,
+      formValues.dnid,
       [Validators.required, CustomValidators.minLengthOfNumber(5), CustomValidators.maxLengthOfNumber(5)],
       memberNumberAndDnidCombinationExists('dnid')
     ),
     memberNumber: new FormControl(
-      channel === null ? '' : channel.memberNumber,
+      formValues.memberNumber,
       [Validators.required, Validators.min(1), Validators.max(255)],
       memberNumberAndDnidCombinationExists('memberNumber')
     ),
-    lesDescription: new FormControl(channel === null ? '' : channel.lesDescription, [Validators.required]),
-    startDate: new FormControl(
-      (channel === null || typeof channel.startDate === 'undefined' || channel.startDate === null
-        ? null
-        : moment(channel.startDate)
-      ),
-      [CustomValidators.momentValid]),
-    endDate: new FormControl(
-      (channel === null || typeof channel.endDate === 'undefined' || channel.endDate === null
-        ? null
-        : moment(channel.endDate)
-      ),
-      [CustomValidators.momentValid]),
-    expectedFrequency: new FormControl(channel === null ? 60 : channel.expectedFrequency),
-    frequencyGracePeriod: new FormControl(channel === null ? 140 : channel.frequencyGracePeriod),
-    expectedFrequencyInPort: new FormControl(channel === null ? 140 : channel.expectedFrequencyInPort),
+    lesDescription: new FormControl(formValues.lesDescription, [Validators.required]),
+    startDate: new FormControl(formValues.startDate, [CustomValidators.momentValid]),
+    endDate: new FormControl(formValues.endDate, [CustomValidators.momentValid]),
+    expectedFrequency: new FormControl(formValues.expectedFrequency),
+    frequencyGracePeriod: new FormControl(formValues.frequencyGracePeriod),
+    expectedFrequencyInPort: new FormControl(formValues.expectedFrequencyInPort),
   });
 };
 

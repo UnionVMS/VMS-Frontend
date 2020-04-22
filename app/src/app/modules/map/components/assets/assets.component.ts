@@ -40,16 +40,14 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
-  private layerTitle = 'Asset Layer';
+  private readonly layerTitle = 'Asset Layer';
   private namesWereVisibleLastRerender: boolean;
   private speedsWereVisibleLastRerender: boolean;
-  private selection: Select;
   private assetSpeedsPreviouslyRendered: { [key: string]: string | null } = {};
   private assetLastUpdateHash: { [assetId: string]: Array<number|boolean>} = {};
   // Instead of an array we use object for faster lookup in ngOnChange loop.
   private renderedAssetIds: { [ assetId: string]: boolean } = {};
   private previouslySelectedAssetIds = [];
-  private styleCache: Array<any> = [];
 
   private namesVisibleCalculated: boolean;
   private speedsVisibleCalculated: boolean;

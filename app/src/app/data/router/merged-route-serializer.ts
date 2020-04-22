@@ -14,16 +14,16 @@ export class MergedRouterStateSerializer implements RouterStateSerializer<Merged
   }
 }
 
-function mergeRouteParams(route: ActivatedRouteSnapshot, getter: (r: ActivatedRouteSnapshot) => Params): Params {
+const mergeRouteParams = (route: ActivatedRouteSnapshot, getter: (r: ActivatedRouteSnapshot) => Params): Params => {
   if (!route) {
     return {};
   }
   const currentParams = getter(route);
   const primaryChild = route.children.find(c => c.outlet === 'primary') || route.firstChild;
   return {...currentParams, ...mergeRouteParams(primaryChild, getter)};
-}
+};
 
-function mergeRouteData(route: ActivatedRouteSnapshot): Data {
+const mergeRouteData = (route: ActivatedRouteSnapshot): Data => {
   if (!route) {
     return {};
   }
@@ -31,4 +31,4 @@ function mergeRouteData(route: ActivatedRouteSnapshot): Data {
   const currentData = route.data;
   const primaryChild = route.children.find(c => c.outlet === 'primary') || route.firstChild;
   return {...currentData, ...mergeRouteData(primaryChild)};
-}
+};

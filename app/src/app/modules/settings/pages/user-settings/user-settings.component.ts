@@ -17,7 +17,7 @@ import { MapSettingsTypes, MapSettingsActions, MapSettingsReducer, MapSettingsSe
 })
 export class UserSettingsComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store<State>) { }
+  constructor(private readonly store: Store<State>) { }
 
   // tslint:disable:ban-types
   public save: Function;

@@ -46,9 +46,9 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public untrackAsset: (assetId: string) => void;
   public saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
 
-  private unmount$: Subject<boolean> = new Subject<boolean>();
+  private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store<any>) { }
+  constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {
     this.store.select(MapSelectors.getActiveRightPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {

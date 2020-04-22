@@ -21,7 +21,7 @@ export class SavedFiltersComponent {
   public creatingNewFilter = false;
   public newFilterName = '';
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private readonly dialog: MatDialog) {}
 
   toggleFilter(filterId: string) {
     if(this.activeFilters.includes(filterId)) {

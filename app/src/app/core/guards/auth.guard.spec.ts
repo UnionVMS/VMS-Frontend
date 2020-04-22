@@ -23,13 +23,13 @@ describe('AuthGuard', () => {
     .compileComponents();
   }));
 
-  function setup() {
+  const setup = () => {
     const store = TestBed.inject(MockStore);
     const router = TestBed.inject(Router);
     store.setState({ auth: { user: null } });
     const authGuard = new AuthGuard(store, router);
     return { store, router, authGuard };
-  }
+  };
 
   it('should redirect if not logged in.', () => {
     const { store, router, authGuard } = setup();

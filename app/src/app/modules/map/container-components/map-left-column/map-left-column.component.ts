@@ -53,7 +53,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public assetNotSendingIncidents: ReadonlyArray<IncidentTypes.assetNotSendingIncident>;
   public incidentNotificationsByType: Readonly<{ readonly [type: string]: IncidentTypes.incidentNotificationsCollections }>;
 
-  private unmount$: Subject<boolean> = new Subject<boolean>();
+  private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
   public selectIncident: (incident: IncidentTypes.assetNotSendingIncident) => void;
   public countNotificationsOfType: (
@@ -69,7 +69,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.store.dispatch(AssetActions.removeTracks());
   }
 
-  constructor(private store: Store<any>) { }
+  constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {

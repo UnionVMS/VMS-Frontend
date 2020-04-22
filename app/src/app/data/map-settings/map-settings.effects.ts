@@ -15,10 +15,10 @@ import { UserSettingsService } from '@data/user-settings/user-settings.service';
 @Injectable()
 export class MapSettingsEffects {
   constructor(
-    private actions$: Actions,
-    private userSettingsService: UserSettingsService,
-    private mapSettingsService: MapSettingsService,
-    private store$: Store<State>
+    private readonly actions$: Actions,
+    private readonly userSettingsService: UserSettingsService,
+    private readonly mapSettingsService: MapSettingsService,
+    private readonly store$: Store<State>
   ) {}
 
   @Effect()

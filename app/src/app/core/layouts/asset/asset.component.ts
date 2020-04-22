@@ -29,12 +29,12 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
   public dismissNotification: (type: string, index: number) => void;
   public setTimezone: (timezone: string) => void;
 
-  private unmount$: Subject<boolean> = new Subject<boolean>();
+  private readonly unmount$: Subject<boolean> = new Subject<boolean>();
   public mergedRoute: RouterTypes.MergedRoute;
   public pageTitle: string;
   public selectedAsset: AssetTypes.Asset;
 
-  constructor(private store: Store<any>, private router: Router) { }
+  constructor(private readonly store: Store<any>, private readonly router: Router) { }
 
   // resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Crisis> | Observable<never> {
   //   let id = route.paramMap.get('id');

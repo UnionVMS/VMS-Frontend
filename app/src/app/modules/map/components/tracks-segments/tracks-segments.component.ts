@@ -27,9 +27,9 @@ export class TracksSegmentsComponent implements OnInit, OnDestroy, OnChanges {
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
-  private layerTitle = 'Tracks-Segments Layer';
+  private readonly layerTitle = 'Tracks-Segments Layer';
   private renderedAssetIds: Array<string> = [];
-  private renderedFeatureIds: Array<string> = [];
+  private readonly renderedFeatureIds: Array<string> = [];
   private currentRenderFeatureIds: Array<string> = [];
 
   ngOnInit() {

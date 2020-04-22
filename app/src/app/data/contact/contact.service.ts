@@ -8,7 +8,7 @@ import { ContactTypes } from '@data/contact';
 })
 
 export class ContactService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getContactById(authToken: string, contactId: string) {
     return this.http.get(

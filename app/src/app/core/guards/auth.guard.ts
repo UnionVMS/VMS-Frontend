@@ -13,8 +13,8 @@ import { AuthSelectors } from '../../data/auth';
 @Injectable()
 export class AuthGuard implements CanActivate, OnDestroy {
   private isLoggedIn = false;
-  private isLoggedInSubscription: Subscription;
-  constructor(private store: Store<any>, private router: Router) {
+  private readonly isLoggedInSubscription: Subscription;
+  constructor(private readonly store: Store<any>, private readonly router: Router) {
     this.isLoggedInSubscription = this.store.select(AuthSelectors.isLoggedIn)
       .subscribe((isLoggedIn: boolean) => this.isLoggedIn = isLoggedIn);
   }

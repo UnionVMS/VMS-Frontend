@@ -30,9 +30,9 @@ export class ManualMovementFormComponent implements OnInit {
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
-  private layerTitle = 'Manual movement form preview';
+  private readonly layerTitle = 'Manual movement form preview';
   public formValidator: FormGroup;
-  private featureId = 'manual_movement_preview';
+  private readonly featureId = 'manual_movement_preview';
 
   ngOnInit() {
     this.formValidator = createNotesFormValidator();

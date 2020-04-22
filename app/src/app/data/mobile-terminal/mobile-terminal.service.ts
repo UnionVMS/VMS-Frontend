@@ -8,7 +8,7 @@ import { MobileTerminalTypes } from '@data/mobile-terminal';
 })
 
 export class MobileTerminalService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   search(authToken: string, query: object, includeArchived: boolean) {
     return this.http.post(

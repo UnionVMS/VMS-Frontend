@@ -17,7 +17,7 @@ export class AddToAssetGroupDialogComponent {
   public newGroupName = new FormControl('', Validators.required);
   public selectedGroup: string;
 
-  private assetGroupFilters: Readonly<{ [id: string]: MapSavedFiltersTypes.SavedFilter }>;
+  private readonly assetGroupFilters: Readonly<{ [id: string]: MapSavedFiltersTypes.SavedFilter }>;
 
   constructor(
     public dialogRef: MatDialogRef<AddToAssetGroupDialogComponent>,

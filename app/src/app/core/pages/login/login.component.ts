@@ -13,7 +13,7 @@ export class LoginComponent {
   username: string;
   password: string;
 
-  constructor(private store: Store<AuthTypes.State>) { }
+  constructor(private readonly store: Store<AuthTypes.State>) { }
 
   submitLogin(username: string, password: string) {
     this.store.dispatch(AuthActions.login({ username, password }));

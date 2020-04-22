@@ -10,7 +10,7 @@ import jwtDecode from 'jwt-decode';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  constructor(private store: Store<State>) {}
+  constructor(private readonly store: Store<State>) {}
 
   ngOnInit() {
     if(typeof window.localStorage.authToken !== 'undefined') {

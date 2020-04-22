@@ -21,7 +21,7 @@ export class AssetFilterComponent implements OnChanges, OnInit {
   public displayInfo = false;
   public hideInfoFunction: () => void;
 
-  private handleQueryString = ({ queryObject, queryString }: QueryParam): QueryParam => {
+  private readonly handleQueryString = ({ queryObject, queryString }: QueryParam): QueryParam => {
     if(!queryObject.isNumber && !(queryString.indexOf('/') === 0)) {
       if(queryString.indexOf('!') === 0) {
         queryString = queryString.substring(1);
@@ -35,7 +35,7 @@ export class AssetFilterComponent implements OnChanges, OnInit {
     return { queryObject, queryString };
   }
 
-  private handleQueryNumber = ({ queryObject, queryString }: QueryParam): QueryParam => {
+  private readonly handleQueryNumber = ({ queryObject, queryString }: QueryParam): QueryParam => {
     if(queryObject.isNumber) {
       return {
         queryObject: { ...queryObject, values: queryString.split(',')
@@ -62,7 +62,7 @@ export class AssetFilterComponent implements OnChanges, OnInit {
     return { queryObject, queryString };
   }
 
-  private setQueryType = ({ queryObject, queryString }: QueryParam): QueryParam => {
+  private readonly setQueryType = ({ queryObject, queryString }: QueryParam): QueryParam => {
     if(queryString.indexOf('/f ') === 0) {
       return { queryObject: { ...queryObject, type: 'flagstate' }, queryString: queryString.substring(3) };
     } else if(queryString.indexOf('/i ') === 0) {

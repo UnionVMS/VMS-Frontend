@@ -15,7 +15,7 @@ import { RouterTypes, RouterSelectors } from '@data/router';
 })
 export class FormPageComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store<State>) { }
+  constructor(private readonly store: Store<State>) { }
 
   public notesSubscription: Subscription;
   public note = {} as NotesTypes.Note;

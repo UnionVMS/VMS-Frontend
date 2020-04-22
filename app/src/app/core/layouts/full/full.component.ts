@@ -22,7 +22,7 @@ export class FullLayoutComponent implements OnInit {
   public setTimezone: (timezone: string) => void;
   public dismissNotification: (type: string, index: number) => void;
 
-  constructor(private store: Store<any>) { }
+  constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {
     this.notifications$ = this.store.select(NotificationsSelectors.getNotifications);

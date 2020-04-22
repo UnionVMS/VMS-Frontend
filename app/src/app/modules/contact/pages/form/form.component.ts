@@ -21,7 +21,7 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
 })
 export class FormPageComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store<State>) { }
+  constructor(private readonly store: Store<State>) { }
 
   public contact = {} as ContactTypes.Contact;
   public save: () => void;

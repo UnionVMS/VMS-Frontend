@@ -17,7 +17,7 @@ import { formatUnixtime } from '@app/helpers/datetime-formatter';
   styleUrls: ['./list.component.scss']
 })
 export class NotesListComponent implements OnInit, OnDestroy {
-  constructor(private store: Store<State>) { }
+  constructor(private readonly store: Store<State>) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public mergedRoute: RouterTypes.MergedRoute;

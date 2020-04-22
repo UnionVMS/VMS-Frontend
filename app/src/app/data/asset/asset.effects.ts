@@ -25,10 +25,10 @@ import { replaceDontTranslate } from '@app/helpers/helpers';
 @Injectable()
 export class AssetEffects {
   constructor(
-    private actions$: Actions,
-    private assetService: AssetService,
-    private store$: Store<State>,
-    private router: Router
+    private readonly actions$: Actions,
+    private readonly assetService: AssetService,
+    private readonly store$: Store<State>,
+    private readonly router: Router
   ) {}
 
   @Effect()
@@ -61,7 +61,7 @@ export class AssetEffects {
     })
   );
 
-  private removeOldAssetsIntervalDone$: Subject<boolean> = new Subject<boolean>();
+  private readonly removeOldAssetsIntervalDone$: Subject<boolean> = new Subject<boolean>();
 
   // Every 10 minutes
   removeOldAssetsEffect$ = createEffect(() => this.actions$.pipe(

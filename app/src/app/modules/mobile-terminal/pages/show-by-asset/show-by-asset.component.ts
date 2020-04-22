@@ -21,7 +21,10 @@ import { RouterTypes, RouterSelectors } from '@data/router';
 export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('toolbox') toolbox;
-  constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef, public dialog: MatDialog) { }
+  constructor(
+    private readonly store: Store<State>,
+    private readonly viewContainerRef: ViewContainerRef, public dialog: MatDialog
+  ) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public mobileTerminals: ReadonlyArray<MobileTerminalTypes.MobileTerminal>;

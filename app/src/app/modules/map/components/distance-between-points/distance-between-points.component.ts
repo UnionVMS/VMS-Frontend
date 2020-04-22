@@ -29,12 +29,12 @@ export class DistanceBetweenPointsComponent implements OnInit, OnDestroy, OnChan
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
-  private layerTitle = 'Distance Between Points Layer';
+  private readonly layerTitle = 'Distance Between Points Layer';
   private drawEvent: Draw;
   private isDrawing = false;
   private measureTooltipElement = null;
   private measureTooltip = null;
-  private measureTooltips = [];
+  private readonly measureTooltips = [];
   private features = [];
 
   ngOnInit() {

@@ -29,7 +29,7 @@ export class MapLayersComponent implements OnChanges, OnDestroy {
   @Input() addActiveLayerFunction: (layerName: string) => void;
   @Input() removeActiveLayerFunction: (layerName: string) => void;
 
-  private layers: { [layerName: string]: TileLayer} = {};
+  private readonly layers: { [layerName: string]: TileLayer} = {};
 
   toggleMapLayer(mapLayer: MapLayersTypes.MapLayer) {
     if(!this.activeMapLayers.includes(mapLayer.typeName)) {

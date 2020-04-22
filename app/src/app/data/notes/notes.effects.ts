@@ -17,10 +17,10 @@ import { AssetSelectors } from '../asset';
 @Injectable()
 export class NotesEffects {
   constructor(
-    private actions$: Actions,
-    private store$: Store<State>,
-    private notesService: NotesService,
-    private router: Router
+    private readonly actions$: Actions,
+    private readonly store$: Store<State>,
+    private readonly notesService: NotesService,
+    private readonly router: Router
   ) {}
 
   @Effect()

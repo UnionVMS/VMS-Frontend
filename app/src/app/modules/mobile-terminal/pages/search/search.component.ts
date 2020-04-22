@@ -17,7 +17,7 @@ import { MobileTerminalTypes, MobileTerminalActions, MobileTerminalSelectors } f
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store<State>) { }
+  constructor(private readonly store: Store<State>) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public assets: ReadonlyArray<MobileTerminalTypes.MobileTerminal>;

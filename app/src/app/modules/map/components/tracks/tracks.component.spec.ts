@@ -19,7 +19,7 @@ describe('AssetTracksComponent', () => {
     .compileComponents();
   }));
 
-  function setup() {
+  const setup = () => {
     const fixture = TestBed.createComponent(TracksComponent);
     const component = fixture.componentInstance;
 
@@ -29,7 +29,7 @@ describe('AssetTracksComponent', () => {
     component.assetTracks = [AssetTrackStub];
 
     return { fixture, component };
-  }
+  };
 
   it('should create', () => {
     const { component } = setup();

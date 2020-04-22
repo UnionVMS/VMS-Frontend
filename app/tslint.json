@@ -6,6 +6,7 @@
   "rules": {
     "array-type": false,
     "arrow-parens": false,
+    "cyclomatic-complexity": true,
     "deprecation": {
       "severity": "warn"
     },
@@ -15,7 +16,7 @@
     ],
     "interface-name": false,
     "linebreak-style": [true, "LF"],
-    "max-classes-per-file": false,
+    "max-classes-per-file": true,
     "max-line-length": [
       true,
       140
@@ -50,12 +51,15 @@
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,
     "no-var-requires": false,
+    "no-import-side-effect": true,
     "object-literal-key-quotes": [
       true,
       "as-needed"
     ],
     "object-literal-sort-keys": false,
+    "only-arrow-functions": true,
     "ordered-imports": false,
+    "prefer-readonly": true,
     "quotemark": [
       true,
       "single"

@@ -18,7 +18,7 @@ export class AssetGroupsComponent {
   @Input() deleteFilter: (filterId: string) => void;
   @Input() saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private readonly dialog: MatDialog) {}
 
   public toggleGroup = (assetGroupId: string): void => {
     if(this.selectedAssetGroups.includes(assetGroupId)) {

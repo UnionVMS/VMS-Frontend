@@ -31,14 +31,13 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
-  private layerTitle = 'Tracks Layer';
-  private hoverSelection: Select;
+  private readonly layerTitle = 'Tracks Layer';
 
   // Optimizations arrays for quick lookup
   private featuresHovered: Array<string> = [];
   private featuresPinned: Array<string> = [];
-  private renderedFeatureIdsByAssetId: { [assetId: string]: Array<string> } = {};
-  private lookupIndexLatLonFeature: { [latLon: string]: Feature[] } = {};
+  private readonly renderedFeatureIdsByAssetId: { [assetId: string]: Array<string> } = {};
+  private readonly lookupIndexLatLonFeature: { [latLon: string]: Feature[] } = {};
 
   public numberOfTracks = 0;
 

@@ -17,7 +17,7 @@ describe('AssetsComponent', () => {
     .compileComponents();
   }));
 
-  function setup() {
+  const setup = () => {
     const fixture = TestBed.createComponent(AssetsComponent);
     const component = fixture.componentInstance;
     component.assets = [];
@@ -31,7 +31,7 @@ describe('AssetsComponent', () => {
     component.registerOnSelectFunction = () => {};
     component.unregisterOnSelectFunction = () => {};
     return { fixture, component };
-  }
+  };
 
   it('should create', () => {
     const { component } = setup();

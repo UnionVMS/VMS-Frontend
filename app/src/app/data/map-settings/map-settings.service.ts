@@ -9,7 +9,7 @@ import { toUTF8Array } from '@app/helpers/helpers';
 })
 export class MapSettingsService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   saveMapSettings(authToken, preferences) {
     const preferencesAsString = JSON.stringify(preferences);

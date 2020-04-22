@@ -18,7 +18,7 @@ import { RouterTypes, RouterSelectors } from '@data/router';
 export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('toolbox') toolbox;
-  constructor(private store: Store<State>, private viewContainerRef: ViewContainerRef) { }
+  constructor(private readonly store: Store<State>, private readonly viewContainerRef: ViewContainerRef) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public asset = {} as AssetTypes.Asset;

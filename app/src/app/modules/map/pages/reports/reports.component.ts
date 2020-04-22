@@ -92,8 +92,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public assetMovements: Array<AssetTypes.AssetMovementWithEssentials>;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
-  private onClickFunctions: { [name: string]: Function } = {};
-  private onSelectFunctions: { [name: string]: (event) => void } = {};
+  private readonly onClickFunctions: { [name: string]: Function } = {};
+  private readonly  onSelectFunctions: { [name: string]: (event) => void } = {};
   // private onHoverFunctions: { [name: string]: (event) => void } = {};
 
   public assetTracks$: Observable<any>;
@@ -111,14 +111,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
   // private unregisterOnHoverFunction: (name: string) => void;
 
   public activePanel = '';
-  private unmount$: Subject<boolean> = new Subject<boolean>();
+  private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
   // Map functions to props:
   public centerMapOnPosition: (position: Position, zoom?: number) => void;
   public centerOnDefaultPosition: () => void;
   public toggleActivePanel: (panelName: string) => void;
 
-  constructor(private store: Store<any>) { }
+  constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {
     this.store.select(AssetSelectors.getAssetMovements).pipe(takeUntil(this.unmount$)).subscribe((assets) => {

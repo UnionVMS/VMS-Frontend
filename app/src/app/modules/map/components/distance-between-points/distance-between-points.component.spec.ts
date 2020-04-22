@@ -19,12 +19,12 @@ describe('DistanceBetweenPointsComponent', () => {
     .compileComponents();
   }));
 
-  function setup() {
+  const setup = () => {
     const fixture = TestBed.createComponent(DistanceBetweenPointsComponent);
     const component = fixture.componentInstance;
     component.map = { removeLayer: (layer) => {}, removeInteraction: (interaction) => {}};
     return { fixture, component };
-  }
+  };
 
   it('should create', () => {
     const { component } = setup();

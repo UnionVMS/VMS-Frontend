@@ -16,9 +16,9 @@ import { UserSettingsService } from '@data/user-settings/user-settings.service';
 @Injectable()
 export class UserSettingsEffects {
   constructor(
-    private actions$: Actions,
-    private userSettingsService: UserSettingsService,
-    private store$: Store<State>
+    private readonly actions$: Actions,
+    private readonly userSettingsService: UserSettingsService,
+    private readonly store$: Store<State>
   ) {}
 
   @Effect()

@@ -12,7 +12,7 @@ import { MapSavedFiltersTypes } from '@data/map-saved-filters';
 })
 export class MapSavedFiltersService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   create(authToken: string, filter: MapSavedFiltersTypes.SavedFilter) {
     return this.http.post(

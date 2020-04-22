@@ -23,7 +23,7 @@ export class AssetForecastComponent implements OnInit, OnDestroy, OnChanges {
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
-  private layerTitle = 'Asset Destinations Layer';
+  private readonly layerTitle = 'Asset Destinations Layer';
   private renderedAssetIds: Array<string> = [];
 
   ngOnInit() {

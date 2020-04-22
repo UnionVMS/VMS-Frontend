@@ -27,7 +27,7 @@ import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store<AssetTypes.State>) { }
+  constructor(private readonly store: Store<AssetTypes.State>) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public assets: AssetTypes.Asset[];

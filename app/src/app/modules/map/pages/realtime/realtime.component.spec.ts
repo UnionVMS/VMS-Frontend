@@ -89,12 +89,12 @@ describe('RealtimeComponent', () => {
   }));
 
 
-  function setup() {
+  const setup = () => {
     const fixture = TestBed.createComponent(RealtimeComponent);
     const component = fixture.componentInstance;
     component.mapReady = true;
     return { fixture, component };
-  }
+  };
 
   it('should create', () => {
     const { component } = setup();
@@ -103,7 +103,7 @@ describe('RealtimeComponent', () => {
 
   describe('mapStateToProps', () => {
 
-    function setupForMapStateToProps() {
+    const setupForMapStateToProps = () => {
       const setupObject = setup();
       return {
         ...setupObject,
@@ -114,7 +114,7 @@ describe('RealtimeComponent', () => {
           auth: { user: null }
         }
       };
-    }
+    };
 
     it('should update assets when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
@@ -270,13 +270,13 @@ describe('RealtimeComponent', () => {
   });
 
   describe('mapDispatchToProps', () => {
-    function mapDispatchToPropsSetup() {
+    const mapDispatchToPropsSetup = () => {
       const { component } = setup();
       const store = TestBed.inject(MockStore);
       const dispatchSpy = spyOn(store, 'dispatch');
       component.mapDispatchToProps();
       return { component, dispatchSpy };
-    }
+    };
 
     it('should dispatch MapSettingsActions.saveViewport when saveViewport is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
@@ -353,7 +353,7 @@ describe('RealtimeComponent', () => {
   });
 
   describe('Initialization', () => {
-    function initializationSetup() {
+    const initializationSetup = () => {
       const { component } = setup();
       const store = TestBed.inject(MockStore);
       const currentState = {
@@ -368,7 +368,7 @@ describe('RealtimeComponent', () => {
       component.ngOnInit();
       component.setupMap();
       return { component, store, currentState };
-    }
+    };
 
     it('should initialize a map and respond to move events', () => {
       const { component } = initializationSetup();
