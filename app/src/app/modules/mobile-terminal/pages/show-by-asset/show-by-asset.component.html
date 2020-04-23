@@ -95,16 +95,16 @@
             </div>
             <div class="row">
               <div class="title"><span class="text" i18n>Expected Frequency</span></div>
-              <div class="value">{{channel.expectedFrequency}}</div>
+              <div class="value">{{channel.expectedFrequency / (60 * 1000)}} min</div>
             </div>
             <div class="row">
               <div class="title"><span class="text" i18n>Frequency Grace Period</span></div>
-              <div class="value">{{channel.frequencyGracePeriod}}</div>
+              <div class="value">{{channel.frequencyGracePeriod / (60 * 1000)}} min</div>
             </div>
 
             <div class="row">
               <div class="title"><span class="text" i18n>Expected Frequency In Port</span></div>
-              <div class="value">{{channel.expectedFrequencyInPort}}</div>
+              <div class="value">{{channel.expectedFrequencyInPort / (60 * 1000)}} min</div>
             </div>
           </div>
         </mat-expansion-panel>

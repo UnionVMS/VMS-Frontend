@@ -224,6 +224,9 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
             pollChannel: typeof channel.pollChannel === 'undefined' ? false : channel.pollChannel,
             configChannel: typeof channel.configChannel === 'undefined' ? false : channel.configChannel,
             defaultChannel: typeof channel.defaultChannel === 'undefined' ? false : channel.defaultChannel,
+            expectedFrequency: channel.expectedFrequency * 60 * 1000,
+            frequencyGracePeriod: channel.frequencyGracePeriod * 60 * 1000,
+            expectedFrequencyInPort: channel.expectedFrequencyInPort * 60 * 1000,
           };
 
           console.warn(fixedChannel);

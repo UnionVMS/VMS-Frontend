@@ -115,6 +115,12 @@
                 i18n
               >Remove channel</button>
 
+              <mat-form-field class="mobile-terminal-form--channel-name">
+                <mat-label i18n>Name</mat-label>
+                <input matInput formControlName="name" required>
+                <mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'name'])">{{ errorMessage(error) }}</mat-error>
+              </mat-form-field>
+
               <mat-form-field class="mobile-terminal-form--channel-lesDescription">
                 <mat-label i18n>Land station</mat-label>
                 <input matInput formControlName="lesDescription" required>
@@ -128,7 +134,8 @@
                   formControlName="dnid"
                   required
                   (blur)="checkIfMemberNumberAndDnidExists(channel, (nrOfChannels() - (i + 1)))"
-                ><mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'dnid'])">{{ errorMessage(error) }}</mat-error>
+                >
+                <mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'dnid'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
               <mat-form-field class="mobile-terminal-form--channel-memberNumber">
@@ -139,11 +146,6 @@
                   required
                   (blur)="checkIfMemberNumberAndDnidExists(channel, (nrOfChannels() - (i + 1)))"
                 ><mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
-              </mat-form-field>
-
-              <mat-form-field class="mobile-terminal-form--channel-name">
-                <mat-label i18n>Channel</mat-label>
-                <input matInput formControlName="name">
               </mat-form-field>
 
               <div id="mobile-terminal-form--channel-name">
@@ -180,20 +182,23 @@
 
               <mat-form-field class="mobile-terminal-form--channel-expectedFrequency">
                 <mat-label i18n>Expected Frequency</mat-label>
-                <input matInput type="number" formControlName="expectedFrequency">
+                <input matInput type="number" formControlName="expectedFrequency" required>
                 <span matSuffix i18n>minutes</span>
+                <mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'expectedFrequency'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
               <mat-form-field class="mobile-terminal-form--channel-frequencyGracePeriod">
                 <mat-label i18n>Frequency Grace Period</mat-label>
-                <input matInput type="number" formControlName="frequencyGracePeriod">
+                <input matInput type="number" formControlName="frequencyGracePeriod" required>
                 <span matSuffix i18n>minutes</span>
+                <mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'frequencyGracePeriod'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
               <mat-form-field class="mobile-terminal-form--channel-expectedFrequencyInPort">
                 <mat-label i18n>Expected Frequency In Port</mat-label>
-                <input matInput type="number" formControlName="expectedFrequencyInPort">
+                <input matInput type="number" formControlName="expectedFrequencyInPort" required>
                 <span matSuffix i18n>minutes</span>
+                <mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'expectedFrequencyInPort'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
             </fieldset>
           </mat-expansion-panel>

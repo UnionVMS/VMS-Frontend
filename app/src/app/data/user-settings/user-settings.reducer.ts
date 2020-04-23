@@ -3,7 +3,7 @@ import * as UserSettingsActions from './user-settings.actions';
 import * as Interfaces from './user-settings.types';
 
 export const initialState: Interfaces.State = {
-  timezone: 'Europe/Stockholm'
+  timezone: 'Etc/UTC'
 };
 
 export const userSettingsReducer = createReducer(initialState,

@@ -68,15 +68,15 @@ const createNewChannel = (
       lesDescription: channel.lesDescription,
       startDate: typeof channel.startDate === 'undefined' || channel.startDate === null ? null : moment(channel.startDate),
       endDate: typeof channel.endDate === 'undefined' || channel.endDate === null ? null : moment(channel.endDate),
-      expectedFrequency: channel.expectedFrequency,
-      frequencyGracePeriod: channel.frequencyGracePeriod,
-      expectedFrequencyInPort: channel.expectedFrequencyInPort,
+      expectedFrequency: channel.expectedFrequency / (60 * 1000),
+      frequencyGracePeriod: channel.frequencyGracePeriod / (60 * 1000),
+      expectedFrequencyInPort: channel.expectedFrequencyInPort / (60 * 1000),
     };
   }
 
   return new FormGroup({
     id: new FormControl(formValues.id),
-    name: new FormControl(formValues.name),
+    name: new FormControl(formValues.name, [Validators.required]),
     pollChannel: new FormControl(formValues.pollChannel),
     configChannel: new FormControl(formValues.configChannel),
     defaultChannel: new FormControl(formValues.defaultChannel),
@@ -93,9 +93,9 @@ const createNewChannel = (
     lesDescription: new FormControl(formValues.lesDescription, [Validators.required]),
     startDate: new FormControl(formValues.startDate, [CustomValidators.momentValid]),
     endDate: new FormControl(formValues.endDate, [CustomValidators.momentValid]),
-    expectedFrequency: new FormControl(formValues.expectedFrequency),
-    frequencyGracePeriod: new FormControl(formValues.frequencyGracePeriod),
-    expectedFrequencyInPort: new FormControl(formValues.expectedFrequencyInPort),
+    expectedFrequency: new FormControl(formValues.expectedFrequency, [Validators.required]),
+    frequencyGracePeriod: new FormControl(formValues.frequencyGracePeriod, [Validators.required]),
+    expectedFrequencyInPort: new FormControl(formValues.expectedFrequencyInPort, [Validators.required]),
   });
 };
 
