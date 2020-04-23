@@ -55,7 +55,10 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
         }))
       }));
       if(this.mobileTerminals.length > 0) {
-        if(typeof this.currentMobileTerminal === 'undefined') {
+        if(
+          typeof this.currentMobileTerminal === 'undefined' ||
+          !this.mobileTerminals.some(mobileTerminal => mobileTerminal.id === this.currentMobileTerminal.id)
+        ) {
           this.currentMobileTerminal = this.mobileTerminals[0];
         }
         this.activeMobileTerminal = this.mobileTerminals.find(mobileTerminal => mobileTerminal.active);
