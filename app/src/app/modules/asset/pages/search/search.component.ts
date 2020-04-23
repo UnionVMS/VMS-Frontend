@@ -35,7 +35,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   public loadingData = false;
   public tableReadyForDisplay = false;
   public dataLoadedSubscription: Subscription;
-  public displayedColumns: string[] = ['name', 'ircs', 'mmsi', 'flagstate', 'externalMarking', 'cfr'];
+  public displayedColumns: string[] = ['externalMarking', 'ircs', 'name', 'cfr', 'flagstate', 'mmsi'];
   public assetSearchObject = {
     search: '',
     serachType: 'Swedish Assets',
