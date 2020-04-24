@@ -1,6 +1,6 @@
 import { Action, createAction, props } from '@ngrx/store';
-import * as AssetInterfaces from './asset.types';
-import * as IncidentInterfaces from '@data/incident/incident.types';
+import * as AssetTypes from './asset.types';
+import * as IncidentTypes from '@data/incident/incident.types';
 
 export const addForecast = createAction(
   '[Asset] Add forecast',
@@ -9,17 +9,17 @@ export const addForecast = createAction(
 
 export const addPositionForInspection = createAction(
   '[Asset] Add position for inspection',
-  props<{ positionForInspection: AssetInterfaces.Movement }>()
+  props<{ positionForInspection: AssetTypes.Movement }>()
 );
 
 export const assetMoved = createAction(
   '[Asset] Moved',
-  props<{ assetMovement: AssetInterfaces.AssetMovement }>()
+  props<{ assetMovement: AssetTypes.AssetMovement }>()
 );
 
 export const assetsMoved = createAction(
   '[Asset] Multiple moves',
-  props<{ assetMovements: { [assetId: string]: AssetInterfaces.AssetMovement } }>()
+  props<{ assetMovements: { [assetId: string]: AssetTypes.AssetMovement } }>()
 );
 
 export const checkForAssetEssentials = createAction(
@@ -29,7 +29,7 @@ export const checkForAssetEssentials = createAction(
 
 export const clearAssetGroup = createAction(
   '[Asset] Clear assetgroup',
-  props<{ assetGroup: AssetInterfaces.AssetGroup }>()
+  props<{ assetGroup: AssetTypes.AssetGroup }>()
 );
 
 export const clearForecasts = createAction(
@@ -46,7 +46,7 @@ export const clearSelectedAssets = createAction(
 
 export const createManualMovement = createAction(
   '[Asset] Create manual movement',
-  props<{ manualMovement: AssetInterfaces.ManualMovement }>()
+  props<{ manualMovement: AssetTypes.ManualMovement }>()
 );
 
 export const deselectAsset = createAction(
@@ -115,12 +115,12 @@ export const removeTracks = createAction(
 
 export const saveAsset = createAction(
   '[Asset] Save',
-  props<{ asset: AssetInterfaces.Asset }>()
+  props<{ asset: AssetTypes.Asset }>()
 );
 
 export const searchAssets = createAction(
   '[Asset] search',
-  props<{ searchQuery: any }>()
+  props<{ searchQuery: AssetTypes.AssetListSearchQuery, userSearch?: boolean }>()
 );
 
 export const selectAsset = createAction(
@@ -130,7 +130,7 @@ export const selectAsset = createAction(
 
 export const selectIncident = createAction(
   '[Asset] Select incident',
-  props<{ incident: IncidentInterfaces.assetNotSendingIncident, incidentType: string }>()
+  props<{ incident: IncidentTypes.assetNotSendingIncident, incidentType: string }>()
 );
 
 export const setAssetTripGranularity = createAction(
@@ -140,7 +140,7 @@ export const setAssetTripGranularity = createAction(
 
 export const setAssetTrips = createAction(
   '[Asset] Set asset trips',
-  props<{ assetMovements: ReadonlyArray<AssetInterfaces.AssetMovement> }>()
+  props<{ assetMovements: ReadonlyArray<AssetTypes.AssetMovement> }>()
 );
 
 export const setAssetPositionsFromTripByTimestamp = createAction(
@@ -150,22 +150,27 @@ export const setAssetPositionsFromTripByTimestamp = createAction(
 
 export const setAsset = createAction(
   '[Asset] Set asset',
-  props<{ asset: AssetInterfaces.Asset }>()
+  props<{ asset: AssetTypes.Asset }>()
 );
 
 export const setAssetGroup = createAction(
   '[Asset] Set assetgroup',
-  props<{ assetGroup: AssetInterfaces.AssetGroup }>()
+  props<{ assetGroup: AssetTypes.AssetGroup }>()
 );
 
 export const setAssetGroups = createAction(
   '[Asset] Set groups',
-  props<{ assetGroups: Array<AssetInterfaces.AssetGroup> }>()
+  props<{ assetGroups: Array<AssetTypes.AssetGroup> }>()
 );
 
 export const setAssetList = createAction(
   '[Asset] Set list',
-  props<{ searchParams: any, assets: { [uid: string]: AssetInterfaces.Asset }, currentPage: number, totalNumberOfPages: number  }>()
+  props<{ searchQuery: AssetTypes.AssetListSearchQuery, assets: { [uid: string]: AssetTypes.Asset }, userSearch: boolean }>()
+);
+
+export const setCurrentAssetList = createAction(
+  '[Asset] Set current asset list',
+  props<{ assetListIdentifier: string }>()
 );
 
 export const setAutocompleteQuery = createAction(
@@ -175,17 +180,17 @@ export const setAutocompleteQuery = createAction(
 
 export const setEssentialProperties = createAction(
   '[Asset] Set essential properties',
-  props<{ assetEssentialProperties: { [uid: string]: AssetInterfaces.AssetEssentialProperties } }>()
+  props<{ assetEssentialProperties: { [uid: string]: AssetTypes.AssetEssentialProperties } }>()
 );
 
 export const setFilterQuery = createAction(
   '[Asset] Set Filter Query',
-  props<{ filterQuery: Array<AssetInterfaces.AssetFilterQuery> }>()
+  props<{ filterQuery: Array<AssetTypes.AssetFilterQuery> }>()
 );
 
 export const setFullAsset = createAction(
   '[Asset] Set full asset',
-  props<{ asset: AssetInterfaces.Asset }>()
+  props<{ asset: AssetTypes.Asset }>()
 );
 
 export const setTracksForAsset = createAction(
@@ -195,17 +200,17 @@ export const setTracksForAsset = createAction(
 
 export const setTracks = createAction(
   '[Asset] Set tracks',
-  props<{ tracksByAsset: { [assetId: string]: ReadonlyArray<AssetInterfaces.Movement> } }>()
+  props<{ tracksByAsset: { [assetId: string]: ReadonlyArray<AssetTypes.Movement> } }>()
 );
 
 export const setAssetPositionsWithoutAffectingTracks = createAction(
   '[Asset] Set asset positions witought affecting tracks.',
-  props<{ movementsByAsset: { readonly [assetId: string]: AssetInterfaces.AssetMovement } }>()
+  props<{ movementsByAsset: { readonly [assetId: string]: AssetTypes.AssetMovement } }>()
 );
 
 export const setUnitTonnage = createAction(
   '[Asset] Set unit tonnage',
-  props<{ unitTonnages: Array<AssetInterfaces.UnitTonnage> }>()
+  props<{ unitTonnages: Array<AssetTypes.UnitTonnage> }>()
 );
 
 export const subscribeToMovements = createAction(
@@ -219,7 +224,7 @@ export const trimTracksThatPassedTimeCap = createAction(
 
 export const updateDecayOnAssetPosition = createAction(
   '[Asset] Update decay',
-  props<{assetMovements: { [uid: string]: AssetInterfaces.AssetMovement }}>()
+  props<{assetMovements: { [uid: string]: AssetTypes.AssetMovement }}>()
 );
 
 export const unsubscribeToMovements = createAction(

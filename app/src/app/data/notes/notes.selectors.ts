@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import * as NotesInterfaces from './notes.types';
+import * as NotesTypes from './notes.types';
 import { State } from '@app/app-reducer';
 import { getMergedRoute } from '@data/router/router.selectors';
 
@@ -9,7 +9,7 @@ export const selectNotes = (state: State) => state.notes.notes;
 export const getNotes = createSelector(
   selectNotes,
   getMergedRoute,
-  (notes: { [id: string ]: NotesInterfaces.Note }, mergedRoute) => {
+  (notes: { [id: string ]: NotesTypes.Note }, mergedRoute) => {
     return Object.values(notes).filter(note => note.assetId === mergedRoute.params.assetId);
   }
 );

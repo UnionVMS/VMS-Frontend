@@ -39,13 +39,12 @@ export class AssetEffects {
       return this.assetService.listAssets(authToken, action.searchQuery).pipe(
         map((response: any) => {
           return AssetActions.setAssetList({
-            searchParams: action.searchQuery,
-            totalNumberOfPages: response.totalNumberOfPages,
-            currentPage: response.currentPage,
+            searchQuery: action.searchQuery,
             assets: response.assetList.reduce((acc, asset) => {
               acc[asset.historyId] = asset;
               return acc;
-            }, {})
+            }, {}),
+            userSearch: action.userSearch === true
           });
         })
       );

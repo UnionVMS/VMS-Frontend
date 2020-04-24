@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Subject } from 'rxjs';
-import { takeWhile, endWith, takeUntil } from 'rxjs/operators';
+import { takeWhile, endWith, takeUntil, filter, take } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { getAlpha3Codes, langs, getNames, registerLocale, alpha2ToAlpha3 } from 'i18n-iso-countries';
 import { Sort } from '@angular/material/sort';
@@ -18,6 +18,8 @@ import { compareTableSortString, compareTableSortNumber } from '@app/helpers/hel
 const allCountries = getNames('en');
 const allCountryCodes = Object.entries(allCountries).reduce((obj, [key, value]) => ({ ...obj, [value]: alpha2ToAlpha3(key) }), { });
 
+import { State } from '@app/app-reducer';
+
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 
 @Component({
@@ -27,18 +29,18 @@ import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
 
-  constructor(private readonly store: Store<AssetTypes.State>) { }
+  constructor(private readonly store: Store<State>) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public assets: AssetTypes.Asset[];
-  public sortedAssets: AssetTypes.Asset[];
+  public assets: ReadonlyArray<AssetTypes.Asset>;
+  public sortedAssets: ReadonlyArray<AssetTypes.Asset>;
   public loadingData = false;
   public tableReadyForDisplay = false;
   public dataLoadedSubscription: Subscription;
   public displayedColumns: string[] = ['externalMarking', 'ircs', 'name', 'cfr', 'flagstate', 'mmsi'];
   public assetSearchObject = {
     search: '',
-    serachType: 'Swedish Assets',
+    searchType: 'Swedish Assets',
     flagState: [],
   };
   public search: () => void;
@@ -47,13 +49,52 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   public flagstates = Object.values(allCountries).sort().filter(flagstate => !this.commonCountries.includes(flagstate));
 
   mapStateToProps() {
-    this.store.select(AssetSelectors.getCurrentAssetList).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
-      this.loadingData = false;
-      if(assets.length > 0) {
-        this.tableReadyForDisplay = true;
+    this.store.select(AssetSelectors.getLastUserAssetSearch).pipe(take(1)).subscribe((lastUserAssetSearch) => {
+      if(lastUserAssetSearch !== null) {
+        this.store.dispatch(AssetActions.setCurrentAssetList({ assetListIdentifier: lastUserAssetSearch }));
       }
-      this.assets = assets;
-      this.sortedAssets = assets;
+      this.store.select(AssetSelectors.getCurrentAssetList).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
+        this.loadingData = false;
+        if(assets.length > 0) {
+          this.tableReadyForDisplay = true;
+        }
+        this.assets = assets;
+        this.sortedAssets = assets;
+      });
+      this.store.select(AssetSelectors.getCurrentAssetListSearchQuery).pipe(
+        takeUntil(this.unmount$),
+        filter(searchQuery => searchQuery !== null)
+      ).subscribe((searchQuery) => {
+        // @ts-ignore:next-line
+        if(searchQuery.fields.length === 2 && searchQuery.fields[0].searchValue === 'SWE') {
+          this.assetSearchObject = { ...this.assetSearchObject, searchType: 'Swedish Assets' };
+        } else if(searchQuery.fields.length === 4) {
+          this.assetSearchObject = { ...this.assetSearchObject, searchType: 'VMS' };
+        } else {
+          const flagStateSearch = searchQuery.fields[0] as AssetTypes.AssetListSearchQuery;
+          this.assetSearchObject = {
+            ...this.assetSearchObject,
+            searchType: 'other',
+            flagState: flagStateSearch.fields.map((flagstateField: AssetTypes.AssetListSearchQueryField) => flagstateField.searchValue)
+          };
+        }
+
+        const searchStringQuery = searchQuery.fields[searchQuery.fields.length - 1] as AssetTypes.AssetListSearchQuery;
+        let search: string;
+        if(searchStringQuery.logicalAnd === true) {
+          search = searchStringQuery.fields.reduce((searchString: string, query: AssetTypes.AssetListSearchQuery) => {
+            searchString += ' && ' + (query.fields[0] as AssetTypes.AssetListSearchQueryField).searchValue;
+            return searchString;
+          }, '').substring(4);
+        } else {
+          search = (searchStringQuery.fields[0] as AssetTypes.AssetListSearchQueryField).searchValue as string;
+        }
+
+        this.assetSearchObject = {
+          ...this.assetSearchObject,
+          search
+        };
+      });
     });
   }
 
@@ -62,12 +103,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       this.loadingData = true;
       this.tableReadyForDisplay = false;
 
-      let searchQuery = {
+      let searchQuery: AssetTypes.AssetListSearchQuery = {
         fields: [],
         logicalAnd: true
       };
 
-      if(this.assetSearchObject.serachType === 'Swedish Assets') {
+      if(this.assetSearchObject.searchType === 'Swedish Assets') {
         searchQuery = { ...searchQuery,
           fields: [ ...searchQuery.fields,
             {
@@ -76,7 +117,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
             }
           ]
         };
-      } else if(this.assetSearchObject.serachType === 'VMS') {
+      } else if(this.assetSearchObject.searchType === 'VMS') {
         searchQuery = { ...searchQuery,
           fields: [ ...searchQuery.fields,
             {
@@ -94,7 +135,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
             },
           ]
         };
-      } else if(this.assetSearchObject.serachType === 'other') {
+      } else if(this.assetSearchObject.searchType === 'other') {
         searchQuery = { ...searchQuery,
           fields: [ ...searchQuery.fields,
             {
@@ -132,7 +173,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         };
       }
 
-      this.store.dispatch(AssetActions.searchAssets({ searchQuery }));
+      this.store.dispatch(AssetActions.searchAssets({ searchQuery, userSearch: true }));
     };
   }
 

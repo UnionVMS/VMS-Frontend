@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import * as MapsActions from './map.actions';
-import * as Interfaces from './map.types';
+import * as Types from './map.types';
 
-export const initialState: Interfaces.State = {
+export const initialState: Types.State = {
   mapSettingsLoaded: false,
   realtime: {
     ready: false,

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import * as MobileTerminalInterfaces from './mobile-terminal.types';
+import * as MobileTerminalTypes from './mobile-terminal.types';
 
 export const search = createAction(
   '[Mobile Terminals] search',
@@ -8,7 +8,7 @@ export const search = createAction(
 
 export const addMobileTerminals = createAction(
   '[Mobile Terminals] Add',
-  props<{ mobileTerminals: { [id: string]: MobileTerminalInterfaces.MobileTerminal } }>()
+  props<{ mobileTerminals: { [id: string]: MobileTerminalTypes.MobileTerminal } }>()
 );
 
 export const addSearchResult = createAction(
@@ -18,7 +18,7 @@ export const addSearchResult = createAction(
 
 export const setMobileTerminal = createAction(
   '[Mobile Terminals] Set',
-  props<{ mobileTerminal: MobileTerminalInterfaces.MobileTerminal }>()
+  props<{ mobileTerminal: MobileTerminalTypes.MobileTerminal }>()
 );
 
 export const getMobileTerminals = createAction(
@@ -28,7 +28,7 @@ export const getMobileTerminals = createAction(
 
 export const saveMobileTerminal = createAction(
   '[Mobile Terminals] Save',
-  props<{ mobileTerminal: MobileTerminalInterfaces.MobileTerminal }>()
+  props<{ mobileTerminal: MobileTerminalTypes.MobileTerminal }>()
 );
 
 export const getSelectedMobileTerminal = createAction(
@@ -45,12 +45,12 @@ export const getPlugins = createAction(
 
 export const setTransponders = createAction(
   '[Mobile Terminal] Set Transponsers',
-  props<{ transponders: Array<MobileTerminalInterfaces.Transponder> }>()
+  props<{ transponders: Array<MobileTerminalTypes.Transponder> }>()
 );
 
 export const setPlugins = createAction(
   '[Mobile Terminal] Set Plugins',
-  props<{ plugins: Array<MobileTerminalInterfaces.Plugin> }>()
+  props<{ plugins: Array<MobileTerminalTypes.Plugin> }>()
 );
 
 export const setSerialNumberExists = createAction(

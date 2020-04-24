@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import * as AssetInterfaces from '@data/asset/asset.types';
+import * as AssetTypes from '@data/asset/asset.types';
 
 @Component({
   selector: 'map-top-panel',
@@ -13,7 +13,7 @@ export class TopPanelComponent {
   @Input() selectAsset: Function;
   @Input() filterFunction: Function;
   // tslint:enable:ban-types
-  @Input() autocompleteResult: Array<AssetInterfaces.AssetMovementWithEssentials>;
+  @Input() autocompleteResult: Array<AssetTypes.AssetMovementWithEssentials>;
   @Input() currentControlPanel: string|null;
   @Input() setCurrentControlPanel: (controlPanelName: string|null) => void;
   @Input() hidePanelButtons: Array<string>;

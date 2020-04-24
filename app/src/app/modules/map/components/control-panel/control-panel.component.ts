@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import * as MapSettingsInterfaces from '@data/map-settings/map-settings.types';
+import * as MapSettingsTypes from '@data/map-settings/map-settings.types';
 
 @Component({
   selector: 'map-control-panel',
@@ -7,7 +7,7 @@ import * as MapSettingsInterfaces from '@data/map-settings/map-settings.types';
   styleUrls: ['./control-panel.component.scss']
 })
 export class ControlPanelComponent implements OnChanges {
-  @Input() mapSettings: MapSettingsInterfaces.State;
+  @Input() mapSettings: MapSettingsTypes.State;
   @Input() setTracksMinuteCap: (minutes: number) => void;
   @Input() clearForecasts: () => void;
   @Input() clearTracks: () => void;

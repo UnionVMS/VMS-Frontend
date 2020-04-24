@@ -161,7 +161,7 @@ export class AssetService {
     );
   }
 
-  listAssets(authToken: string, searchQuery) {
+  listAssets(authToken: string, searchQuery: AssetTypes.AssetListSearchQuery) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/list/`,
       searchQuery,

@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import * as MapInterfaces from './map.types';
+import * as MapTypes from './map.types';
 import { State } from '@app/app-reducer';
 
 export const selectRealtimeMapReady = (state: State) => state.map.realtime.ready;

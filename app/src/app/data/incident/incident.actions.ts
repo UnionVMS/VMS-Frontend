@@ -1,9 +1,9 @@
 import { Action, createAction, props } from '@ngrx/store';
-import * as IncidentInterfaces from './incident.types';
+import * as IncidentTypes from './incident.types';
 
 export const clearNotificationsForIncident = createAction(
   '[Incident] clear notification for incident',
-  props<{ incident: IncidentInterfaces.assetNotSendingIncident}>()
+  props<{ incident: IncidentTypes.assetNotSendingIncident}>()
 );
 
 export const getAssetNotSendingIncidents = createAction(
@@ -17,18 +17,18 @@ export const saveNewIncidentStatus = createAction(
 
 export const selectIncident = createAction(
   '[Incident] Select incident',
-  props<{ incident: IncidentInterfaces.assetNotSendingIncident, incidentType: string }>()
+  props<{ incident: IncidentTypes.assetNotSendingIncident, incidentType: string }>()
 );
 
 export const setAssetNotSendingIncidents = createAction(
   '[Incident] Set asset not sending incidents',
-  props<{ assetNotSendingIncidents: { readonly [assetId: string]: IncidentInterfaces.assetNotSendingIncident }}>()
+  props<{ assetNotSendingIncidents: { readonly [assetId: string]: IncidentTypes.assetNotSendingIncident }}>()
 );
 
 export const updateAssetNotSendingIncidents = createAction(
   '[Incident] Update asset not sending incidents',
   props<{
-    assetNotSendingIncidents: { readonly [assetId: string]: IncidentInterfaces.assetNotSendingIncident },
-    updateType: IncidentInterfaces.incidentNotificationTypes
+    assetNotSendingIncidents: { readonly [assetId: string]: IncidentTypes.assetNotSendingIncident },
+    updateType: IncidentTypes.incidentNotificationTypes
   }>()
 );

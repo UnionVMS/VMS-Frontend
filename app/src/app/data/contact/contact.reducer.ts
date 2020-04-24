@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import * as ContactActions from './contact.actions';
-import * as ContactInterfaces from './contact.types';
+import * as ContactTypes from './contact.types';
 
-export const initialState: ContactInterfaces.State = {
+export const initialState: ContactTypes.State = {
   contacts: {}
 };
 

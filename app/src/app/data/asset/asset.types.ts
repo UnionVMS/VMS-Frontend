@@ -24,9 +24,19 @@ export type AssetMovement = Readonly<{
 }>;
 
 export type AssetList = Readonly<{
-  resultPages: { readonly [page: number]: ReadonlyArray<string> };
-  totalNumberOfPages: number;
-  pageSize: number;
+  searchQuery: any;
+  assets: ReadonlyArray<string>;
+}>;
+
+export type AssetListSearchQuery = Readonly<{
+  fields: ReadonlyArray<AssetListSearchQuery|AssetListSearchQueryField>,
+  logicalAnd: boolean;
+}>;
+
+export type AssetListSearchQueryField = Readonly<{
+  searchField: string;
+  searchValue: string|number;
+  operator?: string;
 }>;
 
 export type AssetData = Readonly<{
@@ -115,11 +125,6 @@ export type AssetFilterQuery = Readonly<{
   isNumber: boolean;
 }>;
 
-export type CurrentAssetList = Readonly<{
-  listIdentifier: string;
-  currentPage: number;
-}>;
-
 export type AssetEssentialProperties = Readonly<{
   assetId: string;
   flagstate: string;
@@ -174,7 +179,8 @@ export type State = Readonly<{
   assets: { readonly [uid: string]: Asset };
   assetsEssentials: { readonly [uid: string]: AssetEssentialProperties };
   assetLists: { readonly [identifier: string]: AssetList };
-  currentAssetList: CurrentAssetList;
+  currentAssetList: string;
+  lastUserAssetSearch: string;
   assetMovements: { readonly [assetId: string]: AssetMovement };
   assetTracks: { readonly [assetId: string]: AssetTrack };
   forecasts: ReadonlyArray<string>;

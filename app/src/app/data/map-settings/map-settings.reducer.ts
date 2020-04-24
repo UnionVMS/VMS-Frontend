@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import * as MapSettingsActions from './map-settings.actions';
-import * as Interfaces from './map-settings.types';
+import * as Types from './map-settings.types';
 
-export const initialState: Interfaces.State = {
+export const initialState: Types.State = {
   settings: {
     flagsVisible: false,
     tracksVisible: true,

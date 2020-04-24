@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { formatDate } from '../../../../helpers/helpers';
-import * as AssetInterfaces from '@data/asset/asset.types';
+import * as AssetTypes from '@data/asset/asset.types';
 
 type QueryParam = Readonly<{
-  queryObject: AssetInterfaces.AssetFilterQuery;
+  queryObject: AssetTypes.AssetFilterQuery;
   queryString: string;
 }>;
 
@@ -19,7 +19,7 @@ export class AssetSearchComponent implements OnChanges {
   @Input() centerMapOnPosition: Function;
   @Input() selectAsset: Function;
   // tslint:enable:ban-types
-  @Input() autocompleteResult: Array<AssetInterfaces.AssetMovementWithEssentials>;
+  @Input() autocompleteResult: Array<AssetTypes.AssetMovementWithEssentials>;
 
   public searchResults = [];
   public searchQuery = '';

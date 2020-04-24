@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import * as ContactInterfaces from './contact.types';
+import * as ContactTypes from './contact.types';
 
 export const getContactsForSelectedAsset = createAction(
   '[Contacts] Get contacts from asset id'
@@ -7,12 +7,12 @@ export const getContactsForSelectedAsset = createAction(
 
 export const setContacts = createAction(
   '[Contacts] Set contacts',
-  props<{ contacts: { [id: string]: ContactInterfaces.Contact } }>()
+  props<{ contacts: { [id: string]: ContactTypes.Contact } }>()
 );
 
 export const saveContact = createAction(
   '[Contacts] Save contact',
-  props<{ contact: ContactInterfaces.Contact }>()
+  props<{ contact: ContactTypes.Contact }>()
 );
 
 export const getSelectedContact = createAction(

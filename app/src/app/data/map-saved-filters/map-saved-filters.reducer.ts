@@ -1,8 +1,8 @@
 import { on, createReducer } from '@ngrx/store';
 import * as MapSavedFiltersActions from './map-saved-filters.actions';
-import * as Interfaces from './map-saved-filters.types';
+import * as Types from './map-saved-filters.types';
 
-export const initialState: Interfaces.State = {
+export const initialState: Types.State = {
   activeFilters: [],
   savedFilters: {}
 };

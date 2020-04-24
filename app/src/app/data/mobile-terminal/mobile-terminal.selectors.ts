@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import * as MobileTerminalInterfaces from './mobile-terminal.types';
+import * as MobileTerminalTypes from './mobile-terminal.types';
 import { State } from '@app/app-reducer';
 import { getMergedRoute } from '@data/router/router.selectors';
 
@@ -19,7 +19,7 @@ export const getCreateWithSerialNo = createSelector(selectCreateWithSerialNo, (c
 
 export const getMobileTerminals = createSelector(
   selectMobileTerminals,
-  (mobileTerminals: { [id: string ]: MobileTerminalInterfaces.MobileTerminal }) => {
+  (mobileTerminals: { [id: string ]: MobileTerminalTypes.MobileTerminal }) => {
     return { ...mobileTerminals };
   }
 );

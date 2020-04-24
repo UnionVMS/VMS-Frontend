@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { formatDate } from '../../../../helpers/helpers';
-import * as AssetInterfaces from '@data/asset/asset.types';
+import * as AssetTypes from '@data/asset/asset.types';
 
 type QueryParam = Readonly<{
-  queryObject: AssetInterfaces.AssetFilterQuery;
+  queryObject: AssetTypes.AssetFilterQuery;
   queryString: string;
 }>;
 
@@ -14,8 +14,8 @@ type QueryParam = Readonly<{
   styleUrls: ['./asset-filter.component.scss']
 })
 export class AssetFilterComponent implements OnChanges, OnInit {
-  @Input() filterFunction: (filterQuery: Array<AssetInterfaces.AssetFilterQuery>) => void;
-  @Input() filterQuerySaved: ReadonlyArray<AssetInterfaces.AssetFilterQuery>;
+  @Input() filterFunction: (filterQuery: Array<AssetTypes.AssetFilterQuery>) => void;
+  @Input() filterQuerySaved: ReadonlyArray<AssetTypes.AssetFilterQuery>;
 
   public filterQuery = '';
   public displayInfo = false;
@@ -99,7 +99,7 @@ export class AssetFilterComponent implements OnChanges, OnInit {
     }).filter(queryObject => queryObject.values.length > 0));
   }
 
-  generateQueryStringFromFilter(filters: ReadonlyArray<AssetInterfaces.AssetFilterQuery>) {
+  generateQueryStringFromFilter(filters: ReadonlyArray<AssetTypes.AssetFilterQuery>) {
     const typeList = { flagstate: 'f', ircs: 'i', cfr: 'c', vesselType: 'v', externalMarking: 'e', lengthOverAll: 'l' };
     const operatorList = { 'less then': '< ', 'greater then': '> ', 'almost equal': '~ ', equal: '' };
     return filters.map(filter => {

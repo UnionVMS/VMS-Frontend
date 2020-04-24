@@ -25,7 +25,6 @@ import { DatetimePickerModule } from 'ngx-moment-tz-picker';
 import { AttachPageComponent } from './pages/attach/attach.component';
 import { FormPageComponent } from './pages/form/form.component';
 import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.component';
-import { SearchPageComponent } from './pages/search/search.component';
 
 @NgModule({
   imports: [
@@ -53,7 +52,6 @@ import { SearchPageComponent } from './pages/search/search.component';
     AttachPageComponent,
     FormPageComponent,
     ShowByAssetPageComponent,
-    SearchPageComponent,
   ]
 })
 

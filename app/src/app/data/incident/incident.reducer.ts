@@ -1,9 +1,9 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as IncidentActions from './incident.actions';
-import * as Interfaces from './incident.types';
+import * as Types from './incident.types';
 import { hashCode } from '@app/helpers/helpers';
 
-export const initialState: Interfaces.State = {
+export const initialState: Types.State = {
   assetNotSendingIncidents: {},
   incidentNotificationsByType: {
     assetNotSending: {}
@@ -26,17 +26,17 @@ export const incidentReducer = createReducer(initialState,
         if(typeof acc[incident.id] === 'undefined') {
           return { ...acc,
             [incident.id]: {
-              created: updateType === Interfaces.incidentNotificationTypes.created ? 1 : 0,
-              updated: updateType === Interfaces.incidentNotificationTypes.updated ? 1 : 0
+              created: updateType === Types.incidentNotificationTypes.created ? 1 : 0,
+              updated: updateType === Types.incidentNotificationTypes.updated ? 1 : 0
             }
           };
         } else {
           return { ...acc,
             [incident.id]: { ...acc[incident.id],
-              created: updateType === Interfaces.incidentNotificationTypes.created
+              created: updateType === Types.incidentNotificationTypes.created
                 ? acc[incident.id].created + 1
                 : acc[incident.id].created,
-              updated: updateType === Interfaces.incidentNotificationTypes.updated
+              updated: updateType === Types.incidentNotificationTypes.updated
                 ? acc[incident.id].updated + 1
                 : acc[incident.id].updated,
             }

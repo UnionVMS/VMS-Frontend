@@ -1,9 +1,9 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as AssetActions from './asset.actions';
-import * as Interfaces from './asset.types';
+import * as Types from './asset.types';
 import { hashCode } from '@app/helpers/helpers';
 
-export const initialState: Interfaces.State = {
+export const initialState: Types.State = {
   selectedAssets: [],
   selectedAsset: null,
   assetTrips: {},
@@ -13,6 +13,7 @@ export const initialState: Interfaces.State = {
   assetsEssentials: {},
   assetLists: {},
   currentAssetList: null,
+  lastUserAssetSearch: null,
   assetMovements: {},
   assetTracks: {},
   forecasts: [],
@@ -217,8 +218,8 @@ export const assetReducer = createReducer(initialState,
     return { ...state, assetTrips, assetTripTimestamp };
   }),
   on(AssetActions.setAsset, (state, { asset }) => ({ ...state, assets: { ...state.assets, [asset.id]: asset }})),
-  on(AssetActions.setAssetList, (state, { searchParams, assets, currentPage, totalNumberOfPages }) => {
-    const identifier = `i-${hashCode(JSON.stringify(searchParams))}`;
+  on(AssetActions.setAssetList, (state, { searchQuery, assets, userSearch }) => {
+    const identifier = `i-${hashCode(JSON.stringify(searchQuery))}`;
     return { ...state,
       assets: {
         ...state.assets,
@@ -227,20 +228,18 @@ export const assetReducer = createReducer(initialState,
       assetLists: {
         ...state.assetLists,
         [identifier]: {
-          resultPages: {
-            ...state.assetLists.resultPages,
-            [currentPage]: Object.keys(assets)
-          },
-          totalNumberOfPages,
-          pageSize: searchParams.pageSize
+          searchQuery,
+          assets: Object.keys(assets)
         }
       },
-      currentAssetList: {
-        listIdentifier: identifier,
-        currentPage
-      }
+      currentAssetList: identifier,
+      lastUserAssetSearch: userSearch ? identifier : state.lastUserAssetSearch
     };
   }),
+  on(AssetActions.setCurrentAssetList, (state, { assetListIdentifier }) => ({
+    ...state,
+    currentAssetList: assetListIdentifier
+  })),
   on(AssetActions.setTracksForAsset, (state, { tracks, assetId, sources }) => {
     const finishedLineSegments = tracks.reduce((lineSegments, position) => {
       const lastSegment = lineSegments[lineSegments.length - 1];

@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as AssetInterfaces from './asset.types';
+import * as AssetTypes from './asset.types';
 import { State } from '@app/app-reducer';
 import { MapSavedFiltersSelectors, MapSavedFiltersTypes } from '@data/map-saved-filters';
 import { IncidentTypes, IncidentSelectors } from '@data/incident';
@@ -7,16 +7,19 @@ import { MapSelectors } from '@data/map';
 import { getMergedRoute } from '@data/router/router.selectors';
 
 
-export const getAssetState = createFeatureSelector<AssetInterfaces.State>('asset');
+export const getAssetState = createFeatureSelector<AssetTypes.State>('asset');
 
 export const selectAssets = (state: State) => state.asset.assets;
 export const selectAssetMovements = (state: State) => state.asset.assetMovements;
 export const selectAssetForecasts = (state: State) => state.asset.forecasts;
 export const selectAssetsEssentials = (state: State) => state.asset.assetsEssentials;
+export const selectAssetsLists = (state: State) => state.asset.assetLists;
 export const selectAssetsTracks = (state: State) => state.asset.assetTracks;
 export const selectAssetTrips = (state: State) => state.asset.assetTrips;
 export const selectAssetTripGranularity = (state: State) => state.asset.assetTripGranularity;
 export const selectAssetTripTimestamp = (state: State) => state.asset.assetTripTimestamp;
+export const selectCurrentAssetList = (state: State) => state.asset.currentAssetList;
+export const selectLastUserAssetSearch = (state: State) => state.asset.lastUserAssetSearch;
 export const selectSelectedAssets = (state: State) => state.asset.selectedAssets;
 export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
 export const selectFilterQuery = (state: State) => state.asset.filterQuery;
@@ -31,7 +34,7 @@ export const getAssetsMovementsDependingOnLeftPanel = createSelector(
   MapSelectors.getActiveLeftPanel,
   IncidentSelectors.selectAssetNotSendingIncidents,
   (
-    assetMovements: { readonly [uid: string]: AssetInterfaces.AssetMovement },
+    assetMovements: { readonly [uid: string]: AssetTypes.AssetMovement },
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
     activeLeftPanel: string,
     assetsNotSendingIncicents: { readonly [assetId: string]: IncidentTypes.assetNotSendingIncident }
@@ -53,31 +56,63 @@ export const getAssetsMovementsDependingOnLeftPanel = createSelector(
 
 export const getAssets = createSelector(
   getAssetState,
-  (state: AssetInterfaces.State) => {
+  (state: AssetTypes.State) => {
     return Object.values(state.assets);
   }
 );
 
 export const getNumberOfAssets = createSelector(
   getAssetState,
-  (state: AssetInterfaces.State) => {
+  (state: AssetTypes.State) => {
     return Object.keys(state.assets).length;
   }
 );
 
 export const getCurrentAssetList = createSelector(
-  getAssetState,
-  (state: AssetInterfaces.State) => {
-    if(state.currentAssetList === null) {
+  selectAssetsLists,
+  selectCurrentAssetList,
+  selectAssets,
+  (
+    assetsLists: { readonly [identifier: string]: AssetTypes.AssetList },
+    currentAssetList: string,
+    assets: { [uid: string]: AssetTypes.Asset },
+  ): ReadonlyArray<AssetTypes.Asset> => {
+    if(currentAssetList === null) {
       return [];
     }
-    const currentList = state.assetLists[state.currentAssetList.listIdentifier];
+    const currentList = assetsLists[currentAssetList];
     if(typeof currentList !== 'undefined') {
-      return currentList.resultPages[state.currentAssetList.currentPage].map(key => state.assets[key]);
+      return currentList.assets.map(key => assets[key]);
     }
 
     return [];
   }
+);
+
+export const getCurrentAssetListSearchQuery = createSelector(
+  selectAssetsLists,
+  selectCurrentAssetList,
+  selectAssets,
+  (
+    assetsLists: { readonly [identifier: string]: AssetTypes.AssetList },
+    currentAssetList: string,
+    assets: { [uid: string]: AssetTypes.Asset },
+  ): AssetTypes.AssetListSearchQuery|null => {
+    if(currentAssetList === null) {
+      return null;
+    }
+    const currentList = assetsLists[currentAssetList];
+    if(typeof currentList !== 'undefined') {
+      return currentList.searchQuery;
+    }
+
+    return null;
+  }
+);
+
+export const getLastUserAssetSearch = createSelector(
+  selectLastUserAssetSearch,
+  (lastUserAssetSearch: string) => lastUserAssetSearch
 );
 
 export const getAssetsEssentials = createSelector(
@@ -111,9 +146,9 @@ export const getAssetMovements = createSelector(
   MapSelectors.getActiveLeftPanel,
   IncidentSelectors.selectAssetNotSendingIncidents,
   (
-    assetMovements: { readonly [uid: string]: AssetInterfaces.AssetMovement },
-    assetsEssentials: { readonly [uid: string]: AssetInterfaces.AssetEssentialProperties },
-    currentFilterQuery: ReadonlyArray<AssetInterfaces.AssetFilterQuery>,
+    assetMovements: { readonly [uid: string]: AssetTypes.AssetMovement },
+    assetsEssentials: { readonly [uid: string]: AssetTypes.AssetEssentialProperties },
+    currentFilterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>,
     savedFilterQuerys: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>,
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
     activeLeftPanel: string,
@@ -122,7 +157,7 @@ export const getAssetMovements = createSelector(
     let assetMovementKeys = Object.keys(assetMovements);
 
     if(activeLeftPanel === 'filters') {
-      let filterQuerys: ReadonlyArray<ReadonlyArray<AssetInterfaces.AssetFilterQuery>> = [];
+      let filterQuerys: ReadonlyArray<ReadonlyArray<AssetTypes.AssetFilterQuery>> = [];
       if(filtersActive.savedFilters) {
         filterQuerys = savedFilterQuerys.map(savedFilter => savedFilter.filter);
       }
@@ -199,7 +234,7 @@ export const getAssetMovements = createSelector(
 
 export const getAssetTracks = createSelector(
   selectAssetsTracks,
-  (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }) => Object.values(assetTracks)
+  (assetTracks: { [assetId: string]: AssetTypes.AssetTrack }) => Object.values(assetTracks)
 );
 
 export const getTripTimestamp = createSelector(
@@ -219,13 +254,13 @@ export const getTripTimestamps = createSelector(
 
 export const getVisibleAssetTracks = createSelector(
   selectAssetsTracks,
-  (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }) => Object.values(assetTracks)
+  (assetTracks: { [assetId: string]: AssetTypes.AssetTrack }) => Object.values(assetTracks)
 );
 
 export const getCurrentPositionOfSelectedAssets = createSelector(
   getAssetsMovementsDependingOnLeftPanel,
   selectSelectedAssets,
-  (assetMovements: { [uid: string]: AssetInterfaces.AssetMovement }, selectedAssets: Array<string>) =>
+  (assetMovements: { [uid: string]: AssetTypes.AssetMovement }, selectedAssets: Array<string>) =>
     selectedAssets.reduce((acc, selectedAsset) => {
       acc[selectedAsset] = assetMovements[selectedAsset];
       return acc;
@@ -239,12 +274,12 @@ export const extendedDataForSelectedAssets = createSelector(
   selectAssetsTracks,
   getCurrentPositionOfSelectedAssets,
   (
-    assets: { [uid: string]: AssetInterfaces.Asset },
+    assets: { [uid: string]: AssetTypes.Asset },
     selectedAssets: Array<string>,
     selectedAsset: string|null,
-    assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack },
+    assetTracks: { [assetId: string]: AssetTypes.AssetTrack },
     currentPositions
-  ): Array<AssetInterfaces.AssetData> => selectedAssets.reduce((acc, assetId) => {
+  ): Array<AssetTypes.AssetData> => selectedAssets.reduce((acc, assetId) => {
     if(assets[assetId] !== undefined) {
       acc.push({
         asset: assets[assetId],
@@ -290,8 +325,8 @@ export const getSearchAutocomplete = createSelector(
         assetsEssentials[key].assetName.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
       )
       .map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] } as Readonly<{
-        assetMovement: AssetInterfaces.AssetMovement,
-        assetEssentials: AssetInterfaces.AssetEssentialProperties
+        assetMovement: AssetTypes.AssetMovement,
+        assetEssentials: AssetTypes.AssetEssentialProperties
       }>));
   }
 );
@@ -314,6 +349,6 @@ export const getSelectedAsset = createSelector(
 
 export const getAssetTracksForSelectedAsset = createSelector(
   selectAssetsTracks, getSelectedAsset,
-  (assetTracks: { [assetId: string]: AssetInterfaces.AssetTrack }, asset: AssetInterfaces.Asset) =>
+  (assetTracks: { [assetId: string]: AssetTypes.AssetTrack }, asset: AssetTypes.Asset) =>
     typeof asset !== 'undefined' ? assetTracks[asset.id] : undefined
 );

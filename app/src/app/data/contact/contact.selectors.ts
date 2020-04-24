@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import * as ContactInterfaces from './contact.types';
+import * as ContactTypes from './contact.types';
 import { State } from '@app/app-reducer';
 import { getMergedRoute } from '@data/router/router.selectors';
 
@@ -9,7 +9,7 @@ export const selectContacts = (state: State) => state.contact.contacts;
 export const getContactsOnAsset = createSelector(
   selectContacts,
   getMergedRoute,
-  (contacts: { [id: string ]: ContactInterfaces.Contact }, mergedRoute) => {
+  (contacts: { [id: string ]: ContactTypes.Contact }, mergedRoute) => {
    return Object.values(contacts).filter(contact => contact.assetId === mergedRoute.params.assetId);
   }
 );

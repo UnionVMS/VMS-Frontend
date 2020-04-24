@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import * as NotificationsActions from './notifications.actions';
-import * as Interfaces from './notifications.types';
+import * as Types from './notifications.types';
 
-export const initialState: Interfaces.State = {
+export const initialState: Types.State = {
   errors: [],
   notices: [],
   success: [],

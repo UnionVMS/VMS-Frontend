@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import * as NotesActions from './notes.actions';
-import * as NotesInterfaces from './notes.types';
+import * as NotesTypes from './notes.types';
 
-export const initialState: NotesInterfaces.State = {
+export const initialState: NotesTypes.State = {
   notes: {}
 };
 
