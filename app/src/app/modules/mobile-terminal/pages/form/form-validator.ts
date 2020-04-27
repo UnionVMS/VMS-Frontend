@@ -117,7 +117,9 @@ export const createMobileTerminalFormValidator = (
 
   let channels = [];
   if(mobileTerminal.channels !== undefined) {
-    channels = mobileTerminal.channels.map((channel) => createNewChannel(channel, memberNumberAndDnidCombinationExists));
+    channels = mobileTerminal.channels.slice().sort((c1: MobileTerminalTypes.Channel, c2: MobileTerminalTypes.Channel) => {
+      return c1.name.localeCompare(c2.name);
+    }).map((channel) => createNewChannel(channel, memberNumberAndDnidCombinationExists));
   }
   if(channels.length === 0) {
     channels.push(createNewChannel(null, memberNumberAndDnidCombinationExists));

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { take, takeUntil, map, skipWhile } from 'rxjs/operators';
@@ -25,10 +25,11 @@ import { Moment } from 'moment-timezone';
 export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('toolbox') toolbox;
+  @ViewChild('channels') channels: ElementRef;
   constructor(
     private readonly store: Store<State>,
     private readonly viewContainerRef: ViewContainerRef,
-    private readonly router: Router
+    private readonly router: Router,
   ) { }
 
   public createWithSerialNo: string | null;
@@ -63,6 +64,8 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   ];
   public save: () => void;
   public mergedRoute: RouterTypes.MergedRoute;
+
+  public currentChannelOpened = 0;
 
   private mobileTerminalIsFetched = false;
   private mobileTerminalPluginsFetched = false;
@@ -276,10 +279,6 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     return channel.id;
   }
 
-  nrOfChannels() {
-    return this.formValidator.value.channels.length;
-  }
-
   createNewChannel() {
     addChannelToFormValidator(this.formValidator, memberNumberAndDnidExistsFactory(this.memberNumberAndDnidCombinationExists$));
 
@@ -293,6 +292,29 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     if(this.channelsAlreadyInUseBy.default !== null) {
       this.formValidator.get(['channels', lastAddedChannelIndex, 'defaultChannel']).disable();
     }
+
+    this.setCurrentChannelOpened(lastAddedChannelIndex);
+
+    const observer = new MutationObserver((mutations, mutationObserver) => {
+      const newChannel = this.channels.nativeElement.children.item(lastAddedChannelIndex);
+      if (newChannel !== null) {
+        newChannel.scrollIntoView({ behavior: 'smooth'});
+        newChannel.getElementsByClassName('mobile-terminal-form--channel-name').item(0)
+          .getElementsByTagName('input').item(0)
+          .focus();
+        mutationObserver.disconnect(); // stop observing
+        return;
+      }
+    });
+
+    observer.observe(this.channels.nativeElement, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  setCurrentChannelOpened(index: number) {
+    this.currentChannelOpened = index;
   }
 
   removeChannel(index: number) {

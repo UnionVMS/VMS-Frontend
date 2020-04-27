@@ -94,31 +94,32 @@
     </div>
     <fieldset class="channels" formArrayName="channels">
       <ng-container *ngIf="formValidator.controls.channels?.value.length > 0">
-        <mat-accordion id="channels">
+        <mat-accordion id="channels" #channels>
           <mat-expansion-panel
-            *ngFor="let channel of formValidator.controls.channels?.value.slice().reverse(); let i = index; trackBy: trackChannelsBy"
-            [expanded]="i === 0"
+            *ngFor="let channel of formValidator.controls.channels?.value.slice(); let i = index; trackBy: trackChannelsBy"
+            [expanded]="i === currentChannelOpened"
+            (opened)="setCurrentChannelOpened(i)"
           >
             <mat-expansion-panel-header>
-              <mat-panel-title>{{channel.name ? channel.name : channel.id}}</mat-panel-title>
-              <mat-panel-description>Channel {{nrOfChannels() - i}}</mat-panel-description>
+              <mat-panel-title>{{channel.name ? channel.name : 'New channel'}}</mat-panel-title>
+              <mat-panel-description>Channel {{i + 1}}</mat-panel-description>
             </mat-expansion-panel-header>
             <fieldset
               class="channel"
-              formGroupName="{{nrOfChannels() - (i + 1)}}"
+              formGroupName="{{i}}"
             >
               <button
                 *ngIf="formValidator.controls.channels?.value.length > 1"
                 type="button"
                 name="button"
-                (click)="removeChannel(nrOfChannels() - (i + 1))"
+                (click)="removeChannel(i)"
                 i18n
               >Remove channel</button>
 
               <mat-form-field class="mobile-terminal-form--channel-name">
                 <mat-label i18n>Name</mat-label>
                 <input matInput formControlName="name" required>
-                <mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'name'])">{{ errorMessage(error) }}</mat-error>
+                <mat-error *ngFor="let error of getErrors(['channels', i + '', 'name'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
               <mat-form-field class="mobile-terminal-form--channel-lesDescription">
@@ -133,9 +134,9 @@
                   type="number"
                   formControlName="dnid"
                   required
-                  (blur)="checkIfMemberNumberAndDnidExists(channel, (nrOfChannels() - (i + 1)))"
+                  (blur)="checkIfMemberNumberAndDnidExists(channel, i)"
                 >
-                <mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'dnid'])">{{ errorMessage(error) }}</mat-error>
+                <mat-error *ngFor="let error of getErrors(['channels', i + '', 'dnid'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
               <mat-form-field class="mobile-terminal-form--channel-memberNumber">
@@ -144,61 +145,61 @@
                   matInput type="number"
                   formControlName="memberNumber"
                   required
-                  (blur)="checkIfMemberNumberAndDnidExists(channel, (nrOfChannels() - (i + 1)))"
-                ><mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
+                  (blur)="checkIfMemberNumberAndDnidExists(channel, i)"
+                ><mat-error *ngFor="let error of getErrors(['channels', i + '', 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
               <div id="mobile-terminal-form--channel-name">
                 <mat-checkbox
                   formControlName="pollChannel"
-                  (change)="updateChannelInUse($event, (nrOfChannels() - (i + 1)), 'pollChannel')"
+                  (change)="updateChannelInUse($event, i, 'pollChannel')"
                   i18n
                 >Poll</mat-checkbox>
                 <mat-checkbox
                   formControlName="configChannel"
-                  (change)="updateChannelInUse($event, (nrOfChannels() - (i + 1)), 'configChannel')"
+                  (change)="updateChannelInUse($event, i, 'configChannel')"
                   i18n
                 >Config</mat-checkbox>
                 <mat-checkbox
                   formControlName="defaultChannel"
-                  (change)="updateChannelInUse($event, (nrOfChannels() - (i + 1)), 'defaultChannel')"
+                  (change)="updateChannelInUse($event, i, 'defaultChannel')"
                   i18n
                 >Default</mat-checkbox>
               </div>
 
               <ngx-datetime-picker
                 [(dateTime)]="channel.startDate"
-                (dateTimeChange)="updateValue(['channels', (nrOfChannels() - (i + 1)) + '', 'startDate'], $event)"
+                (dateTimeChange)="updateValue(['channels', i + '', 'startDate'], $event)"
                 label="Started"
-                [errorMessages]="getErrorMessages(['channels', (nrOfChannels() - (i + 1)) + '', 'startDate'])"
+                [errorMessages]="getErrorMessages(['channels', i + '', 'startDate'])"
               ></ngx-datetime-picker>
 
               <ngx-datetime-picker
                 [(dateTime)]="channel.endDate"
-                (dateTimeChange)="updateValue(['channels', (nrOfChannels() - (i + 1)) + '', 'endDate'], $event)"
+                (dateTimeChange)="updateValue(['channels', i + '', 'endDate'], $event)"
                 label="Stopped"
-                [errorMessages]="getErrorMessages(['channels', (nrOfChannels() - (i + 1)) + '', 'endDate'])"
+                [errorMessages]="getErrorMessages(['channels', i + '', 'endDate'])"
               ></ngx-datetime-picker>
 
               <mat-form-field class="mobile-terminal-form--channel-expectedFrequency">
                 <mat-label i18n>Expected Frequency</mat-label>
                 <input matInput type="number" formControlName="expectedFrequency" required>
                 <span matSuffix i18n>minutes</span>
-                <mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'expectedFrequency'])">{{ errorMessage(error) }}</mat-error>
+                <mat-error *ngFor="let error of getErrors(['channels', i + '', 'expectedFrequency'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
               <mat-form-field class="mobile-terminal-form--channel-frequencyGracePeriod">
                 <mat-label i18n>Frequency Grace Period</mat-label>
                 <input matInput type="number" formControlName="frequencyGracePeriod" required>
                 <span matSuffix i18n>minutes</span>
-                <mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'frequencyGracePeriod'])">{{ errorMessage(error) }}</mat-error>
+                <mat-error *ngFor="let error of getErrors(['channels', i + '', 'frequencyGracePeriod'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
               <mat-form-field class="mobile-terminal-form--channel-expectedFrequencyInPort">
                 <mat-label i18n>Expected Frequency In Port</mat-label>
                 <input matInput type="number" formControlName="expectedFrequencyInPort" required>
                 <span matSuffix i18n>minutes</span>
-                <mat-error *ngFor="let error of getErrors(['channels', (nrOfChannels() - (i + 1)) + '', 'expectedFrequencyInPort'])">{{ errorMessage(error) }}</mat-error>
+                <mat-error *ngFor="let error of getErrors(['channels', i + '', 'expectedFrequencyInPort'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
             </fieldset>
           </mat-expansion-panel>

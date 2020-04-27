@@ -48,7 +48,9 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
         ...mobileTerminal,
         installDateFormatted: formatUnixtime(mobileTerminal.installDate),
         uninstallDateFormatted: formatUnixtime(mobileTerminal.uninstallDate),
-        channels: mobileTerminal.channels.map(channel => ({
+        channels: mobileTerminal.channels.slice().sort((c1: MobileTerminalTypes.Channel, c2: MobileTerminalTypes.Channel) => {
+          return c1.name.localeCompare(c2.name);
+        }).map(channel => ({
           ...channel,
           startDateFormatted: formatUnixtime(channel.startDate),
           endDateFormatted: formatUnixtime(channel.endDate)
