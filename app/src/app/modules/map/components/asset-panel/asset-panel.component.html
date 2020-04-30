@@ -31,7 +31,7 @@
         </ng-container>
         <ng-container *ngIf="asset.currentPosition.microMove.speed !== null">
           <legend i18n>Speed:</legend>
-          <div>{{asset.currentPosition.microMove.speed.toFixed(2)}}</div>
+          <div>{{asset.currentPosition.microMove.speed.toFixed(2)}} <span i18n="Knots SI symbol">kn</span></div>
         </ng-container>
         <ng-container *ngIf="asset.currentPosition.microMove.heading !== null">
           <legend i18n>Heading:</legend>
@@ -47,7 +47,7 @@
         </ng-container>
         <ng-container *ngIf="asset.asset.lengthOverAll">
           <legend i18n>Length:</legend>
-          <div>{{asset.asset.lengthOverAll}}</div>
+          <div>{{asset.asset.lengthOverAll}} <span i18n="Meter SI symbol">m</span></div>
         </ng-container>
         <ng-container *ngIf="asset.asset.licenceType">
           <legend i18n>LicenceType:</legend>
