@@ -274,7 +274,7 @@ export class AssetEffects {
       this.store$.select(AssetSelectors.getAssetsEssentials)
     ),
     mergeMap(([action, authToken, currentAssetsEssentials]: Array<any>) => {
-      const assetIdsWithoutEssentials = action.assetIds.reduce((acc, assetId) => {
+      const assetIdsWithoutEssentials: ReadonlyArray<string> = action.assetIds.reduce((acc, assetId) => {
         if(currentAssetsEssentials[assetId] === undefined) {
           acc.push(assetId);
         }
@@ -367,14 +367,14 @@ export class AssetEffects {
 
   @Effect()
   selectAssetTracksAssetIdObserver$ = this.actions$.pipe(
-    ofType(AssetActions.getNrOfTracksForAsset),
+    ofType(AssetActions.getLastFullPositionsForAsset),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
-        return this.assetService.getNrOfTracksForAsset(authToken, action.assetId, action.amount, action.sources).pipe(
+        return this.assetService.getLastFullPositionsForAsset(authToken, action.assetId, action.amount, action.sources).pipe(
           map((assetMovements: any) => {
             const assetMovementsOrdered = assetMovements.reverse();
-            return AssetActions.setTracks({ tracksByAsset: { [action.assetId]: assetMovementsOrdered } });
+            return AssetActions.setLastFullPositions({ fullPositionsByAsset: { [action.assetId]: assetMovementsOrdered } });
           })
         );
       })

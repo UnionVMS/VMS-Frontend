@@ -37,7 +37,7 @@ describe('AssetPanelComponent', () => {
       currentlyShowing: true
     };
 
-    component.getAssetTrack = (historyId: string, movementGuid: string) => {};
+    component.getAssetTrack = (historyId: string, movementId: string) => {};
     component.getAssetTrackTimeInterval = (historyId: string, startDate: number, endDate: number) => {};
     component.untrackAsset = (historyId: string) => {};
     component.addForecast = (historyId: string) => {};
@@ -83,7 +83,7 @@ describe('AssetPanelComponent', () => {
     component['toggleTracks'](selectedAsset);
     expect(getAssetTrackSpy).toHaveBeenCalledTimes(1);
     expect(getAssetTrackSpy).toHaveBeenCalledWith(
-      selectedAsset.asset.id, selectedAsset.currentPosition.microMove.guid
+      selectedAsset.asset.id, selectedAsset.currentPosition.microMove.id
     );
   });
 

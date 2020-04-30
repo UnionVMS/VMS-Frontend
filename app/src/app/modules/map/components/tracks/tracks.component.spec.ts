@@ -43,7 +43,7 @@ describe('AssetTracksComponent', () => {
     expect(typeof component['renderedFeatureIdsByAssetId'][assetId]).toBe('undefined');
     component['renderedFeatureIdsByAssetId'][assetId] = [];
     const feature = component.createNewTrackPosition(assetId, movement);
-    const featureAssetId = 'assetId_' + assetId + '_guid_' + movement.guid;
+    const featureAssetId = 'assetId_' + assetId + '_movementId_' + movement.id;
     expect(component['renderedFeatureIdsByAssetId'][assetId].length).toEqual(1);
     expect(component['renderedFeatureIdsByAssetId'][assetId][0]).toEqual(featureAssetId);
     expect(feature.getId()).toEqual(featureAssetId);

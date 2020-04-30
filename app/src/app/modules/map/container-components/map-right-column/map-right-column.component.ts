@@ -37,7 +37,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public createNote: (note: NotesTypes.Note) => void;
   public clearSelectedAssets: () => void;
   public deselectAsset: (assetId: string) => void;
-  public getAssetTrack: (assetId: string, movementGuid: string) => void;
+  public getAssetTrack: (assetId: string, movementId: string) => void;
   public getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
   public removeForecast: (assetId: string) => void;
   public saveNewIncidentStatus: (incidentId: number, status: string) => void;
@@ -88,8 +88,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.clearSelectedAssets());
     this.deselectAsset = (assetId) =>
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
-    this.getAssetTrack = (assetId: string, movementGuid: string) =>
-      this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementGuid }));
+    this.getAssetTrack = (assetId: string, movementId: string) =>
+      this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementId }));
     this.getAssetTrackTimeInterval = (assetId, startDate, endDate) =>
       this.store.dispatch(AssetActions.getAssetTrackTimeInterval({ assetId, startDate, endDate, sources: this.choosenMovementSources }));
     this.untrackAsset = (assetId: string) =>

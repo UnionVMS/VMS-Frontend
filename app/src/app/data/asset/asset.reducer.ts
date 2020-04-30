@@ -16,6 +16,7 @@ export const initialState: Types.State = {
   lastUserAssetSearch: null,
   assetMovements: {},
   assetTracks: {},
+  lastFullPositions: {},
   forecasts: [],
   positionsForInspection: {},
   searchQuery: '',
@@ -73,6 +74,7 @@ export const assetReducer = createReducer(initialState,
       newAssetTracks = Object.keys(assetMovements).reduce((assetTracks, assetId, index) => {
         if(
           typeof state.assetTracks[assetId] !== 'undefined' &&
+          typeof assetTracks[assetId].sources !== 'undefined' &&
           (
             assetTracks[assetId].sources.length === 0 ||
             assetTracks[assetId].sources.includes(assetMovements[assetId].microMove.source)
@@ -239,6 +241,13 @@ export const assetReducer = createReducer(initialState,
   on(AssetActions.setCurrentAssetList, (state, { assetListIdentifier }) => ({
     ...state,
     currentAssetList: assetListIdentifier
+  })),
+  on(AssetActions.setLastFullPositions, (state, { fullPositionsByAsset }) => ({
+    ...state,
+    lastFullPositions: {
+      ...state.lastFullPositions,
+      ...fullPositionsByAsset
+    }
   })),
   on(AssetActions.setTracksForAsset, (state, { tracks, assetId, sources }) => {
     const finishedLineSegments = tracks.reduce((lineSegments, position) => {

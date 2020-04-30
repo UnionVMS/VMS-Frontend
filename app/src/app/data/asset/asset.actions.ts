@@ -60,7 +60,7 @@ export const failedToSubscribeToMovements = createAction(
 
 export const getAssetTrack = createAction(
   '[Asset] Get asset track',
-  props<{ assetId: string, movementGuid: string }>()
+  props<{ assetId: string, movementId: string }>()
 );
 
 export const getAssetTrackTimeInterval = createAction(
@@ -73,8 +73,8 @@ export const getTracksByTimeInterval = createAction(
   props<{ query: any, startDate: number, endDate: number, sources: string[] }>()
 );
 
-export const getNrOfTracksForAsset = createAction(
-  '[Asset] Get nr of tracks for asset',
+export const getLastFullPositionsForAsset = createAction(
+  '[Asset] Get last full positions for asset',
   props<{ assetId: string, amount: number, sources?: string[] }>()
 );
 
@@ -129,6 +129,11 @@ export const selectIncident = createAction(
   props<{ incident: IncidentTypes.assetNotSendingIncident, incidentType: string }>()
 );
 
+export const setAutocompleteQuery = createAction(
+  '[Asset] Set autocomplete query',
+  props<{ searchQuery: string }>()
+);
+
 export const setAssetTripGranularity = createAction(
   '[Asset] Set asset trip granularity',
   props<{ assetTripGranularity: number }>()
@@ -169,9 +174,9 @@ export const setCurrentAssetList = createAction(
   props<{ assetListIdentifier: string }>()
 );
 
-export const setAutocompleteQuery = createAction(
-  '[Asset] Set autocomplete query',
-  props<{ searchQuery: string }>()
+export const setLastFullPositions = createAction(
+  '[Asset] Set last full positions',
+  props<{ fullPositionsByAsset: { [assetId: string]: ReadonlyArray<AssetTypes.FullMovement> } }>()
 );
 
 export const setEssentialProperties = createAction(

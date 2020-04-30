@@ -17,7 +17,7 @@ export class AssetPanelComponent {
   @Input() asset: AssetTypes.AssetData;
 
   @Input() deselectAsset: (assetId: string) => void;
-  @Input() getAssetTrack: (assetId: string, movementGuid: string) => void;
+  @Input() getAssetTrack: (assetId: string, movementId: string) => void;
   @Input() getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
   @Input() untrackAsset: (assetId: string) => void;
   @Input() addForecast: (assetId: string) => void;
@@ -47,7 +47,7 @@ export class AssetPanelComponent {
     if(this.tracksIsVisible(asset)) {
       this.untrackAsset(asset.asset.id);
     } else if(this.tracksMinuteCap === null) {
-      this.getAssetTrack(asset.asset.id, asset.currentPosition.microMove.guid);
+      this.getAssetTrack(asset.asset.id, asset.currentPosition.microMove.id);
     } else {
       this.getAssetTrackTimeInterval(
         asset.asset.id,

@@ -7,7 +7,7 @@ const AssetMovementStub: AssetMovement = {
       latitude:  65.15318167666667
     },
     heading: 189,
-    guid: '4eea28b6-0844-4a6b-f5be-6b655a4e0343',
+    id: '4eea28b6-0844-4a6b-f5be-6b655a4e0343',
     timestamp: 1583509117,
     speed: 11.2,
     source: 'AIS',

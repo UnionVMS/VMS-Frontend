@@ -3,11 +3,30 @@ import { Position } from '../generic.types';
 export type Movement = Readonly<{
   location: Position;
   heading: number;
-  guid: string;
+  id: string;
   timestamp: number;
   speed: number | null;
   source: string;
 }>;
+
+export type FullMovement = Readonly<{
+  location: Position;
+  heading: number;
+  id: string;
+  timestamp: number;
+  speed: number | null;
+  source: string;
+
+  tripNumber: number;
+  internalReferenceNumber: string;
+  status: string;
+  movementType: string;
+  lesReportTime: number;
+  sourceSatelliteId: number;
+  updated: number;
+  updatedBy: string;
+}>;
+
 
 export type ManualMovement = Readonly<{
   movement: Movement;
@@ -183,6 +202,7 @@ export type State = Readonly<{
   lastUserAssetSearch: string;
   assetMovements: { readonly [assetId: string]: AssetMovement };
   assetTracks: { readonly [assetId: string]: AssetTrack };
+  lastFullPositions: { readonly [assetId: string]: ReadonlyArray<FullMovement> };
   forecasts: ReadonlyArray<string>;
   positionsForInspection: { readonly [id: number]: Movement };
   searchQuery: string;

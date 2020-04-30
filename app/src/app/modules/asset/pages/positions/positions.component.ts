@@ -26,7 +26,7 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
   public positions: ReadonlyArray<AssetTypes.Movement>;
   public sortedPositions: ReadonlyArray<AssetTypes.Movement>;
 
-  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'source'];
+  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'sourceSatelliteId'];
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -40,22 +40,24 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
         this.asset = asset;
       }
     });
-    this.store.select(AssetSelectors.getAssetTracksForSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((positions) => {
-      if(typeof positions === 'undefined') {
-        this.positions = [];
-      } else {
-        this.positions = positions.tracks.map(position => ({
-          ...position,
-          formattedTimestamp: formatUnixtime(position.timestamp),
-          formattedSpeed: position.speed.toFixed(2)
-        }));
-        this.sortedPositions = this.positions;
+    this.store.select(AssetSelectors.getLastFullPositionsForSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe(
+      (positions: ReadonlyArray<AssetTypes.FullMovement>) => {
+        if(typeof positions === 'undefined') {
+          this.positions = [];
+        } else {
+          this.positions = positions.map(position => ({
+            ...position,
+            formattedTimestamp: formatUnixtime(position.timestamp),
+            formattedSpeed: position.speed.toFixed(2)
+          }));
+          this.sortedPositions = this.positions;
+        }
       }
-    });
+    );
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
       this.mergedRoute = mergedRoute;
       if(typeof this.mergedRoute.params.assetId !== 'undefined') {
-        this.store.dispatch(AssetActions.getNrOfTracksForAsset({
+        this.store.dispatch(AssetActions.getLastFullPositionsForAsset({
           assetId: this.mergedRoute.params.assetId,
           amount: 20,
           sources: ['INMARSAT_C'],

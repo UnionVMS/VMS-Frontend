@@ -18,7 +18,7 @@ export class SelectedAssetsPanelComponent {
   @Input() clearSelectedAssets: () => void;
   @Input() deselectAsset: (assetId: string) => void;
   @Input() forecasts: {};
-  @Input() getAssetTrack: (assetId: string, movementGuid: string) => void;
+  @Input() getAssetTrack: (assetId: string, movementId: string) => void;
   @Input() getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
   @Input() untrackAsset: (assetId: string) => void;
   @Input() addForecast: (assetId: string) => void;

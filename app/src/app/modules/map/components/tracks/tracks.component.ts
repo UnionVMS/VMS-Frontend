@@ -92,7 +92,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         currentHoveredFeatures.push(featureId);
         const idParts = featureId.split('_');
         const assetTrack = this.assetTracks.find((aTrack) => idParts[1] === aTrack.assetId);
-        const track = assetTrack.tracks.find((tr) => idParts[3] === tr.guid);
+        const track = assetTrack.tracks.find((tr) => idParts[3] === tr.id);
         const styles = closestFeature.getStyle();
         let style = styles;
         if(Array.isArray(styles)) {
@@ -179,7 +179,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
           // Since we know that the tracks are ordered by time (oldest position first) we can do some optimizations.
           // If tracks is being removed since they passed the time span we don't have to search all of it we know it to be at the start.
           const firstPositionIndex = this.renderedFeatureIdsByAssetId[assetTrack.assetId]
-            .indexOf('assetId_' + assetTrack.assetId + '_guid_' + assetTrack.tracks[0].guid);
+            .indexOf('assetId_' + assetTrack.assetId + '_movementId_' + assetTrack.tracks[0].id);
           if(firstPositionIndex > 0) {
             const featureIdsToRemove = this.renderedFeatureIdsByAssetId[assetTrack.assetId].splice(0, firstPositionIndex);
             this.removeDeletedFeatures(featureIdsToRemove);
@@ -190,7 +190,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
           const renderedFeaturesLength = this.renderedFeatureIdsByAssetId[assetTrack.assetId].length;
           const lastPositionFeatureId = this.renderedFeatureIdsByAssetId[assetTrack.assetId][renderedFeaturesLength - 1];
           const lastIndexOfRenderedPosition = findLastIndex(assetTrack.tracks, (movement: AssetTypes.Movement) =>
-            lastPositionFeatureId === ('assetId_' + assetTrack.assetId + '_guid_' + movement.guid)
+            lastPositionFeatureId === ('assetId_' + assetTrack.assetId + '_movementId_' + movement.id)
           );
 
           const lastIndex = assetTrack.tracks.length - 1;
@@ -243,7 +243,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       movement.location.longitude, movement.location.latitude
     ])));
     feature.setStyle(new Style({ image: null }));
-    const featureId = 'assetId_' + assetId + '_guid_' + movement.guid;
+    const featureId = 'assetId_' + assetId + '_movementId_' + movement.id;
     feature.setId(featureId);
 
     this.renderedFeatureIdsByAssetId[assetId].push(featureId);

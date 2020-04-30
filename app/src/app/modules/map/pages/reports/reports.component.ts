@@ -102,7 +102,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   private selection: Select;
   // private hoverSelection: Select;
 
-  private getAssetTrack: (assetId: string, movementGuid: string) => void;
+  private getAssetTrack: (assetId: string, movementId: string) => void;
   private removeForecast: (assetId: string) => void;
   public selectAsset: (assetId: string) => void;
   private untrackAsset: (assetId: string) => void;
@@ -176,8 +176,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapSettingsActions.setTracksMinuteCap({ minutes }));
     this.selectAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
-    this.getAssetTrack = (assetId: string, movementGuid: string) =>
-      this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementGuid }));
+    this.getAssetTrack = (assetId: string, movementId: string) =>
+      this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementId }));
     this.untrackAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
     this.addPositionForInspection = (track) =>

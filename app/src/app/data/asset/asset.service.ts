@@ -84,10 +84,10 @@ export class AssetService {
     );
   }
 
-  // /unionvms/movement/rest/micro/track/movement/{guid}
-  getAssetTrack(authToken: string, movementGuid: string) {
+  // /unionvms/movement/rest/micro/track/movement/{id}
+  getAssetTrack(authToken: string, movementId: string) {
     return this.http.get(
-      environment.baseApiUrl + 'movement/rest/micro/track/movement/' + movementGuid, {
+      environment.baseApiUrl + 'movement/rest/micro/track/movement/' + movementId, {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
@@ -131,7 +131,7 @@ export class AssetService {
     );
   }
 
-  getNrOfTracksForAsset(authToken: string, assetId: string, amount: number, sources?: string[]) {
+  getLastFullPositionsForAsset(authToken: string, assetId: string, amount: number, sources?: string[]) {
     let body = {};
     if(typeof sources !== 'undefined') {
       body = {
@@ -139,7 +139,7 @@ export class AssetService {
       };
     }
     return this.http.post(
-      environment.baseApiUrl + `movement/rest/micro/track/latest/asset/${assetId}?maxNbr=${amount}`,
+      environment.baseApiUrl + `movement/rest/movement/track/latest/asset/${assetId}?maxNbr=${amount}`,
       sources || [],
       {
         headers: new HttpHeaders({
@@ -163,7 +163,7 @@ export class AssetService {
     );
   }
 
-  getAssetEssentialProperties(authToken: string, listOfAssetIds) {
+  getAssetEssentialProperties(authToken: string, listOfAssetIds: ReadonlyArray<string>) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/microAssets`,
       listOfAssetIds,

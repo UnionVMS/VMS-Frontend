@@ -22,6 +22,7 @@ export const selectCurrentAssetList = (state: State) => state.asset.currentAsset
 export const selectLastUserAssetSearch = (state: State) => state.asset.lastUserAssetSearch;
 export const selectSelectedAssets = (state: State) => state.asset.selectedAssets;
 export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
+export const selectLastFullPositions = (state: State) => state.asset.lastFullPositions;
 export const selectFilterQuery = (state: State) => state.asset.filterQuery;
 export const selectSearchQuery = (state: State) => state.asset.searchQuery;
 export const selectPositionsForInspection = (state: State) => state.asset.positionsForInspection;
@@ -347,8 +348,8 @@ export const getSelectedAsset = createSelector(
   }
 );
 
-export const getAssetTracksForSelectedAsset = createSelector(
-  selectAssetsTracks, getSelectedAsset,
-  (assetTracks: { [assetId: string]: AssetTypes.AssetTrack }, asset: AssetTypes.Asset) =>
-    typeof asset !== 'undefined' ? assetTracks[asset.id] : undefined
+export const getLastFullPositionsForSelectedAsset = createSelector(
+  selectLastFullPositions, getSelectedAsset,
+  (fullPositions: { [assetId: string]: ReadonlyArray<AssetTypes.FullMovement> }, asset: AssetTypes.Asset) =>
+    typeof asset !== 'undefined' ? fullPositions[asset.id] : undefined
 );
