@@ -251,7 +251,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
     this.mapStateToProps();
     this.mapDispatchToProps();
     this.store.dispatch(AssetActions.getSelectedAsset());
-    this.store.dispatch(AssetActions.getAssetGroups());
     this.store.dispatch(MapLayersActions.getAreas());
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe((mergedRoute) => {
       if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {

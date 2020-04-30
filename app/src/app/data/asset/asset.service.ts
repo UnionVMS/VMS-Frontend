@@ -84,17 +84,6 @@ export class AssetService {
     );
   }
 
-  getAssetGroups(authToken: string, userName: string) {
-    return this.http.get(
-      environment.baseApiUrl + 'asset/rest/group/list?user=' + userName, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
-    );
-  }
-
   // /unionvms/movement/rest/micro/track/movement/{guid}
   getAssetTrack(authToken: string, movementGuid: string) {
     return this.http.get(

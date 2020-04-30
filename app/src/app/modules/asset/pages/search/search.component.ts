@@ -65,11 +65,20 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         takeUntil(this.unmount$),
         filter(searchQuery => searchQuery !== null)
       ).subscribe((searchQuery) => {
+        let searchQueryIncluded = true;
+
         // @ts-ignore:next-line
-        if(searchQuery.fields.length === 2 && searchQuery.fields[0].searchValue === 'SWE') {
+        if([1, 2].includes(searchQuery.fields.length) && searchQuery.fields[0].searchValue === 'SWE') {
           this.assetSearchObject = { ...this.assetSearchObject, searchType: 'Swedish Assets' };
-        } else if(searchQuery.fields.length === 4) {
+          if(searchQuery.fields.length === 1) {
+            searchQueryIncluded = false;
+          }
+          // @ts-ignore:next-line
+        } else if([3, 4].includes(searchQuery.fields.length) && searchQuery.fields[0].searchValue === 'SWE') {
           this.assetSearchObject = { ...this.assetSearchObject, searchType: 'VMS' };
+          if(searchQuery.fields.length === 3) {
+            searchQueryIncluded = false;
+          }
         } else {
           const flagStateSearch = searchQuery.fields[0] as AssetTypes.AssetListSearchQuery;
           this.assetSearchObject = {
@@ -77,23 +86,27 @@ export class SearchPageComponent implements OnInit, OnDestroy {
             searchType: 'other',
             flagState: flagStateSearch.fields.map((flagstateField: AssetTypes.AssetListSearchQueryField) => flagstateField.searchValue)
           };
+          if(searchQuery.fields.length === 1) {
+            searchQueryIncluded = false;
+          }
         }
 
-        const searchStringQuery = searchQuery.fields[searchQuery.fields.length - 1] as AssetTypes.AssetListSearchQuery;
-        let search: string;
-        if(searchStringQuery.logicalAnd === true) {
-          search = searchStringQuery.fields.reduce((searchString: string, query: AssetTypes.AssetListSearchQuery) => {
-            searchString += ' && ' + (query.fields[0] as AssetTypes.AssetListSearchQueryField).searchValue;
-            return searchString;
-          }, '').substring(4);
-        } else {
-          search = (searchStringQuery.fields[0] as AssetTypes.AssetListSearchQueryField).searchValue as string;
+        if(searchQueryIncluded) {
+          const searchStringQuery = searchQuery.fields[searchQuery.fields.length - 1] as AssetTypes.AssetListSearchQuery;
+          let search: string;
+          if(searchStringQuery.logicalAnd === true) {
+            search = searchStringQuery.fields.reduce((searchString: string, query: AssetTypes.AssetListSearchQuery) => {
+              searchString += ' && ' + (query.fields[0] as AssetTypes.AssetListSearchQueryField).searchValue;
+              return searchString;
+            }, '').substring(4);
+          } else {
+            search = (searchStringQuery.fields[0] as AssetTypes.AssetListSearchQueryField).searchValue as string;
+          }
+          this.assetSearchObject = {
+            ...this.assetSearchObject,
+            search
+          };
         }
-
-        this.assetSearchObject = {
-          ...this.assetSearchObject,
-          search
-        };
       });
     });
   }

@@ -58,10 +58,6 @@ export const failedToSubscribeToMovements = createAction(
   '[Asset] Failed to subscribe to movements'
 );
 
-export const getAssetGroups = createAction(
-  '[Asset] Get groups'
-);
-
 export const getAssetTrack = createAction(
   '[Asset] Get asset track',
   props<{ assetId: string, movementGuid: string }>()

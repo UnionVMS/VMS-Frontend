@@ -298,22 +298,6 @@ export class AssetEffects {
   );
 
   @Effect()
-  assetGetGroupsObserver$ = this.actions$.pipe(
-    ofType(AssetActions.getAssetGroups),
-    withLatestFrom(
-      this.store$.select(AuthSelectors.getAuthToken),
-      this.store$.select(AuthSelectors.getUserName),
-    ),
-    mergeMap(([action, authToken, userName]: Array<any>) => {
-      return this.assetService.getAssetGroups(authToken, userName).pipe(
-        map((response: Array<AssetTypes.AssetGroup>) => {
-          return AssetActions.setAssetGroups({ assetGroups: response });
-        })
-      );
-    })
-  );
-
-  @Effect()
   selectAssetObserver$ = this.actions$.pipe(
     ofType(AssetActions.selectAsset),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
