@@ -36,25 +36,9 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
 
   constructor(private readonly store: Store<any>, private readonly router: Router) { }
 
-  // resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Crisis> | Observable<never> {
-  //   let id = route.paramMap.get('id');
-  //
-  //   return this.cs.getCrisis(id).pipe(
-  //     take(1),
-  //     mergeMap(crisis => {
-  //       if (crisis) {
-  //         return of(crisis);
-  //       } else { // id not found
-  //         this.router.navigate(['/crisis-center']);
-  //         return EMPTY;
-  //       }
-  //     })
-  //   );
-
   mapStateToProps() {
     this.notifications$ = this.store.select(NotificationsSelectors.getNotifications);
     this.store.select(RouterSelectors.getMergedRoute).pipe(takeUntil(this.unmount$)).subscribe(mergedRoute => {
-      // console.warn(mergedRoute);
       this.mergedRoute = mergedRoute;
       this.pageTitle = mergedRoute.data.title;
     });
@@ -125,5 +109,10 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
       this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminals$/g) !== null ||
       this.mergedRoute.url.match(/^\/mobileTerminal\/.*\/create$/g) !== null;
   }
+
+  matchAssetInfoUrl() {
+    return this.mergedRoute.url.match(/^\/asset\/([^/]+)$/g) !== null;
+  }
+
 
 }

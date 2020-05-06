@@ -19,13 +19,9 @@
         <span class="short-key">S</span>
         <span class="text" i18n>Search</span>
       </li>
-      <!-- <li routerLink="/mobileterminals" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <span class="short-key">M</span>
-        <span class="text" i18n>Detached Mobile terminals</span>
-      </li> -->
       <li class="divider"></li>
       <ng-container *ngIf="selectedAsset">
-        <li routerLink="/asset/{{selectedAsset.id}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <li routerLink="/asset/{{selectedAsset.id}}" class="{{ matchAssetInfoUrl() ? 'active' : '' }}">
           <span class="short-key">1</span>
           <span class="text" i18n>Asset info</span>
         </li>
@@ -38,7 +34,7 @@
         </li>
         <li routerLink="/asset/{{selectedAsset.id}}/contacts" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <span class="short-key">3</span>
-          <span class="text" i18n>Contact</span>
+          <span class="text" i18n>Contacts</span>
         </li>
         <li routerLink="/asset/{{selectedAsset.id}}/notes" routerLinkActive="active">
           <span class="short-key">4</span>
@@ -74,13 +70,5 @@
     </ul>
   </div>
 
-  <!-- <div class="asset-page"> -->
   <router-outlet></router-outlet>
-  <!-- </div> -->
-
-  <!-- <div class="toolbox-wrapper">
-    <!-- content depending on route, also use store to send simple actions to page -->
-    <!-- <div class="toolbox">This is a floating toolbox...</div>
-  </div> -->
-
 </div>
