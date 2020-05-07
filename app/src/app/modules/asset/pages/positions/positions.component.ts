@@ -50,7 +50,7 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
             formattedTimestamp: formatUnixtime(position.timestamp),
             formattedSpeed: position.speed.toFixed(2)
           }));
-          this.sortedPositions = this.positions;
+          this.sortData({ active: 'timestamp', direction: 'desc' });
         }
       }
     );

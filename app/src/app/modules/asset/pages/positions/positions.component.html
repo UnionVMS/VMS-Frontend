@@ -1,6 +1,6 @@
 <div class="positions-container mat-elevation-z8" *ngIf="positions">
   <table mat-table [dataSource]="sortedPositions" class="position-table"
-    matSort matSortActive="name" matSortDisableClear matSortDirection="desc" (matSortChange)="sortData($event)">
+    matSort matSortActive="timestamp" matSortDisableClear matSortDirection="desc" (matSortChange)="sortData($event)">
 
     <ng-container matColumnDef="timestamp">
       <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Timestamp</th>
