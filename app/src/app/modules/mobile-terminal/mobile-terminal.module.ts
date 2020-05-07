@@ -17,6 +17,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
 import { DatetimePickerModule } from 'ngx-moment-tz-picker';
@@ -24,6 +25,7 @@ import { DatetimePickerModule } from 'ngx-moment-tz-picker';
 /* Pages */
 import { AttachPageComponent } from './pages/attach/attach.component';
 import { FormPageComponent } from './pages/form/form.component';
+import { ListPageComponent } from './pages/list/list.component';
 import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.component';
 
 @NgModule({
@@ -46,11 +48,13 @@ import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.co
     MatDatepickerModule,
     MatRadioModule,
     MatSlideToggleModule,
+    MatSortModule,
     MatTableModule,
   ],
   declarations: [
     AttachPageComponent,
     FormPageComponent,
+    ListPageComponent,
     ShowByAssetPageComponent,
   ]
 })

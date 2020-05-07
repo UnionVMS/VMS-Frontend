@@ -68,6 +68,8 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
     if(event.altKey) {
       if(event.key === 's') {
         this.router.navigate(['/asset']);
+      } else if(event.key === 'm') {
+        this.router.navigate(['/mobileTerminals']);
       } else if(this.selectedAsset) {
         switch (event.key) {
           case '1':

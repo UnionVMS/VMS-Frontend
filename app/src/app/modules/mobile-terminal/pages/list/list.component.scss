@@ -1,0 +1,26 @@
+@import 'variables.scss';
+
+.page-container {
+
+  display: grid;
+  grid-row-gap: $xlarge_distance;
+
+  .mobile-terminals-table-container > table {
+    width: 100%;
+  }
+
+  .load-spinner {
+    margin: 150px auto;
+  }
+
+  .mobile-terminals-table-container a {
+    color: black;
+    text-decoration: none;
+
+
+    &:hover {
+      background-color: rgba( $color_blue, 0.2);
+      text-decoration: underline;
+    }
+  }
+}

@@ -19,6 +19,10 @@
         <span class="short-key">S</span>
         <span class="text" i18n>Search</span>
       </li>
+      <li routerLink="/mobileTerminals" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <span class="short-key">M</span>
+        <span class="text" i18n>Mobile Terminals</span>
+      </li>
       <li class="divider"></li>
       <ng-container *ngIf="selectedAsset">
         <li routerLink="/asset/{{selectedAsset.id}}" class="{{ matchAssetInfoUrl() ? 'active' : '' }}">

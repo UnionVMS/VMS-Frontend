@@ -28,6 +28,7 @@ import { ShowPageComponent as AssetShowPage } from './modules/asset/pages/show/s
 // MobileTerminal-pages
 import { AttachPageComponent as MobileTerminalAttachPage } from './modules/mobile-terminal/pages/attach/attach.component';
 import { FormPageComponent as MobileTerminalFormPage } from './modules/mobile-terminal/pages/form/form.component';
+import { ListPageComponent as MobileTerminalListPage } from './modules/mobile-terminal/pages/list/list.component';
 import {
   ShowByAssetPageComponent as MobileTerminalsShowByAssetPage
 } from './modules/mobile-terminal/pages/show-by-asset/show-by-asset.component';
@@ -78,6 +79,9 @@ const routes: Routes = [
       }},
       { path: 'asset', component: AssetSearchPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-search:Assets — Asset search` || 'Asset search'
+      }},
+      { path: 'mobileTerminals', component: MobileTerminalListPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-mobileTerminal-list:Mobile Terminals — List` || 'Mobile Terminals - List'
       }},
       { path: 'asset/:assetId/mobileTerminal/attach', component: MobileTerminalAttachPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-mobileTerminal-edit:<dont-translate>assetName</dont-translate> — Attach Mobile Terminal`
