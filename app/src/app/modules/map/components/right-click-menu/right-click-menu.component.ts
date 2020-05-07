@@ -1,4 +1,5 @@
 import { Component, Input, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { truncFloat } from '@app/helpers/float';
 import { toLonLat, transform } from 'ol/proj';
 import { get as getProjection } from 'ol/proj';
 
@@ -43,22 +44,28 @@ export class RightClickMenuComponent implements OnInit, OnDestroy {
   public createCoordinatesPopup = () => {
     this.closePopup();
     const id = 'coordinates-popups-' + this.coordinatePopupsIndex++;
-    const [ longitude, latitude ] = toLonLat(this.currentPosition);
-    const dd = latitude.toFixed(7) + ', ' + longitude.toFixed(7);
+    const [ baseLongitude, baseLatitude ] = toLonLat(this.currentPosition);
+    const dd = baseLatitude.toFixed(7) + ', ' + baseLongitude.toFixed(7);
+
+    const verticalDirection = (baseLatitude > 0 ? 'N' : 'S');
+    const horizontalDirection = (baseLongitude > 0 ? 'E' : 'W');
+
+    const latitude = Math.abs(baseLatitude);
+    const longitude = Math.abs(baseLongitude);
 
     const longitudeMinute = 60 * (longitude % 1);
     const latitudeMinute = 60 * (longitude % 1);
 
     const ddm =
-      'N' + latitude.toFixed(0) + '° ' + latitudeMinute.toFixed(5) + '\' , ' +
-      'E' + longitude.toFixed(0) + '° ' + longitudeMinute.toFixed(5) + '\'';
+       verticalDirection + truncFloat(latitude, 0) + '° ' + truncFloat(latitudeMinute, 5) + '\' , ' +
+       horizontalDirection + truncFloat(longitude, 0) + '° ' + truncFloat(longitudeMinute, 5) + '\'';
 
     const longitudeSecond = 60 * (longitudeMinute % 1);
     const latitudeSecond = 60 * (latitudeMinute % 1);
 
     const dms =
-      'N' + latitude.toFixed(0) + '° ' + latitudeMinute.toFixed(0) + '\' ' + latitudeSecond.toFixed(2) + '", ' +
-      'E' + longitude.toFixed(0) + '° ' + longitudeMinute.toFixed(0) + '\' ' + longitudeSecond.toFixed(2) + '"';
+      verticalDirection + truncFloat(latitude, 0) + '° ' + truncFloat(latitudeMinute, 0) + '\' ' + truncFloat(latitudeSecond, 2) + '", ' +
+      horizontalDirection + truncFloat(longitude, 0) + '° ' + truncFloat(longitudeMinute, 0) + '\' ' + truncFloat(longitudeSecond, 2) + '"';
 
     const sweref99 = transform(this.currentPosition, 'EPSG:3857', 'EPSG:3006');
 
@@ -72,8 +79,8 @@ export class RightClickMenuComponent implements OnInit, OnDestroy {
           'WGS84 DD': dd,
           'WGS84 DMS': dms,
           'WGS84 DDM': ddm,
-          RT90: rt90[1].toFixed(3) + ', ' + rt90[0].toFixed(3),
-          SWEREF99: sweref99[1].toFixed(3) + ', ' + sweref99[0].toFixed(3)
+          RT90: truncFloat(rt90[1], 3) + ', ' + truncFloat(rt90[0], 3),
+          SWEREF99: truncFloat(sweref99[1], 3) + ', ' + truncFloat(sweref99[0], 3)
         }
       }
     ];
