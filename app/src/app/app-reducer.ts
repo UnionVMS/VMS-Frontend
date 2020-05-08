@@ -55,8 +55,9 @@ export const reducers: ActionReducerMap<State> = {
   userSettings: UserSettingsReducer.userSettingsReducer,
 };
 
-
-export const saveJwtTokenToStorage = (reducer: ActionReducer<any>): ActionReducer<any> => {
+// Not allowed to use EC6 function notation her for some reason, i18n extractor goes crasy...
+// tslint:disable-next-line:only-arrow-functions
+export function saveJwtTokenToStorage(reducer: ActionReducer<any>): ActionReducer<any> {
   return (state, action: any) => {
     if(action.type === AuthActions.loginSuccess.type) {
       window.localStorage.authToken = action.payload.jwtToken.raw;
@@ -64,7 +65,7 @@ export const saveJwtTokenToStorage = (reducer: ActionReducer<any>): ActionReduce
 
     return reducer(state, action);
   };
-};
+}
 
 export const metaReducers: MetaReducer<State>[] =
   environment.production
