@@ -10,7 +10,7 @@ import { State } from '@app/app-reducer';
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { RouterTypes, RouterSelectors } from '@data/router';
 
-type ExtendedMovement = Readonly<AssetTypes.Movement & {
+type ExtendedMovement = Readonly<AssetTypes.FullMovement & {
   formattedTimestamp: string;
   formattedSpeed: string,
   formattedOceanRegion: string;
@@ -32,7 +32,7 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
   public positions: ReadonlyArray<ExtendedMovement>;
   public sortedPositions: ReadonlyArray<ExtendedMovement>;
 
-  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'formattedOceanRegion'];
+  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'formattedOceanRegion', 'status'];
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -109,6 +109,7 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
         case 'speed': return compareTableSortNumber(a.speed, b.speed, isAsc);
         case 'heading': return compareTableSortNumber(a.heading, b.heading, isAsc);
         case 'formattedOceanRegion': return compareTableSortString(a.formattedOceanRegion, b.formattedOceanRegion, isAsc);
+        case 'status': return compareTableSortString(a.status, b.status, isAsc);
         default: return 0;
       }
     });
