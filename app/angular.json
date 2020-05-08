@@ -135,6 +135,9 @@
             "production": {
               "browserTarget": "vms-frontend:build:production"
             },
+            "prod-sv": {
+              "browserTarget": "vms-frontend:build:sv"
+            },
             "dev": {
               "browserTarget": "vms-frontend:build:dev"
             }

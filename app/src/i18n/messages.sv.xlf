@@ -244,14 +244,6 @@
           <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ts-savedfilters-saved" datatype="html">
-        <source>Filter '<x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>filterName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/>' saved!</source>
-        <target state="new">Filter '<x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>filterName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/>' saved!</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">8</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="ts-map-settings-saved" datatype="html">
         <source>Settings saved</source>
         <target state="new">Inställningar sparade</target>
@@ -306,18 +298,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">15</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ts-layout-asset-contacts" datatype="html">
-        <source><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>assetName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Contacts</source>
-        <target state="new"><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>assetName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Contacts</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">16</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-user-settings-saved" datatype="html">

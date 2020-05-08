@@ -99,10 +99,10 @@ const routes: Routes = [
         title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Contacts` || 'Contacts'
       }},
       { path: 'asset/:assetId/notes', component: NotesListPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Notes` || 'Notes'
+        title: $localize`:@@ts-layout-asset-notes:<dont-translate>assetName</dont-translate> — Notes` || 'Notes'
       }},
       { path: 'asset/:assetId/positions', component: AssetPositionsPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Last positions` || 'Last positions'
+        title: $localize`:@@ts-layout-asset-positions:<dont-translate>assetName</dont-translate> — Last positions` || 'Last positions'
       }},
       { path: 'asset/:assetId/notes/:noteId/edit', component: NotesFormPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-notes-edit:Notes — Edit` || 'Notes — Edit'
