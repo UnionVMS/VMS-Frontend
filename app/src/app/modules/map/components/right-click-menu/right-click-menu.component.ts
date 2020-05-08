@@ -54,7 +54,7 @@ export class RightClickMenuComponent implements OnInit, OnDestroy {
     const longitude = Math.abs(baseLongitude);
 
     const longitudeMinute = 60 * (longitude % 1);
-    const latitudeMinute = 60 * (longitude % 1);
+    const latitudeMinute = 60 * (latitude % 1);
 
     const ddm =
        verticalDirection + truncFloat(latitude, 0) + '° ' + truncFloat(latitudeMinute, 5) + '\' , ' +
