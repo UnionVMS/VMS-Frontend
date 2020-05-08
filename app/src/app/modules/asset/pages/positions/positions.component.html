@@ -27,9 +27,9 @@
       <td mat-cell *matCellDef="let row">{{row.heading}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="sourceSatelliteId">
+    <ng-container matColumnDef="formattedOceanRegion">
       <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Ocean region</th>
-      <td mat-cell *matCellDef="let row">{{row.sourceSatelliteId}}</td>
+      <td mat-cell *matCellDef="let row">{{row.formattedOceanRegion}}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

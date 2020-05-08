@@ -10,6 +10,12 @@ import { State } from '@app/app-reducer';
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { RouterTypes, RouterSelectors } from '@data/router';
 
+type ExtendedMovement = Readonly<AssetTypes.Movement & {
+  formattedTimestamp: string;
+  formattedSpeed: string,
+  formattedOceanRegion: string;
+}>;
+
 @Component({
   selector: 'asset-show-positions',
   templateUrl: './positions.component.html',
@@ -23,10 +29,10 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public asset = {} as AssetTypes.Asset;
   public mergedRoute: RouterTypes.MergedRoute;
-  public positions: ReadonlyArray<AssetTypes.Movement>;
-  public sortedPositions: ReadonlyArray<AssetTypes.Movement>;
+  public positions: ReadonlyArray<ExtendedMovement>;
+  public sortedPositions: ReadonlyArray<ExtendedMovement>;
 
-  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'sourceSatelliteId'];
+  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'formattedOceanRegion'];
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -45,10 +51,17 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
         if(typeof positions === 'undefined') {
           this.positions = [];
         } else {
+          const oceanRegionTranslation = {
+            AORE: 'East Atlantic',
+            AORW: 'West Atlantic',
+            POR: 'Pacific',
+            IOR: 'Indian'
+          };
           this.positions = positions.map(position => ({
             ...position,
             formattedTimestamp: formatUnixtime(position.timestamp),
-            formattedSpeed: position.speed.toFixed(2)
+            formattedSpeed: position.speed.toFixed(2),
+            formattedOceanRegion: oceanRegionTranslation[position.sourceSatelliteId]
           }));
           this.sortData({ active: 'timestamp', direction: 'desc' });
         }
@@ -95,7 +108,7 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
         case 'longitude': return compareTableSortNumber(a.location.longitude, b.location.longitude, isAsc);
         case 'speed': return compareTableSortNumber(a.speed, b.speed, isAsc);
         case 'heading': return compareTableSortNumber(a.heading, b.heading, isAsc);
-        case 'source': return compareTableSortString(a.source, b.source, isAsc);
+        case 'formattedOceanRegion': return compareTableSortString(a.formattedOceanRegion, b.formattedOceanRegion, isAsc);
         default: return 0;
       }
     });
