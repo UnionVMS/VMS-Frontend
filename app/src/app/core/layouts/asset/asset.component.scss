@@ -115,14 +115,16 @@
     "footer footer footer footer";
 
     & > router-outlet + * {
-      margin-bottom: 120px;
+      margin-bottom: distance(4);
     }
 
     .toolbox-wrapper {
       grid-area: footer;
-      position: fixed;
+      position: sticky;
       bottom: 0px;
       width: 100%;
+      z-index: 100;
+      border-top: 2px solid $color_black;
     }
   }
 }
