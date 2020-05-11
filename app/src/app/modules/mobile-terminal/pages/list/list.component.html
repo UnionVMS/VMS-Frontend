@@ -4,19 +4,19 @@
     <div class="mobile-terminals-table-container">
 
       <table mat-table [dataSource]="sortedMobileTerminals" class="mobile-terminal-table" matSort
-        matSortActive="Serial No." matSortDisableClear matSortStart="desc" matSortDirection="desc" (matSortChange)="sortData($event)">
+        matSortActive="serialNo" matSortDisableClear matSortStart="desc" matSortDirection="desc" (matSortChange)="sortData($event)">
 
-        <ng-container matColumnDef="Serial No.">
+        <ng-container matColumnDef="serialNo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Serial number</th>
           <td mat-cell *matCellDef="let row">{{row.serialNo}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="dnid">
+        <ng-container matColumnDef="defaultDnid">
           <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Default DNID</th>
           <td mat-cell *matCellDef="let row">{{row.defaultDnid}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="memberNumber">
+        <ng-container matColumnDef="defaultMemberNumber">
           <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Default member no.</th>
           <td mat-cell *matCellDef="let row">{{row.defaultMemberNumber}}</td>
         </ng-container>
@@ -31,7 +31,7 @@
           <td mat-cell *matCellDef="let row">{{row.activeText}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="asset">
+        <ng-container matColumnDef="assetName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>asset</th>
           <td mat-cell *matCellDef="let row"><a routerLink="/asset/{{row.assetId}}">{{row.assetName}}</a></td>
         </ng-container>
@@ -42,3 +42,16 @@
     </div>
   </div>
 </div>
+
+<ng-template #toolbox>
+  <div class="toolbox-wrapper">
+    <div class="toolbox">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="exportToCSV()"
+        i18n
+      >Export to CSV</button>
+    </div>
+  </div>
+</ng-template>

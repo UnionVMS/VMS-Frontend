@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ViewContainerRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Subject } from 'rxjs';
 import { take, takeUntil, filter } from 'rxjs/operators';
 import { FormControl, Validators } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
+// @ts-ignore
+import moment from 'moment-timezone';
 
 import { State } from '@app/app-reducer';
 import { compareTableSortString, compareTableSortNumber } from '@app/helpers/helpers';
@@ -24,19 +26,26 @@ type ExtendedMobileTerminal = Readonly<MobileTerminalTypes.MobileTerminal & {
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListPageComponent implements OnInit, OnDestroy {
+export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  constructor(private readonly store: Store<State>) { }
+  @ViewChild('toolbox') toolbox;
+  constructor(private readonly store: Store<State>, private readonly viewContainerRef: ViewContainerRef) { }
 
   public loadingData = false;
   public tableReadyForDisplay = false;
-  public displayedColumns: string[] = ['Serial No.', 'dnid', 'memberNumber', 'satelliteNumber', 'active', 'asset'];
+  public displayedColumns: string[] = ['serialNo', 'defaultDnid', 'defaultMemberNumber', 'satelliteNumber', 'active', 'assetName'];
 
   public assets: { [assetId: string]: AssetTypes.Asset };
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public mobileTerminals: ReadonlyArray<ExtendedMobileTerminal>;
   public searchMobileTerminals: (query: any, includeArchived: boolean) => void;
   public sortedMobileTerminals: ReadonlyArray<ExtendedMobileTerminal>;
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.viewContainerRef.createEmbeddedView(this.toolbox);
+    }, 1);
+  }
 
   mapStateToProps() {
     this.store.select(AssetSelectors.getCurrentAssetList).pipe(
@@ -48,7 +57,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
         ...mobileTerminal,
         assetName: typeof this.assets[mobileTerminal.assetId] !== 'undefined' ? this.assets[mobileTerminal.assetId].name : ''
       }));
-      this.sortData({ active: 'Serial No.', direction: 'desc' });
+      this.sortData({ active: 'serialNo', direction: 'desc' });
       this.loadingData = false;
       this.tableReadyForDisplay = true;
     });
@@ -118,14 +127,45 @@ export class ListPageComponent implements OnInit, OnDestroy {
     this.sortedMobileTerminals = mobileTerminals.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'Serial No.': return compareTableSortString(a.serialNo, b.serialNo, isAsc);
-        case 'dnid': return compareTableSortNumber(a.defaultDnid, b.defaultDnid, isAsc);
-        case 'memberNumber': return compareTableSortNumber(a.defaultMemberNumber, b.defaultMemberNumber, isAsc);
+        case 'serialNo': return compareTableSortString(a.serialNo, b.serialNo, isAsc);
+        case 'defaultDnid': return compareTableSortNumber(a.defaultDnid, b.defaultDnid, isAsc);
+        case 'defaultMemberNumber': return compareTableSortNumber(a.defaultMemberNumber, b.defaultMemberNumber, isAsc);
         case 'satelliteNumber': return compareTableSortString(a.satelliteNumber, b.satelliteNumber, isAsc);
         case 'active': return compareTableSortString(a.activeText, b.activeText, isAsc);
-        case 'asset': return compareTableSortString(a.assetName, b.assetName, isAsc);
+        case 'assetName': return compareTableSortString(a.assetName, b.assetName, isAsc);
         default: return 0;
       }
     });
+  }
+
+  exportToCSV() {
+    const nrOfColumns = this.displayedColumns.length;
+    const nrOfRows = this.sortedMobileTerminals.length;
+    let csv = this.displayedColumns.reduce((csvRow, column, index) => {
+      return csvRow + column + (nrOfColumns !== index + 1 ? ';' : '');
+    }, '') + '\r\n';
+
+    csv = csv + this.sortedMobileTerminals.reduce((acc, mobileTerminal, mtIndex) => {
+      return acc + this.displayedColumns.reduce((csvRow, column, index) => {
+        return csvRow +
+          (typeof mobileTerminal[column] !== 'undefined' ? mobileTerminal[column] : '') +
+          (nrOfColumns !== index + 1 ? ';' : '');
+      }, '') + (nrOfRows !== mtIndex + 1 ? '\r\n' : '');
+    }, '');
+
+    const exportedFilenmae = 'mobileTerminals.' + moment().format('YYYY-MM-DD.HH_mm') + '.csv';
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) { // feature detection
+      // Browsers that support HTML5 download attribute
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', exportedFilenmae);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 }
