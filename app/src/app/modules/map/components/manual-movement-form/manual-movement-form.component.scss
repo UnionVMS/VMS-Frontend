@@ -7,6 +7,28 @@ form.manual-position-form {
   grid-template-columns: 1fr 1fr;
   grid-column-gap: $small_distance;
 
+  #manual-position-form--latitude--wrapper, #manual-position-form--longitude--wrapper {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+
+    mat-form-field:first-child .mat-form-field-label-wrapper {
+      overflow: visible;
+      .mat-form-field-label {
+        overflow: visible;
+        text-overflow: unset;
+      }
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input {
+      -moz-appearance: textfield;
+    }
+  }
+
   #manual-position-form--timestamp {
     grid-column: 1 / span 2;
   }

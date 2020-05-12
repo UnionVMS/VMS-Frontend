@@ -45,7 +45,7 @@ export class RightClickMenuComponent implements OnInit, OnDestroy {
     this.closePopup();
     const id = 'coordinates-popups-' + this.coordinatePopupsIndex++;
     const [ baseLongitude, baseLatitude ] = toLonLat(this.currentPosition);
-    const dd = baseLatitude.toFixed(7) + ', ' + baseLongitude.toFixed(7);
+    const dd = truncFloat(baseLatitude, 7) + ', ' + truncFloat(baseLongitude, 7);
 
     const verticalDirection = (baseLatitude > 0 ? 'N' : 'S');
     const horizontalDirection = (baseLongitude > 0 ? 'E' : 'W');
@@ -53,15 +53,15 @@ export class RightClickMenuComponent implements OnInit, OnDestroy {
     const latitude = Math.abs(baseLatitude);
     const longitude = Math.abs(baseLongitude);
 
-    const longitudeMinute = 60 * (longitude % 1);
     const latitudeMinute = 60 * (latitude % 1);
+    const longitudeMinute = 60 * (longitude % 1);
 
     const ddm =
        verticalDirection + truncFloat(latitude, 0) + '° ' + truncFloat(latitudeMinute, 5) + '\' , ' +
        horizontalDirection + truncFloat(longitude, 0) + '° ' + truncFloat(longitudeMinute, 5) + '\'';
 
-    const longitudeSecond = 60 * (longitudeMinute % 1);
     const latitudeSecond = 60 * (latitudeMinute % 1);
+    const longitudeSecond = 60 * (longitudeMinute % 1);
 
     const dms =
       verticalDirection + truncFloat(latitude, 0) + '° ' + truncFloat(latitudeMinute, 0) + '\' ' + truncFloat(latitudeSecond, 2) + '", ' +

@@ -1,5 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+
 
 // @ts-ignore
 import moment from 'moment-timezone';
@@ -22,9 +25,10 @@ import { formatDate, deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 @Component({
   selector: 'map-manual-movement-form',
   templateUrl: './manual-movement-form.component.html',
-  styleUrls: ['./manual-movement-form.component.scss']
+  styleUrls: ['./manual-movement-form.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class ManualMovementFormComponent implements OnInit {
+export class ManualMovementFormComponent implements OnInit, OnDestroy {
   @Input() createManualMovement: (manualMovement: AssetTypes.Movement) => void;
   @Input() map: Map;
 
@@ -34,8 +38,27 @@ export class ManualMovementFormComponent implements OnInit {
   public formValidator: FormGroup;
   private readonly featureId = 'manual_movement_preview';
 
+  private readonly unmount$: Subject<boolean> = new Subject<boolean>();
+
+  @ViewChild('latitudeElement') latitudeElement: ElementRef;
+  @ViewChild('latitudeDecimalsElement') latitudeDecimalsElement: ElementRef;
+  @ViewChild('longitudeElement') longitudeElement: ElementRef;
+  @ViewChild('longitudeDecimalsElement') longitudeDecimalsElement: ElementRef;
+
   ngOnInit() {
     this.formValidator = createNotesFormValidator();
+    this.formValidator.controls.latitude.valueChanges
+      .pipe(takeUntil(this.unmount$), filter((value: string) => value !== null && value.toString().length === 2))
+      .subscribe(() => this.latitudeDecimalsElement.nativeElement.focus());
+    this.formValidator.controls.latitudeDecimals.valueChanges
+      .pipe(takeUntil(this.unmount$), filter((value: string) => value === null || value.toString().length === 0))
+      .subscribe(() => this.latitudeElement.nativeElement.focus());
+    this.formValidator.controls.longitude.valueChanges
+      .pipe(takeUntil(this.unmount$), filter((value: string) => value !== null && value.toString().length === 2))
+      .subscribe(() => this.longitudeDecimalsElement.nativeElement.focus());
+    this.formValidator.controls.longitudeDecimals.valueChanges
+      .pipe(takeUntil(this.unmount$), filter((value: string) => value === null || value.toString().length === 0))
+      .subscribe(() => this.longitudeElement.nativeElement.focus());
 
     this.vectorSource = new VectorSource();
     this.vectorLayer = new VectorLayer({
@@ -47,15 +70,21 @@ export class ManualMovementFormComponent implements OnInit {
     this.map.addLayer(this.vectorLayer);
   }
 
+  ngOnDestroy() {
+    this.unmount$.next(true);
+    this.unmount$.unsubscribe();
+  }
+
   save() {
+
     this.createManualMovement({
       location: {
         longitude: parseFloat(this.formValidator.value.longitude),
         latitude: parseFloat(this.formValidator.value.latitude),
       },
-      heading: parseFloat(this.formValidator.value.heading),
+      heading: this.formValidator.value.heading !== null ? parseFloat(this.formValidator.value.heading) : 0,
       timestamp: Math.floor(this.formValidator.value.timestamp.format('X')),
-      speed: parseFloat(this.formValidator.value.speed),
+      speed: this.formValidator.value.speed !== null ? parseFloat(this.formValidator.value.speed) : 0,
     } as AssetTypes.Movement);
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
     this.vectorSource.removeFeature(cachedFeature);
@@ -104,6 +133,36 @@ export class ManualMovementFormComponent implements OnInit {
     } else if(cachedFeature !== null) {
       this.vectorSource.removeFeature(cachedFeature);
     }
+  }
+
+  pasteLatitude(event: ClipboardEvent) {
+    // @ts-ignore
+    const clipboardData = event.clipboardData || window.clipboardData;
+    const pastedText = clipboardData.getData('text');
+    const index = 2;
+
+    const formControlLat = this.formValidator.get('latitude');
+    formControlLat.setValue(pastedText.substring(0, index));
+
+    const formControlLatDec = this.formValidator.get('latitudeDecimals');
+    formControlLatDec.setValue(pastedText.substring(index));
+
+    return false;
+  }
+
+  pasteLongitude(event: ClipboardEvent) {
+    // @ts-ignore
+    const clipboardData = event.clipboardData || window.clipboardData;
+    const pastedText = clipboardData.getData('text');
+    const index = 2;
+
+    const formControlLong = this.formValidator.get('longitude');
+    formControlLong.setValue(pastedText.substring(0, index));
+
+    const formControlLongDec = this.formValidator.get('longitudeDecimals');
+    formControlLongDec.setValue(pastedText.substring(index));
+
+    return false;
   }
 
   getErrors(path: string[]) {

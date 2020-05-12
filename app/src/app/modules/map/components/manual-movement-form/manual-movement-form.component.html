@@ -1,25 +1,71 @@
 <form class="manual-position-form" [formGroup]="formValidator">
-  <mat-form-field id="manual-position-form--latitude">
-    <mat-label i18n>Latitude</mat-label>
-    <input matInput formControlName="latitude" required (blur)="renderPreview()" />
-    <mat-error *ngFor="let error of getErrors(['latitude'])">{{ errorMessage(error) }}</mat-error>
-  </mat-form-field>
+  <div id="manual-position-form--latitude--wrapper">
+    <mat-form-field id="manual-position-form--latitude" floatLabel="always">
+      <mat-label i18n>Latitude</mat-label>
+      <input
+        matInput
+        formControlName="latitude"
+        type="number"
+        required
+        (blur)="renderPreview()"
+        (paste)="pasteLatitude($event)"
+        #latitudeElement
+      />
+      <span matSuffix>&#176;&nbsp;</span>
+      <mat-error *ngFor="let error of getErrors(['latitude'])">{{ errorMessage(error) }}</mat-error>
+    </mat-form-field>
+    <mat-form-field id="manual-position-form--latitude-decimals">
+      <input
+        matInput
+        formControlName="latitudeDecimals"
+        type="number"
+        required
+        (blur)="renderPreview()"
+        #latitudeDecimalsElement
+      />
+      <span matSuffix>'</span>
+      <mat-error *ngFor="let error of getErrors(['latitudeDecimals'])">{{ errorMessage(error) }}</mat-error>
+    </mat-form-field>
+  </div>
+  <div id="manual-position-form--longitude--wrapper">
+    <mat-form-field id="manual-position-form--longitude" floatLabel="always">
+      <mat-label i18n>Longitude</mat-label>
+      <input
+        matInput
+        formControlName="longitude"
+        type="number"
+        required
+        (blur)="renderPreview()"
+        (paste)="pasteLongitude($event)"
+        #longitudeElement
+      />
+      <span matSuffix>&#176;&nbsp;</span>
+      <mat-error *ngFor="let error of getErrors(['longitude'])">{{ errorMessage(error) }}</mat-error>
+    </mat-form-field>
+    <mat-form-field id="manual-position-form--longitude-decimals">
+      <input
+        matInput
+        formControlName="longitudeDecimals"
+        type="number"
+        required
+        (blur)="renderPreview()"
+        #longitudeDecimalsElement
+      />
+      <span matSuffix>'</span>
+      <mat-error *ngFor="let error of getErrors(['longitudeDecimals'])">{{ errorMessage(error) }}</mat-error>
+    </mat-form-field>
+  </div>
 
-  <mat-form-field id="manual-position-form--longitude">
-    <mat-label i18n>Longitude</mat-label>
-    <input matInput formControlName="longitude" required (blur)="renderPreview()" />
-    <mat-error *ngFor="let error of getErrors(['longitude'])">{{ errorMessage(error) }}</mat-error>
-  </mat-form-field>
 
   <mat-form-field id="manual-position-form--speed">
     <mat-label i18n>Speed</mat-label>
-    <input matInput formControlName="speed" required />
+    <input matInput formControlName="speed" type="number" />
     <mat-error *ngFor="let error of getErrors(['speed'])">{{ errorMessage(error) }}</mat-error>
   </mat-form-field>
 
   <mat-form-field id="manual-position-form--heading">
     <mat-label i18n>Heading</mat-label>
-    <input matInput formControlName="heading" required (blur)="renderPreview()" />
+    <input matInput formControlName="heading" (blur)="renderPreview()"  type="number" />
     <mat-error *ngFor="let error of getErrors(['heading'])">{{ errorMessage(error) }}</mat-error>
   </mat-form-field>
 

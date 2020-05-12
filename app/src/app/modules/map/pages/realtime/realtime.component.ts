@@ -16,6 +16,7 @@ import { click, pointerMove } from 'ol/events/condition.js';
 import Overlay from 'ol/Overlay';
 
 import { registerProjectionDefinitions } from '@app/helpers/projection-definitions';
+import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
@@ -258,7 +259,10 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       units: this.mapSettings.settings.unitOfDistance
     });
     const mousePositionControl = new MousePosition({
-      coordinateFormat: (coordinates) => format(coordinates, 'Lat: {y}, Lon: {x}', 4),
+      coordinateFormat: (coordinates: ReadonlyArray<number>) => {
+        const ddmCordinates = convertDDToDDM(coordinates[1], coordinates[0]);
+        return ddmCordinates.latitude + ', ' + ddmCordinates.longitude;
+      },
       projection: 'EPSG:4326',
       // comment the following two lines to have the mouse position
       // be placed within the map.

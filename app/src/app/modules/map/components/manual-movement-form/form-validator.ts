@@ -6,10 +6,12 @@ import moment from 'moment-timezone';
 
 export const createNotesFormValidator = () => {
   return new FormGroup({
-    latitude: new FormControl('', [Validators.required]),
-    longitude: new FormControl('', [Validators.required]),
-    speed: new FormControl('', [Validators.required]),
-    heading: new FormControl('', [Validators.required]),
+    latitude: new FormControl(null, [Validators.required]),
+    latitudeDecimals: new FormControl(null, [Validators.required]),
+    longitude: new FormControl(null, [Validators.required]),
+    longitudeDecimals: new FormControl(null, [Validators.required]),
+    speed: new FormControl(),
+    heading: new FormControl(),
     timestamp: new FormControl(moment(), [CustomValidators.momentValid]),
   });
 };
