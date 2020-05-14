@@ -5,6 +5,8 @@ import { takeUntil, take } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
 import { compareTableSortString, compareTableSortNumber } from '@app/helpers/helpers';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
+import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
+import { FormControl } from '@angular/forms';
 
 import { State } from '@app/app-reducer';
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
@@ -31,6 +33,8 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
   public mergedRoute: RouterTypes.MergedRoute;
   public positions: ReadonlyArray<ExtendedMovement>;
   public sortedPositions: ReadonlyArray<ExtendedMovement>;
+
+  public coordinateFormat: FormControl = new FormControl('DDM');
 
   public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'formattedOceanRegion', 'status'];
 
@@ -59,6 +63,7 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
           };
           this.positions = positions.map(position => ({
             ...position,
+            locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude),
             formattedTimestamp: formatUnixtime(position.timestamp),
             formattedSpeed: position.speed.toFixed(2),
             formattedOceanRegion: oceanRegionTranslation[position.sourceSatelliteId]

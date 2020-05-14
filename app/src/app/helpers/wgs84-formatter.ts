@@ -11,8 +11,8 @@ export const convertDDToDDM = (latitude: number, longitude: number, decimals = 4
   const longitudeMinute = 60 * (absLongitude % 1);
 
   return {
-    latitude: verticalDirection + truncFloat(absLatitude, 0) + '° ' + truncFloat(latitudeMinute, decimals) + '\'',
-    longitude: horizontalDirection + truncFloat(absLongitude, 0) + '° ' + truncFloat(longitudeMinute, decimals) + '\''
+    latitude: verticalDirection + ' ' + truncFloat(absLatitude, 0) + '° ' + truncFloat(latitudeMinute, decimals) + '\'',
+    longitude: horizontalDirection + ' ' + truncFloat(absLongitude, 0) + '° ' + truncFloat(longitudeMinute, decimals) + '\''
   };
 };
 
@@ -38,5 +38,22 @@ export const convertDDToDMS = (latitude: number, longitude: number, decimals = 2
       truncFloat(longitude, 0) + '° ' +
       truncFloat(longitudeMinute, 0) + '\' ' +
       truncFloat(longitudeSecond, decimals) + '"'
+  };
+};
+
+
+export const convertDDMToDD = (latitude: string, longitude: string) => {
+  const verticalDirection = latitude.substring(0, 1) === 'N' ? 1 : -1;
+  const horizontalDirection = longitude.substring(0, 1) === 'E' ? 1 : -1;
+
+  return {
+    latitude: verticalDirection * (
+      parseInt(latitude.substring(2, 4), 10) +
+      (parseFloat(latitude.substring(6, latitude.length - 1)) / 60)
+    ),
+    longitude: horizontalDirection * (
+      parseInt(longitude.substring(2, 4), 10) +
+      (parseFloat(longitude.substring(6, longitude.length - 1)) / 60)
+    )
   };
 };

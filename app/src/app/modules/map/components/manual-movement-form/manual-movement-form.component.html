@@ -1,7 +1,13 @@
 <form class="manual-position-form" [formGroup]="formValidator">
   <div id="manual-position-form--latitude--wrapper">
-    <mat-form-field id="manual-position-form--latitude" floatLabel="always">
+    <mat-form-field id="manual-position-form--latitude-direction" floatLabel="always">
       <mat-label i18n>Latitude</mat-label>
+      <mat-select formControlName="latitudeDirection" required>
+        <mat-option id="mat-option-plugin--latitude-direction-n" value="N">N</mat-option>
+        <mat-option id="mat-option-plugin--latitude-direction-s" value="S">S</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field id="manual-position-form--latitude">
       <input
         matInput
         formControlName="latitude"
@@ -28,8 +34,14 @@
     </mat-form-field>
   </div>
   <div id="manual-position-form--longitude--wrapper">
-    <mat-form-field id="manual-position-form--longitude" floatLabel="always">
+    <mat-form-field id="manual-position-form--longitude-direction" floatLabel="always">
       <mat-label i18n>Longitude</mat-label>
+      <mat-select formControlName="longitudeDirection" required>
+        <mat-option id="mat-option-plugin--longitude-direction-E" value="E">E</mat-option>
+        <mat-option id="mat-option-plugin--longitude-direction-W" value="W">W</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field id="manual-position-form--longitude">
       <input
         matInput
         formControlName="longitude"

@@ -9,13 +9,22 @@ form.manual-position-form {
 
   #manual-position-form--latitude--wrapper, #manual-position-form--longitude--wrapper {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 20px 1fr 3fr;
 
-    mat-form-field:first-child .mat-form-field-label-wrapper {
-      overflow: visible;
-      .mat-form-field-label {
+    mat-form-field:first-child {
+      .mat-form-field-label-wrapper {
         overflow: visible;
-        text-overflow: unset;
+        .mat-form-field-label {
+          overflow: visible;
+          text-overflow: unset;
+        }
+      }
+      mat-select > div {
+        min-width: 15px;
+
+        .mat-select-arrow-wrapper {
+          display: none;
+        }
       }
     }
 

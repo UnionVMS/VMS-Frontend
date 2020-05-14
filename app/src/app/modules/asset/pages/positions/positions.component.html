@@ -9,12 +9,20 @@
 
     <ng-container matColumnDef="latitude">
       <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Latitude</th>
-      <td mat-cell *matCellDef="let row">{{row.location.latitude.toFixed(8)}}</td>
+      <td mat-cell *matCellDef="let row">{{
+        coordinateFormat.value === 'DDM'
+        ? row.locationDDM.latitude
+        : row.location.latitude.toFixed(6)
+      }}</td>
     </ng-container>
 
     <ng-container matColumnDef="longitude">
       <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Longitude</th>
-      <td mat-cell *matCellDef="let row">{{row.location.longitude.toFixed(8)}}</td>
+      <td mat-cell *matCellDef="let row">{{
+        coordinateFormat.value === 'DDM'
+        ? row.locationDDM.longitude
+        : row.location.longitude.toFixed(6)
+      }}</td>
     </ng-container>
 
     <ng-container matColumnDef="speed">
@@ -44,6 +52,13 @@
 <ng-template #toolbox>
   <div class="toolbox-wrapper">
     <div class="toolbox">
+      <mat-form-field>
+        <mat-label i18n>Coordinate system</mat-label>
+        <mat-select [formControl]="coordinateFormat" selected="DD" required>
+          <mat-option id="mat-option-plugin--format-dd" value="DD">DD</mat-option>
+          <mat-option id="mat-option-plugin--format-ddm" value="DDM">DDM</mat-option>
+        </mat-select>
+      </mat-form-field>
       <button
         mat-raised-button
         color="primary"

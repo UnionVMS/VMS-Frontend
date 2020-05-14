@@ -21,6 +21,7 @@ import { createNotesFormValidator } from './form-validator';
 
 import { errorMessage } from '@app/helpers/validators/error-messages';
 import { formatDate, deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
+import { convertDDMToDD } from '@app/helpers/wgs84-formatter';
 
 @Component({
   selector: 'map-manual-movement-form',
@@ -76,11 +77,20 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   }
 
   save() {
+    const location = convertDDMToDD(
+      this.formValidator.value.latitudeDirection + ' ' +
+      this.formValidator.value.latitude + '° ' +
+      this.formValidator.value.latitudeDecimals + '\'',
+
+      this.formValidator.value.longitudeDirection + ' ' +
+      this.formValidator.value.longitude + '° ' +
+      this.formValidator.value.longitudeDecimals + '\''
+    );
 
     this.createManualMovement({
       location: {
-        longitude: parseFloat(this.formValidator.value.longitude),
-        latitude: parseFloat(this.formValidator.value.latitude),
+        longitude: location.latitude,
+        latitude: location.longitude,
       },
       heading: this.formValidator.value.heading !== null ? parseFloat(this.formValidator.value.heading) : 0,
       timestamp: Math.floor(this.formValidator.value.timestamp.format('X')),
@@ -93,10 +103,16 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   renderPreview() {
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
     if(this.formValidator.value.latitude > '' && this.formValidator.value.longitude > '') {
-      const position = new Point(fromLonLat([
-        parseFloat(this.formValidator.value.longitude),
-        parseFloat(this.formValidator.value.latitude)
-      ]));
+      const location = convertDDMToDD(
+        this.formValidator.value.latitudeDirection + ' ' +
+        this.formValidator.value.latitude + '° ' +
+        this.formValidator.value.latitudeDecimals + '\'',
+
+        this.formValidator.value.longitudeDirection + ' ' +
+        this.formValidator.value.longitude + '° ' +
+        this.formValidator.value.longitudeDecimals + '\''
+      );
+      const position = new Point(fromLonLat([location.longitude, location.latitude]));
       const heading = this.formValidator.value.heading > '' ? deg2rad(parseInt(this.formValidator.value.heading, 10)) : 0;
       if (cachedFeature === null) {
         const previewFeature = new Feature(position);
