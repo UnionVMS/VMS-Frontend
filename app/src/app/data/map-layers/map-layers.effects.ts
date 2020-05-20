@@ -39,17 +39,16 @@ export class MapLayersEffects {
       mergeMap(([action, authToken, user]: Array<any>) => {
         return this.mapLayersService.getUserAreas(authToken, user.scope.name, user.role.name).pipe(
           map((response: any) =>
-            MapLayersActions.addAreas({ mapLayers: response.data.reduce((userLayers, userLayer) => ([
-              ...userLayers,
-              ...userLayer.data.map(cqlFilter => ({
-                areaTypeDesc: `${userLayer.layerDesc}: ${cqlFilter.name}`,
+            MapLayersActions.addAreas({ mapLayers: response.distinctAreaGroups.map((userLayerName: string) => (
+              {
+                areaTypeDesc: `${response.areaTypeDesc}: ${userLayerName}`,
                 geoName: 'uvms:userareas',
                 serviceType: 'WMS',
                 style: 'userareas_label_geom',
-                typeName: `${userLayer.name}-${cqlFilter.name}`,
-                cqlFilter: `type='${cqlFilter.name}'`
-              }))
-            ]), [])
+                typeName: `${response.typeName}-${userLayerName}`,
+                cqlFilter: `type='${userLayerName}'`
+              }
+            ))
           }))
         );
       })

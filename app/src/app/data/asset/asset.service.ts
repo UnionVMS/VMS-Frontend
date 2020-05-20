@@ -239,6 +239,19 @@ export class AssetService {
     );
   }
 
+  poll(authToken: string, assetId: string) {
+    return this.http.post(
+      environment.baseApiUrl + `asset/rest/poll/createPollForAsset/${assetId}`,
+      {},
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
   saveNewIncidentStatus(authToken: string, incidentId: number, status: string) {
     return this.http.post(
       environment.baseApiUrl + `incident/rest/incident/assetNotSending/${incidentId}/status`,
@@ -250,9 +263,5 @@ export class AssetService {
         })
       }
     );
-    console.warn(incidentId, status);
-    return new Observable((observer) => {
-      observer.next(true);
-    });
   }
 }
