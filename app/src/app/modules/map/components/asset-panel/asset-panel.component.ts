@@ -40,7 +40,7 @@ export class AssetPanelComponent {
   // Extracting this code to separete function so we can override this code in unit-tests.
   private getTracksMillisecondCap() {
     const tracksMillisecondCap = this.tracksMinuteCap * 60 * 1000;
-    return moment().subtract(tracksMillisecondCap, 'ms').format('X');
+    return moment().subtract(tracksMillisecondCap, 'ms').format('x');
   }
 
   public toggleTracks = (asset: AssetTypes.AssetData) => {
@@ -52,7 +52,7 @@ export class AssetPanelComponent {
       this.getAssetTrackTimeInterval(
         asset.asset.id,
         this.getTracksMillisecondCap(),
-        moment().format('X')
+        moment().format('x')
       );
     }
   }

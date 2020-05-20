@@ -5,7 +5,7 @@ export const formatDate = (datetime) => {
 };
 
 export const formatTimestamp = (unixTimestamp: number) => {
-  const date = new Date(unixTimestamp * 1000);
+  const date = new Date(unixTimestamp);
   const iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
   return iso[1] + ' ' + iso[2];
 };

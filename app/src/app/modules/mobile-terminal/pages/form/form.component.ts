@@ -213,17 +213,17 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
           false : this.formValidator.value.mobileTerminalFields.active,
         installDate: this.formValidator.value.mobileTerminalFields.installDate === null
           ? null
-          : this.formValidator.value.mobileTerminalFields.installDate.format('X'),
+          : this.formValidator.value.mobileTerminalFields.installDate.format('x'),
         uninstallDate: this.formValidator.value.mobileTerminalFields.uninstallDate === null
           ? null
-          : this.formValidator.value.mobileTerminalFields.uninstallDate.format('X'),
+          : this.formValidator.value.mobileTerminalFields.uninstallDate.format('x'),
         installedBy: this.formValidator.value.mobileTerminalFields.installedBy,
         assetId: typeof this.mobileTerminal.assetId !== 'undefined' ? this.mobileTerminal.assetId : this.selectedAsset.id,
         channels: this.formValidator.value.channels.map((channel) => {
           const fixedChannel = {
             ...channel,
-            startDate: channel.startDate === null ? null : (channel.startDate as unknown as Moment).format('X'),
-            endDate: channel.endDate === null ? null : (channel.endDate as unknown as Moment).format('X'),
+            startDate: channel.startDate === null ? null : (channel.startDate as unknown as Moment).format('x'),
+            endDate: channel.endDate === null ? null : (channel.endDate as unknown as Moment).format('x'),
             pollChannel: typeof channel.pollChannel === 'undefined' ? false : channel.pollChannel,
             configChannel: typeof channel.configChannel === 'undefined' ? false : channel.configChannel,
             defaultChannel: typeof channel.defaultChannel === 'undefined' ? false : channel.defaultChannel,

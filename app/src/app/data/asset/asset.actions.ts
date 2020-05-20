@@ -55,7 +55,8 @@ export const deselectAsset = createAction(
 );
 
 export const failedToSubscribeToMovements = createAction(
-  '[Asset] Failed to subscribe to movements'
+  '[Asset] Failed to subscribe to movements',
+  props<{ error: any }>()
 );
 
 export const getAssetTrack = createAction(

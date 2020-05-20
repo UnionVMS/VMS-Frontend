@@ -93,7 +93,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
         latitude: location.longitude,
       },
       heading: this.formValidator.value.heading !== null ? parseFloat(this.formValidator.value.heading) : 0,
-      timestamp: Math.floor(this.formValidator.value.timestamp.format('X')),
+      timestamp: Math.floor(this.formValidator.value.timestamp.format('x')),
       speed: this.formValidator.value.speed !== null ? parseFloat(this.formValidator.value.speed) : 0,
     } as AssetTypes.Movement);
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);

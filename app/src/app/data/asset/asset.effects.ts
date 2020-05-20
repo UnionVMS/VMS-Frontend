@@ -260,7 +260,7 @@ export class AssetEffects {
           //@ts-ignore
           // tslint:disable-next-line:no-shadowed-variable
           flatMap( (action, index): object => action ),
-          catchError((err) => of({ type: AssetActions.failedToSubscribeToMovements, payload: err }))
+          catchError((err) => of(AssetActions.failedToSubscribeToMovements({ error: err })))
         ),
       );
     })
