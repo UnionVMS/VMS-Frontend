@@ -87,6 +87,11 @@ export const getUnitTonnage = createAction(
   '[Asset] Get unit tonnage'
 );
 
+export const pollAsset = createAction(
+  '[Asset] Poll asset',
+  props<{ assetId: string, comment?: string }>()
+);
+
 export const removeAssets = createAction(
   '[Asset] Remove asset',
   props<{ assetIds: Array<string>}>()

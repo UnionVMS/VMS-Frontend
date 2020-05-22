@@ -39,6 +39,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public deselectAsset: (assetId: string) => void;
   public getAssetTrack: (assetId: string, movementId: string) => void;
   public getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
+  public pollAsset: (assetId: string, comment: string) => void;
   public removeForecast: (assetId: string) => void;
   public saveNewIncidentStatus: (incidentId: number, status: string) => void;
   public selectAsset: (assetId: string) => void;
@@ -104,6 +105,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     this.saveNewIncidentStatus = (incidentId: number, status: string) => {
       return this.store.dispatch(IncidentActions.saveNewIncidentStatus({ incidentId, status }));
     };
+    this.pollAsset = (assetId: string, comment: string) =>
+      this.store.dispatch(AssetActions.pollAsset({ assetId, comment }));
     this.createNote = (note: NotesTypes.Note) =>
       this.store.dispatch(NotesActions.saveNote({ note }));
     this.saveFilter = (filter: MapSavedFiltersTypes.SavedFilter) =>

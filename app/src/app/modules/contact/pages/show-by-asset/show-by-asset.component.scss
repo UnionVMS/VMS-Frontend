@@ -47,7 +47,7 @@
         .icon-wrapper {
           border: 1px solid white;
           border-radius: 40px;
-          i.icon {
+          i.type-icon {
             display: grid;
             width: 80px;
             height: 80px;
@@ -61,13 +61,17 @@
             }
           }
         }
+
+        .contact-type-name {
+          text-align: center;
+        }
       }
 
-      &.person {
+      &.person, &.master {
         background-color: $color_dark_green;
        .icon-wrapper {
           background-color: $color_green;
-          i.icon::before {
+          i.type-icon::before {
             background-image: url('/assets/svg-icons/person.svg');
           }
         }
@@ -77,7 +81,7 @@
         background-color: $color_dark_blue;
         .icon-wrapper {
           background-color: $color_blue;
-          i.icon::before {
+          i.type-icon::before {
             background-image: url('/assets/svg-icons/conference.svg');
           }
         }

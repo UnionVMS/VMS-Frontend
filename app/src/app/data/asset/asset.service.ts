@@ -239,10 +239,10 @@ export class AssetService {
     );
   }
 
-  poll(authToken: string, assetId: string) {
+  poll(authToken: string, assetId: string, comment: string) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/poll/createPollForAsset/${assetId}`,
-      {},
+      { comment },
       {
         headers: new HttpHeaders({
           Authorization: authToken,

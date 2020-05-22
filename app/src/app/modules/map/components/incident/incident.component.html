@@ -75,6 +75,13 @@
     [status]="incident.status"
     [changeStatus]="changeStatus"
   ></map-incident-status-form>
+
+  <h4 i18n>Manually poll</h4>
+  <map-manual-poll-form
+    [assetId]="asset.asset.id"
+    [pollAsset]="pollAsset"
+  ></map-manual-poll-form>
+
   <h4 i18n>Create manual position</h4>
   <map-manual-movement-form
     *ngIf="map !== undefined"

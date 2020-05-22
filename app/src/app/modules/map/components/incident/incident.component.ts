@@ -25,6 +25,7 @@ export class IncidentComponent implements OnChanges {
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
   @Input() saveNewIncidentStatus: (incidentId: number, status: string) => void;
   @Input() createNote: (note: NotesTypes.Note) => void;
+  @Input() pollAsset: (assetId: string, comment: string) => void;
 
   public lastKnownPositionFormatted: Readonly<{ latitude: string, longitude: string }>;
 

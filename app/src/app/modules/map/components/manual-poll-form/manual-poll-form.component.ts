@@ -2,27 +2,28 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { NotesActions, NotesTypes, NotesSelectors } from '@data/notes';
-import { createNotesFormValidator } from './form-validator';
+import { createManualPollFormValidator } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 
 @Component({
-  selector: 'map-note-form',
-  templateUrl: './note-form.component.html',
-  styleUrls: ['./note-form.component.scss']
+  selector: 'map-manual-poll-form',
+  templateUrl: './manual-poll-form.component.html',
+  styleUrls: ['./manual-poll-form.component.scss']
 })
-export class NoteFormComponent implements OnInit {
-  @Input() createNote: (note: NotesTypes.Note) => void;
+export class ManualPollFormComponent implements OnInit {
+  @Input() pollAsset: (assetId: string, comment: string) => void;
   @Input() assetId: string;
 
   public formValidator: FormGroup;
   public save = () => {
-    return this.createNote({
-      note: this.formValidator.value.note as string
-    } as NotesTypes.Note);
+    return this.pollAsset(
+      this.assetId,
+      this.formValidator.value.comment
+    );
   }
 
   ngOnInit() {
-    this.formValidator = createNotesFormValidator();
+    this.formValidator = createManualPollFormValidator();
   }
 
   getErrors(path: string[]) {

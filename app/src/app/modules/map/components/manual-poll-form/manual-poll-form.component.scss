@@ -1,0 +1,16 @@
+@import 'variables.scss';
+
+form.manual-poll-form {
+  background: white;
+  padding: $small_distance;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: $small_distance;
+
+  #manual-poll-form--comment {
+    grid-column: 1 / span 2;
+  }
+  #manual-poll-form--save {
+    grid-column: 2;
+  }
+}
