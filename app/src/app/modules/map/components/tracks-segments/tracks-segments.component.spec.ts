@@ -39,9 +39,9 @@ describe('tracksSegmentsComponent', () => {
   it('should create line segment', () => {
     const { component } = setup();
     expect(component['renderedFeatureIds'].length).toEqual(0);
-    component.createLineSegment(AssetTrackStub.assetId, AssetTrackStub.lineSegments[0], 0);
+    component.createLineSegment(AssetTrackStub.assetId, AssetTrackStub.lineSegments[0]);
     expect(component['renderedFeatureIds'].length).toEqual(1);
-    expect(component['renderedFeatureIds'][0]).toEqual('line_segment_' + AssetTrackStub.assetId + '_' + 0);
+    expect(component['renderedFeatureIds'][0]).toEqual('line_segment_' + AssetTrackStub.assetId + '_' + AssetTrackStub.lineSegments[0].id);
   });
 
 });
