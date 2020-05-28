@@ -3,8 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Observable } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 import { AssetTypes } from '@data/asset';
+import { SimulateMovement } from '@data/asset/tools/movement-simulator';
 
 
 @Injectable({
@@ -30,7 +32,7 @@ export class AssetService {
   }
 
   mapSubscription(authToken: string) {
-    this.mapEventSource = new EventSourcePolyfill(environment.baseApiUrl + 'stream-collector/rest/sse/subscribe', {
+    this.mapEventSource = new EventSourcePolyfill(environment.baseApiUrl + 'web-gateway/rest/sse/subscribe', {
       headers: {
         Authorization: authToken,
         'Cache-Control': 'no-cache'
@@ -60,6 +62,9 @@ export class AssetService {
       that.mapEventSource.addEventListener('TicketUpdate', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('Incident', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('IncidentUpdate', (message) => observer.next(translateMessage(message)));
+
+      // BUTTERFLY
+      // SimulateMovement(observer, '19406db3-0ce8-4e2c-a1c7-ae8a68910827', 3000);
     });
   }
 
@@ -115,7 +120,7 @@ export class AssetService {
   getTracksByTimeInterval(authToken: string, query: any, startDate: number, endDate: number, sources: string[]) {
     // const datetime = "2019-03-28 12:00:00 +0100";
     return this.http.post(
-      environment.baseApiUrl + `stream-collector/rest/reports/tracksByAssetSearch`,
+      environment.baseApiUrl + `web-gateway/rest/reports/tracksByAssetSearch`,
       {
         assetQuery: query,
         sources,

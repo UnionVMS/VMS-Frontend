@@ -1,4 +1,4 @@
-import { Position } from '../generic.types';
+import { Position, TimePosition } from '../generic.types';
 
 export type Movement = Readonly<{
   location: Position;
@@ -125,13 +125,15 @@ export type Asset = Readonly<{
 }>;
 
 export type LineSegment = Readonly<{
+  id: string;
   speed: number;
-  positions: ReadonlyArray<Position>;
+  positions: ReadonlyArray<TimePosition>;
   color: string;
 }>;
 
 export type AssetTrack = Readonly<{
   tracks: ReadonlyArray<Movement>;
+  lastAddedTracks: ReadonlyArray<Movement>;
   assetId: string;
   lineSegments: ReadonlyArray<LineSegment>;
   sources: ReadonlyArray<string>;

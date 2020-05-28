@@ -1,6 +1,9 @@
 import { Action, createReducer, on } from '@ngrx/store';
+import { v4 as uuidv4 } from 'uuid';
+
 import * as AssetActions from './asset.actions';
 import * as Types from './asset.types';
+import { TimePosition } from '@data/generic.types';
 import { hashCode } from '@app/helpers/helpers';
 
 export const initialState: Types.State = {
@@ -65,13 +68,27 @@ export const assetReducer = createReducer(initialState,
     assetMovements: state.assetTrips[assetTripTimestamp]
   })),
   on(AssetActions.assetsMoved, (state, { assetMovements }) => {
-    const newAssetMovements = {
-      ...state.assetMovements,
-      ...assetMovements
-    };
+    const newAssetMovements = Object.keys(assetMovements).reduce((rNewAssetMovements, assetId) => {
+      if(
+        typeof rNewAssetMovements[assetId] === 'undefined' ||
+        assetMovements[assetId].microMove.timestamp > rNewAssetMovements[assetId].microMove.timestamp
+      ) {
+        return {
+          ...rNewAssetMovements,
+          [assetId]: assetMovements[assetId]
+        };
+      }
+      return rNewAssetMovements;
+    }, { ...state.assetMovements });
+
     let newAssetTracks = state.assetTracks;
     if(Object.keys(state.assetTracks).length > 0) {
       newAssetTracks = Object.keys(assetMovements).reduce((assetTracks, assetId, index) => {
+        // Notice: In this function we loop reversed since we know that the positions is going to be added to the end of the
+        // sections the majority of the time.
+        // We also have to do some consessions to not using immutabilty to be able to preform some of the operations
+        // Effectivley enough since we are lacking the tools to do it the correct efficently enough for the page not to slow down.
+        // Maybe it would be better to add a new dependency such as lodash?
         if(
           typeof state.assetTracks[assetId] !== 'undefined' &&
           typeof assetTracks[assetId].sources !== 'undefined' &&
@@ -81,36 +98,91 @@ export const assetReducer = createReducer(initialState,
           )
         ) {
           const lineSegments = assetTracks[assetId].lineSegments;
-          const lastSegment = lineSegments[lineSegments.length - 1];
-          const segmentSpeed = speeds.find((speed) => newAssetMovements[assetId].microMove.speed < speed);
+          const segmentSpeed = speeds.find((speed) => assetMovements[assetId].microMove.speed < speed);
 
-          let newLineSegments = Object.assign([], assetTracks[assetId].lineSegments, {
-            [lineSegments.length - 1]: {
-              ...lastSegment,
-              positions: [ ...lastSegment.positions, newAssetMovements[assetId].microMove.location ]
+          const timePosition = { ...assetMovements[assetId].microMove.location, time: assetMovements[assetId].microMove.timestamp };
+
+          const reverseIndexs = assetTracks[assetId].lineSegments.slice().reverse().reduce((acc, lineSegment, segmentReverseIndex) => {
+            if(typeof acc.positionReverseIndex !== 'undefined') {
+              return acc;
+            }
+            const positionReverseIndex = lineSegment.positions.slice().reverse().findIndex(
+              (position) => position.time < timePosition.time
+            );
+            if(positionReverseIndex !== -1) {
+              return { segmentReverseIndex, positionReverseIndex };
+            }
+
+            return acc;
+          }, {} as { segmentReverseIndex: number, positionReverseIndex: number } );
+
+          let newLineSegments = assetTracks[assetId].lineSegments as ReadonlyArray<Types.LineSegment>;
+
+          const segmentIndex = newLineSegments.length - 1 - reverseIndexs.segmentReverseIndex;
+          const positionIndex = newLineSegments[segmentIndex].positions.length - reverseIndexs.positionReverseIndex;
+
+          newLineSegments = Object.assign([], newLineSegments, {
+            [segmentIndex]: {
+              ...newLineSegments[segmentIndex],
+              positions: [
+                ...newLineSegments[segmentIndex].positions.slice(0, positionIndex),
+                timePosition,
+                ...newLineSegments[segmentIndex].positions.slice(positionIndex)
+              ]
             }
           });
-          if (lastSegment.speed !== segmentSpeed) {
-            newLineSegments = [
-              ...newLineSegments,
-              {
-                speed: segmentSpeed,
-                positions: [newAssetMovements[assetId].microMove.location],
-                color: speedSegments[segmentSpeed]
-              }
-            ];
+
+          if (newLineSegments[segmentIndex].speed !== segmentSpeed) {
+            const mutateableSegmentsArray = newLineSegments.slice();
+            mutateableSegmentsArray.splice(segmentIndex, 1, {
+              ...newLineSegments[segmentIndex],
+              positions: newLineSegments[segmentIndex].positions.slice(0, positionIndex)
+            });
+            mutateableSegmentsArray.splice(segmentIndex + 1, 0, {
+              id: uuidv4(),
+              speed: segmentSpeed,
+              positions: newLineSegments[segmentIndex].positions.slice(positionIndex - 1, positionIndex + 1),
+              color: speedSegments[segmentSpeed]
+            });
+            if(reverseIndexs.positionReverseIndex !== 0) {
+              mutateableSegmentsArray.splice(segmentIndex + 2, 0, {
+                ...newLineSegments[segmentIndex],
+                id: uuidv4(),
+                positions: newLineSegments[segmentIndex].positions.slice(positionIndex)
+              });
+            }
+            newLineSegments = mutateableSegmentsArray.slice();
           }
+
+          const trackIndex = assetTracks[assetId].tracks.length - assetTracks[assetId].tracks.slice().reverse().findIndex(
+            (position) => position.timestamp < assetMovements[assetId].microMove.timestamp
+          );
+
           assetTracks[assetId] = {
             ...assetTracks[assetId],
             tracks: [
-              ...assetTracks[assetId].tracks,
-              assetMovements[assetId].microMove
+              ...assetTracks[assetId].tracks.slice(0, trackIndex),
+              assetMovements[assetId].microMove,
+              ...assetTracks[assetId].tracks.slice(trackIndex),
             ],
-            lineSegments: newLineSegments
+            lineSegments: newLineSegments,
+            lastAddedTracks: [
+              ...assetTracks[assetId].lastAddedTracks,
+              assetMovements[assetId].microMove
+            ]
           };
         }
         return assetTracks;
-      }, { ...state.assetTracks });
+      }, {
+        // Clear all lastAddedTracks so we can fill it upp again with the new stuff.
+        ...Object.keys(state.assetTracks).reduce((acc, assetId) => ({
+          ...acc,
+          [assetId]: {
+            ...state.assetTracks[assetId],
+            lastAddedTracks: []
+          }
+        }), {})
+      });
     }
     return {
       ...state,
@@ -253,20 +325,23 @@ export const assetReducer = createReducer(initialState,
     const finishedLineSegments = tracks.reduce((lineSegments, position) => {
       const lastSegment = lineSegments[lineSegments.length - 1];
       const segmentSpeed = speeds.find((speed) => position.speed < speed);
+      const timePosition = { ...position.location, time: position.timestamp };
       if (lineSegments.length === 0) {
-        lineSegments.push({
+        lineSegments = [{
+          id: uuidv4(),
           speed: segmentSpeed,
-          positions: [position.location],
+          positions: [ timePosition],
           color: speedSegments[segmentSpeed]
-        });
+        }];
       } else if (lastSegment.speed === segmentSpeed) {
-        lastSegment.positions.push(position.location);
+        lastSegment.positions.push(timePosition);
       } else {
         // Add the last position in both the old segment and the new so there are no spaces in the drawn line.
-        lastSegment.positions.push(position.location);
+        lastSegment.positions.push(timePosition);
         lineSegments.push({
+          id: uuidv4(),
           speed: segmentSpeed,
-          positions: [position.location],
+          positions: [timePosition],
           color: speedSegments[segmentSpeed]
         });
       }
@@ -274,7 +349,7 @@ export const assetReducer = createReducer(initialState,
     }, []);
     return { ...state, assetTracks: {
       ...state.assetTracks,
-      [assetId]: { tracks, assetId, sources, lineSegments: finishedLineSegments }
+      [assetId]: { tracks, assetId, sources, lineSegments: finishedLineSegments, lastAddedTracks: tracks }
     }};
   }),
   on(AssetActions.setTracks, (state, { tracksByAsset }) => {
@@ -283,24 +358,28 @@ export const assetReducer = createReducer(initialState,
       accTracksAndLineSegmentsByAsset[assetId] = {
         tracks: tracksForAsset,
         assetId,
+        lastAddedTracks: tracksForAsset,
         lineSegments: tracksForAsset.reduce((lineSegments, position) => {
           const segmentSpeed = speeds.find((speed) => position.speed < speed);
+          const timePosition = { ...position.location, time: position.timestamp };
           if (lineSegments.length === 0) {
             lineSegments.push({
+              id: uuidv4(),
               speed: segmentSpeed,
-              positions: [position.location],
+              positions: [timePosition],
               color: speedSegments[segmentSpeed]
             });
           } else {
             const lastSegment = lineSegments[lineSegments.length - 1];
             if (lastSegment.speed === segmentSpeed) {
-              lastSegment.positions.push(position.location);
+              lastSegment.positions.push(timePosition);
             } else {
               // Add the last position in both the old segment and the new so there are no spaces in the drawn line.
-              lastSegment.positions.push(position.location);
+              lastSegment.positions.push(timePosition);
               lineSegments.push({
+                id: uuidv4(),
                 speed: segmentSpeed,
-                positions: [position.location],
+                positions: [timePosition],
                 color: speedSegments[segmentSpeed]
               });
             }
@@ -346,27 +425,34 @@ export const assetReducer = createReducer(initialState,
   on(AssetActions.trimTracksThatPassedTimeCap, (state, { unixtime }) => {
     const newAssetTracks = Object.keys(state.assetTracks).reduce((assetTracks, assetId) => {
       const assetTrack = state.assetTracks[assetId];
-
       const indexOfFirstPositionAfterGivenTime = assetTrack.tracks.findIndex(
-        track => new Date(track.timestamp).getTime() > unixtime
+        track => track.timestamp > unixtime
       );
-      let newTracks = assetTrack.tracks;
-      let newLineSegments = assetTrack.lineSegments;
+
+      let newTracks = [ ...assetTrack.tracks ];
+      let newLineSegments = [ ...assetTrack.lineSegments ];
       if(indexOfFirstPositionAfterGivenTime > 0) {
         newTracks = assetTrack.tracks.slice(indexOfFirstPositionAfterGivenTime);
-        let positionsLeftToRemove = indexOfFirstPositionAfterGivenTime;
+        let filteringDone = false;
         // tslint:disable-next-line:no-shadowed-variable
-        newLineSegments = assetTrack.lineSegments.reduce((lineSegments, lineSegment) => {
-          if(positionsLeftToRemove === 0) {
-            lineSegments.push(lineSegment);
-          } else if(lineSegment.positions.length < positionsLeftToRemove) {
-            positionsLeftToRemove -= lineSegment.positions.length;
-          } else {
-            lineSegments.push({
+        newLineSegments = assetTrack.lineSegments.reduce((
+          lineSegments: ReadonlyArray<Types.LineSegment>,
+          lineSegment: Types.LineSegment
+        ) => {
+          if(!filteringDone) {
+            const newLineSegment = {
               ...lineSegment,
-              positions: lineSegment.positions.filter((position, index) => positionsLeftToRemove < index + 1)
-            });
-            positionsLeftToRemove = 0;
+              positions: lineSegment.positions.filter((timePosition: TimePosition) => timePosition.time > unixtime)
+            };
+
+            if(newLineSegment.positions.length !== 0) {
+              lineSegments = [ ...lineSegments, newLineSegment ];
+              if(newLineSegment.positions.length === lineSegment.positions.length) {
+                filteringDone = true;
+              }
+            }
+          } else {
+            lineSegments = [ ...lineSegments, lineSegment ];
           }
           return lineSegments;
         }, []);

@@ -39,8 +39,6 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   private readonly renderedFeatureIdsByAssetId: { [assetId: string]: Array<string> } = {};
   private readonly lookupIndexLatLonFeature: { [latLon: string]: Feature[] } = {};
 
-  public numberOfTracks = 0;
-
   ngOnInit() {
     this.vectorSource = new VectorSource();
     this.vectorLayer = new VectorLayer({
@@ -185,20 +183,13 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
             this.removeDeletedFeatures(featureIdsToRemove);
           }
 
-          // The same is true for adding, we know the newest positions are at the end.
-          // Optimizing for speed
-          const renderedFeaturesLength = this.renderedFeatureIdsByAssetId[assetTrack.assetId].length;
-          const lastPositionFeatureId = this.renderedFeatureIdsByAssetId[assetTrack.assetId][renderedFeaturesLength - 1];
-          const lastIndexOfRenderedPosition = findLastIndex(assetTrack.tracks, (movement: AssetTypes.Movement) =>
-            lastPositionFeatureId === ('assetId_' + assetTrack.assetId + '_movementId_' + movement.id)
-          );
-
-          const lastIndex = assetTrack.tracks.length - 1;
-          if(lastIndexOfRenderedPosition !== -1 && lastIndexOfRenderedPosition < lastIndex) {
-            for(let i = lastIndexOfRenderedPosition + 1; i <= lastIndex; i++) {
-              acc.push(this.createNewTrackPosition(assetTrack.assetId, assetTrack.tracks[i]));
-            }
-          }
+          // Double check to see that we havn't already added these track positions.
+          // const firstTrackToAddId = 'assetId_' + assetTrack.assetId + '_movementId_' + assetTrack.lastAddedTracks[0];
+          // if(this.renderedFeatureIdsByAssetId[assetTrack.assetId].indexOf(firstTrackToAddId) === -1) {
+          assetTrack.lastAddedTracks.map((trackToAdd) => {
+            acc.push(this.createNewTrackPosition(assetTrack.assetId, trackToAdd));
+          });
+          // }
         } else {
           this.renderedFeatureIdsByAssetId[assetTrack.assetId] = [];
           acc = acc.concat(assetTrack.tracks.reduce((newFeatures, movement, index) => {
@@ -255,7 +246,6 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     }
     this.lookupIndexLatLonFeature[shortendPosition].push(feature);
 
-    this.numberOfTracks++;
     return feature;
   }
 }

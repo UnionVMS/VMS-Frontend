@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
+
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 
@@ -45,7 +46,7 @@ export class TracksSegmentsComponent implements OnInit, OnDestroy, OnChanges {
     this.vectorSource.addFeatures(
       this.assetTracks.reduce((features, assetTrack) => {
         return features.concat(
-          assetTrack.lineSegments.map((segment, index) => this.createLineSegment(assetTrack.assetId, segment, index))
+          assetTrack.lineSegments.map((segment, index) => this.createLineSegment(assetTrack.assetId, segment))
         );
       }, [])
     );
@@ -72,15 +73,15 @@ export class TracksSegmentsComponent implements OnInit, OnDestroy, OnChanges {
         if(newRenderedAssetIds.indexOf(assetTrack.assetId) === -1) {
           newRenderedAssetIds.push(assetTrack.assetId);
         }
-        return acc.concat(assetTrack.lineSegments.reduce((lineSegments, lineSegment, index) => {
-          const lineSegmentId = 'line_segment_' + assetTrack.assetId + '_' + index;
+        return acc.concat(assetTrack.lineSegments.reduce((lineSegments, lineSegment) => {
+          const lineSegmentId = 'line_segment_' + assetTrack.assetId + '_' + lineSegment.id;
           this.currentRenderFeatureIds.push(lineSegmentId);
           const segmentFeature = this.vectorSource.getFeatureById(lineSegmentId);
           if (segmentFeature !== null) {
             this.updateLineSegment(segmentFeature, lineSegment);
             return lineSegments;
           } else {
-            lineSegments.push(this.createLineSegment(assetTrack.assetId, lineSegment, index));
+            lineSegments.push(this.createLineSegment(assetTrack.assetId, lineSegment));
             return lineSegments;
           }
         }, []));
@@ -117,11 +118,11 @@ export class TracksSegmentsComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  createLineSegment(assetId: string, segment: AssetTypes.LineSegment, index: number) {
+  createLineSegment(assetId: string, segment: AssetTypes.LineSegment) {
     const segmentFeature = new Feature(new LineString(segment.positions.map(
       position => fromLonLat([position.longitude, position.latitude])
     )));
-    const id = 'line_segment_' + assetId + '_' + index;
+    const id = 'line_segment_' + assetId + '_' + segment.id;
     segmentFeature.setId(id);
     this.renderedFeatureIds.push(id);
     segmentFeature.setStyle(new Style({
