@@ -46,7 +46,7 @@ export class MapLayersEffects {
                 serviceType: 'WMS',
                 style: 'userareas_label_geom',
                 typeName: `${response.typeName}-${userLayerName}`,
-                cqlFilter: `type='${userLayerName}'`
+                cqlFilter: `area_group='${userLayerName}'`
               }
             ))
           }))
