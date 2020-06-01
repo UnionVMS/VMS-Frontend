@@ -87,8 +87,14 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   mapDispatchToProps() {
     this.clearSelectedAssets = () =>
       this.store.dispatch(AssetActions.clearSelectedAssets());
-    this.deselectAsset = (assetId) =>
+    this.deselectAsset = (assetId) => {
+      if(this.selectedAssets.length === 1) {
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'information'}));
+      } else if(this.selectedAssets.length === 2) {
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'}));
+      }
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
+    };
     this.getAssetTrack = (assetId: string, movementId: string) =>
       this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementId }));
     this.getAssetTrackTimeInterval = (assetId, startDate, endDate) =>

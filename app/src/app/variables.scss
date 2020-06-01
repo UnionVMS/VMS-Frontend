@@ -98,6 +98,18 @@ $x4large_distance: distance(6); // 48px
   }
 }
 
+.left-icon {
+  @extend .icon;
+  border-top-right-radius: $small_distance;
+  border-bottom-right-radius: $small_distance;
+}
+
+.right-icon {
+  @extend .icon;
+  border-top-left-radius: $small_distance;
+  border-bottom-left-radius: $small_distance;
+}
+
 @mixin svg-icon($url) {
   display: grid;
   background: $color_turquoise;

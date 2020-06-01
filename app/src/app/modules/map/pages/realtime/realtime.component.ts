@@ -38,11 +38,11 @@ import { Position } from '@data/generic.types';
 export class RealtimeComponent implements OnInit, OnDestroy {
 
   public mapSettings: MapSettingsTypes.State;
-  public selectedAssets$: Observable<Array<{
+  public selectedAssets: ReadonlyArray<{
     asset: AssetTypes.Asset,
     assetTracks: AssetTypes.AssetTrack,
     currentPosition: AssetTypes.AssetMovement
-  }>>;
+  }>;
   public authToken$: Observable<string|null>;
   public mapLayers$: Observable<Array<MapLayersTypes.MapLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
@@ -142,7 +142,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.store.select(AssetSelectors.getAssetMovements).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
       this.assetMovements = assets;
     });
-    this.selectedAssets$ = this.store.select(AssetSelectors.extendedDataForSelectedAssets);
+    this.store.select(AssetSelectors.extendedDataForSelectedAssets).pipe(takeUntil(this.unmount$)).subscribe((selectedAssets) => {
+      this.selectedAssets = selectedAssets;
+    });
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
     this.store.select(MapSettingsSelectors.getMapSettingsState).pipe(takeUntil(this.unmount$)).subscribe((mapSettings) => {
@@ -186,8 +188,14 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   mapDispatchToProps() {
     this.addActiveLayer = (layerName: string) =>
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
-    this.deselectAsset = (assetId) =>
+    this.deselectAsset = (assetId) => {
+      if(this.selectedAssets.length === 1) {
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'information'}));
+      } else if(this.selectedAssets.length === 2) {
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'}));
+      }
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
+    };
     this.saveMapLocation = (key: number, mapLocation: MapSettingsTypes.MapLocation) =>
       this.store.dispatch(MapSettingsActions.saveMapLocation({key, mapLocation}));
     this.setVisibilityForAssetNames = (visible: boolean) =>
@@ -200,8 +208,14 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapSettingsActions.setVisibilityForFlags({ visibility: visible }));
     this.setVisibilityForForecast = (forecasts: boolean) =>
       this.store.dispatch(MapSettingsActions.setVisibilityForForecast({ visibility: forecasts }));
-    this.selectAsset = (assetId: string) =>
+    this.selectAsset = (assetId: string) => {
+      if(this.selectedAssets.length === 0) {
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'}));
+      } else {
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'listAssets'}));
+      }
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
+    };
     this.removeActiveLayer = (layerName: string) =>
       this.store.dispatch(MapLayersActions.removeActiveLayer({ layerName }));
     this.setChoosenMovementSources = (movementSources) =>

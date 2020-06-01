@@ -21,6 +21,11 @@
       white-space: nowrap;
       cursor: pointer;
 
+      .icon.disabled {
+        background: gray;
+        cursor: default;
+      }
+
       .icon-information {
         @include svg-right-icon('/assets/svg-icons/info-outline.svg');
       }
@@ -32,12 +37,13 @@
   .panel {
     display: grid;
 
-    &.information-panel {
+    &.listAssets-panel {
       grid-template-rows: auto 1fr;
       height: calc(100vh -  #{$navbar_height});
     }
 
     h3 {
+      border-bottom: 1px solid $color_dark_gray;
       justify-self: center;
     }
   }

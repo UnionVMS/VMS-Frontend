@@ -1,15 +1,50 @@
 <div class="content-container">
   <ul id="realtime-right-column-menu">
-    <li
-      (click)="setActivePanel('information')"
-    ><i class="icon-information {{activePanel === 'information' ? 'active' : '' }}" aria-hidden="true"></i></li>
-    <li
-      *ngIf="activeLeftPanel === 'workflows'"
-      (click)="setActivePanel('incident')"
-    ><i class="icon-incident {{activePanel === 'incident' ? 'active' : '' }}" aria-hidden="true"></i></li>
+    <ng-container *ngIf="activeLeftPanel !== 'workflows'">
+      <li (click)="setActivePanel('information')">
+        <i class="icon-information {{activePanel === 'information' ? 'active' : '' }}" aria-hidden="true"></i>
+      </li>
+      <li (click)="selectedAssets.length > 0 && setActivePanel('showAsset')">
+        <i
+          class="ri-ship-fill right-icon {{activePanel === 'showAsset' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
+          aria-hidden="true"
+        ></i>
+      </li>
+      <li (click)="selectedAssets.length > 0 && setActivePanel('listAssets')">
+        <i
+          class="ri-exchange-box-fill right-icon {{activePanel === 'listAssets' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
+          aria-hidden="true"
+        ></i>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="activeLeftPanel === 'workflows'">
+      <li
+        (click)="setActivePanel('incident')"
+      ><i class="icon-incident {{activePanel === 'incident' ? 'active' : '' }}" aria-hidden="true"></i></li>
+    </ng-container>
   </ul>
   <div class="panel information-panel" *ngIf="activePanel === 'information'">
-    <h3 i18n>Map information</h3>
+    <h3 i18n>Map Information</h3>
+  </div>
+  <div class="panel showAsset-panel" *ngIf="activePanel === 'showAsset'">
+    <h3 i18n>Detailed Asset informaiton</h3>
+    <map-asset-panel
+      *ngIf="selectedAsset"
+      [asset]="selectedAsset"
+      [selectAsset]="selectAsset"
+      [deselectAsset]="deselectAsset"
+      [forecasts]="forecasts$|async"
+      [getAssetTrack]="getAssetTrack"
+      [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
+      [untrackAsset]="untrackAsset"
+      [addForecast]="addForecast"
+      [removeForecast]="removeForecast"
+      [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
+      [centerMapOnPosition]="centerMapOnPosition"
+    ></map-asset-panel>
+  </div>
+  <div class="panel listAssets-panel" *ngIf="activePanel === 'listAssets'">
+    <h3 i18n>Overview multiple Assets</h3>
     <map-selected-assets-panel
       [selectedAssets]="selectedAssets"
       [selectAsset]="selectAsset"
