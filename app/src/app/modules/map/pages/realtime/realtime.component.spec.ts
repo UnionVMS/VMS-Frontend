@@ -39,11 +39,12 @@ import { MapLocationsComponent } from '../../components/map-locations/map-locati
 import { SavedFiltersComponent } from '../../components/saved-filters/saved-filters.component'; // Not tested yet.
 import { TracksComponent } from '../../components/tracks/tracks.component';
 
-import { AssetReducer, AssetActions } from '@data/asset';
+import { AssetReducer, AssetActions, AssetTypes } from '@data/asset';
 import AssetStub from '@data/asset/stubs/asset.stub';
 import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWithEssentials.stub';
 import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
 import { IncidentReducer } from '@data/incident';
+import { MapActions } from '@data/map';
 import { MapSettingsReducer, MapSettingsActions } from '@data/map-settings';
 import { MapSavedFiltersReducer } from '@data/map-saved-filters';
 
@@ -111,7 +112,8 @@ describe('RealtimeComponent', () => {
           mapSavedFilters: MapSavedFiltersReducer.initialState,
           map: { realtime: { ready: true } },
           incident: IncidentReducer.initialState,
-          auth: { user: null }
+          auth: { user: null },
+          asset: { ...AssetReducer.initialState }
         }
       };
     };
@@ -119,7 +121,7 @@ describe('RealtimeComponent', () => {
     it('should update assets when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
       const store = TestBed.inject(MockStore);
-      const currentState = { ...baseState, asset: AssetReducer.initialState };
+      const currentState = { ...baseState };
 
       store.setState(currentState);
       component.mapStateToProps();
@@ -144,7 +146,6 @@ describe('RealtimeComponent', () => {
       const store = TestBed.inject(MockStore);
       const currentState = {
         ...baseState,
-        asset: { assetMovements: {}, filterQuery: [], selectedAssetGroups: [] },
         mapSettings: MapSettingsReducer.initialState
       };
 
@@ -163,7 +164,7 @@ describe('RealtimeComponent', () => {
           }
         }
       });
-      // mapSettingsSubscription.unsubscribe();
+
       expect(component.mapSettings.settings.flagsVisible).toBeTruthy();
     });
 
@@ -172,7 +173,6 @@ describe('RealtimeComponent', () => {
       const store = TestBed.inject(MockStore);
       const currentState = {
         ...baseState,
-        asset: { assetMovements: {}, filterQuery: [], selectedAssetGroups: [] },
         mapSettings: MapSettingsReducer.initialState
       };
 
@@ -191,21 +191,19 @@ describe('RealtimeComponent', () => {
           }
         }
       });
-      // mapSettingsSubscription.unsubscribe();
+
       expect(component.mapSettings.settings.flagsVisible).toBeTruthy();
     });
 
     it('should update selectedAsset when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
       const store = TestBed.inject(MockStore);
-      let currentState = { ...baseState, asset: AssetReducer.initialState };
+      let currentState = { ...baseState };
 
       store.setState(currentState);
       component.mapStateToProps();
 
-      let selectedAssets;
-      const selectedAssetSubscription = component.selectedAssets$.subscribe(newSelectedAssets => { selectedAssets = newSelectedAssets; });
-      expect(selectedAssets).toEqual([]);
+      expect(component.selectedAssets).toEqual([]);
       currentState = { ...currentState, asset: {
         ...currentState.asset,
         selectedAsset: AssetMovementWithEssentialsStub.assetEssentials.assetId,
@@ -214,21 +212,20 @@ describe('RealtimeComponent', () => {
         assetMovements: { [AssetMovementWithEssentialsStub.assetMovement.asset]: AssetMovementWithEssentialsStub.assetMovement }
       } };
       store.setState(currentState);
-      expect(selectedAssets).toEqual(
+      expect(component.selectedAssets).toEqual(
         [{
           asset: AssetStub,
           assetTracks: undefined,
           currentPosition: AssetMovementWithEssentialsStub.assetMovement,
           currentlyShowing: true
-        }]
+        } as AssetTypes.AssetData]
       );
-      selectedAssetSubscription.unsubscribe();
     });
 
     it('should update assetTracks when state is updated.', () => {
       const { component, baseState } = setupForMapStateToProps();
       const store = TestBed.inject(MockStore);
-      let currentState = { ...baseState, asset: AssetReducer.initialState };
+      let currentState = { ...baseState };
 
       store.setState(currentState);
       component.mapStateToProps();
@@ -341,11 +338,14 @@ describe('RealtimeComponent', () => {
 
     it('should dispatch AssetActions.selectAsset when selectAsset is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
-
+      component.selectedAssets = [];
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
       component['selectAsset']('asset-id');
 
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledTimes(2);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'})
+      );
       expect(dispatchSpy).toHaveBeenCalledWith(
         AssetActions.selectAsset({ assetId: 'asset-id' })
       );
