@@ -1,9 +1,25 @@
 @import 'variables.scss';
 
+$map_trip_player_right_offset: distance(1);
+$control_panel_right_offset: 148px;
+
 .reports-container {
   height: calc(100% - #{$navbar_height});
   display: grid;
-  grid-template-columns: 320px 1fr 320px;
+  grid-template-columns: 1fr;
+
+  map-left-column {
+    position: absolute;
+    left: 0px;
+    height: calc(100% - #{$navbar_height});
+    z-index: 200;
+  }
+  map-right-column {
+    position: absolute;
+    right: 0px;
+    height: calc(100% - #{$navbar_height});
+    z-index: 200;
+  }
 
   .map-container {
     height: 100%;
@@ -16,12 +32,9 @@
 
     map-trip-player {
       position: absolute;
-      // position: fixed;
       bottom: calc(#{$medium_distance} + #{$x4large_distance});
-      // left: 0;
-      // right: 0;
-      // margin: 0px auto;
-      right: $medium_distance;
+      right: calc(#{$right_column_width} + #{$map_trip_player_right_offset});
+      transition: right $panel_animation_time ease-out;
       width: 500px;
     }
 
@@ -29,7 +42,8 @@
     .control-panel {
       position: absolute;
       bottom: $medium_distance;
-      right: 148px;
+      right: calc(#{$right_column_width} + #{$control_panel_right_offset});
+      transition: right $panel_animation_time ease-out;
 
       .control-panel-menu {
         list-style-type: none;
@@ -66,14 +80,15 @@
         }
       }
     }
-  }
 
-  #realtime-right-column {
-    background: $color_cold_gray;
-  }
+    &.map-right-column-hidden {
+      map-trip-player {
+        right: $map_trip_player_right_offset;
+      }
 
-  map-right-column {
-    height: 100%;
+      .control-panel {
+        right: $control_panel_right_offset;
+      }
+    }
   }
-
 }

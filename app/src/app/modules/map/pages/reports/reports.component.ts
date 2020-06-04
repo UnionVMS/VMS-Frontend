@@ -13,10 +13,11 @@ import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/contro
 import { format } from 'ol/coordinate.js';
 import Select from 'ol/interaction/Select.js';
 import { click, pointerMove } from 'ol/events/condition.js';
+import Overlay from 'ol/Overlay';
 
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
-import { MapSelectors } from '@data/map';
+import { MapActions, MapSelectors } from '@data/map';
 import { MapLayersActions, MapLayersSelectors, MapLayersTypes } from '@data/map-layers';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
 import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersTypes } from '@data/map-saved-filters';
@@ -24,6 +25,10 @@ import { NotificationsActions } from '@data/notifications';
 import { RouterSelectors } from '@data/router';
 
 import { Position } from '@data/generic.types';
+
+import { registerProjectionDefinitions } from '@app/helpers/projection-definitions';
+import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
+
 
 @Component({
   selector: 'map-reports',
@@ -36,11 +41,11 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public assets: ReadonlyArray<AssetTypes.Asset>;
   public mapSettings: MapSettingsTypes.State;
   public positionsForInspection$: Observable<{ [id: number]: AssetTypes.Movement }>;
-  public selectedAssets$: Observable<Array<{
+  public selectedAssets: Array<{
     asset: AssetTypes.Asset,
     assetTracks: AssetTypes.AssetTrack,
     currentPosition: AssetTypes.AssetMovement
-  }>>;
+  }>;
   public currentFilterQuery$: Observable<ReadonlyArray<AssetTypes.AssetFilterQuery>>;
   public savedFilters$: Observable<{ [id: string]: MapSavedFiltersTypes.SavedFilter }>;
   public activeFilterNames$: Observable<ReadonlyArray<string>>;
@@ -111,6 +116,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
   // private unregisterOnHoverFunction: (name: string) => void;
 
   public activePanel = '';
+  public rightColumnHidden = false;
+  public leftColumnHidden = false;
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
   // Map functions to props:
@@ -118,13 +125,59 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public centerOnDefaultPosition: () => void;
   public toggleActivePanel: (panelName: string) => void;
 
+  public overlays = {};
+
+  public addOverlay = (id: string, content: HTMLElement, position: ReadonlyArray<number>) => {
+    if(typeof this.overlays[id] !== 'undefined') {
+      return false;
+    }
+    content.setAttribute('id', id);
+    const overlay = new Overlay({
+      element: content,
+      autoPan: true,
+      autoPanAnimation: {
+        duration: 250
+      },
+      position
+    });
+    this.overlays[id] = overlay;
+    overlay.setPosition(position);
+
+    this.map.addOverlay(overlay);
+  }
+
+  public removeOverlay = (id: string) => {
+    if(typeof this.overlays[id] === 'undefined') {
+      return false;
+    }
+    this.map.removeOverlay(this.overlays[id]);
+    delete this.overlays[id];
+  }
+
+  public moveOverlay = (id: string, position: Array<number>) => {
+    if(typeof this.overlays[id] === 'undefined') {
+      return false;
+    }
+    this.overlays[id].setPosition(position);
+  }
+
+  public hideRightColumn = (hidden: boolean) => {
+    this.rightColumnHidden = hidden;
+  }
+
+  public hideLeftColumn = (hidden: boolean) => {
+    this.leftColumnHidden = hidden;
+  }
+
   constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {
     this.store.select(AssetSelectors.getAssetMovements).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
       this.assetMovements = assets;
     });
-    this.selectedAssets$ = this.store.select(AssetSelectors.extendedDataForSelectedAssets);
+    this.store.select(AssetSelectors.extendedDataForSelectedAssets).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
+      this.selectedAssets = assets;
+    });
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.positionsForInspection$ = this.store.select(AssetSelectors.getPositionsForInspection);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
@@ -156,8 +209,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.getTracksByTimeInterval({ query, startDate: from, endDate: to, sources }));
     this.addActiveLayer = (layerName: string) =>
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
-    this.deselectAsset = (assetId) =>
+    this.deselectAsset = (assetId) => {
+      if(this.selectedAssets.length === 1) {
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'information'}));
+      } else if(this.selectedAssets.length === 2) {
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'}));
+      }
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
+    };
     this.setAssetGroup = (assetGroup: AssetTypes.AssetGroup) =>
       this.store.dispatch(AssetActions.setAssetGroup({ assetGroup }));
     this.saveMapLocation = (key: number, mapLocation: MapSettingsTypes.MapLocation) =>
@@ -174,8 +233,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapSettingsActions.setVisibilityForForecast({ visibility: forecasts }));
     this.setTracksMinuteCap = (minutes: number) =>
       this.store.dispatch(MapSettingsActions.setTracksMinuteCap({ minutes }));
-    this.selectAsset = (assetId: string) =>
+    this.selectAsset = (assetId: string) => {
+      if(this.selectedAssets.length === 0) {
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'}));
+      } else {
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'listAssets'}));
+      }
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
+    };
     this.getAssetTrack = (assetId: string, movementId: string) =>
       this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementId }));
     this.untrackAsset = (assetId: string) =>
@@ -260,10 +325,15 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   setupMap() {
+    registerProjectionDefinitions();
+
     this.mapZoom = this.mapSettings.settings.startZoomLevel;
     const scaleLineControl = new ScaleLine();
     const mousePositionControl = new MousePosition({
-      coordinateFormat: (coordinates) => format(coordinates, 'Lat: {y}, Lon: {x}', 4),
+      coordinateFormat: (coordinates: ReadonlyArray<number>) => {
+        const ddmCordinates = convertDDToDDM(coordinates[1], coordinates[0]);
+        return ddmCordinates.latitude + ', ' + ddmCordinates.longitude;
+      },
       projection: 'EPSG:4326',
       // comment the following two lines to have the mouse position
       // be placed within the map.
@@ -297,9 +367,23 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     this.mapFunctionsToProps();
 
-    setTimeout(() => {
-      this.map.updateSize();
-    }, 1000);
+    // set up the mutation observer
+    const observer = new MutationObserver((mutations, mutationObserver) => {
+      // `mutations` is an array of mutations that occurred
+      // `mutationObserver` is the MutationObserver instance
+      const canvasList = document.getElementById('reports-map').getElementsByTagName('canvas');
+      if (canvasList.length === 1) {
+        this.map.updateSize();
+        mutationObserver.disconnect(); // stop observing
+        return;
+      }
+    });
+
+    // start observing
+    observer.observe(document.getElementById('reports-map'), {
+      childList: true,
+      subtree: true
+    });
   }
 
   ngOnDestroy() {

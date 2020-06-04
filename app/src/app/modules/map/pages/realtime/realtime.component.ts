@@ -133,6 +133,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public hideRightColumn = (hidden: boolean) => {
     this.rightColumnHidden = hidden;
   }
+
   public hideLeftColumn = (hidden: boolean) => {
     this.leftColumnHidden = hidden;
   }

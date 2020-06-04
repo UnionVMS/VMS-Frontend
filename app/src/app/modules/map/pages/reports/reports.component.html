@@ -3,14 +3,24 @@
   <map-left-column
     [centerMapOnPosition]="centerMapOnPosition"
     [noWorkflow]="true"
+    [hideLeftColumn]="hideLeftColumn"
+    [columnHidden]="leftColumnHidden"
   ></map-left-column>
-  <div class="map-container">
+  <div class="map-container {{ rightColumnHidden ? 'map-right-column-hidden' : '' }} {{ leftColumnHidden ? 'map-left-column-hidden' : '' }}">
     <div id="reports-map"></div>
     <ng-container *ngIf="mapSettingsLoaded">
+      <map-right-click-menu
+        [map]="map"
+        [addOverlay]="addOverlay"
+        [moveOverlay]="moveOverlay"
+        [removeOverlay]="removeOverlay"
+        [registerOnClickFunction]="registerOnClickFunction"
+        [unregisterOnClickFunction]="unregisterOnClickFunction"
+      ></map-right-click-menu>
       <map-assets
         *ngIf="registerOnSelectFunction !== undefined"
         [assets]="assetMovements"
-        [selectedAssets]="selectedAssets$|async"
+        [selectedAssets]="selectedAssets"
         [map]="map"
         [mapZoom]="mapZoom"
         [namesVisible]="mapSettings.settings.namesVisible"
@@ -30,6 +40,8 @@
         *ngIf="mapSettings.settings.tracksVisible && mapZoom > 5"
         [assetTracks]="assetTracks$|async"
         [map]="map"
+        [registerOnClickFunction]="registerOnClickFunction"
+        [unregisterOnClickFunction]="unregisterOnClickFunction"
       ></map-tracks>
       <map-flagstates
         *ngIf="mapSettings.settings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"
@@ -139,5 +151,7 @@
   </div>
   <map-right-column
     [centerMapOnPosition]="centerMapOnPosition"
+    [hideRightColumn]="hideRightColumn"
+    [columnHidden]="rightColumnHidden"
   ></map-right-column>
 </div>
