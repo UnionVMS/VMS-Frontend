@@ -5,6 +5,40 @@
   min-height: 100%;
   max-height: calc(100vh - #{$navbar_height});
   overflow: auto;
+  width: $right_column_width;
+  transition: width $panel_animation_time ease-out;
+
+  #minimize-right-column, #realtime-right-column-menu {
+    transition: right $panel_animation_time ease-out;
+  }
+
+  #minimize-right-column {
+    position: absolute;
+    right: 320px;
+    top: 360px;
+    z-index: 200;
+    overflow: hidden;
+
+    background: $color_cold_gray;
+    height: distance(5);
+    width: distance(3);
+    border-top-left-radius: distance(3);
+    border-bottom-left-radius: distance(3);
+
+    cursor: pointer;
+
+    &:hover {
+      background: #FFFFFF;
+    }
+
+    display: grid;
+    i {
+      margin-left: distance(0.5);
+      place-self: center;
+      font-size: distance(3);
+      overflow: hidden;
+    }
+  }
 
   #realtime-right-column-menu {
     position: absolute;
@@ -29,6 +63,13 @@
       .icon-information {
         @include svg-right-icon('/assets/svg-icons/info-outline.svg');
       }
+      .icon-ships {
+        @include svg-right-icon('/assets/svg-icons/multiple-ships.svg');
+        &.disabled {
+          background: gray;
+          cursor: default;
+        }
+      }
       .icon-incident {
         @include svg-right-icon('/assets/svg-icons/check-square.svg');
       }
@@ -36,6 +77,7 @@
   }
   .panel {
     display: grid;
+    transition: opacity $panel_animation_time/2 ease-out;
 
     &.listAssets-panel {
       grid-template-rows: auto 1fr;
@@ -45,6 +87,17 @@
     h3 {
       border-bottom: 1px solid $color_dark_gray;
       justify-self: center;
+    }
+  }
+
+  &.panel-hidden {
+    width: 0px;
+    #minimize-right-column, #realtime-right-column-menu {
+      right: 0px;
+    }
+
+    .panel {
+      opacity: 0;
     }
   }
 }

@@ -84,6 +84,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public unregisterOnSelectFunction: (name: string) => void;
 
   public activePanel = '';
+  public rightColumnHidden = false;
+  public leftColumnHidden = false;
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
 
@@ -126,6 +128,13 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       return false;
     }
     this.overlays[id].setPosition(position);
+  }
+
+  public hideRightColumn = (hidden: boolean) => {
+    this.rightColumnHidden = hidden;
+  }
+  public hideLeftColumn = (hidden: boolean) => {
+    this.leftColumnHidden = hidden;
   }
 
   constructor(private readonly store: Store<any>) { }

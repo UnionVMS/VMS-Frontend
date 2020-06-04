@@ -57,6 +57,11 @@ $x2large_distance: distance(4); // 32px
 $x3large_distance: distance(5); // 40px
 $x4large_distance: distance(6); // 48px
 
+/* Map realated variables */
+$panel_animation_time: 400ms;
+$left_column_width: 320px;
+$right_column_width: 320px;
+
 @mixin no-scrollbar {
   -ms-overflow-style: none;  // IE 10+
   overflow: -moz-scrollbars-none;  // Firefox

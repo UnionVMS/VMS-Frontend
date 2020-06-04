@@ -1,11 +1,15 @@
-<div class="content-container">
+<div class="content-container {{ columnHidden ? 'panel-hidden' : ''}}">
+  <div id="minimize-left-column" (click)="hideLeftColumn(!columnHidden)">
+    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="columnHidden"></i>
+    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="!columnHidden"></i>
+  </div>
   <ul id="realtime-left-column-menu">
     <li
-      (click)="setActivePanel('filters')"
+      (click)="setActivePanelAndShowColumn('filters')"
     ><i class="icon-search {{activePanel === 'filters' ? 'active' : '' }}" aria-hidden="true"></i></li>
     <li
       *ngIf="!noWorkflow"
-      (click)="setActivePanel('workflows')"
+      (click)="setActivePanelAndShowColumn('workflows')"
     ><i class="icon-workflow {{activePanel === 'workflows' ? 'active' : '' }}" aria-hidden="true"></i></li>
   </ul>
   <div class="panel filter-panel" *ngIf="activePanel === 'filters'">

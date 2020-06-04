@@ -21,6 +21,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
 
   @Input() centerMapOnPosition: (position: Position) => void;
   @Input() map: Map;
+  @Input() columnHidden: boolean;
+  @Input() hideRightColumn: (hidden: boolean) => void;
 
   public activePanel: string;
   public activeLeftPanel: string;
@@ -48,6 +50,13 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
+
+  public setActivePanelAndShowColumn = (activeRightPanel: string) => {
+    if(this.columnHidden) {
+      this.hideRightColumn(false);
+    }
+    this.setActivePanel(activeRightPanel);
+  }
 
   constructor(private readonly store: Store<any>) { }
 

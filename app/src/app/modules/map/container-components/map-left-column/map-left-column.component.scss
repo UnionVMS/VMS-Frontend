@@ -5,6 +5,40 @@
   min-height: 100%;
   max-height: calc(100vh - #{$navbar_height});
   overflow: auto;
+  width: $left_column_width;
+  transition: width $panel_animation_time ease-out;
+
+  #minimize-left-column, #realtime-left-column-menu {
+    transition: left $panel_animation_time ease-out;
+  }
+
+  #minimize-left-column {
+    position: absolute;
+    left: 320px;
+    top: 360px;
+    z-index: 200;
+    overflow: hidden;
+
+    background: $color_cold_gray;
+    height: distance(5);
+    width: distance(3);
+    border-top-right-radius: distance(3);
+    border-bottom-right-radius: distance(3);
+
+    cursor: pointer;
+
+    &:hover {
+      background: #FFFFFF;
+    }
+
+    display: grid;
+    i {
+      margin-right: distance(0.5);
+      place-self: center;
+      font-size: distance(3);
+      overflow: hidden;
+    }
+  }
 
   #realtime-left-column-menu {
     position: absolute;
@@ -75,6 +109,17 @@
       .created {
         background: $color_warn;
       }
+    }
+  }
+
+  &.panel-hidden {
+    width: 0px;
+    #minimize-left-column, #realtime-left-column-menu {
+      left: 0px;
+    }
+
+    .panel {
+      opacity: 0;
     }
   }
 }

@@ -5,8 +5,10 @@
   </div>
   <map-left-column
     [centerMapOnPosition]="centerMapOnPosition"
+    [hideLeftColumn]="hideLeftColumn"
+    [columnHidden]="leftColumnHidden"
   ></map-left-column>
-  <div class="map-container">
+  <div class="map-container {{ rightColumnHidden ? 'map-right-column-hidden' : '' }} {{ leftColumnHidden ? 'map-left-column-hidden' : '' }}">
     <div id="realtime-map"></div>
     <ng-container *ngIf="mapReady && mapSettingsLoaded">
       <map-right-click-menu
@@ -167,5 +169,7 @@
   <map-right-column
     [centerMapOnPosition]="centerMapOnPosition"
     [map]="map"
+    [hideRightColumn]="hideRightColumn"
+    [columnHidden]="rightColumnHidden"
   ></map-right-column>
 </div>

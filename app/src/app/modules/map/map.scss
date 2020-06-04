@@ -16,7 +16,8 @@
   }
   .ol-zoom {
     left: unset;
-    right: $medium_distance;
+    right: calc(#{$right_column_width} + #{$medium_distance});
+    transition: right $panel_animation_time ease-out;
     top: unset;
     bottom: $medium_distance;
     display: grid;
@@ -41,5 +42,23 @@
         background: $color_light_turquoise;
       }
     }
+  }
+
+  .custom-mouse-position {
+    position: absolute;
+    left: calc(#{$left_column_width} + #{$distance});
+    transition: left $panel_animation_time ease-out;
+  }
+}
+
+.realtime-container .map-container.map-right-column-hidden #realtime-map, .reports-container .map-container.map-right-column-hidden #reports-map {
+  .ol-zoom {
+    right: $medium_distance;
+  }
+}
+
+.realtime-container .map-container.map-left-column-hidden #realtime-map, .reports-container .map-container.map-left-column-hidden #reports-map {
+  .custom-mouse-position {
+    left: distance(1);
   }
 }

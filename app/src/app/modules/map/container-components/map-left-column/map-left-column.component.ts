@@ -18,6 +18,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   @Input() centerMapOnPosition: (position: Position) => void;
   @Input() noWorkflow = false;
+  @Input() columnHidden: boolean;
+  @Input() hideLeftColumn: (hidden: boolean) => void;
 
   public activePanel: string;
   public setActivePanel: (activeLeftPanel: string) => void;
@@ -67,6 +69,13 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.clearSelectedAssets();
     this.setGivenFilterActive(filterTypeName, status);
     this.store.dispatch(AssetActions.removeTracks());
+  }
+
+  public setActivePanelAndShowColumn = (activeLeftPanel: string) => {
+    if(this.columnHidden) {
+      this.hideLeftColumn(false);
+    }
+    this.setActivePanel(activeLeftPanel);
   }
 
   constructor(private readonly store: Store<any>) { }
