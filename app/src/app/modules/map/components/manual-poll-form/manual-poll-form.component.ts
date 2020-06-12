@@ -11,13 +11,13 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
   styleUrls: ['./manual-poll-form.component.scss']
 })
 export class ManualPollFormComponent implements OnInit {
-  @Input() pollAsset: (assetId: string, comment: string) => void;
-  @Input() assetId: string;
+  @Input() pollIncident: (incidentId: number, comment: string) => void;
+  @Input() incidentId: number;
 
   public formValidator: FormGroup;
   public save = () => {
-    return this.pollAsset(
-      this.assetId,
+    return this.pollIncident(
+      this.incidentId,
       this.formValidator.value.comment
     );
   }

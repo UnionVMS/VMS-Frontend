@@ -437,8 +437,7 @@ export class AssetEffects {
       mergeMap(([action, authToken, userName]: Array<any>) => {
         return this.assetService.poll(authToken, action.assetId, action.comment).pipe(
           mergeMap((response: any) => {
-            console.warn(response);
-            if(typeof response.code !== undefined) {
+            if(typeof response.code !== 'undefined') {
               return [NotificationsActions.addError('Server error: Couldn\'t create a manual poll. Please contact system administrator.')];
             }
             return [NotificationsActions.addSuccess('Manual poll initiated. Response can take anywhere from a few minutes up to a couple of hours.')];

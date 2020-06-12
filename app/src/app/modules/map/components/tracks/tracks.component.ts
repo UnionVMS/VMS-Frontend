@@ -214,17 +214,18 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     featureIdsToRemove.map((featureId) => {
       const feature = this.vectorSource.getFeatureById(featureId);
       if(feature !== null) {
-        this.vectorSource.removeFeature(feature);
-      }
-      const coordinates = feature.getGeometry().getCoordinates();
-      const shortendPosition = toStringXY([coordinates[0] / 1000, coordinates[1] / 1000]);
-      if(typeof this.lookupIndexLatLonFeature[shortendPosition] !== 'undefined') {
-        this.lookupIndexLatLonFeature[shortendPosition] = this.lookupIndexLatLonFeature[shortendPosition].filter(
-          indexedFeature => indexedFeature.getId() !== featureId
-        );
-        if(this.lookupIndexLatLonFeature[shortendPosition].length === 0) {
-          delete this.lookupIndexLatLonFeature[shortendPosition];
+        const coordinates = feature.getGeometry().getCoordinates();
+        const shortendPosition = toStringXY([coordinates[0] / 1000, coordinates[1] / 1000]);
+        if(typeof this.lookupIndexLatLonFeature[shortendPosition] !== 'undefined') {
+          this.lookupIndexLatLonFeature[shortendPosition] = this.lookupIndexLatLonFeature[shortendPosition].filter(
+            indexedFeature => indexedFeature.getId() !== featureId
+          );
+          if(this.lookupIndexLatLonFeature[shortendPosition].length === 0) {
+            delete this.lookupIndexLatLonFeature[shortendPosition];
+          }
         }
+
+        this.vectorSource.removeFeature(feature);
       }
     });
   }

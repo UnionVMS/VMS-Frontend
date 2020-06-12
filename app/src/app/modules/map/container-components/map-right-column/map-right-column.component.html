@@ -4,23 +4,21 @@
     <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="columnHidden"></i>
   </div>
   <ul id="realtime-right-column-menu">
-    <ng-container *ngIf="activeLeftPanel !== 'workflows'">
-      <li (click)="setActivePanelAndShowColumn('information')">
-        <i class="icon-information {{activePanel === 'information' ? 'active' : '' }}" aria-hidden="true"></i>
-      </li>
-      <li (click)="selectedAssets.length > 0 && setActivePanelAndShowColumn('showAsset')">
-        <i
-          class="ri-ship-fill right-icon {{activePanel === 'showAsset' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
-          aria-hidden="true"
-        ></i>
-      </li>
-      <li (click)="selectedAssets.length > 0 && setActivePanelAndShowColumn('listAssets')">
-        <i
-          class="icon-ships {{activePanel === 'listAssets' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
-          aria-hidden="true"
-        ></i>
-      </li>
-    </ng-container>
+    <li (click)="setActivePanelAndShowColumn('information')">
+      <i class="icon-information {{activePanel === 'information' ? 'active' : '' }}" aria-hidden="true"></i>
+    </li>
+    <li (click)="selectedAssets.length > 0 && setActivePanelAndShowColumn('showAsset')">
+      <i
+        class="ri-ship-fill right-icon {{activePanel === 'showAsset' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
+        aria-hidden="true"
+      ></i>
+    </li>
+    <li (click)="selectedAssets.length > 0 && setActivePanelAndShowColumn('listAssets')">
+      <i
+        class="icon-ships {{activePanel === 'listAssets' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
+        aria-hidden="true"
+      ></i>
+    </li>
     <ng-container *ngIf="activeLeftPanel === 'workflows'">
       <li
         (click)="setActivePanelAndShowColumn('incident')"
@@ -77,11 +75,13 @@
       *ngIf="selectedAsset !== undefined && assetsNotSendingIncidents[selectedAsset.asset.id] !== undefined"
       [asset]="selectedAsset"
       [incident]="assetsNotSendingIncidents[selectedAsset.asset.id]"
+      [incidentLog]="incidentLogIfItExists()"
       [map]="map"
       [createManualMovement]="createManualMovement"
       [saveNewIncidentStatus]="saveNewIncidentStatus"
-      [createNote]="createNote"
-      [pollAsset]="pollAsset"
+      [createNote]="createIncidentNote"
+      [pollIncident]="pollIncident"
+      [getLogForIncident]="getLogForIncident"
     ></map-incident>
   </div>
 </div>

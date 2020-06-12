@@ -1,0 +1,11 @@
+@import 'variables.scss';
+
+.content-container {
+  display: grid;
+  grid-row-gap: distance(1);
+
+  .who {
+    font-size: 80%;
+    color: $color_dark_gray;
+  }
+}

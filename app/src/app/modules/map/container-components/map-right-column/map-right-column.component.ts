@@ -33,15 +33,19 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public selectedAssets: ReadonlyArray<AssetTypes.AssetData>;
   public choosenMovementSources: ReadonlyArray<string>;
   public assetGroupFilters: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>;
+  public incidentLogs: IncidentTypes.incidentLogs;
 
   public addForecast: (assetId: string) => void;
   public createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
   public createNote: (note: NotesTypes.Note) => void;
+  public createIncidentNote: (incidentId: number, note: NotesTypes.Note) => void;
   public clearSelectedAssets: () => void;
   public deselectAsset: (assetId: string) => void;
   public getAssetTrack: (assetId: string, movementId: string) => void;
   public getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
+  public getLogForIncident: (incidentId: number) => void;
   public pollAsset: (assetId: string, comment: string) => void;
+  public pollIncident: (incidentId: number, comment: string) => void;
   public removeForecast: (assetId: string) => void;
   public saveNewIncidentStatus: (incidentId: number, status: string) => void;
   public selectAsset: (assetId: string) => void;
@@ -91,6 +95,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unmount$)).subscribe(assetGroupFilters => {
         this.assetGroupFilters = assetGroupFilters;
       });
+    this.store.select(IncidentSelectors.getIncidentLogs)
+      .pipe(takeUntil(this.unmount$)).subscribe(incidentLogs => {
+        this.incidentLogs = incidentLogs;
+      });
   }
 
   mapDispatchToProps() {
@@ -108,6 +116,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementId }));
     this.getAssetTrackTimeInterval = (assetId, startDate, endDate) =>
       this.store.dispatch(AssetActions.getAssetTrackTimeInterval({ assetId, startDate, endDate, sources: this.choosenMovementSources }));
+    this.getLogForIncident = (incidentId: number) =>
+      this.store.dispatch(IncidentActions.getLogForIncident({ incidentId }));
     this.untrackAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
     this.selectAsset = (assetId: string) =>
@@ -122,8 +132,12 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     };
     this.pollAsset = (assetId: string, comment: string) =>
       this.store.dispatch(AssetActions.pollAsset({ assetId, comment }));
+    this.pollIncident = (incidentId: number, comment: string) =>
+      this.store.dispatch(IncidentActions.pollIncident({ incidentId, comment }));
     this.createNote = (note: NotesTypes.Note) =>
       this.store.dispatch(NotesActions.saveNote({ note }));
+    this.createIncidentNote = (incidentId: number, note: NotesTypes.Note) =>
+      this.store.dispatch(IncidentActions.createNote({ incidentId, note }));
     this.saveFilter = (filter: MapSavedFiltersTypes.SavedFilter) =>
       this.store.dispatch(MapSavedFiltersActions.saveFilter({ filter }));
   }
@@ -136,5 +150,11 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
+  }
+
+  incidentLogIfItExists() {
+    return typeof this.assetsNotSendingIncidents[this.selectedAsset.asset.id] !== 'undefined'
+      ? this.incidentLogs[this.assetsNotSendingIncidents[this.selectedAsset.asset.id].id]
+      : undefined;
   }
 }

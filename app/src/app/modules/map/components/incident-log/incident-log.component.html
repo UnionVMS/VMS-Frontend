@@ -1,0 +1,27 @@
+<div class="content-container">
+  <div class="incident-log-entry" *ngFor="let logEntry of incidentLogList">
+    <div class="incident-log-entry--content">
+      <span class="date">{{ formatTime(logEntry.createDate) }}</span>
+      <span class="message">{{ logEntry.message }}</span>
+    </div>
+    <div class="incident-log-entry--expand-button">
+      <i *ngIf="!isExpanded(logEntry.id)" (click)="expanded.push(logEntry.id)" aria-hidden="true" class="ri-arrow-right-s-line"></i>
+      <i *ngIf="isExpanded(logEntry.id)" (click)="expanded.splice(expanded.indexOf(logEntry.id), 1)" aria-hidden="true" class="ri-arrow-down-s-line"></i>
+    </div>
+    <div *ngIf="isExpanded(logEntry.id)" class="incident-log-entry--expanded-block">
+      <map-incident-log-entry-poll
+        *ngIf="logEntry.eventType === 'AUTO_POLL_CREATED' || logEntry.eventType === 'POLL_CREATED'"
+        [poll]="incidentLog.relatedObjects.polls[logEntry.relatedObjectId]"
+      ></map-incident-log-entry-poll>
+      <map-incident-log-entry-position
+        *ngIf="logEntry.eventType === 'INCIDENT_CLOSED' || logEntry.eventType === 'MANUAL_POSITION'"
+        [position]="incidentLog.relatedObjects.positions[logEntry.relatedObjectId]"
+        [incidentClosed]="logEntry.eventType === 'INCIDENT_CLOSED'"
+      ></map-incident-log-entry-position>
+      <map-incident-log-entry-note
+        *ngIf="logEntry.eventType === 'NOTE_CREATED'"
+        [note]="incidentLog.relatedObjects.notes[logEntry.relatedObjectId]"
+      ></map-incident-log-entry-note>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { NotesActions, NotesTypes, NotesSelectors } from '@data/notes';
@@ -13,6 +13,7 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
 export class IncidentStatusFormComponent implements OnChanges {
   @Input() status: string;
   @Input() changeStatus: (status: string) => void;
+  @Output() triggerShowLog = new EventEmitter();
 
   public formValidator: FormGroup;
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -32,6 +32,7 @@ import { convertDDMToDD } from '@app/helpers/wgs84-formatter';
 export class ManualMovementFormComponent implements OnInit, OnDestroy {
   @Input() createManualMovement: (manualMovement: AssetTypes.Movement) => void;
   @Input() map: Map;
+  @Output() triggerShowLog = new EventEmitter();
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;

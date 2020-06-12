@@ -1,0 +1,17 @@
+<div class="content-container">
+  <div class="description" *ngIf="incidentClosed">
+    New position was registered and the incident was closed automaticly.
+  </div>
+  <legend i18n>Source:</legend>
+  <div>{{position.source}}</div>
+  <legend i18n>Latitude:</legend>
+  <div>{{position.location.latitude}}</div>
+  <legend i18n>Longitude:</legend>
+  <div>{{position.location.longitude}}</div>
+  <legend i18n>Heading:</legend>
+  <div>{{position.heading.toFixed(2)}}</div>
+  <legend i18n>Speed:</legend>
+  <div>{{position.speed.toFixed(2)}}</div>
+  <legend i18n>Time:</legend>
+  <div>{{formatDate(position.timestamp)}}</div>
+</div>

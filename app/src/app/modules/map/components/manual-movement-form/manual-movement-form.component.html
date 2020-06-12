@@ -89,7 +89,14 @@
     [errorMessages]="getErrorMessages(['timestamp'])"
   ></ngx-datetime-picker>
 
-  <button disabled title="Not implemented yet" id="manual-position-form--all" mat-stroked-button color="accent" type="button" i18n>Show all</button>
+  <button
+    id="manual-position-form--all"
+    mat-stroked-button
+    color="accent"
+    type="button"
+    i18n
+    (click)="triggerShowLog.emit()"
+  >Show all</button>
   <button
     id="manual-position-form--save"
     mat-raised-button

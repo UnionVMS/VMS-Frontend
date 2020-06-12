@@ -1,0 +1,32 @@
+@import 'variables.scss';
+
+.content-container {
+  display: grid;
+  grid-row-gap: distance(1);
+
+  .incident-log-entry {
+    display: grid;
+    grid-row-gap: distance(1);
+    grid-template-columns: 1fr auto;
+    padding: distance(1);
+    background: white;
+
+    .incident-log-entry--content {
+      display: grid;
+    }
+
+    .incident-log-entry--expand-button {
+      display: grid;
+      align-items: center;
+
+      cursor: pointer;
+      font-size: distance(3);
+    }
+
+    .incident-log-entry--expanded-block {
+      grid-column: 1 / span 2;
+      border-top: 2px solid $color_gray;
+      padding-top: distance(1);
+    }
+  }
+}

@@ -7,7 +7,8 @@ export const initialState: Types.State = {
   assetNotSendingIncidents: {},
   incidentNotificationsByType: {
     assetNotSending: {}
-  }
+  },
+  incidentLogs: {}
 };
 
 export const incidentReducer = createReducer(initialState,
@@ -56,5 +57,24 @@ export const incidentReducer = createReducer(initialState,
       }, {});
       return acc;
     }, {})
-  }))
+  })),
+  on(IncidentActions.setLogForIncident, (state, { incidentId, incidentLog }) => {
+    if(typeof state.incidentLogs[incidentId] === 'undefined') {
+      return { ...state, incidentLogs: { ...state.incidentLogs, [incidentId]: incidentLog } };
+    }
+    return {
+      ...state,
+      incidentLogs: {
+        ...state.incidentLogs,
+        [incidentId]: {
+          log: { ...state.incidentLogs[incidentId].log, ...incidentLog.log },
+          relatedObjects: {
+            notes: { ...state.incidentLogs[incidentId].relatedObjects.notes, ...incidentLog.relatedObjects.notes },
+            polls: { ...state.incidentLogs[incidentId].relatedObjects.polls, ...incidentLog.relatedObjects.polls },
+            positions: { ...state.incidentLogs[incidentId].relatedObjects.positions, ...incidentLog.relatedObjects.positions }
+          }
+        }
+      }
+    };
+  })
 );

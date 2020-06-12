@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
@@ -41,6 +42,10 @@ import { DistanceBetweenPointsComponent } from './components/distance-between-po
 import { EditAssetGroupDialogComponent } from './components/edit-asset-group-dialog/edit-asset-group-dialog.component';
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
 import { IncidentComponent } from './components/incident/incident.component';
+import { IncidentLogComponent } from './components/incident-log/incident-log.component';
+import { IncidentLogEntryNoteComponent } from './components/incident-log-entry-note/incident-log-entry-note.component';
+import { IncidentLogEntryPollComponent } from './components/incident-log-entry-poll/incident-log-entry-poll.component';
+import { IncidentLogEntryPositionComponent } from './components/incident-log-entry-position/incident-log-entry-position.component';
 import { IncidentStatusFormComponent } from './components/incident-status-form/incident-status-form.component';
 import { IncidentsComponent } from './components/incidents/incidents.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
@@ -75,6 +80,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatTabsModule,
     MatProgressSpinnerModule,
     MatRadioModule,
     MatSliderModule,
@@ -97,6 +103,10 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     EditAssetGroupDialogComponent,
     FlagstatesComponent,
     IncidentComponent,
+    IncidentLogComponent,
+    IncidentLogEntryNoteComponent,
+    IncidentLogEntryPollComponent,
+    IncidentLogEntryPositionComponent,
     IncidentStatusFormComponent,
     IncidentsComponent,
     InformationPanelComponent,

@@ -5,7 +5,14 @@
     </mat-select>
   </mat-form-field>
 
-  <button disabled title="Not implemented yet" id="notes-form--all" mat-stroked-button color="accent" type="button" i18n>Show all</button>
+  <button
+    id="notes-form--all"
+    mat-stroked-button
+    color="accent"
+    type="button"
+    i18n
+    (click)="triggerShowLog.emit()"
+    >Show all</button>
   <button
     i18n
     id="notes-form--save"
