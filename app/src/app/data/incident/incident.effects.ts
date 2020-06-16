@@ -120,11 +120,7 @@ export class IncidentEffects {
             incidentId: action.incidentId,
             incidentLog: {
               log: log.incidentLogs,
-              relatedObjects: {
-                notes: log.notes,
-                polls: log.polls,
-                positions: log.positions
-              }
+              relatedObjects: log.relatedObjects
             }
           });
         })

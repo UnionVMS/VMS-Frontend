@@ -9,17 +9,20 @@
       <i *ngIf="isExpanded(logEntry.id)" (click)="expanded.splice(expanded.indexOf(logEntry.id), 1)" aria-hidden="true" class="ri-arrow-down-s-line"></i>
     </div>
     <div *ngIf="isExpanded(logEntry.id)" class="incident-log-entry--expanded-block">
+      <div
+        *ngIf="logEntry.eventType === 'INCIDENT_STATUS'"
+      >New status: {{ getStatusText(logEntry.incidentStatus) }}</div>
       <map-incident-log-entry-poll
-        *ngIf="logEntry.eventType === 'AUTO_POLL_CREATED' || logEntry.eventType === 'POLL_CREATED'"
+        *ngIf="logEntry.relatedObjectType === 'POLL'"
         [poll]="incidentLog.relatedObjects.polls[logEntry.relatedObjectId]"
       ></map-incident-log-entry-poll>
       <map-incident-log-entry-position
-        *ngIf="logEntry.eventType === 'INCIDENT_CLOSED' || logEntry.eventType === 'MANUAL_POSITION'"
+        *ngIf="logEntry.relatedObjectType === 'MOVEMENT'"
         [position]="incidentLog.relatedObjects.positions[logEntry.relatedObjectId]"
         [incidentClosed]="logEntry.eventType === 'INCIDENT_CLOSED'"
       ></map-incident-log-entry-position>
       <map-incident-log-entry-note
-        *ngIf="logEntry.eventType === 'NOTE_CREATED'"
+        *ngIf="logEntry.relatedObjectType === 'NOTE'"
         [note]="incidentLog.relatedObjects.notes[logEntry.relatedObjectId]"
       ></map-incident-log-entry-note>
     </div>

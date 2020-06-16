@@ -3,6 +3,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
 
 import { IncidentTypes } from '@data/incident';
+import { IncidentStatusFormComponent } from '../incident-status-form/incident-status-form.component';
 
 
 @Component({
@@ -26,5 +27,9 @@ export class IncidentLogComponent implements OnChanges {
 
   isExpanded(logEntryId: number) {
     return this.expanded.includes(logEntryId);
+  }
+
+  getStatusText(status: string) {
+    return IncidentStatusFormComponent.statuses[status];
   }
 }

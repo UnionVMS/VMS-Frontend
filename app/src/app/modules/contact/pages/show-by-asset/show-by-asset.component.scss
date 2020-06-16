@@ -67,7 +67,17 @@
         }
       }
 
-      &.person, &.master {
+      &.master {
+        background-color: $color_dark_yellow;
+       .icon-wrapper {
+          background-color: $color_yellow;
+          i.type-icon::before {
+            background-image: url('/assets/svg-icons/person.svg');
+          }
+        }
+      }
+
+      &.person {
         background-color: $color_dark_green;
        .icon-wrapper {
           background-color: $color_green;

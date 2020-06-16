@@ -11,13 +11,7 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
   styleUrls: ['./incident-status-form.component.scss']
 })
 export class IncidentStatusFormComponent implements OnChanges {
-  @Input() status: string;
-  @Input() changeStatus: (status: string) => void;
-  @Output() triggerShowLog = new EventEmitter();
-
-  public formValidator: FormGroup;
-
-  public statuses = {
+  public static statuses = {
     POLL_FAILED: 'Poll Failed',
     ATTEMPTED_CONTACT: 'Attempted Contact',
     MANUAL_POSITION_MODE: 'Manual Position Mode',
@@ -25,6 +19,12 @@ export class IncidentStatusFormComponent implements OnChanges {
     TECHNICAL_ISSUE: 'Technical issue',
     RESOLVED: 'Resolved'
   };
+
+  @Input() status: string;
+  @Input() changeStatus: (status: string) => void;
+  @Output() triggerShowLog = new EventEmitter();
+
+  public formValidator: FormGroup;
 
   ngOnChanges() {
     this.formValidator = createIncidentStatusFormValidator(this.status);
@@ -35,7 +35,11 @@ export class IncidentStatusFormComponent implements OnChanges {
   }
 
   getStatusKeys() {
-    return Object.keys(this.statuses);
+    return Object.keys(IncidentStatusFormComponent.statuses);
+  }
+
+  getStatusText(status: string) {
+    return IncidentStatusFormComponent.statuses[status];
   }
 
   getErrors(path: string[]) {

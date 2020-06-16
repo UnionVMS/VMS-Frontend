@@ -3,34 +3,15 @@
     <div class="left-block">
       <h2>{{contact.name}}</h2>
       <div class="field-wrapper">
-        <ng-container *ngIf="contact.email">
-          <label><span class="text" i18n>Email</span></label>
-          <div>{{contact.email}}</div>
-        </ng-container>
-
-        <ng-container *ngIf="contact.country">
-          <label><span class="text" i18n>Country</span></label>
-          <div>{{contact.country}}</div>
-        </ng-container>
-        <ng-container *ngIf="contact.cityName">
-          <label><span class="text" i18n>City</span></label>
-          <div>{{contact.cityName}}</div>
-        </ng-container>
-
-        <ng-container *ngIf="contact.nationality">
-          <label><span class="text" i18n>Nationality</span></label>
-          <div>{{contact.nationality}}</div>
-        </ng-container>
-        <ng-container *ngIf="contact.owner">
-          <label><span class="text" i18n>Is owner?</span></label>
-          <div>{{contact.owner}}</div>
-        </ng-container>
-
-
         <ng-container *ngIf="contact.phoneNumber">
           <label><span class="text" i18n>Phone number</span></label>
           <div>{{contact.phoneNumber}}</div>
         </ng-container>
+        <ng-container *ngIf="contact.email">
+          <label><span class="text" i18n>Email</span></label>
+          <div><a href="mailto:{{contact.email}}">{{contact.email}}</a></div>
+        </ng-container>
+
         <ng-container *ngIf="contact.postOfficeBox">
           <label><span class="text" i18n>Post office box</span></label>
           <div>{{contact.postOfficeBox}}</div>
@@ -48,6 +29,23 @@
           <div>{{contact.zipCode}}</div>
         </ng-container>
 
+        <ng-container *ngIf="contact.country">
+          <label><span class="text" i18n>Country</span></label>
+          <div>{{contact.country}}</div>
+        </ng-container>
+        <ng-container *ngIf="contact.nationality">
+          <label><span class="text" i18n>Nationality</span></label>
+          <div>{{contact.nationality}}</div>
+        </ng-container>
+        <ng-container *ngIf="contact.cityName">
+          <label><span class="text" i18n>City</span></label>
+          <div>{{contact.cityName}}</div>
+        </ng-container>
+
+        <ng-container *ngIf="contact.owner">
+          <label><span class="text" i18n>Is owner?</span></label>
+          <div>{{contact.owner}}</div>
+        </ng-container>
         <ng-container *ngIf="contact.source">
           <label><span class="text" i18n>Source</span></label>
           <div>{{contact.source}}</div>
