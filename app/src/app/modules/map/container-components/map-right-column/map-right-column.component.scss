@@ -87,6 +87,34 @@
     h3 {
       border-bottom: 1px solid $color_dark_gray;
       justify-self: center;
+      margin-bottom: distance(1);
+    }
+
+    .breadcrumbs {
+      list-style-type: "»";
+      padding-left: distance(2);
+      margin: 0px;
+
+      li {
+        float: left;
+        margin-left: distance(1.5);
+        padding-left: distance(0.5);
+        color: $color_turquoise;
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:first-child {
+          margin: 0px;
+          padding: 0px;
+          list-style-type: none;
+        }
+
+        &:last-child {
+          color: $color_black;
+          text-decoration: none;
+          cursor: default;
+        }
+      }
     }
   }
 

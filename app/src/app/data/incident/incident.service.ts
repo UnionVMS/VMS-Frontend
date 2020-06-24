@@ -40,6 +40,18 @@ export class IncidentService {
     );
   }
 
+  getIncidentsForAssetId(authToken: string, assetId: string) {
+    return this.http.get(
+      environment.baseApiUrl + `incident/rest/incident/incidentsForAssetId/${assetId}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
   saveNewIncidentStatus(authToken: string, incidentId: number, status: string) {
     return this.http.post(
       environment.baseApiUrl + `incident/rest/incident/updateStatusForIncident/${incidentId}`,

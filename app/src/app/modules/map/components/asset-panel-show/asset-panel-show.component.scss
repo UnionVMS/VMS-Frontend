@@ -1,0 +1,119 @@
+@import 'variables.scss';
+
+.content-container {
+  margin-top: distance(1);
+  display: grid;
+  grid-row-gap: 2px;
+  padding: 0px distance(1);
+
+  .header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-column-gap: distance(1);
+    color: $color_turquoise;
+    padding: $large_distance $medium_distance;
+    background: white;
+
+    .flag-image {
+      width: 20px;
+      place-self: center;
+    }
+  }
+
+  .body {
+    background: white;
+    padding: $medium_distance;
+    color: black;
+
+    .information-wrapper {
+      display: grid;
+      grid-template-rows: auto 1fr;
+
+      .asset-information {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-column-gap: $medium_distance;
+        overflow-y: scroll;
+        -ms-overflow-style: none;  // IE 10+
+        overflow: -moz-scrollbars-none;  // Firefox
+        &::-webkit-scrollbar {
+          display: none;  // Safari and Chrome
+        }
+
+        h2 {
+           grid-column: 1 / span 2;
+        }
+
+        legend {
+          // font-weight: bold;
+          font-size: $default_font_size;
+          // text-decoration: underline;
+        }
+
+        a {
+          color: black;
+        }
+
+        mat-checkbox {
+          color: $color_turquoise;
+          padding: $medium_distance $small_distance;
+        }
+      }
+    }
+  }
+
+  .button-wrapper {
+    display: grid;
+    background: white;
+    align-items: center;
+    justify-items: center;
+
+    .deselect-asset {
+      display: grid;
+      grid-template-columns: auto auto;
+      grid-column-gap: $medium_distance;
+      align-items: center;
+      color: $color_warn;
+      cursor: pointer;
+
+      .icon-trash {
+        display: grid;
+        width: $x3large_distance;
+        height: $x3large_distance;
+        &::before {
+          place-self: center;
+          height: distance(2.5);
+          width: distance(2.5);
+          content: '';
+          background-size: distance(2.5) distance(2.5);
+          background-image: url('/assets/svg-icons/trash.svg');
+          background-repeat: no-repeat;
+        }
+      }
+
+      .deselect-asset-text {
+        display: none;
+      }
+
+      &:hover {
+        width: 100%;
+        background: $color_warn;
+        color: white;
+
+        .icon-trash {
+          filter: brightness(0%) invert(1);
+          justify-self: end;
+        }
+
+        .deselect-asset-text {
+          display: block;
+        }
+      }
+
+      i {
+        font-size: 20px;
+      }
+    }
+  }
+
+}

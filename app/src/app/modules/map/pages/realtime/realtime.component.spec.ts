@@ -344,7 +344,7 @@ describe('RealtimeComponent', () => {
 
       expect(dispatchSpy).toHaveBeenCalledTimes(2);
       expect(dispatchSpy).toHaveBeenCalledWith(
-        MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'})
+        MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset'] })
       );
       expect(dispatchSpy).toHaveBeenCalledWith(
         AssetActions.selectAsset({ assetId: 'asset-id' })

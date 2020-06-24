@@ -20,8 +20,8 @@ import { Position } from '@data/generic.types';
 })
 export class IncidentComponent implements OnChanges {
   @Input() asset: AssetTypes.AssetData;
-  @Input() incident: IncidentTypes.assetNotSendingIncident;
-  @Input() incidentLog: IncidentTypes.incidentLog;
+  @Input() incident: IncidentTypes.Incident;
+  @Input() incidentLog: IncidentTypes.IncidentLog;
   @Input() map: Map;
 
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
@@ -32,8 +32,8 @@ export class IncidentComponent implements OnChanges {
 
   public lastKnownPositionFormatted: Readonly<{ latitude: string, longitude: string }>;
   public selectedTabIndex = 0;
-  public incidentStatusLog: IncidentTypes.incidentLog;
-  public incidentManualPositionLog: IncidentTypes.incidentLog;
+  public incidentStatusLog: IncidentTypes.IncidentLog;
+  public incidentManualPositionLog: IncidentTypes.IncidentLog;
 
   ngOnChanges() {
     this.lastKnownPositionFormatted = convertDDToDDM(

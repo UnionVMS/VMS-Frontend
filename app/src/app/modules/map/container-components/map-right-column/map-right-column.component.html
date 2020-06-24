@@ -4,48 +4,61 @@
     <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="columnHidden"></i>
   </div>
   <ul id="realtime-right-column-menu">
-    <li (click)="setActivePanelAndShowColumn('information')">
-      <i class="icon-information {{activePanel === 'information' ? 'active' : '' }}" aria-hidden="true"></i>
+    <li (click)="setActivePanelAndShowColumn(['information'])">
+      <i class="icon-information {{ activePanel[0] === 'information' ? 'active' : '' }}" aria-hidden="true"></i>
     </li>
-    <li (click)="selectedAssets.length > 0 && setActivePanelAndShowColumn('showAsset')">
+    <li (click)="selectedAssets.length > 0 && setActivePanelAndShowColumn(['showAsset'])">
       <i
-        class="ri-ship-fill right-icon {{activePanel === 'showAsset' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
+        class="ri-ship-fill right-icon {{ activePanel[0] === 'showAsset' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
         aria-hidden="true"
       ></i>
     </li>
-    <li (click)="selectedAssets.length > 0 && setActivePanelAndShowColumn('listAssets')">
+    <li (click)="selectedAssets.length > 0 && setActivePanelAndShowColumn(['listAssets'])">
       <i
-        class="icon-ships {{activePanel === 'listAssets' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
+        class="icon-ships {{ activePanel[0] === 'listAssets' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
         aria-hidden="true"
       ></i>
     </li>
     <ng-container *ngIf="activeLeftPanel === 'workflows'">
       <li
-        (click)="setActivePanelAndShowColumn('incident')"
-      ><i class="icon-incident {{activePanel === 'incident' ? 'active' : '' }}" aria-hidden="true"></i></li>
+        (click)="setActivePanelAndShowColumn(['incident'])"
+      ><i class="icon-incident {{ activePanel[0] === 'incident' ? 'active' : '' }}" aria-hidden="true"></i></li>
     </ng-container>
   </ul>
-  <div class="panel information-panel" *ngIf="activePanel === 'information'">
+  <div class="panel information-panel" *ngIf="activePanel[0] === 'information'">
     <h3 i18n>Map Information</h3>
   </div>
-  <div class="panel showAsset-panel" *ngIf="activePanel === 'showAsset'">
+  <div class="panel showAsset-panel" *ngIf="activePanel[0] === 'showAsset'">
     <h3 i18n>Detailed Asset informaiton</h3>
-    <map-asset-panel
-      *ngIf="selectedAsset"
-      [asset]="selectedAsset"
-      [selectAsset]="selectAsset"
-      [deselectAsset]="deselectAsset"
-      [forecasts]="forecasts$|async"
-      [getAssetTrack]="getAssetTrack"
-      [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
-      [untrackAsset]="untrackAsset"
-      [addForecast]="addForecast"
-      [removeForecast]="removeForecast"
-      [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
-      [centerMapOnPosition]="centerMapOnPosition"
-    ></map-asset-panel>
+    <ul class="breadcrumbs" *ngIf="checkIfSecondaryPanelIsActive() && selectedAsset">
+      <li (click)="setActivePanel(['showAsset'])">{{ selectedAsset.asset.name }}</li>
+      <li>incident list</li>
+    </ul>
+    <ng-container *ngIf="selectedAsset">
+      <map-asset-panel-show
+        *ngIf="!checkIfSecondaryPanelIsActive()"
+        [asset]="selectedAsset"
+        [selectAsset]="selectAsset"
+        [deselectAsset]="deselectAsset"
+        [forecasts]="forecasts$|async"
+        [getAssetTrack]="getAssetTrack"
+        [getAssetTrackTimeInterval]="getAssetTrackTimeInterval"
+        [untrackAsset]="untrackAsset"
+        [addForecast]="addForecast"
+        [removeForecast]="removeForecast"
+        [tracksMinuteCap]="mapSettings.settings.tracksMinuteCap"
+        [centerMapOnPosition]="centerMapOnPosition"
+        [getIncidentsForAssetId]="getIncidentsForAssetId"
+        [setActiveRightPanel]="setActivePanel"
+      ></map-asset-panel-show>
+      <map-asset-incidents
+        *ngIf="activePanel[1] === 'incidentList'"
+        [incidents]="incidentsForAssets[selectedAsset.asset.id]"
+        [selectIncident]="selectIncident"
+      ></map-asset-incidents>
+    </ng-container>
   </div>
-  <div class="panel listAssets-panel" *ngIf="activePanel === 'listAssets'">
+  <div class="panel listAssets-panel" *ngIf="activePanel[0] === 'listAssets'">
     <h3 i18n>Overview multiple Assets</h3>
     <map-selected-assets-panel
       [selectedAssets]="selectedAssets"
@@ -64,17 +77,17 @@
       [saveFilter]="saveFilter"
     ></map-selected-assets-panel>
   </div>
-  <div class="panel incident-panel" *ngIf="activePanel === 'incident'">
+  <div class="panel incident-panel" *ngIf="activePanel[0] === 'incident'">
     <h3>
       <ng-container i18n>Incident</ng-container>
-      <span *ngIf="selectedAsset !== undefined && assetsNotSendingIncidents[selectedAsset.asset.id] !== undefined">
-        #{{ assetsNotSendingIncidents[selectedAsset.asset.id].id }}
+      <span *ngIf="selectedAsset !== undefined && selectedIncident !== undefined">
+        #{{ selectedIncident.id }}
       </span>
     </h3>
     <map-incident
-      *ngIf="selectedAsset !== undefined && assetsNotSendingIncidents[selectedAsset.asset.id] !== undefined"
+      *ngIf="selectedAsset !== undefined && selectedIncident !== undefined"
       [asset]="selectedAsset"
-      [incident]="assetsNotSendingIncidents[selectedAsset.asset.id]"
+      [incident]="selectedIncident"
       [incidentLog]="incidentLogIfItExists()"
       [map]="map"
       [createManualMovement]="createManualMovement"

@@ -220,8 +220,8 @@ export class AssetEffects {
                 //   ));
                 // });
                 actions.push(IncidentActions.updateAssetNotSendingIncidents({
-                  assetNotSendingIncidents: messagesByType.Incident.reduce((acc, message) => {
-                    acc[message.assetId] = message;
+                  incidents: messagesByType.Incident.reduce((acc, message) => {
+                    acc[message.id] = message;
                     return acc;
                   }, {}),
                   updateType: IncidentTypes.incidentNotificationTypes.created
@@ -235,8 +235,8 @@ export class AssetEffects {
                 //   ));
                 // });
                 actions.push(IncidentActions.updateAssetNotSendingIncidents({
-                  assetNotSendingIncidents: messagesByType.IncidentUpdate.reduce((acc, message) => {
-                    acc[message.assetId] = message;
+                  incidents: messagesByType.IncidentUpdate.reduce((acc, message) => {
+                    acc[message.id] = message;
                     return acc;
                   }, {}),
                   updateType: IncidentTypes.incidentNotificationTypes.updated

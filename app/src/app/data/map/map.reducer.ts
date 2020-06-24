@@ -16,7 +16,7 @@ export const initialState: Types.State = {
     assetGroups: true
   },
   activeLeftPanel: 'filters',
-  activeRightPanel: 'information',
+  activeRightPanel: ['information'],
 };
 
 export const mapReducer = createReducer(initialState,

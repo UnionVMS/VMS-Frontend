@@ -1,6 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
 
 import { UIModule } from '@app/modules/ui/ui.module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 // @ts-ignore
 import moment from 'moment-timezone';
@@ -16,7 +17,8 @@ describe('AssetPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        UIModule
+        UIModule,
+        MatCheckboxModule
       ],
       declarations: [
         AssetPanelComponent,

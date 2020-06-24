@@ -132,7 +132,7 @@ export const selectAsset = createAction(
 
 export const selectIncident = createAction(
   '[Asset] Select incident',
-  props<{ incident: IncidentTypes.assetNotSendingIncident, incidentType: string }>()
+  props<{ incident: IncidentTypes.Incident, incidentType: string }>()
 );
 
 export const setAutocompleteQuery = createAction(

@@ -54,6 +54,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public map: Map;
 
   public deselectAsset: (assetId: string) => void;
+  public getIncidentsForAssetId: (assetId: string) => void;
   public setVisibilityForAssetNames: (visible: boolean) => void;
   public setVisibilityForAssetSpeeds: (visible: boolean) => void;
   public setVisibilityForForecast: (visible: boolean) => void;
@@ -84,6 +85,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public unregisterOnSelectFunction: (name: string) => void;
 
   public activePanel = '';
+  public activeLeftPanel: string;
   public rightColumnHidden = false;
   public leftColumnHidden = false;
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
@@ -142,6 +144,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   mapStateToProps() {
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
+      this.activeLeftPanel = activePanel;
       if(typeof this.map !== 'undefined') {
         setTimeout(() => {
           // Fix potential map resize when scrollbar appear or dissappear
@@ -200,12 +203,14 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
     this.deselectAsset = (assetId) => {
       if(this.selectedAssets.length === 1) {
-        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'information'}));
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['information'] }));
       } else if(this.selectedAssets.length === 2) {
-        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'}));
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset'] }));
       }
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     };
+    this.getIncidentsForAssetId = (assetId) =>
+      this.store.dispatch(IncidentActions.getIncidentsForAssetId({ assetId }));
     this.saveMapLocation = (key: number, mapLocation: MapSettingsTypes.MapLocation) =>
       this.store.dispatch(MapSettingsActions.saveMapLocation({key, mapLocation}));
     this.setVisibilityForAssetNames = (visible: boolean) =>
@@ -219,10 +224,15 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.setVisibilityForForecast = (forecasts: boolean) =>
       this.store.dispatch(MapSettingsActions.setVisibilityForForecast({ visibility: forecasts }));
     this.selectAsset = (assetId: string) => {
-      if(this.selectedAssets.length === 0) {
-        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'}));
+      if(this.activeLeftPanel === 'workflows') {
+        this.getIncidentsForAssetId(assetId);
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset', 'incidentList'] }));
       } else {
-        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'listAssets'}));
+        if(this.selectedAssets.length === 0) {
+          this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset'] }));
+        } else {
+          this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['listAssets'] }));
+        }
       }
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
     };

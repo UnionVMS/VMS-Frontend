@@ -33,19 +33,22 @@ export const getAssetsMovementsDependingOnLeftPanel = createSelector(
   selectAssetMovements,
   MapSelectors.getFiltersActive,
   MapSelectors.getActiveLeftPanel,
+  IncidentSelectors.selectIncidents,
   IncidentSelectors.selectAssetNotSendingIncidents,
   (
     assetMovements: { readonly [uid: string]: AssetTypes.AssetMovement },
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
     activeLeftPanel: string,
-    assetsNotSendingIncicents: { readonly [assetId: string]: IncidentTypes.assetNotSendingIncident }
+    incidents: IncidentTypes.Incident,
+    assetsNotSendingIncicents: IncidentTypes.IncidentIdsCollectionByType
   ) => {
     if(activeLeftPanel === 'workflows') {
       if(filtersActive.assetsNotSendingIncicents) {
-        return Object.keys(assetsNotSendingIncicents).reduce((acc, assetId) => {
-          acc[assetId] = {
-            microMove: assetsNotSendingIncicents[assetId].lastKnownLocation,
-            asset: assetId
+        return assetsNotSendingIncicents.unresolvedIncidentIds.reduce((acc, incidentId) => {
+          const incident = incidents[incidentId];
+          acc[incident.assetId] = {
+            microMove: incident.lastKnownLocation,
+            asset: incident.assetId
           };
           return acc;
         }, {});
@@ -145,15 +148,13 @@ export const getAssetMovements = createSelector(
   MapSavedFiltersSelectors.getActiveFilters,
   MapSelectors.getFiltersActive,
   MapSelectors.getActiveLeftPanel,
-  IncidentSelectors.selectAssetNotSendingIncidents,
   (
     assetMovements: { readonly [uid: string]: AssetTypes.AssetMovement },
     assetsEssentials: { readonly [uid: string]: AssetTypes.AssetEssentialProperties },
     currentFilterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>,
     savedFilterQuerys: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>,
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
-    activeLeftPanel: string,
-    assetsNotSendingIncicents: { readonly [assetId: string]: IncidentTypes.assetNotSendingIncident }
+    activeLeftPanel: string
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
 

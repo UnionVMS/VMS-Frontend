@@ -15,7 +15,7 @@
   />
   <div body class="content-container">
     <div class="information-wrapper">
-      <div class="asset-information" *ngIf="asset.currentPosition !== undefined">
+      <div class="asset-information">
         <ng-container *ngIf="asset.asset.ircs">
           <legend i18n>Ircs:</legend>
           <div>{{asset.asset.ircs}}</div>
@@ -29,13 +29,15 @@
             >{{asset.asset.mmsi}}</a>
           </div>
         </ng-container>
-        <ng-container *ngIf="asset.currentPosition.microMove.speed !== null">
-          <legend i18n>Speed:</legend>
-          <div>{{asset.currentPosition.microMove.speed.toFixed(2)}} <span i18n="Knots SI symbol">kn</span></div>
-        </ng-container>
-        <ng-container *ngIf="asset.currentPosition.microMove.heading !== null">
-          <legend i18n>Heading:</legend>
-          <div>{{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
+        <ng-container *ngIf="asset.currentPosition !== undefined">
+          <ng-container *ngIf="asset.currentPosition.microMove.speed !== null">
+            <legend i18n>Speed:</legend>
+            <div>{{asset.currentPosition.microMove.speed.toFixed(2)}} <span i18n="Knots SI symbol">kn</span></div>
+          </ng-container>
+          <ng-container *ngIf="asset.currentPosition.microMove.heading !== null">
+            <legend i18n>Heading:</legend>
+            <div>{{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
+          </ng-container>
         </ng-container>
         <ng-container *ngIf="asset.asset.flagStateCode">
           <legend i18n>Flagstate:</legend>

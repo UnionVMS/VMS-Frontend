@@ -23,7 +23,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   public activePanel: string;
   public setActivePanel: (activeLeftPanel: string) => void;
-  public setActiveRightPanel: (activeRightPanel: string) => void;
+  public setActiveRightPanel: (activeRightPanel: ReadonlyArray<string>) => void;
 
   public filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>;
   public setGivenFilterActive: (filterTypeName: string, status: boolean) => void;
@@ -42,7 +42,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public setAssetGroup: (assetGroup: AssetTypes.AssetGroup) => void;
   public clearAssetGroup: (assetGroup: AssetTypes.AssetGroup) => void;
   public clearSelectedAssets: () => void;
-  public clearNotificationsForIncident: (incident: IncidentTypes.assetNotSendingIncident) => void;
+  public clearNotificationsForIncident: (incident: IncidentTypes.Incident) => void;
 
   public searchAutocomplete: (searchQuery: string) => void;
   public searchAutocompleteResult$: Observable<ReadonlyArray<Readonly<{
@@ -52,14 +52,15 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public selectAsset: (assetId: string) => void;
 
 
-  public assetNotSendingIncidents: ReadonlyArray<IncidentTypes.assetNotSendingIncident>;
-  public incidentNotificationsByType: Readonly<{ readonly [type: string]: IncidentTypes.incidentNotificationsCollections }>;
+  public assetNotSendingIncidents: IncidentTypes.IncidentsCollectionByType;
+  public incidentNotificationsByType: Readonly<{ readonly [type: string]: IncidentTypes.IncidentNotificationsCollections }>;
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
-  public selectIncident: (incident: IncidentTypes.assetNotSendingIncident) => void;
+  public dispatchSelectIncident: (incidentId: number) => void;
+  public selectIncident: (incident: IncidentTypes.Incident) => void;
   public countNotificationsOfType: (
-    incidentNotifications: IncidentTypes.incidentNotificationsCollections,
+    incidentNotifications: IncidentTypes.IncidentNotificationsCollections,
     type: string
   ) => number;
 
@@ -99,7 +100,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.checkForAssetEssentials({ assetIds }));
     });
     this.searchAutocompleteResult$ = this.store.select(AssetSelectors.getSearchAutocomplete);
-    this.store.select(IncidentSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
+    this.store.select(IncidentSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(
+      (assetsNotSendingIncicents: IncidentTypes.IncidentsCollectionByType) => {
       this.assetNotSendingIncidents = assetsNotSendingIncicents;
     });
     this.store.select(IncidentSelectors.getIncidentNotificationsByType).pipe(takeUntil(this.unmount$)).subscribe(
@@ -115,7 +117,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   mapDispatchToProps() {
     this.setActivePanel = (activeLeftPanel: string) => {
       if(activeLeftPanel === 'filters') {
-        this.setActiveRightPanel('information');
+        this.setActiveRightPanel(['information']);
       }
       this.store.dispatch(AssetActions.clearSelectedAssets());
       this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
@@ -142,28 +144,31 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.setAutocompleteQuery({searchQuery}));
     this.selectAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
-    this.setActiveRightPanel = (activeRightPanel: string) => {
+    this.dispatchSelectIncident = (incidentId: number) =>
+      this.store.dispatch(IncidentActions.selectIncident({ incidentId }));
+    this.setActiveRightPanel = (activeRightPanel: ReadonlyArray<string>) => {
       this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel }));
     };
     this.clearSelectedAssets = () =>
       this.store.dispatch(AssetActions.clearSelectedAssets());
-    this.clearNotificationsForIncident = (incident: IncidentTypes.assetNotSendingIncident) =>
+    this.clearNotificationsForIncident = (incident: IncidentTypes.Incident) =>
       this.store.dispatch(IncidentActions.clearNotificationsForIncident({ incident }));
   }
 
   mapFunctionsToProps() {
-    this.selectIncident = (incident: IncidentTypes.assetNotSendingIncident) => {
+    this.selectIncident = (incident: IncidentTypes.Incident) => {
       this.selectAsset(incident.assetId);
+      this.dispatchSelectIncident(incident.id);
       this.clearNotificationsForIncident(incident);
-      this.setActiveRightPanel('incident');
+      this.setActiveRightPanel(['incident']);
     };
     this.countNotificationsOfType = (
-      incidentNotifications: IncidentTypes.incidentNotificationsCollections,
+      incidentNotifications: IncidentTypes.IncidentNotificationsCollections,
       type: string
     ) => {
       if(typeof incidentNotifications !== 'undefined') {
         return Object.values(incidentNotifications).reduce(
-          (acc: number, incidentNotification: IncidentTypes.incidentNotifications) => {
+          (acc: number, incidentNotification: IncidentTypes.IncidentNotifications) => {
             acc += incidentNotification[type];
             return acc;
           }, 0

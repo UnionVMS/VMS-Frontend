@@ -6,13 +6,36 @@
       [switchFunction]="switchShowResolved"
     ></ui-button-toggle>
   </div>
-  <div class="incidents" *ngIf="incidents.length > 0">
-    <ng-container *ngFor="let incident of incidents; trackBy: trackByIncidents">
+
+  <div class="incidents" *ngIf="!resolved">
+    <ng-container *ngFor="let incident of incidents.unresolvedIncidents; trackBy: trackByIncidents">
       <div
         [title]="incident.assetName"
         class="incident"
         (click)="selectIncident(incident)"
-        *ngIf="(resolved && incident.status === 'RESOLVED') || (!resolved && incident.status !== 'RESOLVED')"
+      >
+        <div class="status {{incidentStatusClass[incident.status]}}"></div>
+        <ui-truncated-text class="name" [text]="incident.assetName" length="16"></ui-truncated-text>
+        <div class="ircs">{{incident.assetIrcs}}</div>
+        <div class="time">Last seen: {{formatDate(incident)}}</div>
+        <div class="notifications" *ngIf="incidentNotifications[incident.id] !== undefined">
+          <span class="created-notifications" *ngIf="incidentNotifications[incident.id].created > 0">
+            {{incidentNotifications[incident.id].created}}
+          </span>
+          <span class="updated-notifications" *ngIf="incidentNotifications[incident.id].updated > 0">
+            {{incidentNotifications[incident.id].updated}}
+          </span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="incidents" *ngIf="resolved">
+    <ng-container *ngFor="let incident of incidents.recentlyResolvedIncidents; trackBy: trackByIncidents">
+      <div
+        [title]="incident.assetName"
+        class="incident"
+        (click)="selectIncident(incident)"
       >
         <div class="status {{incidentStatusClass[incident.status]}}"></div>
         <ui-truncated-text class="name" [text]="incident.assetName" length="16"></ui-truncated-text>

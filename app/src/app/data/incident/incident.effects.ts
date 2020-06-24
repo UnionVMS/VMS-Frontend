@@ -53,22 +53,50 @@ export class IncidentEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.incidentService.getAssetNotSendingEvents(authToken).pipe(
-        map((assetNotSendingIncidents: ReadonlyArray<IncidentTypes.assetNotSendingIncident>) => {
+        map((assetNotSendingIncidents: {
+          unresolved: ReadonlyArray<IncidentTypes.Incident>,
+          recentlyResolved: ReadonlyArray<IncidentTypes.Incident>,
+        }) => {
           return [
             IncidentActions.setAssetNotSendingIncidents({
-              assetNotSendingIncidents: assetNotSendingIncidents.reduce((acc, assetNotSendingIncident) => {
-                acc[assetNotSendingIncident.assetId] = assetNotSendingIncident;
+              unresolved: assetNotSendingIncidents.unresolved.reduce((acc, incident) => {
+                acc[incident.id] = incident;
+                return acc;
+              }, {}),
+              recentlyResolved: assetNotSendingIncidents.recentlyResolved.reduce((acc, incident) => {
+                acc[incident.id] = incident;
                 return acc;
               }, {})
             }),
             AssetActions.checkForAssetEssentials({
-              assetIds: assetNotSendingIncidents.map((incident) => incident.assetId)
+              assetIds: [ ...new Set([
+                ...assetNotSendingIncidents.unresolved.map((incident) => incident.assetId),
+                ...assetNotSendingIncidents.recentlyResolved.map((incident) => incident.assetId)
+              ]) ]
             })
           ];
         }),
         flatMap(a => a),
       );
     })
+  );
+
+  @Effect()
+  getIncidentsForAssetId$ = this.actions$.pipe(
+    ofType(IncidentActions.getIncidentsForAssetId),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.incidentService.getIncidentsForAssetId(authToken, action.assetId).pipe(
+        map((incidents: ReadonlyArray<IncidentTypes.Incident>) => {
+          return IncidentActions.setIncidentListForAsset({
+            assetId: action.assetId,
+            incidents: incidents.reduce((acc, incident: IncidentTypes.Incident) => {
+              return { ...acc, [incident.id]: incident };
+            }, {})
+          });
+        })
+      );
+    }),
   );
 
   @Effect()

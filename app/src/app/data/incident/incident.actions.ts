@@ -4,7 +4,7 @@ import { Note } from '@data/notes/notes.types';
 
 export const clearNotificationsForIncident = createAction(
   '[Incident] clear notification for incident',
-  props<{ incident: IncidentTypes.assetNotSendingIncident}>()
+  props<{ incident: IncidentTypes.Incident}>()
 );
 
 export const createNote = createAction(
@@ -21,6 +21,11 @@ export const getLogForIncident = createAction(
   props<{ incidentId: number }>()
 );
 
+export const getIncidentsForAssetId = createAction(
+  '[Incident] Get incidents for assetId',
+  props<{ assetId: string }>()
+);
+
 export const pollIncident = createAction(
   '[Incident] Poll asset',
   props<{ incidentId: number, comment?: string }>()
@@ -33,23 +38,34 @@ export const saveNewIncidentStatus = createAction(
 
 export const selectIncident = createAction(
   '[Incident] Select incident',
-  props<{ incident: IncidentTypes.assetNotSendingIncident, incidentType: string }>()
+  props<{ incidentId: number }>()
 );
 
 export const setAssetNotSendingIncidents = createAction(
   '[Incident] Set asset not sending incidents',
-  props<{ assetNotSendingIncidents: { readonly [assetId: string]: IncidentTypes.assetNotSendingIncident }}>()
+  props<{
+    unresolved: { readonly [incidentId: number]: IncidentTypes.Incident },
+    recentlyResolved: { readonly [incidentId: number]: IncidentTypes.Incident }
+  }>()
+);
+
+export const setIncidentListForAsset = createAction(
+  '[Incident] Set incident list for asset',
+  props<{
+    assetId: string,
+    incidents: { readonly [incidentId: number]: IncidentTypes.Incident }
+  }>()
 );
 
 export const setLogForIncident = createAction(
   '[Incident] Set log',
-  props<{ incidentId: number, incidentLog: IncidentTypes.incidentLog }>()
+  props<{ incidentId: number, incidentLog: IncidentTypes.IncidentLog }>()
 );
 
 export const updateAssetNotSendingIncidents = createAction(
   '[Incident] Update asset not sending incidents',
   props<{
-    assetNotSendingIncidents: { readonly [assetId: string]: IncidentTypes.assetNotSendingIncident },
+    incidents: { readonly [incidentId: number]: IncidentTypes.Incident },
     updateType: IncidentTypes.incidentNotificationTypes
   }>()
 );

@@ -1,0 +1,101 @@
+<div class="content-container">
+  <div class="header">
+    <img
+      header
+      *ngIf="asset.asset.flagStateCode !== '???' && asset.asset.flagStateCode !== undefined && getCountryCode() !== '???'"
+      class="flag-image"
+      src="/assets/flags/4x3/{{getCountryCode()}}.svg"
+      [alt]="getCountryCode()"
+    />
+    <span>{{ asset.asset.name }}</span>
+  </div>
+  <div body class="body">
+    <div class="information-wrapper">
+      <div class="asset-information" *ngIf="asset.currentPosition !== undefined">
+        <ng-container *ngIf="asset.asset.ircs">
+          <legend i18n>Ircs:</legend>
+          <div>{{asset.asset.ircs}}</div>
+        </ng-container>
+        <ng-container *ngIf="asset.asset.mmsi">
+          <legend i18n>Mmsi:</legend>
+          <div>
+            <a
+              href="https://www.marinetraffic.com/en/ais/index/search/all?keyword={{asset.asset.mmsi}}"
+              target="_blank"
+            >{{asset.asset.mmsi}}</a>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="asset.currentPosition.microMove.speed !== null">
+          <legend i18n>Speed:</legend>
+          <div>{{asset.currentPosition.microMove.speed.toFixed(2)}} <span i18n="Knots SI symbol">kn</span></div>
+        </ng-container>
+        <ng-container *ngIf="asset.currentPosition.microMove.heading !== null">
+          <legend i18n>Heading:</legend>
+          <div>{{asset.currentPosition.microMove.heading.toFixed(2)}}</div>
+        </ng-container>
+        <ng-container *ngIf="asset.asset.flagStateCode">
+          <legend i18n>Flagstate:</legend>
+          <div>{{asset.asset.flagStateCode}}</div>
+        </ng-container>
+        <ng-container *ngIf="asset.asset.externalMarking">
+          <legend i18n>External marking:</legend>
+          <div>{{asset.asset.externalMarking}}</div>
+        </ng-container>
+        <ng-container *ngIf="asset.asset.lengthOverAll">
+          <legend i18n>Length:</legend>
+          <div>{{asset.asset.lengthOverAll}} <span i18n="Meter SI symbol">m</span></div>
+        </ng-container>
+        <ng-container *ngIf="asset.asset.licenceType">
+          <legend i18n>LicenceType:</legend>
+          <div>{{asset.asset.licenceType}}</div>
+        </ng-container>
+        <ng-container *ngIf="asset.asset.vesselType">
+          <legend i18n>Vessel type:</legend>
+          <div>{{asset.asset.vesselType}}</div>
+        </ng-container>
+        <ng-container *ngIf="asset.asset.prodOrgCode">
+          <legend i18n>Org. Nr:</legend>
+          <div>{{asset.asset.prodOrgCode}}</div>
+        </ng-container>
+        <ng-container *ngIf="asset.asset.prodOrgName">
+          <legend i18n>Org. namn:</legend>
+          <div>{{asset.asset.prodOrgName}}</div>
+        </ng-container>
+        <mat-checkbox color="primary" [checked]="tracksIsVisible(asset)" (change)="toggleTracks(asset)" i18n>Track</mat-checkbox>
+        <mat-checkbox color="primary" [checked]="forecastIsVisible(asset.asset.id)" (change)="toggleForecast(asset.asset.id)" i18n>Forecast</mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <div footer class="button-wrapper">
+    <button
+      i18n
+      mat-button
+      (click)="goToAsset(asset)"
+      color="primary"
+    >Go to on map</button>
+    <button
+      i18n
+      mat-button
+      routerLink="/asset/{{asset.asset.id}}"
+      color="primary"
+    >Show more information</button>
+    <button
+      i18n
+      mat-button
+      color="primary"
+      (click)="getIncidentsForAssetId(asset.asset.id); setActiveRightPanel(['showAsset', 'incidentList'])"
+    >List all incidents for asset</button>
+    <button
+      i18n
+      mat-button
+      routerLink="/asset/{{asset.asset.id}}"
+      color="primary"
+      disabled
+    >Add to asset group</button>
+    <div class="deselect-asset" (click)="deselectAsset(asset.asset.id)">
+      <!-- <i class="fas fa-trash-alt" aria-hidden="true"></i> -->
+      <i class="icon-trash" aria-hidden="true"></i>
+      <div class="deselect-asset-text" i18n>Remove from selected</div>
+    </div>
+  </div>
+</div>

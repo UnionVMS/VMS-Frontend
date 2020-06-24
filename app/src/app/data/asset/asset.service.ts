@@ -181,18 +181,6 @@ export class AssetService {
     );
   }
 
-  getAssetNotSendingEvents(authToken: string) {
-    return this.http.get(
-      environment.baseApiUrl + `incident/rest/incident/assetNotSending`,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
-    );
-  }
-
   getUnitTonnage(authToken: string) {
     return this.http.get(
       environment.baseApiUrl + `asset/rest/customcodes/listcodesforconstant/UNIT_TONNAGE`,
@@ -248,19 +236,6 @@ export class AssetService {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/poll/createPollForAsset/${assetId}`,
       { comment },
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
-    );
-  }
-
-  saveNewIncidentStatus(authToken: string, incidentId: number, status: string) {
-    return this.http.post(
-      environment.baseApiUrl + `incident/rest/incident/assetNotSending/${incidentId}/status`,
-      { status },
       {
         headers: new HttpHeaders({
           Authorization: authToken,

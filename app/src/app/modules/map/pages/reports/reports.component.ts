@@ -211,9 +211,9 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
     this.deselectAsset = (assetId) => {
       if(this.selectedAssets.length === 1) {
-        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'information'}));
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['information'] }));
       } else if(this.selectedAssets.length === 2) {
-        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'}));
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset'] }));
       }
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     };
@@ -235,9 +235,9 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapSettingsActions.setTracksMinuteCap({ minutes }));
     this.selectAsset = (assetId: string) => {
       if(this.selectedAssets.length === 0) {
-        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'}));
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset'] }));
       } else {
-        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'listAssets'}));
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['listAssets'] }));
       }
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
     };

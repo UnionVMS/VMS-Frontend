@@ -11,7 +11,7 @@ import { IncidentTypes } from '@data/incident';
   styleUrls: ['./incident-log-entry-poll.component.scss']
 })
 export class IncidentLogEntryPollComponent implements OnChanges {
-  @Input() poll: IncidentTypes.pollLogEntry;
+  @Input() poll: IncidentTypes.PollLogEntry;
 
   public history: ReadonlyArray<{ status: string, time: string; }> = [];
 

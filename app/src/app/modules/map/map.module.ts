@@ -33,7 +33,9 @@ import { AddToAssetGroupDialogComponent } from './components/add-to-asset-group-
 import { AssetGroupsComponent } from './components/asset-groups/asset-groups.component';
 import { AssetFilterComponent } from './components/asset-filter/asset-filter.component';
 import { AssetForecastComponent } from './components/asset-forecast/asset-forecast.component';
+import { AssetIncidentsComponent } from './components/asset-incidents/asset-incidents.component';
 import { AssetPanelComponent } from './components/asset-panel/asset-panel.component';
+import { AssetPanelShowComponent } from './components/asset-panel-show/asset-panel-show.component';
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
 import { AssetsComponent } from './components/assets/assets.component';
 import { ControlPanelComponent } from './components/control-panel/control-panel.component';
@@ -95,7 +97,9 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     AssetGroupsComponent,
     AssetFilterComponent,
     AssetForecastComponent,
+    AssetIncidentsComponent,
     AssetPanelComponent,
+    AssetPanelShowComponent,
     AssetSearchComponent,
     ControlPanelComponent,
     CoordinatesPopupComponent,

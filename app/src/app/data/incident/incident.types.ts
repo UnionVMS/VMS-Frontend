@@ -6,25 +6,38 @@ export enum incidentNotificationTypes {
   done
 }
 
-export type assetNotSendingIncident = Readonly<{
-  id: number,
-  assetId: string,
-  assetName: string,
-  assetIrcs: string,
-  lastKnownLocation: Movement,
+export type Incident = Readonly<{
+  id: number;
+  assetId: string;
+  assetIrcs: string;
+  assetName: string;
+  createDate: number;
+  lastKnownLocation: Movement;
   status: string,
+  ticketId: string;
+  updateDate: number;
 }>;
 
-export type incidentNotifications = Readonly<{
+export type IncidentsCollectionByType = Readonly<{
+  unresolvedIncidents: ReadonlyArray<Incident>;
+  recentlyResolvedIncidents: ReadonlyArray<Incident>;
+}>;
+
+export type IncidentIdsCollectionByType = Readonly<{
+  unresolvedIncidentIds: ReadonlyArray<number>;
+  recentlyResolvedIncidentIds: ReadonlyArray<number>;
+}>;
+
+export type IncidentNotifications = Readonly<{
   created: number;
   updated: number;
 }>;
 
-export type incidentNotificationsCollections = Readonly<{
-  readonly [incidentId: number]: incidentNotifications;
+export type IncidentNotificationsCollections = Readonly<{
+  readonly [incidentId: number]: IncidentNotifications;
 }>;
 
-export type incidentLogEntry = Readonly<{
+export type IncidentLogEntry = Readonly<{
   id: number,
   eventType: string,
   createDate: number,
@@ -33,31 +46,38 @@ export type incidentLogEntry = Readonly<{
   relatedObjectId: string
 }>;
 
-export type pollLogEntry = Readonly<{
+export type PollLogEntry = Readonly<{
   guid: string;
   history: ReadonlyArray<{ status: string, timestamp: number }>;
   identifier: string;
   typeRef: Readonly<{ refGuid: string, type: string }>;
 }>;
 
-export type incidentLog = Readonly<{
-  log: { readonly [logEntryId: number]: incidentLogEntry }
+export type IncidentLog = Readonly<{
+  log: { readonly [logEntryId: number]: IncidentLogEntry }
   relatedObjects: {
     notes: { readonly [noteLogId: string]: any },
-    polls: { readonly [pollLogId: string]: pollLogEntry },
+    polls: { readonly [pollLogId: string]: PollLogEntry },
     positions: { readonly [positionLogId: string]: Movement }
   }
 }>;
 
-export type incidentLogs = Readonly<{
-  readonly [incidentId: number]: incidentLog;
+export type IncidentLogs = Readonly<{
+  readonly [incidentId: number]: IncidentLog;
 }>;
 
 
 export type State = Readonly<{
-  assetNotSendingIncidents: { readonly [assetId: string]: assetNotSendingIncident };
+  selectedIncidentId: number;
+  incidents: {
+    readonly [incidentId: number]: Incident
+  };
+  incidentsForAssets: {
+    readonly [assetId: string]: ReadonlyArray<number>
+  };
+  assetNotSendingIncidents: IncidentIdsCollectionByType;
   incidentNotificationsByType: {
-    readonly [type: string]: incidentNotificationsCollections;
-  },
-  incidentLogs: incidentLogs;
+    readonly [type: string]: IncidentNotificationsCollections;
+  };
+  incidentLogs: IncidentLogs;
 }>;

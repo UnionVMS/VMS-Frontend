@@ -12,9 +12,9 @@ import { IncidentStatusFormComponent } from '../incident-status-form/incident-st
   styleUrls: ['./incident-log.component.scss']
 })
 export class IncidentLogComponent implements OnChanges {
-  @Input() incidentLog: IncidentTypes.incidentLog;
+  @Input() incidentLog: IncidentTypes.IncidentLog;
 
-  public incidentLogList: ReadonlyArray<IncidentTypes.incidentLogEntry> = [];
+  public incidentLogList: ReadonlyArray<IncidentTypes.IncidentLogEntry> = [];
   public expanded: Array<number> = [];
 
   ngOnChanges() {

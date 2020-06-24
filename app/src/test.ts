@@ -6,8 +6,15 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
+import { environment } from './environments/environment';
 
 declare const require: any;
+
+if(environment.strictTests === true) {
+  console.warn = (message: string) => {
+    throw new Error(message);
+  };
+}
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(

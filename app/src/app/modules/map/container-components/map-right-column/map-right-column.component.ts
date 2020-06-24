@@ -24,38 +24,44 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   @Input() columnHidden: boolean;
   @Input() hideRightColumn: (hidden: boolean) => void;
 
-  public activePanel: string;
+  public activePanel: ReadonlyArray<string>;
   public activeLeftPanel: string;
-  public assetsNotSendingIncidents: Readonly<{ [assetId: string]: IncidentTypes.assetNotSendingIncident }>;
+  // public assetsNotSendingIncidents: Readonly<{ [assetId: string]: IncidentTypes.incident }>;
   public mapSettings: MapSettingsTypes.State;
   public forecasts$: Observable<any>;
   public selectedAsset: Readonly<AssetTypes.AssetData>;
   public selectedAssets: ReadonlyArray<AssetTypes.AssetData>;
+  public selectedIncident: Readonly<IncidentTypes.Incident>;
   public choosenMovementSources: ReadonlyArray<string>;
   public assetGroupFilters: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>;
-  public incidentLogs: IncidentTypes.incidentLogs;
+  public incidentLogs: IncidentTypes.IncidentLogs;
+  public incidentsForAssets: Readonly<{ readonly [assetId: string]: ReadonlyArray<IncidentTypes.Incident> }>;
 
   public addForecast: (assetId: string) => void;
   public createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
   public createNote: (note: NotesTypes.Note) => void;
   public createIncidentNote: (incidentId: number, note: NotesTypes.Note) => void;
+  public clearNotificationsForIncident: (incident: IncidentTypes.Incident) => void;
   public clearSelectedAssets: () => void;
   public deselectAsset: (assetId: string) => void;
   public getAssetTrack: (assetId: string, movementId: string) => void;
   public getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
+  public getIncidentsForAssetId: (assetId: string) => void;
   public getLogForIncident: (incidentId: number) => void;
   public pollAsset: (assetId: string, comment: string) => void;
   public pollIncident: (incidentId: number, comment: string) => void;
   public removeForecast: (assetId: string) => void;
   public saveNewIncidentStatus: (incidentId: number, status: string) => void;
   public selectAsset: (assetId: string) => void;
-  public setActivePanel: (activeRightPanel: string) => void;
+  public dispatchSelectIncident: (incidentId: number) => void;
+  public selectIncident: (incident: IncidentTypes.Incident) => void;
+  public setActivePanel: (activeRightPanel: ReadonlyArray<string>) => void;
   public untrackAsset: (assetId: string) => void;
   public saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
-  public setActivePanelAndShowColumn = (activeRightPanel: string) => {
+  public setActivePanelAndShowColumn = (activeRightPanel: ReadonlyArray<string>) => {
     if(this.columnHidden) {
       this.hideRightColumn(false);
     }
@@ -83,9 +89,9 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.selectedAssets = selectedAssets;
       this.selectedAsset = this.selectedAssets.find(selectedAsset => selectedAsset.currentlyShowing);
     });
-    this.store.select(IncidentSelectors.getAssetNotSendingIncidentsByAssetId)
-      .pipe(takeUntil(this.unmount$)).subscribe(assetsNotSendingIncicents => {
-        this.assetsNotSendingIncidents = assetsNotSendingIncicents;
+    this.store.select(IncidentSelectors.getSelectedIncident)
+      .pipe(takeUntil(this.unmount$)).subscribe(selectedIncident => {
+        this.selectedIncident = selectedIncident;
       });
     this.store.select(MapSettingsSelectors.getChoosenMovementSources)
       .pipe(takeUntil(this.unmount$)).subscribe(choosenMovementSources => {
@@ -99,30 +105,40 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unmount$)).subscribe(incidentLogs => {
         this.incidentLogs = incidentLogs;
       });
+    this.store.select(IncidentSelectors.getIncidentsForAssets)
+      .pipe(takeUntil(this.unmount$)).subscribe(incidentsForAssets => {
+        this.incidentsForAssets = incidentsForAssets;
+      });
   }
 
   mapDispatchToProps() {
+    this.clearNotificationsForIncident = (incident: IncidentTypes.Incident) =>
+      this.store.dispatch(IncidentActions.clearNotificationsForIncident({ incident }));
     this.clearSelectedAssets = () =>
       this.store.dispatch(AssetActions.clearSelectedAssets());
     this.deselectAsset = (assetId) => {
       if(this.selectedAssets.length === 1) {
-        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'information'}));
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['information'] }));
       } else if(this.selectedAssets.length === 2) {
-        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: 'showAsset'}));
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset'] }));
       }
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     };
+    this.dispatchSelectIncident = (incidentId: number) =>
+      this.store.dispatch(IncidentActions.selectIncident({ incidentId }));
     this.getAssetTrack = (assetId: string, movementId: string) =>
       this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementId }));
     this.getAssetTrackTimeInterval = (assetId, startDate, endDate) =>
       this.store.dispatch(AssetActions.getAssetTrackTimeInterval({ assetId, startDate, endDate, sources: this.choosenMovementSources }));
+    this.getIncidentsForAssetId = (assetId) =>
+      this.store.dispatch(IncidentActions.getIncidentsForAssetId({ assetId }));
     this.getLogForIncident = (incidentId: number) =>
       this.store.dispatch(IncidentActions.getLogForIncident({ incidentId }));
     this.untrackAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
     this.selectAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
-    this.setActivePanel = (activeRightPanel: string) =>
+    this.setActivePanel = (activeRightPanel: ReadonlyArray<string>) =>
       this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel }));
     this.createManualMovement = (manualMovement: AssetTypes.ManualMovement) => {
       return this.store.dispatch(AssetActions.createManualMovement({ manualMovement }));
@@ -145,6 +161,12 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
+    this.selectIncident = (incident: IncidentTypes.Incident) => {
+      this.selectAsset(incident.assetId);
+      this.dispatchSelectIncident(incident.id);
+      this.clearNotificationsForIncident(incident);
+      this.setActivePanel(['incident']);
+    };
   }
 
   ngOnDestroy() {
@@ -153,8 +175,12 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   }
 
   incidentLogIfItExists() {
-    return typeof this.assetsNotSendingIncidents[this.selectedAsset.asset.id] !== 'undefined'
-      ? this.incidentLogs[this.assetsNotSendingIncidents[this.selectedAsset.asset.id].id]
+    return typeof this.selectedIncident !== 'undefined'
+      ? this.incidentLogs[this.selectedIncident.id]
       : undefined;
+  }
+
+  checkIfSecondaryPanelIsActive() {
+    return typeof this.activePanel[1] !== 'undefined';
   }
 }
