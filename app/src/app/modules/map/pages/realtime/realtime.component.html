@@ -8,7 +8,7 @@
     [hideLeftColumn]="hideLeftColumn"
     [columnHidden]="leftColumnHidden"
   ></map-left-column>
-  <div class="map-container {{ rightColumnHidden ? 'map-right-column-hidden' : '' }} {{ leftColumnHidden ? 'map-left-column-hidden' : '' }}">
+  <div class="map-container">
     <div id="realtime-map"></div>
     <ng-container *ngIf="mapReady && mapSettingsLoaded">
       <map-right-click-menu
