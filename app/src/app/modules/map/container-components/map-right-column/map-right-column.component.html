@@ -19,7 +19,7 @@
         aria-hidden="true"
       ></i>
     </li>
-    <ng-container *ngIf="activeLeftPanel === 'workflows'">
+    <ng-container *ngIf="activeLeftPanel[0] === 'workflows'">
       <li
         (click)="setActivePanelAndShowColumn(['incident'])"
       ><i class="icon-incident {{ activePanel[0] === 'incident' ? 'active' : '' }}" aria-hidden="true"></i></li>
@@ -55,6 +55,8 @@
         *ngIf="activePanel[1] === 'incidentList'"
         [incidents]="incidentsForAssets[selectedAsset.asset.id]"
         [selectIncident]="selectIncident"
+        [setActiveWorkflow]="setActiveLeftPanel"
+        [currentWorkflow]="activeLeftPanel[1]"
       ></map-asset-incidents>
     </ng-container>
   </div>

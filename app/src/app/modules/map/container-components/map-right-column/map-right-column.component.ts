@@ -25,7 +25,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   @Input() hideRightColumn: (hidden: boolean) => void;
 
   public activePanel: ReadonlyArray<string>;
-  public activeLeftPanel: string;
+  public activeLeftPanel: ReadonlyArray<string>;
   // public assetsNotSendingIncidents: Readonly<{ [assetId: string]: IncidentTypes.incident }>;
   public mapSettings: MapSettingsTypes.State;
   public forecasts$: Observable<any>;
@@ -56,6 +56,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public dispatchSelectIncident: (incidentId: number) => void;
   public selectIncident: (incident: IncidentTypes.Incident) => void;
   public setActivePanel: (activeRightPanel: ReadonlyArray<string>) => void;
+  public setActiveLeftPanel: (activeLeftPanel: ReadonlyArray<string>) => void;
   public untrackAsset: (assetId: string) => void;
   public saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
 
@@ -140,6 +141,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
     this.setActivePanel = (activeRightPanel: ReadonlyArray<string>) =>
       this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel }));
+    this.setActiveLeftPanel = (activeLeftPanel: ReadonlyArray<string>) =>
+      this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
     this.createManualMovement = (manualMovement: AssetTypes.ManualMovement) => {
       return this.store.dispatch(AssetActions.createManualMovement({ manualMovement }));
     };

@@ -21,8 +21,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   @Input() columnHidden: boolean;
   @Input() hideLeftColumn: (hidden: boolean) => void;
 
-  public activePanel: string;
-  public setActivePanel: (activeLeftPanel: string) => void;
+  public activePanel: ReadonlyArray<string>;
+  public setActivePanel: (activeLeftPanel: ReadonlyArray<string>) => void;
   public setActiveRightPanel: (activeRightPanel: ReadonlyArray<string>) => void;
 
   public filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>;
@@ -68,11 +68,16 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public setGivenFilterActiveCurry = (filterTypeName: string) => (status: boolean) => this.setGivenFilterActive(filterTypeName, status);
   public setGivenWorkflowActive = (filterTypeName: string) => (status: boolean) => {
     this.clearSelectedAssets();
-    this.setGivenFilterActive(filterTypeName, status);
+    // this.setGivenFilterActive(filterTypeName, status);
+    if(status) {
+      this.setActivePanelAndShowColumn(['workflows', filterTypeName]);
+    } else {
+      this.setActivePanelAndShowColumn(['workflows']);
+    }
     this.store.dispatch(AssetActions.removeTracks());
   }
 
-  public setActivePanelAndShowColumn = (activeLeftPanel: string) => {
+  public setActivePanelAndShowColumn = (activeLeftPanel: ReadonlyArray<string>) => {
     if(this.columnHidden) {
       this.hideLeftColumn(false);
     }
@@ -115,8 +120,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   }
 
   mapDispatchToProps() {
-    this.setActivePanel = (activeLeftPanel: string) => {
-      if(activeLeftPanel === 'filters') {
+    this.setActivePanel = (activeLeftPanel: ReadonlyArray<string>) => {
+      if(activeLeftPanel[0] === 'filters') {
         this.setActiveRightPanel(['information']);
       }
       this.store.dispatch(AssetActions.clearSelectedAssets());

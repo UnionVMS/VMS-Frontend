@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewIni
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, first } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
@@ -99,7 +99,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   openDetachDialog(templateRef: TemplateRef<any>): void {
     const dialogRef = this.dialog.open(templateRef);
 
-    dialogRef.afterClosed().subscribe(resultDetach => {
+    dialogRef.afterClosed().pipe(first()).subscribe(resultDetach => {
       if(resultDetach === true) {
         this.saveMobileTerminal({
           ...this.currentMobileTerminal,
@@ -112,7 +112,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   openArchiveDialog(templateRef: TemplateRef<any>): void {
     const dialogRef = this.dialog.open(templateRef);
 
-    dialogRef.afterClosed().subscribe(resultDetach => {
+    dialogRef.afterClosed().pipe(first()).subscribe(resultDetach => {
       if(resultDetach === true) {
         this.saveMobileTerminal({
           ...this.currentMobileTerminal,

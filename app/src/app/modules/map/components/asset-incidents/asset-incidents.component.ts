@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { first } from 'rxjs/operators';
+
 import { IncidentTypes } from '@data/incident';
 import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
+import { AssetIncidentsDialogComponent } from '@modules/map/components/asset-incidents-dialog/asset-incidents-dialog.component';
 
 @Component({
   selector: 'map-asset-incidents',
@@ -11,6 +15,10 @@ export class AssetIncidentsComponent {
   @Input() incidents: ReadonlyArray<IncidentTypes.Incident>;
   // @Input() incidentNotifications: IncidentTypes.IncidentNotificationsCollections;
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;
+  @Input() setActiveWorkflow: (workflow: ReadonlyArray<string>) => void;
+  @Input() currentWorkflow: string;
+
+  constructor(public dialog: MatDialog) { }
 
   public incidentStatusClass = {
     MANUAL_POSITION_MODE: 'dangerLvl1',
@@ -28,5 +36,24 @@ export class AssetIncidentsComponent {
       return 'Unknown';
     }
     return formatUnixtimeWithDot(incident.lastKnownLocation.timestamp);
+  }
+
+  openSelectIncidentDialog(incident: IncidentTypes.Incident): void {
+    if(this.currentWorkflow === incident.type) {
+      this.selectIncident(incident);
+    } else {
+      const dialogRef = this.dialog.open(AssetIncidentsDialogComponent, {
+        data: { currentWorkflow: this.currentWorkflow, incidentType: incident.type }
+      });
+
+      dialogRef.afterClosed().pipe(first()).subscribe(resultDetach => {
+        if(resultDetach === true) {
+          this.selectIncident(incident);
+        } else if(resultDetach === 'switch-workflow') {
+          this.setActiveWorkflow(['workflows', incident.type]);
+          this.selectIncident(incident);
+        }
+      });
+    }
   }
 }

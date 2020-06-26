@@ -15,7 +15,7 @@ export const initialState: Types.State = {
     savedFilters: true,
     assetGroups: true
   },
-  activeLeftPanel: 'filters',
+  activeLeftPanel: ['filters'],
   activeRightPanel: ['information'],
 };
 

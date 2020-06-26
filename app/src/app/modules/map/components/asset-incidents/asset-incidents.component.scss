@@ -25,6 +25,10 @@
       background: #FFFFFF;
       cursor: pointer;
 
+      &.other-workflow {
+        background: $color_background_gray;
+      }
+
       .status {
         place-self: center;
         // border: 1px solid #000000;

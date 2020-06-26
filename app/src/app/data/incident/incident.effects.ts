@@ -59,19 +59,13 @@ export class IncidentEffects {
         }) => {
           return [
             IncidentActions.setAssetNotSendingIncidents({
-              unresolved: assetNotSendingIncidents.unresolved.reduce((acc, incident) => {
-                acc[incident.id] = incident;
-                return acc;
-              }, {}),
-              recentlyResolved: assetNotSendingIncidents.recentlyResolved.reduce((acc, incident) => {
-                acc[incident.id] = incident;
-                return acc;
-              }, {})
+              unresolved: assetNotSendingIncidents.unresolved,
+              recentlyResolved: assetNotSendingIncidents.recentlyResolved
             }),
             AssetActions.checkForAssetEssentials({
               assetIds: [ ...new Set([
-                ...assetNotSendingIncidents.unresolved.map((incident) => incident.assetId),
-                ...assetNotSendingIncidents.recentlyResolved.map((incident) => incident.assetId)
+                ...Object.values(assetNotSendingIncidents.unresolved).map((incident) => incident.assetId),
+                ...Object.values(assetNotSendingIncidents.recentlyResolved).map((incident) => incident.assetId)
               ]) ]
             })
           ];
@@ -87,12 +81,10 @@ export class IncidentEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.incidentService.getIncidentsForAssetId(authToken, action.assetId).pipe(
-        map((incidents: ReadonlyArray<IncidentTypes.Incident>) => {
+        map((incidents: Readonly<{ [incidentId: string]: IncidentTypes.Incident }>) => {
           return IncidentActions.setIncidentListForAsset({
             assetId: action.assetId,
-            incidents: incidents.reduce((acc, incident: IncidentTypes.Incident) => {
-              return { ...acc, [incident.id]: incident };
-            }, {})
+            incidents
           });
         })
       );

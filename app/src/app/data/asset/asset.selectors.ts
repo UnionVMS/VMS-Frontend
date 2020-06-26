@@ -38,12 +38,12 @@ export const getAssetsMovementsDependingOnLeftPanel = createSelector(
   (
     assetMovements: { readonly [uid: string]: AssetTypes.AssetMovement },
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
-    activeLeftPanel: string,
+    activeLeftPanel: ReadonlyArray<string>,
     incidents: IncidentTypes.Incident,
     assetsNotSendingIncicents: IncidentTypes.IncidentIdsCollectionByType
   ) => {
-    if(activeLeftPanel === 'workflows') {
-      if(filtersActive.assetsNotSendingIncicents) {
+    if(activeLeftPanel[0] === 'workflows') {
+      if(activeLeftPanel[1] === 'ASSET_NOT_SENDING') {
         return assetsNotSendingIncicents.unresolvedIncidentIds.reduce((acc, incidentId) => {
           const incident = incidents[incidentId];
           acc[incident.assetId] = {
@@ -154,11 +154,11 @@ export const getAssetMovements = createSelector(
     currentFilterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>,
     savedFilterQuerys: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>,
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
-    activeLeftPanel: string
+    activeLeftPanel: ReadonlyArray<string>
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
 
-    if(activeLeftPanel === 'filters') {
+    if(activeLeftPanel[0] === 'filters') {
       let filterQuerys: ReadonlyArray<ReadonlyArray<AssetTypes.AssetFilterQuery>> = [];
       if(filtersActive.savedFilters) {
         filterQuerys = savedFilterQuerys.map(savedFilter => savedFilter.filter);

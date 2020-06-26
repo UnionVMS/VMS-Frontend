@@ -16,6 +16,7 @@ export type Incident = Readonly<{
   status: string,
   ticketId: string;
   updateDate: number;
+  type: string;
 }>;
 
 export type IncidentsCollectionByType = Readonly<{

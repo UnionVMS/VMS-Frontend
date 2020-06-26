@@ -22,7 +22,7 @@ export const setGivenFilterActive = createAction(
 
 export const setActiveLeftPanel = createAction(
   '[Map] Set active left panel',
-  props<{ activeLeftPanel: string }>()
+  props<{ activeLeftPanel: ReadonlyArray<string> }>()
 );
 
 export const setActiveRightPanel = createAction(

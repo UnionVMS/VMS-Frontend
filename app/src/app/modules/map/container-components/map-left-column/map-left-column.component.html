@@ -5,14 +5,14 @@
   </div>
   <ul id="realtime-left-column-menu">
     <li
-      (click)="setActivePanelAndShowColumn('filters')"
-    ><i class="icon-search {{activePanel === 'filters' ? 'active' : '' }}" aria-hidden="true"></i></li>
+      (click)="setActivePanelAndShowColumn(['filters'])"
+    ><i class="icon-search {{activePanel[0] === 'filters' ? 'active' : '' }}" aria-hidden="true"></i></li>
     <li
       *ngIf="!noWorkflow"
-      (click)="setActivePanelAndShowColumn('workflows')"
-    ><i class="icon-workflow {{activePanel === 'workflows' ? 'active' : '' }}" aria-hidden="true"></i></li>
+      (click)="setActivePanelAndShowColumn(['workflows'])"
+    ><i class="icon-workflow {{activePanel[0] === 'workflows' ? 'active' : '' }}" aria-hidden="true"></i></li>
   </ul>
-  <div class="panel filter-panel" *ngIf="activePanel === 'filters'">
+  <div class="panel filter-panel" *ngIf="activePanel[0] === 'filters'">
     <h3 i18n>Filter map</h3>
     <map-panel-block
       i18n-blockTitle
@@ -73,13 +73,13 @@
       </div>
     </div>
   </div>
-  <div class="panel workflow-panel" *ngIf="activePanel === 'workflows'">
+  <div class="panel workflow-panel" *ngIf="activePanel[0] === 'workflows'">
     <h3 i18n>Workflows</h3>
     <map-panel-block
       i18n-blockTitle
       blockTitle="Assets not sending"
-      [active]="filtersActive.assetsNotSendingIncicents"
-      [setActiveFunction]="setGivenWorkflowActive('assetsNotSendingIncicents')"
+      [active]="activePanel[1] === 'ASSET_NOT_SENDING'"
+      [setActiveFunction]="setGivenWorkflowActive('ASSET_NOT_SENDING')"
       [useArrowsAsToggle]="true"
     >
       <div header class="notifications" *ngIf="incidentNotificationsByType !== undefined && incidentNotificationsByType.assetNotSending !== undefined">
@@ -92,7 +92,7 @@
       </div>
       <map-incidents
         body
-        *ngIf="filtersActive.assetsNotSendingIncicents"
+        *ngIf="activePanel[1] === 'ASSET_NOT_SENDING'"
         [incidents]="assetNotSendingIncidents"
         [selectIncident]="selectIncident"
         [incidentNotifications]="incidentNotificationsByType.assetNotSending"
@@ -100,7 +100,7 @@
     </map-panel-block>
     <map-panel-block
       i18n-blockTitle
-      blockTitle="Fishing Activity"
+      blockTitle="Manual position (4 pcs)"
       [active]="false"
       [setActiveFunction]="emptyClick"
       [useArrowsAsToggle]="true"
@@ -108,11 +108,29 @@
     </map-panel-block>
     <map-panel-block
       i18n-blockTitle
-      blockTitle="Long termed parked"
+      blockTitle="Long termed parked (4 pcs)"
       [active]="false"
       [setActiveFunction]="emptyClick"
       [useArrowsAsToggle]="true"
     >
+    </map-panel-block>
+    <map-panel-block
+      i18n-blockTitle
+      blockTitle="Ownership transfer (2 pcs)"
+      [active]="false"
+      [setActiveFunction]="emptyClick"
+      [useArrowsAsToggle]="true"
+    >
+    </map-panel-block>
+    <!-- <map-panel-block
+      i18n-blockTitle
+      blockTitle="Fishing Activity"
+      [active]="false"
+      [setActiveFunction]="emptyClick"
+      [useArrowsAsToggle]="true"
+    >
+    </map-panel-block>
+
     </map-panel-block>
     <map-panel-block
       i18n-blockTitle
@@ -161,14 +179,14 @@
       [setActiveFunction]="emptyClick"
       [useArrowsAsToggle]="true"
     >
-    </map-panel-block>
-    <map-panel-block
+    </map-panel-block>-->
+    <!-- <map-panel-block
       i18n-blockTitle
       blockTitle="Entry & Exit Assets"
       [active]="false"
       [setActiveFunction]="emptyClick"
       [useArrowsAsToggle]="true"
     >
-    </map-panel-block>
+    </map-panel-block> -->
   </div>
 </div>

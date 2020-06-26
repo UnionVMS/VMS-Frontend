@@ -85,7 +85,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public unregisterOnSelectFunction: (name: string) => void;
 
   public activePanel = '';
-  public activeLeftPanel: string;
+  public activeLeftPanel: ReadonlyArray<string>;
   public rightColumnHidden = false;
   public leftColumnHidden = false;
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
@@ -224,7 +224,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.setVisibilityForForecast = (forecasts: boolean) =>
       this.store.dispatch(MapSettingsActions.setVisibilityForForecast({ visibility: forecasts }));
     this.selectAsset = (assetId: string) => {
-      if(this.activeLeftPanel === 'workflows') {
+      if(this.activeLeftPanel[0] === 'workflows') {
         this.getIncidentsForAssetId(assetId);
         this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset', 'incidentList'] }));
       } else {
