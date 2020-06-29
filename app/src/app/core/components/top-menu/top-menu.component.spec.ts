@@ -50,7 +50,7 @@ describe('TopMenuComponent', () => {
     fixture.detectChanges();
     const layoutElement: HTMLElement = fixture.nativeElement;
     const links = layoutElement.querySelectorAll('.navbar a');
-    expect(links[0].textContent).toBe('FMC Admin');
+    expect(links[0].textContent).toBe('F-Admin');
     expect(links[1].textContent).toContain('Asset');
     expect(links[2].textContent).toContain('Realtime map');
     expect(links[3].textContent).toContain('Reports map');

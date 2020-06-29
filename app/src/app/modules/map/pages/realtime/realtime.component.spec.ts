@@ -44,7 +44,7 @@ import AssetStub from '@data/asset/stubs/asset.stub';
 import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWithEssentials.stub';
 import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
 import { IncidentReducer } from '@data/incident';
-import { MapActions } from '@data/map';
+import { MapActions, MapReducer } from '@data/map';
 import { MapSettingsReducer, MapSettingsActions } from '@data/map-settings';
 import { MapSavedFiltersReducer } from '@data/map-saved-filters';
 
@@ -110,7 +110,7 @@ describe('RealtimeComponent', () => {
         ...setupObject,
         baseState: {
           mapSavedFilters: MapSavedFiltersReducer.initialState,
-          map: { realtime: { ready: true } },
+          map: { ...MapReducer.initialState, realtime: { ready: true } },
           incident: IncidentReducer.initialState,
           auth: { user: null },
           asset: { ...AssetReducer.initialState }
@@ -340,6 +340,7 @@ describe('RealtimeComponent', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
       component.selectedAssets = [];
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
+      component.activeLeftPanel = ['filters'];
       component['selectAsset']('asset-id');
 
       expect(dispatchSpy).toHaveBeenCalledTimes(2);
@@ -360,7 +361,7 @@ describe('RealtimeComponent', () => {
         asset: AssetReducer.initialState,
         mapSettings: MapSettingsReducer.initialState,
         mapSavedFilters: MapSavedFiltersReducer.initialState,
-        map: { realtime: { ready: true }, mapSettingsLoaded: true },
+        map: { ...MapReducer.initialState, realtime: { ready: true }, mapSettingsLoaded: true },
         incident: IncidentReducer.initialState,
         auth: { user: null },
       };
