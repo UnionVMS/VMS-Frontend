@@ -73,10 +73,9 @@ export const assetReducer = createReducer(initialState,
         typeof rNewAssetMovements[assetId] === 'undefined' ||
         assetMovements[assetId].microMove.timestamp > rNewAssetMovements[assetId].microMove.timestamp
       ) {
-        return {
-          ...rNewAssetMovements,
-          [assetId]: assetMovements[assetId]
-        };
+        // Instead of spreading the object and making new instances we have to mutate the object inside this reduce-function
+        // Otherwise we take a performance hit that make the map go from 3 ms loadtime to 6 seconds loadtime.
+        rNewAssetMovements[assetId] = assetMovements[assetId];
       }
       return rNewAssetMovements;
     }, { ...state.assetMovements });
@@ -184,6 +183,7 @@ export const assetReducer = createReducer(initialState,
         }), {})
       });
     }
+
     return {
       ...state,
       assetMovements: newAssetMovements,
