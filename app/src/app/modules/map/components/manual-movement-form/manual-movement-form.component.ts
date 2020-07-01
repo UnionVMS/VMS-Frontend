@@ -90,8 +90,8 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
 
     this.createManualMovement({
       location: {
-        longitude: location.latitude,
-        latitude: location.longitude,
+        longitude: location.longitude,
+        latitude: location.latitude,
       },
       heading: this.formValidator.value.heading !== null ? parseFloat(this.formValidator.value.heading) : 0,
       timestamp: Math.floor(this.formValidator.value.timestamp.format('x')),
