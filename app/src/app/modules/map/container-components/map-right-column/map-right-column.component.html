@@ -29,7 +29,7 @@
     <h3 i18n>Map Information</h3>
   </div>
   <div class="panel showAsset-panel" *ngIf="activePanel[0] === 'showAsset'">
-    <h3 i18n>Detailed Asset informaiton</h3>
+    <h3 i18n>Detailed asset information</h3>
     <ul class="breadcrumbs" *ngIf="checkIfSecondaryPanelIsActive() && selectedAsset">
       <li (click)="setActivePanel(['showAsset'])">{{ selectedAsset.asset.name }}</li>
       <li>incident list</li>

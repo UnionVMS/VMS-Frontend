@@ -4,7 +4,7 @@
       <mat-checkbox
         (change)="toggleFilter(savedFilter.id)"
         title="{{savedFilter.name}}"
-        [checked]="activeFilters.includes(savedFilter.name)"
+        [checked]="activeFilters.includes(savedFilter.id)"
       >
         <ui-truncated-text [text]="savedFilter.name" length="30"></ui-truncated-text>
       </mat-checkbox>
