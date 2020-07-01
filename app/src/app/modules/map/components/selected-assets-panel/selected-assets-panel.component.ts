@@ -15,6 +15,8 @@ export class SelectedAssetsPanelComponent {
 
   @Input() selectedAssets: ReadonlyArray<AssetTypes.AssetData>;
   @Input() selectAsset: (assetId: string) => void;
+  @Input() clearForecasts: () => void;
+  @Input() clearTracks: () => void;
   @Input() clearSelectedAssets: () => void;
   @Input() deselectAsset: (assetId: string) => void;
   @Input() forecasts: {};
@@ -64,5 +66,10 @@ export class SelectedAssetsPanelComponent {
         this.saveFilter(resultDetach);
       }
     });
+  }
+
+  clearTracksAndForecasts() {
+    this.clearForecasts();
+    this.clearTracks();
   }
 }

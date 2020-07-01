@@ -39,7 +39,6 @@ import { AssetPanelComponent } from './components/asset-panel/asset-panel.compon
 import { AssetPanelShowComponent } from './components/asset-panel-show/asset-panel-show.component';
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
 import { AssetsComponent } from './components/assets/assets.component';
-import { ControlPanelComponent } from './components/control-panel/control-panel.component';
 import { CoordinatesPopupComponent } from './components/coordinates-popup/coordinates-popup.component';
 import { DistanceBetweenPointsComponent } from './components/distance-between-points/distance-between-points.component';
 import { EditAssetGroupDialogComponent } from './components/edit-asset-group-dialog/edit-asset-group-dialog.component';
@@ -103,7 +102,6 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     AssetPanelComponent,
     AssetPanelShowComponent,
     AssetSearchComponent,
-    ControlPanelComponent,
     CoordinatesPopupComponent,
     DistanceBetweenPointsComponent,
     EditAssetGroupDialogComponent,

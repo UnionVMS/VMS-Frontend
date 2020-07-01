@@ -74,7 +74,7 @@
   </div>
   <div footer class="button-wrapper">
     <div class="button-wrapper-minified {{!expandFooterButtons ? 'active' : ''}}">
-      <div class="deselect-asset" (click)="deselectAsset(asset.asset.id)">
+      <div class="deselect-asset" (click)="deselectAsset(asset.asset.id); untrackAsset(asset.asset.id); removeForecast(asset.asset.id)">
         <!-- <i class="fas fa-trash-alt" aria-hidden="true"></i> -->
         <i class="icon-trash" aria-hidden="true"></i>
         <div class="deselect-asset-text" i18n>Remove from selected</div>

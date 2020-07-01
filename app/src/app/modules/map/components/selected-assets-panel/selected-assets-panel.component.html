@@ -41,7 +41,13 @@
       <button
         mat-stroked-button
         color="error"
-        (click)="clearSelectedAssets()"
+        (click)="clearTracksAndForecasts()"
+        i18n
+      >Clear all tracks and forecasts</button>
+      <button
+        mat-stroked-button
+        color="error"
+        (click)="clearSelectedAssets(); clearTracksAndForecasts()"
         i18n
       >Clear selected assets</button>
       <button

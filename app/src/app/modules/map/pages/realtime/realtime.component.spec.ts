@@ -29,7 +29,6 @@ import { AssetGroupsComponent } from '../../components/asset-groups/asset-groups
 import { AssetForecastComponent } from '../../components/asset-forecast/asset-forecast.component';
 import { AssetPanelComponent } from '../../components/asset-panel/asset-panel.component';
 import { AssetSearchComponent } from '../../components/asset-search/asset-search.component';
-import { ControlPanelComponent } from '../../components/control-panel/control-panel.component'; // Not tested yet.
 // Not tested yet.
 import { DistanceBetweenPointsComponent } from '../../components/distance-between-points/distance-between-points.component';
 import { FlagstatesComponent } from '../../components/flagstates/flagstates.component';
@@ -70,7 +69,6 @@ describe('RealtimeComponent', () => {
         AssetForecastComponent,
         AssetPanelComponent,
         AssetSearchComponent,
-        ControlPanelComponent,
         DistanceBetweenPointsComponent,
         FlagstatesComponent,
         InformationPanelComponent,

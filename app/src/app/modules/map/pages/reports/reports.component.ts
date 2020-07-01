@@ -67,8 +67,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
   // tslint:disable:ban-types
   public addForecast: Function;
   public addPositionForInspection: Function;
-  public clearForecasts: Function;
-  public clearTracks: Function;
   public deselectAsset: (assetId: string) => void;
   public setForecastInterval: Function;
   public setVisibilityForAssetNames: Function;
@@ -255,10 +253,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.addForecast({ assetId }));
     this.removeForecast = (assetId: string) =>
       this.store.dispatch(AssetActions.removeForecast({ assetId }));
-    this.clearForecasts = () =>
-      this.store.dispatch(AssetActions.clearForecasts());
-    this.clearTracks = () =>
-      this.store.dispatch(AssetActions.clearTracks());
     this.setForecastInterval = (forecastTimeLength: number) =>
       this.store.dispatch(MapSettingsActions.setForecastInterval({ interval: forecastTimeLength }));
     this.setCurrentControlPanel = (controlPanelName) =>

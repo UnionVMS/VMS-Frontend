@@ -43,6 +43,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public createIncidentNote: (incidentId: number, note: NotesTypes.Note) => void;
   public clearNotificationsForIncident: (incident: IncidentTypes.Incident) => void;
   public clearSelectedAssets: () => void;
+  public clearForecasts: () => void;
+  public clearTracks: () => void;
   public deselectAsset: (assetId: string) => void;
   public getAssetTrack: (assetId: string, movementId: string) => void;
   public getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
@@ -117,6 +119,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(IncidentActions.clearNotificationsForIncident({ incident }));
     this.clearSelectedAssets = () =>
       this.store.dispatch(AssetActions.clearSelectedAssets());
+    this.clearForecasts = () =>
+      this.store.dispatch(AssetActions.clearForecasts());
+    this.clearTracks = () =>
+      this.store.dispatch(AssetActions.clearTracks());
     this.deselectAsset = (assetId) => {
       if(this.selectedAssets.length === 1) {
         this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['information'] }));
