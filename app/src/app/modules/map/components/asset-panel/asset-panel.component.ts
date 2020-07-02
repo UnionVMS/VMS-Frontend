@@ -5,6 +5,9 @@ import { Position } from '@data/generic.types';
 
 import getContryISO2 from 'country-iso-3-to-2';
 
+import { formatUnixtime } from '@app/helpers/datetime-formatter';
+import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
+
 // @ts-ignore
 import moment from 'moment-timezone';
 
@@ -78,6 +81,15 @@ export class AssetPanelComponent {
       return '???';
     }
     return countryCode.toLowerCase();
+  }
+
+  formatDate(dateTime: number) {
+    return formatUnixtime(dateTime);
+  }
+
+  formatLocation(location: Position) {
+    const formattedPosition = convertDDToDDM(location.latitude, location.longitude, 2);
+    return formattedPosition.latitude + ' ' + formattedPosition.longitude;
   }
 
   public selectAssetWrapper() {

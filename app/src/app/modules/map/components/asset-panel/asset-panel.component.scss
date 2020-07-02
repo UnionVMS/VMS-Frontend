@@ -14,8 +14,9 @@
 
     .asset-information {
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: 1fr auto;
       grid-column-gap: $medium_distance;
+      grid-row-gap: $small_distance;
       overflow-y: scroll;
       -ms-overflow-style: none;  // IE 10+
       overflow: -moz-scrollbars-none;  // Firefox
@@ -41,6 +42,36 @@
         color: $color_turquoise;
         padding: $medium_distance $small_distance;
       }
+
+      .asset-information--last-position {
+        grid-column: 1 / span 2;
+
+        h3 {
+          padding: distance(1) 0px;
+        }
+
+        .asset-information--last-position--content {
+          background: $color_cold_gray;
+          padding: distance(1);
+          display: grid;
+          grid-row-gap: distance(0.5);
+
+          .time-and-source {
+            display: grid;
+            grid-template-columns: 1fr auto;
+
+            .time {
+              font-weight: bolder;
+            }
+          }
+
+          .position-speed-wrapper {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-column-gap: distance(0.5);
+          }
+        }
+      }
     }
   }
 }
@@ -50,68 +81,23 @@
 
   &.active {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
 
     & > * {
       padding: $medium_distance;
       background: white;
     }
 
-    .deselect-asset {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      grid-column-gap: $medium_distance;
-      align-items: center;
-      color: $color_warn;
-      cursor: pointer;
-
-      .icon-trash {
-        display: grid;
-        width: $x3large_distance;
-        height: $x3large_distance;
-        &::before {
-          place-self: center;
-          height: distance(2.5);
-          width: distance(2.5);
-          content: '';
-          background-size: distance(2.5) distance(2.5);
-          background-image: url('/assets/svg-icons/trash.svg');
-          background-repeat: no-repeat;
-        }
-      }
-
-      .deselect-asset-text {
-        display: none;
-      }
-
-      &:hover {
-        background: $color_warn;
-        color: white;
-
-        .icon-trash {
-          filter: brightness(0%) invert(1);
-        }
-
-        .deselect-asset-text {
-          display: block;
-        }
-      }
-
-      i {
-        font-size: 20px;
-      }
-    }
-
     .expand-asset-options {
       min-width: 50px;
-      text-align: right;
       font-size: 20px;
+      cursor: pointer;
 
       .icon-elipsis {
-        cursor: pointer;
         display: grid;
         width: $x3large_distance;
         height: $x3large_distance;
+        margin: 0px auto;
         &::before {
           place-self: center;
           height: distance(2.5);
@@ -139,6 +125,53 @@
       cursor: pointer;
       color: $color_turquoise;
       padding: $small_distance;
+    }
+  }
+
+  .deselect-asset {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: $medium_distance;
+    align-items: center;
+    color: $color_warn;
+    cursor: pointer;
+
+    .icon-trash {
+      display: grid;
+      width: $x3large_distance;
+      height: $x3large_distance;
+      &::before {
+        place-self: center;
+        height: distance(2.5);
+        width: distance(2.5);
+        content: '';
+        background-size: distance(2.5) distance(2.5);
+        background-image: url('/assets/svg-icons/trash.svg');
+        background-repeat: no-repeat;
+      }
+    }
+
+    .deselect-asset-text {
+      display: none;
+    }
+
+    &:hover {
+      width: 100%;
+      background: $color_warn;
+      color: white;
+
+      .icon-trash {
+        filter: brightness(0%) invert(1);
+        justify-self: end;
+      }
+
+      .deselect-asset-text {
+        display: block;
+      }
+    }
+
+    i {
+      font-size: 20px;
     }
   }
 }

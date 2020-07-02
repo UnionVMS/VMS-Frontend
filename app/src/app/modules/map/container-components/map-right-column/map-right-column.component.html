@@ -61,7 +61,7 @@
     </ng-container>
   </div>
   <div class="panel listAssets-panel" *ngIf="activePanel[0] === 'listAssets'">
-    <h3 i18n>Overview multiple Assets</h3>
+    <h3><span i18n>Overview multiple Assets</span> ({{selectedAssets.length}} <span i18n>chosen</span>)</h3>
     <map-selected-assets-panel
       [selectedAssets]="selectedAssets"
       [selectAsset]="selectAsset"
