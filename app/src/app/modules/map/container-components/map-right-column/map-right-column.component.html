@@ -21,8 +21,8 @@
     </li>
     <ng-container *ngIf="activeLeftPanel[0] === 'workflows'">
       <li
-        (click)="setActivePanelAndShowColumn(['incident'])"
-      ><i class="icon-incident {{ activePanel[0] === 'incident' ? 'active' : '' }}" aria-hidden="true"></i></li>
+        (click)="selectedIncident !== undefined && setActiveAssetToMatchIncident() && setActivePanelAndShowColumn(['incident'])"
+      ><i class="icon-incident {{ activePanel[0] === 'incident' ? 'active' : '' }} {{ selectedIncident === undefined ? 'disabled' : '' }}" aria-hidden="true"></i></li>
     </ng-container>
   </ul>
   <div class="panel information-panel" *ngIf="activePanel[0] === 'information'">

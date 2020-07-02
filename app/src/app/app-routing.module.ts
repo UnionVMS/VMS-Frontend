@@ -75,7 +75,7 @@ const routes: Routes = [
         title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Mobile Terminals` || 'Mobile Terminals'
       }},
       { path: 'asset/:assetId', component: AssetShowPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Asset information` || 'Asset infromation'
+        title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Asset information` || 'Asset information'
       }},
       { path: 'asset', component: AssetSearchPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-search:Assets — Asset search` || 'Asset search'

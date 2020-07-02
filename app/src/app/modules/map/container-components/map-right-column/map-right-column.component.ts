@@ -71,6 +71,11 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     this.setActivePanel(activeRightPanel);
   }
 
+  public setActiveAssetToMatchIncident = () => {
+    this.selectAsset(this.selectedIncident.assetId);
+    return true;
+  }
+
   constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {

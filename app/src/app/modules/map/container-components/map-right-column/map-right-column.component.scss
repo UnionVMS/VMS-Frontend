@@ -72,6 +72,10 @@
       }
       .icon-incident {
         @include svg-right-icon('/assets/svg-icons/check-square.svg');
+        &.disabled {
+          background: gray;
+          cursor: default;
+        }
       }
     }
   }

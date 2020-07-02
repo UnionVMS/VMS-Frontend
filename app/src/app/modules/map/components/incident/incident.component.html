@@ -1,20 +1,21 @@
 <div class="content-container">
+  <h4>
+    <img
+      header
+      *ngIf="asset.asset.flagStateCode !== '???' && asset.asset.flagStateCode !== undefined"
+      class="flag-image"
+      src="/assets/flags/4x3/{{getCountryCode(asset)}}.svg"
+      alt="getCountryCode(asset)"
+    />
+    <ui-truncated-text [text]="asset.asset.name" length="40"></ui-truncated-text>
+  </h4>
+
   <mat-tab-group
     animationDuration="0ms"
     [selectedIndex]="selectedTabIndex"
     (selectedIndexChange)="changeTab($event)"
   >
     <mat-tab label="Actions">
-      <h4>
-        <img
-          header
-          *ngIf="asset.asset.flagStateCode !== '???' && asset.asset.flagStateCode !== undefined"
-          class="flag-image"
-          src="/assets/flags/4x3/{{getCountryCode(asset)}}.svg"
-          alt="getCountryCode(asset)"
-        />
-        <ui-truncated-text [text]="asset.asset.name" length="40"></ui-truncated-text>
-      </h4>
       <div class="asset-information">
         <h5 i18n>Last known position</h5>
         <legend i18n>Latitude:</legend>
@@ -63,15 +64,26 @@
           <div>{{asset.asset.vesselType}}</div>
         </ng-container>
 
-        <ng-container *ngIf="asset.asset.prodOrgCode">
+        <!-- <ng-container *ngIf="asset.asset.prodOrgCode">
           <legend i18n>Org. Nr:</legend>
           <div>{{asset.asset.prodOrgCode}}</div>
         </ng-container>
         <ng-container *ngIf="asset.asset.prodOrgName">
           <legend i18n>Org. namn:</legend>
           <div>{{asset.asset.prodOrgName}}</div>
-        </ng-container>
+        </ng-container> -->
       </div>
+
+      <button
+        title="Contact info"
+        id="contact-info-button"
+        mat-stroked-button
+        color="primary"
+        type="button"
+        i18n
+        routerLink="/asset/{{asset.asset.id}}/contacts"
+      >Contact info</button>
+
 
       <button
         title="Full incident log"
