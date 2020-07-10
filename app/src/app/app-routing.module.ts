@@ -6,6 +6,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 // Layouts
 import { DefaultLayoutComponent } from './core/layouts/default/default.component';
 import { LoginLayoutComponent } from './core/layouts/login/login.component';
+import { FishingActivityLayoutComponent } from './core/layouts/fishing-activity/fishing-activity.component';
 import { FullLayoutComponent } from './core/layouts/full/full.component';
 import { AssetLayoutComponent } from './core/layouts/asset/asset.component';
 
@@ -25,6 +26,14 @@ import { PositionsPageComponent as AssetPositionsPage } from './modules/asset/pa
 import { FormPageComponent as AssetFormPage } from './modules/asset/pages/form/form.component';
 import { ShowPageComponent as AssetShowPage } from './modules/asset/pages/show/show.component';
 
+// Contact-pages
+import { FormPageComponent as ContactFormPage } from './modules/contact/pages/form/form.component';
+import { ShowByAssetPageComponent as ContactShowByAssetPage } from './modules/contact/pages/show-by-asset/show-by-asset.component';
+
+// Fishing-activity-pages
+import { SearchPageComponent as FishingActivitySearchPage } from './modules/fishing-activity/pages/search/search.component';
+import { ShowPageComponent as FishingActivityShowPage } from './modules/fishing-activity/pages/show/show.component';
+
 // MobileTerminal-pages
 import { AttachPageComponent as MobileTerminalAttachPage } from './modules/mobile-terminal/pages/attach/attach.component';
 import { FormPageComponent as MobileTerminalFormPage } from './modules/mobile-terminal/pages/form/form.component';
@@ -32,10 +41,6 @@ import { ListPageComponent as MobileTerminalListPage } from './modules/mobile-te
 import {
   ShowByAssetPageComponent as MobileTerminalsShowByAssetPage
 } from './modules/mobile-terminal/pages/show-by-asset/show-by-asset.component';
-
-// Contact-pages
-import { FormPageComponent as ContactFormPage } from './modules/contact/pages/form/form.component';
-import { ShowByAssetPageComponent as ContactShowByAssetPage } from './modules/contact/pages/show-by-asset/show-by-asset.component';
 
 // Notes-pages
 import { FormPageComponent as NotesFormPage } from './modules/notes/pages/form/form.component';
@@ -106,6 +111,16 @@ const routes: Routes = [
       }},
       { path: 'asset/:assetId/notes/:noteId/edit', component: NotesFormPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-notes-edit:Notes — Edit` || 'Notes — Edit'
+      }},
+    ]
+  },
+  {
+    path: '',
+    component: FishingActivityLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'fishing-activity', component: FishingActivitySearchPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-fishing-activity-search:Fishing activity — Search` || 'Fishing activity — Search'
       }},
     ]
   },

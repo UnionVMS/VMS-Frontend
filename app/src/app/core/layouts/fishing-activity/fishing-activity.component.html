@@ -1,0 +1,39 @@
+<div class="fishing-activity-layout--grid">
+  <core-top-menu-component
+    [appVersion]="appVersion"
+    [isAdmin]="isAdmin$ | async"
+    [setTimezone]="setTimezone"
+    [timezone]="timezone$ | async"
+  ></core-top-menu-component>
+
+  <core-notifications
+    [notifications]="notifications$ | async"
+    [dismiss]="dismissNotification"
+  ></core-notifications>
+
+  <h1 class="page-title">{{getTitleName()}}</h1>
+
+  <div class="side-menu">
+    <ul>
+      <li routerLink="/fishing-activity" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <span class="short-key">S</span>
+        <span class="text" i18n>Search</span>
+      </li>
+      <li class="divider"></li>
+      <ng-container *ngIf="selectedFishingActivity">
+        <li routerLink="/fishing-activity/{{selectedFishingActivity.id}}" class="{{ matchFishingActivityInfoUrl() ? 'active' : '' }}">
+          <span class="short-key">1</span>
+          <span class="text" i18n>Fishing activity info</span>
+        </li>
+      </ng-container>
+      <ng-container *ngIf="!selectedFishingActivity">
+        <li class="deactivated">
+          <span class="short-key">1</span>
+          <span class="text" i18n>Fishing activity info</span>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

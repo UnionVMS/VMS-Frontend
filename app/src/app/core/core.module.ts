@@ -14,8 +14,10 @@ import { AuthGuard } from './guards/auth.guard';
 // Layouts
 import { AssetLayoutComponent } from './layouts/asset/asset.component';
 import { DefaultLayoutComponent } from './layouts/default/default.component';
-import { LoginLayoutComponent } from './layouts/login/login.component';
+import { FishingActivityLayoutComponent } from './layouts/fishing-activity/fishing-activity.component';
 import { FullLayoutComponent } from './layouts/full/full.component';
+import { LoginLayoutComponent } from './layouts/login/login.component';
+
 
 // Pages
 import { LoginComponent } from './pages/login/login.component';
@@ -41,8 +43,9 @@ import { TypescriptTranslationsComponent } from './components/typescript-transla
   declarations: [
     AssetLayoutComponent,
     DefaultLayoutComponent,
-    LoginLayoutComponent,
+    FishingActivityLayoutComponent,
     FullLayoutComponent,
+    LoginLayoutComponent,
     LoginComponent,
     UnauthorizedComponent,
     LogoutComponent,

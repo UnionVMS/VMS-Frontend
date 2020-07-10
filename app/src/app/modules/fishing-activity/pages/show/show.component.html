@@ -1,0 +1,13 @@
+<asset-show [asset]="asset"></asset-show>
+<ng-template #toolbox>
+  <div class="toolbox-wrapper">
+    <div class="toolbox">
+      <button
+        mat-raised-button
+        color="primary"
+        routerLink="/map/realtime/{{asset.id}}"
+        i18n
+      >Show on map</button>
+    </div>
+  </div>
+</ng-template>

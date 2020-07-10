@@ -7,6 +7,7 @@ export const environment = {
   useStoreDevTools: false,
   baseApiUrl: '',
   baseGeoUrl: '',
+  baseErsApiUrl: '',
   strictTests: false
 };
 

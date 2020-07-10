@@ -28,6 +28,7 @@ import { environment } from '../environments/environment';
 import { AssetModule } from './modules/asset/asset.module';
 import { CoreModule } from './core/core.module';
 import { ContactModule } from './modules/contact/contact.module';
+import { FishingActivityModule } from './modules/fishing-activity/fishing-activity.module';
 import { MapModule } from './modules/map/map.module';
 import { MobileTerminalModule } from './modules/mobile-terminal/mobile-terminal.module';
 import { NgrxRouterStoreModule } from './modules/router/ngrx-router.module';
@@ -39,6 +40,7 @@ import { NotesModule } from './modules/notes/notes.module';
 import { AssetEffects } from '@data/asset/asset.effects';
 import { AuthEffects } from '@data/auth/auth.effects';
 import { ContactEffects } from '@data/contact/contact.effects';
+import { FishingActivityEffects } from '@data/fishing-activity/fishing-activity.effects';
 import { IncidentEffects } from '@data/incident/incident.effects';
 import { MapSettingsEffects } from '@data/map-settings/map-settings.effects';
 import { MapSavedFiltersEffects } from '@data/map-saved-filters/map-saved-filters.effects';
@@ -71,6 +73,7 @@ const imports = [
     AuthEffects,
     AssetEffects,
     ContactEffects,
+    FishingActivityEffects,
     IncidentEffects,
     MapSettingsEffects,
     MapSavedFiltersEffects,
@@ -83,6 +86,7 @@ const imports = [
   CoreModule,
   AssetModule,
   ContactModule,
+  FishingActivityModule,
   MapModule,
   MobileTerminalModule,
   SettingsModule,
