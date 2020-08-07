@@ -43,8 +43,7 @@ export class AssetGroupsComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.warn(result);
-      if(result !== undefined) {
+      if(typeof result !== 'undefined' && typeof result !== 'string') {
         this.saveFilter(result);
       }
     });
