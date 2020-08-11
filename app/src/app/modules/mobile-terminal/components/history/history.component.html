@@ -24,8 +24,8 @@
         <div class="value">{{ mobileTerminalHistory.updatedBy }}</div>
       </div>
       <div class="arrow">
-        <i *ngIf="!active" class="fas fa-chevron-down" aria-hidden="true"></i>
-        <i *ngIf="active" class="fas fa-chevron-up" aria-hidden="true"></i>
+        <i *ngIf="!isHistoryExpanded(mobileTerminalHistory.id)" class="fas fa-chevron-down" aria-hidden="true"></i>
+        <i *ngIf="isHistoryExpanded(mobileTerminalHistory.id)" class="fas fa-chevron-up" aria-hidden="true"></i>
       </div>
     </div>
     <div class="extended-history" *ngIf="isHistoryExpanded(mobileTerminalHistory.id)">
