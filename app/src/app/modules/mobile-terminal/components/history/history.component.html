@@ -1,4 +1,7 @@
-<div class="mobile-terminal-history-list">
+<div class="mobile-terminal-history--page-header">
+  <h2>Terminal History <b>&beta;eta</b></h2>
+</div>
+<div class="mobile-terminal-history--list">
   <div class="mobile-terminal-history" *ngFor="let mobileTerminalHistory of mobileTerminalHistoryArray">
     <div class="history-header" (click)="toggleHistory(mobileTerminalHistory.id)">
       <div class="field-column">

@@ -1,5 +1,16 @@
 @import 'variables.scss';
-.mobile-terminal-history-list {
+
+.mobile-terminal-history--page-header {
+  margin-top: distance(2);
+  padding: distance(1);
+  background: white;
+  b {
+    font-style: italic;
+    font-size: 70%;
+  }
+}
+
+.mobile-terminal-history--list {
   padding-top: distance(2);
   display: grid;
   grid-row-gap: distance(1);
