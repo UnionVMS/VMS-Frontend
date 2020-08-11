@@ -5,6 +5,7 @@ import { getMergedRoute } from '@data/router/router.selectors';
 
 
 export const selectMobileTerminals = (state: State) => state.mobileTerminal.mobileTerminals;
+export const selectMobileTerminalHistoryForAsset = (state: State) => state.mobileTerminal.mobileTerminalHistoryForAsset;
 export const selectTransponders = (state: State) => state.mobileTerminal.transponders;
 export const selectPlugins = (state: State) => state.mobileTerminal.plugins;
 export const selectSerialNumberExists = (state: State) => state.mobileTerminal.formFieldsValid.serialNumberExists;
@@ -29,6 +30,14 @@ export const getMobileTerminalsForUrlAsset = createSelector(
   getMergedRoute,
   (mobileTerminals, mergedRoute) => {
     return Object.values(mobileTerminals).filter(mobileTerminal => mobileTerminal.assetId === mergedRoute.params.assetId);
+  }
+);
+
+export const getMobileTerminalHistoryForUrlAsset = createSelector(
+  selectMobileTerminalHistoryForAsset,
+  getMergedRoute,
+  (mobileTerminalHistoryForAsset, mergedRoute) => {
+    return mobileTerminalHistoryForAsset[mergedRoute.params.assetId] || {};
   }
 );
 

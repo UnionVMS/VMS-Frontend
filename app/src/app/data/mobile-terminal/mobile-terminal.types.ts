@@ -81,6 +81,33 @@ export type FormFieldsValid = Readonly<{
   }>;
 }>;
 
+export type MobileTerminalHistoryChange = Readonly<{
+  field: string;
+  newValue?: any;
+  oldValue?: any;
+}>;
+
+export enum MobileTerminalChannelChangeType {
+  CREATED = 'CREATED',
+  REMOVED = 'REMOVED',
+  UPDATED = 'UPDATED',
+}
+
+export type MobileTerminalHistory = Readonly<{
+  changes: ReadonlyArray<MobileTerminalHistoryChange>;
+  channelChanges: Readonly<{ readonly [channelId: string]: {
+    changeType: MobileTerminalChannelChangeType;
+    changes: ReadonlyArray<MobileTerminalHistoryChange>;
+  }}>;
+  snapshot: MobileTerminal,
+  updateTime: number;
+  updatedBy: string;
+}>;
+
+export type MobileTerminalHistoryList = Readonly<{
+  readonly [historyId: string]: MobileTerminalHistory;
+}>;
+
 export type State = Readonly<{
   mobileTerminals: Readonly<{ readonly [id: string]: MobileTerminal }>;
   transponders: ReadonlyArray<Transponder>;
@@ -89,4 +116,5 @@ export type State = Readonly<{
   searchResults: Readonly<{ readonly [hash: number]: ReadonlyArray<string> }>;
   lastSearchHash: number;
   createWithSerialNo: string;
+  mobileTerminalHistoryForAsset: Readonly<{ readonly [assetId: string]: MobileTerminalHistoryList; }>;
 }>;

@@ -1,0 +1,43 @@
+@import 'variables.scss';
+
+.component-content {
+  .mobileTerminal {
+    margin-top: $distance;
+    background: white;
+    padding: distance(2);
+    display: grid;
+    grid-row-gap: $distance;
+    margin-bottom: distance(2);
+  }
+
+  // #channels {}
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+    .title .text{
+      display: grid;
+      grid-template-columns: auto 1fr;
+
+      &:after {
+        content: "";
+        border-bottom: 2px dotted $color_gray;
+        margin-left: $distance;
+        margin-right: $distance;
+      }
+    }
+
+    .value {
+      font-weight: bold;
+      &.ocean-regions span {
+        &:after {
+          content: ', ';
+        }
+        &:last-child:after {
+          content: '';
+        }
+      }
+    }
+  }
+}

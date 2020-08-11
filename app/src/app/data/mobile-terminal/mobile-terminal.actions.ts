@@ -26,6 +26,11 @@ export const getMobileTerminals = createAction(
   props<{ query: any }>()
 );
 
+export const getMobileTerminalHistoryForAsset = createAction(
+  '[Mobile Terminals] Get history for asset',
+  props<{ assetId: string }>()
+);
+
 export const saveMobileTerminal = createAction(
   '[Mobile Terminals] Save',
   props<{ mobileTerminal: MobileTerminalTypes.MobileTerminal }>()
@@ -41,6 +46,13 @@ export const getTransponders = createAction(
 
 export const getPlugins = createAction(
   '[Mobile Terminal] Get Plugins'
+);
+
+export const setMobileTerminalHistoryForAsset = createAction(
+  '[Mobile Terminals] Set history for asset',
+  props<{ mobileTerminalHistory: Readonly<{
+    readonly [assetId: string]: MobileTerminalTypes.MobileTerminalHistoryList }>
+  }>()
 );
 
 export const setTransponders = createAction(

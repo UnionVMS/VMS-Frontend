@@ -13,6 +13,7 @@ export const initialState: MobileTerminalTypes.State = {
   searchResults: {},
   lastSearchHash: null,
   createWithSerialNo: null,
+  mobileTerminalHistoryForAsset: {},
 };
 
 export const mobileTerminalReducer = createReducer(initialState,
@@ -40,6 +41,13 @@ export const mobileTerminalReducer = createReducer(initialState,
     mobileTerminals: {
       ...state.mobileTerminals,
       [mobileTerminal.id]: mobileTerminal
+    }
+  })),
+  on(MobileTerminalActions.setMobileTerminalHistoryForAsset, (state, { mobileTerminalHistory }) => ({
+    ...state,
+    mobileTerminalHistoryForAsset: {
+      ...state.mobileTerminalHistoryForAsset,
+      ...mobileTerminalHistory
     }
   })),
   on(MobileTerminalActions.setTransponders, (state, { transponders }) => ({

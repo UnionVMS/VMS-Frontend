@@ -34,6 +34,17 @@ export class MobileTerminalService {
     );
   }
 
+  getMobileTerminalHistoryForAsset(authToken: string, assetId: string) {
+    return this.http.get(
+      environment.baseApiUrl + 'asset/rest/mobileterminal/history/getMtHistoryForAsset/' + assetId, {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
   getTransponders(authToken: string) {
     return this.http.get(
       environment.baseApiUrl + 'asset/rest/config/MT/transponders', {

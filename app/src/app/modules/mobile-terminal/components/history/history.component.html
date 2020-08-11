@@ -1,0 +1,43 @@
+<div class="mobile-terminal-history-list">
+  <div class="mobile-terminal-history" *ngFor="let mobileTerminalHistory of mobileTerminalHistoryArray">
+    <div class="history-header" (click)="toggleHistory(mobileTerminalHistory.id)">
+      <div class="field-column">
+        <label>Serial no.</label>
+        <div class="value">{{ mobileTerminalHistory.snapshot.serialNo }}</div>
+      </div>
+      <div class="field-column">
+        <label>Terminal</label>
+        <div class="value">
+          <span *ngIf="mobileTerminalHistory.snapshot.active" class="active">Active</span>
+          <span *ngIf="!mobileTerminalHistory.snapshot.active" class="inactive">Inactive</span>
+        </div>
+      </div>
+      <div class="field-column">
+        <label>Updated date</label>
+        <div class="value">{{ mobileTerminalHistory.updatedDateFormatted }}</div>
+      </div>
+      <div class="field-column">
+        <label>updated by</label>
+        <div class="value">{{ mobileTerminalHistory.updatedBy }}</div>
+      </div>
+      <div class="arrow">
+        <i *ngIf="!active" class="fas fa-chevron-down" aria-hidden="true"></i>
+        <i *ngIf="active" class="fas fa-chevron-up" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div class="extended-history" *ngIf="isHistoryExpanded(mobileTerminalHistory.id)">
+      <div class="field-column">
+        <label>Installation date</label>
+        <div class="value">{{ mobileTerminalHistory.installDateFormatted }}</div>
+      </div>
+      <div class="field-column">
+        <label>Uninstallation date</label>
+        <div class="value">{{ mobileTerminalHistory.uninstallDateFormatted }}</div>
+      </div>
+      <div class="field-column">
+        <label>Installed by</label>
+        <div class="value">{{ mobileTerminalHistory.snapshot.installedBy }}</div>
+      </div>
+    </div>
+  </div>
+</div>

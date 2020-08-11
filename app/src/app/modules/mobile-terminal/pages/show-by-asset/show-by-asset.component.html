@@ -1,120 +1,25 @@
 <div class="page-content">
-  <mat-tab-group animationDuration="0ms" (selectedTabChange)="changeCurrentMobileTerminal($event)">
-    <mat-tab *ngFor="let mobileTerminal of mobileTerminals" [label]="mobileTerminal.serialNo">
-
-      <div class="mobileTerminal">
-        <div class="row">
-          <div class="title"><span class="text" i18n>Transceiver system</span></div>
-          <div class="value">{{mobileTerminal.mobileTerminalType}}</div>
-        </div>
-        <div class="row">
-          <div class="title"><span class="text" i18n>Serial no.</span></div>
-          <div class="value">{{mobileTerminal.serialNo}}</div>
-        </div>
-        <div class="row">
-          <div class="title"><span class="text" i18n>Ocean regions</span></div>
-          <div class="value ocean-regions">
-            <span *ngIf="mobileTerminal.eastAtlanticOceanRegion" i18n>East Atlantic</span>
-            <span *ngIf="mobileTerminal.westAtlanticOceanRegion" i18n>West Atlantic</span>
-            <span *ngIf="mobileTerminal.pacificOceanRegion" i18n>Pacific</span>
-            <span *ngIf="mobileTerminal.indianOceanRegion" i18n>Indian</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="title"><span class="text" i18n>Transceiver type</span></div>
-          <div class="value">{{mobileTerminal.transceiverType}}</div>
-        </div>
-        <div class="row">
-          <div class="title"><span class="text" i18n>Software version</span></div>
-          <div class="value">{{mobileTerminal.softwareVersion}}</div>
-        </div>
-        <div class="row">
-          <div class="title"><span class="text" i18n>Antenna</span></div>
-          <div class="value">{{mobileTerminal.antenna}}</div>
-        </div>
-        <div class="row">
-          <div class="title"><span class="text" i18n>Satellite number</span></div>
-          <div class="value">{{mobileTerminal.satelliteNumber}}</div>
-        </div>
-        <div class="row">
-          <div class="title"><span class="text" i18n>Installed by</span></div>
-          <div class="value">{{mobileTerminal.installedBy}}</div>
-        </div>
-        <div class="row">
-          <div class="title"><span class="text" i18n>Installed on</span></div>
-          <div class="value">{{mobileTerminal.installDateFormatted}}</div>
-        </div>
-        <div class="row">
-          <div class="title"><span class="text" i18n>Unistalled on</span></div>
-          <div class="value">{{mobileTerminal.uninstallDateFormatted}}</div>
-        </div>
+  <mat-tab-group animationDuration="0ms" selectedIndex="1" (selectedTabChange)="changeCurrentTab($event)">
+    <mat-tab label="Mobile Terminals">
+      <div class="mobile-terminal-list-wrapper">
+        <mobile-terminal-list-for-asset-component
+          [mobileTerminals]="mobileTerminals"
+          [currentMobileTerminal]="currentMobileTerminal"
+          [selectedAsset]="selectedAsset"
+          [changeCurrentMobileTerminal]="changeCurrentMobileTerminal"
+        ></mobile-terminal-list-for-asset-component>
       </div>
-      <h2>Channels</h2>
-      <mat-accordion id="channels">
-        <mat-expansion-panel *ngFor="let channel of mobileTerminal.channels; let i = index">
-          <mat-expansion-panel-header>
-            <mat-panel-title>{{channel.name ? channel.name : channel.id}}</mat-panel-title>
-            <mat-panel-description>Channel {{i + 1}}</mat-panel-description>
-          </mat-expansion-panel-header>
-          <div class="channel">
-            <div class="row">
-              <div class="title"><span class="text" i18n>Land station</span></div>
-              <div class="value">{{channel.lesDescription}}</div>
-            </div>
-            <div class="row">
-              <div class="title"><span class="text" i18n>Dnid</span></div>
-              <div class="value">{{channel.dnid}}</div>
-            </div>
-            <div class="row">
-              <div class="title"><span class="text" i18n>Member no.</span></div>
-              <div class="value">{{channel.memberNumber}}</div>
-            </div>
-            <div class="row">
-              <div class="title"><span class="text" i18n>Channel</span></div>
-              <div class="value">{{channel.name}}</div>
-            </div>
-            <div class="row">
-              <div class="title"><span class="text" i18n>Poll Channel</span></div>
-              <div class="value"><span *ngIf="channel.pollChannel">Active</span></div>
-            </div>
-            <div class="row">
-              <div class="title"><span class="text" i18n>Config Channel</span></div>
-              <div class="value"><span *ngIf="channel.configChannel">Active</span></div>
-            </div>
-            <div class="row">
-              <div class="title"><span class="text" i18n>Default Channel</span></div>
-              <div class="value"><span *ngIf="channel.defaultChannel">Active</span></div>
-            </div>
-            <div class="row">
-              <div class="title"><span class="text" i18n>Start date</span></div>
-              <div class="value">{{channel.startDateFormatted}}</div>
-            </div>
-            <div class="row">
-              <div class="title"><span class="text" i18n>End date</span></div>
-              <div class="value">{{channel.endDateFormatted}}</div>
-            </div>
-            <div class="row">
-              <div class="title"><span class="text" i18n>Expected Frequency</span></div>
-              <div class="value">{{channel.expectedFrequency / (60 * 1000)}} min</div>
-            </div>
-            <div class="row">
-              <div class="title"><span class="text" i18n>Frequency Grace Period</span></div>
-              <div class="value">{{channel.frequencyGracePeriod / (60 * 1000)}} min</div>
-            </div>
-
-            <div class="row">
-              <div class="title"><span class="text" i18n>Expected Frequency In Port</span></div>
-              <div class="value">{{channel.expectedFrequencyInPort / (60 * 1000)}} min</div>
-            </div>
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion>
+    </mat-tab>
+    <mat-tab label="History">
+      <mobile-terminal-history-component
+        [mobileTerminalHistoryList]="mobileTerminalHistoryList"
+      ></mobile-terminal-history-component>
     </mat-tab>
   </mat-tab-group>
 </div>
 
 <ng-template #toolbox>
-  <div class="toolbox-wrapper">
+  <div class="toolbox-wrapper" *ngIf="currentTab === 0">
     <div class="toolbox">
       <ng-container *ngIf="currentMobileTerminal !== undefined">
         <div class="active-toggle-wrapper">

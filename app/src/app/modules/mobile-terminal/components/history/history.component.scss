@@ -1,0 +1,46 @@
+@import 'variables.scss';
+.mobile-terminal-history-list {
+  padding-top: distance(2);
+  display: grid;
+  grid-row-gap: distance(1);
+
+  .mobile-terminal-history {
+    padding: distance(1);
+    background: white;
+    .history-header {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr) 20px;
+      cursor: pointer;
+
+      .arrow {
+        align-self: center;
+      }
+    }
+
+    .extended-history {
+      padding-top: distance(3);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr) 20px;
+    }
+  }
+
+  .field-column {
+    cursor: pointer;
+    display: grid;
+    grid-row-gap: distance(0.5);
+
+    label {
+      cursor: pointer;
+      font-weight: bolder;
+    }
+
+    .active {
+      font-weight: bolder;
+      color: $color_accent_light;
+    }
+    .inactive {
+      font-weight: bolder;
+      color: $color_warn;
+    }
+  }
+}
