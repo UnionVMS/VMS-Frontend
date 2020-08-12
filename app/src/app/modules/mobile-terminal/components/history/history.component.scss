@@ -10,6 +10,31 @@
   }
 }
 
+.mobile-terminal-history--filter-wrapper {
+  margin-top: distance(2);
+  padding: distance(1);
+  background: white;
+
+  .filter-header {
+    display: grid;
+    grid-template-columns: 1fr 20px;
+
+    .arrow {
+      align-self: center;
+    }
+  }
+
+  h4 mat-checkbox, h3 mat-checkbox {
+    margin-left: distance(2);
+    font-weight: normal;
+  }
+
+  section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .mobile-terminal-history--list {
   padding-top: distance(2);
   display: grid;

@@ -14,7 +14,22 @@ export const initialState: MobileTerminalTypes.State = {
   lastSearchHash: null,
   createWithSerialNo: null,
   mobileTerminalHistoryForAsset: {},
+  mobileTerminalHistoryFilter: {
+    mobileTerminalFields: [
+      'serialNo', 'active', 'mobileTerminalType', 'eastAtlanticOceanRegion', 'indianOceanRegion',
+      'pacificOceanRegion', 'westAtlanticOceanRegion', 'transceiverType', 'satelliteNumber',
+      'softwareVersion', 'antenna', 'installDate', 'installedBy', 'uninstallDate', 'archived'
+    ],
+    filterChannels: true,
+    channelFields: [
+      'dnid', 'memberNumber', 'name', 'lesDescription',
+      'startDate', 'endDate',
+      'active', 'archived', 'configChannel', 'defaultChannel', 'pollChannel',
+      'expectedFrequency', 'expectedFrequencyInPort', 'frequencyGracePeriod',
+    ]
+  }
 };
+
 
 export const mobileTerminalReducer = createReducer(initialState,
   on(MobileTerminalActions.addMobileTerminals, (state, { mobileTerminals }) => ({

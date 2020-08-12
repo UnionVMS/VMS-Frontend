@@ -30,6 +30,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   public currentTab = 1;
   public mobileTerminals: ReadonlyArray<MobileTerminalTypes.MobileTerminal>;
   public mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
+  public mobileTerminalHistoryFilter$: Observable<MobileTerminalTypes.MobileTerminalHistoryFilter>;
   public currentMobileTerminal: MobileTerminalTypes.MobileTerminal;
   public mergedRoute: RouterTypes.MergedRoute;
   public selectedAsset: AssetTypes.Asset;
@@ -68,7 +69,8 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.activeMobileTerminal = this.mobileTerminals.find(mobileTerminal => mobileTerminal.active);
       }
     });
-    this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryForUrlAsset)
+    this.mobileTerminalHistoryFilter$ = this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryFilter);
+    this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryFilteredForUrlAsset)
       .pipe(takeUntil(this.unmount$)).subscribe((mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList) => {
         this.mobileTerminalHistoryList = mobileTerminalHistoryList;
       });

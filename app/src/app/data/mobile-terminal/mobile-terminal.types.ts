@@ -108,6 +108,12 @@ export type MobileTerminalHistoryList = Readonly<{
   readonly [historyId: string]: MobileTerminalHistory;
 }>;
 
+export type MobileTerminalHistoryFilter = Readonly<{
+  mobileTerminalFields: ReadonlyArray<string>,
+  filterChannels: boolean;
+  channelFields: ReadonlyArray<string>
+}>;
+
 export type State = Readonly<{
   mobileTerminals: Readonly<{ readonly [id: string]: MobileTerminal }>;
   transponders: ReadonlyArray<Transponder>;
@@ -117,4 +123,5 @@ export type State = Readonly<{
   lastSearchHash: number;
   createWithSerialNo: string;
   mobileTerminalHistoryForAsset: Readonly<{ readonly [assetId: string]: MobileTerminalHistoryList; }>;
+  mobileTerminalHistoryFilter: MobileTerminalHistoryFilter
 }>;

@@ -10,10 +10,17 @@ import { MobileTerminalTypes } from '@data/mobile-terminal';
 })
 export class HistoryComponent implements OnChanges {
   @Input() mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
+  @Input() mobileTerminalHistoryFilter: MobileTerminalTypes.MobileTerminalHistoryFilter;
   public mobileTerminalHistoryArray: ReadonlyArray<MobileTerminalTypes.MobileTerminalHistory>;
   public historyExpanded: ReadonlyArray<string> = [];
+  public filtersChecked = {
+    enableChannelFilters: true,
+  };
 
   ngOnChanges() {
+
+    this.populateFiltersChecked(this.mobileTerminalHistoryFilter);
+
     console.warn(this.mobileTerminalHistoryList);
     this.mobileTerminalHistoryArray = Object.keys(this.mobileTerminalHistoryList).map((id: string) => {
       const mobileTerminalHistory = this.mobileTerminalHistoryList[id];
@@ -43,5 +50,13 @@ export class HistoryComponent implements OnChanges {
         historyId
       ];
     }
+  }
+
+  populateFiltersChecked(getMobileTerminalHistoryFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) {
+    this.filtersChecked.enableChannelFilters = getMobileTerminalHistoryFilter.filterChannels;
+  }
+
+  updateFiltersChecked(field: string, value: boolean) {
+    this.filtersChecked[field] = value;
   }
 }

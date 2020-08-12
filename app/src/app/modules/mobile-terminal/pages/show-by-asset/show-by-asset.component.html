@@ -13,6 +13,7 @@
     <mat-tab label="History">
       <mobile-terminal-history-component
         [mobileTerminalHistoryList]="mobileTerminalHistoryList"
+        [mobileTerminalHistoryFilter]="mobileTerminalHistoryFilter$ | async"
       ></mobile-terminal-history-component>
     </mat-tab>
   </mat-tab-group>
