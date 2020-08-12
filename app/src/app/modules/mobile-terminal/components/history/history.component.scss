@@ -24,6 +24,10 @@
     }
   }
 
+  h4, h3 {
+    padding-bottom: 0px;
+  }
+
   h4 mat-checkbox, h3 mat-checkbox {
     margin-left: distance(2);
     font-weight: normal;

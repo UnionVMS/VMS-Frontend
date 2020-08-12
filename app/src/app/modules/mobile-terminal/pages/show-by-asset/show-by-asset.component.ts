@@ -35,6 +35,8 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   public mergedRoute: RouterTypes.MergedRoute;
   public selectedAsset: AssetTypes.Asset;
 
+  public addMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
+  public removeMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
   public saveMobileTerminal: (mobileTerminal: MobileTerminalTypes.MobileTerminal) => void;
   public activeMobileTerminal: MobileTerminalTypes.MobileTerminal;
   public changeCurrentMobileTerminal: (mobileTerminal: MobileTerminalTypes.MobileTerminal) => void;
@@ -91,6 +93,10 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   mapDispatchToProps() {
     this.saveMobileTerminal = (mobileTerminal: MobileTerminalTypes.MobileTerminal) =>
       this.store.dispatch(MobileTerminalActions.saveMobileTerminal({ mobileTerminal }));
+    this.addMobileTerminalHistoryFilters = (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) =>
+      this.store.dispatch(MobileTerminalActions.addMobileTerminalHistoryFilters({ historyFilter }));
+    this.removeMobileTerminalHistoryFilters = (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) =>
+      this.store.dispatch(MobileTerminalActions.removeMobileTerminalHistoryFilters({ historyFilter }));
   }
 
   mapFunctionsToProps() {

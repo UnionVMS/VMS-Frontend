@@ -29,7 +29,7 @@
     Channel filters
     <mat-checkbox
       [checked]="filtersChecked.enableChannelFilters"
-      (change)="updateFiltersChecked('enableChannelFilters', !filtersChecked.enableChannelFilters)"
+      (change)="updateFiltersChecked('enableChannelFilters')"
       i18n
     >Enable</mat-checkbox>
   </h4>
@@ -62,7 +62,7 @@
         <div class="value">{{ mobileTerminalHistory.updatedDateFormatted }}</div>
       </div>
       <div class="field-column">
-        <label>updated by</label>
+        <label>Updated by</label>
         <div class="value">{{ mobileTerminalHistory.updatedBy }}</div>
       </div>
       <div class="arrow">

@@ -109,9 +109,9 @@ export type MobileTerminalHistoryList = Readonly<{
 }>;
 
 export type MobileTerminalHistoryFilter = Readonly<{
-  mobileTerminalFields: ReadonlyArray<string>,
-  filterChannels: boolean;
-  channelFields: ReadonlyArray<string>
+  mobileTerminalFields?: ReadonlyArray<string>,
+  filterChannels?: boolean;
+  channelFields?: ReadonlyArray<string>
 }>;
 
 export type State = Readonly<{

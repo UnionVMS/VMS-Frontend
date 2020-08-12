@@ -11,6 +11,9 @@ import { MobileTerminalTypes } from '@data/mobile-terminal';
 export class HistoryComponent implements OnChanges {
   @Input() mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
   @Input() mobileTerminalHistoryFilter: MobileTerminalTypes.MobileTerminalHistoryFilter;
+  @Input() addMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
+  @Input() removeMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
+
   public mobileTerminalHistoryArray: ReadonlyArray<MobileTerminalTypes.MobileTerminalHistory>;
   public historyExpanded: ReadonlyArray<string> = [];
   public filtersChecked = {
@@ -53,10 +56,20 @@ export class HistoryComponent implements OnChanges {
   }
 
   populateFiltersChecked(getMobileTerminalHistoryFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) {
-    this.filtersChecked.enableChannelFilters = getMobileTerminalHistoryFilter.filterChannels;
+    this.filtersChecked = {
+      enableChannelFilters: getMobileTerminalHistoryFilter.filterChannels
+    };
   }
 
-  updateFiltersChecked(field: string, value: boolean) {
-    this.filtersChecked[field] = value;
+  updateFiltersChecked(field: string) {
+    if(field === 'enableChannelFilters') {
+      if(this.filtersChecked.enableChannelFilters === true) {
+        this.removeMobileTerminalHistoryFilters({
+          filterChannels: false, channelFields: ['dnid', 'memberNumber', 'name', 'lesDescription']
+        });
+      } else {
+        this.addMobileTerminalHistoryFilters({ filterChannels: true, channelFields: ['dnid', 'memberNumber', 'name', 'lesDescription'] });
+      }
+    }
   }
 }

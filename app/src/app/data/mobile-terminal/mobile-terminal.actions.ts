@@ -11,6 +11,11 @@ export const addMobileTerminals = createAction(
   props<{ mobileTerminals: { [id: string]: MobileTerminalTypes.MobileTerminal } }>()
 );
 
+export const addMobileTerminalHistoryFilters = createAction(
+  '[Mobile Terminals] Add history filter',
+  props<{ historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter }>()
+);
+
 export const addSearchResult = createAction(
   '[Mobile Terminals] Add search result',
   props<{ uniqueHash: number, mobileTerminalIds: ReadonlyArray<string> }>()
@@ -87,6 +92,11 @@ export const getMemberNumberAndDnidCombinationExists = createAction(
 
 export const resetFormFieldValid = createAction(
   '[Mobile Terminal] Reset form field valid'
+);
+
+export const removeMobileTerminalHistoryFilters = createAction(
+  '[Mobile Terminals] Remove history filter',
+  props<{ historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter }>()
 );
 
 export const createWithSerialNo = createAction(

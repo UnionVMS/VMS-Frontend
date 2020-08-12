@@ -39,6 +39,68 @@ export const mobileTerminalReducer = createReducer(initialState,
       ...mobileTerminals
     }
   })),
+  on(MobileTerminalActions.addMobileTerminalHistoryFilters, (state, { historyFilter }) => {
+    let mobileTerminalHistoryFilter = { ...state.mobileTerminalHistoryFilter };
+    if(typeof historyFilter.mobileTerminalFields !== 'undefined') {
+      mobileTerminalHistoryFilter = {
+        ...mobileTerminalHistoryFilter,
+        mobileTerminalFields: state.mobileTerminalHistoryFilter.mobileTerminalFields.concat(
+          historyFilter.mobileTerminalFields.filter(
+            (field: string) => !state.mobileTerminalHistoryFilter.mobileTerminalFields.includes(field)
+          )
+        )
+      };
+    }
+    if(typeof historyFilter.filterChannels !== 'undefined') {
+      mobileTerminalHistoryFilter = {
+        ...mobileTerminalHistoryFilter,
+        filterChannels: historyFilter.filterChannels
+      };
+    }
+    if(typeof historyFilter.channelFields !== 'undefined') {
+      mobileTerminalHistoryFilter = {
+        ...mobileTerminalHistoryFilter,
+        channelFields: state.mobileTerminalHistoryFilter.channelFields.concat(
+          historyFilter.channelFields.filter(
+            (field: string) => !state.mobileTerminalHistoryFilter.channelFields.includes(field)
+          )
+        )
+      };
+    }
+    return {
+      ...state,
+      mobileTerminalHistoryFilter
+    };
+  }),
+  on(MobileTerminalActions.removeMobileTerminalHistoryFilters, (state, { historyFilter }) => {
+    let mobileTerminalHistoryFilter = { ...state.mobileTerminalHistoryFilter };
+    if(typeof historyFilter.mobileTerminalFields !== 'undefined') {
+      mobileTerminalHistoryFilter = {
+        ...mobileTerminalHistoryFilter,
+        mobileTerminalFields: state.mobileTerminalHistoryFilter.mobileTerminalFields.filter(
+          (field: string) => !historyFilter.mobileTerminalFields.includes(field)
+        )
+      };
+    }
+    if(typeof historyFilter.filterChannels !== 'undefined') {
+      mobileTerminalHistoryFilter = {
+        ...mobileTerminalHistoryFilter,
+        filterChannels: historyFilter.filterChannels
+      };
+    }
+    if(typeof historyFilter.channelFields !== 'undefined') {
+      mobileTerminalHistoryFilter = {
+        ...mobileTerminalHistoryFilter,
+        channelFields: state.mobileTerminalHistoryFilter.channelFields.filter(
+          (field: string) => !historyFilter.channelFields.includes(field)
+        )
+      };
+    }
+    return {
+      ...state,
+      mobileTerminalHistoryFilter
+    };
+  }),
   on(MobileTerminalActions.addSearchResult, (state, { uniqueHash, mobileTerminalIds }) => ({
     ...state,
     searchResults: {
