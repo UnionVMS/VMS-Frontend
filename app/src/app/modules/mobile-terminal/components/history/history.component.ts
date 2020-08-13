@@ -16,9 +16,11 @@ export class HistoryComponent implements OnChanges {
 
   public mobileTerminalHistoryArray: ReadonlyArray<MobileTerminalTypes.MobileTerminalHistory>;
   public historyExpanded: ReadonlyArray<string> = [];
-  public filtersChecked = {
-    enableChannelFilters: true,
-  };
+  public filtersChecked: Readonly<{
+    mobileTerminalFields: Readonly<{ readonly [field: string]: boolean}>,
+    enableChannelFilters: boolean,
+    channelFields: Readonly<{ readonly [field: string]: boolean}>,
+  }>;
 
   ngOnChanges() {
 
@@ -55,20 +57,70 @@ export class HistoryComponent implements OnChanges {
     }
   }
 
-  populateFiltersChecked(getMobileTerminalHistoryFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) {
+  populateFiltersChecked(mobileTerminalHistoryFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) {
+    console.warn(mobileTerminalHistoryFilter.mobileTerminalFields.includes('active'));
+
     this.filtersChecked = {
-      enableChannelFilters: getMobileTerminalHistoryFilter.filterChannels
+      mobileTerminalFields: {
+        active: mobileTerminalHistoryFilter.mobileTerminalFields.includes('active'),
+        archived: mobileTerminalHistoryFilter.mobileTerminalFields.includes('archived'),
+        mobileTerminalType: mobileTerminalHistoryFilter.mobileTerminalFields.includes('mobileTerminalType'),
+        oceanRegion: mobileTerminalHistoryFilter.mobileTerminalFields.includes('eastAtlanticOceanRegion'),
+        transceiverType: mobileTerminalHistoryFilter.mobileTerminalFields.includes('transceiverType'),
+        satelliteNumber: mobileTerminalHistoryFilter.mobileTerminalFields.includes('satelliteNumber'),
+        softwareVersion: mobileTerminalHistoryFilter.mobileTerminalFields.includes('softwareVersion'),
+        antenna: mobileTerminalHistoryFilter.mobileTerminalFields.includes('antenna'),
+        installDate: mobileTerminalHistoryFilter.mobileTerminalFields.includes('installDate'),
+        installedBy: mobileTerminalHistoryFilter.mobileTerminalFields.includes('installedBy'),
+        uninstallDate: mobileTerminalHistoryFilter.mobileTerminalFields.includes('uninstallDate'),
+      },
+      enableChannelFilters: mobileTerminalHistoryFilter.filterChannels,
+      channelFields: {
+        startDate: mobileTerminalHistoryFilter.channelFields.includes('startDate'),
+        endDate: mobileTerminalHistoryFilter.channelFields.includes('endDate'),
+        active: mobileTerminalHistoryFilter.channelFields.includes('active'),
+        archived: mobileTerminalHistoryFilter.channelFields.includes('archived'),
+        channel: mobileTerminalHistoryFilter.channelFields.includes('configChannel'),
+        expectedFrequency: mobileTerminalHistoryFilter.channelFields.includes('expectedFrequency'),
+        expectedFrequencyInPort: mobileTerminalHistoryFilter.channelFields.includes('expectedFrequencyInPort'),
+        frequencyGracePeriod: mobileTerminalHistoryFilter.channelFields.includes('frequencyGracePeriod'),
+      }
     };
   }
 
-  updateFiltersChecked(field: string) {
-    if(field === 'enableChannelFilters') {
+  updateFiltersChecked(base: string, field?: string) {
+    if(base === 'enableChannelFilters') {
       if(this.filtersChecked.enableChannelFilters === true) {
         this.removeMobileTerminalHistoryFilters({
           filterChannels: false, channelFields: ['dnid', 'memberNumber', 'name', 'lesDescription']
         });
       } else {
         this.addMobileTerminalHistoryFilters({ filterChannels: true, channelFields: ['dnid', 'memberNumber', 'name', 'lesDescription'] });
+      }
+    } else if (this.filtersChecked[base][field] === true) {
+      console.warn('Remove: ', field);
+      if (field === 'oceanRegion') {
+        this.removeMobileTerminalHistoryFilters({
+          mobileTerminalFields: ['eastAtlanticOceanRegion', 'indianOceanRegion', 'pacificOceanRegion', 'westAtlanticOceanRegion']
+        });
+      } else if(field === 'channel') {
+        this.removeMobileTerminalHistoryFilters({
+          channelFields: ['configChannel', 'pollChannel', 'defaultChannel']
+        });
+      } else {
+        this.removeMobileTerminalHistoryFilters({ [base]: [field] });
+      }
+    } else {
+      if (field === 'oceanRegion') {
+        this.addMobileTerminalHistoryFilters({
+          mobileTerminalFields: ['eastAtlanticOceanRegion', 'indianOceanRegion', 'pacificOceanRegion', 'westAtlanticOceanRegion']
+        });
+      } else if(field === 'channel') {
+        this.addMobileTerminalHistoryFilters({
+          channelFields: ['configChannel', 'pollChannel', 'defaultChannel']
+        });
+      } else {
+        this.addMobileTerminalHistoryFilters({ [base]: [field] });
       }
     }
   }
