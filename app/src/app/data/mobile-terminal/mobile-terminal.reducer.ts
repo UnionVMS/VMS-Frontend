@@ -30,6 +30,19 @@ export const initialState: MobileTerminalTypes.State = {
   }
 };
 
+export const allMobileTerminalFields = [
+  'active', 'mobileTerminalType', 'eastAtlanticOceanRegion', 'indianOceanRegion',
+  'pacificOceanRegion', 'westAtlanticOceanRegion', 'transceiverType', 'satelliteNumber',
+  'softwareVersion', 'antenna', 'installDate', 'installedBy', 'uninstallDate', 'archived'
+];
+
+export const allChannelFields = [
+  'dnid', 'memberNumber', 'name', 'lesDescription',
+  'startDate', 'endDate',
+  'active', 'archived', 'configChannel', 'defaultChannel', 'pollChannel',
+  'expectedFrequency', 'expectedFrequencyInPort', 'frequencyGracePeriod'
+];
+
 
 export const mobileTerminalReducer = createReducer(initialState,
   on(MobileTerminalActions.addMobileTerminals, (state, { mobileTerminals }) => ({

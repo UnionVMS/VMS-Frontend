@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
-import { MobileTerminalTypes } from '@data/mobile-terminal';
+import { MobileTerminalTypes, MobileTerminalReducer } from '@data/mobile-terminal';
 
 @Component({
   selector: 'mobile-terminal-history-component',
@@ -15,18 +15,24 @@ export class HistoryComponent implements OnChanges {
   @Input() removeMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
 
   public mobileTerminalHistoryArray: ReadonlyArray<MobileTerminalTypes.MobileTerminalHistory>;
+  public filtersVisible = true;
   public historyExpanded: ReadonlyArray<string> = [];
   public filtersChecked: Readonly<{
     mobileTerminalFields: Readonly<{ readonly [field: string]: boolean}>,
     enableChannelFilters: boolean,
     channelFields: Readonly<{ readonly [field: string]: boolean}>,
   }>;
+  public allFieldsChecked: boolean;
+  public someFieldsChecked: boolean;
 
   ngOnChanges() {
-
     this.populateFiltersChecked(this.mobileTerminalHistoryFilter);
+    this.allFieldsChecked = this.isAllFieldsChecked();
+    this.someFieldsChecked = !this.allFieldsChecked && (
+      this.mobileTerminalHistoryFilter.mobileTerminalFields.length > 1 ||
+      this.mobileTerminalHistoryFilter.filterChannels === true
+    );
 
-    console.warn(this.mobileTerminalHistoryList);
     this.mobileTerminalHistoryArray = Object.keys(this.mobileTerminalHistoryList).map((id: string) => {
       const mobileTerminalHistory = this.mobileTerminalHistoryList[id];
       const uninstallDate = formatUnixtime(mobileTerminalHistory.snapshot.uninstallDate);
@@ -40,6 +46,10 @@ export class HistoryComponent implements OnChanges {
         updatedDateFormatted: updatedDate === '' ? '-' : updatedDate,
       };
     });
+  }
+
+  toggleShowFilters() {
+    this.filtersVisible = !this.filtersVisible;
   }
 
   isHistoryExpanded(historyId: string) {
@@ -57,9 +67,21 @@ export class HistoryComponent implements OnChanges {
     }
   }
 
-  populateFiltersChecked(mobileTerminalHistoryFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) {
-    console.warn(mobileTerminalHistoryFilter.mobileTerminalFields.includes('active'));
+  isAllFieldsChecked() {
+    const missingMobileTerminalField = MobileTerminalReducer.allMobileTerminalFields.find((field) => {
+      return !this.mobileTerminalHistoryFilter.mobileTerminalFields.includes(field);
+    });
 
+    const missingChannelField = MobileTerminalReducer.allChannelFields.find((field) => {
+      return !this.mobileTerminalHistoryFilter.channelFields.includes(field);
+    });
+
+    return typeof missingMobileTerminalField === 'undefined' &&
+      this.mobileTerminalHistoryFilter.filterChannels === true &&
+      typeof missingChannelField === 'undefined';
+  }
+
+  populateFiltersChecked(mobileTerminalHistoryFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) {
     this.filtersChecked = {
       mobileTerminalFields: {
         active: mobileTerminalHistoryFilter.mobileTerminalFields.includes('active'),
@@ -88,6 +110,22 @@ export class HistoryComponent implements OnChanges {
     };
   }
 
+  toggleAll() {
+    if(this.allFieldsChecked) {
+      this.removeMobileTerminalHistoryFilters({
+        mobileTerminalFields: MobileTerminalReducer.allMobileTerminalFields,
+        filterChannels: false,
+        channelFields: MobileTerminalReducer.allChannelFields
+      });
+    } else {
+      this.addMobileTerminalHistoryFilters({
+        mobileTerminalFields: MobileTerminalReducer.allMobileTerminalFields,
+        filterChannels: true,
+        channelFields: MobileTerminalReducer.allChannelFields
+      });
+    }
+  }
+
   updateFiltersChecked(base: string, field?: string) {
     if(base === 'enableChannelFilters') {
       if(this.filtersChecked.enableChannelFilters === true) {
@@ -98,7 +136,6 @@ export class HistoryComponent implements OnChanges {
         this.addMobileTerminalHistoryFilters({ filterChannels: true, channelFields: ['dnid', 'memberNumber', 'name', 'lesDescription'] });
       }
     } else if (this.filtersChecked[base][field] === true) {
-      console.warn('Remove: ', field);
       if (field === 'oceanRegion') {
         this.removeMobileTerminalHistoryFilters({
           mobileTerminalFields: ['eastAtlanticOceanRegion', 'indianOceanRegion', 'pacificOceanRegion', 'westAtlanticOceanRegion']

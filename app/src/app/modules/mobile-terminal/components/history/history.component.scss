@@ -17,10 +17,17 @@
 
   .filter-header {
     display: grid;
-    grid-template-columns: 1fr 20px;
+    grid-template-columns: auto 1fr 20px;
+    grid-column-gap: 20px;
+
+    h3 {
+      padding-top: 0px;
+    }
 
     .arrow {
       align-self: center;
+      cursor: pointer;
+      grid-column: 3;
     }
   }
 

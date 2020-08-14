@@ -4,111 +4,114 @@
 
 <div class="mobile-terminal-history--filter-wrapper">
   <div class="filter-header">
-    <h3>Filter <mat-checkbox i18n>Select all</mat-checkbox></h3>
-    <div class="arrow">
-      <i class="fas fa-chevron-down" aria-hidden="true"></i>
-      <!-- <i class="fas fa-chevron-up" aria-hidden="true"></i> -->
+    <h3>Filter</h3>
+    <mat-checkbox [checked]="allFieldsChecked" (change)="toggleAll()" [indeterminate]="someFieldsChecked" *ngIf="filtersVisible" i18n>Select all</mat-checkbox>
+    <div class="arrow" (click)="toggleShowFilters()" >
+      <i class="fas fa-chevron-down" aria-hidden="true" *ngIf="filtersVisible"></i>
+      <i class="fas fa-chevron-up" aria-hidden="true" *ngIf="!filtersVisible"></i>
     </div>
   </div>
-  <h4>Mobile terminal filters</h4>
-  <section class="mobile-terminal-filters">
-    <mat-checkbox
-      [checked]="filtersChecked.mobileTerminalFields.active"
-      (change)="updateFiltersChecked('mobileTerminalFields', 'active')"
-      i18n
-    >Active</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.mobileTerminalFields.archived"
-      (change)="updateFiltersChecked('mobileTerminalFields', 'archived')"
-      i18n
-    >Archived</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.mobileTerminalFields.mobileTerminalType"
-      (change)="updateFiltersChecked('mobileTerminalFields', 'mobileTerminalType')"
-      i18n
-    >Mobile terminal type</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.mobileTerminalFields.oceanRegion"
-      (change)="updateFiltersChecked('mobileTerminalFields', 'oceanRegion')"
-      i18n
-    >Ocean region</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.mobileTerminalFields.transceiverType"
-      (change)="updateFiltersChecked('mobileTerminalFields', 'transceiverType')"
-      i18n
-    >Transceiver type</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.mobileTerminalFields.satelliteNumber"
-      (change)="updateFiltersChecked('mobileTerminalFields', 'satelliteNumber')"
-      i18n
-    >Satellite number</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.mobileTerminalFields.softwareVersion"
-      (change)="updateFiltersChecked('mobileTerminalFields', 'softwareVersion')"
-      i18n
-    >Software version</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.mobileTerminalFields.antenna"
-      (change)="updateFiltersChecked('mobileTerminalFields', 'antenna')"
-      i18n
-    >Antenna</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.mobileTerminalFields.installDate"
-      (change)="updateFiltersChecked('mobileTerminalFields', 'installDate')"
-      i18n
-    >Install date</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.mobileTerminalFields.installedBy"
-      (change)="updateFiltersChecked('mobileTerminalFields', 'installedBy')"
-      i18n
-    >Installed by</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.mobileTerminalFields.uninstallDate"
-      (change)="updateFiltersChecked('mobileTerminalFields', 'uninstallDate')"
-      i18n
-    >Uninstall date</mat-checkbox>
-  </section>
+  <div class="filter-body" *ngIf="filtersVisible">
+    <h4>Mobile terminal filters</h4>
+    <section class="mobile-terminal-filters">
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.active"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'active')"
+        i18n
+      >Active</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.archived"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'archived')"
+        i18n
+      >Archived</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.mobileTerminalType"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'mobileTerminalType')"
+        i18n
+      >Mobile terminal type</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.oceanRegion"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'oceanRegion')"
+        i18n
+      >Ocean region</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.transceiverType"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'transceiverType')"
+        i18n
+      >Transceiver type</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.satelliteNumber"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'satelliteNumber')"
+        i18n
+      >Satellite number</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.softwareVersion"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'softwareVersion')"
+        i18n
+      >Software version</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.antenna"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'antenna')"
+        i18n
+      >Antenna</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.installDate"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'installDate')"
+        i18n
+      >Install date</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.installedBy"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'installedBy')"
+        i18n
+      >Installed by</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.uninstallDate"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'uninstallDate')"
+        i18n
+      >Uninstall date</mat-checkbox>
+    </section>
 
-  <h4>
-    Channel filters
-    <mat-checkbox
-      [checked]="filtersChecked.enableChannelFilters"
-      (change)="updateFiltersChecked('enableChannelFilters')"
-      i18n
-    >Enable</mat-checkbox>
-  </h4>
-  <section class="mobile-terminal-channel-filters" *ngIf="filtersChecked.enableChannelFilters">
-    <mat-checkbox
-      [checked]="filtersChecked.channelFields.startDate"
-      (change)="updateFiltersChecked('channelFields', 'startDate')"
-      i18n
-    >Start date</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.channelFields.endDate"
-      (change)="updateFiltersChecked('channelFields', 'endDate')"
-      i18n
-    >End date</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.channelFields.channel"
-      (change)="updateFiltersChecked('channelFields', 'channel')"
-      i18n
-    >Channel</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.channelFields.expectedFrequency"
-      (change)="updateFiltersChecked('channelFields', 'expectedFrequency')"
-      i18n
-    >Expected frequency</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.channelFields.expectedFrequencyInPort"
-      (change)="updateFiltersChecked('channelFields', 'expectedFrequencyInPort')"
-      i18n
-    >Expected frequency in port</mat-checkbox>
-    <mat-checkbox
-      [checked]="filtersChecked.channelFields.frequencyGracePeriod"
-      (change)="updateFiltersChecked('channelFields', 'frequencyGracePeriod')"
-      i18n
-    >Frequency grace period</mat-checkbox>
-  </section>
+    <h4>
+      Channel filters
+      <mat-checkbox
+        [checked]="filtersChecked.enableChannelFilters"
+        (change)="updateFiltersChecked('enableChannelFilters')"
+        i18n
+      >Enable</mat-checkbox>
+    </h4>
+    <section class="mobile-terminal-channel-filters" *ngIf="filtersChecked.enableChannelFilters">
+      <mat-checkbox
+        [checked]="filtersChecked.channelFields.startDate"
+        (change)="updateFiltersChecked('channelFields', 'startDate')"
+        i18n
+      >Start date</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.channelFields.endDate"
+        (change)="updateFiltersChecked('channelFields', 'endDate')"
+        i18n
+      >End date</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.channelFields.channel"
+        (change)="updateFiltersChecked('channelFields', 'channel')"
+        i18n
+      >Channel</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.channelFields.expectedFrequency"
+        (change)="updateFiltersChecked('channelFields', 'expectedFrequency')"
+        i18n
+      >Expected frequency</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.channelFields.expectedFrequencyInPort"
+        (change)="updateFiltersChecked('channelFields', 'expectedFrequencyInPort')"
+        i18n
+      >Expected frequency in port</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.channelFields.frequencyGracePeriod"
+        (change)="updateFiltersChecked('channelFields', 'frequencyGracePeriod')"
+        i18n
+      >Frequency grace period</mat-checkbox>
+    </section>
+  </div>
 </div>
 
 <div class="mobile-terminal-history--list">
