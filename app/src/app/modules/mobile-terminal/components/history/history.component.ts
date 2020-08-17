@@ -38,14 +38,30 @@ export class HistoryComponent implements OnChanges {
       const uninstallDate = formatUnixtime(mobileTerminalHistory.snapshot.uninstallDate);
       const installDate = formatUnixtime(mobileTerminalHistory.snapshot.installDate);
       const updatedDate = formatUnixtime(mobileTerminalHistory.updateTime);
+      const oceanRegions = ['eastAtlanticOceanRegion', 'indianOceanRegion', 'pacificOceanRegion', 'westAtlanticOceanRegion'];
       return {
         ...mobileTerminalHistory,
         id,
         installDateFormatted: installDate === '' ? '-' : installDate,
         uninstallDateFormatted: uninstallDate === '' ? '-' : uninstallDate,
         updatedDateFormatted: updatedDate === '' ? '-' : updatedDate,
+        changesAsObject: mobileTerminalHistory.changes.reduce((acc, change) => {
+          if(oceanRegions.includes(change.field)) {
+            // @ts-ignore
+            return { ...acc, oceanRegions: { ...acc.oceanRegions, [change.field]: change } };
+          }
+          return { ...acc, [change.field]: change };
+        }, {})
       };
+    }).sort((a, b) => {
+      if(a.updateTime > b.updateTime) {
+        return -1;
+      } else if(a.updateTime < b.updateTime) {
+        return 1;
+      }
+      return 0;
     });
+    console.warn(this.mobileTerminalHistoryArray);
   }
 
   toggleShowFilters() {
@@ -108,6 +124,27 @@ export class HistoryComponent implements OnChanges {
         frequencyGracePeriod: mobileTerminalHistoryFilter.channelFields.includes('frequencyGracePeriod'),
       }
     };
+  }
+
+  getChangedClass(fieldChanged) {
+    return typeof fieldChanged !== 'undefined' ? ' changed' : '';
+  }
+
+  getOceanRegionsValue(mobileTerminal: MobileTerminalTypes.MobileTerminal) {
+    const oceanRegions = [];
+    if(mobileTerminal.eastAtlanticOceanRegion) {
+      oceanRegions.push('East Atlantic');
+    }
+    if(mobileTerminal.westAtlanticOceanRegion) {
+      oceanRegions.push('West Atlantic');
+    }
+    if(mobileTerminal.pacificOceanRegion) {
+      oceanRegions.push('Pacific');
+    }
+    if(mobileTerminal.indianOceanRegion) {
+      oceanRegions.push('Indian');
+    }
+    return oceanRegions.join(', ');
   }
 
   toggleAll() {

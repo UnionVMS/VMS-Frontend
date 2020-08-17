@@ -28,12 +28,7 @@
         [checked]="filtersChecked.mobileTerminalFields.mobileTerminalType"
         (change)="updateFiltersChecked('mobileTerminalFields', 'mobileTerminalType')"
         i18n
-      >Mobile terminal type</mat-checkbox>
-      <mat-checkbox
-        [checked]="filtersChecked.mobileTerminalFields.oceanRegion"
-        (change)="updateFiltersChecked('mobileTerminalFields', 'oceanRegion')"
-        i18n
-      >Ocean region</mat-checkbox>
+      >Transceiver system</mat-checkbox>
       <mat-checkbox
         [checked]="filtersChecked.mobileTerminalFields.transceiverType"
         (change)="updateFiltersChecked('mobileTerminalFields', 'transceiverType')"
@@ -54,6 +49,11 @@
         (change)="updateFiltersChecked('mobileTerminalFields', 'antenna')"
         i18n
       >Antenna</mat-checkbox>
+      <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.oceanRegion"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'oceanRegion')"
+        i18n
+      >Ocean region</mat-checkbox>
       <mat-checkbox
         [checked]="filtersChecked.mobileTerminalFields.installDate"
         (change)="updateFiltersChecked('mobileTerminalFields', 'installDate')"
@@ -117,11 +117,11 @@
 <div class="mobile-terminal-history--list">
   <div class="mobile-terminal-history" *ngFor="let mobileTerminalHistory of mobileTerminalHistoryArray">
     <div class="history-header" (click)="toggleHistory(mobileTerminalHistory.id)">
-      <div class="field-column">
+      <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.serialNo)}}">
         <label>Serial no.</label>
         <div class="value">{{ mobileTerminalHistory.snapshot.serialNo }}</div>
       </div>
-      <div class="field-column">
+      <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.active)}}">
         <label>Terminal</label>
         <div class="value">
           <span *ngIf="mobileTerminalHistory.snapshot.active" class="active">Active</span>
@@ -142,15 +142,59 @@
       </div>
     </div>
     <div class="extended-history" *ngIf="isHistoryExpanded(mobileTerminalHistory.id)">
-      <div class="field-column">
+      <div
+        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.mobileTerminalType)}}"
+        *ngIf="filtersChecked.mobileTerminalFields.mobileTerminalType"
+      >
+        <label>Transceiver system</label>
+        <div class="value">{{ mobileTerminalHistory.snapshot.mobileTerminalType }}</div>
+      </div>
+      <div
+        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.transceiverType)}}"
+        *ngIf="filtersChecked.mobileTerminalFields.transceiverType"
+      >
+        <label>Transceiver type</label>
+        <div class="value">{{ mobileTerminalHistory.snapshot.transceiverType }}</div>
+      </div>
+      <div
+        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.softwareVersion)}}"
+        *ngIf="filtersChecked.mobileTerminalFields.softwareVersion"
+      >
+        <label>Software version</label>
+        <div class="value">{{ mobileTerminalHistory.snapshot.softwareVersion }}</div>
+      </div>
+      <div
+        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.antenna)}}"
+        *ngIf="filtersChecked.mobileTerminalFields.antenna"
+      >
+        <label>Antenna</label>
+        <div class="value">{{ mobileTerminalHistory.snapshot.antenna }}</div>
+      </div>
+      <div
+        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.oceanRegions)}}"
+        *ngIf="filtersChecked.mobileTerminalFields.oceanRegion"
+      >
+        <label>Ocean region</label>
+        <div class="value">{{ getOceanRegionsValue(mobileTerminalHistory.snapshot) }}</div>
+      </div>
+      <div
+        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.installDate)}}"
+        *ngIf="filtersChecked.mobileTerminalFields.installDate"
+      >
         <label>Installation date</label>
         <div class="value">{{ mobileTerminalHistory.installDateFormatted }}</div>
       </div>
-      <div class="field-column">
+      <div
+        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.uninstallDate)}}"
+        *ngIf="filtersChecked.mobileTerminalFields.uninstallDate"
+        >
         <label>Uninstallation date</label>
         <div class="value">{{ mobileTerminalHistory.uninstallDateFormatted }}</div>
       </div>
-      <div class="field-column">
+      <div
+        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.installedBy)}}"
+        *ngIf="filtersChecked.mobileTerminalFields.installedBy"
+      >
         <label>Installed by</label>
         <div class="value">{{ mobileTerminalHistory.snapshot.installedBy }}</div>
       </div>
