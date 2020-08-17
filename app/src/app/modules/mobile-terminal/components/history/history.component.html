@@ -81,6 +81,11 @@
     </h4>
     <section class="mobile-terminal-channel-filters" *ngIf="filtersChecked.enableChannelFilters">
       <mat-checkbox
+        [checked]="filtersChecked.channelFields.lesDescription"
+        (change)="updateFiltersChecked('channelFields', 'lesDescription')"
+        i18n
+      >Land station</mat-checkbox>
+      <mat-checkbox
         [checked]="filtersChecked.channelFields.startDate"
         (change)="updateFiltersChecked('channelFields', 'startDate')"
         i18n
@@ -90,11 +95,6 @@
         (change)="updateFiltersChecked('channelFields', 'endDate')"
         i18n
       >End date</mat-checkbox>
-      <mat-checkbox
-        [checked]="filtersChecked.channelFields.channel"
-        (change)="updateFiltersChecked('channelFields', 'channel')"
-        i18n
-      >Channel</mat-checkbox>
       <mat-checkbox
         [checked]="filtersChecked.channelFields.expectedFrequency"
         (change)="updateFiltersChecked('channelFields', 'expectedFrequency')"
@@ -197,6 +197,65 @@
       >
         <label>Installed by</label>
         <div class="value">{{ mobileTerminalHistory.snapshot.installedBy }}</div>
+      </div>
+      <div class="channel" *ngIf="filtersChecked.enableChannelFilters">
+        <label>Channel</label>
+        <table>
+          <thead>
+            <tr>
+              <th>DNID</th>
+              <th>Type</th>
+              <th>Member number</th>
+              <th *ngIf="filtersChecked.channelFields.lesDescription">Land station</th>
+              <th *ngIf="filtersChecked.channelFields.startDate">Start date</th>
+              <th *ngIf="filtersChecked.channelFields.endDate">End date</th>
+              <th *ngIf="filtersChecked.channelFields.expectedFrequency">Expected Frq.</th>
+              <th *ngIf="filtersChecked.channelFields.frequencyGracePeriod">Frq. Grace Period</th>
+              <th *ngIf="filtersChecked.channelFields.expectedFrequencyInPort">Expected Frq. In Port</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let channel of mobileTerminalHistory.snapshot.formattedChannels">
+              <tr class="channel-row {{getChannelRowClass(mobileTerminalHistory.channelChanges[channel.id])}}">
+                <td
+                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'dnid')}}"
+                >{{channel.dnid}}</td>
+                <td
+                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'defaultChannel')}}
+                    {{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'changes.pollChannel')}}
+                    {{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'changes.configChannel')}}"
+                >{{channel.type}}</td>
+                <td
+                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'memberNumber')}}"
+                >{{channel.memberNumber}}</td>
+                <td
+                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'lesDescription')}}"
+                  *ngIf="filtersChecked.channelFields.lesDescription"
+                >{{channel.lesDescription}}</td>
+                <td
+                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'startDate')}}"
+                  *ngIf="filtersChecked.channelFields.startDate"
+                >{{channel.startDate}}</td>
+                <td
+                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'endDate')}}"
+                  *ngIf="filtersChecked.channelFields.endDate"
+                >{{channel.endDate}}</td>
+                <td
+                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'expectedFrequency')}}"
+                  *ngIf="filtersChecked.channelFields.expectedFrequency"
+                  >{{channel.expectedFrequency}}</td>
+                <td
+                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'frequencyGracePeriod')}}"
+                  *ngIf="filtersChecked.channelFields.frequencyGracePeriod"
+                >{{channel.frequencyGracePeriod}}</td>
+                <td
+                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'expectedFrequencyInPort')}}"
+                  *ngIf="filtersChecked.channelFields.expectedFrequencyInPort"
+                >{{channel.expectedFrequencyInPort}}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

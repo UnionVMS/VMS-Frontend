@@ -93,12 +93,14 @@ export enum MobileTerminalChannelChangeType {
   UPDATED = 'UPDATED',
 }
 
+export type ChannelChange = Readonly<{
+  changeType: MobileTerminalChannelChangeType;
+  changes: ReadonlyArray<MobileTerminalHistoryChange>;
+}>;
+
 export type MobileTerminalHistory = Readonly<{
   changes: ReadonlyArray<MobileTerminalHistoryChange>;
-  channelChanges: Readonly<{ readonly [channelId: string]: {
-    changeType: MobileTerminalChannelChangeType;
-    changes: ReadonlyArray<MobileTerminalHistoryChange>;
-  }}>;
+  channelChanges: Readonly<{ readonly [channelId: string]: ChannelChange }>;
   snapshot: MobileTerminal,
   updateTime: number;
   updatedBy: string;

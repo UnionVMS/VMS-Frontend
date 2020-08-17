@@ -51,7 +51,45 @@ export class HistoryComponent implements OnChanges {
             return { ...acc, oceanRegions: { ...acc.oceanRegions, [change.field]: change } };
           }
           return { ...acc, [change.field]: change };
-        }, {})
+        }, {}),
+        channelChanges: Object.keys(mobileTerminalHistory.channelChanges).reduce((acc, channelId) => {
+          const channelChange = mobileTerminalHistory.channelChanges[channelId];
+          return {
+            ...acc,
+            [channelId]: {
+              ...channelChange,
+              changes: channelChange.changes.reduce((channelChanges, change) => {
+                return { ...channelChanges, [change.field]: change };
+              }, {})
+            }
+          };
+        }, {}),
+        snapshot: {
+          ...mobileTerminalHistory.snapshot,
+          formattedChannels: mobileTerminalHistory.snapshot.channels.map(channel => {
+            const type = [];
+            if(channel.configChannel) {
+              type.push('Config');
+            }
+            if(channel.defaultChannel) {
+              type.push('Default');
+            }
+            if(channel.pollChannel) {
+              type.push('Poll');
+            }
+            const startDate = formatUnixtime(channel.startDate);
+            const endDate = formatUnixtime(channel.endDate);
+            return {
+              ...channel,
+              type: type.join(', '),
+              startDate: startDate === '' ? '-' : startDate,
+              endDate: endDate === '' ? '-' : endDate,
+              expectedFrequency: channel.expectedFrequency / 1000 / 60,
+              frequencyGracePeriod: channel.frequencyGracePeriod / 1000 / 60,
+              expectedFrequencyInPort: channel.expectedFrequencyInPort / 1000 / 60,
+            };
+          })
+        }
       };
     }).sort((a, b) => {
       if(a.updateTime > b.updateTime) {
@@ -61,7 +99,6 @@ export class HistoryComponent implements OnChanges {
       }
       return 0;
     });
-    console.warn(this.mobileTerminalHistoryArray);
   }
 
   toggleShowFilters() {
@@ -119,6 +156,7 @@ export class HistoryComponent implements OnChanges {
         active: mobileTerminalHistoryFilter.channelFields.includes('active'),
         archived: mobileTerminalHistoryFilter.channelFields.includes('archived'),
         channel: mobileTerminalHistoryFilter.channelFields.includes('configChannel'),
+        lesDescription: mobileTerminalHistoryFilter.channelFields.includes('lesDescription'),
         expectedFrequency: mobileTerminalHistoryFilter.channelFields.includes('expectedFrequency'),
         expectedFrequencyInPort: mobileTerminalHistoryFilter.channelFields.includes('expectedFrequencyInPort'),
         frequencyGracePeriod: mobileTerminalHistoryFilter.channelFields.includes('frequencyGracePeriod'),
@@ -126,8 +164,23 @@ export class HistoryComponent implements OnChanges {
     };
   }
 
-  getChangedClass(fieldChanged) {
+  getChangedClass(fieldChanged: MobileTerminalTypes.MobileTerminalHistoryChange) {
     return typeof fieldChanged !== 'undefined' ? ' changed' : '';
+  }
+
+  getChangedClassForChannel(fieldChanged: MobileTerminalTypes.ChannelChange, field: string) {
+    if(typeof fieldChanged !== 'undefined') {
+      return typeof fieldChanged.changes[field] !== 'undefined' ? 'changed' : '';
+    }
+    return '';
+  }
+
+  getChannelRowClass(channelChange: MobileTerminalTypes.ChannelChange) {
+    if(typeof channelChange !== 'undefined') {
+      return channelChange.changeType.toLowerCase();
+    }
+
+    return '';
   }
 
   getOceanRegionsValue(mobileTerminal: MobileTerminalTypes.MobileTerminal) {

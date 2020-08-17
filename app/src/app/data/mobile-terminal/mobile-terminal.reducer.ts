@@ -23,7 +23,7 @@ export const initialState: MobileTerminalTypes.State = {
     filterChannels: true,
     channelFields: [
       'dnid', 'memberNumber', 'name', 'lesDescription',
-      'startDate', 'endDate',
+      'startDate', 'endDate', 'lesDescription',
       'active', 'archived', 'configChannel', 'defaultChannel', 'pollChannel',
       'expectedFrequency', 'expectedFrequencyInPort', 'frequencyGracePeriod',
     ]
