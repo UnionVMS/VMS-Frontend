@@ -27,14 +27,19 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   ) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
+  public currentTab = 1;
   public mobileTerminals: ReadonlyArray<MobileTerminalTypes.MobileTerminal>;
+  public mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
+  public mobileTerminalHistoryFilter$: Observable<MobileTerminalTypes.MobileTerminalHistoryFilter>;
   public currentMobileTerminal: MobileTerminalTypes.MobileTerminal;
   public mergedRoute: RouterTypes.MergedRoute;
   public selectedAsset: AssetTypes.Asset;
 
+  public addMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
+  public removeMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
   public saveMobileTerminal: (mobileTerminal: MobileTerminalTypes.MobileTerminal) => void;
   public activeMobileTerminal: MobileTerminalTypes.MobileTerminal;
-
+  public changeCurrentMobileTerminal: (mobileTerminal: MobileTerminalTypes.MobileTerminal) => void;
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -66,6 +71,11 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.activeMobileTerminal = this.mobileTerminals.find(mobileTerminal => mobileTerminal.active);
       }
     });
+    this.mobileTerminalHistoryFilter$ = this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryFilter);
+    this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryFilteredForUrlAsset)
+      .pipe(takeUntil(this.unmount$)).subscribe((mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList) => {
+        this.mobileTerminalHistoryList = mobileTerminalHistoryList;
+      });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
       this.mergedRoute = mergedRoute;
       if(typeof this.mergedRoute.params.assetId !== 'undefined') {
@@ -74,17 +84,31 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
     });
     this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
       this.selectedAsset = asset;
+      if(typeof this.selectedAsset !== 'undefined') {
+        this.store.dispatch(MobileTerminalActions.getMobileTerminalHistoryForAsset({ assetId: this.selectedAsset.id }));
+      }
     });
   }
 
   mapDispatchToProps() {
     this.saveMobileTerminal = (mobileTerminal: MobileTerminalTypes.MobileTerminal) =>
       this.store.dispatch(MobileTerminalActions.saveMobileTerminal({ mobileTerminal }));
+    this.addMobileTerminalHistoryFilters = (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) =>
+      this.store.dispatch(MobileTerminalActions.addMobileTerminalHistoryFilters({ historyFilter }));
+    this.removeMobileTerminalHistoryFilters = (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) =>
+      this.store.dispatch(MobileTerminalActions.removeMobileTerminalHistoryFilters({ historyFilter }));
+  }
+
+  mapFunctionsToProps() {
+    this.changeCurrentMobileTerminal = (mobileTerminal: MobileTerminalTypes.MobileTerminal) => {
+      this.currentMobileTerminal = mobileTerminal;
+    };
   }
 
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
+    this.mapFunctionsToProps();
   }
 
   ngOnDestroy() {
@@ -92,8 +116,8 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
     this.unmount$.unsubscribe();
   }
 
-  changeCurrentMobileTerminal(event: MatTabChangeEvent) {
-    this.currentMobileTerminal = this.mobileTerminals[event.index];
+  changeCurrentTab(event: MatTabChangeEvent) {
+    this.currentTab = event.index;
   }
 
   openDetachDialog(templateRef: TemplateRef<any>): void {

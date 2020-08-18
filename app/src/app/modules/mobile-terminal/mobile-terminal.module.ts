@@ -28,6 +28,11 @@ import { FormPageComponent } from './pages/form/form.component';
 import { ListPageComponent } from './pages/list/list.component';
 import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.component';
 
+/* Components */
+import { HistoryComponent } from './components/history/history.component';
+import { ListForAssetComponent } from './components/list-for-asset/list-for-asset.component';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -56,6 +61,9 @@ import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.co
     FormPageComponent,
     ListPageComponent,
     ShowByAssetPageComponent,
+    /* Components */
+    HistoryComponent,
+    ListForAssetComponent,
   ]
 })
 

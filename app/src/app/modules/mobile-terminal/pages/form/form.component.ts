@@ -40,6 +40,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public serialNumberExists: (serialNumber: string, isSelf?: boolean) => void;
   public memberNumberAndDnidCombinationExists: (memberNumber: number, dnid: number, channelId: string, isSelf?: boolean) => void;
+  public setMemberNumberAndDnidCombinationExists: (channelId: string, dnidMemberNumberComboExists: boolean) => void;
   public serialNumberExists$: Observable<boolean>;
   public memberNumberAndDnidCombinationExists$: Observable<Readonly<{
     readonly [channelId: string]: boolean;
@@ -260,6 +261,8 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       return this.store.dispatch(MobileTerminalActions.getMemberNumberAndDnidCombinationExists({ memberNumber, dnid, channelId, isSelf }));
     };
+    this.setMemberNumberAndDnidCombinationExists = (channelId: string, dnidMemberNumberComboExists: boolean) =>
+      this.store.dispatch(MobileTerminalActions.setMemberNumberAndDnidCombinationExists({ channelId, dnidMemberNumberComboExists }));
   }
 
   ngOnInit() {
@@ -368,11 +371,23 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   checkIfMemberNumberAndDnidExists(channel: MobileTerminalTypes.Channel, channelNr: number) {
-    const mtChannel = this.mobileTerminal.channels.find(mbtChannel => mbtChannel.id === channel.id);
-    if(typeof mtChannel !== 'undefined' && channel.memberNumber === mtChannel.memberNumber && channel.dnid === mtChannel.dnid) {
-      this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id, true);
-    } else {
-      this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
+    const channels = this.formValidator.controls.channels?.value.slice();
+
+    const foundLocalMatchInForm = channels.find((iChannel: MobileTerminalTypes.Channel) => {
+      console.warn(channel.id !== iChannel.id && channel.dnid === iChannel.dnid && channel.memberNumber === iChannel.memberNumber);
+      if(channel.id !== iChannel.id && channel.dnid === iChannel.dnid && channel.memberNumber === iChannel.memberNumber) {
+        this.setMemberNumberAndDnidCombinationExists(channel.id, true);
+        return true;
+      }
+    });
+
+    if(!foundLocalMatchInForm) {
+      const mtChannel = this.mobileTerminal.channels.find(mbtChannel => mbtChannel.id === channel.id);
+      if(typeof mtChannel !== 'undefined' && channel.memberNumber === mtChannel.memberNumber && channel.dnid === mtChannel.dnid) {
+        this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id, true);
+      } else {
+        this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
+      }
     }
 
     ['memberNumber', 'dnid'].map(

@@ -1,0 +1,138 @@
+@import 'variables.scss';
+
+.mobile-terminal-history--page-header {
+  margin-top: distance(2);
+  padding: distance(1);
+  background: white;
+  b {
+    font-style: italic;
+    font-size: 70%;
+  }
+}
+
+.mobile-terminal-history--filter-wrapper {
+  margin-top: distance(2);
+  padding: distance(1);
+  background: white;
+
+  .filter-header {
+    display: grid;
+    grid-template-columns: auto 1fr 20px;
+    grid-column-gap: 20px;
+
+    h3 {
+      padding-top: 0px;
+    }
+
+    .arrow {
+      align-self: center;
+      cursor: pointer;
+      grid-column: 3;
+    }
+  }
+
+  h4, h3 {
+    padding-bottom: 0px;
+  }
+
+  h4 mat-checkbox, h3 mat-checkbox {
+    margin-left: distance(2);
+    font-weight: normal;
+  }
+
+  section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.mobile-terminal-history--list {
+  padding-top: distance(2);
+  display: grid;
+  grid-row-gap: distance(1);
+
+  .mobile-terminal-history {
+    padding: distance(1);
+    background: white;
+    .history-header {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr) 20px;
+      cursor: pointer;
+
+      .arrow {
+        align-self: center;
+      }
+    }
+
+    .extended-history {
+      padding-top: distance(3);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding-right: 20px;
+      grid-row-gap: distance(1);
+
+      .channel {
+        grid-column: 1 / span 4;
+        display: grid;
+        grid-row-gap: distance(0.5);
+
+        label {
+          cursor: pointer;
+          font-weight: bolder;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+
+          th, td {
+            border: 1px solid black;
+          }
+
+          .channel-row {
+            .changed {
+              background-color: $color_light_orange;
+            }
+
+            &.created {
+              background-color: $color_accent_light;
+              .changed {
+                background-color: inherit;
+              }
+            }
+            &.removed {
+              background-color: $color_warn_light;
+              .changed {
+                background-color: inherit;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .field-column {
+    cursor: pointer;
+    display: grid;
+    grid-row-gap: distance(0.5);
+
+    &.changed {
+      background: $color_light_orange;
+    }
+
+    label {
+      cursor: pointer;
+      font-weight: bolder;
+    }
+
+    .active {
+      font-weight: bolder;
+      color: $color_accent_light;
+    }
+    .inactive {
+      font-weight: bolder;
+      color: $color_warn;
+    }
+  }
+}

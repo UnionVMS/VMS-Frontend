@@ -86,6 +86,24 @@ export class MobileTerminalEffects {
   );
 
   @Effect()
+  getMobileTerminalHistoryForAsset$ = this.actions$.pipe(
+    ofType(MobileTerminalActions.getMobileTerminalHistoryForAsset),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([action, authToken]: Array<any>) => {
+        return this.mobileTerminalService.getMobileTerminalHistoryForAsset(authToken, action.assetId).pipe(
+          map((response: MobileTerminalTypes.MobileTerminalHistoryList) => {
+            return MobileTerminalActions.setMobileTerminalHistoryForAsset({
+              mobileTerminalHistory: { [action.assetId]: response }
+            });
+          })
+        );
+      })
+    ))
+  );
+
+
+  @Effect()
   getTransponders$ = this.actions$.pipe(
     ofType(MobileTerminalActions.getTransponders),
     mergeMap((action) => of(action).pipe(
