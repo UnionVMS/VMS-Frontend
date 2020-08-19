@@ -14,7 +14,7 @@ import { initialState as NotificationInitialState } from '@data/notifications/no
 import { initialState as UserSettingsInitialState } from '@data/user-settings/user-settings.reducer';
 
 
-import { FishingActivityLayoutComponent } from './fishing-activity.component';
+import { FishingReportLayoutComponent } from './fishing-report.component';
 
 
 // Components
@@ -36,13 +36,13 @@ describe('AssetLayoutComponent', () => {
       imports: [
         RouterTestingModule.withRoutes(
           [
-            { path: 'fishing-activity/:fishingActivityId', children: [], pathMatch: 'full' },
+            { path: 'fishing-report/:fishingReportId', children: [], pathMatch: 'full' },
           ]
         ),
         MatSelectModule
       ],
       declarations: [
-        FishingActivityLayoutComponent,
+        FishingReportLayoutComponent,
         TopMenuComponent,
         NotificationsComponent,
       ],
@@ -54,7 +54,7 @@ describe('AssetLayoutComponent', () => {
   }));
 
   const setup = () => {
-    const fixture = TestBed.createComponent(FishingActivityLayoutComponent);
+    const fixture = TestBed.createComponent(FishingReportLayoutComponent);
     const component = fixture.componentInstance;
     return { fixture , component };
   };
@@ -67,7 +67,7 @@ describe('AssetLayoutComponent', () => {
   it('should have a asset-layout--grid with router-outlet in it', () => {
     const { fixture } = setup();
     const layoutElement: HTMLElement = fixture.nativeElement;
-    const routerOutlet = layoutElement.querySelector('.fishing-activity-layout--grid router-outlet');
+    const routerOutlet = layoutElement.querySelector('.fishing-report-layout--grid router-outlet');
     expect(routerOutlet).not.toBeNull();
   });
 

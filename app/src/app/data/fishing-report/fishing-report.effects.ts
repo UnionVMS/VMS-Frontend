@@ -6,8 +6,8 @@ import { of, EMPTY, Observable } from 'rxjs';
 import { map, mergeMap, flatMap, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer.ts';
-import { FishingActivityActions, FishingActivityTypes, FishingActivitySelectors } from './';
-import { FishingActivityService } from './fishing-activity.service';
+import { FishingReportActions, FishingReportTypes, FishingReportSelectors } from './';
+import { FishingReportService } from './fishing-report.service';
 import * as NotificationsActions from '../notifications/notifications.actions';
 import { AuthTypes, AuthSelectors } from '../auth';
 import * as RouterSelectors from '@data/router/router.selectors';
@@ -15,26 +15,27 @@ import * as RouterSelectors from '@data/router/router.selectors';
 import { hashCode } from '@app/helpers/helpers';
 
 @Injectable()
-export class FishingActivityEffects {
+export class FishingReportEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly store$: Store<State>,
-    private readonly fishingActivityService: FishingActivityService,
+    private readonly fishingReportService: FishingReportService,
     private readonly router: Router
   ) {}
 
   @Effect()
   search$ = this.actions$.pipe(
-    ofType(FishingActivityActions.search),
+    ofType(FishingReportActions.search),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]) => {
-      return this.fishingActivityService.search(authToken, action.query).pipe(
-        map((response) => {
+      return this.fishingReportService.search(authToken, action.query).pipe(
+        map((response: Readonly<{ fishingReports: FishingReportTypes.FishingReports }> ) => {
           console.warn(response);
+          return [FishingReportActions.setFishingReports({ fishingReports: response.fishingReports })];
           return EMPTY;
           // const result = [
-          //   FishingActivityActions.addMobileTerminals({
-          //     mobileTerminals: response.fishingActivityList.reduce((acc, mobileTerminal) => {
+          //   FishingReportActions.addMobileTerminals({
+          //     mobileTerminals: response.fishingReportList.reduce((acc, mobileTerminal) => {
           //       acc[mobileTerminal.id] = mobileTerminal;
           //       return acc;
           //     }, {})
@@ -44,9 +45,9 @@ export class FishingActivityEffects {
           // if(action.saveAsSearchResult === true) {
           //   return [
           //     ...result,
-          //     FishingActivityActions.addSearchResult({
+          //     FishingReportActions.addSearchResult({
           //       uniqueHash: hashCode(JSON.stringify(action.query) + action.includeArchived ? 't' : 'f'),
-          //       mobileTerminalIds: response.fishingActivityList.map(mobileTerminal => mobileTerminal.id)
+          //       mobileTerminalIds: response.fishingReportList.map(mobileTerminal => mobileTerminal.id)
           //     })
           //   ];
           // } else {

@@ -13,13 +13,13 @@ import { replaceDontTranslate } from '@app/helpers/helpers';
 import { RouterTypes, RouterSelectors } from '@data/router';
 
 @Component({
-  selector: 'core-fishing-activity-layout-component',
-  templateUrl: './fishing-activity.component.html',
-  styleUrls: ['./fishing-activity.component.scss'],
+  selector: 'core-fishing-report-layout-component',
+  templateUrl: './fishing-report.component.html',
+  styleUrls: ['./fishing-report.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class FishingActivityLayoutComponent implements OnInit, OnDestroy {
+export class FishingReportLayoutComponent implements OnInit, OnDestroy {
   public appVersion: string = version;
 
   public isAdmin$: Observable<boolean>;
@@ -32,7 +32,7 @@ export class FishingActivityLayoutComponent implements OnInit, OnDestroy {
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
   public mergedRoute: RouterTypes.MergedRoute;
   public pageTitle: string;
-  public selectedFishingActivity;
+  public selectedFishingReport;
 
   constructor(private readonly store: Store<any>, private readonly router: Router) { }
 
@@ -101,7 +101,7 @@ export class FishingActivityLayoutComponent implements OnInit, OnDestroy {
 
   getTitleName() {
     return replaceDontTranslate(this.pageTitle, {
-      assetName: typeof this.selectedFishingActivity !== 'undefined' ? this.selectedFishingActivity.fishingReportId : 'Fishing activity'
+      assetName: typeof this.selectedFishingReport !== 'undefined' ? this.selectedFishingReport.fishingReportId : 'Fishing report'
     });
   }
 
@@ -112,8 +112,8 @@ export class FishingActivityLayoutComponent implements OnInit, OnDestroy {
   //     this.mergedRoute.url.match(/^\/mobileTerminal\/.*\/create$/g) !== null;
   // }
 
-  matchFishingActivityInfoUrl() {
-    return this.mergedRoute.url.match(/^\/fishing-activity\/([^/]+)$/g) !== null;
+  matchFishingReportInfoUrl() {
+    return this.mergedRoute.url.match(/^\/fishing-report\/([^/]+)$/g) !== null;
   }
 
 

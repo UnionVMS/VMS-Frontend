@@ -48,4 +48,4 @@ import { ShowComponent } from './components/show/show.component';
   ]
 })
 
-export class FishingActivityModule { }
+export class FishingReportModule { }

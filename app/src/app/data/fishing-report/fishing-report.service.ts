@@ -7,7 +7,7 @@ import { MobileTerminalTypes } from '@data/mobile-terminal';
   providedIn: 'root'
 })
 
-export class FishingActivityService {
+export class FishingReportService {
   constructor(private readonly http: HttpClient) {}
 
   search(authToken: string, query: object) {

@@ -1,4 +1,4 @@
-<div class="fishing-activity-layout--grid">
+<div class="fishing-report-layout--grid">
   <core-top-menu-component
     [appVersion]="appVersion"
     [isAdmin]="isAdmin$ | async"
@@ -15,21 +15,21 @@
 
   <div class="side-menu">
     <ul>
-      <li routerLink="/fishing-activity" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <li routerLink="/fishing-report" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <span class="short-key">S</span>
         <span class="text" i18n>Search</span>
       </li>
       <li class="divider"></li>
-      <ng-container *ngIf="selectedFishingActivity">
-        <li routerLink="/fishing-activity/{{selectedFishingActivity.id}}" class="{{ matchFishingActivityInfoUrl() ? 'active' : '' }}">
+      <ng-container *ngIf="selectedFishingReport">
+        <li routerLink="/fishing-report/{{selectedFishingReport.id}}" class="{{ matchFishingReportInfoUrl() ? 'active' : '' }}">
           <span class="short-key">1</span>
-          <span class="text" i18n>Fishing activity info</span>
+          <span class="text" i18n>Fishing report info</span>
         </li>
       </ng-container>
-      <ng-container *ngIf="!selectedFishingActivity">
+      <ng-container *ngIf="!selectedFishingReport">
         <li class="deactivated">
           <span class="short-key">1</span>
-          <span class="text" i18n>Fishing activity info</span>
+          <span class="text" i18n>Fishing report info</span>
         </li>
       </ng-container>
     </ul>
