@@ -22,40 +22,59 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   constructor(private readonly store: Store<State>) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public fishingReports: ReadonlyArray<FishingReportTypes.FishingReport>;
-  public sortedFishingReports: ReadonlyArray<FishingReportTypes.FishingReport>;
+  public searchResult: ReadonlyArray<{
+    fishingReport: FishingReportTypes.FishingReport,
+    priorNotification: FishingReportTypes.PriorNotification,
+    fishingReportCreatedAt: string,
+    estimatedLandingTime: string,
+  }>;
+  public sortedSearchResult: ReadonlyArray<{
+    fishingReport: FishingReportTypes.FishingReport,
+    priorNotification: FishingReportTypes.PriorNotification,
+    fishingReportCreatedAt: string,
+    estimatedLandingTime: string,
+  }>;
   public loadingData = false;
   public tableReadyForDisplay = false;
   public dataLoadedSubscription: Subscription;
-  public displayedColumns: string[] = ['shipCfr', 'targetSpeciesCode', 'catches', 'createdAt'];
+  public displayedColumns: string[] = ['shipCfr', 'status', 'targetSpeciesCode', 'catches', 'estimatedLandingTime', 'createdAt'];
   public search: () => void;
   public searchText: string;
 
   mapStateToProps() {
-    this.store.select(FishingReportSelectors.getFishingReports).pipe(takeUntil(this.unmount$)).subscribe((fishingReports) => {
-      this.loadingData = false;
-      if(Object.keys(fishingReports).length > 0) {
-        this.tableReadyForDisplay = true;
+    this.store.select(FishingReportSelectors.getLastUserSearchForFishingReportExtended).pipe(takeUntil(this.unmount$)).subscribe(
+      (searchResult) => {
+        console.warn('searchResult: ', searchResult);
+        this.loadingData = false;
+        if(searchResult.length > 0) {
+          this.tableReadyForDisplay = true;
+          this.searchResult = searchResult.map(result => ({
+            ...result,
+            fishingReportCreatedAt: formatUnixtime(result.fishingReport.clientCreatedAt),
+            estimatedLandingTime: typeof result.priorNotification !== 'undefined'
+              ? formatUnixtime(result.priorNotification.estimatedLandingTime)
+              : '-'
+          }));
+          this.sortedSearchResult = this.searchResult;
+        } else {
+          this.searchResult = [];
+          this.sortedSearchResult = [];
+        }
       }
-      this.fishingReports = fishingReports.map(fishingReport => ({
-        ...fishingReport,
-        createdAt: formatUnixtime(fishingReport.clientCreatedAt)
-      }));
-      this.sortedFishingReports = this.fishingReports;
-      console.warn(fishingReports);
-    });
+    );
   }
 
   mapDispatchToProps() {
     this.search = () => {
       this.loadingData = false;
-      this.store.dispatch(FishingReportActions.search({ query: {} }));
+      this.store.dispatch(FishingReportActions.search({ query: { username: this.searchText }, isUserSearch: true }));
     };
   }
 
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
+    this.searchText = 'fisfri';
   }
 
   ngOnDestroy() {
@@ -64,21 +83,27 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   sortData(sort: Sort) {
-    const fishingReports = this.fishingReports.slice();
+    const fishingReports = this.searchResult.slice();
     if (!sort.active || sort.direction === '') {
-      this.sortedFishingReports = fishingReports;
+      this.sortedSearchResult = fishingReports;
       return;
     }
 
-    this.sortedFishingReports = fishingReports.sort((a, b) => {
+    this.sortedSearchResult = fishingReports.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        // case 'name': return compareTableSortString(a.name, b.name, isAsc);
-        // case 'ircs': return compareTableSortString(a.ircs, b.ircs, isAsc);
-        // case 'mmsi': return compareTableSortNumber(a.mmsi as unknown as number, b.mmsi as unknown as number, isAsc);
-        // case 'flagstate': return compareTableSortString(a.flagStateCode, b.flagStateCode, isAsc);
-        // case 'externalMarking': return compareTableSortString(a.externalMarking, b.externalMarking, isAsc);
-        // case 'cfr': return compareTableSortString(a.cfr, b.cfr, isAsc);
+        case 'shipCfr':
+          return compareTableSortString(a.fishingReport.shipCfr, b.fishingReport.shipCfr, isAsc); break;
+        case 'status':
+          return compareTableSortString(a.fishingReport.status, b.fishingReport.status, isAsc); break;
+        case 'targetSpeciesCode':
+          return compareTableSortString(a.fishingReport.targetSpeciesCode, b.fishingReport.targetSpeciesCode, isAsc); break;
+        case 'catches':
+          return compareTableSortNumber(a.fishingReport.fishingCatchIds.length, b.fishingReport.fishingCatchIds.length, isAsc); break;
+        case 'estimatedLandingTime':
+          return compareTableSortString(a.estimatedLandingTime, b.estimatedLandingTime, isAsc); break;
+        case 'createdAt':
+          return compareTableSortString(a.fishingReportCreatedAt, b.fishingReportCreatedAt, isAsc); break;
         default: return 0;
       }
     });

@@ -29,9 +29,20 @@ export class FishingReportEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]) => {
       return this.fishingReportService.search(authToken, action.query).pipe(
-        map((response: Readonly<{ fishingReports: FishingReportTypes.FishingReports }> ) => {
+        map((response: Readonly<{
+          fishingReports: FishingReportTypes.FishingReports,
+          priorNotifications: FishingReportTypes.PriorNotifications
+        }> ) => {
           console.warn(response);
-          return [FishingReportActions.setFishingReports({ fishingReports: response.fishingReports })];
+          return [
+            FishingReportActions.addFishingReports({ fishingReports: response.fishingReports }),
+            FishingReportActions.addPriorNotifications({ priorNotifications: response.priorNotifications }),
+            FishingReportActions.addFishingReportSearchResult({
+              searchId: 'sid-' + hashCode(JSON.stringify(action.query)),
+              fishingReportIds: Object.keys(response.fishingReports),
+              isUserSearch: action.isUserSearch === true
+            })
+          ];
           return EMPTY;
           // const result = [
           //   FishingReportActions.addMobileTerminals({

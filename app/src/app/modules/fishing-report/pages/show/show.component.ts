@@ -7,7 +7,7 @@ import { State } from '@app/app-reducer';
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 
 @Component({
-  selector: 'asset-show-page',
+  selector: 'fishing-report-show-page',
   templateUrl: './show.component.html',
   styleUrls: ['./show.component.scss']
 })

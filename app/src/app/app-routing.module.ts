@@ -122,6 +122,9 @@ const routes: Routes = [
       { path: 'fishing-report', component: FishingReportSearchPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-fishing-report-search:Fishing report — Search` || 'Fishing report — Search'
       }},
+      { path: 'fishing-report/:fishingReportId', component: FishingReportSearchPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-fishing-report-search:Fishing report — Search` || 'Fishing report — Search'
+      }},
     ]
   },
   {

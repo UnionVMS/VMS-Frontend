@@ -10,9 +10,9 @@ import { MobileTerminalTypes } from '@data/mobile-terminal';
 export class FishingReportService {
   constructor(private readonly http: HttpClient) {}
 
-  search(authToken: string, query: object) {
+  search(authToken: string, query: { username: string }) {
     return this.http.get(
-      environment.baseErsApiUrl + 'fishing-reports?username=fisfri',
+      environment.baseErsApiUrl + 'fishing-reports?username=' + query.username,
       {
         headers: new HttpHeaders({
           Authorization: authToken,
