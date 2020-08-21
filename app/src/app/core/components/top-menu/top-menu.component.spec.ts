@@ -47,6 +47,7 @@ describe('TopMenuComponent', () => {
   it(`should have correct links`, () => {
     const { fixture, component} = setup();
     component.isAdmin = true;
+    component.fishingActivityUnlocked = true;
     fixture.detectChanges();
     const layoutElement: HTMLElement = fixture.nativeElement;
     const links = layoutElement.querySelectorAll('.navbar a');
@@ -61,10 +62,12 @@ describe('TopMenuComponent', () => {
 
     // check so admin link don´t show when isAdmin = false
     component.isAdmin = false;
+    component.fishingActivityUnlocked = false;
     fixture.detectChanges();
-    const layoutElementNoLongerAdmin: HTMLElement = fixture.nativeElement;
-    const linksNoLongerAdmin = layoutElementNoLongerAdmin.querySelectorAll('.navbar a');
-    expect(linksNoLongerAdmin[7]).toBeUndefined();
+    const layoutElementAfterChange: HTMLElement = fixture.nativeElement;
+    const linksAfterChange = layoutElementAfterChange.querySelectorAll('.navbar a');
+    expect(linksAfterChange[2].textContent).not.toContain('Fishing report');
+    expect(linksAfterChange[6]).toBeUndefined();
   });
 
 });

@@ -33,7 +33,7 @@ describe('AuthReducer', () => {
     it('should return a acceptable user object.', () => {
       const state = AuthReducer.authReducer(undefined, AuthActions.loginSuccess({ jwtToken: authState.jwtToken.raw }));
 
-      expect(state).toEqual({ user: authState });
+      expect(state.user).toEqual(authState);
     });
   });
 
