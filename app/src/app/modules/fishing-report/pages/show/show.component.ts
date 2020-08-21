@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer';
-import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
+import { FishingReportTypes, FishingReportActions, FishingReportSelectors } from '@data/fishing-report';
 
 @Component({
   selector: 'fishing-report-show-page',
@@ -17,7 +17,7 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private readonly store: Store<State>, private readonly viewContainerRef: ViewContainerRef) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public asset = {} as AssetTypes.Asset;
+  public fishingReport = {} as FishingReportTypes.FishingReport;
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -26,9 +26,9 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   mapStateToProps() {
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
-      if(typeof asset !== 'undefined') {
-        this.asset = asset;
+    this.store.select(FishingReportSelectors.getFishingReportByUrl).pipe(takeUntil(this.unmount$)).subscribe((fishingReport) => {
+      if(typeof fishingReport !== 'undefined') {
+        this.fishingReport = fishingReport;
       }
     });
   }
@@ -39,7 +39,7 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.mapStateToProps();
     this.mapDispatchToProps();
-    this.store.dispatch(AssetActions.getSelectedAsset());
+    this.store.dispatch(FishingReportActions.getFishingReportByUrl());
   }
 
   ngOnDestroy() {

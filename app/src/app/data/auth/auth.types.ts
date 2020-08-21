@@ -29,4 +29,5 @@ export type User = Readonly<{
 
 export type State = Readonly<{
   user: User|null;
+  fishingActivityUnlocked: boolean;
 }>;

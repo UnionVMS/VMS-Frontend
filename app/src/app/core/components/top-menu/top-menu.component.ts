@@ -17,6 +17,7 @@ export class TopMenuComponent implements OnInit, OnChanges {
   @Input() isAdmin: boolean;
   @Input() setTimezone: (timezone: string) => void;
   @Input() timezone: string;
+  @Input() fishingActivityUnlocked: boolean;
 
   public baseUrl = window.location.origin;
   public currentTimezone: string;

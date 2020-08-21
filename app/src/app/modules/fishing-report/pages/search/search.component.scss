@@ -16,7 +16,7 @@
     }
   }
 
-  .asset-search-form {
+  .fishing-report-search-form {
     display: grid;
     grid-column-gap: $x2large_distance;
     grid-template-columns: 1fr auto;
@@ -46,19 +46,25 @@
     }
   }
 
-  .asset-table-container > table {
+  .fishing-report-table-container > table {
     width: 100%;
+  }
+
+  .no-results {
+    padding: distance(3);
+    background: white;
+    text-align: center;
   }
 
   .load-spinner {
     margin: 150px auto;
   }
 
-  .asset-container {
+  .fishing-report-container {
     // padding: $x3large_distance;
     // background: white;
 
-    .asset-table-container .cdk-row {
+    .fishing-report-table-container .cdk-row {
       cursor: pointer;
 
       &:hover {

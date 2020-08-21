@@ -8,7 +8,8 @@ export const environment = {
   baseApiUrl: '',
   baseGeoUrl: '',
   baseErsApiUrl: '',
-  strictTests: false
+  strictTests: false,
+  fishingActivityDefaultUnlocked: false,
 };
 
 /*

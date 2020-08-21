@@ -34,3 +34,15 @@ export const getLastUserSearchForFishingReportExtended = createSelector(
     });
   }
 );
+
+export const getFishingReportByUrl =  createSelector(
+  selectFishingReports,
+  getMergedRoute,
+  (fishingReports, mergedRoute) => {
+    console.warn(fishingReports, mergedRoute.params.fishingReportId);
+    if(typeof fishingReports[mergedRoute.params.fishingReportId] !== 'undefined') {
+      return fishingReports[mergedRoute.params.fishingReportId];
+    }
+    return undefined;
+  }
+);

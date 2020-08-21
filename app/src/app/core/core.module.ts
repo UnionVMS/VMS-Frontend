@@ -10,6 +10,7 @@ import { UIModule } from '@modules/ui/ui.module';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
+import { FishingGuard } from './guards/fishing.guard';
 
 // Layouts
 import { AssetLayoutComponent } from './layouts/asset/asset.component';
@@ -56,7 +57,8 @@ import { TypescriptTranslationsComponent } from './components/typescript-transla
     NotFoundComponent,
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    FishingGuard
   ]
 })
 

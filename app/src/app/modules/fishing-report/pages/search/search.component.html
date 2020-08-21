@@ -1,5 +1,5 @@
 <div class="page-container">
-  <form class="asset-search-form">
+  <form class="fishing-report-search-form">
 
     <mat-form-field class="free-search">
       <mat-label i18n>Username</mat-label>
@@ -12,10 +12,11 @@
   </form>
 
   <mat-spinner class="load-spinner" *ngIf="loadingData"></mat-spinner>
-  <div class="asset-container mat-elevation-z8" *ngIf="tableReadyForDisplay">
-    <div class="asset-table-container">
+  <div class="fishing-report-container mat-elevation-z8" *ngIf="tableReadyForDisplay">
+    <div class="no-results" *ngIf="sortedSearchResult.length === 0" i18n>No search results found!</div>
+    <div class="fishing-report-table-container" *ngIf="sortedSearchResult.length > 0">
 
-      <table mat-table [dataSource]="sortedSearchResult" class="asset-table"
+      <table mat-table [dataSource]="sortedSearchResult" class="fishing-report-table"
         matSort matSortActive="shipCfr" matSortDisableClear matSortDirection="desc" (matSortChange)="sortData($event)">
 
         <ng-container matColumnDef="shipCfr">
@@ -53,7 +54,7 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/fishing-report/{{row.id}}"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/fishing-report/{{row.fishingReport.id}}"></tr>
       </table>
     </div>
   </div>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './core/guards/auth.guard';
+import { FishingGuard } from './core/guards/fishing.guard';
 
 // Layouts
 import { DefaultLayoutComponent } from './core/layouts/default/default.component';
@@ -33,6 +34,7 @@ import { ShowByAssetPageComponent as ContactShowByAssetPage } from './modules/co
 // Fishing-report-pages
 import { SearchPageComponent as FishingReportSearchPage } from './modules/fishing-report/pages/search/search.component';
 import { ShowPageComponent as FishingReportShowPage } from './modules/fishing-report/pages/show/show.component';
+import { SecretPageComponent as FishingReportSecretPage } from './modules/fishing-report/pages/secret/secret.component';
 
 // MobileTerminal-pages
 import { AttachPageComponent as MobileTerminalAttachPage } from './modules/mobile-terminal/pages/attach/attach.component';
@@ -61,7 +63,8 @@ const routes: Routes = [
       { path: 'contact/:assetId/create', component: ContactFormPage, pathMatch: 'full' },
       { path: 'notes/:noteId/edit', component: NotesFormPage, pathMatch: 'full' },
       { path: 'notes/:assetId/create', component: NotesFormPage, pathMatch: 'full' },
-      { path: 'logout', component: LogoutComponent, pathMatch: 'full'}
+      { path: 'logout', component: LogoutComponent, pathMatch: 'full'},
+      { path: 'secret', component: FishingReportSecretPage, pathMatch: 'full'},
     ]
   },
   {
@@ -117,13 +120,13 @@ const routes: Routes = [
   {
     path: '',
     component: FishingReportLayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, FishingGuard],
     children: [
       { path: 'fishing-report', component: FishingReportSearchPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-fishing-report-search:Fishing report — Search` || 'Fishing report — Search'
       }},
-      { path: 'fishing-report/:fishingReportId', component: FishingReportSearchPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-fishing-report-search:Fishing report — Search` || 'Fishing report — Search'
+      { path: 'fishing-report/:fishingReportId', component: FishingReportShowPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-fishing-report-info:<dont-translate>fishingReportCfr</dont-translate> — Fishing report information` || 'Fishing report — information'
       }},
     ]
   },
@@ -142,7 +145,7 @@ const routes: Routes = [
     component: LoginLayoutComponent,
     children: [
       { path: 'unauthorized', component: UnauthorizedComponent, pathMatch: 'full'},
-      { path: 'login', component: LoginComponent, pathMatch: 'full'}
+      { path: 'login', component: LoginComponent, pathMatch: 'full'},
     ]
   },
   { path: '**', component: NotFoundComponent }

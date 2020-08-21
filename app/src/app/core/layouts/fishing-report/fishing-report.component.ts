@@ -7,7 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthSelectors } from '@data/auth';
 import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
 import { UserSettingsActions, UserSettingsSelectors, UserSettingsTypes } from '@data/user-settings';
-import { AssetSelectors, AssetTypes } from '@data/asset';
+import { FishingReportSelectors, FishingReportTypes } from '@data/fishing-report';
 import { replaceDontTranslate } from '@app/helpers/helpers';
 
 import { RouterTypes, RouterSelectors } from '@data/router';
@@ -23,6 +23,7 @@ export class FishingReportLayoutComponent implements OnInit, OnDestroy {
   public appVersion: string = version;
 
   public isAdmin$: Observable<boolean>;
+  public fishingActivityUnlocked$: Observable<boolean>;
   public timezone$: Observable<string>;
   public notifications$: Observable<NotificationsTypes.State>;
 
@@ -32,7 +33,7 @@ export class FishingReportLayoutComponent implements OnInit, OnDestroy {
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
   public mergedRoute: RouterTypes.MergedRoute;
   public pageTitle: string;
-  public selectedFishingReport;
+  public selectedFishingReport: FishingReportTypes.FishingReport;
 
   constructor(private readonly store: Store<any>, private readonly router: Router) { }
 
@@ -42,13 +43,16 @@ export class FishingReportLayoutComponent implements OnInit, OnDestroy {
       this.mergedRoute = mergedRoute;
       this.pageTitle = mergedRoute.data.title;
     });
-    // this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset: AssetTypes.Asset) => {
-    //   if(typeof asset !== 'undefined') {
-    //     this.selectedAsset = asset;
-    //   }
-    // });
+    this.store.select(FishingReportSelectors.getFishingReportByUrl).pipe(takeUntil(this.unmount$)).subscribe(
+      (fishingReport: FishingReportTypes.FishingReport) => {
+        if(typeof fishingReport !== 'undefined') {
+          this.selectedFishingReport = fishingReport;
+        }
+      }
+    );
     this.timezone$ = this.store.select(UserSettingsSelectors.getTimezone);
     this.isAdmin$ = this.store.select(AuthSelectors.isAdmin);
+    this.fishingActivityUnlocked$ = this.store.select(AuthSelectors.fishingActivityUnlocked);
   }
 
   mapDispatchToProps() {
@@ -101,7 +105,7 @@ export class FishingReportLayoutComponent implements OnInit, OnDestroy {
 
   getTitleName() {
     return replaceDontTranslate(this.pageTitle, {
-      assetName: typeof this.selectedFishingReport !== 'undefined' ? this.selectedFishingReport.fishingReportId : 'Fishing report'
+      fishingReportCfr: typeof this.selectedFishingReport !== 'undefined' ? this.selectedFishingReport.shipCfr : 'Fishing report'
     });
   }
 

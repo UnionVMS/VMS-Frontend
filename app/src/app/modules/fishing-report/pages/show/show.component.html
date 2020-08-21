@@ -1,13 +1,13 @@
-<asset-show [asset]="asset"></asset-show>
+<div>Fishing report: {{ fishingReport.id }}</div>
 <ng-template #toolbox>
   <div class="toolbox-wrapper">
     <div class="toolbox">
       <button
         mat-raised-button
         color="primary"
-        routerLink="/map/realtime/{{asset.id}}"
+        routerLink="/fishing-report/{{fishingReport.id}}"
         i18n
-      >Show on map</button>
+      >A button?</button>
     </div>
   </div>
 </ng-template>

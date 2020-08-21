@@ -16,6 +16,10 @@ export const addPriorNotifications = createAction(
   props<{ priorNotifications: FishingReportTypes.PriorNotifications; }>()
 );
 
+export const getFishingReportByUrl = createAction(
+  '[Fishing report] Get fishing report by url'
+);
+
 export const search = createAction(
   '[Fishing report] search',
   props<{ query: { username: string }, isUserSearch: boolean; }>()

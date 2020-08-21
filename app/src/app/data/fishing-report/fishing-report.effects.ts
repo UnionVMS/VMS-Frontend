@@ -76,4 +76,30 @@ export class FishingReportEffects {
     })
   );
 
+  @Effect()
+  getFishingReportByUrl$ = this.actions$.pipe(
+    ofType(FishingReportActions.getFishingReportByUrl),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(
+        this.store$.select(AuthSelectors.getAuthToken),
+        this.store$.select(FishingReportSelectors.getFishingReportByUrl),
+        this.store$.select(RouterSelectors.getMergedRoute)
+      ),
+      mergeMap(([action, authToken, selectedFishingReport, mergedRoute]) => {
+        if(typeof selectedFishingReport !== 'undefined' || typeof mergedRoute.params.fishingReportId === 'undefined') {
+          return EMPTY;
+        }
+        return this.fishingReportService.getFishingReport(authToken, mergedRoute.params.fishingReportId).pipe(
+          map((result: { fishingReports: FishingReportTypes.FishingReports }) => {
+            const fishingReport: FishingReportTypes.FishingReport = Object.values(result.fishingReports)[0];
+            if(typeof fishingReport === 'undefined') {
+              return EMPTY;
+            }
+            return FishingReportActions.addFishingReports({ fishingReports: { [fishingReport.id]: fishingReport } });
+          })
+        );
+      })
+    )
+  ));
+
 }

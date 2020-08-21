@@ -66,7 +66,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   mapDispatchToProps() {
     this.search = () => {
-      this.loadingData = false;
+      this.loadingData = true;
       this.store.dispatch(FishingReportActions.search({ query: { username: this.searchText }, isUserSearch: true }));
     };
   }

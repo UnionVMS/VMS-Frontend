@@ -76,7 +76,7 @@
     grid-area: main;
   }
   //
-  // .asset-page {
+  // .fishing-report-page {
   //   grid-area: main;
   // }
 
@@ -98,13 +98,13 @@
 }
 
 @media screen and (max-width: 1600px) {
-  .asset-layout--grid {
+  .fishing-report-layout--grid {
     grid-template-columns: 1fr 224px 720px 224px 1fr;
   }
 }
 
 @media screen and (max-width: 1280px) {
-  .asset-layout--grid {
+  .fishing-report-layout--grid {
     grid-template-columns: 1fr 224px minmax(416px, 840px) 1fr;
     grid-column-gap: distance(2);
     grid-template-areas:
@@ -136,7 +136,7 @@
 //   padding: 0px;
 //
 //
-//   .asset-container {
+//   .fishing-report-container {
 //     display: grid;
 //     grid-template-columns: 2fr 5fr;
 //   }

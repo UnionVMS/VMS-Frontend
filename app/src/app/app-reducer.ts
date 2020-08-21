@@ -58,7 +58,7 @@ export const reducers: ActionReducerMap<State> = {
   userSettings: UserSettingsReducer.userSettingsReducer,
 };
 
-// Not allowed to use EC6 function notation her for some reason, i18n extractor goes crasy...
+// Not allowed to use EC6 function notation here for some reason, i18n extractor goes crasy...
 // tslint:disable-next-line:only-arrow-functions
 export function saveJwtTokenToStorage(reducer: ActionReducer<any>): ActionReducer<any> {
   return (state, action: any) => {

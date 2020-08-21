@@ -10,7 +10,7 @@
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link waves-light" routerLink="/asset" i18n>Assets</a>
     </li>
-    <li class="nav-item" routerLinkActive="active">
+    <li class="nav-item" routerLinkActive="active" *ngIf="fishingActivityUnlocked">
       <a class="nav-link waves-light" routerLink="/fishing-report" i18n>Fishing report</a>
     </li>
     <li class="nav-item" routerLinkActive="active">
@@ -37,6 +37,7 @@
     </li>
     <li *ngIf="isAdmin" class="nav-item" routerLinkActive="active">
       <a class="nav-link waves-light" href="{{baseUrl}}/unionvms/"><strong>ADMIN</strong></a>
+      <a *ngIf="!fishingActivityUnlocked" class="nav-link waves-light" routerLink="/secret" class="secret">s</a>
     </li>
   </ul>
 

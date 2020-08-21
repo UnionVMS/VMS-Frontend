@@ -21,4 +21,16 @@ export class FishingReportService {
       }
     );
   }
+
+  getFishingReport(authToken: string, fishingReportId: string) {
+    return this.http.get(
+      environment.baseErsApiUrl + `fishing-reports/${fishingReportId}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
 }
