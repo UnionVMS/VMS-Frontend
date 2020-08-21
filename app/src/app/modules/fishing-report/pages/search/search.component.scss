@@ -1,0 +1,76 @@
+@import 'variables.scss';
+
+.page-container {
+
+  display: grid;
+  grid-row-gap: $xlarge_distance;
+
+  .top-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+    button {
+      max-height: 36px;
+      position: relative;
+      align-self: center;
+    }
+  }
+
+  .fishing-report-search-form {
+    display: grid;
+    grid-column-gap: $x2large_distance;
+    grid-template-columns: 1fr auto;
+    padding: $x3large_distance;
+    background: white;
+
+    mat-form-field.free-search {
+      grid-column: 1 / 3;
+    }
+
+    mat-radio-group {
+      display: grid;
+      grid-column-gap: $x2large_distance;
+      grid-template-columns: 1fr 1fr 1fr;
+
+      & > * {
+        align-self: center;
+      }
+
+      .other-flagstates {
+        min-width: 100px;
+      }
+    }
+
+    .search-button-wrapper {
+      place-self: center;
+    }
+  }
+
+  .fishing-report-table-container > table {
+    width: 100%;
+  }
+
+  .no-results {
+    padding: distance(3);
+    background: white;
+    text-align: center;
+  }
+
+  .load-spinner {
+    margin: 150px auto;
+  }
+
+  .fishing-report-container {
+    // padding: $x3large_distance;
+    // background: white;
+
+    .fishing-report-table-container .cdk-row {
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba( $color_blue, 0.2);
+        text-decoration: underline;
+      }
+    }
+  }
+}

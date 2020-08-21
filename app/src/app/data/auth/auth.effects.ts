@@ -93,6 +93,15 @@ export class AuthEffects {
   );
 
   @Effect()
+  unlockFishingActivity$ = this.actions$.pipe(
+    ofType(AuthActions.unlockFishingActivity),
+    mergeMap((action) => {
+      window.localStorage.fishingActivityUnlocked = true;
+      return EMPTY;
+    })
+  );
+
+  @Effect()
   logout$ = this.actions$.pipe(
     ofType(AuthActions.logout),
     mergeMap((action) => {
@@ -100,6 +109,7 @@ export class AuthEffects {
       localStorage.removeItem('ngStorage-token');
       localStorage.removeItem('ngStorage-roleName');
       localStorage.removeItem('ngStorage-scopeName');
+      delete window.localStorage.fishingActivityUnlocked;
       return EMPTY;
     })
   );

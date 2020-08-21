@@ -7,7 +7,9 @@ export const environment = {
   useStoreDevTools: false,
   baseApiUrl: '',
   baseGeoUrl: '',
-  strictTests: false
+  baseErsApiUrl: '',
+  strictTests: false,
+  fishingActivityDefaultUnlocked: false,
 };
 
 /*

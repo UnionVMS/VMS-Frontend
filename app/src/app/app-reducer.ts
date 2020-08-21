@@ -11,6 +11,7 @@ import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { AssetReducer, AssetTypes } from './data/asset/';
 import { AuthReducer, AuthTypes, AuthActions } from './data/auth/';
 import { ContactReducer, ContactTypes } from './data/contact/';
+import { FishingReportReducer, FishingReportTypes } from './data/fishing-report/';
 import { IncidentReducer, IncidentTypes } from './data/incident/';
 import { MapReducer, MapTypes } from './data/map/';
 import { MapSettingsReducer, MapSettingsTypes } from './data/map-settings/';
@@ -27,6 +28,7 @@ export type State = Readonly<{
   asset: AssetTypes.State;
   auth: AuthTypes.State;
   contact: ContactTypes.State;
+  fishingReport: FishingReportTypes.State;
   incident: IncidentTypes.State;
   map: MapTypes.State;
   mapLayers: MapLayersTypes.State;
@@ -43,6 +45,7 @@ export const reducers: ActionReducerMap<State> = {
   asset: AssetReducer.assetReducer,
   auth: AuthReducer.authReducer,
   contact: ContactReducer.contactReducer,
+  fishingReport: FishingReportReducer.fishingReportReducer,
   incident: IncidentReducer.incidentReducer,
   map: MapReducer.mapReducer,
   mapLayers: MapLayersReducer.mapLayersReducer,
@@ -55,7 +58,7 @@ export const reducers: ActionReducerMap<State> = {
   userSettings: UserSettingsReducer.userSettingsReducer,
 };
 
-// Not allowed to use EC6 function notation her for some reason, i18n extractor goes crasy...
+// Not allowed to use EC6 function notation here for some reason, i18n extractor goes crasy...
 // tslint:disable-next-line:only-arrow-functions
 export function saveJwtTokenToStorage(reducer: ActionReducer<any>): ActionReducer<any> {
   return (state, action: any) => {

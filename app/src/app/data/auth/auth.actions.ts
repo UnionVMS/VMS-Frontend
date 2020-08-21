@@ -37,3 +37,7 @@ export const setRoleAndScope = createAction(
   '[Auth] Set role and scrope',
   props<{ role: AuthTypes.Role, scope: AuthTypes.Scope }>()
 );
+
+export const unlockFishingActivity = createAction(
+  '[Auth] Unlock fishing activity',
+);

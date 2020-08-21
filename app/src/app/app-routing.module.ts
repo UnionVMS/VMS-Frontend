@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './core/guards/auth.guard';
+import { FishingGuard } from './core/guards/fishing.guard';
 
 // Layouts
 import { DefaultLayoutComponent } from './core/layouts/default/default.component';
 import { LoginLayoutComponent } from './core/layouts/login/login.component';
+import { FishingReportLayoutComponent } from './core/layouts/fishing-report/fishing-report.component';
 import { FullLayoutComponent } from './core/layouts/full/full.component';
 import { AssetLayoutComponent } from './core/layouts/asset/asset.component';
 
@@ -25,6 +27,15 @@ import { PositionsPageComponent as AssetPositionsPage } from './modules/asset/pa
 import { FormPageComponent as AssetFormPage } from './modules/asset/pages/form/form.component';
 import { ShowPageComponent as AssetShowPage } from './modules/asset/pages/show/show.component';
 
+// Contact-pages
+import { FormPageComponent as ContactFormPage } from './modules/contact/pages/form/form.component';
+import { ShowByAssetPageComponent as ContactShowByAssetPage } from './modules/contact/pages/show-by-asset/show-by-asset.component';
+
+// Fishing-report-pages
+import { SearchPageComponent as FishingReportSearchPage } from './modules/fishing-report/pages/search/search.component';
+import { ShowPageComponent as FishingReportShowPage } from './modules/fishing-report/pages/show/show.component';
+import { SecretPageComponent as FishingReportSecretPage } from './modules/fishing-report/pages/secret/secret.component';
+
 // MobileTerminal-pages
 import { AttachPageComponent as MobileTerminalAttachPage } from './modules/mobile-terminal/pages/attach/attach.component';
 import { FormPageComponent as MobileTerminalFormPage } from './modules/mobile-terminal/pages/form/form.component';
@@ -32,10 +43,6 @@ import { ListPageComponent as MobileTerminalListPage } from './modules/mobile-te
 import {
   ShowByAssetPageComponent as MobileTerminalsShowByAssetPage
 } from './modules/mobile-terminal/pages/show-by-asset/show-by-asset.component';
-
-// Contact-pages
-import { FormPageComponent as ContactFormPage } from './modules/contact/pages/form/form.component';
-import { ShowByAssetPageComponent as ContactShowByAssetPage } from './modules/contact/pages/show-by-asset/show-by-asset.component';
 
 // Notes-pages
 import { FormPageComponent as NotesFormPage } from './modules/notes/pages/form/form.component';
@@ -56,7 +63,8 @@ const routes: Routes = [
       { path: 'contact/:assetId/create', component: ContactFormPage, pathMatch: 'full' },
       { path: 'notes/:noteId/edit', component: NotesFormPage, pathMatch: 'full' },
       { path: 'notes/:assetId/create', component: NotesFormPage, pathMatch: 'full' },
-      { path: 'logout', component: LogoutComponent, pathMatch: 'full'}
+      { path: 'logout', component: LogoutComponent, pathMatch: 'full'},
+      { path: 'secret', component: FishingReportSecretPage, pathMatch: 'full'},
     ]
   },
   {
@@ -111,6 +119,19 @@ const routes: Routes = [
   },
   {
     path: '',
+    component: FishingReportLayoutComponent,
+    canActivate: [AuthGuard, FishingGuard],
+    children: [
+      { path: 'fishing-report', component: FishingReportSearchPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-fishing-report-search:Fishing report — Search` || 'Fishing report — Search'
+      }},
+      { path: 'fishing-report/:fishingReportId', component: FishingReportShowPage, pathMatch: 'full', data: {
+        title: $localize`:@@ts-layout-fishing-report-info:<dont-translate>fishingReportCfr</dont-translate> — Fishing report information` || 'Fishing report — information'
+      }},
+    ]
+  },
+  {
+    path: '',
     component: FullLayoutComponent,
     canActivate: [AuthGuard],
     children: [
@@ -124,7 +145,7 @@ const routes: Routes = [
     component: LoginLayoutComponent,
     children: [
       { path: 'unauthorized', component: UnauthorizedComponent, pathMatch: 'full'},
-      { path: 'login', component: LoginComponent, pathMatch: 'full'}
+      { path: 'login', component: LoginComponent, pathMatch: 'full'},
     ]
   },
   { path: '**', component: NotFoundComponent }

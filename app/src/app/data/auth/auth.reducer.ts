@@ -1,9 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as AuthActions from './auth.actions';
 import * as Types from './auth.types';
+import { environment } from '../../../environments/environment';
 
 export const initialState: Types.State = {
   user: null,
+  fishingActivityUnlocked: environment.fishingActivityDefaultUnlocked,
 };
 
 export const authReducer = createReducer(initialState,
@@ -15,6 +17,10 @@ export const authReducer = createReducer(initialState,
       data
     }
   })),
+  on(AuthActions.logout, (state) => ({
+    ...state,
+    user: null
+  })),
   on(AuthActions.setRoleAndScope, (state, { role, scope }) => ({
     ...state,
     user: {
@@ -23,8 +29,8 @@ export const authReducer = createReducer(initialState,
       scope
     }
   })),
-  on(AuthActions.logout, (state) => ({
+  on(AuthActions.unlockFishingActivity, (state) => ({
     ...state,
-    user: null
+    fishingActivityUnlocked: true
   })),
 );

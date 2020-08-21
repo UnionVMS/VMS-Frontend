@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
         delete window.localStorage.authToken;
       } else {
         this.store.dispatch(AuthActions.loginSuccess({ jwtToken: window.localStorage.authToken }));
+        this.openUpFishingActivityIfApplicable();
       }
     } else if(typeof window.localStorage['ngStorage-token'] !== 'undefined') {
       const jwtToken = jwtDecode(window.localStorage['ngStorage-token']);
@@ -27,13 +28,14 @@ export class AppComponent implements OnInit {
       } else {
         window.localStorage.authToken = window.localStorage['ngStorage-token'].replace(/^\"+|\"+$/g, '');
         this.store.dispatch(AuthActions.loginSuccess({ jwtToken: window.localStorage.authToken }));
+        this.openUpFishingActivityIfApplicable();
       }
     }
+  }
 
-    // if (typeof window.localStorage.mySettings !== 'undefined') {
-    //   const settings = JSON.parse(window.localStorage.mySettings);
-    //   this.store.dispatch(new MapSettingsActions.ReplaceSettings(settings.mapSettings));
-    // }
-
+  openUpFishingActivityIfApplicable() {
+    if(window.localStorage.fishingActivityUnlocked === 'true') {
+      this.store.dispatch(AuthActions.unlockFishingActivity());
+    }
   }
 }

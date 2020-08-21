@@ -7,19 +7,19 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthSelectors } from '@data/auth';
 import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
 import { UserSettingsActions, UserSettingsSelectors, UserSettingsTypes } from '@data/user-settings';
-import { AssetSelectors, AssetTypes } from '@data/asset';
+import { FishingReportSelectors, FishingReportTypes } from '@data/fishing-report';
 import { replaceDontTranslate } from '@app/helpers/helpers';
 
 import { RouterTypes, RouterSelectors } from '@data/router';
 
 @Component({
-  selector: 'core-asset-layout-component',
-  templateUrl: './asset.component.html',
-  styleUrls: ['./asset.component.scss'],
+  selector: 'core-fishing-report-layout-component',
+  templateUrl: './fishing-report.component.html',
+  styleUrls: ['./fishing-report.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class AssetLayoutComponent implements OnInit, OnDestroy {
+export class FishingReportLayoutComponent implements OnInit, OnDestroy {
   public appVersion: string = version;
 
   public isAdmin$: Observable<boolean>;
@@ -33,7 +33,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
   public mergedRoute: RouterTypes.MergedRoute;
   public pageTitle: string;
-  public selectedAsset: AssetTypes.Asset;
+  public selectedFishingReport: FishingReportTypes.FishingReport;
 
   constructor(private readonly store: Store<any>, private readonly router: Router) { }
 
@@ -43,11 +43,13 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
       this.mergedRoute = mergedRoute;
       this.pageTitle = mergedRoute.data.title;
     });
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset: AssetTypes.Asset) => {
-      if(typeof asset !== 'undefined') {
-        this.selectedAsset = asset;
+    this.store.select(FishingReportSelectors.getFishingReportByUrl).pipe(takeUntil(this.unmount$)).subscribe(
+      (fishingReport: FishingReportTypes.FishingReport) => {
+        if(typeof fishingReport !== 'undefined') {
+          this.selectedFishingReport = fishingReport;
+        }
       }
-    });
+    );
     this.timezone$ = this.store.select(UserSettingsSelectors.getTimezone);
     this.isAdmin$ = this.store.select(AuthSelectors.isAdmin);
     this.fishingActivityUnlocked$ = this.store.select(AuthSelectors.fishingActivityUnlocked);
@@ -65,36 +67,36 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
     this.mapDispatchToProps();
   }
 
-  @HostListener('window:keyup', ['$event'])
-  keyEvent(event: KeyboardEvent) {
-    if(event.altKey) {
-      if(event.key === 's') {
-        this.router.navigate(['/asset']);
-      } else if(event.key === 'm') {
-        this.router.navigate(['/mobileTerminals']);
-      } else if(this.selectedAsset) {
-        switch (event.key) {
-          case '1':
-            this.router.navigate(['/asset/' + this.selectedAsset.id ]);
-            break;
-          case '2':
-            this.router.navigate(['/asset/' + this.selectedAsset.id + '/mobileTerminals']);
-            break;
-          case '3':
-            this.router.navigate(['/asset/' + this.selectedAsset.id + '/contacts']);
-            break;
-          case '4':
-            this.router.navigate(['/asset/' + this.selectedAsset.id + '/notes']);
-            break;
-          case '5':
-            this.router.navigate(['/asset/' + this.selectedAsset.id + '/positions']);
-            break;
-          default:
-            break;
-        }
-      }
-    }
-  }
+  // @HostListener('window:keyup', ['$event'])
+  // keyEvent(event: KeyboardEvent) {
+  //   if(event.altKey) {
+  //     if(event.key === 's') {
+  //       this.router.navigate(['/asset']);
+  //     } else if(event.key === 'm') {
+  //       this.router.navigate(['/mobileTerminals']);
+  //     } else if(this.selectedAsset) {
+  //       switch (event.key) {
+  //         case '1':
+  //           this.router.navigate(['/asset/' + this.selectedAsset.id ]);
+  //           break;
+  //         case '2':
+  //           this.router.navigate(['/asset/' + this.selectedAsset.id + '/mobileTerminals']);
+  //           break;
+  //         case '3':
+  //           this.router.navigate(['/asset/' + this.selectedAsset.id + '/contacts']);
+  //           break;
+  //         case '4':
+  //           this.router.navigate(['/asset/' + this.selectedAsset.id + '/notes']);
+  //           break;
+  //         case '5':
+  //           this.router.navigate(['/asset/' + this.selectedAsset.id + '/positions']);
+  //           break;
+  //         default:
+  //           break;
+  //       }
+  //     }
+  //   }
+  // }
 
   ngOnDestroy() {
     this.unmount$.next(true);
@@ -103,19 +105,19 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
 
   getTitleName() {
     return replaceDontTranslate(this.pageTitle, {
-      assetName: typeof this.selectedAsset !== 'undefined' ? this.selectedAsset.name : 'Assets'
+      fishingReportCfr: typeof this.selectedFishingReport !== 'undefined' ? this.selectedFishingReport.shipCfr : 'Fishing report'
     });
   }
 
-  matchMobileTerminalUrl() {
-    return this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminal\/.*\/edit$/g) !== null ||
-      this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminal\/attach$/g) !== null ||
-      this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminals$/g) !== null ||
-      this.mergedRoute.url.match(/^\/mobileTerminal\/.*\/create$/g) !== null;
-  }
+  // matchMobileTerminalUrl() {
+  //   return this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminal\/.*\/edit$/g) !== null ||
+  //     this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminal\/attach$/g) !== null ||
+  //     this.mergedRoute.url.match(/^\/asset\/.*\/mobileTerminals$/g) !== null ||
+  //     this.mergedRoute.url.match(/^\/mobileTerminal\/.*\/create$/g) !== null;
+  // }
 
-  matchAssetInfoUrl() {
-    return this.mergedRoute.url.match(/^\/asset\/([^/]+)$/g) !== null;
+  matchFishingReportInfoUrl() {
+    return this.mergedRoute.url.match(/^\/fishing-report\/([^/]+)$/g) !== null;
   }
 
 

@@ -17,6 +17,7 @@ export class FullLayoutComponent implements OnInit {
 
   public notifications$: Observable<NotificationsTypes.State>;
   public isAdmin$: Observable<boolean>;
+  public fishingActivityUnlocked$: Observable<boolean>;
   public timezone$: Observable<string>;
 
   public setTimezone: (timezone: string) => void;
@@ -28,6 +29,7 @@ export class FullLayoutComponent implements OnInit {
     this.notifications$ = this.store.select(NotificationsSelectors.getNotifications);
     this.timezone$ = this.store.select(UserSettingsSelectors.getTimezone);
     this.isAdmin$ = this.store.select(AuthSelectors.isAdmin);
+    this.fishingActivityUnlocked$ = this.store.select(AuthSelectors.fishingActivityUnlocked);
   }
 
   mapDispatchToProps() {
