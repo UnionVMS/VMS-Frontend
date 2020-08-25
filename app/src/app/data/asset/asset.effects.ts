@@ -389,10 +389,10 @@ export class AssetEffects {
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
-        return forkJoin(
+        return forkJoin([
           this.assetService.getLastFullPositionsForAsset(authToken, action.assetId, 1, ['AIS']),
           this.assetService.getLastFullPositionsForAsset(authToken, action.assetId, 1, ['AIS'], true),
-        ).pipe(
+        ]).pipe(
           map((responses: any) => {
             const [ aisPosition, vmsPosition] = responses;
 

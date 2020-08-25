@@ -341,12 +341,15 @@ describe('RealtimeComponent', () => {
       component.activeLeftPanel = ['filters'];
       component['selectAsset']('asset-id');
 
-      expect(dispatchSpy).toHaveBeenCalledTimes(2);
+      expect(dispatchSpy).toHaveBeenCalledTimes(3);
       expect(dispatchSpy).toHaveBeenCalledWith(
         MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset'] })
       );
       expect(dispatchSpy).toHaveBeenCalledWith(
         AssetActions.selectAsset({ assetId: 'asset-id' })
+      );
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        AssetActions.getLastPositionsForSelectedAsset({ assetId: 'asset-id' })
       );
     });
   });
