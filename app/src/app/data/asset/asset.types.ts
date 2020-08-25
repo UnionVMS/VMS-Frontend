@@ -7,6 +7,7 @@ export type Movement = Readonly<{
   timestamp: number;
   speed: number | null;
   source: string;
+  sourceSatelliteId?: number;
 }>;
 
 export type FullMovement = Readonly<{
@@ -16,13 +17,13 @@ export type FullMovement = Readonly<{
   timestamp: number;
   speed: number | null;
   source: string;
+  sourceSatelliteId: number;
 
   tripNumber: number;
   internalReferenceNumber: string;
   status: string;
   movementType: string;
   lesReportTime: number;
-  sourceSatelliteId: number;
   updated: number;
   updatedBy: string;
 }>;
@@ -191,22 +192,32 @@ export type UnitTonnage = Readonly<{
   code: string;
 }>;
 
+export type LastPositions = Readonly<{
+  ais: Movement;
+  vms: Movement;
+}>;
+
+export type LastPositionsList = Readonly<{
+  readonly [assetId: string]: LastPositions
+}>;
+
 export type State = Readonly<{
   selectedAssets: ReadonlyArray<string>;
   selectedAsset: string|null;
+  selectedAssetsLastPositions: LastPositionsList;
   assetTrips: AssetTrips;
   assetTripGranularity: number;
   assetTripTimestamp: number;
-  assets: { readonly [uid: string]: Asset };
-  assetsEssentials: { readonly [uid: string]: AssetEssentialProperties };
-  assetLists: { readonly [identifier: string]: AssetList };
+  assets: Readonly<{ readonly [uid: string]: Asset }>;
+  assetsEssentials: Readonly<{ readonly [uid: string]: AssetEssentialProperties }>;
+  assetLists: Readonly<{ readonly [identifier: string]: AssetList }>;
   currentAssetList: string;
   lastUserAssetSearch: string;
-  assetMovements: { readonly [assetId: string]: AssetMovement };
-  assetTracks: { readonly [assetId: string]: AssetTrack };
-  lastFullPositions: { readonly [assetId: string]: ReadonlyArray<FullMovement> };
+  assetMovements: Readonly<{ readonly [assetId: string]: AssetMovement }>;
+  assetTracks: Readonly<{ readonly [assetId: string]: AssetTrack }>;
+  lastFullPositions: Readonly<{ readonly [assetId: string]: ReadonlyArray<FullMovement> }>;
   forecasts: ReadonlyArray<string>;
-  positionsForInspection: { readonly [id: number]: Movement };
+  positionsForInspection: Readonly<{ readonly [id: number]: Movement }>;
   searchQuery: string;
   filterQuery: ReadonlyArray<AssetFilterQuery>;
   unitTonnages: ReadonlyArray<UnitTonnage>;

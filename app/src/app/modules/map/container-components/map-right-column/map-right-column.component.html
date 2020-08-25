@@ -29,7 +29,12 @@
     <h3 i18n>Map Information</h3>
   </div>
   <div class="panel showAsset-panel" *ngIf="activePanel[0] === 'showAsset'">
-    <h3 i18n>Detailed asset information</h3>
+    <div class="showAsset-panel--title">
+      <h3 i18n>Detailed asset information</h3>
+      <div class="asset-name" *ngIf="selectedAsset">
+        {{ selectedAsset.asset.name + (selectedAsset.asset.externalMarking !== undefined ? ' &#183; ' + selectedAsset.asset.externalMarking : '') }}
+      </div>
+    </div>
     <ul class="breadcrumbs" *ngIf="checkIfSecondaryPanelIsActive() && selectedAsset">
       <li (click)="setActivePanel(['showAsset'])">{{ selectedAsset.asset.name }}</li>
       <li>incident list</li>
@@ -50,6 +55,7 @@
         [centerMapOnPosition]="centerMapOnPosition"
         [getIncidentsForAssetId]="getIncidentsForAssetId"
         [setActiveRightPanel]="setActivePanel"
+        [selectedAssetsLastPositions]="selectedAssetsLastPositions[selectedAsset.asset.id]"
       ></map-asset-panel-show>
       <map-asset-incidents
         *ngIf="activePanel[1] === 'incidentList'"

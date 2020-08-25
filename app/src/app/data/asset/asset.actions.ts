@@ -76,7 +76,12 @@ export const getTracksByTimeInterval = createAction(
 
 export const getLastFullPositionsForAsset = createAction(
   '[Asset] Get last full positions for asset',
-  props<{ assetId: string, amount: number, sources?: string[] }>()
+  props<{ assetId: string, amount: number, sources?: string[], excludeGivenSources?: boolean }>()
+);
+
+export const getLastPositionsForSelectedAsset = createAction(
+  '[Asset] Get last positions for selected asset',
+  props<{ assetId: string }>()
 );
 
 export const getSelectedAsset = createAction(
@@ -183,6 +188,11 @@ export const setCurrentAssetList = createAction(
 export const setLastFullPositions = createAction(
   '[Asset] Set last full positions',
   props<{ fullPositionsByAsset: { [assetId: string]: ReadonlyArray<AssetTypes.FullMovement> } }>()
+);
+
+export const setLastPositionsForSelectedAsset = createAction(
+  '[Asset] Set last positions for selected asset',
+  props<{ assetId: string, aisPosition: AssetTypes.Movement, vmsPosition: AssetTypes.Movement }>()
 );
 
 export const setEssentialProperties = createAction(

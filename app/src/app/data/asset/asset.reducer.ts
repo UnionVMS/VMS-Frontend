@@ -9,6 +9,7 @@ import { hashCode } from '@app/helpers/helpers';
 export const initialState: Types.State = {
   selectedAssets: [],
   selectedAsset: null,
+  selectedAssetsLastPositions: {},
   assetTrips: {},
   assetTripGranularity: 15,
   assetTripTimestamp: undefined,
@@ -67,6 +68,13 @@ export const assetReducer = createReducer(initialState,
     assetTripTimestamp,
     assetMovements: state.assetTrips[assetTripTimestamp]
   })),
+  on(AssetActions.setLastPositionsForSelectedAsset, (state, { assetId, aisPosition, vmsPosition }) => ({
+    ...state,
+    selectedAssetsLastPositions: {
+      ...state.selectedAssetsLastPositions,
+      [assetId]: { ais: aisPosition, vms: vmsPosition }
+    }
+  })),
   on(AssetActions.assetsMoved, (state, { assetMovements }) => {
     const newAssetMovements = Object.keys(assetMovements).reduce((rNewAssetMovements, assetId) => {
       if(
@@ -79,6 +87,29 @@ export const assetReducer = createReducer(initialState,
       }
       return rNewAssetMovements;
     }, { ...state.assetMovements });
+
+    const newSelectedAssetsLastPositions = Object.keys(assetMovements).reduce((acc, assetId) => {
+      if(typeof acc[assetId] !== 'undefined') {
+        if(
+          assetMovements[assetId].microMove.source === 'AIS' &&
+          assetMovements[assetId].microMove.timestamp > acc[assetId].ais.timestamp
+        ) {
+          acc[assetId] = {
+            ais: assetMovements[assetId].microMove,
+            vms: acc[assetId].vms
+          };
+        } else if(
+          assetMovements[assetId].microMove.source !== 'AIS' &&
+          assetMovements[assetId].microMove.timestamp > acc[assetId].vms.timestamp
+        ) {
+          acc[assetId] = {
+            ais: acc[assetId].ais,
+            vms: assetMovements[assetId].microMove
+          };
+        }
+      }
+      return acc;
+    }, { ...state.selectedAssetsLastPositions });
 
     let newAssetTracks = state.assetTracks;
     if(Object.keys(state.assetTracks).length > 0) {
@@ -187,7 +218,8 @@ export const assetReducer = createReducer(initialState,
     return {
       ...state,
       assetMovements: newAssetMovements,
-      assetTracks: newAssetTracks
+      assetTracks: newAssetTracks,
+      selectedAssetsLastPositions: newSelectedAssetsLastPositions,
     };
   }),
   on(AssetActions.clearForecasts, (state) => ({ ...state, forecasts: [] })),
@@ -199,7 +231,13 @@ export const assetReducer = createReducer(initialState,
     if(assetId === selectedAsset) {
       selectedAsset = selectedAssets[0];
     }
-    return { ...state, selectedAssets, selectedAsset };
+    const selectedAssetsLastPositions = Object.keys(state.selectedAssetsLastPositions).reduce((acc, selectedAssetId) => {
+      if(selectedAssetId !== assetId) {
+        return { ...acc, [selectedAssetId]:  state.selectedAssetsLastPositions[selectedAssetId] };
+      }
+      return acc;
+    }, {});
+    return { ...state, selectedAssets, selectedAsset, selectedAssetsLastPositions };
   }),
   on(AssetActions.removeAssets, (state, { assetIds }) => {
     const result = Object.values(state.assetMovements).reduce((acc, movement) => {

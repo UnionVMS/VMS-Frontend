@@ -47,11 +47,12 @@
         grid-column: 1 / span 2;
 
         h3 {
-          padding: distance(1) 0px;
+          padding: distance(1) 0px distance(0.5);
+          font-size: 14px;
         }
 
         .asset-information--last-position--content {
-          background: $color_cold_gray;
+          background: rgba($color_light_turquoise, 0.1);
           padding: distance(1);
           display: grid;
           grid-row-gap: distance(0.5);

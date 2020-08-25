@@ -27,6 +27,7 @@ export const selectFilterQuery = (state: State) => state.asset.filterQuery;
 export const selectSearchQuery = (state: State) => state.asset.searchQuery;
 export const selectPositionsForInspection = (state: State) => state.asset.positionsForInspection;
 export const selectUnitTonnages = (state: State) => state.asset.unitTonnages;
+export const selectSelectedAssetsLastPositions = (state: State) => state.asset.selectedAssetsLastPositions;
 
 
 export const getAssetsMovementsDependingOnLeftPanel = createSelector(
@@ -353,4 +354,9 @@ export const getLastFullPositionsForSelectedAsset = createSelector(
   selectLastFullPositions, getSelectedAsset,
   (fullPositions: { [assetId: string]: ReadonlyArray<AssetTypes.FullMovement> }, asset: AssetTypes.Asset) =>
     typeof asset !== 'undefined' ? fullPositions[asset.id] : undefined
+);
+
+export const getSelectedAssetsLastPositions = createSelector(
+  selectSelectedAssetsLastPositions,
+  (selectedAssetsLastPositions) => selectedAssetsLastPositions
 );

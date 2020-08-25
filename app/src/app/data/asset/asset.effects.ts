@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ROUTER_NAVIGATED, RouterNavigationAction } from '@ngrx/router-store';
 import { Store, Action } from '@ngrx/store';
 import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
-import { of, EMPTY, merge, Observable, interval, Subject } from 'rxjs';
+import { of, EMPTY, merge, Observable, interval, Subject, forkJoin } from 'rxjs';
 import {
   map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter, takeUntil, take, skipWhile
 } from 'rxjs/operators';
@@ -366,15 +366,41 @@ export class AssetEffects {
   );
 
   @Effect()
-  selectAssetTracksAssetIdObserver$ = this.actions$.pipe(
+  getLastFullPositionsForAssetObserver$ = this.actions$.pipe(
     ofType(AssetActions.getLastFullPositionsForAsset),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
-        return this.assetService.getLastFullPositionsForAsset(authToken, action.assetId, action.amount, action.sources).pipe(
+        return this.assetService.getLastFullPositionsForAsset(
+          authToken, action.assetId, action.amount, action.sources, action.excludeGivenSources
+        ).pipe(
           map((assetMovements: any) => {
             const assetMovementsOrdered = assetMovements.reverse();
             return AssetActions.setLastFullPositions({ fullPositionsByAsset: { [action.assetId]: assetMovementsOrdered } });
+          })
+        );
+      })
+    ))
+  );
+
+  @Effect()
+  getLastPositionsForSelectedAssetbserver$ = this.actions$.pipe(
+    ofType(AssetActions.getLastPositionsForSelectedAsset),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([action, authToken]: Array<any>) => {
+        return forkJoin(
+          this.assetService.getLastFullPositionsForAsset(authToken, action.assetId, 1, ['AIS']),
+          this.assetService.getLastFullPositionsForAsset(authToken, action.assetId, 1, ['AIS'], true),
+        ).pipe(
+          map((responses: any) => {
+            const [ aisPosition, vmsPosition] = responses;
+
+            return AssetActions.setLastPositionsForSelectedAsset({
+              assetId: action.assetId,
+              aisPosition: aisPosition[0],
+              vmsPosition: vmsPosition[0]
+            });
           })
         );
       })

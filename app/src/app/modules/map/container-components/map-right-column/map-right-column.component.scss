@@ -88,6 +88,32 @@
       height: calc(100vh -  #{$navbar_height});
     }
 
+    &.showAsset-panel {
+      .showAsset-panel--title {
+        border-bottom: 1px solid $color_dark_gray;
+        margin-bottom: distance(1);
+        padding-bottom: distance(1);
+
+        display: grid;
+
+        & > * {
+          justify-self: center;
+        }
+
+        h3 {
+          border-bottom: 0px;
+          margin-bottom: 0px;
+          padding-bottom: distance(1);
+        }
+
+        .asset-name {
+          color: #005F88;
+          font-weight: 600;
+        }
+      }
+    }
+
+
     h3 {
       border-bottom: 1px solid $color_dark_gray;
       justify-self: center;

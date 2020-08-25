@@ -235,6 +235,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
         }
       }
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
+      this.store.dispatch(AssetActions.getLastPositionsForSelectedAsset({ assetId }));
     };
     this.removeActiveLayer = (layerName: string) =>
       this.store.dispatch(MapLayersActions.removeActiveLayer({ layerName }));

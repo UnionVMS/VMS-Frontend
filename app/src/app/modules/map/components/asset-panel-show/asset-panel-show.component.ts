@@ -3,6 +3,9 @@ import { formatDate } from '@app/helpers/helpers';
 import { AssetTypes } from '@data/asset';
 import { Position } from '@data/generic.types';
 
+import { formatUnixtime } from '@app/helpers/datetime-formatter';
+import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
+
 import getContryISO2 from 'country-iso-3-to-2';
 
 // @ts-ignore
@@ -15,6 +18,7 @@ import moment from 'moment-timezone';
 })
 export class AssetPanelShowComponent {
   @Input() asset: AssetTypes.AssetData;
+  @Input() selectedAssetsLastPositions: AssetTypes.LastPositions;
 
   @Input() deselectAsset: (assetId: string) => void;
   @Input() getAssetTrack: (assetId: string, movementId: string) => void;
@@ -86,4 +90,12 @@ export class AssetPanelShowComponent {
     return () => this.selectAsset(this.asset.asset.id);
   }
 
+  formatDate(dateTime: number) {
+    return formatUnixtime(dateTime);
+  }
+
+  formatLocation(location: Position) {
+    const formattedPosition = convertDDToDDM(location.latitude, location.longitude, 2);
+    return formattedPosition.latitude + ' ' + formattedPosition.longitude;
+  }
 }

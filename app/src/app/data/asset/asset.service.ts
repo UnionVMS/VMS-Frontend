@@ -136,16 +136,16 @@ export class AssetService {
     );
   }
 
-  getLastFullPositionsForAsset(authToken: string, assetId: string, amount: number, sources?: string[]) {
-    let body = {};
-    if(typeof sources !== 'undefined') {
-      body = {
-        sources
-      };
+  getLastFullPositionsForAsset(authToken: string, assetId: string, amount: number, sources?: string[], excludeGivenSources = false) {
+    let postSources = sources || [];
+    if(excludeGivenSources) {
+      const allSources = ['INMARSAT_C', 'AIS', 'IRIDIUM', 'MANUAL', 'OTHER', 'NAF', 'FLUX'];
+      postSources = allSources.filter((source) => !postSources.includes(source));
     }
+
     return this.http.post(
       environment.baseApiUrl + `movement/rest/movement/track/latest/asset/${assetId}?maxNbr=${amount}`,
-      sources || [],
+      postSources,
       {
         headers: new HttpHeaders({
           Authorization: authToken,

@@ -31,6 +31,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public forecasts$: Observable<any>;
   public selectedAsset: Readonly<AssetTypes.AssetData>;
   public selectedAssets: ReadonlyArray<AssetTypes.AssetData>;
+  public selectedAssetsLastPositions: AssetTypes.LastPositionsList;
   public selectedIncident: Readonly<IncidentTypes.Incident>;
   public choosenMovementSources: ReadonlyArray<string>;
   public assetGroupFilters: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>;
@@ -116,6 +117,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     this.store.select(IncidentSelectors.getIncidentsForAssets)
       .pipe(takeUntil(this.unmount$)).subscribe(incidentsForAssets => {
         this.incidentsForAssets = incidentsForAssets;
+      });
+    this.store.select(AssetSelectors.getSelectedAssetsLastPositions)
+      .pipe(takeUntil(this.unmount$)).subscribe(selectedAssetsLastPositions => {
+        this.selectedAssetsLastPositions = selectedAssetsLastPositions;
       });
   }
 
