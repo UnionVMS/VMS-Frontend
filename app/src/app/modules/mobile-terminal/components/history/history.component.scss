@@ -2,7 +2,7 @@
 
 .mobile-terminal-history--page-header {
   margin-top: distance(2);
-  padding: distance(1);
+  padding: distance(2) distance(3);
   background: white;
   b {
     font-style: italic;
@@ -12,7 +12,7 @@
 
 .mobile-terminal-history--filter-wrapper {
   margin-top: distance(2);
-  padding: distance(1);
+  padding: distance(2) distance(3);
   background: white;
 
   .filter-header {
@@ -52,7 +52,7 @@
   grid-row-gap: distance(1);
 
   .mobile-terminal-history {
-    padding: distance(1);
+    padding: distance(2) distance(3);
     background: white;
     .history-header {
       display: grid;
@@ -65,11 +65,11 @@
     }
 
     .extended-history {
-      padding-top: distance(3);
+      padding-top: distance(2);
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       padding-right: 20px;
-      grid-row-gap: distance(1);
+      grid-row-gap: distance(2);
 
       .channel {
         grid-column: 1 / span 4;
@@ -118,7 +118,19 @@
     grid-row-gap: distance(0.5);
 
     &.changed {
-      background: $color_light_orange;
+      label {
+        color: $color_orange;
+      }
+
+      div::before {
+        height: 100%;
+        width: distance(1);
+        color: $color_orange;
+        display: inline-block;
+        content: '»';
+        font-size: 120%;
+        margin-right: distance(1);
+      }
     }
 
     label {
@@ -126,13 +138,13 @@
       font-weight: bolder;
     }
 
-    .active {
-      font-weight: bolder;
-      color: $color_accent_light;
-    }
-    .inactive {
-      font-weight: bolder;
-      color: $color_warn;
-    }
+    // .active {
+    //   font-weight: bolder;
+    //   color: $color_accent_light;
+    // }
+    // .inactive {
+    //   font-weight: bolder;
+    //   color: $color_warn;
+    // }
   }
 }
