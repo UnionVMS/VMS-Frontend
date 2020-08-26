@@ -27,7 +27,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   ) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
-  public currentTab = 1;
+  public currentTab = 0;
   public mobileTerminals: ReadonlyArray<MobileTerminalTypes.MobileTerminal>;
   public mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
   public mobileTerminalHistoryFilter$: Observable<MobileTerminalTypes.MobileTerminalHistoryFilter>;

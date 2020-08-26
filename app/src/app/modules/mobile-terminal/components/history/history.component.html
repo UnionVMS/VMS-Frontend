@@ -187,7 +187,7 @@
       <div
         class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.uninstallDate)}}"
         *ngIf="filtersChecked.mobileTerminalFields.uninstallDate"
-        >
+      >
         <label>Uninstallation date</label>
         <div class="value">{{ mobileTerminalHistory.uninstallDateFormatted }}</div>
       </div>
@@ -256,6 +256,12 @@
             </ng-container>
           </tbody>
         </table>
+      </div>
+      <div
+        class="field-column comment{{getChangedClass(mobileTerminalHistory.changesAsObject.comment)}}"
+      >
+        <label>Edit Comments</label>
+        <div class="value">{{ mobileTerminalHistory.changesAsObject.comment ? mobileTerminalHistory.changesAsObject.comment.newValue : '' }}</div>
       </div>
     </div>
   </div>

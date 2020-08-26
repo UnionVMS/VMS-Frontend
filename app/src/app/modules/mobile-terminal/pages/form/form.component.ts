@@ -4,6 +4,7 @@ import { Subscription, Observable, Subject } from 'rxjs';
 import { take, takeUntil, map, skipWhile } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
@@ -14,6 +15,8 @@ import {
   validateSerialNoExistsFactory, memberNumberAndDnidExistsFactory
 } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';
+
+import { SaveDialogComponent } from '@modules/mobile-terminal/components/save-dialog/save-dialog.component';
 
 import { Moment } from 'moment-timezone';
 
@@ -30,6 +33,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly store: Store<State>,
     private readonly viewContainerRef: ViewContainerRef,
     private readonly router: Router,
+    public dialog: MatDialog
   ) { }
 
   public createWithSerialNo: string | null;
@@ -63,7 +67,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     'Pacific',
     'West Atlantic'
   ];
-  public save: () => void;
+  public save: (saveComment: string) => void;
   public mergedRoute: RouterTypes.MergedRoute;
 
   public currentChannelOpened = 0;
@@ -187,13 +191,14 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   mapDispatchToProps() {
-    this.save = () => {
+    this.save = (saveComment: string) => {
       const channelsById = this.mobileTerminal.channels.reduce((channels, channel) => {
         channels[channel.id] = channel;
         return channels;
       }, {});
       this.store.dispatch(MobileTerminalActions.saveMobileTerminal({ mobileTerminal: {
         ...this.mobileTerminal,
+        comment: saveComment,
         mobileTerminalType: this.formValidator.value.essentailFields.mobileTerminalType,
         serialNo: this.formValidator.value.essentailFields.serialNo,
         eastAtlanticOceanRegion: this.formValidator.value.essentailFields.selectedOceanRegions.includes('East Atlantic'),
@@ -276,6 +281,16 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
+  }
+
+  confirmSave() {
+    const dialogRef = this.dialog.open(SaveDialogComponent, { panelClass: 'dialog-without-padding' });
+
+    dialogRef.afterClosed().subscribe(returnValue => {
+      if(typeof returnValue !== 'undefined' && returnValue !== '') {
+        this.save(returnValue);
+      }
+    });
   }
 
   trackChannelsBy(index: number, channel: any): string | number {

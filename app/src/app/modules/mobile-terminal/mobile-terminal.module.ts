@@ -31,6 +31,7 @@ import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.co
 /* Components */
 import { HistoryComponent } from './components/history/history.component';
 import { ListForAssetComponent } from './components/list-for-asset/list-for-asset.component';
+import { SaveDialogComponent } from './components/save-dialog/save-dialog.component';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { ListForAssetComponent } from './components/list-for-asset/list-for-asse
     /* Components */
     HistoryComponent,
     ListForAssetComponent,
+    SaveDialogComponent,
   ]
 })
 

@@ -1,0 +1,10 @@
+<h1 mat-dialog-title i18n>To save, add a comment on whats changed.</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <textarea matInput [formControl]="note" required></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close cdkFocusInitial i18n>Cancel</button>
+  <button mat-button [mat-dialog-close]="save()" i18n>Save mobile terminal</button>
+</div>
