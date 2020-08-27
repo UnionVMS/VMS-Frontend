@@ -13,6 +13,7 @@ import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 export class IncidentCardComponent {
   @Input() incident: IncidentTypes.Incident;
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;
+  @Input() incidentIsSelected: boolean;
 
   public incidentsWithAttemptedContact: ReadonlyArray<IncidentTypes.Incident> = [];
   public unmanagedIncidents: ReadonlyArray<IncidentTypes.Incident> = [];

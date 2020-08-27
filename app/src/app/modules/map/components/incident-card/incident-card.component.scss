@@ -7,6 +7,15 @@
   background: $color_cold_gray;
   cursor: pointer;
 
+  &.selected {
+    background-color: $color_turquoise;
+    color: white;
+
+    .incident-content .ircs-and-name {
+      color: white;
+    }
+  }
+
   .status {
     place-self: center;
     // border: 1px solid #000000;
@@ -37,13 +46,10 @@
       display: grid;
       grid-template-columns: 1fr auto;
       grid-column-gap: distance(1);
+      color: $color_turquoise;
 
-      .name {
-        color: $color_turquoise;
-      }
       .ircs {
         font-weight: bold;
-        color: $color_turquoise;
       }
     }
 

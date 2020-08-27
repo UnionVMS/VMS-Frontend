@@ -1,6 +1,6 @@
 <div
   [title]="incident.assetName"
-  class="incident"
+  class="incident{{ incidentIsSelected ? ' selected' : ''}}"
   (click)="selectIncident(incident)"
 >
   <div class="status {{incidentStatusClass[incident.status]}}"></div>

@@ -46,4 +46,8 @@ export class IncidentsComponent implements OnChanges {
       }
     });
   }
+
+  incidentIsSelected(incident: IncidentTypes.Incident) {
+    return typeof this.selectedIncident !== 'undefined' && this.selectedIncident.id === incident.id;
+  }
 }
