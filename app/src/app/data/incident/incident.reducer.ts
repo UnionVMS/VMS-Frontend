@@ -47,7 +47,7 @@ export const incidentReducer = createReducer(initialState,
       }
     };
 
-    if(updateType === Types.incidentNotificationTypes.updated) {
+    if(updateType === Types.IncidentNotificationTypes.updated) {
       newState = {
         ...newState,
         assetNotSendingIncidents: Object.values(incidents).reduce((acc, incident) => {
@@ -104,17 +104,17 @@ export const incidentReducer = createReducer(initialState,
           if(typeof acc[incident.id] === 'undefined') {
             return { ...acc,
               [incident.id]: {
-                created: updateType === Types.incidentNotificationTypes.created ? 1 : 0,
-                updated: updateType === Types.incidentNotificationTypes.updated ? 1 : 0
+                created: updateType === Types.IncidentNotificationTypes.created ? 1 : 0,
+                updated: updateType === Types.IncidentNotificationTypes.updated ? 1 : 0
               }
             };
           } else {
             return { ...acc,
               [incident.id]: { ...acc[incident.id],
-                created: updateType === Types.incidentNotificationTypes.created
+                created: updateType === Types.IncidentNotificationTypes.created
                   ? acc[incident.id].created + 1
                   : acc[incident.id].created,
-                updated: updateType === Types.incidentNotificationTypes.updated
+                updated: updateType === Types.IncidentNotificationTypes.updated
                   ? acc[incident.id].updated + 1
                   : acc[incident.id].updated,
               }

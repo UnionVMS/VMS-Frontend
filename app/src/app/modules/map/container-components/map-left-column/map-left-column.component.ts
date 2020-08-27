@@ -57,6 +57,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
+  public selectedIncident: Readonly<IncidentTypes.Incident>;
   public dispatchSelectIncident: (incidentId: number) => void;
   public selectIncident: (incident: IncidentTypes.Incident) => void;
   public countNotificationsOfType: (
@@ -111,6 +112,9 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     });
     this.store.select(IncidentSelectors.getIncidentNotificationsByType).pipe(takeUntil(this.unmount$)).subscribe(
       incidentNotificationsByType => { this.incidentNotificationsByType = incidentNotificationsByType; }
+    );
+    this.store.select(IncidentSelectors.getSelectedIncident).pipe(takeUntil(this.unmount$)).subscribe(
+      incident => { this.selectedIncident = incident; }
     );
     this.store.select(AssetSelectors.getAssetEssentialsForAssetGroups)
       .pipe(takeUntil(this.unmount$))

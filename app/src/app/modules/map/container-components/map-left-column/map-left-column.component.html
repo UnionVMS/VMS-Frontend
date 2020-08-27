@@ -77,23 +77,24 @@
     <h3 i18n>Workflows</h3>
     <map-panel-block
       i18n-blockTitle
-      blockTitle="Assets not sending"
+      blockTitle="Assets not sending ({{assetNotSendingIncidents.unresolvedIncidents.length}})"
       [active]="activePanel[1] === 'ASSET_NOT_SENDING'"
       [setActiveFunction]="setGivenWorkflowActive('ASSET_NOT_SENDING')"
       [useArrowsAsToggle]="true"
     >
-      <div header class="notifications" *ngIf="incidentNotificationsByType !== undefined && incidentNotificationsByType.assetNotSending !== undefined">
+      <!-- <div header class="notifications" *ngIf="incidentNotificationsByType !== undefined && incidentNotificationsByType.assetNotSending !== undefined">
         <span class="created" *ngIf="countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'created') > 0">
           {{countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'created')}}
         </span>
         <span class="updated" *ngIf="countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'updated') > 0">
           {{countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'updated')}}
         </span>
-      </div>
+      </div> -->
       <map-incidents
         body
         *ngIf="activePanel[1] === 'ASSET_NOT_SENDING'"
         [incidents]="assetNotSendingIncidents"
+        [selectedIncident]="selectedIncident"
         [selectIncident]="selectIncident"
         [incidentNotifications]="incidentNotificationsByType.assetNotSending"
       ></map-incidents>

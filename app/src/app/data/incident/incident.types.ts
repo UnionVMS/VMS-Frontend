@@ -1,9 +1,15 @@
 import { Movement } from '@data/asset/asset.types';
 
-export enum incidentNotificationTypes {
+export enum IncidentNotificationTypes {
   created,
   updated,
   done
+}
+
+export enum AssetNotSendingStatuses {
+  INCIDENT_CREATED = 'INCIDENT_CREATED',
+  ATTEMPTED_CONTACT = 'ATTEMPTED_CONTACT',
+  RESOLVED = 'RESOLVED'
 }
 
 export type Incident = Readonly<{

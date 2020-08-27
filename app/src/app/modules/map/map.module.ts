@@ -44,6 +44,7 @@ import { DistanceBetweenPointsComponent } from './components/distance-between-po
 import { EditAssetGroupDialogComponent } from './components/edit-asset-group-dialog/edit-asset-group-dialog.component';
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
 import { IncidentComponent } from './components/incident/incident.component';
+import { IncidentCardComponent } from './components/incident-card/incident-card.component';
 import { IncidentLogComponent } from './components/incident-log/incident-log.component';
 import { IncidentLogEntryNoteComponent } from './components/incident-log-entry-note/incident-log-entry-note.component';
 import { IncidentLogEntryPollComponent } from './components/incident-log-entry-poll/incident-log-entry-poll.component';
@@ -107,6 +108,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     EditAssetGroupDialogComponent,
     FlagstatesComponent,
     IncidentComponent,
+    IncidentCardComponent,
     IncidentLogComponent,
     IncidentLogEntryNoteComponent,
     IncidentLogEntryPollComponent,

@@ -1,0 +1,18 @@
+<div
+  [title]="incident.assetName"
+  class="incident"
+  (click)="selectIncident(incident)"
+>
+  <div class="status {{incidentStatusClass[incident.status]}}"></div>
+  <div class="incident-content">
+    <div class="ircs-and-name">
+      <div class="ircs">{{incident.assetIrcs}}</div>
+      <ui-truncated-text class="name" [text]="incident.assetName" length="16"></ui-truncated-text>
+    </div>
+    <div class="status-code-and-time">
+      <span class="status-code">TEST • </span>
+      <span class="time">{{ formatDate(incident) }}</span>
+    </div>
+    <div class="location">{{ formatCoordinates(incident.lastKnownLocation.location) }}</div>
+  </div>
+</div>

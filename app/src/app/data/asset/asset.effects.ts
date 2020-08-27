@@ -224,7 +224,7 @@ export class AssetEffects {
                     acc[message.id] = message;
                     return acc;
                   }, {}),
-                  updateType: IncidentTypes.incidentNotificationTypes.created
+                  updateType: IncidentTypes.IncidentNotificationTypes.created
                 }));
               }
 
@@ -239,7 +239,7 @@ export class AssetEffects {
                     acc[message.id] = message;
                     return acc;
                   }, {}),
-                  updateType: IncidentTypes.incidentNotificationTypes.updated
+                  updateType: IncidentTypes.IncidentNotificationTypes.updated
                 }));
               }
 

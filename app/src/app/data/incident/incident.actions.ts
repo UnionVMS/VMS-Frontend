@@ -66,6 +66,6 @@ export const updateAssetNotSendingIncidents = createAction(
   '[Incident] Update asset not sending incidents',
   props<{
     incidents: { readonly [incidentId: number]: IncidentTypes.Incident },
-    updateType: IncidentTypes.incidentNotificationTypes
+    updateType: IncidentTypes.IncidentNotificationTypes
   }>()
 );

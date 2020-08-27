@@ -15,63 +15,8 @@
     display: grid;
     grid-row-gap: $medium_distance;
 
-    .incident {
-      display: grid;
-      grid-template-columns: $medium_distance 2fr 1fr;
-      grid-column-gap: $medium_distance;
-      grid-row-gap: $small_distance;
-      padding: distance(1.5);
-      background: $color_cold_gray;
-      cursor: pointer;
-
-      .status {
-        place-self: center;
-        // border: 1px solid #000000;
-        background: $color_light_orange;
-        border-radius: $small_distance;
-        width: $medium_distance;
-        height: $medium_distance;
-        display: inline-block;
-
-        &.dangerLvl5 {
-          background: $color_warn;
-        }
-        &.dangerLvl1 {
-          background: $color_yellow;
-        }
-        &.dangerLvl0 {
-          background: $color_accent_light;
-        }
-      }
-
-      .name {
-        font-weight: bold;
-        color: $color_turquoise;
-      }
-      .ircs {
-        color: $color_turquoise;
-      }
-
-      .time {
-        font-size: 11px;
-        grid-column: 2 / span 1;
-      }
-
-      .notifications {
-        position: relative;
-        & > * {
-          @include small-badge();
-          position: absolute;
-        }
-        .created-notifications {
-          background: $color_warn;
-          right: $xlarge_distance;
-        }
-        .updated-notifications {
-          background: $color_yellow;
-          right: 0px;
-        }
-      }
+    h3 {
+      padding-bottom: 0px;
     }
   }
 
