@@ -163,7 +163,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       }
 
       if(this.assetSearchObject.search > '') {
-        const searchFields = ['name', 'externalMarking', 'cfr', 'ircs'];
+        const searchFields = ['name', 'externalMarking', 'cfr', 'ircs', 'mmsi'];
         const splitSearch = this.assetSearchObject.search.split('&&');
 
         const searchStringQuery = {
