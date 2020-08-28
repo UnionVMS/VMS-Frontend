@@ -8,7 +8,7 @@
   grid-template-areas:
   "header header header header header"
   "left-margin notifications notifications notifications right-margin"
-  "left-margin page-title page-title . right-margin"
+  "left-margin . page-title . right-margin"
   "left-margin side-menu main toolbox right-margin";
 
   & > core-top-menu-component {
@@ -21,7 +21,7 @@
 
   & > .page-title {
     grid-area: page-title;
-    padding-left: $x3large_distance;
+    // padding-left: $x3large_distance;
   }
 
   & > .side-menu {

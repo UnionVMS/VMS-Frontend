@@ -126,18 +126,15 @@
         <label>Serial no.</label>
         <div class="value">{{ mobileTerminalHistory.snapshot.serialNo }}</div>
       </div>
+      <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.satelliteNumber)}}">
+        <label>Satellite number</label>
+        <div class="value">{{ mobileTerminalHistory.snapshot.satelliteNumber }}</div>
+      </div>
       <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.active)}}">
         <label>Terminal</label>
         <div class="value">
           <span *ngIf="mobileTerminalHistory.snapshot.active" class="active">Active</span>
           <span *ngIf="!mobileTerminalHistory.snapshot.active" class="inactive">Inactive</span>
-        </div>
-      </div>
-      <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.assetId)}}">
-        <label>Attached</label>
-        <div class="value">
-          <span *ngIf="mobileTerminalHistory.snapshot.assetId" class="active">Attached</span>
-          <span *ngIf="!mobileTerminalHistory.snapshot.assetId" class="inactive">Detached</span>
         </div>
       </div>
       <div class="field-column">
@@ -154,6 +151,16 @@
       </div>
     </div>
     <div class="extended-history" *ngIf="isHistoryExpanded(mobileTerminalHistory.id)">
+      <div
+        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.assetId)}}"
+        *ngIf="filtersChecked.mobileTerminalFields.assetId"
+      >
+        <label>Attached</label>
+        <div class="value">
+          <span *ngIf="mobileTerminalHistory.snapshot.assetId" class="active">Attached</span>
+          <span *ngIf="!mobileTerminalHistory.snapshot.assetId" class="inactive">Detached</span>
+        </div>
+      </div>
       <div
         class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.mobileTerminalType)}}"
         *ngIf="filtersChecked.mobileTerminalFields.mobileTerminalType"
@@ -227,15 +234,16 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let channel of mobileTerminalHistory.snapshot.formattedChannels">
-              <tr class="channel-row {{getChannelRowClass(mobileTerminalHistory.channelChanges[channel.id])}}">
+
+            <ng-template #channelRowTemplate let-channel="channel" let-isChannelRemoved="isChannelRemoved">
+              <tr class="channel-row {{getChannelRowClass(mobileTerminalHistory.channelChanges[channel.id])}}{{ isChannelRemoved ? ' removed' : ''}}">
                 <td
                   class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'dnid')}}"
                 >{{channel.dnid}}</td>
                 <td
                   class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'defaultChannel')}}
-                    {{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'changes.pollChannel')}}
-                    {{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'changes.configChannel')}}"
+                    {{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'pollChannel')}}
+                    {{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'configChannel')}}"
                 >{{channel.type}}</td>
                 <td
                   class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'memberNumber')}}"
@@ -265,6 +273,14 @@
                   *ngIf="filtersChecked.channelFields.expectedFrequencyInPort"
                 >{{channel.expectedFrequencyInPort}}</td>
               </tr>
+            </ng-template>
+
+            <ng-container *ngFor="let channel of getRemovedChannels(mobileTerminalHistory)">
+              <ng-container *ngTemplateOutlet="channelRowTemplate;context:{ channel: channel, isChannelRemoved: 'true' }"></ng-container>
+            </ng-container>
+
+            <ng-container *ngFor="let channel of mobileTerminalHistory.snapshot.formattedChannels">
+              <ng-container *ngTemplateOutlet="channelRowTemplate;context:{ channel: channel }"></ng-container>
             </ng-container>
           </tbody>
         </table>

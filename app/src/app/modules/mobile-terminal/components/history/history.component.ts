@@ -11,6 +11,14 @@ type ExtendedMobileTerminalHistory = MobileTerminalTypes.MobileTerminalHistory &
   changesAsObject: Readonly<{
     readonly [changeField: string]: MobileTerminalTypes.MobileTerminalHistoryChange;
   }>;
+  channelChanges: Readonly<{
+    readonly [channelId: string]: {
+      changeType: MobileTerminalTypes.MobileTerminalChangeType;
+      changes: Readonly<{
+        readonly [fieldName: string]: MobileTerminalTypes.MobileTerminalHistoryChange
+      }>
+    }
+  }>
 };
 
 @Component({
@@ -199,6 +207,35 @@ export class HistoryComponent implements OnChanges {
     }
 
     return '';
+  }
+
+  getRemovedChannels(mobileTerminalHistory: ExtendedMobileTerminalHistory) {
+    const deletedChannels =  Object.values(mobileTerminalHistory.channelChanges)
+      .filter(channelChange => channelChange.changeType === MobileTerminalTypes.MobileTerminalChangeType.REMOVED)
+      .map(channelChange => {
+        const type = [];
+        if(typeof channelChange.changes.configChannel !== 'undefined') {
+          type.push('Config');
+        }
+        if(typeof channelChange.changes.defaultChannel !== 'undefined') {
+          type.push('Default');
+        }
+        if(typeof channelChange.changes.pollChannel !== 'undefined') {
+          type.push('Poll');
+        }
+        return {
+          dnid: channelChange.changes.dnid.oldValue,
+          type,
+          memberNumber: channelChange.changes.memberNumber.oldValue,
+          lesDescription: channelChange.changes.lesDescription.oldValue,
+          startDate: channelChange.changes.startDate?.oldValue,
+          endDate: channelChange.changes.endDate?.oldValue,
+          expectedFrequency: channelChange.changes.expectedFrequency?.oldValue,
+          expectedFrequencyInPort: channelChange.changes.expectedFrequencyInPort?.oldValue,
+          frequencyGracePeriod: channelChange.changes.frequencyGracePeriod?.oldValue,
+        };
+      });
+    return deletedChannels;
   }
 
   getOceanRegionsValue(mobileTerminal: MobileTerminalTypes.MobileTerminal) {
