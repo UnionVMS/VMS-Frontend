@@ -18,7 +18,7 @@ export const initialState: MobileTerminalTypes.State = {
     mobileTerminalFields: [
       'serialNo', 'active', 'mobileTerminalType', 'eastAtlanticOceanRegion', 'indianOceanRegion',
       'pacificOceanRegion', 'westAtlanticOceanRegion', 'transceiverType', 'satelliteNumber',
-      'softwareVersion', 'antenna', 'installDate', 'installedBy', 'uninstallDate', 'archived'
+      'softwareVersion', 'antenna', 'installDate', 'installedBy', 'uninstallDate', 'archived', 'assetId'
     ],
     filterChannels: true,
     channelFields: [
@@ -33,7 +33,7 @@ export const initialState: MobileTerminalTypes.State = {
 export const allMobileTerminalFields = [
   'active', 'mobileTerminalType', 'eastAtlanticOceanRegion', 'indianOceanRegion',
   'pacificOceanRegion', 'westAtlanticOceanRegion', 'transceiverType', 'satelliteNumber',
-  'softwareVersion', 'antenna', 'installDate', 'installedBy', 'uninstallDate', 'archived'
+  'softwareVersion', 'antenna', 'installDate', 'installedBy', 'uninstallDate', 'archived', 'assetId'
 ];
 
 export const allChannelFields = [

@@ -25,6 +25,11 @@
         i18n
       >Archived</mat-checkbox>
       <mat-checkbox
+        [checked]="filtersChecked.mobileTerminalFields.assetId"
+        (change)="updateFiltersChecked('mobileTerminalFields', 'assetId')"
+        i18n
+      >Attached</mat-checkbox>
+      <mat-checkbox
         [checked]="filtersChecked.mobileTerminalFields.mobileTerminalType"
         (change)="updateFiltersChecked('mobileTerminalFields', 'mobileTerminalType')"
         i18n
@@ -116,7 +121,7 @@
 
 <div class="mobile-terminal-history--list">
   <div class="mobile-terminal-history" *ngFor="let mobileTerminalHistory of mobileTerminalHistoryArray">
-    <div class="history-header" (click)="toggleHistory(mobileTerminalHistory.id)">
+    <div class="history-header{{getMobileTerminalHeaderCssClass(mobileTerminalHistory)}}" (click)="toggleHistory(mobileTerminalHistory.id)">
       <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.serialNo)}}">
         <label>Serial no.</label>
         <div class="value">{{ mobileTerminalHistory.snapshot.serialNo }}</div>
@@ -126,6 +131,13 @@
         <div class="value">
           <span *ngIf="mobileTerminalHistory.snapshot.active" class="active">Active</span>
           <span *ngIf="!mobileTerminalHistory.snapshot.active" class="inactive">Inactive</span>
+        </div>
+      </div>
+      <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.assetId)}}">
+        <label>Attached</label>
+        <div class="value">
+          <span *ngIf="mobileTerminalHistory.snapshot.assetId" class="active">Attached</span>
+          <span *ngIf="!mobileTerminalHistory.snapshot.assetId" class="inactive">Detached</span>
         </div>
       </div>
       <div class="field-column">

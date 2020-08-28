@@ -3,6 +3,16 @@ import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
 import { MobileTerminalTypes, MobileTerminalReducer } from '@data/mobile-terminal';
 
+type ExtendedMobileTerminalHistory = MobileTerminalTypes.MobileTerminalHistory & {
+  id: string;
+  installDateFormatted: string;
+  uninstallDateFormatted: string;
+  updatedDateFormatted: string;
+  changesAsObject: Readonly<{
+    readonly [changeField: string]: MobileTerminalTypes.MobileTerminalHistoryChange;
+  }>;
+};
+
 @Component({
   selector: 'mobile-terminal-history-component',
   templateUrl: './history.component.html',
@@ -14,7 +24,7 @@ export class HistoryComponent implements OnChanges {
   @Input() addMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
   @Input() removeMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
 
-  public mobileTerminalHistoryArray: ReadonlyArray<MobileTerminalTypes.MobileTerminalHistory>;
+  public mobileTerminalHistoryArray: ReadonlyArray<ExtendedMobileTerminalHistory>;
   public filtersVisible = true;
   public historyExpanded: ReadonlyArray<string> = [];
   public filtersChecked: Readonly<{
@@ -139,6 +149,7 @@ export class HistoryComponent implements OnChanges {
       mobileTerminalFields: {
         active: mobileTerminalHistoryFilter.mobileTerminalFields.includes('active'),
         archived: mobileTerminalHistoryFilter.mobileTerminalFields.includes('archived'),
+        assetId: mobileTerminalHistoryFilter.mobileTerminalFields.includes('assetId'),
         mobileTerminalType: mobileTerminalHistoryFilter.mobileTerminalFields.includes('mobileTerminalType'),
         oceanRegion: mobileTerminalHistoryFilter.mobileTerminalFields.includes('eastAtlanticOceanRegion'),
         transceiverType: mobileTerminalHistoryFilter.mobileTerminalFields.includes('transceiverType'),
@@ -162,6 +173,13 @@ export class HistoryComponent implements OnChanges {
         frequencyGracePeriod: mobileTerminalHistoryFilter.channelFields.includes('frequencyGracePeriod'),
       }
     };
+  }
+
+  getMobileTerminalHeaderCssClass(mobileTerminalHistory: ExtendedMobileTerminalHistory) {
+    if(typeof mobileTerminalHistory.changesAsObject.archived !== 'undefined') {
+      return ' archived';
+    }
+    return mobileTerminalHistory.changeType === 'CREATED' ? ' created' : '';
   }
 
   getChangedClass(fieldChanged: MobileTerminalTypes.MobileTerminalHistoryChange) {

@@ -56,8 +56,15 @@
     background: white;
     .history-header {
       display: grid;
-      grid-template-columns: repeat(4, 1fr) 20px;
+      grid-template-columns: repeat(5, 1fr) 20px;
       cursor: pointer;
+
+      &.created {
+        background-color: $color_accent_light;
+      }
+      &.archived {
+        background-color: $color_warn_light;
+      }
 
       .arrow {
         align-self: center;
@@ -67,12 +74,12 @@
     .extended-history {
       padding-top: distance(2);
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       padding-right: 20px;
       grid-row-gap: distance(2);
 
       .channel {
-        grid-column: 1 / span 4;
+        grid-column: 1 / span 5;
         display: grid;
         grid-row-gap: distance(0.5);
 
@@ -118,7 +125,7 @@
     grid-row-gap: distance(0.5);
 
     &.comment {
-      grid-column: 1 / span 4;
+      grid-column: 1 / span 5;
     }
 
     &.changed {

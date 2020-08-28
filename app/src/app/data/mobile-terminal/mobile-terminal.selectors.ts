@@ -56,14 +56,17 @@ export const getMobileTerminalHistoryFilteredForUrlAsset = createSelector(
     console.warn(mobileTerminalHistory);
     return Object.keys(mobileTerminalHistory).filter((historyId: string) => {
       const history = mobileTerminalHistory[historyId];
+      if(history.changeType === MobileTerminalTypes.MobileTerminalChangeType.CREATED) {
+        return true;
+      }
       if(history.changes.find(change => filter.mobileTerminalFields.includes(change.field))) {
         return true;
       }
       if(filter.filterChannels) {
         const channelChangesArray = Object.values(history.channelChanges);
         if(channelChangesArray.find(channelChange =>
-          channelChange.changeType === MobileTerminalTypes.MobileTerminalChannelChangeType.CREATED ||
-          channelChange.changeType === MobileTerminalTypes.MobileTerminalChannelChangeType.REMOVED
+          channelChange.changeType === MobileTerminalTypes.MobileTerminalChangeType.CREATED ||
+          channelChange.changeType === MobileTerminalTypes.MobileTerminalChangeType.REMOVED
         )) {
           return true;
         }
