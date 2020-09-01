@@ -14,12 +14,12 @@ import { initialState as NotificationInitialState } from '@data/notifications/no
 import { initialState as UserSettingsInitialState } from '@data/user-settings/user-settings.reducer';
 
 
-import { FishingReportLayoutComponent } from './fishing-report.component';
+import { EfrDefaultLayoutComponent } from './efr-default.component';
 
 
 // Components
-import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
-import { NotificationsComponent } from '../../components/notifications/notifications.component';
+import { EfrTopMenuComponent } from '@app/core/components/efr-top-menu/efr-top-menu.component';
+import { NotificationsComponent } from '@app/core/components/notifications/notifications.component';
 
 describe('AssetLayoutComponent', () => {
 
@@ -42,8 +42,8 @@ describe('AssetLayoutComponent', () => {
         MatSelectModule
       ],
       declarations: [
-        FishingReportLayoutComponent,
-        TopMenuComponent,
+        EfrDefaultLayoutComponent,
+        EfrTopMenuComponent,
         NotificationsComponent,
       ],
       providers: [
@@ -54,7 +54,7 @@ describe('AssetLayoutComponent', () => {
   }));
 
   const setup = () => {
-    const fixture = TestBed.createComponent(FishingReportLayoutComponent);
+    const fixture = TestBed.createComponent(EfrDefaultLayoutComponent);
     const component = fixture.componentInstance;
     return { fixture , component };
   };
@@ -64,10 +64,10 @@ describe('AssetLayoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a asset-layout--grid with router-outlet in it', () => {
+  it('should have a efr-default-layout--grid with router-outlet in it', () => {
     const { fixture } = setup();
     const layoutElement: HTMLElement = fixture.nativeElement;
-    const routerOutlet = layoutElement.querySelector('.fishing-report-layout--grid router-outlet');
+    const routerOutlet = layoutElement.querySelector('.efr-default-layout--grid router-outlet');
     expect(routerOutlet).not.toBeNull();
   });
 

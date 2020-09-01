@@ -1,0 +1,94 @@
+@import 'variables.scss';
+
+.layout-top-menu.navbar {
+  background: $color_turquoise;
+  color: white;
+  height: $efr_navbar_height;
+  display: grid;
+  grid-template-columns: 130px 1fr auto;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .hav-brand {
+    background: $color_dark_blue;
+    padding-top: distance(0.5);
+
+    div:first-child {
+      padding-left: 35px;
+    }
+    div:nth-child(2) {
+      padding-left: 10px;
+    }
+    div:nth-child(3) {
+      padding-left: 35px;
+    }
+  }
+
+  .navbar-brand-and-version {
+    margin: auto 0px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-column-gap: distance(2);
+
+    .app-version {
+      margin-top: 2px;
+      font-size: 80%;
+      font-style: italic;
+      align-self: center;
+    }
+
+    .navbar-brand {
+      padding-left: distance(2);
+      font-size: 120%;
+      font-weight: bolder;
+    }
+  }
+
+  ul.navbar-nav {
+    display: inline-block;
+    list-style: none;
+    padding-left: 0px;
+    li.nav-item {
+      display: inline-block;
+      margin-right: $large_distance;
+      &:last-child {
+        margin-right: 0px;
+      }
+
+      &.active a {
+        border-bottom: 3px solid $color_orange;
+      }
+
+      a:hover {
+        color: $color_orange;
+      }
+
+      .secret {
+        padding-left: distance(1);
+        font-size: 7px;
+      }
+
+    }
+  }
+
+  ul.navbar-nav.right-bar {
+    padding-right: $large_distance;
+    a {
+      cursor: pointer;
+    }
+
+    .timezone-selector {
+      padding: 0px;
+      min-width: 200px;
+      .mat-select-value-text {
+        color: white;
+      }
+      .mat-select-arrow {
+        color: white;
+      }
+    }
+  }
+}

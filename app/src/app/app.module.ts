@@ -19,7 +19,7 @@ declare module '@ngrx/store' {
   }
 }
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './routing/app-routing.module';
 import { AppComponent } from './app.component';
 import { reducers, metaReducers } from './app-reducer';
 import { environment } from '../environments/environment';

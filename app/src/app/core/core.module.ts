@@ -15,10 +15,12 @@ import { FishingGuard } from './guards/fishing.guard';
 // Layouts
 import { AssetLayoutComponent } from './layouts/asset/asset.component';
 import { DefaultLayoutComponent } from './layouts/default/default.component';
-import { FishingReportLayoutComponent } from './layouts/fishing-report/fishing-report.component';
 import { FullLayoutComponent } from './layouts/full/full.component';
 import { LoginLayoutComponent } from './layouts/login/login.component';
 
+// Layouts: Efr
+import { EfrDefaultLayoutComponent } from './layouts/efr/efr-default/efr-default.component';
+import { FishingReportLayoutComponent } from './layouts/efr/fishing-report/fishing-report.component';
 
 // Pages
 import { LoginComponent } from './pages/login/login.component';
@@ -27,6 +29,7 @@ import { LogoutComponent } from './pages/logout/logout.component';
 import { NotFoundComponent } from './pages/404/404.component';
 
 // Components
+import { EfrTopMenuComponent } from './components/efr-top-menu/efr-top-menu.component';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { DontTranslateComponent } from './components/dont-translate/dont-translate.component';
@@ -42,14 +45,21 @@ import { TypescriptTranslationsComponent } from './components/typescript-transla
     UIModule,
   ],
   declarations: [
+    // Layouts
     AssetLayoutComponent,
     DefaultLayoutComponent,
-    FishingReportLayoutComponent,
     FullLayoutComponent,
     LoginLayoutComponent,
+
+    // Efr-layouts
+    FishingReportLayoutComponent,
+    EfrDefaultLayoutComponent,
+
+    // Components
     LoginComponent,
     UnauthorizedComponent,
     LogoutComponent,
+    EfrTopMenuComponent,
     TopMenuComponent,
     TypescriptTranslationsComponent,
     DontTranslateComponent,
