@@ -26,6 +26,7 @@ export const initialState: Types.State = {
   searchQuery: '',
   filterQuery: [],
   unitTonnages: [],
+  assetLicences: {},
 };
 
 const speedSegments = {
@@ -52,6 +53,9 @@ export const assetReducer = createReducer(initialState,
       }
     };
   }),
+  on(AssetActions.addAssetLicences, (state, { assetLicences }) => ({ ...state,
+    assetLicences: { ...state.assetLicences, ...assetLicences }
+  })),
   on(AssetActions.assetMoved, (state, { assetMovement }) => ({
     ...state,
     assetMovements: {

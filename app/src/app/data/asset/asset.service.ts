@@ -116,6 +116,17 @@ export class AssetService {
     );
   }
 
+  getLicenceForAsset(authToken: string, assetId: string): Observable<AssetTypes.AssetLicence> {
+    return this.http.get(
+      environment.baseApiUrl + `asset/rest/asset/${assetId}/licence`, {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    ) as Observable<AssetTypes.AssetLicence>;
+  }
+
   // /unionvms/movement/rest/micro/track/assets
   getTracksByTimeInterval(authToken: string, query: any, startDate: number, endDate: number, sources: string[]) {
     // const datetime = "2019-03-28 12:00:00 +0100";

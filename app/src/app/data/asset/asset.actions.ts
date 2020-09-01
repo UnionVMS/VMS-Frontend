@@ -12,6 +12,11 @@ export const addPositionForInspection = createAction(
   props<{ positionForInspection: AssetTypes.Movement }>()
 );
 
+export const addAssetLicences = createAction(
+  '[Asset] Add asset licences',
+  props<{ assetLicences: AssetTypes.AssetLicences }>()
+);
+
 export const assetMoved = createAction(
   '[Asset] Moved',
   props<{ assetMovement: AssetTypes.AssetMovement }>()
@@ -81,6 +86,11 @@ export const getLastFullPositionsForAsset = createAction(
 
 export const getLastPositionsForSelectedAsset = createAction(
   '[Asset] Get last positions for selected asset',
+  props<{ assetId: string }>()
+);
+
+export const getLicenceForAsset = createAction(
+  '[Asset] Get licence for asset',
   props<{ assetId: string }>()
 );
 

@@ -99,6 +99,43 @@
   }
 }
 
+.licence-details {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  margin-bottom: distance(4);
+
+  .content-container {
+    margin-bottom: 0px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+
+    .constraints {
+      margin-top: distance(1);
+      font-weight: bold;
+    }
+  }
+
+  .image-wrapper {
+    display: grid;
+    background: $color_dark_green;
+    .image-and-text {
+      grid-row-gap: distance(2);
+
+      .licence-wrapper {
+        justify-self: center;
+        border: 1px solid white;
+        border-radius: 60px;
+        padding: distance(2.5);
+        background: $color_green;
+
+        i {
+          font-size: 60px;
+        }
+      }
+    }
+  }
+}
+
 .image-and-text {
   place-self: center;
   color: white;

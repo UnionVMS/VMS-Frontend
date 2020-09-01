@@ -46,7 +46,7 @@
     <div class="asset-image">
       <div class="image-and-text">
         <i class="ri-image-fill"></i>
-        <span>Image missing</span>
+        <span i18n>Image missing</span>
       </div>
     </div>
   </div>
@@ -86,7 +86,46 @@
       <div class="ship-wrapper">
         <i class="ri-ship-fill"></i>
       </div>
-      <span>VESSEL DETAILS</span>
+      <span i18n>VESSEL DETAILS</span>
+    </div>
+  </div>
+</div>
+
+<div class="licence-details" *ngIf="formattedLicence">
+  <div class="content-container">
+    <div class="fields">
+      <div class="row">
+        <div class="title"><span class="text" i18n>Licence no.</span></div>
+        <div class="value">{{formattedLicence.licenceNumber}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>Civic number</span></div>
+        <div class="value">{{formattedLicence.civicNumber}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>From date</span></div>
+        <div class="value">{{formattedLicence.formattedFromDate}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>To date</span></div>
+        <div class="value">{{formattedLicence.formattedToDate}}</div>
+      </div>
+      <div class="row">
+        <div class="title"><span class="text" i18n>Order date</span></div>
+        <div class="value">{{formattedLicence.formattedDecisionDate}}</div>
+      </div>
+      <div>
+        <div i18n>Limitations</div>
+        <div class="constraints">{{formattedLicence.constraints}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="image-wrapper">
+    <div class="image-and-text">
+      <div class="licence-wrapper">
+        <i class="ri-information-line"></i>
+      </div>
+      <span i18n>Licence</span>
     </div>
   </div>
 </div>

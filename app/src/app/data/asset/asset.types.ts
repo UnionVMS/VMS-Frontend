@@ -201,6 +201,22 @@ export type LastPositionsList = Readonly<{
   readonly [assetId: string]: LastPositions
 }>;
 
+export type AssetLicence = Readonly<{
+  id: string;
+  assetId: string;
+  civicNumber: string;
+  createdDate: number;
+  decisionDate: number,
+  fromDate: number,
+  licenceNumber: number,
+  toDate: number,
+  constraints: string;
+}>;
+
+export type AssetLicences = Readonly<{
+  readonly [assetId: string]: AssetLicence
+}>;
+
 export type State = Readonly<{
   selectedAssets: ReadonlyArray<string>;
   selectedAsset: string|null;
@@ -221,4 +237,5 @@ export type State = Readonly<{
   searchQuery: string;
   filterQuery: ReadonlyArray<AssetFilterQuery>;
   unitTonnages: ReadonlyArray<UnitTonnage>;
+  assetLicences: AssetLicences;
 }>;

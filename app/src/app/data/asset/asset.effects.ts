@@ -408,6 +408,21 @@ export class AssetEffects {
   );
 
   @Effect()
+  getLicenceForAsset$ = this.actions$.pipe(
+    ofType(AssetActions.getLicenceForAsset),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([action, authToken]: Array<any>) => {
+        return this.assetService.getLicenceForAsset(authToken, action.assetId).pipe(map((assetLicence: AssetTypes.AssetLicence) => {
+          return AssetActions.addAssetLicences({ assetLicences: {
+            [action.assetId]: assetLicence
+          }});
+        }));
+      })
+    ))
+  );
+
+  @Effect()
   getAssetUnitTonnage$ = this.actions$.pipe(
     ofType(AssetActions.getUnitTonnage),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),

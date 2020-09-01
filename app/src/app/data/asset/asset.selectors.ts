@@ -28,6 +28,7 @@ export const selectSearchQuery = (state: State) => state.asset.searchQuery;
 export const selectPositionsForInspection = (state: State) => state.asset.positionsForInspection;
 export const selectUnitTonnages = (state: State) => state.asset.unitTonnages;
 export const selectSelectedAssetsLastPositions = (state: State) => state.asset.selectedAssetsLastPositions;
+export const selectAssetLicences = (state: State) => state.asset.assetLicences;
 
 
 export const getAssetsMovementsDependingOnLeftPanel = createSelector(
@@ -359,4 +360,15 @@ export const getLastFullPositionsForSelectedAsset = createSelector(
 export const getSelectedAssetsLastPositions = createSelector(
   selectSelectedAssetsLastPositions,
   (selectedAssetsLastPositions) => selectedAssetsLastPositions
+);
+
+export const getLicenceForSelectedAsset = createSelector(
+  selectAssetLicences,
+  getSelectedAsset,
+  (assetLicences, selectedAsset) => {
+    if(typeof selectedAsset === 'undefined' || typeof selectedAsset.id === 'undefined') {
+      return null;
+    }
+    return assetLicences[selectedAsset.id];
+  }
 );

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer';
@@ -18,6 +18,7 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public asset = {} as AssetTypes.Asset;
+  public licence$: Observable<AssetTypes.AssetLicence>;
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -28,9 +29,13 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
   mapStateToProps() {
     this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
       if(typeof asset !== 'undefined') {
+        if(this.asset.id !== asset.id) {
+          this.store.dispatch(AssetActions.getLicenceForAsset({ assetId: asset.id }));
+        }
         this.asset = asset;
       }
     });
+    this.licence$ = this.store.select(AssetSelectors.getLicenceForSelectedAsset);
   }
 
   mapDispatchToProps() {
