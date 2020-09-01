@@ -80,9 +80,6 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
           })),
           logicalAnd: false
         } }));
-      } else {
-        this.loadingData = false;
-        this.tableReadyForDisplay = true;
       }
 
       this.mobileTerminals = searchResults.map((mobileTerminal): ExtendedMobileTerminal => {
@@ -95,6 +92,12 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
           assetName: undefined
         };
       });
+
+      if(assetIds.length === 0) {
+        this.sortData({ active: 'serialNo', direction: 'desc' });
+        this.loadingData = false;
+        this.tableReadyForDisplay = true;
+      }
     });
   }
 
