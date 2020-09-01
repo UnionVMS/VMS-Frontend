@@ -151,8 +151,10 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.clearAssetGroup({assetGroup}));
     this.searchAutocomplete = (searchQuery: string) =>
       this.store.dispatch(AssetActions.setAutocompleteQuery({searchQuery}));
-    this.selectAsset = (assetId: string) =>
+    this.selectAsset = (assetId: string) => {
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
+      this.store.dispatch(AssetActions.getLastPositionsForSelectedAsset({ assetId }));
+    };
     this.dispatchSelectIncident = (incidentId: number) =>
       this.store.dispatch(IncidentActions.selectIncident({ incidentId }));
     this.setActiveRightPanel = (activeRightPanel: ReadonlyArray<string>) => {
