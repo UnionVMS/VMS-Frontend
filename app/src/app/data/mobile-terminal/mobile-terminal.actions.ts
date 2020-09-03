@@ -36,9 +36,9 @@ export const getMobileTerminalHistoryForAsset = createAction(
   props<{ assetId: string }>()
 );
 
-export const saveMobileTerminal = createAction(
-  '[Mobile Terminals] Save',
-  props<{ mobileTerminal: MobileTerminalTypes.MobileTerminal }>()
+export const getProposedMemberNumber = createAction(
+  '[Mobile Terminals] Get proposed member number',
+  props<{ dnid: number }>()
 );
 
 export const getSelectedMobileTerminal = createAction(
@@ -53,11 +53,21 @@ export const getPlugins = createAction(
   '[Mobile Terminal] Get Plugins'
 );
 
+export const saveMobileTerminal = createAction(
+  '[Mobile Terminals] Save',
+  props<{ mobileTerminal: MobileTerminalTypes.MobileTerminal }>()
+);
+
 export const setMobileTerminalHistoryForAsset = createAction(
   '[Mobile Terminals] Set history for asset',
   props<{ mobileTerminalHistory: Readonly<{
     readonly [assetId: string]: MobileTerminalTypes.MobileTerminalHistoryList }>
   }>()
+);
+
+export const setProposedMemberNumber = createAction(
+  '[Mobile Terminals] Set proposed member number',
+  props<{ memberNumber: number }>()
 );
 
 export const setTransponders = createAction(

@@ -102,6 +102,20 @@ export class MobileTerminalEffects {
     ))
   );
 
+  @Effect()
+  getProposedMemberNumber$ = this.actions$.pipe(
+    ofType(MobileTerminalActions.getProposedMemberNumber),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([action, authToken]: Array<any>) => {
+        return this.mobileTerminalService.getProposedMemberNumber(authToken, action.dnid).pipe(
+          map((response: any) => {
+            return MobileTerminalActions.setProposedMemberNumber({ memberNumber: response });
+          })
+        );
+      })
+    ))
+  );
 
   @Effect()
   getTransponders$ = this.actions$.pipe(

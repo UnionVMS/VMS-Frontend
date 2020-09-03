@@ -134,7 +134,7 @@
                   type="number"
                   formControlName="dnid"
                   required
-                  (blur)="checkIfMemberNumberAndDnidExists(channel, i)"
+                  (blur)="proposeMemberNumber(channel); checkIfMemberNumberAndDnidExists(channel, i)"
                 >
                 <mat-error *ngFor="let error of getErrors(['channels', i + '', 'dnid'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
@@ -146,7 +146,16 @@
                   formControlName="memberNumber"
                   required
                   (blur)="checkIfMemberNumberAndDnidExists(channel, i)"
-                ><mat-error *ngFor="let error of getErrors(['channels', i + '', 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
+                  [matAutocomplete]="proposedMemberNumberAC"
+                >
+                <mat-autocomplete #proposedMemberNumberAC="matAutocomplete">
+                  <mat-optgroup label="Proposed member number" *ngIf="proposedMemberNumberForChannels[i] !== undefined && proposedMemberNumberForChannels[i] !== null">
+                    <mat-option [value]="proposedMemberNumberForChannels[i]">
+                      {{proposedMemberNumberForChannels[i]}}
+                    </mat-option>
+                  </mat-optgroup>
+                </mat-autocomplete>
+                <mat-error *ngFor="let error of getErrors(['channels', i + '', 'memberNumber'])">{{ errorMessage(error) }}</mat-error>
               </mat-form-field>
 
               <div id="mobile-terminal-form--channel-name">

@@ -11,6 +11,7 @@ export const selectPlugins = (state: State) => state.mobileTerminal.plugins;
 export const selectSerialNumberExists = (state: State) => state.mobileTerminal.formFieldsValid.serialNumberExists;
 export const selectMemberNumberAndDnidCombinationExists = (state: State) =>
   state.mobileTerminal.formFieldsValid.memberNumberAndDnidCombinationExists;
+export const selectProposedMemberNumber = (state: State) => state.mobileTerminal.formFieldsValid.proposedMemberNumber;
 export const selectSearchResults = (state: State) => state.mobileTerminal.searchResults;
 export const selectLastSearchHash = (state: State) => state.mobileTerminal.lastSearchHash;
 export const selectCreateWithSerialNo = (state: State) => state.mobileTerminal.createWithSerialNo;
@@ -117,6 +118,10 @@ export const getMemberNumberAndDnidCombinationExists = createSelector(
   (memberNumberAndDnidCombinationExists) => memberNumberAndDnidCombinationExists
 );
 
+export const getProposedMemberNumber = createSelector(
+  selectProposedMemberNumber,
+  (proposedMemberNumber) => proposedMemberNumber
+);
 
 export const getLastSearchResult = createSelector(
   selectSearchResults, selectLastSearchHash, selectMobileTerminals,

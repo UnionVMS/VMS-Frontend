@@ -79,6 +79,7 @@ export type FormFieldsValid = Readonly<{
   memberNumberAndDnidCombinationExists: Readonly<{
     readonly [channelId: string]: boolean | null;
   }>;
+  proposedMemberNumber: number | null;
 }>;
 
 export type MobileTerminalHistoryChange = Readonly<{

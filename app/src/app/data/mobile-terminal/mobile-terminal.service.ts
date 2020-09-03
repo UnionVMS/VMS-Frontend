@@ -120,4 +120,15 @@ export class MobileTerminalService {
     );
   }
 
+  getProposedMemberNumber(authToken: string, dnid: number) {
+    return this.http.get(
+      environment.baseApiUrl + `asset/rest/mobileterminal/lowestFreeMemberNumberForDnid/${dnid}`, {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
 }

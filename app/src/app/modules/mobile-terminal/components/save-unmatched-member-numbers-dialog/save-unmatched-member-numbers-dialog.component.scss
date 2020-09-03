@@ -1,0 +1,30 @@
+@import 'variables.scss';
+
+$angular_material_margin: 24px;
+
+mobile-terminal-save-unmatched-member-numbers-dialog {
+  h1 {
+    margin: 0px;
+    padding: 0px $angular_material_margin;
+
+    span.selected-assets {
+      color: $color_gray;
+      margin-left: distance(2);
+    }
+  }
+
+  .mat-dialog-content {
+    border-top: 1px solid $color_dark_gray;
+    padding: 0px;
+    padding-top: distance(1);
+
+    div {
+      width: 100%;
+      padding: 0px $angular_material_margin;
+    }
+  }
+
+  .dialog-buttons {
+    padding: 0px $angular_material_margin;
+  }
+}

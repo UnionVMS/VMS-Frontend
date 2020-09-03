@@ -17,6 +17,7 @@ import {
 import { errorMessage } from '@app/helpers/validators/error-messages';
 
 import { SaveDialogComponent } from '@modules/mobile-terminal/components/save-dialog/save-dialog.component';
+import { SaveUnmatchedMemberNumbersDialogComponent } from '@modules/mobile-terminal/components/save-unmatched-member-numbers-dialog/save-unmatched-member-numbers-dialog.component';
 
 import { Moment } from 'moment-timezone';
 
@@ -45,10 +46,12 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public serialNumberExists: (serialNumber: string, isSelf?: boolean) => void;
   public memberNumberAndDnidCombinationExists: (memberNumber: number, dnid: number, channelId: string, isSelf?: boolean) => void;
   public setMemberNumberAndDnidCombinationExists: (channelId: string, dnidMemberNumberComboExists: boolean) => void;
+  public getProposedMemberNumber: (dnid: number) => void;
   public serialNumberExists$: Observable<boolean>;
   public memberNumberAndDnidCombinationExists$: Observable<Readonly<{
     readonly [channelId: string]: boolean;
   }>>;
+  public proposedMemberNumberForChannels: Readonly<{ readonly [channelNr: number]: number | null}>;
   public isSameSerielNumber = false;
   public channelsAlreadyInUseBy = {
     poll: null,
@@ -94,6 +97,13 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.memberNumberAndDnidCombinationExists$ = this.store.select(MobileTerminalSelectors.getMemberNumberAndDnidCombinationExists);
     const memberNumberAndDnidExistsFunction = memberNumberAndDnidExistsFactory(this.memberNumberAndDnidCombinationExists$);
+
+    this.store.select(MobileTerminalSelectors.getProposedMemberNumber).pipe(takeUntil(this.unmount$)).subscribe((proposedMemberNumber) => {
+      this.proposedMemberNumberForChannels = {
+        ...this.proposedMemberNumberForChannels,
+        [this.currentChannelOpened]: proposedMemberNumber
+      };
+    });
 
     this.mobileTerminalSubscription = this.store.select(MobileTerminalSelectors.getMobileTerminalsByUrl)
       .pipe(
@@ -238,8 +248,6 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
             expectedFrequencyInPort: channel.expectedFrequencyInPort * 60 * 1000,
           };
 
-          console.warn(fixedChannel);
-
           if(channel.id.indexOf('temp-') === -1) {
             return {
               ...channelsById[channel.id],
@@ -268,6 +276,8 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.setMemberNumberAndDnidCombinationExists = (channelId: string, dnidMemberNumberComboExists: boolean) =>
       this.store.dispatch(MobileTerminalActions.setMemberNumberAndDnidCombinationExists({ channelId, dnidMemberNumberComboExists }));
+    this.getProposedMemberNumber = (dnid: number) =>
+      this.store.dispatch(MobileTerminalActions.getProposedMemberNumber({ dnid }));
   }
 
   ngOnInit() {
@@ -284,13 +294,36 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   confirmSave() {
-    const dialogRef = this.dialog.open(SaveDialogComponent, { panelClass: 'dialog-without-padding' });
-
-    dialogRef.afterClosed().subscribe(returnValue => {
-      if(typeof returnValue !== 'undefined' && returnValue !== '') {
-        this.save(returnValue);
-      }
+    const formChannels = this.formValidator.value.channels;
+    const seen = {};
+    const channelsWithUniqueChannelNr = formChannels.filter((channel) => {
+        return seen.hasOwnProperty(channel.memberNumber) ? false : (seen[channel.memberNumber] = true);
     });
+
+    console.warn('Are we?', channelsWithUniqueChannelNr.length, formChannels.length);
+    if(formChannels.length !== 0 && formChannels.length !== 1 && channelsWithUniqueChannelNr.length === formChannels.length) {
+      const dialogRef = this.dialog.open(SaveUnmatchedMemberNumbersDialogComponent, { panelClass: 'dialog-without-padding' });
+
+      dialogRef.afterClosed().subscribe(accepted => {
+        if(accepted === true) {
+          const dialogRef2 = this.dialog.open(SaveDialogComponent, { panelClass: 'dialog-without-padding' });
+
+          dialogRef2.afterClosed().subscribe(returnValue => {
+            if(typeof returnValue !== 'undefined' && returnValue !== '') {
+              this.save(returnValue);
+            }
+          });
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(SaveDialogComponent, { panelClass: 'dialog-without-padding' });
+
+      dialogRef.afterClosed().subscribe(returnValue => {
+        if(typeof returnValue !== 'undefined' && returnValue !== '') {
+          this.save(returnValue);
+        }
+      });
+    }
   }
 
   trackChannelsBy(index: number, channel: any): string | number {
@@ -385,11 +418,16 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.formValidator.get(['essentailFields', 'serialNo']).updateValueAndValidity({ onlySelf: true });
   }
 
+  proposeMemberNumber(channel: MobileTerminalTypes.Channel) {
+    if(channel.dnid !== null) {
+      this.getProposedMemberNumber(channel.dnid);
+    }
+  }
+
   checkIfMemberNumberAndDnidExists(channel: MobileTerminalTypes.Channel, channelNr: number) {
     const channels = this.formValidator.controls.channels?.value.slice();
 
     const foundLocalMatchInForm = channels.find((iChannel: MobileTerminalTypes.Channel) => {
-      console.warn(channel.id !== iChannel.id && channel.dnid === iChannel.dnid && channel.memberNumber === iChannel.memberNumber);
       if(channel.id !== iChannel.id && channel.dnid === iChannel.dnid && channel.memberNumber === iChannel.memberNumber) {
         this.setMemberNumberAndDnidCombinationExists(channel.id, true);
         return true;

@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 /* Modules */
 import { RouterModule } from '@angular/router';
 import { UIModule } from '../ui/ui.module';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -32,6 +33,7 @@ import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.co
 import { HistoryComponent } from './components/history/history.component';
 import { ListForAssetComponent } from './components/list-for-asset/list-for-asset.component';
 import { SaveDialogComponent } from './components/save-dialog/save-dialog.component';
+import { SaveUnmatchedMemberNumbersDialogComponent } from './components/save-unmatched-member-numbers-dialog/save-unmatched-member-numbers-dialog.component';
 
 
 @NgModule({
@@ -40,6 +42,7 @@ import { SaveDialogComponent } from './components/save-dialog/save-dialog.compon
     DatetimePickerModule,
     RouterModule,
     UIModule,
+    MatAutocompleteModule,
     MatDialogModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
@@ -66,6 +69,7 @@ import { SaveDialogComponent } from './components/save-dialog/save-dialog.compon
     HistoryComponent,
     ListForAssetComponent,
     SaveDialogComponent,
+    SaveUnmatchedMemberNumbersDialogComponent,
   ]
 })
 

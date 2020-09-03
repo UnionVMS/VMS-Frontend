@@ -9,6 +9,7 @@ export const initialState: MobileTerminalTypes.State = {
   formFieldsValid: {
     serialNumberExists: false,
     memberNumberAndDnidCombinationExists: {},
+    proposedMemberNumber: null,
   },
   searchResults: {},
   lastSearchHash: null,
@@ -143,6 +144,20 @@ export const mobileTerminalReducer = createReducer(initialState,
   on(MobileTerminalActions.setTransponders, (state, { transponders }) => ({
     ...state,
     transponders
+  })),
+  on(MobileTerminalActions.getProposedMemberNumber, (state) => ({
+    ...state,
+    formFieldsValid: {
+      ...state.formFieldsValid,
+      proposedMemberNumber: null,
+    }
+  })),
+  on(MobileTerminalActions.setProposedMemberNumber, (state, { memberNumber }) => ({
+    ...state,
+    formFieldsValid: {
+      ...state.formFieldsValid,
+      proposedMemberNumber: memberNumber,
+    }
   })),
   on(MobileTerminalActions.setPlugins, (state, { plugins }) => ({
     ...state,
