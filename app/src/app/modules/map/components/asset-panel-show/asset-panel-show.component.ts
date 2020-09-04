@@ -24,6 +24,7 @@ export class AssetPanelShowComponent {
   @Input() getAssetTrack: (assetId: string, movementId: string) => void;
   @Input() getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
   @Input() getIncidentsForAssetId: (assetId: string) => void;
+  @Input() getLicenceForAsset: (assetId: string) => void;
   @Input() untrackAsset: (assetId: string) => void;
   @Input() addForecast: (assetId: string) => void;
   @Input() removeForecast: (assetId: string) => void;

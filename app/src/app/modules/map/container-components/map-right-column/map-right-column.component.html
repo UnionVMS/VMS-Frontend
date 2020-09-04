@@ -30,15 +30,17 @@
   </div>
   <div class="panel showAsset-panel" *ngIf="activePanel[0] === 'showAsset'">
     <div class="showAsset-panel--title">
+      <i
+        class="ri-arrow-left-s-line"
+        aria-hidden="true"
+        (click)="setActivePanel(['showAsset'])"
+        *ngIf="checkIfSecondaryPanelIsActive()"
+      ></i>
       <h3 i18n>Detailed asset information</h3>
       <div class="asset-name" *ngIf="selectedAsset">
         {{ selectedAsset.asset.name + (selectedAsset.asset.externalMarking !== undefined ? ' &#183; ' + selectedAsset.asset.externalMarking : '') }}
       </div>
     </div>
-    <ul class="breadcrumbs" *ngIf="checkIfSecondaryPanelIsActive() && selectedAsset">
-      <li (click)="setActivePanel(['showAsset'])">{{ selectedAsset.asset.name }}</li>
-      <li>incident list</li>
-    </ul>
     <ng-container *ngIf="selectedAsset">
       <map-asset-panel-show
         *ngIf="!checkIfSecondaryPanelIsActive()"
@@ -56,7 +58,13 @@
         [getIncidentsForAssetId]="getIncidentsForAssetId"
         [setActiveRightPanel]="setActivePanel"
         [selectedAssetsLastPositions]="selectedAssetsLastPositions[selectedAsset.asset.id]"
+        [getLicenceForAsset]="getLicenceForAsset"
       ></map-asset-panel-show>
+      <map-licence-information
+        *ngIf="activePanel[1] === 'licenceInformation'"
+        [licence]="licence$ | async"
+        [licenceLoaded]="licenceLoaded"
+      ></map-licence-information>
       <map-asset-incidents
         *ngIf="activePanel[1] === 'incidentList'"
         [incidents]="incidentsForAssets[selectedAsset.asset.id]"

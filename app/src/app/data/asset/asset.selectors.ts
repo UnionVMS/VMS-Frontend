@@ -362,13 +362,24 @@ export const getSelectedAssetsLastPositions = createSelector(
   (selectedAssetsLastPositions) => selectedAssetsLastPositions
 );
 
+export const getLicenceForSelectedMapAsset = createSelector(
+  selectAssetLicences,
+  selectSelectedAsset,
+  (assetLicences, selectedAssetId) => {
+    if(selectedAssetId === null) {
+      return null;
+    }
+    return assetLicences[selectedAssetId];
+  }
+);
+
 export const getLicenceForSelectedAsset = createSelector(
   selectAssetLicences,
   getSelectedAsset,
-  (assetLicences, selectedAsset) => {
-    if(typeof selectedAsset === 'undefined' || typeof selectedAsset.id === 'undefined') {
+  (assetLicences, selectedAssetUrl) => {
+    if(typeof selectedAssetUrl === 'undefined' || typeof selectedAssetUrl.id === 'undefined') {
       return null;
     }
-    return assetLicences[selectedAsset.id];
+    return assetLicences[selectedAssetUrl.id];
   }
 );

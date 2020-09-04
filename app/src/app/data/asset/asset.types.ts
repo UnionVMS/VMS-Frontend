@@ -210,6 +210,7 @@ export type AssetLicence = Readonly<{
   fromDate: number,
   licenceNumber: number,
   toDate: number,
+  name: string;
   constraints: string;
 }>;
 

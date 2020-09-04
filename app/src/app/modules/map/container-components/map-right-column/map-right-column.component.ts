@@ -37,6 +37,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public assetGroupFilters: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>;
   public incidentLogs: IncidentTypes.IncidentLogs;
   public incidentsForAssets: Readonly<{ readonly [assetId: string]: ReadonlyArray<IncidentTypes.Incident> }>;
+  public licence$: Observable<AssetTypes.AssetLicence>;
+  public licenceLoaded = false;
 
   public addForecast: (assetId: string) => void;
   public createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
@@ -50,6 +52,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public getAssetTrack: (assetId: string, movementId: string) => void;
   public getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
   public getIncidentsForAssetId: (assetId: string) => void;
+  public getLicenceForAsset: (assetId: string) => void;
   public getLogForIncident: (incidentId: number) => void;
   public pollAsset: (assetId: string, comment: string) => void;
   public pollIncident: (incidentId: number, comment: string) => void;
@@ -122,6 +125,9 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unmount$)).subscribe(selectedAssetsLastPositions => {
         this.selectedAssetsLastPositions = selectedAssetsLastPositions;
       });
+    this.licence$ = this.store.select(AssetSelectors.getLicenceForSelectedMapAsset).pipe(tap((licence) => {
+      this.licenceLoaded = true;
+    } ));
   }
 
   mapDispatchToProps() {
@@ -151,6 +157,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(IncidentActions.getIncidentsForAssetId({ assetId }));
     this.getLogForIncident = (incidentId: number) =>
       this.store.dispatch(IncidentActions.getLogForIncident({ incidentId }));
+    this.getLicenceForAsset = (assetId: string) => {
+      this.licenceLoaded = false;
+      this.store.dispatch(AssetActions.getLicenceForAsset({ assetId }));
+    };
     this.untrackAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
     this.selectAsset = (assetId: string) =>

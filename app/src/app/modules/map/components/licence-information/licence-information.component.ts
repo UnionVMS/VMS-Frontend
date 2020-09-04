@@ -1,41 +1,40 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import getContryISO2 from 'country-iso-3-to-2';
+import { AssetTypes } from '@data/asset';
 
 import { formatUnixdate } from '@app/helpers/datetime-formatter';
 
-import { AssetTypes } from '@data/asset';
-
 @Component({
-  selector: 'asset-show',
-  templateUrl: './show.component.html',
-  styleUrls: ['./show.component.scss']
+  selector: 'map-licence-information',
+  templateUrl: './licence-information.component.html',
+  styleUrls: ['./licence-information.component.scss']
 })
-export class ShowComponent implements OnChanges {
-  @Input() asset: AssetTypes.Asset;
+export class LicenceInformationComponent implements OnChanges {
   @Input() licence: AssetTypes.AssetLicence;
+  @Input() licenceLoaded: boolean;
 
   public formattedLicence: AssetTypes.AssetLicence & {
     formattedToDate: string;
     formattedDecisionDate: string,
     formattedFromDate: string,
+    active: string,
   };
+  public displayInformation = true;
+  public toggleDisplayInformation = () => this.displayInformation = !this.displayInformation;
 
   ngOnChanges() {
     if(typeof this.licence !== 'undefined' && this.licence !== null) {
+      const currentTimestamp = Date.now();
       this.formattedLicence = {
         ...this.licence,
         formattedToDate: formatUnixdate(this.licence.toDate),
         formattedDecisionDate: formatUnixdate(this.licence.decisionDate),
         formattedFromDate: formatUnixdate(this.licence.fromDate),
+        active: (
+          this.licence.fromDate < currentTimestamp &&
+          currentTimestamp < this.licence.toDate
+          ? 'Active' : 'Inactive'
+        ),
       };
     }
-  }
-
-  public getCountryCode() {
-    const countryCode = getContryISO2(this.asset.flagStateCode);
-    if(typeof countryCode === 'undefined') {
-      return '???';
-    }
-    return countryCode.toLowerCase();
   }
 }

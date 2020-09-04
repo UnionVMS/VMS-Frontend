@@ -135,8 +135,7 @@
     <button
       i18n
       mat-button
-      routerLink="/asset/{{asset.asset.id}}"
-      disabled
+      (click)="getLicenceForAsset(asset.asset.id); setActiveRightPanel(['showAsset', 'licenceInformation'])"
       color="primary"
     >License</button>
     <button

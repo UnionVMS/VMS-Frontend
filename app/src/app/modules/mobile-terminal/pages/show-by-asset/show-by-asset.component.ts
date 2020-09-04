@@ -34,6 +34,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   public currentMobileTerminal: MobileTerminalTypes.MobileTerminal;
   public mergedRoute: RouterTypes.MergedRoute;
   public selectedAsset: AssetTypes.Asset;
+  public mobileTerminalHistoryNotUpToDate = false;
 
   public addMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
   public removeMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
@@ -69,6 +70,11 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
           this.currentMobileTerminal = this.mobileTerminals[0];
         }
         this.activeMobileTerminal = this.mobileTerminals.find(mobileTerminal => mobileTerminal.active);
+
+        if(this.mobileTerminalHistoryNotUpToDate) {
+          this.mobileTerminalHistoryNotUpToDate = false;
+          this.store.dispatch(MobileTerminalActions.getMobileTerminalHistoryForAsset({ assetId: this.selectedAsset.id }));
+        }
       }
     });
     this.mobileTerminalHistoryFilter$ = this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryFilter);
@@ -91,8 +97,10 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   mapDispatchToProps() {
-    this.saveMobileTerminal = (mobileTerminal: MobileTerminalTypes.MobileTerminal) =>
+    this.saveMobileTerminal = (mobileTerminal: MobileTerminalTypes.MobileTerminal) => {
+      this.mobileTerminalHistoryNotUpToDate = true;
       this.store.dispatch(MobileTerminalActions.saveMobileTerminal({ mobileTerminal }));
+    };
     this.addMobileTerminalHistoryFilters = (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) =>
       this.store.dispatch(MobileTerminalActions.addMobileTerminalHistoryFilters({ historyFilter }));
     this.removeMobileTerminalHistoryFilters = (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) =>

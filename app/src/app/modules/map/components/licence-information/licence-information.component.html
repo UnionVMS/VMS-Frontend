@@ -1,0 +1,35 @@
+<mat-spinner class="load-spinner" *ngIf="!licenceLoaded"></mat-spinner>
+<ng-container *ngIf="licenceLoaded">
+  <map-panel-block
+    *ngIf="formattedLicence"
+    [blockTitle]="formattedLicence.licenceNumber"
+    [active]="displayInformation"
+    [setActiveFunction]="toggleDisplayInformation"
+    [useArrowsAsToggle]="true"
+    [showFooter]="true"
+    [unstyledFooter]="true"
+  >
+    <span header i18n>Licence</span>
+    <div body class="licence-details">
+      <div class="title"><span class="text" i18n>Holder</span></div>
+      <div class="value">{{formattedLicence.name}}</div>
+      <div class="title"><span class="text" i18n>Civic number</span></div>
+      <div class="value">{{formattedLicence.civicNumber}}</div>
+      <div class="title"><span class="text" i18n>Status</span></div>
+      <div class="value {{formattedLicence.active.toLowerCase()}}" i18n>{{formattedLicence.active}}</div>
+      <div class="title"><span class="text" i18n>From date</span></div>
+      <div class="value">{{formattedLicence.formattedFromDate}}</div>
+      <div class="title"><span class="text" i18n>To date</span></div>
+      <div class="value">{{formattedLicence.formattedToDate}}</div>
+      <div class="title"><span class="text" i18n>Decision date</span></div>
+      <div class="value">{{formattedLicence.formattedDecisionDate}}</div>
+      <div class="constraints-wrapper" *ngIf="formattedLicence.constraints">
+        <div i18n>Limitations</div>
+        <div class="constraints">{{formattedLicence.constraints}}</div>
+      </div>
+    </div>
+  </map-panel-block>
+  <div *ngIf="!formattedLicence" class="no-licence" i18n>
+    Can not find any licence.
+  </div>
+</ng-container>

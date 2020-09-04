@@ -53,6 +53,7 @@ import { IncidentStatusFormComponent } from './components/incident-status-form/i
 import { IncidentsComponent } from './components/incidents/incidents.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
+import { LicenceInformationComponent } from './components/licence-information/licence-information.component';
 import { MapLayersComponent } from './components/map-layers/map-layers.component';
 import { MapLocationsComponent } from './components/map-locations/map-locations.component';
 import { ManualMovementFormComponent } from './components/manual-movement-form/manual-movement-form.component';
@@ -117,6 +118,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentsComponent,
     InformationPanelComponent,
     LayerFilterComponent,
+    LicenceInformationComponent,
     MapLocationsComponent,
     MapLayersComponent,
     MapLeftColumnComponent,

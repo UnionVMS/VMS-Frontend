@@ -1,0 +1,35 @@
+@import 'variables.scss';
+
+.licence-details {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-row-gap: distance(1);
+  grid-column-gap: distance(1);
+
+  .active {
+    color: $color_accent;
+  }
+
+  .inactive {
+    color: $color_warn;
+  }
+
+  .constraints-wrapper {
+    margin-top: distance(2);
+    grid-column: 1 / span 2;
+
+    .constraints {
+      border: 2px solid $color_gray;
+      padding: distance(1);
+      margin-top: distance(1);
+      font-weight: bold;
+    }
+  }
+}
+
+.no-licence {
+  text-align: center;
+  margin-top: distance(1);
+  padding: distance(1);
+  background: white;
+}
