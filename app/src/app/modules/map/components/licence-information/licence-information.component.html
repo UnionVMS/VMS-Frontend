@@ -23,9 +23,9 @@
       <div class="value">{{formattedLicence.formattedToDate}}</div>
       <div class="title"><span class="text" i18n>Decision date</span></div>
       <div class="value">{{formattedLicence.formattedDecisionDate}}</div>
-      <div class="constraints-wrapper" *ngIf="formattedLicence.constraints">
+      <div class="constraints-wrapper">
         <div i18n>Limitations</div>
-        <div class="constraints">{{formattedLicence.constraints}}</div>
+        <div class="constraints{{formattedLicence.constraints ? '' : ' hidden'}}">{{formattedLicence.constraints}}</div>
       </div>
     </div>
   </map-panel-block>

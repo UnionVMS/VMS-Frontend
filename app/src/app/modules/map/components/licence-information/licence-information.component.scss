@@ -8,10 +8,12 @@
 
   .active {
     color: $color_accent;
+    font-weight: bold;
   }
 
   .inactive {
     color: $color_warn;
+    font-weight: bold;
   }
 
   .constraints-wrapper {
