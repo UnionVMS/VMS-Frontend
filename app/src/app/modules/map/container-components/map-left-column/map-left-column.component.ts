@@ -52,7 +52,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public selectAsset: (assetId: string) => void;
 
 
-  public assetNotSendingIncidents: IncidentTypes.IncidentsCollectionByType;
+  public assetNotSendingIncidents: IncidentTypes.IncidentsCollectionByResolution;
   public incidentNotificationsByType: Readonly<{ readonly [type: string]: IncidentTypes.IncidentNotificationsCollections }>;
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
@@ -107,7 +107,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     });
     this.searchAutocompleteResult$ = this.store.select(AssetSelectors.getSearchAutocomplete);
     this.store.select(IncidentSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(
-      (assetsNotSendingIncicents: IncidentTypes.IncidentsCollectionByType) => {
+      (assetsNotSendingIncicents: IncidentTypes.IncidentsCollectionByResolution) => {
       this.assetNotSendingIncidents = assetsNotSendingIncicents;
     });
     this.store.select(IncidentSelectors.getIncidentNotificationsByType).pipe(takeUntil(this.unmount$)).subscribe(

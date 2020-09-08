@@ -28,6 +28,18 @@ export class IncidentService {
     );
   }
 
+  getAllOpenIncidents(authToken: string) {
+    return this.http.get(
+      environment.baseApiUrl + `incident/rest/incident/allOpenIncidents`,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
   getLogForIncident(authToken: string, incidentId: number) {
     return this.http.get(
       environment.baseApiUrl + `web-gateway/rest/incidents/incidentLogForIncident/${incidentId}`,
@@ -43,6 +55,19 @@ export class IncidentService {
   getIncidentsForAssetId(authToken: string, assetId: string) {
     return this.http.get(
       environment.baseApiUrl + `incident/rest/incident/incidentsForAssetId/${assetId}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
+  saveIncident(authToken: string, incident: IncidentTypes.Incident) {
+    return this.http.put(
+      environment.baseApiUrl + `web-gateway/rest/incidents/updateIncident`,
+      incident,
       {
         headers: new HttpHeaders({
           Authorization: authToken,

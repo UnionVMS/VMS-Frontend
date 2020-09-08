@@ -12,8 +12,8 @@ export const createNote = createAction(
   props<{ incidentId: number, note: Note }>()
 );
 
-export const getAssetNotSendingIncidents = createAction(
-  '[Incident] Get asset not sending incidents'
+export const getAllOpenIncidents = createAction(
+  '[Incident] Get all open incidents'
 );
 
 export const getLogForIncident = createAction(
@@ -31,9 +31,9 @@ export const pollIncident = createAction(
   props<{ incidentId: number, comment?: string }>()
 );
 
-export const saveNewIncidentStatus = createAction(
-  '[Incident] Save new incident status',
-  props<{ incidentId: number, status: string }>()
+export const saveIncident = createAction(
+  '[Incident] Save incidents',
+  props<{ incident: IncidentTypes.Incident }>()
 );
 
 export const selectIncident = createAction(
@@ -41,12 +41,14 @@ export const selectIncident = createAction(
   props<{ incidentId: number }>()
 );
 
-export const setAssetNotSendingIncidents = createAction(
-  '[Incident] Set asset not sending incidents',
-  props<{
-    unresolved: { readonly [incidentId: number]: IncidentTypes.Incident },
-    recentlyResolved: { readonly [incidentId: number]: IncidentTypes.Incident }
-  }>()
+export const setIncident = createAction(
+  '[Incident] Set incident',
+  props<{incident: IncidentTypes.Incident}>()
+);
+
+export const setIncidents = createAction(
+  '[Incident] Set incidents',
+  props<{incidents: IncidentTypes.IncidentsCollectionByResolution}>()
 );
 
 export const setIncidentListForAsset = createAction(

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { IncidentTypes } from '@data/incident';
 import { Position } from '@data/generic.types';
 
@@ -10,13 +10,16 @@ import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
   templateUrl: './incident-card.component.html',
   styleUrls: ['./incident-card.component.scss']
 })
-export class IncidentCardComponent {
+export class IncidentCardComponent implements OnChanges {
   @Input() incident: IncidentTypes.Incident;
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;
   @Input() incidentIsSelected: boolean;
 
-  public incidentsWithAttemptedContact: ReadonlyArray<IncidentTypes.Incident> = [];
-  public unmanagedIncidents: ReadonlyArray<IncidentTypes.Incident> = [];
+  public formattedIncident: IncidentTypes.Incident & {
+    formattedDate: string;
+    formattedCoordinates: string;
+    lastKnownLocationStatus?: string;
+  };
 
   public incidentStatusClass = {
     MANUAL_POSITION_MODE: 'dangerLvl1',
@@ -25,12 +28,25 @@ export class IncidentCardComponent {
     RESOLVED: 'dangerLvl0',
   };
 
-  formatDate(incident: IncidentTypes.Incident) {
-    return formatUnixtimeWithDot(incident.lastKnownLocation.timestamp);
-  }
-
-  formatCoordinates(location: Position) {
-    const formattedLocation = convertDDToDDM(location.latitude, location.longitude, 2);
-    return formattedLocation.latitude + ', ' + formattedLocation.longitude;
+  ngOnChanges() {
+    if(typeof this.incident.lastKnownLocation !== 'undefined') {
+      const formattedLocation = convertDDToDDM(
+        this.incident.lastKnownLocation.location.latitude,
+        this.incident.lastKnownLocation.location.longitude,
+        2
+      );
+      this.formattedIncident = {
+        ...this.incident,
+        formattedDate: formatUnixtimeWithDot(this.incident.lastKnownLocation.timestamp),
+        formattedCoordinates: formattedLocation.latitude + ', ' + formattedLocation.longitude,
+        lastKnownLocationStatus: this.incident.lastKnownLocation.status
+      };
+    } else {
+      this.formattedIncident = {
+        ...this.incident,
+        formattedDate: '-',
+        formattedCoordinates: '-'
+      };
+    }
   }
 }

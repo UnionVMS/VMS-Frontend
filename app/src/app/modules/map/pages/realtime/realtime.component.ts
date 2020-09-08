@@ -275,7 +275,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.mapDispatchToProps();
     this.store.dispatch(AssetActions.subscribeToMovements());
     this.store.dispatch(AssetActions.getSelectedAsset());
-    this.store.dispatch(IncidentActions.getAssetNotSendingIncidents());
+    this.store.dispatch(IncidentActions.getAllOpenIncidents());
     this.store.dispatch(MapLayersActions.getAreas());
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe((mergedRoute) => {
       if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {

@@ -11,7 +11,7 @@ import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
   styleUrls: ['./incidents.component.scss']
 })
 export class IncidentsComponent implements OnChanges {
-  @Input() incidents: IncidentTypes.IncidentsCollectionByType;
+  @Input() incidents: IncidentTypes.IncidentsCollectionByResolution;
   @Input() selectedIncident: IncidentTypes.Incident;
   @Input() incidentNotifications: IncidentTypes.IncidentNotificationsCollections;
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;

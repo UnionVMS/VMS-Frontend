@@ -26,7 +26,7 @@ export class IncidentComponent implements OnChanges {
 
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
   @Input() getLogForIncident: (incidentId: number) => void;
-  @Input() saveNewIncidentStatus: (incidentId: number, status: string) => void;
+  @Input() saveIncident: (incident: IncidentTypes.Incident) => void;
   @Input() createNote: (incidentId: number, note: NotesTypes.Note) => void;
   @Input() pollIncident: (incidentId: number, comment: string) => void;
 
@@ -73,7 +73,7 @@ export class IncidentComponent implements OnChanges {
   }
 
   public changeStatus = (status: string) => {
-    return this.saveNewIncidentStatus(this.incident.id, status);
+    return this.saveIncident({ ...this.incident, status });
   }
 
   public createNoteWithId = (note: NotesTypes.Note) => {

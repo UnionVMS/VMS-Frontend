@@ -8,21 +8,25 @@
   </div>
 
   <div class="incidents" *ngIf="!resolved">
-    <h3>Attempted contact</h3>
-    <ng-container *ngFor="let incident of incidentsWithAttemptedContact; trackBy: trackByIncidents">
-      <map-incident-card
-        [incident]="incident"
-        [selectIncident]="selectIncident"
-        [incidentIsSelected]="incidentIsSelected(incident)"
-      ></map-incident-card>
+    <ng-container *ngIf="incidentsWithAttemptedContact.length > 0">
+      <h3>Attempted contact</h3>
+      <ng-container *ngFor="let incident of incidentsWithAttemptedContact; trackBy: trackByIncidents">
+        <map-incident-card
+          [incident]="incident"
+          [selectIncident]="selectIncident"
+          [incidentIsSelected]="incidentIsSelected(incident)"
+        ></map-incident-card>
+      </ng-container>
     </ng-container>
+    <ng-container *ngIf="unmanagedIncidents.length > 0">
     <h3>Not contacted</h3>
-    <ng-container *ngFor="let incident of unmanagedIncidents; trackBy: trackByIncidents">
-      <map-incident-card
-        [incident]="incident"
-        [selectIncident]="selectIncident"
-        [incidentIsSelected]="incidentIsSelected(incident)"
-      ></map-incident-card>
+      <ng-container *ngFor="let incident of unmanagedIncidents; trackBy: trackByIncidents">
+        <map-incident-card
+          [incident]="incident"
+          [selectIncident]="selectIncident"
+          [incidentIsSelected]="incidentIsSelected(incident)"
+        ></map-incident-card>
+      </ng-container>
     </ng-container>
   </div>
 

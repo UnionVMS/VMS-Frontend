@@ -48,24 +48,26 @@ export class IncidentEffects {
   );
 
   @Effect()
-  getAssetNotSendingIncidents$ = this.actions$.pipe(
-    ofType(IncidentActions.getAssetNotSendingIncidents),
+  getAllOpenIncidents$ = this.actions$.pipe(
+    ofType(IncidentActions.getAllOpenIncidents),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.incidentService.getAssetNotSendingEvents(authToken).pipe(
-        map((assetNotSendingIncidents: {
-          unresolved: ReadonlyArray<IncidentTypes.Incident>,
-          recentlyResolved: ReadonlyArray<IncidentTypes.Incident>,
-        }) => {
+      return this.incidentService.getAllOpenIncidents(authToken).pipe(
+        map((
+          incidents: {
+            unresolved: ReadonlyArray<IncidentTypes.Incident>,
+            recentlyResolved: ReadonlyArray<IncidentTypes.Incident>,
+         }
+        ) => {
           return [
-            IncidentActions.setAssetNotSendingIncidents({
-              unresolved: assetNotSendingIncidents.unresolved,
-              recentlyResolved: assetNotSendingIncidents.recentlyResolved
-            }),
+            IncidentActions.setIncidents({ incidents: {
+              unresolvedIncidents: incidents.unresolved,
+              recentlyResolvedIncidents: incidents.recentlyResolved
+            }}),
             AssetActions.checkForAssetEssentials({
               assetIds: [ ...new Set([
-                ...Object.values(assetNotSendingIncidents.unresolved).map((incident) => incident.assetId),
-                ...Object.values(assetNotSendingIncidents.recentlyResolved).map((incident) => incident.assetId)
+                ...Object.values(incidents.unresolved).map((incident) => incident.assetId),
+                ...Object.values(incidents.recentlyResolved).map((incident) => incident.assetId)
               ]) ]
             })
           ];
@@ -92,6 +94,18 @@ export class IncidentEffects {
   );
 
   @Effect()
+  saveIncident$ = this.actions$.pipe(
+    ofType(IncidentActions.saveIncident),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.incidentService.saveIncident(authToken, action.incident).pipe(
+        map((incident: IncidentTypes.Incident) => IncidentActions.setIncident({ incident }))
+      );
+    }),
+  );
+
+
+  @Effect()
   pollIncident$ = this.actions$.pipe(
     ofType(IncidentActions.pollIncident),
     mergeMap((outerAction) => of(outerAction).pipe(
@@ -113,29 +127,12 @@ export class IncidentEffects {
   );
 
   @Effect()
-  saveNewIncidentStatus$ = this.actions$.pipe(
-    ofType(IncidentActions.saveNewIncidentStatus),
-    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
-    mergeMap(([action, authToken]: Array<any>) => {
-      return this.incidentService.saveNewIncidentStatus(authToken, action.incidentId, action.status).pipe(
-        map((asset: AssetTypes.Asset) => {
-          return [NotificationsActions.addSuccess(
-            $localize`:@@ts-incident-changed:Incident status successfully changed!`
-          )];
-        })
-      );
-    }),
-    flatMap(a => a)
-  );
-
-  @Effect()
   getLogForIncident$ = this.actions$.pipe(
     ofType(IncidentActions.getLogForIncident),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.incidentService.getLogForIncident(authToken, action.incidentId).pipe(
         map((log: any) => {
-          console.warn(log);
           return IncidentActions.setLogForIncident({
             incidentId: action.incidentId,
             incidentLog: {

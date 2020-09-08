@@ -4,7 +4,7 @@ import { IncidentTypes } from './';
 
 export const selectSelectedIncidentId = (state: State) => state.incident.selectedIncidentId;
 export const selectIncidents = (state: State) => state.incident.incidents;
-export const selectAssetNotSendingIncidents = (state: State) => state.incident.assetNotSendingIncidents;
+export const selectAssetNotSendingIncidents = (state: State) => state.incident.incidentsByTypesAndStatus.assetNotSending;
 export const selectIncidentNotificationsByType = (state: State) => state.incident.incidentNotificationsByType;
 export const selectIncidentLogs = (state: State) => state.incident.incidentLogs;
 export const selectIncidentsForAssets = (state: State) => state.incident.incidentsForAssets;
@@ -18,7 +18,7 @@ export const getSelectedIncident = createSelector(
 export const getAssetNotSendingIncidents = createSelector(
   selectIncidents,
   selectAssetNotSendingIncidents,
-  (incidents, assetNotSendingIncidents): IncidentTypes.IncidentsCollectionByType => {
+  (incidents, assetNotSendingIncidents): IncidentTypes.IncidentsCollectionByResolution => {
     return {
       unresolvedIncidents: assetNotSendingIncidents.unresolvedIncidentIds.map(incidentId => incidents[incidentId]),
       recentlyResolvedIncidents: assetNotSendingIncidents.recentlyResolvedIncidentIds.map(incidentId => incidents[incidentId]),

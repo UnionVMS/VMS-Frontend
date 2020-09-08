@@ -7,9 +7,11 @@ export const initialState: Types.State = {
   selectedIncidentId: null,
   incidents: {},
   incidentsForAssets: {},
-  assetNotSendingIncidents: {
-    unresolvedIncidentIds: [],
-    recentlyResolvedIncidentIds: []
+  incidentsByTypesAndStatus: {
+    assetNotSending: {
+      unresolvedIncidentIds: [],
+      recentlyResolvedIncidentIds: []
+    },
   },
   incidentNotificationsByType: {
     assetNotSending: {}
@@ -23,19 +25,26 @@ export const resolvedStatuses = [
 ];
 
 export const incidentReducer = createReducer(initialState,
-  on(IncidentActions.setAssetNotSendingIncidents, (state, {
-    unresolved,
-    recentlyResolved
-  }) => ({
+  on(IncidentActions.setIncidents, (state, { incidents }) => ({
     ...state,
     incidents: {
       ...state.incidents,
-      ...unresolved,
-      ...recentlyResolved
+      ...incidents.unresolvedIncidents,
+      ...incidents.recentlyResolvedIncidents
     },
-    assetNotSendingIncidents: {
-      unresolvedIncidentIds: [ ...Object.values(unresolved).map((incident: Types.Incident) => incident.id) ],
-      recentlyResolvedIncidentIds: [ ...Object.values(recentlyResolved).map((incident: Types.Incident) => incident.id) ]
+    incidentsByTypesAndStatus: {
+      assetNotSending: {
+        unresolvedIncidentIds: [
+          ...Object.values(incidents.unresolvedIncidents)
+            .filter((incident: Types.Incident) => incident.type === Types.IncidentTypes.assetNotSending)
+            .map((incident: Types.Incident) => incident.id)
+        ],
+        recentlyResolvedIncidentIds: [
+          ...Object.values(incidents.recentlyResolvedIncidents)
+            .filter((incident: Types.Incident) => incident.type === Types.IncidentTypes.assetNotSending)
+            .map((incident: Types.Incident) => incident.id)
+        ],
+      }
     }
   })),
   on(IncidentActions.updateAssetNotSendingIncidents, (state, { incidents, updateType }) => {
@@ -50,9 +59,41 @@ export const incidentReducer = createReducer(initialState,
     if(updateType === Types.IncidentNotificationTypes.updated) {
       newState = {
         ...newState,
-        assetNotSendingIncidents: Object.values(incidents).reduce((acc, incident) => {
-          const previousIncidentState = state.incidents[incident.id];
-          if(typeof previousIncidentState === 'undefined') {
+        incidentsByTypesAndStatus: {
+          assetNotSending: Object.values(incidents).reduce((acc, incident) => {
+            const previousIncidentState = state.incidents[incident.id];
+            if(typeof previousIncidentState === 'undefined') {
+              if(resolvedStatuses.includes(incident.status)) {
+                return {
+                  ...acc,
+                  recentlyResolvedIncidentIds: [ ...acc.recentlyResolvedIncidentIds, incident.id ]
+                };
+              } else {
+                return {
+                  ...acc,
+                  unresolvedIncidentIds: [ ...acc.unresolvedIncidentIds, incident.id ]
+                };
+              }
+            } else if(!resolvedStatuses.includes(previousIncidentState.status) && resolvedStatuses.includes(incident.status)) {
+              return {
+                unresolvedIncidentIds: acc.unresolvedIncidentIds.filter(id => id !== incident.id),
+                recentlyResolvedIncidentIds: [ ...acc.recentlyResolvedIncidentIds, incident.id ]
+              };
+            } else if(resolvedStatuses.includes(previousIncidentState.status) && !resolvedStatuses.includes(incident.status)) {
+              return {
+                unresolvedIncidentIds: [ ...acc.unresolvedIncidentIds, incident.id ],
+                recentlyResolvedIncidentIds: acc.recentlyResolvedIncidentIds.filter(id => id !== incident.id)
+              };
+            }
+            return acc;
+          }, state.incidentsByTypesAndStatus.assetNotSending)
+        }
+      };
+    } else {
+      newState = {
+        ...newState,
+        incidentsByTypesAndStatus: {
+          assetNotSending: Object.values(incidents).reduce((acc, incident) => {
             if(resolvedStatuses.includes(incident.status)) {
               return {
                 ...acc,
@@ -64,37 +105,9 @@ export const incidentReducer = createReducer(initialState,
                 unresolvedIncidentIds: [ ...acc.unresolvedIncidentIds, incident.id ]
               };
             }
-          } else if(!resolvedStatuses.includes(previousIncidentState.status) && resolvedStatuses.includes(incident.status)) {
-            return {
-              unresolvedIncidentIds: acc.unresolvedIncidentIds.filter(id => id !== incident.id),
-              recentlyResolvedIncidentIds: [ ...acc.recentlyResolvedIncidentIds, incident.id ]
-            };
-          } else if(resolvedStatuses.includes(previousIncidentState.status) && !resolvedStatuses.includes(incident.status)) {
-            return {
-              unresolvedIncidentIds: [ ...acc.unresolvedIncidentIds, incident.id ],
-              recentlyResolvedIncidentIds: acc.recentlyResolvedIncidentIds.filter(id => id !== incident.id)
-            };
-          }
-          return acc;
-        }, state.assetNotSendingIncidents)
-      };
-    } else {
-      newState = {
-        ...newState,
-        assetNotSendingIncidents: Object.values(incidents).reduce((acc, incident) => {
-          if(resolvedStatuses.includes(incident.status)) {
-            return {
-              ...acc,
-              recentlyResolvedIncidentIds: [ ...acc.recentlyResolvedIncidentIds, incident.id ]
-            };
-          } else {
-            return {
-              ...acc,
-              unresolvedIncidentIds: [ ...acc.unresolvedIncidentIds, incident.id ]
-            };
-          }
-          return acc;
-        }, state.assetNotSendingIncidents)
+            return acc;
+          }, state.incidentsByTypesAndStatus.assetNotSending)
+        }
       };
     }
     return {

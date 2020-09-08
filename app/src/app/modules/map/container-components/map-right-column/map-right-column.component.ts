@@ -57,7 +57,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public pollAsset: (assetId: string, comment: string) => void;
   public pollIncident: (incidentId: number, comment: string) => void;
   public removeForecast: (assetId: string) => void;
-  public saveNewIncidentStatus: (incidentId: number, status: string) => void;
+  public saveIncident: (incident: IncidentTypes.Incident) => void;
   public selectAsset: (assetId: string) => void;
   public dispatchSelectIncident: (incidentId: number) => void;
   public selectIncident: (incident: IncidentTypes.Incident) => void;
@@ -172,9 +172,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     this.createManualMovement = (manualMovement: AssetTypes.ManualMovement) => {
       return this.store.dispatch(AssetActions.createManualMovement({ manualMovement }));
     };
-    this.saveNewIncidentStatus = (incidentId: number, status: string) => {
-      return this.store.dispatch(IncidentActions.saveNewIncidentStatus({ incidentId, status }));
-    };
+    this.saveIncident = (incident: IncidentTypes.Incident) =>
+      this.store.dispatch(IncidentActions.saveIncident({ incident }));
     this.pollAsset = (assetId: string, comment: string) =>
       this.store.dispatch(AssetActions.pollAsset({ assetId, comment }));
     this.pollIncident = (incidentId: number, comment: string) =>

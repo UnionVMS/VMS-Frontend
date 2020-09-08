@@ -1,5 +1,5 @@
 <div
-  [title]="incident.assetName"
+  [title]="formattedIncident.assetName"
   class="incident{{ incidentIsSelected ? ' selected' : ''}}"
   (click)="selectIncident(incident)"
 >
@@ -10,9 +10,9 @@
       <ui-truncated-text class="name" [text]="incident.assetName" length="16"></ui-truncated-text>
     </div>
     <div class="status-code-and-time">
-      <span class="status-code">TEST • </span>
-      <span class="time">{{ formatDate(incident) }}</span>
+      <span class="status-code" *ngIf="formattedIncident.lastKnownLocationStatus">{{ formattedIncident.lastKnownLocationStatus }} • </span>
+      <span class="time">{{ formattedIncident.formattedDate }}</span>
     </div>
-    <div class="location">{{ formatCoordinates(incident.lastKnownLocation.location) }}</div>
+    <div class="location">{{ formattedIncident.formattedCoordinates }}</div>
   </div>
 </div>

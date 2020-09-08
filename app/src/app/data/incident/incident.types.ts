@@ -1,4 +1,4 @@
-import { Movement } from '@data/asset/asset.types';
+import { FullMovement } from '@data/asset/asset.types';
 
 export enum IncidentNotificationTypes {
   created,
@@ -12,20 +12,24 @@ export enum AssetNotSendingStatuses {
   RESOLVED = 'RESOLVED'
 }
 
+export enum IncidentTypes {
+  assetNotSending = 'ASSET_NOT_SENDING'
+}
+
 export type Incident = Readonly<{
   id: number;
   assetId: string;
   assetIrcs: string;
   assetName: string;
   createDate: number;
-  lastKnownLocation: Movement;
+  lastKnownLocation: FullMovement;
   status: string,
   ticketId: string;
   updateDate: number;
   type: string;
 }>;
 
-export type IncidentsCollectionByType = Readonly<{
+export type IncidentsCollectionByResolution = Readonly<{
   unresolvedIncidents: ReadonlyArray<Incident>;
   recentlyResolvedIncidents: ReadonlyArray<Incident>;
 }>;
@@ -65,7 +69,7 @@ export type IncidentLog = Readonly<{
   relatedObjects: {
     notes: { readonly [noteLogId: string]: any },
     polls: { readonly [pollLogId: string]: PollLogEntry },
-    positions: { readonly [positionLogId: string]: Movement }
+    positions: { readonly [positionLogId: string]: FullMovement }
   }
 }>;
 
@@ -82,7 +86,9 @@ export type State = Readonly<{
   incidentsForAssets: {
     readonly [assetId: string]: ReadonlyArray<number>
   };
-  assetNotSendingIncidents: IncidentIdsCollectionByType;
+  incidentsByTypesAndStatus: {
+    assetNotSending: IncidentIdsCollectionByType,
+  };
   incidentNotificationsByType: {
     readonly [type: string]: IncidentNotificationsCollections;
   };
