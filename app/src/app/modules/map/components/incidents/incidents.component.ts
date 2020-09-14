@@ -48,7 +48,7 @@ export class IncidentsComponent implements OnChanges {
     this.unmanagedIncidents = [ ...this.unmanagedIncidents ].sort(this.incidentSortFunction);
   }
 
-  private incidentSortFunction = (a: IncidentTypes.Incident, b: IncidentTypes.Incident) => {
+  private readonly incidentSortFunction = (a: IncidentTypes.Incident, b: IncidentTypes.Incident) => {
     if(this.incidentTypeUrgencry[a.risk] > this.incidentTypeUrgencry[b.risk]) {
       return -1;
     } else if(this.incidentTypeUrgencry[a.risk] < this.incidentTypeUrgencry[b.risk]) {
