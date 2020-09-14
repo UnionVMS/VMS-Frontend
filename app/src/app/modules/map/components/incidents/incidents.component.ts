@@ -20,11 +20,10 @@ export class IncidentsComponent implements OnChanges {
   public incidentsWithAttemptedContact: ReadonlyArray<IncidentTypes.Incident> = [];
   public unmanagedIncidents: ReadonlyArray<IncidentTypes.Incident> = [];
 
-  public incidentStatusClass = {
-    MANUAL_POSITION_MODE: 'dangerLvl1',
-    ATTEMPTED_CONTACT: 'dangerLvl5',
-    LONG_TERM_PARKED: 'dangerLvl0',
-    RESOLVED: 'dangerLvl0',
+  public incidentTypeUrgencry = {
+    [IncidentTypes.IncidentRisk.low]: 1,
+    [IncidentTypes.IncidentRisk.medium]: 2,
+    [IncidentTypes.IncidentRisk.high]: 3,
   };
 
   public trackByIncidents = (index: number, item: IncidentTypes.Incident) => {
@@ -45,6 +44,18 @@ export class IncidentsComponent implements OnChanges {
         this.unmanagedIncidents = [ ...this.unmanagedIncidents, incident ];
       }
     });
+    this.incidentsWithAttemptedContact = [ ...this.incidentsWithAttemptedContact ].sort(this.incidentSortFunction);
+    this.unmanagedIncidents = [ ...this.unmanagedIncidents ].sort(this.incidentSortFunction);
+  }
+
+  private incidentSortFunction = (a: IncidentTypes.Incident, b: IncidentTypes.Incident) => {
+    if(this.incidentTypeUrgencry[a.risk] > this.incidentTypeUrgencry[b.risk]) {
+      return -1;
+    } else if(this.incidentTypeUrgencry[a.risk] < this.incidentTypeUrgencry[b.risk]) {
+      return 1;
+    } else {
+      return a.createDate - b.createDate;
+    }
   }
 
   incidentIsSelected(incident: IncidentTypes.Incident) {

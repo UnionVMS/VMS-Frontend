@@ -14,6 +14,7 @@ export class IncidentCardComponent implements OnChanges {
   @Input() incident: IncidentTypes.Incident;
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;
   @Input() incidentIsSelected: boolean;
+  @Input() urgency: IncidentTypes.IncidentRisk;
 
   public formattedIncident: IncidentTypes.Incident & {
     formattedDate: string;
@@ -21,12 +22,6 @@ export class IncidentCardComponent implements OnChanges {
     lastKnownLocationStatus?: string;
   };
 
-  public incidentStatusClass = {
-    MANUAL_POSITION_MODE: 'dangerLvl1',
-    ATTEMPTED_CONTACT: 'dangerLvl5',
-    LONG_TERM_PARKED: 'dangerLvl0',
-    RESOLVED: 'dangerLvl0',
-  };
 
   ngOnChanges() {
     if(typeof this.incident.lastKnownLocation !== 'undefined') {

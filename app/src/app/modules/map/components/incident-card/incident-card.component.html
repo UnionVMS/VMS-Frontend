@@ -3,7 +3,7 @@
   class="incident{{ incidentIsSelected ? ' selected' : ''}}"
   (click)="selectIncident(incident)"
 >
-  <div class="status {{incidentStatusClass[incident.status]}}"></div>
+  <div class="status urgancy-{{urgency}}"></div>
   <div class="incident-content">
     <div class="ircs-and-name">
       <div class="ircs">{{incident.assetIrcs}}</div>

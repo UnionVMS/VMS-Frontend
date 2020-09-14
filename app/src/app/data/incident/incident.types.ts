@@ -12,9 +12,22 @@ export enum AssetNotSendingStatuses {
   RESOLVED = 'RESOLVED'
 }
 
-export enum IncidentTypes {
-  assetNotSending = 'ASSET_NOT_SENDING'
+export enum IncidentRisk {
+  none = 'NONE',
+  low = 'LOW',
+  medium = 'MEDIUM',
+  high = 'HIGH',
 }
+
+export enum IncidentTypes {
+  assetNotSending = 'ASSET_NOT_SENDING',
+  seasonalFishing = 'SEASONAL_FISHING',
+  ownerTransfer = 'OWNER_TRANSFER',
+  parked = 'PARKED',
+  manualMode = 'MANUAL_MODE',
+}
+
+export type IncidentTypesCollection = ReadonlyArray<IncidentTypes>;
 
 export type Incident = Readonly<{
   id: number;
@@ -27,6 +40,8 @@ export type Incident = Readonly<{
   ticketId: string;
   updateDate: number;
   type: string;
+  risk?: IncidentRisk;
+  expiryDate: number;
 }>;
 
 export type IncidentsCollectionByResolution = Readonly<{
@@ -93,4 +108,5 @@ export type State = Readonly<{
     readonly [type: string]: IncidentNotificationsCollections;
   };
   incidentLogs: IncidentLogs;
+  incidentTypes: IncidentTypesCollection
 }>;

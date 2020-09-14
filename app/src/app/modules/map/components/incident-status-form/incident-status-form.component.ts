@@ -12,12 +12,12 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
 })
 export class IncidentStatusFormComponent implements OnChanges {
   public static statuses = {
-    POLL_FAILED: 'Poll Failed',
-    ATTEMPTED_CONTACT: 'Attempted Contact',
-    MANUAL_POSITION_MODE: 'Manual Position Mode',
-    LONG_TERM_PARKED: 'Long term parked',
-    TECHNICAL_ISSUE: 'Technical issue',
-    RESOLVED: 'Resolved'
+    POLL_FAILED: $localize`:@@ts-issue-status-poll-failed:Poll Failed`,
+    ATTEMPTED_CONTACT: $localize`:@@ts-issue-status-attempted-contact:Attempted Contact`,
+    MANUAL_POSITION_MODE: $localize`:@@ts-issue-status-manual-position-mode:Manual Position Mode`,
+    LONG_TERM_PARKED: $localize`:@@ts-issue-status-long-term-parked:Long term parked`,
+    TECHNICAL_ISSUE: $localize`:@@ts-issue-status-technical-issue:Technical issue`,
+    RESOLVED: $localize`:@@ts-issue-status-resolved:Resolved`
   };
 
   @Input() status: string;

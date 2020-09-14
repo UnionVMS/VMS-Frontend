@@ -50,6 +50,7 @@ import { IncidentLogEntryNoteComponent } from './components/incident-log-entry-n
 import { IncidentLogEntryPollComponent } from './components/incident-log-entry-poll/incident-log-entry-poll.component';
 import { IncidentLogEntryPositionComponent } from './components/incident-log-entry-position/incident-log-entry-position.component';
 import { IncidentStatusFormComponent } from './components/incident-status-form/incident-status-form.component';
+import { IncidentTypeFormComponent } from './components/incident-type-form/incident-type-form.component';
 import { IncidentsComponent } from './components/incidents/incidents.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
@@ -115,6 +116,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentLogEntryPollComponent,
     IncidentLogEntryPositionComponent,
     IncidentStatusFormComponent,
+    IncidentTypeFormComponent,
     IncidentsComponent,
     InformationPanelComponent,
     LayerFilterComponent,

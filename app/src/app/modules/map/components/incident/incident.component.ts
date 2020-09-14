@@ -22,6 +22,7 @@ export class IncidentComponent implements OnChanges {
   @Input() asset: AssetTypes.AssetData;
   @Input() incident: IncidentTypes.Incident;
   @Input() incidentLog: IncidentTypes.IncidentLog;
+  @Input() incidentTypes: IncidentTypes.IncidentTypesCollection;
   @Input() map: Map;
 
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
@@ -74,6 +75,10 @@ export class IncidentComponent implements OnChanges {
 
   public changeStatus = (status: string) => {
     return this.saveIncident({ ...this.incident, status });
+  }
+
+  public changeType = (type: string, expiryDate: number | null) => {
+    return this.saveIncident({ ...this.incident, type, expiryDate, status: null });
   }
 
   public createNoteWithId = (note: NotesTypes.Note) => {

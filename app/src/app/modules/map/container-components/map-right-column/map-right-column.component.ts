@@ -37,6 +37,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public assetGroupFilters: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>;
   public incidentLogs: IncidentTypes.IncidentLogs;
   public incidentsForAssets: Readonly<{ readonly [assetId: string]: ReadonlyArray<IncidentTypes.Incident> }>;
+  public incidentTypes$: Observable<IncidentTypes.IncidentTypesCollection>;
   public licence$: Observable<AssetTypes.AssetLicence>;
   public licenceLoaded = false;
 
@@ -127,7 +128,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       });
     this.licence$ = this.store.select(AssetSelectors.getLicenceForSelectedMapAsset).pipe(tap((licence) => {
       this.licenceLoaded = true;
-    } ));
+    }));
+    this.incidentTypes$ = this.store.select(IncidentSelectors.getIncidentTypes);
   }
 
   mapDispatchToProps() {

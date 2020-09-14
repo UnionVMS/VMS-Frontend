@@ -64,6 +64,18 @@ export class IncidentService {
     );
   }
 
+  getIncidentTypes(authToken: string) {
+    return this.http.get(
+      environment.baseApiUrl + `incident/rest/incident/incidentTypes`,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
   saveIncident(authToken: string, incident: IncidentTypes.Incident) {
     return this.http.put(
       environment.baseApiUrl + `web-gateway/rest/incidents/updateIncident`,

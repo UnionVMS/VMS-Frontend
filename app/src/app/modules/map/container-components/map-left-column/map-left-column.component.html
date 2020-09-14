@@ -109,7 +109,15 @@
     </map-panel-block>
     <map-panel-block
       i18n-blockTitle
-      blockTitle="Long termed parked (4 pcs)"
+      blockTitle="Seasonal fishing (4 pcs)"
+      [active]="false"
+      [setActiveFunction]="emptyClick"
+      [useArrowsAsToggle]="true"
+    >
+    </map-panel-block>
+    <map-panel-block
+      i18n-blockTitle
+      blockTitle="Parked (4 pcs)"
       [active]="false"
       [setActiveFunction]="emptyClick"
       [useArrowsAsToggle]="true"

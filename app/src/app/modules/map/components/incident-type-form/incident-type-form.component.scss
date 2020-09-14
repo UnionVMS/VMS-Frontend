@@ -1,13 +1,17 @@
 @import 'variables.scss';
 
-form.status-form {
+form.type-form {
   background: white;
   padding: $small_distance;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: $small_distance;
 
-  #status-form--status {
+  #type-form--types, #type-form--expiryDate {
     grid-column: 1 / span 2;
+  }
+
+  #types-form--save {
+    grid-column-start: 2;
   }
 }

@@ -16,7 +16,8 @@ export const initialState: Types.State = {
   incidentNotificationsByType: {
     assetNotSending: {}
   },
-  incidentLogs: {}
+  incidentLogs: {},
+  incidentTypes: [],
 };
 
 export const resolvedStatuses = [
@@ -182,5 +183,9 @@ export const incidentReducer = createReducer(initialState,
         }
       }
     };
-  })
+  }),
+  on(IncidentActions.setIncidentTypes, (state, { incidentTypes }) => ({
+    ...state,
+    incidentTypes
+  })),
 );

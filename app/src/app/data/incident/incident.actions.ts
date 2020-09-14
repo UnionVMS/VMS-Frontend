@@ -26,6 +26,10 @@ export const getIncidentsForAssetId = createAction(
   props<{ assetId: string }>()
 );
 
+export const getIncidentTypes = createAction(
+  '[Incident] Get incident types'
+);
+
 export const pollIncident = createAction(
   '[Incident] Poll asset',
   props<{ incidentId: number, comment?: string }>()
@@ -43,13 +47,19 @@ export const selectIncident = createAction(
 
 export const setIncident = createAction(
   '[Incident] Set incident',
-  props<{incident: IncidentTypes.Incident}>()
+  props<{ incident: IncidentTypes.Incident }>()
 );
 
 export const setIncidents = createAction(
   '[Incident] Set incidents',
-  props<{incidents: IncidentTypes.IncidentsCollectionByResolution}>()
+  props<{ incidents: IncidentTypes.IncidentsCollectionByResolution }>()
 );
+
+export const setIncidentTypes = createAction(
+  '[Incident] Set incident types',
+  props<{ incidentTypes: IncidentTypes.IncidentTypesCollection }>()
+);
+
 
 export const setIncidentListForAsset = createAction(
   '[Incident] Set incident list for asset',

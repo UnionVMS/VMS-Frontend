@@ -95,6 +95,13 @@
         (click)="selectedTabIndex = 1"
       >Show full log</button>
 
+      <h4 i18n>Change incident type</h4>
+      <map-incident-type-form
+        [type]="incident.type"
+        [types]="incidentTypes"
+        [changeType]="changeType"
+      ></map-incident-type-form>
+
       <h4 i18n>Change incident status</h4>
       <map-incident-status-form
         [status]="incident.status"

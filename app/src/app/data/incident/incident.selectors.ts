@@ -8,6 +8,7 @@ export const selectAssetNotSendingIncidents = (state: State) => state.incident.i
 export const selectIncidentNotificationsByType = (state: State) => state.incident.incidentNotificationsByType;
 export const selectIncidentLogs = (state: State) => state.incident.incidentLogs;
 export const selectIncidentsForAssets = (state: State) => state.incident.incidentsForAssets;
+export const selectIncidentTypes = (state: State) => state.incident.incidentTypes;
 
 export const getSelectedIncident = createSelector(
   selectSelectedIncidentId,
@@ -50,4 +51,9 @@ export const getIncidentsForAssets = createSelector(
       [assetId]: incidentsForAssets[assetId].map((incidentId: number) => incidents[incidentId])
     }), {});
   }
+);
+
+export const getIncidentTypes = createSelector(
+  selectIncidentTypes,
+  (incidentTypes) => incidentTypes
 );

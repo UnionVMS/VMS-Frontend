@@ -1,0 +1,25 @@
+<form class="type-form" [formGroup]="formValidator">
+  <mat-form-field id="type-form--types">
+    <mat-select formControlName="type" required>
+      <mat-option *ngFor="let type of types" id="mat-option-plugin--{{type}}" [value]="type">{{getTypeName(type)}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ngx-datetime-picker
+    id="type-form--expiryDate"
+    [(dateTime)]="formValidator.value.expiryDate"
+    (dateTimeChange)="updateTimestamp($event)"
+    label="Expiry date"
+    [errorMessages]="getErrorMessages(['expiryDate'])"
+  ></ngx-datetime-picker>
+
+  <button
+    i18n
+    id="types-form--save"
+    mat-raised-button
+    color="primary"
+    type="button"
+    [disabled]="!formValidator.valid || formValidator.value.type === type"
+    (click)="save()"
+  >Save</button>
+</form>

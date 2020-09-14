@@ -94,6 +94,21 @@ export class IncidentEffects {
   );
 
   @Effect()
+  getIncidentTypes$ = this.actions$.pipe(
+    ofType(IncidentActions.getIncidentTypes),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.incidentService.getIncidentTypes(authToken).pipe(
+        map((incidentTypes: IncidentTypes.IncidentTypesCollection) => {
+          console.warn(incidentTypes);
+          return IncidentActions.setIncidentTypes({ incidentTypes });
+        })
+      );
+    }),
+  );
+
+
+  @Effect()
   saveIncident$ = this.actions$.pipe(
     ofType(IncidentActions.saveIncident),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),

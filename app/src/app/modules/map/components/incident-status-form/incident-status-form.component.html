@@ -1,12 +1,12 @@
-<form class="notes-form" [formGroup]="formValidator">
-  <mat-form-field id="note-form--notes">
+<form class="status-form" [formGroup]="formValidator">
+  <mat-form-field id="status-form--status">
     <mat-select formControlName="status" required>
       <mat-option *ngFor="let status of getStatusKeys()" id="mat-option-plugin--{{status}}" [value]="status">{{getStatusText(status)}}</mat-option>
     </mat-select>
   </mat-form-field>
 
   <button
-    id="notes-form--all"
+    id="status-form--all"
     mat-stroked-button
     color="accent"
     type="button"
@@ -15,7 +15,7 @@
     >Show all</button>
   <button
     i18n
-    id="notes-form--save"
+    id="status-form--save"
     mat-raised-button
     color="primary"
     type="button"
