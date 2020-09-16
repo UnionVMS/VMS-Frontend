@@ -2,109 +2,6 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="7e892ba15f2c6c17e83510e273b3e10fc32ea016" datatype="html">
-        <source>Search</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">20</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
-          <context context-type="linenumber">29</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/attach/attach.component.html</context>
-          <context context-type="linenumber">11</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-search/asset-search.component.html</context>
-          <context context-type="linenumber">4</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/information-panel/information-panel.component.html</context>
-          <context context-type="linenumber">6</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="012ea84479b551ecd2361682995de421aa4fa4c3" datatype="html">
-        <source>Mobile Terminals</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">24</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="338f5e8682f0402739f89af5454bfeb46632cad3" datatype="html">
-        <source>Asset info</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">30</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">55</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ac8589c5c9e5b3794a91c7f5d51520299fcfb8ee" datatype="html">
-        <source>Mobile terminals</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
-          <context context-type="linenumber">2</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="9b475bb63675494482effde989c7f1f18c232620" datatype="html">
-        <source>Contacts</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">41</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">2</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="fcde58253a4cfd52c228eebdae74e1be7a1ab714" datatype="html">
-        <source>Notes</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">45</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">67</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-notes/show-notes.component.html</context>
-          <context context-type="linenumber">2</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6e5dda3f5daa1d519fc6d3fe197abda52544f420" datatype="html">
-        <source>Last positions</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">49</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">71</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2451f4addee3881817921e09941cebbcb158f48d" datatype="html">
-        <source>Mobile terminal</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">59</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="34746fb1c7f3d2194d99652bdff89e6e14c9c4f4" datatype="html">
-        <source>Contact</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
-          <context context-type="linenumber">63</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="287d3301a32a65a1b31116bda5d3a6463158c42a" datatype="html">
         <source>Sign in</source>
         <context-group purpose="location">
@@ -121,6 +18,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/login/login.component.html</context>
           <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/search/search.component.html</context>
+          <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c32ef07f8803a223a83ed17024b38e8d82292407" datatype="html">
@@ -213,6 +114,284 @@
         </context-group>
         <note priority="1" from="description">Body part 4 describing the http status-code</note>
       </trans-unit>
+      <trans-unit id="7e892ba15f2c6c17e83510e273b3e10fc32ea016" datatype="html">
+        <source>Search</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/fishing-report/fishing-report.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/search/search.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/pages/attach/attach.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-search/asset-search.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/information-panel/information-panel.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e9a5fedfddd7885cf8cb3967e71b2b56943a691c" datatype="html">
+        <source>Fishing report info</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/fishing-report/fishing-report.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/fishing-report/fishing-report.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6fd679318b21200e5172f9d018804bb8de448d11" datatype="html">
+        <source>Overview views</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/efr-default/efr-default.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2bc3c581b940f795da23927f14b2822708acee10" datatype="html">
+        <source>Collected overview</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/efr-default/efr-default.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f626875eb2d1754fa402befaad0c637d9fdccb9a" datatype="html">
+        <source>Risks / assesments</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/efr-default/efr-default.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="32b2b5a41c731dedcd41bc360ffdc42a36fe481f" datatype="html">
+        <source>Main menu</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/efr-default/efr-default.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cb17a1f1d988efce76423ed6757ebda96acc75a2" datatype="html">
+        <source>Fishing trips</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/efr-default/efr-default.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4d13a9cd5ed3dcee0eab22cb25198d43886942be" datatype="html">
+        <source>Users</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/efr-default/efr-default.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ee8f8008bae6ce3a49840c4e1d39b4af23d4c263" datatype="html">
+        <source>Assets</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/efr-default/efr-default.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="75bda77e9443a39970d518886de3378da6760c2f" datatype="html">
+        <source>Sent messages</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/efr-default/efr-default.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c2a9de3714f5767b174d0424bc8abe2dc37acc41" datatype="html">
+        <source>Other</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/efr-default/efr-default.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="121cc5391cd2a5115bc2b3160379ee5b36cd7716" datatype="html">
+        <source>Settings</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/efr-default/efr-default.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="aaecf2cdf8aaad4db41f5fa76e5a7c8730a655b2" datatype="html">
+        <source>Help and information</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/efr/efr-default/efr-default.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="456da93b8df78fd03528dab2f688c174f85e31b2" datatype="html">
+        <source>No search results found!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/search/search.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9a3e06a134edd3a81ab93034d7a65cdd250f7a03" datatype="html">
+        <source>Ship Cfr</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/search/search.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5955e8a46eb16194c53cd64b2dcf781e7583775e" datatype="html">
+        <source>Target species code</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/search/search.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9cd7afa025f4b2d680dc5d19b64e913e46b2746c" datatype="html">
+        <source>Catches</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/search/search.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1b051734b0ee9021991c91b3ed4e81c244322462" datatype="html">
+        <source>Created</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/search/search.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3eeeb9515877000867151899960ebce11f7009db" datatype="html">
+        <source>Estimated landing time</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/search/search.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="81b97b8ea996ad1e4f9fca8415021850214884b1" datatype="html">
+        <source>Status</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/search/search.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/pages/attach/attach.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/licence-information/licence-information.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="be8cd1778763b71c5ca0977028b20ad84f198cb2" datatype="html">
+        <source>A button?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/show/show.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="76cffdb2673657538580781d686551bfc7fc1745" datatype="html">
+        <source>53(.-37</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/secret/secret.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="012ea84479b551ecd2361682995de421aa4fa4c3" datatype="html">
+        <source>Mobile Terminals</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="338f5e8682f0402739f89af5454bfeb46632cad3" datatype="html">
+        <source>Asset info</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ac8589c5c9e5b3794a91c7f5d51520299fcfb8ee" datatype="html">
+        <source>Mobile terminals</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9b475bb63675494482effde989c7f1f18c232620" datatype="html">
+        <source>Contacts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fcde58253a4cfd52c228eebdae74e1be7a1ab714" datatype="html">
+        <source>Notes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-notes/show-notes.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6e5dda3f5daa1d519fc6d3fe197abda52544f420" datatype="html">
+        <source>Last positions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2451f4addee3881817921e09941cebbcb158f48d" datatype="html">
+        <source>Mobile terminal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="34746fb1c7f3d2194d99652bdff89e6e14c9c4f4" datatype="html">
+        <source>Contact</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="0327e4c50941b4ec2e8232639826f5bb02c59b76" datatype="html">
         <source>Loading asset positions</source>
         <context-group purpose="location">
@@ -220,8 +399,8 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="8ae52ad1723c186ba22ce4906de82231971e0bed" datatype="html">
-        <source>Search for Name, External Marking, CFR or IRCS</source>
+      <trans-unit id="207326c1119c73600679bb772d41b743e6cc6a0e" datatype="html">
+        <source>Search for Name, External Marking, CFR, IRCS or MMSI</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
           <context context-type="linenumber">5</context>
@@ -246,6 +425,10 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
           <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
@@ -282,6 +465,10 @@
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">30</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="aa7450434c150086dbd4eec8753cdfe2153b3d10" datatype="html">
         <source>F.S.</source>
@@ -312,25 +499,29 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/manual-movement-form/manual-movement-form.component.html</context>
-          <context context-type="linenumber">3</context>
+          <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76fef7c7446cd96cd65b7b0f3e0e527955f9ef34" datatype="html">
         <source>Longitude</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">20</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/manual-movement-form/manual-movement-form.component.html</context>
-          <context context-type="linenumber">9</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c65e59841c2de7dba204ee5ecf7cc682e65f2488" datatype="html">
         <source>Speed</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
+          <context context-type="linenumber">24</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/layer-filter/layer-filter.component.html</context>
@@ -338,43 +529,58 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/manual-movement-form/manual-movement-form.component.html</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d2f99caf769460275d5bc462978c2761fedefec6" datatype="html">
         <source>Heading</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
+          <context context-type="linenumber">28</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/manual-movement-form/manual-movement-form.component.html</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0483a2383ff4fd283cbbd06f150cfb67703fe46b" datatype="html">
         <source>Ocean region</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">39</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f197ac830b82dee1d38e64d09cab23a0a9aadd72" datatype="html">
         <source>Status code</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="164a9d7350dc541174b3392853f0f6b88d8924a4" datatype="html">
+        <source>Coordinate system</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3678fecc9f11bcb3487549323193a826bf989567" datatype="html">
         <source>Show on map</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/show/show.component.html</context>
@@ -416,6 +622,10 @@
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">22</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="7aa461f47190b42864ea74b9b84d174c6331f6b5" datatype="html">
         <source>External marking</source>
@@ -425,6 +635,10 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
           <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
@@ -443,6 +657,10 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
           <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
@@ -477,6 +695,10 @@
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">75</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="9d22e800c52a08e086cf7e1f91abdba420174668" datatype="html">
         <source>Length between perpendiculars</source>
@@ -486,6 +708,10 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
           <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
@@ -536,11 +762,15 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident-status-form/incident-status-form.component.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident-type-form/incident-type-form.component.html</context>
+          <context context-type="linenumber">24</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/manual-movement-form/manual-movement-form.component.html</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">108</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/note-form/note-form.component.html</context>
@@ -549,6 +779,135 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/saved-filters/saved-filters.component.html</context>
           <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="63e1d28508d11998ba489a6ea4d8349e837162f5" datatype="html">
+        <source>Phone number</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="244aae9346da82b0922506c2d2581373a15641cc" datatype="html">
+        <source>Email</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7afd4fdb987c4f3510c8e876656f65a116b544d1" datatype="html">
+        <source>Post office box</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7adf2fbf7fd545072fa151ed4305142832563957" datatype="html">
+        <source>Postal area</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9e0d081c7fbd8c2b40dcd03e03d9d7208be15ece" datatype="html">
+        <source>Street name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e5f74d4f69166b727e7e4337118204586c50a236" datatype="html">
+        <source>Zip code</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a43f25a9ac40e8e2441ff0be7a36b8e5d15534df" datatype="html">
+        <source>Country</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0758b6449e80ae401986fefbb451b0b93f390efe" datatype="html">
+        <source>Nationality</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/layer-filter/layer-filter.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5c7012b5a926b32d9e45fefdcc8a1a3cb6f023d0" datatype="html">
+        <source>City</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="15182cef4d46f2d2a989c95c3f0004dbaa2561a4" datatype="html">
+        <source>Is owner?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6834fa6b43d1ecbdf147c48dd9c4d72f1484571d" datatype="html">
+        <source>Source</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a73db0a2d8690f0fdb9fc02bc236eb23b54ca5af" datatype="html">
@@ -569,13 +928,6 @@
           <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="81b97b8ea996ad1e4f9fca8415021850214884b1" datatype="html">
-        <source>Status</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/attach/attach.component.html</context>
-          <context context-type="linenumber">46</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="44fda12d62d20b1b66e58ede52ba342a5341d730" datatype="html">
         <source>Attach</source>
         <context-group purpose="location">
@@ -584,7 +936,89 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">209</context>
+          <context context-type="linenumber">116</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e6344175abdbbd48cbdcd7f3a77614e8e68f53d7" datatype="html">
+        <source>To save, add a comment on whats changed.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/save-dialog/save-dialog.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/save-dialog/save-dialog.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/save-unmatched-member-numbers-dialog/save-unmatched-member-numbers-dialog.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/add-to-asset-group-dialog/add-to-asset-group-dialog.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/edit-asset-group-dialog/edit-asset-group-dialog.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-groups/asset-groups.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-incidents-dialog/asset-incidents-dialog.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/saved-filters/saved-filters.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b6936b05273ef23a985dedd4b3ffe019e33938b2" datatype="html">
+        <source>Save mobile terminal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/save-dialog/save-dialog.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71c5a2d85870556e50fb868c43cb7946cff2a77a" datatype="html">
+        <source>Warning!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/save-unmatched-member-numbers-dialog/save-unmatched-member-numbers-dialog.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="06e388b1ce2ba20a5bcd8651ddf4212bb48b8ce7" datatype="html">
+        <source>Do you really want to save with to channels containing unmatched member numbers?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/save-unmatched-member-numbers-dialog/save-unmatched-member-numbers-dialog.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e322aaa422bdb81a581c7d5b6ddc39b362d80e65" datatype="html">
+        <source>Save anyway</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/save-unmatched-member-numbers-dialog/save-unmatched-member-numbers-dialog.component.html</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e79cc1ddee079f22801ab97466b810a3df790de7" datatype="html">
@@ -594,8 +1028,12 @@
           <context context-type="linenumber">7</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">7</context>
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cc676dd0ae399298e78eb9ce567c4622e4ae61b0" datatype="html">
@@ -605,8 +1043,12 @@
           <context context-type="linenumber">36</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">24</context>
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="bc84e11f81fdf12ebca3b58d2f2f93f5568e65f8" datatype="html">
@@ -623,12 +1065,16 @@
           <context context-type="linenumber">45</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">28</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
           <context context-type="linenumber">18</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1b38b8d51178d6a2594e98f153e8128995e01eb6" datatype="html">
@@ -638,12 +1084,16 @@
           <context context-type="linenumber">50</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">32</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
           <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7c6aef770c648f317b007efbfa6066b855c2976e" datatype="html">
@@ -657,12 +1107,16 @@
           <context context-type="linenumber">25</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">36</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
           <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="15d072fe725152f3b9fa545631d855a4254cfb13" datatype="html">
@@ -672,8 +1126,12 @@
           <context context-type="linenumber">64</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">40</context>
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="807cf11e6ac1cde912496f764c176bdfdd6b7e19" datatype="html">
@@ -704,8 +1162,12 @@
           <context context-type="linenumber">126</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9a47157c740a06066f825e512af7cb995cf637a5" datatype="html">
@@ -722,91 +1184,91 @@
           <context context-type="linenumber">143</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="039ad876bb672ee01a53683f64d12612c2372193" datatype="html">
         <source>Poll</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
-          <context context-type="linenumber">157</context>
+          <context context-type="linenumber">166</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a8cb2e85509e56f6381c6361aef7c6515c0e75ea" datatype="html">
         <source>Config</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
-          <context context-type="linenumber">162</context>
+          <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ff7cee38a2259526c519f878e71b964f41db4348" datatype="html">
         <source>Default</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
-          <context context-type="linenumber">167</context>
+          <context context-type="linenumber">176</context>
         </context-group>
       </trans-unit>
       <trans-unit id="91e6b870b02bbfe7943cc4e1f1e61d7faf78598b" datatype="html">
         <source>Expected Frequency</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
-          <context context-type="linenumber">185</context>
+          <context context-type="linenumber">194</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">97</context>
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cd25ef11e2d8843297caf4202937023dc02d0ba8" datatype="html">
         <source>minutes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
-          <context context-type="linenumber">187</context>
+          <context context-type="linenumber">196</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
-          <context context-type="linenumber">194</context>
+          <context context-type="linenumber">203</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
-          <context context-type="linenumber">201</context>
+          <context context-type="linenumber">210</context>
         </context-group>
       </trans-unit>
       <trans-unit id="126fb0e55c1c86d3fbc613193f2a821ddf698457" datatype="html">
         <source>Frequency Grace Period</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
-          <context context-type="linenumber">192</context>
+          <context context-type="linenumber">201</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">101</context>
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">104</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4bbc5bba34be42322b303ae7f37a809f0ac30dad" datatype="html">
         <source>Expected Frequency In Port</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
-          <context context-type="linenumber">199</context>
+          <context context-type="linenumber">208</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">106</context>
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">109</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b1a23ad3ead89edb1d15ae292fffb0f4f8b12f63" datatype="html">
         <source>Close without saving</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
-          <context context-type="linenumber">223</context>
+          <context context-type="linenumber">232</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5b3075e8dc3f3921ec316b0bd83b6d14a06c1a4f" datatype="html">
         <source>Save changes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
-          <context context-type="linenumber">233</context>
+          <context context-type="linenumber">242</context>
         </context-group>
       </trans-unit>
       <trans-unit id="29b2380e08d31f0802e7a9f73faa778023ee3955" datatype="html">
@@ -829,6 +1291,10 @@
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/list/list.component.html</context>
           <context context-type="linenumber">30</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="1873eaa6702843f73505bc9f28b9d23ffb8969ee" datatype="html">
         <source>asset</source>
@@ -837,219 +1303,79 @@
           <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9da1e94778a39017e883dcf19666a3af583b1ba2" datatype="html">
-        <source>Serial no.</source>
+      <trans-unit id="346cdbfd2ce42db36fba46f6229c8eb91880f027" datatype="html">
+        <source>Export to CSV</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">11</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
-          <context context-type="linenumber">31</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="43db8e95ca937026b75daf1b250f2d808ed2d28d" datatype="html">
-        <source>Ocean regions</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">15</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d0a60644c8c60022ae9cd004f4b78ac3009333a2" datatype="html">
-        <source>East Atlantic</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">17</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1e8d8f1998421efd4f3fa653d5d11700e885ac4e" datatype="html">
-        <source>West Atlantic</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">18</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6189df41dc90fa4b2da70469765b8081e512ec8a" datatype="html">
-        <source>Pacific</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="98153614750605df5751262ba7159d35f55a72e8" datatype="html">
-        <source>Indian</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">20</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="716497107703f4721ddca696c90a00c104cf01ad" datatype="html">
-        <source>Installed on</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">44</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ee5f76a3e0110582f75246653a345f5d97ecbf35" datatype="html">
-        <source>Unistalled on</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">48</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="bfb3a8b58fb01d66ccbbc42064da3a6724e6050e" datatype="html">
-        <source>Dnid</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">65</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0cc554f4d7bb6a87515d2d95438e183b50702071" datatype="html">
-        <source>Channel</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">73</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="871c7a9502a8fee1241d10e4eee4323cc3eb9d26" datatype="html">
-        <source>Poll Channel</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">77</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0f4c570854c4178715e577d5051350e0bc11a94b" datatype="html">
-        <source>Config Channel</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">81</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="275b37d3a80ad31d592c858236f7f72fbc59c8a4" datatype="html">
-        <source>Default Channel</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">85</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="77bbe324b08f6636fb50f673cea05313b86fb692" datatype="html">
-        <source>Start date</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">89</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f60960faa2cd3e0db11e48688774d05dfa9d715b" datatype="html">
-        <source>End date</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">93</context>
+          <context context-type="sourcefile">app/modules/mobile-terminal/pages/list/list.component.html</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7baf17486bb741f50e3fe8b89faf2b7bcccc30fd" datatype="html">
         <source>Inactivate before detaching</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cb5612214e11980abd9a67a8e315d05321f9811d" datatype="html">
         <source>Detach</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">156</context>
+          <context context-type="linenumber">64</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">165</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="71c5a2d85870556e50fb868c43cb7946cff2a77a" datatype="html">
-        <source>Warning!</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">158</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">178</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="53d2e7bf4b70e9a5f3616fbc167e2611f121bf1d" datatype="html">
         <source>You are about to detach a mobile terminal from this asset.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">160</context>
+          <context context-type="linenumber">68</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7d1dcf2a9146caac0581329acf94806ec69a89a5" datatype="html">
         <source>Are you sure you want to continue?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">161</context>
+          <context context-type="linenumber">69</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">182</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
-        <source>Cancel</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">164</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">185</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/add-to-asset-group-dialog/add-to-asset-group-dialog.component.html</context>
-          <context context-type="linenumber">24</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/edit-asset-group-dialog/edit-asset-group-dialog.component.html</context>
-          <context context-type="linenumber">22</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-groups/asset-groups.component.html</context>
-          <context context-type="linenumber">20</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/saved-filters/saved-filters.component.html</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
       <trans-unit id="22c9be90eb27c5c613348fbb621792223afe5d1b" datatype="html">
         <source>Archive</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">176</context>
+          <context context-type="linenumber">83</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">186</context>
+          <context context-type="linenumber">93</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e5b847acfd2ba1a40276b7b6ac1bbd21ba804287" datatype="html">
         <source>You are about to archive this mobile terminal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">180</context>
+          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="36b41257a3a82adf9972e97b082aad94fbcf6faf" datatype="html">
         <source>This action will also detach the mobile terminal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">181</context>
+          <context context-type="linenumber">88</context>
         </context-group>
       </trans-unit>
       <trans-unit id="28f86ffd419b869711aa13f5e5ff54be6d70731c" datatype="html">
         <source>Edit</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">198</context>
+          <context context-type="linenumber">105</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
@@ -1060,135 +1386,6 @@
           <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="244aae9346da82b0922506c2d2581373a15641cc" datatype="html">
-        <source>Email</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">7</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">14</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="a43f25a9ac40e8e2441ff0be7a36b8e5d15534df" datatype="html">
-        <source>Country</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">12</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5c7012b5a926b32d9e45fefdcc8a1a3cb6f023d0" datatype="html">
-        <source>City</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">16</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">23</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0758b6449e80ae401986fefbb451b0b93f390efe" datatype="html">
-        <source>Nationality</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">21</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">28</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/layer-filter/layer-filter.component.html</context>
-          <context context-type="linenumber">23</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="15182cef4d46f2d2a989c95c3f0004dbaa2561a4" datatype="html">
-        <source>Is owner?</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">25</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">32</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="63e1d28508d11998ba489a6ea4d8349e837162f5" datatype="html">
-        <source>Phone number</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">31</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">38</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7afd4fdb987c4f3510c8e876656f65a116b544d1" datatype="html">
-        <source>Post office box</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">35</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">42</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7adf2fbf7fd545072fa151ed4305142832563957" datatype="html">
-        <source>Postal area</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">39</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">46</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="9e0d081c7fbd8c2b40dcd03e03d9d7208be15ece" datatype="html">
-        <source>Street name</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">43</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">50</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="e5f74d4f69166b727e7e4337118204586c50a236" datatype="html">
-        <source>Zip code</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">47</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">54</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6834fa6b43d1ecbdf147c48dd9c4d72f1484571d" datatype="html">
-        <source>Source</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
-          <context context-type="linenumber">52</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
-          <context context-type="linenumber">59</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
-          <context context-type="linenumber">13</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="8a1388c26fe7acd3699c63defae49c9f6a9a01ad" datatype="html">
         <source>
             <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/>
@@ -1196,13 +1393,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/notes/pages/list/list.component.html</context>
           <context context-type="linenumber">25</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="121cc5391cd2a5115bc2b3160379ee5b36cd7716" datatype="html">
-        <source>Settings</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
-          <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e930ec3390a3967a42df7aa0a457c4cd2170358e" datatype="html">
@@ -1267,10 +1457,6 @@
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">38</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="71fb245539869caa0d73b420ce673994117de88f" datatype="html">
         <source>3 hours</source>
@@ -1285,10 +1471,6 @@
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">40</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
-          <context context-type="linenumber">11</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="441cb4e6efc57665da07f8f4a2cf51095cf92c72" datatype="html">
         <source>12 hours</source>
@@ -1296,20 +1478,12 @@
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">41</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
-          <context context-type="linenumber">12</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="26d1e5dc6a42e5da6d3e8ab44ff0fdf81c0757f3" datatype="html">
         <source>1 day</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">42</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
-          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d163ce0d8d09b53c17cec9c401507251346c87ab" datatype="html">
@@ -1354,39 +1528,43 @@
           <context context-type="linenumber">75</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ee8f8008bae6ce3a49840c4e1d39b4af23d4c263" datatype="html">
-        <source>Assets</source>
+      <trans-unit id="bb694b49d408265c91c62799c2b3a7e3151c824d" datatype="html">
+        <source>Logout</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/efr-top-menu/efr-top-menu.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
-          <context context-type="linenumber">11</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="85c787afd22f6cbd76aef5108349cc5eafa98061" datatype="html">
+        <source>Fishing report</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
+          <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
       <trans-unit id="36703ae6870944ae445bc8019c2b81cfaf5c1689" datatype="html">
         <source>Realtime map</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="064f8442bb7d9de0b5c129581f8078c76d606f59" datatype="html">
         <source>Reports map</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2f20d9b412afbe60f7c1021dd61774c8c066241b" datatype="html">
         <source>My Settings</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
-          <context context-type="linenumber">20</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="bb694b49d408265c91c62799c2b3a7e3151c824d" datatype="html">
-        <source>Logout</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-map-realtime-selected-asset-dont-exist-error" datatype="html">
@@ -1536,10 +1714,98 @@
           <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="ts-issue-status-poll-failed" datatype="html">
+        <source>Poll Failed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ts-issue-status-attempted-contact" datatype="html">
+        <source>Attempted Contact</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ts-issue-status-manual-position-mode" datatype="html">
+        <source>Manual position mode</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ts-issue-status-long-term-parked" datatype="html">
+        <source>Long term parked</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ts-issue-status-technical-issue" datatype="html">
+        <source>Technical issue</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ts-issue-status-resolved" datatype="html">
+        <source>Resolved</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ts-issue-type-asset-not-sending" datatype="html">
+        <source>Asset not sending</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ts-issue-type-seasonal-fishing" datatype="html">
+        <source>Seasonal fishing</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ts-issue-type-owner-transfer" datatype="html">
+        <source>Ownership transfer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ts-issue-type-long-term-parked" datatype="html">
+        <source>Long term parked</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ts-issue-type-parked" datatype="html">
+        <source>Parked</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ts-issue-type-manual-mode" datatype="html">
+        <source>Manual mode</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="f8d836988c2133a511c6f1b9f983bc0bb6ff5fd3" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{asset.externalMarking}}"/> • <x id="INTERPOLATION_1" equiv-text="{{asset.ircs}}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
           <context context-type="linenumber">10</context>
         </context-group>
       </trans-unit>
@@ -1549,11 +1815,19 @@
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">14</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="31ba24295fadfc17c8e1fe9335b007b9dbc967a0" datatype="html">
         <source>Read only asset</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
           <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
@@ -1563,6 +1837,17 @@
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">42</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ac16eabc25ec50bca7f644da007f00e297d5b7cd" datatype="html">
+        <source>Image missing</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="7c74960db91ace552d305ddbbb4f12ed4d76d9ef" datatype="html">
         <source>Vessel type</source>
@@ -1570,11 +1855,23 @@
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">59</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="bb83e254f3336a052a975fd9251582484fee95f8" datatype="html">
         <source>Port of registration</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
           <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
@@ -1584,12 +1881,107 @@
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">67</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="eaa73e83734e04330c567a8b569e3ed1e623275f" datatype="html">
         <source>Power of main engine</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">71</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/components/show/show.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dc73fa2133543e4f8471a5d54c82a11be2bb4ca5" datatype="html">
+        <source>VESSEL DETAILS</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b6902e56f6afbb45ea60a0024c4674af6a988111" datatype="html">
+        <source>Licence no.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6aa4b0b3af3e18cf942dececd5429e11bff4387b" datatype="html">
+        <source>Holder</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/licence-information/licence-information.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0bbada5778e5dab5bae89ed9c72cc7a80bb0f96d" datatype="html">
+        <source>Civic number</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/licence-information/licence-information.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8e1a20c74f1249cd3addfacbe1fcc0f0b65f39ed" datatype="html">
+        <source>From date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/licence-information/licence-information.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f9d6fbaf15a7185d7aa8ac4b83f95f0c0754e5f0" datatype="html">
+        <source>To date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/licence-information/licence-information.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8147001f752fbf48f757011e6b7f88ebf28347df" datatype="html">
+        <source>Order date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2b0e7d80e94bfa90dcdd9051994e7997484dd504" datatype="html">
+        <source>Limitations</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/licence-information/licence-information.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="78d6d3ea26777cd0dad8ddbf9b314151678da46c" datatype="html">
+        <source>Licence</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
+          <context context-type="linenumber">132</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/licence-information/licence-information.component.html</context>
+          <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f61c6867295f3b53d23557021f2f4e0aa1d0b8fc" datatype="html">
@@ -1619,6 +2011,17 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
           <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9da1e94778a39017e883dcf19666a3af583b1ba2" datatype="html">
+        <source>Serial no.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
       <trans-unit id="43c4133c7a0263d2e33dd4c2e74d40784b2e4b1c" datatype="html">
@@ -1694,222 +2097,311 @@
           <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="505570b70c523cf11ed999111a032551b8c15a25" datatype="html">
-        <source>Ircs:</source>
+      <trans-unit id="5164f705ae79aae838d251b783e66ec075ff6c24" datatype="html">
+        <source>How do you want to open the incident?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-incidents-dialog/asset-incidents-dialog.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bd9f68655a9f9e1cc3f3f0c569fe83da52a35aee" datatype="html">
+        <source>If you show it in current view, it will not show the incident correctly on the map, but you will retain all current selections.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-incidents-dialog/asset-incidents-dialog.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="42351f1f10c407465e9005d525e3e578fc4a2256" datatype="html">
+        <source>By switching to the relevant workflow you will see all relevant information on the map pertaining to this incident and other incidents of the same type.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-incidents-dialog/asset-incidents-dialog.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="81067bdf3bb1ec4a3ce1c8fcb8c5b2d8af50e49f" datatype="html">
+        <source>Switch to workflow</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-incidents-dialog/asset-incidents-dialog.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5a967cee4ff8b154bfa5bdbe2ca10d3b9ea2a4d8" datatype="html">
+        <source>Show in current view</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-incidents-dialog/asset-incidents-dialog.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="18de45a2192d9736d48e11882fc11904e45e60f0" datatype="html">
+        <source>Ircs</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">20</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">28</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="b4ac7cc83b4bba761d17e82cc0c4c083fee2a0d6" datatype="html">
-        <source>Mmsi:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">24</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">32</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f929e6576625daf5485c8b9914e1f5d84c29c27b" datatype="html">
-        <source>Speed:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">33</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
       <trans-unit id="94a983a817d8d653f60e123a3c15b89920bf70e4" datatype="html">
         <source>kn</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">55</context>
         </context-group>
         <note priority="1" from="description">Knots SI symbol</note>
-      </trans-unit>
-      <trans-unit id="aa4cea14707876714694c2bf816b5101caec3842" datatype="html">
-        <source>Heading:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="cf43ddd10fef95211ee18f5dbc9c93c6aa3fc64c" datatype="html">
-        <source>Flagstate:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">41</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">41</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="fc8fddb1bc5db1f23476a05d56607a8cc0ada3b3" datatype="html">
-        <source>External marking:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">45</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">45</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2054791b822475aeaea95c0119113de3200f5e1c" datatype="html">
-        <source>Length:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">49</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">49</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8c427bdf282774369447a029bb049a9511c0344d" datatype="html">
-        <source>m</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">50</context>
-        </context-group>
-        <note priority="1" from="description">Meter SI symbol</note>
-      </trans-unit>
-      <trans-unit id="6873daa1c0ce9e3d50a317b406e50fc10b218b86" datatype="html">
-        <source>LicenceType:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">53</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">53</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ee71e69d1303c541c1e90ebb2399b758e8cb07cc" datatype="html">
-        <source>Vessel type:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">57</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">57</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0e856ace7e289b73c635e7bcb4f94926e458c03f" datatype="html">
-        <source>Org. Nr:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">61</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">62</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d81afbaf7e0b058e24fb981c066f380939083534" datatype="html">
-        <source>Org. namn:</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">65</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">66</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="183ef4cffb9036aec3a52b917e7177f316c07df2" datatype="html">
         <source>Track</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">129</context>
         </context-group>
       </trans-unit>
       <trans-unit id="44af83efc4b6564ab0dff9ebc36ce95d7d2a1ae8" datatype="html">
         <source>Forecast</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">53</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="f0e8ccf7f6da70d9e9b3b837f19b59daf738f0f8" datatype="html">
-        <source>Remove from selected</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">130</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6bea3ca449860adf802c105423cc354fc955ae79" datatype="html">
         <source>Go to on map</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">88</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">107</context>
         </context-group>
       </trans-unit>
       <trans-unit id="34189b76caaf559f7bf2b55cfa2abf93d1d265e5" datatype="html">
         <source>Show more information</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">94</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">113</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cd698320ca23bc8324ab0870741eba6273d3011c" datatype="html">
         <source>Add to asset group</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
-          <context context-type="linenumber">101</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">120</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/selected-assets-panel/selected-assets-panel.component.html</context>
           <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="b7d010ae8c55e4d07161515b537bd2c0099f97bf" datatype="html">
-        <source>Clear tracks</source>
+      <trans-unit id="f0e8ccf7f6da70d9e9b3b837f19b59daf738f0f8" datatype="html">
+        <source>Remove from selected</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
-          <context context-type="linenumber">3</context>
+          <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
+          <context context-type="linenumber">83</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="a9e6239caa2ded8540f1e06e3f08c31058edc043" datatype="html">
-        <source>Clear forecasts</source>
+      <trans-unit id="505570b70c523cf11ed999111a032551b8c15a25" datatype="html">
+        <source>Ircs:</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
-          <context context-type="linenumber">4</context>
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="bdb24b7cc8a128561913e50552feef130a2e3b17" datatype="html">
-        <source>Track length</source>
+      <trans-unit id="ee71e69d1303c541c1e90ebb2399b758e8cb07cc" datatype="html">
+        <source>Vessel type:</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
-          <context context-type="linenumber">7</context>
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6fbf7b61d3fdd78e663a963955bc8992b00b5bcc" datatype="html">
-        <source>3 hour</source>
+      <trans-unit id="f929e6576625daf5485c8b9914e1f5d84c29c27b" datatype="html">
+        <source>Speed:</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
-          <context context-type="linenumber">10</context>
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident-log-entry-position/incident-log-entry-position.component.html</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="e53622db991ab0684fde328e4bd5a4719f512bde" datatype="html">
-        <source>Forecast interval (min)</source>
+      <trans-unit id="aa4cea14707876714694c2bf816b5101caec3842" datatype="html">
+        <source>Heading:</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident-log-entry-position/incident-log-entry-position.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b72cd90828ac6a8ea663a6160b42ee7b8b95ce5a" datatype="html">
+        <source>Position:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b4ac7cc83b4bba761d17e82cc0c4c083fee2a0d6" datatype="html">
+        <source>Mmsi:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cf43ddd10fef95211ee18f5dbc9c93c6aa3fc64c" datatype="html">
+        <source>Flagstate:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fc8fddb1bc5db1f23476a05d56607a8cc0ada3b3" datatype="html">
+        <source>External marking:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2054791b822475aeaea95c0119113de3200f5e1c" datatype="html">
+        <source>Length:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8c427bdf282774369447a029bb049a9511c0344d" datatype="html">
+        <source>m</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+        <note priority="1" from="description">Meter SI symbol</note>
+      </trans-unit>
+      <trans-unit id="6873daa1c0ce9e3d50a317b406e50fc10b218b86" datatype="html">
+        <source>LicenceType:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0e856ace7e289b73c635e7bcb4f94926e458c03f" datatype="html">
+        <source>Org. Nr:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d81afbaf7e0b058e24fb981c066f380939083534" datatype="html">
+        <source>Org. namn:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2a16a2d5122a1a45730510b9f3f6f668bd30b7c1" datatype="html">
+        <source>Deselect asset</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="15bdfa7e753e80e9f158a0d23194cb33eb63088f" datatype="html">
+        <source>License</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">140</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="33917df2b91112519032169bbd66fc1c7de3e2c8" datatype="html">
+        <source>Manage polling</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">147</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7acfeb6214be6d5b9c6ca7285d689dd1402ca446" datatype="html">
+        <source>Positions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">154</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7270156bbb546262ca6433db32b2406f48960fad" datatype="html">
+        <source>Incidents</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-panel-show/asset-panel-show.component.html</context>
+          <context context-type="linenumber">160</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b733bf04d4bcd190f706f5901164b909f56c44b2" datatype="html">
@@ -1958,78 +2450,153 @@
         <source>Last known position</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4e0ad02a8a2295d1f317fcdbe9057c5e460c8dd0" datatype="html">
         <source>Latitude:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident-log-entry-position/incident-log-entry-position.component.html</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="284b2009235fd44e3da87a60adb793608ee5d02c" datatype="html">
         <source>Longitude:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident-log-entry-position/incident-log-entry-position.component.html</context>
+          <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="34c8f0fce826eba75fed484db2f14ca372b40649" datatype="html">
         <source>Time:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident-log-entry-position/incident-log-entry-position.component.html</context>
+          <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d517b7f2af3407c0dad3d91aa115c4f5af2b6892" datatype="html">
         <source>Asset information</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7a43b83adba8c15d02dd2250d8776efbf873c48a" datatype="html">
+        <source>Contact info</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f7b1073d598a188002ad35381afb309bdcb94581" datatype="html">
         <source>Show full log</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b21a6d5cc66adde42579bc3e9e467310b7648833" datatype="html">
+        <source>Change incident type</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">98</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cb019ddee60a76b87616a8c30713d26f3a9ed144" datatype="html">
         <source>Change incident status</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">105</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2b45383fc552fee43e309f1200b43a8c75a531c4" datatype="html">
+        <source>Manually poll</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
+          <context context-type="linenumber">112</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5c599ad72d8ce2f75c2d7aeaee583bd1fe44602d" datatype="html">
         <source>Create manual position</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="linenumber">118</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2886cba0d103cf5cf8e4727ba84066cdb133a78d" datatype="html">
         <source>New note</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
-          <context context-type="linenumber">84</context>
+          <context context-type="linenumber">125</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4eb84de23219c85432e38fb4fbdeb6c0f103ff8b" datatype="html">
         <source>Show all</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident-status-form/incident-status-form.component.html</context>
-          <context context-type="linenumber">8</context>
+          <context context-type="linenumber">15</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/manual-movement-form/manual-movement-form.component.html</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">99</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/note-form/note-form.component.html</context>
           <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2f2d3537be5ad6783862d60ec1e4b6a034714783" datatype="html">
+        <source>Source:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incident-log-entry-position/incident-log-entry-position.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f4675fefc11c664dd5ec3bafd5441c025793adc4" datatype="html">
+        <source>Attempted contact</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incidents-asset-not-sending/incidents-asset-not-sending.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="082dac48a9ed470b53a53b9e1715f7355c53b4cb" datatype="html">
+        <source>Not contacted</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incidents-asset-not-sending/incidents-asset-not-sending.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="22bbfe7641efda675c1c113e17c318f4b35472e8" datatype="html">
+        <source>Expecting new manual position</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incidents-manual-position-mode/incidents-manual-position-mode.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9b4c8efa76a19cb9cd3265c8c7187fc89fd0e8a2" datatype="html">
+        <source>Confirm recieving VMS positions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incidents-manual-position-mode/incidents-manual-position-mode.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ac470dabd772c9e890779646c4765351b27fb50e" datatype="html">
+        <source>Time to next manual report</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/incidents-manual-position-mode/incidents-manual-position-mode.component.html</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ba527563f380a168ab7516e396394b927445f2e2" datatype="html">
@@ -2260,123 +2827,146 @@
           <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="d87cf8c82b7a9ec6c3d8d677fa4538fa02496c56" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{formattedLicence.active}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/licence-information/licence-information.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e4fcbf4ac7a99768007715c604fe31ef86d4bc7e" datatype="html">
+        <source>Decision date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/licence-information/licence-information.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="64fd35b70d720d379c9fb85e5694c93be3c53e9e" datatype="html">
+        <source>
+    Can not find any licence.
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/licence-information/licence-information.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="b6ed72ca8a8c37a642966fca572c175383217096" datatype="html">
         <source>Filter map</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">12</context>
+          <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="dcbaa9aac20dce1bae88f2cf22bec49a30530ecf" datatype="html">
         <source>Quick filter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="56343315d0f75872e471e6694c08cbd716a5fbda" datatype="html">
         <source>Saved filters</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="681d5027a7e0b753bf5927949859a4c48d7b3a32" datatype="html">
         <source>Asset groups</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4496cb6d2a2675bf962a01c6d32a393a593d5c43" datatype="html">
+        <source>Search in map</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="02a35d0b5e98941185738950c8d25e8c097ce1f6" datatype="html">
         <source>Workflows</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="dc563aba0817263a1456201208fe35de85f1a0d9" datatype="html">
-        <source>Assets not sending</source>
+      <trans-unit id="66dbb452589cf1481a78a1fe11ed519c89fe8d54" datatype="html">
+        <source>Assets not sending (<x id="INTERPOLATION" equiv-text="{{incidentsByTypeAndStatus.assetNotSending.unresolvedIncidents.length}}"/>)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">76</context>
+          <context context-type="linenumber">80</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="3aef80d99d53f7575319f86fa49bb637e3eec1b1" datatype="html">
-        <source>Fishing Activity</source>
+      <trans-unit id="c6b4600658b0363fa7fa3f61f548928a64a2cb5a" datatype="html">
+        <source>Manual position  (<x id="INTERPOLATION" equiv-text="{{incidentsByTypeAndStatus.manualPositionMode.unresolvedIncidents.length}}"/>)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">99</context>
+          <context context-type="linenumber">104</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="eea5049959b2df35d07f23f3776df8144f0be33d" datatype="html">
-        <source>Long termed parked</source>
+      <trans-unit id="128647c3ed7ac62a10a50e0d2485599cc0cb1f01" datatype="html">
+        <source>Seasonal fishing (4 pcs)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">107</context>
+          <context context-type="linenumber">120</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="e3217c1ae1cb32d17778abe206ac53dcf48bb017" datatype="html">
-        <source>New Assets</source>
+      <trans-unit id="7b72c4de04687de5e17283de4495dc2cd3b776e5" datatype="html">
+        <source>Parked (4 pcs)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">128</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="869a92c444d224d11863e6d2a2db4884bb043880" datatype="html">
-        <source>AIS Assets</source>
+      <trans-unit id="3b62b127d6bd5be107580bb1db4b8cd6edbe79e6" datatype="html">
+        <source>Ownership transfer (2 pcs)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">123</context>
+          <context context-type="linenumber">136</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="83f5c974e0d964da593c057b2c83a2d8ea7a22d3" datatype="html">
-        <source>Static VMS Assets</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">131</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6ebc8f49659c731244ebc20c1c02b5ad03268dd7" datatype="html">
-        <source>Risk Assets</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">139</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="723c95de61a7cc860caa78fa66d82442f18c5e4c" datatype="html">
-        <source>MMSI duplicates</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">147</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="64c096b55680f318135331651d1fb0fef5e370bc" datatype="html">
-        <source>Active Prior Notification</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">155</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0fa674db2008a8ee81b0647df4a54f7c8590fa40" datatype="html">
-        <source>Entry &amp; Exit Assets</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
-          <context context-type="linenumber">163</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="b05344a1cc64bfb22432c6338f6d9c9150884f50" datatype="html">
-        <source>Map information</source>
+      <trans-unit id="6f66c4484c81c90202dd838a0240d7cb6e646d3b" datatype="html">
+        <source>Map Information</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-right-column/map-right-column.component.html</context>
-          <context context-type="linenumber">12</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d9fcb5137b7180e7e65fd9871a8bd1f0bf600fcf" datatype="html">
+        <source>Detailed asset information</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/container-components/map-right-column/map-right-column.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9d6997643bceb1bddb15cc97a34317f7145dee59" datatype="html">
+        <source>Overview multiple Assets</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/container-components/map-right-column/map-right-column.component.html</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1b1bc7e2efda8845ba137536f1534a74b019ced2" datatype="html">
+        <source>chosen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/container-components/map-right-column/map-right-column.component.html</context>
+          <context context-type="linenumber">78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="79e60773a497a79ae94eb7bb6fdc39b7da33ddea" datatype="html">
         <source>Incident</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-right-column/map-right-column.component.html</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="05c7ef39e356e3d526507c575eb9b0fe98073dd3" datatype="html">
+        <source>Poll manually</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/manual-poll-form/manual-poll-form.component.html</context>
+          <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="eaf4bb03f832c87b6c68fc4344ce1474647ba0d6" datatype="html">
@@ -2444,18 +3034,25 @@
           <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="be4905bbcb130c283f608514861db2da7e87d35f" datatype="html">
+        <source>Clear all tracks and forecasts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/selected-assets-panel/selected-assets-panel.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="c33a9cfa2cb994a8cf8bd92a507abaad07ccfff3" datatype="html">
         <source>Clear selected assets</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/selected-assets-panel/selected-assets-panel.component.html</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a55bfaabb5258f66c2f853ce2383cfead1abd258" datatype="html">
         <source>Close menu</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/selected-assets-panel/selected-assets-panel.component.html</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="778917d22bd5dc13e34a30fb8a49e511452edd73" datatype="html">
@@ -2477,6 +3074,175 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/trip-player/trip-player.component.html</context>
           <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b463541a7e303aa4d0b1102eaff8afbaf34e7a74" datatype="html">
+        <source>Select all</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5124633f6ba30f4d9b29fd0e43c9195a6bcf0f79" datatype="html">
+        <source>Archived</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4a410ea20cb4bb2ab311a14ed09e688e77878792" datatype="html">
+        <source>Attached</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3e4d4a9a780872851b82f39c7750cbb411e0c9a1" datatype="html">
+        <source>Install date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c29f9936ad5f85b1dec9e543d9dc539c20501874" datatype="html">
+        <source>Uninstall date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ac6c9212896d39b23811ed2dadab7d07336ec559" datatype="html">
+        <source>Enable</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="77bbe324b08f6636fb50f673cea05313b86fb692" datatype="html">
+        <source>Start date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f60960faa2cd3e0db11e48688774d05dfa9d715b" datatype="html">
+        <source>End date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="df2fbcbde044b73176139f59a219820e3c13bcfc" datatype="html">
+        <source>Expected frequency</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="119d09569d9945a82085acfa04c25c7bb131befe" datatype="html">
+        <source>Expected frequency in port</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c6a4e6f1e4bcc190289bf80bc4b357e7dc2ecf8a" datatype="html">
+        <source>Frequency grace period</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/history/history.component.html</context>
+          <context context-type="linenumber">117</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="43db8e95ca937026b75daf1b250f2d808ed2d28d" datatype="html">
+        <source>Ocean regions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d0a60644c8c60022ae9cd004f4b78ac3009333a2" datatype="html">
+        <source>East Atlantic</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1e8d8f1998421efd4f3fa653d5d11700e885ac4e" datatype="html">
+        <source>West Atlantic</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6189df41dc90fa4b2da70469765b8081e512ec8a" datatype="html">
+        <source>Pacific</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="98153614750605df5751262ba7159d35f55a72e8" datatype="html">
+        <source>Indian</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="716497107703f4721ddca696c90a00c104cf01ad" datatype="html">
+        <source>Installed on</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ee5f76a3e0110582f75246653a345f5d97ecbf35" datatype="html">
+        <source>Unistalled on</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bfb3a8b58fb01d66ccbbc42064da3a6724e6050e" datatype="html">
+        <source>Dnid</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0cc554f4d7bb6a87515d2d95438e183b50702071" datatype="html">
+        <source>Channel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="871c7a9502a8fee1241d10e4eee4323cc3eb9d26" datatype="html">
+        <source>Poll Channel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0f4c570854c4178715e577d5051350e0bc11a94b" datatype="html">
+        <source>Config Channel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="275b37d3a80ad31d592c858236f7f72fbc59c8a4" datatype="html">
+        <source>Default Channel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/components/list-for-asset/list-for-asset.component.html</context>
+          <context context-type="linenumber">88</context>
         </context-group>
       </trans-unit>
       <trans-unit id="513acd6a54ffb7c9c494cfcac42a161aa12e69fe" datatype="html">
