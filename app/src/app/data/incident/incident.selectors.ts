@@ -5,7 +5,7 @@ import { IncidentTypes } from './';
 export const selectSelectedIncidentId = (state: State) => state.incident.selectedIncidentId;
 export const selectIncidents = (state: State) => state.incident.incidents;
 export const selectAssetNotSendingIncidents = (state: State) => state.incident.incidentsByTypesAndStatus.assetNotSending;
-export const selectIncidentNotificationsByType = (state: State) => state.incident.incidentNotificationsByType;
+export const selectIncidentsByTypeAndStatus = (state: State) => state.incident.incidentsByTypesAndStatus;
 export const selectIncidentLogs = (state: State) => state.incident.incidentLogs;
 export const selectIncidentsForAssets = (state: State) => state.incident.incidentsForAssets;
 export const selectIncidentTypes = (state: State) => state.incident.incidentTypes;
@@ -27,6 +27,24 @@ export const getAssetNotSendingIncidents = createSelector(
   }
 );
 
+export const getIncidentsByTypeAndStatus = createSelector(
+  selectIncidents,
+  selectIncidentsByTypeAndStatus,
+  (incidents, incidentsByTypeAndStatus): IncidentTypes.IncidentsByTypeAndStatus => {
+    return Object.keys(incidentsByTypeAndStatus).reduce((acc, typeName) => {
+      return {
+        ...acc,
+        [typeName]: {
+          unresolvedIncidents: incidentsByTypeAndStatus[typeName].unresolvedIncidentIds.map(incidentId => incidents[incidentId]),
+          recentlyResolvedIncidents: incidentsByTypeAndStatus[typeName]
+            .recentlyResolvedIncidentIds.map(incidentId => incidents[incidentId]),
+        }
+      };
+    }, {} as IncidentTypes.IncidentsByTypeAndStatus);
+  }
+);
+
+
 export const getAssetNotSendingIncidentsByAssetId = createSelector(
   selectAssetNotSendingIncidents,
   (assetNotSendingIncidents) => assetNotSendingIncidents
@@ -35,11 +53,6 @@ export const getAssetNotSendingIncidentsByAssetId = createSelector(
 export const getIncidentLogs = createSelector(
   selectIncidentLogs,
   (incidentLogs) => incidentLogs
-);
-
-export const getIncidentNotificationsByType = createSelector(
-  selectIncidentNotificationsByType,
-  (incidentNotificationsByType) => incidentNotificationsByType
 );
 
 export const getIncidentsForAssets = createSelector(

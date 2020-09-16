@@ -12,6 +12,13 @@ export enum AssetNotSendingStatuses {
   RESOLVED = 'RESOLVED'
 }
 
+export enum ManualPositionModeStatuses {
+  MANUAL_POSITION_MODE = 'MANUAL_POSITION_MODE',
+  MANUAL_POSITION_LATE = 'MANUAL_POSITION_LATE',
+  RECEIVING_VMS_POSITIONS = 'RECEIVING_VMS_POSITIONS',
+  RESOLVED = 'RESOLVED'
+}
+
 export enum IncidentRisk {
   none = 'NONE',
   low = 'LOW',
@@ -24,8 +31,11 @@ export enum IncidentTypes {
   seasonalFishing = 'SEASONAL_FISHING',
   ownerTransfer = 'OWNER_TRANSFER',
   parked = 'PARKED',
-  manualMode = 'MANUAL_MODE',
+  manualPositionMode = 'MANUAL_MODE',
 }
+
+export const IncidentTypesInverted = Object.entries(IncidentTypes).reduce((acc, [a, b]) => ({ ...acc, [b]: a }), {});
+export const IncidentTypesValues = Object.values(IncidentTypes).map((incidentType) => incidentType.toString());
 
 export type IncidentTypesCollection = ReadonlyArray<IncidentTypes>;
 
@@ -41,7 +51,7 @@ export type Incident = Readonly<{
   updateDate: number;
   type: string;
   risk?: IncidentRisk;
-  expiryDate: number;
+  expiryDate?: number;
 }>;
 
 export type IncidentsCollectionByResolution = Readonly<{
@@ -49,9 +59,18 @@ export type IncidentsCollectionByResolution = Readonly<{
   recentlyResolvedIncidents: ReadonlyArray<Incident>;
 }>;
 
+export type IncidentsByTypeAndStatus = Readonly<{
+  readonly [typeName: string]: IncidentsCollectionByResolution
+}>;
+
 export type IncidentIdsCollectionByType = Readonly<{
   unresolvedIncidentIds: ReadonlyArray<number>;
   recentlyResolvedIncidentIds: ReadonlyArray<number>;
+}>;
+
+export type IncidentIdsByTypeAndStatus = Readonly<{
+  assetNotSending: IncidentIdsCollectionByType,
+  manualPositionMode: IncidentIdsCollectionByType,
 }>;
 
 export type IncidentNotifications = Readonly<{
@@ -101,12 +120,7 @@ export type State = Readonly<{
   incidentsForAssets: {
     readonly [assetId: string]: ReadonlyArray<number>
   };
-  incidentsByTypesAndStatus: {
-    assetNotSending: IncidentIdsCollectionByType,
-  };
-  incidentNotificationsByType: {
-    readonly [type: string]: IncidentNotificationsCollections;
-  };
+  incidentsByTypesAndStatus: IncidentIdsByTypeAndStatus;
   incidentLogs: IncidentLogs;
   incidentTypes: IncidentTypesCollection
 }>;

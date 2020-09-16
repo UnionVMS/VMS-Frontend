@@ -74,10 +74,7 @@ export const setLogForIncident = createAction(
   props<{ incidentId: number, incidentLog: IncidentTypes.IncidentLog }>()
 );
 
-export const updateAssetNotSendingIncidents = createAction(
-  '[Incident] Update asset not sending incidents',
-  props<{
-    incidents: { readonly [incidentId: number]: IncidentTypes.Incident },
-    updateType: IncidentTypes.IncidentNotificationTypes
-  }>()
+export const updateIncidents = createAction(
+  '[Incident] Update incidents',
+  props<{ incidents: { readonly [incidentId: number]: IncidentTypes.Incident } }>()
 );

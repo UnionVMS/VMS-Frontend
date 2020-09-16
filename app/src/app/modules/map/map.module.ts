@@ -51,7 +51,8 @@ import { IncidentLogEntryPollComponent } from './components/incident-log-entry-p
 import { IncidentLogEntryPositionComponent } from './components/incident-log-entry-position/incident-log-entry-position.component';
 import { IncidentStatusFormComponent } from './components/incident-status-form/incident-status-form.component';
 import { IncidentTypeFormComponent } from './components/incident-type-form/incident-type-form.component';
-import { IncidentsComponent } from './components/incidents/incidents.component';
+import { IncidentsAssetNotSendingComponent } from './components/incidents-asset-not-sending/incidents-asset-not-sending.component';
+import { IncidentsManualPositionModeComponent } from './components/incidents-manual-position-mode/incidents-manual-position-mode.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
 import { LicenceInformationComponent } from './components/licence-information/licence-information.component';
@@ -117,7 +118,8 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentLogEntryPositionComponent,
     IncidentStatusFormComponent,
     IncidentTypeFormComponent,
-    IncidentsComponent,
+    IncidentsAssetNotSendingComponent,
+    IncidentsManualPositionModeComponent,
     InformationPanelComponent,
     LayerFilterComponent,
     LicenceInformationComponent,

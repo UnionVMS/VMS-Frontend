@@ -46,14 +46,11 @@ export const convertDDMToDD = (latitude: string, longitude: string) => {
   const verticalDirection = latitude.substring(0, 1) === 'N' ? 1 : -1;
   const horizontalDirection = longitude.substring(0, 1) === 'E' ? 1 : -1;
 
+  const [latitudePrimary, latitudeMinute] = latitude.substring(2, latitude.length - 1).split('° ');
+  const [longitudePrimary, longitudeMinute] = longitude.substring(2, longitude.length - 1).split('° ');
+
   return {
-    latitude: verticalDirection * (
-      parseInt(latitude.substring(2, 4), 10) +
-      (parseFloat(latitude.substring(6, latitude.length - 1)) / 60)
-    ),
-    longitude: horizontalDirection * (
-      parseInt(longitude.substring(2, 4), 10) +
-      (parseFloat(longitude.substring(6, longitude.length - 1)) / 60)
-    )
+    latitude: verticalDirection * ( parseInt(latitudePrimary, 10) + (parseFloat(latitudeMinute) / 60) ),
+    longitude: horizontalDirection * ( parseInt(longitudePrimary, 10) + (parseFloat(longitudeMinute) / 60) )
   };
 };

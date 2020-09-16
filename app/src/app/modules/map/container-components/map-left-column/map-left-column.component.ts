@@ -52,8 +52,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public selectAsset: (assetId: string) => void;
 
 
-  public assetNotSendingIncidents: IncidentTypes.IncidentsCollectionByResolution;
-  public incidentNotificationsByType: Readonly<{ readonly [type: string]: IncidentTypes.IncidentNotificationsCollections }>;
+  public incidentsByTypeAndStatus: IncidentTypes.IncidentsByTypeAndStatus;
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
@@ -67,15 +66,14 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   // Curried functions
   public setGivenFilterActiveCurry = (filterTypeName: string) => (status: boolean) => this.setGivenFilterActive(filterTypeName, status);
-  public setGivenWorkflowActive = (filterTypeName: string) => (status: boolean) => {
-    this.clearSelectedAssets();
-    // this.setGivenFilterActive(filterTypeName, status);
+  public toggleLastInPanelTree = (panelTree: ReadonlyArray<string>) => (status: boolean) => {
     if(status) {
-      this.setActivePanelAndShowColumn(['workflows', filterTypeName]);
+      this.setActivePanelAndShowColumn(panelTree);
     } else {
-      this.setActivePanelAndShowColumn(['workflows']);
+      const panelTreeMutation = [ ...panelTree ];
+      panelTreeMutation.pop();
+      this.setActivePanelAndShowColumn(panelTreeMutation);
     }
-    this.store.dispatch(AssetActions.removeTracks());
   }
 
   public setActivePanelAndShowColumn = (activeLeftPanel: ReadonlyArray<string>) => {
@@ -106,13 +104,10 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.checkForAssetEssentials({ assetIds }));
     });
     this.searchAutocompleteResult$ = this.store.select(AssetSelectors.getSearchAutocomplete);
-    this.store.select(IncidentSelectors.getAssetNotSendingIncidents).pipe(takeUntil(this.unmount$)).subscribe(
-      (assetsNotSendingIncicents: IncidentTypes.IncidentsCollectionByResolution) => {
-      this.assetNotSendingIncidents = assetsNotSendingIncicents;
+    this.store.select(IncidentSelectors.getIncidentsByTypeAndStatus).pipe(takeUntil(this.unmount$)).subscribe(
+      (incidentsByTypeAndStatus: IncidentTypes.IncidentsByTypeAndStatus) => {
+        this.incidentsByTypeAndStatus = incidentsByTypeAndStatus;
     });
-    this.store.select(IncidentSelectors.getIncidentNotificationsByType).pipe(takeUntil(this.unmount$)).subscribe(
-      incidentNotificationsByType => { this.incidentNotificationsByType = incidentNotificationsByType; }
-    );
     this.store.select(IncidentSelectors.getSelectedIncident).pipe(takeUntil(this.unmount$)).subscribe(
       incident => { this.selectedIncident = incident; }
     );

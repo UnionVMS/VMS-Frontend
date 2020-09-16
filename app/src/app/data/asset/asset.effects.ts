@@ -219,12 +219,11 @@ export class AssetEffects {
                 //     `New incident #${message.id} for ${message.assetName}.`
                 //   ));
                 // });
-                actions.push(IncidentActions.updateAssetNotSendingIncidents({
+                actions.push(IncidentActions.updateIncidents({
                   incidents: messagesByType.Incident.reduce((acc, message) => {
                     acc[message.id] = message;
                     return acc;
-                  }, {}),
-                  updateType: IncidentTypes.IncidentNotificationTypes.created
+                  }, {})
                 }));
               }
 
@@ -234,12 +233,11 @@ export class AssetEffects {
                 //     `Incident #${message.id} for asset ${message.assetName} updated.`
                 //   ));
                 // });
-                actions.push(IncidentActions.updateAssetNotSendingIncidents({
+                actions.push(IncidentActions.updateIncidents({
                   incidents: messagesByType.IncidentUpdate.reduce((acc, message) => {
                     acc[message.id] = message;
                     return acc;
-                  }, {}),
-                  updateType: IncidentTypes.IncidentNotificationTypes.updated
+                  }, {})
                 }));
               }
 

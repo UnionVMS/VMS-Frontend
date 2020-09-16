@@ -42,6 +42,34 @@
     padding: distance(1);
     padding-left: 0px;
 
+    &.with-countdown {
+      grid-template-columns: 1fr 60px;
+
+      .countdown {
+        grid-column: 2;
+        grid-row: 1 / 4;
+        margin-top: -1 * distance(0.5);
+
+        .texts {
+          margin-top: distance(2);
+          text-align: center;
+
+          .time {
+            font-size: 13px;
+            color: $color_light_turquoise;
+
+            &.overdue {
+              color: $color_warn;
+            }
+          }
+          .time-description {
+            font-size: 10px;
+            color: $color_dark_gray;
+          }
+        }
+      }
+    }
+
     .ircs-and-name {
       display: grid;
       grid-template-columns: 1fr auto;

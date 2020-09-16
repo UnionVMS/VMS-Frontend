@@ -1,0 +1,45 @@
+<div class="content-container">
+  <div class="filter-for-panel-content">
+    <ui-button-toggle
+      label="Recently resolved"
+      [value]="resolved"
+      [switchFunction]="switchShowResolved"
+    ></ui-button-toggle>
+  </div>
+
+  <div class="incidents" *ngIf="!resolved">
+    <ng-container *ngIf="incidentsWithAttemptedContact.length > 0">
+      <h3 i18n>Attempted contact</h3>
+      <ng-container *ngFor="let incident of incidentsWithAttemptedContact; trackBy: trackByIncidents">
+        <map-incident-card
+          [incident]="incident"
+          [selectIncident]="selectIncident"
+          [incidentIsSelected]="incidentIsSelected(incident)"
+          [urgency]="incident.risk"
+        ></map-incident-card>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="unmanagedIncidents.length > 0">
+    <h3 i18n>Not contacted</h3>
+      <ng-container *ngFor="let incident of unmanagedIncidents; trackBy: trackByIncidents">
+        <map-incident-card
+          [incident]="incident"
+          [selectIncident]="selectIncident"
+          [incidentIsSelected]="incidentIsSelected(incident)"
+          [urgency]="incident.risk"
+        ></map-incident-card>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="incidents" *ngIf="resolved">
+    <ng-container *ngFor="let incident of incidents.recentlyResolvedIncidents; trackBy: trackByIncidents">
+      <map-incident-card
+        [incident]="incident"
+        [selectIncident]="selectIncident"
+        [incidentIsSelected]="incidentIsSelected(incident)"
+        urgency="RESOLVED"
+      ></map-incident-card>
+    </ng-container>
+  </div>
+</div>

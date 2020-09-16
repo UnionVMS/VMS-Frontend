@@ -77,9 +77,9 @@
     <h3 i18n>Workflows</h3>
     <map-panel-block
       i18n-blockTitle
-      blockTitle="Assets not sending ({{assetNotSendingIncidents.unresolvedIncidents.length}})"
+      blockTitle="Assets not sending ({{incidentsByTypeAndStatus.assetNotSending.unresolvedIncidents.length}})"
       [active]="activePanel[1] === 'ASSET_NOT_SENDING'"
-      [setActiveFunction]="setGivenWorkflowActive('ASSET_NOT_SENDING')"
+      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING'])"
       [useArrowsAsToggle]="true"
     >
       <!-- <div header class="notifications" *ngIf="incidentNotificationsByType !== undefined && incidentNotificationsByType.assetNotSending !== undefined">
@@ -90,22 +90,30 @@
           {{countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'updated')}}
         </span>
       </div> -->
-      <map-incidents
+      <map-incidents-asset-not-sending
         body
         *ngIf="activePanel[1] === 'ASSET_NOT_SENDING'"
-        [incidents]="assetNotSendingIncidents"
+        [incidents]="incidentsByTypeAndStatus.assetNotSending"
         [selectedIncident]="selectedIncident"
         [selectIncident]="selectIncident"
-        [incidentNotifications]="incidentNotificationsByType.assetNotSending"
-      ></map-incidents>
+        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING', 'RESOLVED'])"
+      ></map-incidents-asset-not-sending>
     </map-panel-block>
     <map-panel-block
       i18n-blockTitle
-      blockTitle="Manual position (4 pcs)"
-      [active]="false"
-      [setActiveFunction]="emptyClick"
+      blockTitle="Manual position  ({{incidentsByTypeAndStatus.manualPositionMode.unresolvedIncidents.length}})"
+      [active]="activePanel[1] === 'MANUAL_MODE'"
+      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'MANUAL_MODE'])"
       [useArrowsAsToggle]="true"
     >
+      <map-incidents-manual-position-mode
+        body
+        *ngIf="activePanel[1] === 'MANUAL_MODE'"
+        [incidents]="incidentsByTypeAndStatus.manualPositionMode"
+        [selectedIncident]="selectedIncident"
+        [selectIncident]="selectIncident"
+        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'MANUAL_MODE', 'RESOLVED'])"
+      ></map-incidents-manual-position-mode>
     </map-panel-block>
     <map-panel-block
       i18n-blockTitle

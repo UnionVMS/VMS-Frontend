@@ -1,0 +1,27 @@
+<div class="progress-circle-component">
+  <ng-container *ngIf="progress >= 0">
+    <mat-progress-spinner
+      class="track"
+      color="accent"
+      mode="determinate"
+      [diameter]="diameter"
+      value="100">
+    </mat-progress-spinner>
+    <mat-progress-spinner
+      class="progressbar"
+      color="accent"
+      mode="determinate"
+      [diameter]="diameter"
+      [value]="progress">
+    </mat-progress-spinner>
+  </ng-container>
+  <ng-container *ngIf="progress < 0">
+    <mat-progress-spinner
+      class="track"
+      color="warn"
+      mode="determinate"
+      [diameter]="diameter"
+      value="100">
+    </mat-progress-spinner>
+  </ng-container>
+</div>

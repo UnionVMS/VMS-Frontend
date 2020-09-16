@@ -1,0 +1,13 @@
+@import 'variables.scss';
+
+.progress-circle-component {
+  width: 60px;
+
+  .mat-progress-spinner.track circle, .mat-spinner.track circle {
+    stroke-opacity: 0.1 !important;
+  }
+
+  .mat-progress-spinner{
+    display: inline;
+  }
+}

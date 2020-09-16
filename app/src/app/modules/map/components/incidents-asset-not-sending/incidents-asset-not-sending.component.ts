@@ -6,15 +6,15 @@ import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
 import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 
 @Component({
-  selector: 'map-incidents',
-  templateUrl: './incidents.component.html',
-  styleUrls: ['./incidents.component.scss']
+  selector: 'map-incidents-asset-not-sending',
+  templateUrl: './incidents-asset-not-sending.component.html',
+  styleUrls: ['./incidents-asset-not-sending.component.scss']
 })
-export class IncidentsComponent implements OnChanges {
+export class IncidentsAssetNotSendingComponent implements OnChanges {
   @Input() incidents: IncidentTypes.IncidentsCollectionByResolution;
   @Input() selectedIncident: IncidentTypes.Incident;
-  @Input() incidentNotifications: IncidentTypes.IncidentNotificationsCollections;
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;
+  @Input() showResolvedOnMap: (show: boolean) => void;
 
   public resolved = false;
   public incidentsWithAttemptedContact: ReadonlyArray<IncidentTypes.Incident> = [];
@@ -32,6 +32,7 @@ export class IncidentsComponent implements OnChanges {
 
   public switchShowResolved = () => {
     this.resolved = !this.resolved;
+    this.showResolvedOnMap(this.resolved);
   }
 
   ngOnChanges() {

@@ -8,25 +8,39 @@
   </div>
 
   <div class="incidents" *ngIf="!resolved">
-    <ng-container *ngIf="incidentsWithAttemptedContact.length > 0">
-      <h3>Attempted contact</h3>
-      <ng-container *ngFor="let incident of incidentsWithAttemptedContact; trackBy: trackByIncidents">
+    <ng-container *ngIf="overdue.length > 0">
+      <h3 i18n>Expecting new manual position</h3>
+      <ng-container *ngFor="let incident of overdue; trackBy: trackByIncidents">
         <map-incident-card
           [incident]="incident"
           [selectIncident]="selectIncident"
           [incidentIsSelected]="incidentIsSelected(incident)"
-          [urgency]="incident.risk"
+          urgency="HIGH"
+          [countdownTo]="incident.expiryDate"
         ></map-incident-card>
       </ng-container>
     </ng-container>
-    <ng-container *ngIf="unmanagedIncidents.length > 0">
-    <h3>Not contacted</h3>
-      <ng-container *ngFor="let incident of unmanagedIncidents; trackBy: trackByIncidents">
+    <ng-container *ngIf="sending.length > 0">
+      <h3 i18n>Confirm recieving VMS positions</h3>
+      <ng-container *ngFor="let incident of sending; trackBy: trackByIncidents">
         <map-incident-card
           [incident]="incident"
           [selectIncident]="selectIncident"
           [incidentIsSelected]="incidentIsSelected(incident)"
-          [urgency]="incident.risk"
+          urgency="LOW"
+        ></map-incident-card>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="pending.length > 0">
+      <h3 i18n>Time to next manual report</h3>
+      <ng-container *ngFor="let incident of pending; trackBy: trackByIncidents">
+        <map-incident-card
+          [incident]="incident"
+          [selectIncident]="selectIncident"
+          [incidentIsSelected]="incidentIsSelected(incident)"
+          urgency="none"
+          [countdownFrom]="getLastSeenTime(incident)"
+          [countdownTo]="incident.expiryDate"
         ></map-incident-card>
       </ng-container>
     </ng-container>

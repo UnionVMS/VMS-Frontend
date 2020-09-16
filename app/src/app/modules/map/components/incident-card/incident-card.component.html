@@ -4,15 +4,27 @@
   (click)="selectIncident(incident)"
 >
   <div class="status urgancy-{{urgency}}"></div>
-  <div class="incident-content">
+  <div class="incident-content{{ countdown !== undefined ? ' with-countdown' : ''}}">
     <div class="ircs-and-name">
       <div class="ircs">{{incident.assetIrcs}}</div>
-      <ui-truncated-text class="name" [text]="incident.assetName" length="16"></ui-truncated-text>
+      <ui-truncated-text *ngIf="countdown === undefined" class="name" [text]="incident.assetName" length="16"></ui-truncated-text>
     </div>
     <div class="status-code-and-time">
       <span class="status-code" *ngIf="formattedIncident.lastKnownLocationStatus">{{ formattedIncident.lastKnownLocationStatus }} • </span>
       <span class="time">{{ formattedIncident.formattedDate }}</span>
     </div>
     <div class="location">{{ formattedIncident.formattedCoordinates }}</div>
+    <div *ngIf="countdown !== undefined" class="countdown">
+      <ui-progress-circle [progress]="getProgress()" diameter="60"></ui-progress-circle>
+      <div class="texts">
+          <div class="time{{count > 0 ? ' overdue' : ''}}">
+            <span *ngIf="count > 0">+</span>
+            <span *ngIf="count < 60">{{count}} min</span>
+            <span *ngIf="count >= 60">{{floor(count / 60)}} hour</span>
+          </div>
+          <div class="time-description" *ngIf="count <= 0">time left</div>
+          <div class="time-description" *ngIf="count > 0">past time</div>
+      </div>
+    </div>
   </div>
 </div>

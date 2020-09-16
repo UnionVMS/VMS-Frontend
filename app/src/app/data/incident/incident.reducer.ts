@@ -8,148 +8,95 @@ export const initialState: Types.State = {
   incidents: {},
   incidentsForAssets: {},
   incidentsByTypesAndStatus: {
-    assetNotSending: {
-      unresolvedIncidentIds: [],
-      recentlyResolvedIncidentIds: []
-    },
-  },
-  incidentNotificationsByType: {
-    assetNotSending: {}
+    assetNotSending: { unresolvedIncidentIds: [], recentlyResolvedIncidentIds: [] },
+    manualPositionMode: { unresolvedIncidentIds: [], recentlyResolvedIncidentIds: [] }
   },
   incidentLogs: {},
   incidentTypes: [],
 };
 
-export const resolvedStatuses = [
-  'RESOLVED',
-  'LONG_TERM_PARKED'
-];
-
 export const incidentReducer = createReducer(initialState,
-  on(IncidentActions.setIncidents, (state, { incidents }) => ({
-    ...state,
-    incidents: {
-      ...state.incidents,
-      ...incidents.unresolvedIncidents,
-      ...incidents.recentlyResolvedIncidents
-    },
-    incidentsByTypesAndStatus: {
-      assetNotSending: {
+  on(IncidentActions.setIncidents, (state, { incidents }) => {
+    const filterAndCategorizeByType = (incidentsToSort: Types.IncidentsCollectionByResolution, type: Types.IncidentTypes) => {
+      return {
         unresolvedIncidentIds: [
-          ...Object.values(incidents.unresolvedIncidents)
-            .filter((incident: Types.Incident) => incident.type === Types.IncidentTypes.assetNotSending)
+          ...Object.values(incidentsToSort.unresolvedIncidents)
+            .filter((incident: Types.Incident) => incident.type === type)
             .map((incident: Types.Incident) => incident.id)
         ],
         recentlyResolvedIncidentIds: [
-          ...Object.values(incidents.recentlyResolvedIncidents)
-            .filter((incident: Types.Incident) => incident.type === Types.IncidentTypes.assetNotSending)
+          ...Object.values(incidentsToSort.recentlyResolvedIncidents)
+            .filter((incident: Types.Incident) => incident.type === type)
             .map((incident: Types.Incident) => incident.id)
         ],
-      }
-    }
-  })),
-  on(IncidentActions.updateAssetNotSendingIncidents, (state, { incidents, updateType }) => {
-    let newState = {
-      ...state,
-      incidents: {
-        ...state.incidents,
-        ...incidents
-      }
+      };
     };
 
-    if(updateType === Types.IncidentNotificationTypes.updated) {
-      newState = {
-        ...newState,
-        incidentsByTypesAndStatus: {
-          assetNotSending: Object.values(incidents).reduce((acc, incident) => {
-            const previousIncidentState = state.incidents[incident.id];
-            if(typeof previousIncidentState === 'undefined') {
-              if(resolvedStatuses.includes(incident.status)) {
-                return {
-                  ...acc,
-                  recentlyResolvedIncidentIds: [ ...acc.recentlyResolvedIncidentIds, incident.id ]
-                };
-              } else {
-                return {
-                  ...acc,
-                  unresolvedIncidentIds: [ ...acc.unresolvedIncidentIds, incident.id ]
-                };
-              }
-            } else if(!resolvedStatuses.includes(previousIncidentState.status) && resolvedStatuses.includes(incident.status)) {
-              return {
-                unresolvedIncidentIds: acc.unresolvedIncidentIds.filter(id => id !== incident.id),
-                recentlyResolvedIncidentIds: [ ...acc.recentlyResolvedIncidentIds, incident.id ]
-              };
-            } else if(resolvedStatuses.includes(previousIncidentState.status) && !resolvedStatuses.includes(incident.status)) {
-              return {
-                unresolvedIncidentIds: [ ...acc.unresolvedIncidentIds, incident.id ],
-                recentlyResolvedIncidentIds: acc.recentlyResolvedIncidentIds.filter(id => id !== incident.id)
-              };
-            }
-            return acc;
-          }, state.incidentsByTypesAndStatus.assetNotSending)
-        }
-      };
-    } else {
-      newState = {
-        ...newState,
-        incidentsByTypesAndStatus: {
-          assetNotSending: Object.values(incidents).reduce((acc, incident) => {
-            if(resolvedStatuses.includes(incident.status)) {
-              return {
-                ...acc,
-                recentlyResolvedIncidentIds: [ ...acc.recentlyResolvedIncidentIds, incident.id ]
-              };
-            } else {
-              return {
-                ...acc,
-                unresolvedIncidentIds: [ ...acc.unresolvedIncidentIds, incident.id ]
-              };
-            }
-            return acc;
-          }, state.incidentsByTypesAndStatus.assetNotSending)
-        }
-      };
-    }
     return {
-      ...newState,
-      incidentNotificationsByType: {
-        assetNotSending: Object.values(incidents).reduce((acc, incident) => {
-          if(typeof acc[incident.id] === 'undefined') {
-            return { ...acc,
-              [incident.id]: {
-                created: updateType === Types.IncidentNotificationTypes.created ? 1 : 0,
-                updated: updateType === Types.IncidentNotificationTypes.updated ? 1 : 0
-              }
-            };
-          } else {
-            return { ...acc,
-              [incident.id]: { ...acc[incident.id],
-                created: updateType === Types.IncidentNotificationTypes.created
-                  ? acc[incident.id].created + 1
-                  : acc[incident.id].created,
-                updated: updateType === Types.IncidentNotificationTypes.updated
-                  ? acc[incident.id].updated + 1
-                  : acc[incident.id].updated,
-              }
-            };
-          }
-        }, state.incidentNotificationsByType.assetNotSending)
+      ...state,
+      incidents: {
+        ...incidents.unresolvedIncidents,
+        ...incidents.recentlyResolvedIncidents
+      },
+      incidentsByTypesAndStatus: {
+        assetNotSending: filterAndCategorizeByType(incidents, Types.IncidentTypes.assetNotSending),
+        manualPositionMode: filterAndCategorizeByType(incidents, Types.IncidentTypes.manualPositionMode),
       }
     };
   }),
-  on(IncidentActions.clearNotificationsForIncident, (state, { incident }) => ({
-    ...state,
-    incidentNotificationsByType: Object.keys(state.incidentNotificationsByType).reduce((acc, type) => {
-      acc[type] = Object.keys(state.incidentNotificationsByType[type]).reduce((incidentNotifications, incidentId) => {
-        if(parseInt(incidentId, 10) !== incident.id) {
-          incidentNotifications[incidentId] = state.incidentNotificationsByType[type][incidentId];
+  on(IncidentActions.updateIncidents, (state, { incidents }) => {
+    const invertedTypes = Types.IncidentTypesInverted;
+    return Object.values(incidents).reduce((newState: Types.State, incident) => {
+      const incidentPreviousState = state.incidents[incident.id];
+      // Remove old instance then add again
+      if(
+        typeof incidentPreviousState !== 'undefined' &&
+        typeof newState.incidentsByTypesAndStatus[invertedTypes[incidentPreviousState.type]] !== 'undefined'
+      ) {
+        const statusType = incidentPreviousState.status === Types.AssetNotSendingStatuses.RESOLVED
+          ? 'recentlyResolvedIncidentIds'
+          : 'unresolvedIncidentIds';
+
+        newState = {
+          ...newState,
+          incidentsByTypesAndStatus: {
+            ...newState.incidentsByTypesAndStatus,
+            [invertedTypes[incidentPreviousState.type]]: {
+              ...newState.incidentsByTypesAndStatus[invertedTypes[incidentPreviousState.type]],
+              [statusType]: newState.incidentsByTypesAndStatus[invertedTypes[incidentPreviousState.type]][statusType].filter(
+                (incidentId: number) => incidentId !== incidentPreviousState.id
+              )
+            }
+          }
+        };
+      }
+
+      // Add instance
+      const incidentStatusType = incident.status === Types.AssetNotSendingStatuses.RESOLVED
+        ? 'recentlyResolvedIncidentIds'
+        : 'unresolvedIncidentIds';
+
+
+      return newState = {
+        ...newState,
+        incidents: {
+          ...newState.incidents,
+          [incident.id]: incident
+        },
+
+        incidentsByTypesAndStatus: {
+          ...newState.incidentsByTypesAndStatus,
+          [invertedTypes[incident.type]]: {
+            ...newState.incidentsByTypesAndStatus[invertedTypes[incident.type]],
+            [incidentStatusType]: [
+              ...newState.incidentsByTypesAndStatus[invertedTypes[incident.type]][incidentStatusType],
+              incident.id
+            ]
+          }
         }
-        return incidentNotifications;
-      }, {});
-      return acc;
-    }, {})
-  })),
+      };
+    }, { ...state });
+  }),
   on(IncidentActions.selectIncident, (state, { incidentId }) => ({
     ...state,
     selectedIncidentId: incidentId

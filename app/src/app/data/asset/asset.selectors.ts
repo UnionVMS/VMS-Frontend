@@ -36,24 +36,27 @@ export const getAssetsMovementsDependingOnLeftPanel = createSelector(
   MapSelectors.getFiltersActive,
   MapSelectors.getActiveLeftPanel,
   IncidentSelectors.selectIncidents,
-  IncidentSelectors.selectAssetNotSendingIncidents,
+  IncidentSelectors.selectIncidentsByTypeAndStatus,
   (
     assetMovements: { readonly [uid: string]: AssetTypes.AssetMovement },
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
     activeLeftPanel: ReadonlyArray<string>,
     incidents: IncidentTypes.Incident,
-    assetsNotSendingIncicents: IncidentTypes.IncidentIdsCollectionByType
+    incidentsByTypeAndStatus: IncidentTypes.IncidentIdsByTypeAndStatus
   ) => {
     if(activeLeftPanel[0] === 'workflows') {
-      if(activeLeftPanel[1] === 'ASSET_NOT_SENDING') {
-        return assetsNotSendingIncicents.unresolvedIncidentIds.reduce((acc, incidentId) => {
-          const incident = incidents[incidentId];
-          acc[incident.assetId] = {
-            microMove: incident.lastKnownLocation,
-            asset: incident.assetId
-          };
-          return acc;
-        }, {});
+      if(IncidentTypes.IncidentTypesValues.includes(activeLeftPanel[1])) {
+        const statusName = (activeLeftPanel[2] === 'RESOLVED' ? 'recentlyResolvedIncidentIds' : 'unresolvedIncidentIds');
+        return incidentsByTypeAndStatus[IncidentTypes.IncidentTypesInverted[activeLeftPanel[1]]][statusName].reduce(
+          (acc, incidentId) => {
+            const incident = incidents[incidentId];
+            acc[incident.assetId] = {
+              microMove: incident.lastKnownLocation,
+              asset: incident.assetId
+            };
+            return acc;
+          }, {}
+        );
       }
     }
     return assetMovements;
