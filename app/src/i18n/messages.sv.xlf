@@ -4,7 +4,7 @@
     <body>
       <trans-unit id="287d3301a32a65a1b31116bda5d3a6463158c42a" datatype="html">
         <source>Sign in</source>
-        <target>Logga in</target>
+        <target state="final">Logga in</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/login/login.component.html</context>
           <context context-type="linenumber">3</context>
@@ -16,7 +16,7 @@
       </trans-unit>
       <trans-unit id="08c74dc9762957593b91f6eb5d65efdfc975bf48" datatype="html">
         <source>Username</source>
-        <target>Användarnamn</target>
+        <target state="final">Användarnamn</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/login/login.component.html</context>
           <context context-type="linenumber">7</context>
@@ -24,7 +24,7 @@
       </trans-unit>
       <trans-unit id="c32ef07f8803a223a83ed17024b38e8d82292407" datatype="html">
         <source>Password</source>
-        <target>Lösenord</target>
+        <target state="final">Lösenord</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/login/login.component.html</context>
           <context context-type="linenumber">12</context>
@@ -32,7 +32,7 @@
       </trans-unit>
       <trans-unit id="3a8e04b34236be1cb450987973bcb7b33d483e35" datatype="html">
         <source>Forgot password?</source>
-        <target>Glömt lösenord?</target>
+        <target state="final">Glömt lösenord?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/login/login.component.html</context>
           <context context-type="linenumber">17</context>
@@ -40,7 +40,7 @@
       </trans-unit>
       <trans-unit id="d4b7ac8216b666be81b9e3429d0e4095d043ec4f" datatype="html">
         <source>You need to login to gain access to this part of the system.</source>
-        <target>Du behöver logga in för att få tillgång till denna delen av systemet.</target>
+        <target state="final">Du behöver logga in för att få tillgång till denna delen av systemet.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/unauthorized/unauthorized.component.html</context>
           <context context-type="linenumber">3</context>
@@ -48,7 +48,7 @@
       </trans-unit>
       <trans-unit id="b0f69914021fba109897e70b8b764ad098f12985" datatype="html">
         <source>Login?</source>
-        <target>Logga in?</target>
+        <target state="final">Logga in?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/unauthorized/unauthorized.component.html</context>
           <context context-type="linenumber">4</context>
@@ -56,7 +56,7 @@
       </trans-unit>
       <trans-unit id="19cc6a13c2a89fec20bb4e5a0739132fa6111127" datatype="html">
         <source>You are now being logged out of the system</source>
-        <target state="new">Du loggas nu ut ur systemet</target>
+        <target state="final">Du loggas nu ut ur systemet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/logout/logout.component.html</context>
           <context context-type="linenumber">3</context>
@@ -64,7 +64,7 @@
       </trans-unit>
       <trans-unit id="cb21efe3bc8eda0ccf0687d3d1bb4287c0835e46" datatype="html">
         <source>Redirecting you back to login page in</source>
-        <target state="new">Redirecting you back to login page in</target>
+        <target state="final">Tillbaka till login</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/logout/logout.component.html</context>
           <context context-type="linenumber">5</context>
@@ -73,7 +73,7 @@
       </trans-unit>
       <trans-unit id="38bd5794dbe84081cfa7867e876245e1ddae93e7" datatype="html">
         <source>seconds</source>
-        <target state="new">sekunder</target>
+        <target state="final">sekunder</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/logout/logout.component.html</context>
           <context context-type="linenumber">5</context>
@@ -81,7 +81,7 @@
       </trans-unit>
       <trans-unit id="c0f2f23d628cc998293c8ab4723b266cc6c3ca13" datatype="html">
         <source>404 - Not found</source>
-        <target>404 - Sidan finns inte</target>
+        <target state="final">404 - Sidan finns inte</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/404/404.component.html</context>
           <context context-type="linenumber">3</context>
@@ -90,7 +90,7 @@
       </trans-unit>
       <trans-unit id="be0acb91b0a8eb1b0c2be8ddf97ac6ebabe5b274" datatype="html">
         <source>The page you are looking for does not exist.</source>
-        <target state="new">Sidan du letar efter finns inte</target>
+        <target state="final">Sidan du letar efter finns inte</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/404/404.component.html</context>
           <context context-type="linenumber">5</context>
@@ -99,7 +99,7 @@
       </trans-unit>
       <trans-unit id="7e4535aeae14d0fd10f03498e847279aa00f63c1" datatype="html">
         <source>You might want to go to the</source>
-        <target state="new">You might want to go to the</target>
+        <target state="final">Vill du gå till</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/404/404.component.html</context>
           <context context-type="linenumber">6</context>
@@ -108,7 +108,7 @@
       </trans-unit>
       <trans-unit id="a91e10b1a7c14068da2e3c4fb71dcb7ac3bb67d4" datatype="html">
         <source>startpage</source>
-        <target state="new">startsida</target>
+        <target state="final">startsida</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/404/404.component.html</context>
           <context context-type="linenumber">6</context>
@@ -117,7 +117,7 @@
       </trans-unit>
       <trans-unit id="1994e201660abe87b20f77617550b00320516803" datatype="html">
         <source>and try again?</source>
-        <target state="new">och försök igen?</target>
+        <target state="final">och försök igen?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/pages/404/404.component.html</context>
           <context context-type="linenumber">6</context>
@@ -126,7 +126,7 @@
       </trans-unit>
       <trans-unit id="0327e4c50941b4ec2e8232639826f5bb02c59b76" datatype="html">
         <source>Loading asset positions</source>
-        <target state="new">Laddar fartygspositioner</target>
+        <target state="final">Hämtar fartygspositioner</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/pages/realtime/realtime.component.html</context>
           <context context-type="linenumber">3</context>
@@ -134,7 +134,7 @@
       </trans-unit>
       <trans-unit id="8ae52ad1723c186ba22ce4906de82231971e0bed" datatype="html">
         <source>Search for Name, External Marking, CFR or IRCS</source>
-        <target state="new">Search for Name, External Marking, CFR or IRCS</target>
+        <target state="final">Sök på Namn, Distr. bet+nr, Signalkod eller CFR</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
           <context context-type="linenumber">5</context>
@@ -142,7 +142,7 @@
       </trans-unit>
       <trans-unit id="70a67e04629f6d412db0a12d51820b480788d795" datatype="html">
         <source>Create</source>
-        <target state="new">Skapa</target>
+        <target state="final">Skapa</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
           <context context-type="linenumber">3</context>
@@ -158,7 +158,7 @@
       </trans-unit>
       <trans-unit id="ee8f8008bae6ce3a49840c4e1d39b4af23d4c263" datatype="html">
         <source>Assets</source>
-        <target state="new">Fartyg</target>
+        <target state="final">Fartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
           <context context-type="linenumber">11</context>
@@ -166,7 +166,7 @@
       </trans-unit>
       <trans-unit id="36703ae6870944ae445bc8019c2b81cfaf5c1689" datatype="html">
         <source>Realtime map</source>
-        <target state="new">Realtime map</target>
+        <target state="final">Realtidskarta</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
           <context context-type="linenumber">14</context>
@@ -174,7 +174,7 @@
       </trans-unit>
       <trans-unit id="064f8442bb7d9de0b5c129581f8078c76d606f59" datatype="html">
         <source>Reports map</source>
-        <target state="new">Reports map</target>
+        <target state="final">Rapportkarta</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
           <context context-type="linenumber">17</context>
@@ -182,7 +182,7 @@
       </trans-unit>
       <trans-unit id="2f20d9b412afbe60f7c1021dd61774c8c066241b" datatype="html">
         <source>My Settings</source>
-        <target state="new">Mina inställningar</target>
+        <target state="final">Mina inställningar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
           <context context-type="linenumber">20</context>
@@ -190,7 +190,7 @@
       </trans-unit>
       <trans-unit id="bb694b49d408265c91c62799c2b3a7e3151c824d" datatype="html">
         <source>Logout</source>
-        <target state="new">Logga ut</target>
+        <target state="final">Logga ut</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/top-menu/top-menu.component.html</context>
           <context context-type="linenumber">33</context>
@@ -198,7 +198,7 @@
       </trans-unit>
       <trans-unit id="ts-map-realtime-selected-asset-dont-exist-error" datatype="html">
         <source>Asset has not sent a position for the last 8 hours and is not shown on map.</source>
-        <target state="new">Fartyget har inte skickat någon position de senaste 8 timmarna och visas därför inte på kartan.</target>
+        <target state="final">Data ej mottaget senaste 8h</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">2</context>
@@ -206,7 +206,7 @@
       </trans-unit>
       <trans-unit id="ts-mobileTerminal-form-error" datatype="html">
         <source>Invalid characters given, only letters, digits, space and hypen is allowed.</source>
-        <target state="new">Ogilitiga tecken. Bara bokstäver, siffror, mellanslag och bindesträck tillåts.</target>
+        <target state="final">Ogiltiga tecken. Bara bokstäver, siffror, mellanslag och bindestreck tillåts.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">3</context>
@@ -222,7 +222,7 @@
       </trans-unit>
       <trans-unit id="ts-contact-update-success" datatype="html">
         <source>Contact updated successfully!</source>
-        <target state="new">Kontakten uppdaterad!</target>
+        <target state="final">Kontakt uppdaterad!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">5</context>
@@ -230,7 +230,7 @@
       </trans-unit>
       <trans-unit id="ts-contact-created-success" datatype="html">
         <source>Contact created successfully!</source>
-        <target state="new">Kontakt skapad!</target>
+        <target state="final">Kontakt skapad!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">6</context>
@@ -238,7 +238,7 @@
       </trans-unit>
       <trans-unit id="ts-incident-changed" datatype="html">
         <source>Incident status successfully changed!</source>
-        <target state="new">Incident status successfully changed!</target>
+        <target state="final">Incidentstatus ändrad</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">7</context>
@@ -254,7 +254,7 @@
       </trans-unit>
       <trans-unit id="ts-map-settings-saved" datatype="html">
         <source>Settings saved</source>
-        <target state="new">Inställningar sparade</target>
+        <target state="final">Inställningar sparade</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">9</context>
@@ -262,7 +262,7 @@
       </trans-unit>
       <trans-unit id="ts-mobile-terminal-updated" datatype="html">
         <source>Mobile terminal updated successfully!</source>
-        <target state="new">Mobilterminalen uppdaterad!</target>
+        <target state="final">Mobilterminal uppdaterad!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">10</context>
@@ -270,7 +270,7 @@
       </trans-unit>
       <trans-unit id="ts-mobile-terminal-created" datatype="html">
         <source>Mobile terminal created successfully!</source>
-        <target state="new">Mobilterminal skapad!</target>
+        <target state="final">Mobilterminal skapad!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">11</context>
@@ -278,7 +278,7 @@
       </trans-unit>
       <trans-unit id="ts-notes-updated" datatype="html">
         <source>Notes updated successfully!</source>
-        <target state="new">Notes updated successfully!</target>
+        <target state="final">Anteckning uppdaterad!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">12</context>
@@ -286,7 +286,7 @@
       </trans-unit>
       <trans-unit id="ts-notes-created" datatype="html">
         <source>Note created successfully!</source>
-        <target state="new">Note created successfully!</target>
+        <target state="final">Anteckning uppdaterad!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">13</context>
@@ -294,7 +294,7 @@
       </trans-unit>
       <trans-unit id="ts-mobileTerminal-form-error-membernumber-and-dnid" datatype="html">
         <source>MemberNr and DNID Combination already exists, change one of the fields!</source>
-        <target state="new">MemberNr and DNID Combination already exists, change one of the fields!</target>
+        <target state="final">MemberNr och DNID finns redan!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">14</context>
@@ -302,7 +302,7 @@
       </trans-unit>
       <trans-unit id="ts-mobileTerminal-form-error-serialnumber" datatype="html">
         <source>Serial number already exists, choose another one!</source>
-        <target state="new">Serienummer finns redan, välj ett annat!</target>
+        <target state="final">Serienumret finns redan!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">15</context>
@@ -326,7 +326,7 @@
       </trans-unit>
       <trans-unit id="ts-user-settings-saved" datatype="html">
         <source>Settings saved</source>
-        <target state="new">Inställningar sparade</target>
+        <target state="final">Inställningar sparade!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">18</context>
@@ -342,7 +342,7 @@
       </trans-unit>
       <trans-unit id="ts-layout-asset-mobile-terminal-search" datatype="html">
         <source>Mobile terminals — Search</source>
-        <target state="new">Mobile terminals — Search</target>
+        <target state="final">Mobilterminaler — Sök</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">20</context>
@@ -350,7 +350,7 @@
       </trans-unit>
       <trans-unit id="ts-layout-asset-notes-edit" datatype="html">
         <source>Notes — Edit</source>
-        <target state="new">Notes — Edit</target>
+        <target state="final">Anteckningar — Ändra</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">21</context>
@@ -358,7 +358,7 @@
       </trans-unit>
       <trans-unit id="ts-layout-mobileTerminal-list" datatype="html">
         <source>Mobile Terminals — List</source>
-        <target state="new">Mobile Terminals — List</target>
+        <target state="final">Mobilterminaler — Lista</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">22</context>
@@ -374,7 +374,7 @@
       </trans-unit>
       <trans-unit id="505570b70c523cf11ed999111a032551b8c15a25" datatype="html">
         <source>Ircs:</source>
-        <target state="new">Ircs:</target>
+        <target state="final">Signalkod:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">20</context>
@@ -386,7 +386,7 @@
       </trans-unit>
       <trans-unit id="b4ac7cc83b4bba761d17e82cc0c4c083fee2a0d6" datatype="html">
         <source>Mmsi:</source>
-        <target state="new">Mmsi:</target>
+        <target state="final">MMSI (Radiotillstånd)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">24</context>
@@ -398,7 +398,7 @@
       </trans-unit>
       <trans-unit id="f929e6576625daf5485c8b9914e1f5d84c29c27b" datatype="html">
         <source>Speed:</source>
-        <target state="new">Hastighet:</target>
+        <target state="final">Hastighet:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">33</context>
@@ -410,7 +410,7 @@
       </trans-unit>
       <trans-unit id="94a983a817d8d653f60e123a3c15b89920bf70e4" datatype="html">
         <source>kn</source>
-        <target state="new">kn</target>
+        <target state="final">kn</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">34</context>
@@ -419,7 +419,7 @@
       </trans-unit>
       <trans-unit id="aa4cea14707876714694c2bf816b5101caec3842" datatype="html">
         <source>Heading:</source>
-        <target state="new">Heading:</target>
+        <target state="final">Riktning:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">37</context>
@@ -431,7 +431,7 @@
       </trans-unit>
       <trans-unit id="cf43ddd10fef95211ee18f5dbc9c93c6aa3fc64c" datatype="html">
         <source>Flagstate:</source>
-        <target state="new">Flaggstat:</target>
+        <target state="final">Flaggstat:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">41</context>
@@ -443,7 +443,7 @@
       </trans-unit>
       <trans-unit id="fc8fddb1bc5db1f23476a05d56607a8cc0ada3b3" datatype="html">
         <source>External marking:</source>
-        <target state="new">Distriktsbeteckning:</target>
+        <target state="final">Distr. bet+nr</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">45</context>
@@ -455,7 +455,7 @@
       </trans-unit>
       <trans-unit id="2054791b822475aeaea95c0119113de3200f5e1c" datatype="html">
         <source>Length:</source>
-        <target state="new">Längd:</target>
+        <target state="final">Loa:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">49</context>
@@ -467,7 +467,7 @@
       </trans-unit>
       <trans-unit id="8c427bdf282774369447a029bb049a9511c0344d" datatype="html">
         <source>m</source>
-        <target state="new">m</target>
+        <target state="final">m</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">50</context>
@@ -476,7 +476,7 @@
       </trans-unit>
       <trans-unit id="6873daa1c0ce9e3d50a317b406e50fc10b218b86" datatype="html">
         <source>LicenceType:</source>
-        <target state="new">LicenceType:</target>
+        <target state="final">Licenstyp:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">53</context>
@@ -488,7 +488,7 @@
       </trans-unit>
       <trans-unit id="ee71e69d1303c541c1e90ebb2399b758e8cb07cc" datatype="html">
         <source>Vessel type:</source>
-        <target state="new">Fartygstyp:</target>
+        <target state="final">Fartygstyp:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">57</context>
@@ -500,7 +500,7 @@
       </trans-unit>
       <trans-unit id="0e856ace7e289b73c635e7bcb4f94926e458c03f" datatype="html">
         <source>Org. Nr:</source>
-        <target state="new">Org. Nr:</target>
+        <target state="final">Org. Nr:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">61</context>
@@ -512,7 +512,7 @@
       </trans-unit>
       <trans-unit id="d81afbaf7e0b058e24fb981c066f380939083534" datatype="html">
         <source>Org. namn:</source>
-        <target state="new">Org. namn:</target>
+        <target state="final">Org. namn:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">65</context>
@@ -524,7 +524,7 @@
       </trans-unit>
       <trans-unit id="183ef4cffb9036aec3a52b917e7177f316c07df2" datatype="html">
         <source>Track</source>
-        <target state="new">Track</target>
+        <target state="final">Spår</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">68</context>
@@ -532,7 +532,7 @@
       </trans-unit>
       <trans-unit id="44af83efc4b6564ab0dff9ebc36ce95d7d2a1ae8" datatype="html">
         <source>Forecast</source>
-        <target state="new">Forecast</target>
+        <target state="final">Fartvektor</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">69</context>
@@ -540,7 +540,7 @@
       </trans-unit>
       <trans-unit id="f0e8ccf7f6da70d9e9b3b837f19b59daf738f0f8" datatype="html">
         <source>Remove from selected</source>
-        <target state="new">Ta bort från vald</target>
+        <target state="final">Ta bort från vald</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">78</context>
@@ -548,7 +548,7 @@
       </trans-unit>
       <trans-unit id="6bea3ca449860adf802c105423cc354fc955ae79" datatype="html">
         <source>Go to on map</source>
-        <target state="new">Visa på karta</target>
+        <target state="final">Visa på karta</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">88</context>
@@ -556,7 +556,7 @@
       </trans-unit>
       <trans-unit id="34189b76caaf559f7bf2b55cfa2abf93d1d265e5" datatype="html">
         <source>Show more information</source>
-        <target state="new">Visa mer information</target>
+        <target state="final">Visa mer information</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">94</context>
@@ -564,7 +564,7 @@
       </trans-unit>
       <trans-unit id="cd698320ca23bc8324ab0870741eba6273d3011c" datatype="html">
         <source>Add to asset group</source>
-        <target state="new">Lägg till fartygsgrupp</target>
+        <target state="final">Lägg till i fartygsgrupp</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-panel/asset-panel.component.html</context>
           <context context-type="linenumber">101</context>
@@ -576,7 +576,7 @@
       </trans-unit>
       <trans-unit id="7e892ba15f2c6c17e83510e273b3e10fc32ea016" datatype="html">
         <source>Search</source>
-        <target state="new">Sök</target>
+        <target state="final">Sök</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
           <context context-type="linenumber">20</context>
@@ -600,7 +600,7 @@
       </trans-unit>
       <trans-unit id="012ea84479b551ecd2361682995de421aa4fa4c3" datatype="html">
         <source>Mobile Terminals</source>
-        <target state="new">Mobile Terminals</target>
+        <target state="final">Mobilterminaler</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
           <context context-type="linenumber">24</context>
@@ -608,7 +608,7 @@
       </trans-unit>
       <trans-unit id="338f5e8682f0402739f89af5454bfeb46632cad3" datatype="html">
         <source>Asset info</source>
-        <target state="new">Fartygsinfo</target>
+        <target state="final">Fartygsinfo</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
           <context context-type="linenumber">30</context>
@@ -620,7 +620,7 @@
       </trans-unit>
       <trans-unit id="cff1428d10d59d14e45edec3c735a27b5482db59" datatype="html">
         <source>Name</source>
-        <target state="new">Namn</target>
+        <target state="final">Namn</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
           <context context-type="linenumber">54</context>
@@ -640,7 +640,7 @@
       </trans-unit>
       <trans-unit id="ff73207fc4e8e076a309afee39319a233d10de48" datatype="html">
         <source>mmsi</source>
-        <target state="new">mmsi</target>
+        <target state="final">MMSI</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
           <context context-type="linenumber">72</context>
@@ -648,7 +648,7 @@
       </trans-unit>
       <trans-unit id="07193288a0312875e18f38c3a2486b927a15520a" datatype="html">
         <source>Timestamp</source>
-        <target state="new">Timestamp</target>
+        <target state="final">Datum/Tid</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
           <context context-type="linenumber">6</context>
@@ -656,7 +656,7 @@
       </trans-unit>
       <trans-unit id="aa7450434c150086dbd4eec8753cdfe2153b3d10" datatype="html">
         <source>F.S.</source>
-        <target state="new">F.S.</target>
+        <target state="final">F.S.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
           <context context-type="linenumber">66</context>
@@ -664,7 +664,7 @@
       </trans-unit>
       <trans-unit id="a680ba6ea44792edd4e36927b56b0ce3cde0fb8e" datatype="html">
         <source>Ext. marking</source>
-        <target state="new">Distriktsbeteckning</target>
+        <target state="final">Distr. bet+nr</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
           <context context-type="linenumber">42</context>
@@ -672,7 +672,7 @@
       </trans-unit>
       <trans-unit id="c040d59def69d42ca29d3a17953d06d1553174fc" datatype="html">
         <source>CFR</source>
-        <target state="new">CFR</target>
+        <target state="final">CFR</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
           <context context-type="linenumber">60</context>
@@ -688,7 +688,7 @@
       </trans-unit>
       <trans-unit id="d9a5244fe694d5f7bc1f2ac7d3bbe3e7a57be7a1" datatype="html">
         <source>Create Asset</source>
-        <target state="new">Skapa fartyg</target>
+        <target state="final">Skapa fartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">2</context>
@@ -696,7 +696,7 @@
       </trans-unit>
       <trans-unit id="aa5c4a8ef9aeffb4064a2082b7f607b2ca3b3439" datatype="html">
         <source>Edit Asset</source>
-        <target state="new">Ändra Fartyg</target>
+        <target state="final">Ändra Fartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">3</context>
@@ -704,7 +704,7 @@
       </trans-unit>
       <trans-unit id="4793aec4142a8248b8e5903d4c289d5fe47b1547" datatype="html">
         <source>Essential fields</source>
-        <target state="new">Essential fields</target>
+        <target state="final">Obligatoriska fält</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">9</context>
@@ -716,7 +716,7 @@
       </trans-unit>
       <trans-unit id="fc173f2636146e75965462ebbd63096f6fda46b4" datatype="html">
         <source>Flagstate</source>
-        <target state="new">Flaggstat</target>
+        <target state="final">Flaggstat</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">12</context>
@@ -728,7 +728,7 @@
       </trans-unit>
       <trans-unit id="7aa461f47190b42864ea74b9b84d174c6331f6b5" datatype="html">
         <source>External marking</source>
-        <target state="new">Distriktsbeteckning</target>
+        <target state="final">Distr. bet+nr</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">20</context>
@@ -740,7 +740,7 @@
       </trans-unit>
       <trans-unit id="9d714de085c92b39faa8dd1a0f48e7566f2b3258" datatype="html">
         <source>Identification fields</source>
-        <target state="new">Identification fields</target>
+        <target state="final">Id fält</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">33</context>
@@ -748,7 +748,7 @@
       </trans-unit>
       <trans-unit id="f2868bc2bf0a97b8c51b78f9a198bda9b7fd180e" datatype="html">
         <source>IRCS</source>
-        <target state="new">IRCS</target>
+        <target state="final">Signalkod</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
           <context context-type="linenumber">48</context>
@@ -764,7 +764,7 @@
       </trans-unit>
       <trans-unit id="588d6a88929a56c6432a73c4810d2eea68db63cd" datatype="html">
         <source>IMO</source>
-        <target state="new">IMO</target>
+        <target state="final">IMO</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">48</context>
@@ -776,7 +776,7 @@
       </trans-unit>
       <trans-unit id="a65e8daa1c7488650eab86432c4d45eb0c064e7b" datatype="html">
         <source>Home port</source>
-        <target state="new">Hemmahamn</target>
+        <target state="translated">Hemmahamn</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">54</context>
@@ -784,7 +784,7 @@
       </trans-unit>
       <trans-unit id="4b386abb1aea2ce9e7d508e6fe3b130c742e0b29" datatype="html">
         <source>MMSI No.</source>
-        <target state="new">MMSI No.</target>
+        <target state="final">MMSI No. (Radiotillstånd)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">60</context>
@@ -792,7 +792,7 @@
       </trans-unit>
       <trans-unit id="447ffd4cbfd3d8c3ca8dd216c0a82ecadc24a7de" datatype="html">
         <source>Metrics</source>
-        <target state="new">Metrics</target>
+        <target state="final">Meter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">67</context>
@@ -800,7 +800,7 @@
       </trans-unit>
       <trans-unit id="e18fbc52e473a14ab5d815dd5933fc8bd26daaf3" datatype="html">
         <source>Length over all</source>
-        <target state="new">Length over all</target>
+        <target state="final">Längd över allt</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">70</context>
@@ -812,7 +812,7 @@
       </trans-unit>
       <trans-unit id="9d22e800c52a08e086cf7e1f91abdba420174668" datatype="html">
         <source>Length between perpendiculars</source>
-        <target state="new">Length between perpendiculars</target>
+        <target state="final">Längd mellan perpendiklarna</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">76</context>
@@ -824,7 +824,7 @@
       </trans-unit>
       <trans-unit id="5d7222985c4b3e9d851c82d230608b4510b97cea" datatype="html">
         <source>G.tonnage</source>
-        <target state="new">G.tonnage</target>
+        <target state="final">Tonnage</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">82</context>
@@ -832,7 +832,7 @@
       </trans-unit>
       <trans-unit id="8828aff506c0f10c54cd8b26d4c1393a2b4457da" datatype="html">
         <source>Main power</source>
-        <target state="new">Main power</target>
+        <target state="final">Motorstyrka</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">92</context>
@@ -840,7 +840,7 @@
       </trans-unit>
       <trans-unit id="a17a94c66c138320d8c8ee0564c385cbf13cb647" datatype="html">
         <source>Company information</source>
-        <target state="new">Organisationsinformation</target>
+        <target state="translated">Organisationsinformation</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">99</context>
@@ -848,7 +848,7 @@
       </trans-unit>
       <trans-unit id="e8fda44e2c5bb51860f26cd9c2730f9ae1db9869" datatype="html">
         <source>Organization name</source>
-        <target state="new">Organisationsnamn</target>
+        <target state="translated">Organisationsnamn</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">102</context>
@@ -856,7 +856,7 @@
       </trans-unit>
       <trans-unit id="39e75b2c27bf22427f597daa98ee6745e00d288f" datatype="html">
         <source>Organization number</source>
-        <target state="new">Organisationsnummer</target>
+        <target state="translated">Organisationsnummer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">108</context>
@@ -864,7 +864,7 @@
       </trans-unit>
       <trans-unit id="b7d010ae8c55e4d07161515b537bd2c0099f97bf" datatype="html">
         <source>Clear tracks</source>
-        <target state="new">Clear tracks</target>
+        <target state="translated">Rensa spår</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
           <context context-type="linenumber">3</context>
@@ -872,7 +872,7 @@
       </trans-unit>
       <trans-unit id="a9e6239caa2ded8540f1e06e3f08c31058edc043" datatype="html">
         <source>Clear forecasts</source>
-        <target state="new">Clear forecasts</target>
+        <target state="final">Rensa prognos</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
           <context context-type="linenumber">4</context>
@@ -880,7 +880,7 @@
       </trans-unit>
       <trans-unit id="bdb24b7cc8a128561913e50552feef130a2e3b17" datatype="html">
         <source>Track length</source>
-        <target state="new">Track length</target>
+        <target state="translated">Spårlängd</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
           <context context-type="linenumber">7</context>
@@ -888,7 +888,7 @@
       </trans-unit>
       <trans-unit id="123131fd57876c5292a904e302755d2a8aa41182" datatype="html">
         <source>1 hour</source>
-        <target state="new">1 timme</target>
+        <target state="translated">1 timme</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">38</context>
@@ -900,7 +900,7 @@
       </trans-unit>
       <trans-unit id="71fb245539869caa0d73b420ce673994117de88f" datatype="html">
         <source>3 hours</source>
-        <target state="new">3 timmar</target>
+        <target state="translated">3 timmar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">39</context>
@@ -908,7 +908,7 @@
       </trans-unit>
       <trans-unit id="6fbf7b61d3fdd78e663a963955bc8992b00b5bcc" datatype="html">
         <source>3 hour</source>
-        <target state="new">3 timmar</target>
+        <target state="translated">3 timmar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
           <context context-type="linenumber">10</context>
@@ -916,7 +916,7 @@
       </trans-unit>
       <trans-unit id="99b178da94e7f018453fe7859f8b5c5b3698132f" datatype="html">
         <source>6 hours</source>
-        <target state="new">6 timmar</target>
+        <target state="translated">6 timmar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">40</context>
@@ -928,7 +928,7 @@
       </trans-unit>
       <trans-unit id="441cb4e6efc57665da07f8f4a2cf51095cf92c72" datatype="html">
         <source>12 hours</source>
-        <target state="new">12 timmar</target>
+        <target state="translated">12 timmar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">41</context>
@@ -940,7 +940,7 @@
       </trans-unit>
       <trans-unit id="26d1e5dc6a42e5da6d3e8ab44ff0fdf81c0757f3" datatype="html">
         <source>1 day</source>
-        <target state="new">1 dag</target>
+        <target state="translated">1 dag</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">42</context>
@@ -952,7 +952,7 @@
       </trans-unit>
       <trans-unit id="d163ce0d8d09b53c17cec9c401507251346c87ab" datatype="html">
         <source>Choose ship color logic:</source>
-        <target state="new">Choose ship color logic:</target>
+        <target state="final">Välj fartygsfärg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">51</context>
@@ -960,7 +960,7 @@
       </trans-unit>
       <trans-unit id="2e493cbff995d25ee23d69993f0faf2f605d3dd3" datatype="html">
         <source>Unit of distance</source>
-        <target state="new">Unit of distance</target>
+        <target state="final">Distansenhet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">62</context>
@@ -968,7 +968,7 @@
       </trans-unit>
       <trans-unit id="17936ba87ff97fda46db6451c061a284ec20a51d" datatype="html">
         <source>Metric</source>
-        <target state="new">Metric</target>
+        <target state="final">Meter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">64</context>
@@ -976,7 +976,7 @@
       </trans-unit>
       <trans-unit id="c58d437c66ef899ed2e6912d0da47c905eb04a2f" datatype="html">
         <source>Nautical mile</source>
-        <target state="new">Nautiska mil</target>
+        <target state="translated">Nautiska mil</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">65</context>
@@ -984,7 +984,7 @@
       </trans-unit>
       <trans-unit id="1351b7f2f96788469c1a1c9158171f092eb6d2af" datatype="html">
         <source>Save settings</source>
-        <target state="new">Spara inställningar</target>
+        <target state="translated">Spara inställningar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">74</context>
@@ -992,7 +992,7 @@
       </trans-unit>
       <trans-unit id="e1991c2a3e9fb8fbe05a85b99e4a0151414a5c5c" datatype="html">
         <source>Reset to default</source>
-        <target state="new">Återställ värden</target>
+        <target state="translated">Återställ värden</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">75</context>
@@ -1000,7 +1000,7 @@
       </trans-unit>
       <trans-unit id="e53622db991ab0684fde328e4bd5a4719f512bde" datatype="html">
         <source>Forecast interval (min)</source>
-        <target state="new">Forecast interval (min)</target>
+        <target state="final">Prognosintervall (min)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/control-panel/control-panel.component.html</context>
           <context context-type="linenumber">17</context>
@@ -1008,7 +1008,7 @@
       </trans-unit>
       <trans-unit id="b733bf04d4bcd190f706f5901164b909f56c44b2" datatype="html">
         <source>WGS84 DD (LAT, LONG)</source>
-        <target state="new">WGS84 DD (LAT, LONG)</target>
+        <target state="final">WGS84 DD (LAT, LONG)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/coordinates-popup/coordinates-popup.component.html</context>
           <context context-type="linenumber">3</context>
@@ -1016,7 +1016,7 @@
       </trans-unit>
       <trans-unit id="d8b009f127b2ef03cc80538933ba9580ff7c2576" datatype="html">
         <source>WGS84 DDM (LAT, LONG)</source>
-        <target state="new">WGS84 DDM (LAT, LONG)</target>
+        <target state="final">WGS84 DDM (LAT, LONG)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/coordinates-popup/coordinates-popup.component.html</context>
           <context context-type="linenumber">5</context>
@@ -1024,7 +1024,7 @@
       </trans-unit>
       <trans-unit id="900c3e0bf94ffac924104b9434c877997f222ea2" datatype="html">
         <source>WGS84 DMS (LAT, LONG)</source>
-        <target state="new">WGS84 DMS (LAT, LONG)</target>
+        <target state="final">WGS84 DMS (LAT, LONG)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/coordinates-popup/coordinates-popup.component.html</context>
           <context context-type="linenumber">7</context>
@@ -1032,7 +1032,7 @@
       </trans-unit>
       <trans-unit id="728b1f95f3bcfabc0e6c462c91a811718070059b" datatype="html">
         <source>RT 90</source>
-        <target state="new">RT 90</target>
+        <target state="final">RT 90</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/coordinates-popup/coordinates-popup.component.html</context>
           <context context-type="linenumber">9</context>
@@ -1040,7 +1040,7 @@
       </trans-unit>
       <trans-unit id="f3416faeff7518246f96ed6c063d687bf7f8ad43" datatype="html">
         <source>SWEREF 99</source>
-        <target state="new">SWEREF 99</target>
+        <target state="final">SWEREF 99</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/coordinates-popup/coordinates-popup.component.html</context>
           <context context-type="linenumber">11</context>
@@ -1048,7 +1048,7 @@
       </trans-unit>
       <trans-unit id="0519a6f96fbadfec8165bf3254c26144d36c5e71" datatype="html">
         <source>Clear all measurements</source>
-        <target state="new">Rensa alla mätningar</target>
+        <target state="translated">Rensa alla mätningar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/distance-between-points/distance-between-points.component.html</context>
           <context context-type="linenumber">7</context>
@@ -1056,7 +1056,7 @@
       </trans-unit>
       <trans-unit id="ead7a32fafd6501eeb8ad4787596ef8983615d0a" datatype="html">
         <source>Last known position</source>
-        <target state="new">Senast kända position</target>
+        <target state="translated">Senast kända position</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
           <context context-type="linenumber">14</context>
@@ -1064,7 +1064,7 @@
       </trans-unit>
       <trans-unit id="4e0ad02a8a2295d1f317fcdbe9057c5e460c8dd0" datatype="html">
         <source>Latitude:</source>
-        <target state="new">Latitud:</target>
+        <target state="translated">Latitud:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
           <context context-type="linenumber">15</context>
@@ -1072,7 +1072,7 @@
       </trans-unit>
       <trans-unit id="284b2009235fd44e3da87a60adb793608ee5d02c" datatype="html">
         <source>Longitude:</source>
-        <target state="new">Longitud:</target>
+        <target state="translated">Longitud:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
           <context context-type="linenumber">17</context>
@@ -1080,7 +1080,7 @@
       </trans-unit>
       <trans-unit id="34c8f0fce826eba75fed484db2f14ca372b40649" datatype="html">
         <source>Time:</source>
-        <target state="new">Tid:</target>
+        <target state="translated">Tid:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
           <context context-type="linenumber">23</context>
@@ -1088,7 +1088,7 @@
       </trans-unit>
       <trans-unit id="d517b7f2af3407c0dad3d91aa115c4f5af2b6892" datatype="html">
         <source>Asset information</source>
-        <target state="new">Fartygsinformation</target>
+        <target state="translated">Fartygsinformation</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
           <context context-type="linenumber">26</context>
@@ -1096,7 +1096,7 @@
       </trans-unit>
       <trans-unit id="89bdc85daf870aa6ec1741cc512595d043929246" datatype="html">
         <source>Edit asset</source>
-        <target state="new">Ändra fartyg</target>
+        <target state="translated">Ändra fartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">14</context>
@@ -1104,7 +1104,7 @@
       </trans-unit>
       <trans-unit id="31ba24295fadfc17c8e1fe9335b007b9dbc967a0" datatype="html">
         <source>Read only asset</source>
-        <target state="new">Read only asset</target>
+        <target state="final">Läsvy</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">15</context>
@@ -1112,7 +1112,7 @@
       </trans-unit>
       <trans-unit id="c93a6f804acb45d49474cfb81a543f5ac8ae21ac" datatype="html">
         <source>MMSI</source>
-        <target state="new">MMSI</target>
+        <target state="final">MMSI</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">42</context>
@@ -1120,7 +1120,7 @@
       </trans-unit>
       <trans-unit id="bb83e254f3336a052a975fd9251582484fee95f8" datatype="html">
         <source>Port of registration</source>
-        <target state="new">Port of registration</target>
+        <target state="final">Hemmahamn</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">63</context>
@@ -1128,7 +1128,7 @@
       </trans-unit>
       <trans-unit id="9fbdf2eeb0fca3d9248a1163cc4e234e30ec9edf" datatype="html">
         <source>Gross tonnage</source>
-        <target state="new">Gross tonnage</target>
+        <target state="final">Brutto tonnage</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">67</context>
@@ -1136,7 +1136,7 @@
       </trans-unit>
       <trans-unit id="eaa73e83734e04330c567a8b569e3ed1e623275f" datatype="html">
         <source>Power of main engine</source>
-        <target state="new">Power of main engine</target>
+        <target state="final">Motorstyrka för huvudmaskin</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">71</context>
@@ -1144,7 +1144,7 @@
       </trans-unit>
       <trans-unit id="7c74960db91ace552d305ddbbb4f12ed4d76d9ef" datatype="html">
         <source>Vessel type</source>
-        <target state="new">Fartygstyp</target>
+        <target state="translated">Fartygstyp</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show/show.component.html</context>
           <context context-type="linenumber">59</context>
@@ -1152,7 +1152,7 @@
       </trans-unit>
       <trans-unit id="9b475bb63675494482effde989c7f1f18c232620" datatype="html">
         <source>Contacts</source>
-        <target state="new">Kontakter</target>
+        <target state="translated">Kontakter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
           <context context-type="linenumber">41</context>
@@ -1164,7 +1164,7 @@
       </trans-unit>
       <trans-unit id="244aae9346da82b0922506c2d2581373a15641cc" datatype="html">
         <source>Email</source>
-        <target state="new">Email</target>
+        <target state="translated">Email</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">7</context>
@@ -1176,7 +1176,7 @@
       </trans-unit>
       <trans-unit id="a43f25a9ac40e8e2441ff0be7a36b8e5d15534df" datatype="html">
         <source>Country</source>
-        <target state="new">Land</target>
+        <target state="translated">Land</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">12</context>
@@ -1188,7 +1188,7 @@
       </trans-unit>
       <trans-unit id="5c7012b5a926b32d9e45fefdcc8a1a3cb6f023d0" datatype="html">
         <source>City</source>
-        <target state="new">Stad</target>
+        <target state="translated">Stad</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">16</context>
@@ -1200,7 +1200,7 @@
       </trans-unit>
       <trans-unit id="f7b1073d598a188002ad35381afb309bdcb94581" datatype="html">
         <source>Show full log</source>
-        <target state="new">Show full log</target>
+        <target state="final">Visa logg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
           <context context-type="linenumber">71</context>
@@ -1208,7 +1208,7 @@
       </trans-unit>
       <trans-unit id="cb019ddee60a76b87616a8c30713d26f3a9ed144" datatype="html">
         <source>Change incident status</source>
-        <target state="new">Change incident status</target>
+        <target state="final">Ändra incidentstatus</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
           <context context-type="linenumber">73</context>
@@ -1216,7 +1216,7 @@
       </trans-unit>
       <trans-unit id="5c599ad72d8ce2f75c2d7aeaee583bd1fe44602d" datatype="html">
         <source>Create manual position</source>
-        <target state="new">Skapa manuell position</target>
+        <target state="translated">Skapa manuell position</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
           <context context-type="linenumber">78</context>
@@ -1224,7 +1224,7 @@
       </trans-unit>
       <trans-unit id="2886cba0d103cf5cf8e4727ba84066cdb133a78d" datatype="html">
         <source>New note</source>
-        <target state="new">Ny anteckning</target>
+        <target state="translated">Ny anteckning</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident/incident.component.html</context>
           <context context-type="linenumber">84</context>
@@ -1232,7 +1232,7 @@
       </trans-unit>
       <trans-unit id="4eb84de23219c85432e38fb4fbdeb6c0f103ff8b" datatype="html">
         <source>Show all</source>
-        <target state="new">Visa alla</target>
+        <target state="translated">Visa alla</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/incident-status-form/incident-status-form.component.html</context>
           <context context-type="linenumber">8</context>
@@ -1248,7 +1248,7 @@
       </trans-unit>
       <trans-unit id="52c9a103b812f258bcddc3d90a6e3f46871d25fe" datatype="html">
         <source>Save</source>
-        <target state="new">Save</target>
+        <target state="translated">Spara</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/form/form.component.html</context>
           <context context-type="linenumber">115</context>
@@ -1276,7 +1276,7 @@
       </trans-unit>
       <trans-unit id="a73db0a2d8690f0fdb9fc02bc236eb23b54ca5af" datatype="html">
         <source>Serial number</source>
-        <target state="new">Serial number</target>
+        <target state="translated">Serienummer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/attach/attach.component.html</context>
           <context context-type="linenumber">5</context>
@@ -1288,7 +1288,7 @@
       </trans-unit>
       <trans-unit id="bab2780ecf62b4dc0c1659edbb76e0d4c0f96143" datatype="html">
         <source>Serial No.</source>
-        <target state="new">Serial No.</target>
+        <target state="final">Serienummer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/attach/attach.component.html</context>
           <context context-type="linenumber">41</context>
@@ -1296,7 +1296,7 @@
       </trans-unit>
       <trans-unit id="81b97b8ea996ad1e4f9fca8415021850214884b1" datatype="html">
         <source>Status</source>
-        <target state="new">Status</target>
+        <target state="translated">Status</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/attach/attach.component.html</context>
           <context context-type="linenumber">46</context>
@@ -1304,7 +1304,7 @@
       </trans-unit>
       <trans-unit id="44fda12d62d20b1b66e58ede52ba342a5341d730" datatype="html">
         <source>Attach</source>
-        <target state="new">Attach</target>
+        <target state="translated">Bifoga</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/attach/attach.component.html</context>
           <context context-type="linenumber">57</context>
@@ -1316,7 +1316,7 @@
       </trans-unit>
       <trans-unit id="3678fecc9f11bcb3487549323193a826bf989567" datatype="html">
         <source>Show on map</source>
-        <target state="new">Visa på karta</target>
+        <target state="translated">Visa på karta</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
           <context context-type="linenumber">52</context>
@@ -1328,7 +1328,7 @@
       </trans-unit>
       <trans-unit id="e79cc1ddee079f22801ab97466b810a3df790de7" datatype="html">
         <source>Transceiver system</source>
-        <target state="new">Transceiver system</target>
+        <target state="final">Transceiversystem</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">7</context>
@@ -1340,7 +1340,7 @@
       </trans-unit>
       <trans-unit id="9da1e94778a39017e883dcf19666a3af583b1ba2" datatype="html">
         <source>Serial no.</source>
-        <target state="new">Serial no.</target>
+        <target state="final">Serienummer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">11</context>
@@ -1352,7 +1352,7 @@
       </trans-unit>
       <trans-unit id="0483a2383ff4fd283cbbd06f150cfb67703fe46b" datatype="html">
         <source>Ocean region</source>
-        <target state="new">Ocean region</target>
+        <target state="final">Havsregion</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
           <context context-type="linenumber">31</context>
@@ -1364,7 +1364,7 @@
       </trans-unit>
       <trans-unit id="f197ac830b82dee1d38e64d09cab23a0a9aadd72" datatype="html">
         <source>Status code</source>
-        <target state="new">Status code</target>
+        <target state="translated">Statuskod</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
           <context context-type="linenumber">36</context>
@@ -1372,7 +1372,7 @@
       </trans-unit>
       <trans-unit id="cc676dd0ae399298e78eb9ce567c4622e4ae61b0" datatype="html">
         <source>Transceiver type</source>
-        <target state="new">Transceiver type</target>
+        <target state="final">Transceivertyp</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">36</context>
@@ -1384,7 +1384,7 @@
       </trans-unit>
       <trans-unit id="bc84e11f81fdf12ebca3b58d2f2f93f5568e65f8" datatype="html">
         <source>Mobile terminal fields</source>
-        <target state="new">Mobilterminal fält</target>
+        <target state="final">Mobilterminal fält</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">42</context>
@@ -1392,7 +1392,7 @@
       </trans-unit>
       <trans-unit id="628113a60d6d81e2daa665192987c886a42be586" datatype="html">
         <source>Software version</source>
-        <target state="new">Software version</target>
+        <target state="final">Programversion</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">45</context>
@@ -1408,7 +1408,7 @@
       </trans-unit>
       <trans-unit id="1b38b8d51178d6a2594e98f153e8128995e01eb6" datatype="html">
         <source>Antenna</source>
-        <target state="new">Antenn</target>
+        <target state="translated">Antenn</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">50</context>
@@ -1424,7 +1424,7 @@
       </trans-unit>
       <trans-unit id="7c6aef770c648f317b007efbfa6066b855c2976e" datatype="html">
         <source>Satellite number</source>
-        <target state="new">Satellitnumber</target>
+        <target state="translated">Satellitnummer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">55</context>
@@ -1444,7 +1444,7 @@
       </trans-unit>
       <trans-unit id="b36e1450940b7f6028d8587568c7d669b53f7a06" datatype="html">
         <source>Active</source>
-        <target state="new">Aktiv</target>
+        <target state="translated">Aktiv</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/list/list.component.html</context>
           <context context-type="linenumber">30</context>
@@ -1452,7 +1452,7 @@
       </trans-unit>
       <trans-unit id="1873eaa6702843f73505bc9f28b9d23ffb8969ee" datatype="html">
         <source>asset</source>
-        <target state="new">asset</target>
+        <target state="translated">fartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/list/list.component.html</context>
           <context context-type="linenumber">35</context>
@@ -1460,7 +1460,7 @@
       </trans-unit>
       <trans-unit id="15d072fe725152f3b9fa545631d855a4254cfb13" datatype="html">
         <source>Installed by</source>
-        <target state="new">Installerad av</target>
+        <target state="translated">Installerad av</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">64</context>
@@ -1472,7 +1472,7 @@
       </trans-unit>
       <trans-unit id="716497107703f4721ddca696c90a00c104cf01ad" datatype="html">
         <source>Installed on</source>
-        <target state="new">Installed on</target>
+        <target state="translated">Installerad</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">44</context>
@@ -1480,7 +1480,7 @@
       </trans-unit>
       <trans-unit id="ee5f76a3e0110582f75246653a345f5d97ecbf35" datatype="html">
         <source>Unistalled on</source>
-        <target state="new">Unistalled on</target>
+        <target state="final">Avinstallerad</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">48</context>
@@ -1488,7 +1488,7 @@
       </trans-unit>
       <trans-unit id="bfb3a8b58fb01d66ccbbc42064da3a6724e6050e" datatype="html">
         <source>Dnid</source>
-        <target state="new">Dnid</target>
+        <target state="final">DNID</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">65</context>
@@ -1496,7 +1496,7 @@
       </trans-unit>
       <trans-unit id="871c7a9502a8fee1241d10e4eee4323cc3eb9d26" datatype="html">
         <source>Poll Channel</source>
-        <target state="new">Poll Channel</target>
+        <target state="final">Pollningskanal</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">77</context>
@@ -1504,7 +1504,7 @@
       </trans-unit>
       <trans-unit id="0f4c570854c4178715e577d5051350e0bc11a94b" datatype="html">
         <source>Config Channel</source>
-        <target state="new">Config Channel</target>
+        <target state="final">Konfigurationskanal</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">81</context>
@@ -1512,7 +1512,7 @@
       </trans-unit>
       <trans-unit id="275b37d3a80ad31d592c858236f7f72fbc59c8a4" datatype="html">
         <source>Default Channel</source>
-        <target state="new">Default Channel</target>
+        <target state="final">Defaultkanal</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">85</context>
@@ -1520,7 +1520,7 @@
       </trans-unit>
       <trans-unit id="77bbe324b08f6636fb50f673cea05313b86fb692" datatype="html">
         <source>Start date</source>
-        <target state="new">Start date</target>
+        <target state="translated">Startdatum</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">89</context>
@@ -1528,7 +1528,7 @@
       </trans-unit>
       <trans-unit id="807cf11e6ac1cde912496f764c176bdfdd6b7e19" datatype="html">
         <source>Channels</source>
-        <target state="new">Kanaler</target>
+        <target state="translated">Kanaler</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">86</context>
@@ -1536,7 +1536,7 @@
       </trans-unit>
       <trans-unit id="5e2d703a1f4d410eafd4db84738b6e3ad77a3912" datatype="html">
         <source>New channel</source>
-        <target state="new">Ny kanal</target>
+        <target state="translated">Ny kanal</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">93</context>
@@ -1544,7 +1544,7 @@
       </trans-unit>
       <trans-unit id="27c78ee64517d198988ce5e2659f580f38a985ff" datatype="html">
         <source>Remove channel</source>
-        <target state="new">Ta bort kanal</target>
+        <target state="translated">Ta bort kanal</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">117</context>
@@ -1552,7 +1552,7 @@
       </trans-unit>
       <trans-unit id="2c2e90a678e9c77246e9c2613ef45a53b741ceab" datatype="html">
         <source>Land station</source>
-        <target state="new">Land station</target>
+        <target state="translated">Landstation</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">126</context>
@@ -1564,7 +1564,7 @@
       </trans-unit>
       <trans-unit id="9a47157c740a06066f825e512af7cb995cf637a5" datatype="html">
         <source>DNID</source>
-        <target state="new">DNID</target>
+        <target state="final">DNID</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">131</context>
@@ -1572,7 +1572,7 @@
       </trans-unit>
       <trans-unit id="ed91dc1f0f922092427fa1bb07785cb28836b502" datatype="html">
         <source>Member no.</source>
-        <target state="new">Member no.</target>
+        <target state="final">Member nr.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">143</context>
@@ -1584,7 +1584,7 @@
       </trans-unit>
       <trans-unit id="0cc554f4d7bb6a87515d2d95438e183b50702071" datatype="html">
         <source>Channel</source>
-        <target state="new">Kanal</target>
+        <target state="translated">Kanal</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">73</context>
@@ -1592,7 +1592,7 @@
       </trans-unit>
       <trans-unit id="039ad876bb672ee01a53683f64d12612c2372193" datatype="html">
         <source>Poll</source>
-        <target state="new">Poll</target>
+        <target state="final">Poll</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">157</context>
@@ -1600,7 +1600,7 @@
       </trans-unit>
       <trans-unit id="a8cb2e85509e56f6381c6361aef7c6515c0e75ea" datatype="html">
         <source>Config</source>
-        <target state="new">Config</target>
+        <target state="final">Config</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">162</context>
@@ -1608,7 +1608,7 @@
       </trans-unit>
       <trans-unit id="ff7cee38a2259526c519f878e71b964f41db4348" datatype="html">
         <source>Default</source>
-        <target state="new">Default</target>
+        <target state="final">Default</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">167</context>
@@ -1616,7 +1616,7 @@
       </trans-unit>
       <trans-unit id="91e6b870b02bbfe7943cc4e1f1e61d7faf78598b" datatype="html">
         <source>Expected Frequency</source>
-        <target state="new">Expected Frequency</target>
+        <target state="final">Frekvens</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">185</context>
@@ -1628,7 +1628,7 @@
       </trans-unit>
       <trans-unit id="cd25ef11e2d8843297caf4202937023dc02d0ba8" datatype="html">
         <source>minutes</source>
-        <target state="new">minuter</target>
+        <target state="translated">minuter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">187</context>
@@ -1644,7 +1644,7 @@
       </trans-unit>
       <trans-unit id="126fb0e55c1c86d3fbc613193f2a821ddf698457" datatype="html">
         <source>Frequency Grace Period</source>
-        <target state="new">Frequency Grace Period</target>
+        <target state="final">Tid innan larm utlöses</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">192</context>
@@ -1656,7 +1656,7 @@
       </trans-unit>
       <trans-unit id="4bbc5bba34be42322b303ae7f37a809f0ac30dad" datatype="html">
         <source>Expected Frequency In Port</source>
-        <target state="new">Expected Frequency In Port</target>
+        <target state="final">Förväntad frekvens i hamn</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">199</context>
@@ -1668,7 +1668,7 @@
       </trans-unit>
       <trans-unit id="b1a23ad3ead89edb1d15ae292fffb0f4f8b12f63" datatype="html">
         <source>Close without saving</source>
-        <target state="new">Stäng utan att spara</target>
+        <target state="translated">Stäng utan att spara</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">223</context>
@@ -1676,7 +1676,7 @@
       </trans-unit>
       <trans-unit id="5b3075e8dc3f3921ec316b0bd83b6d14a06c1a4f" datatype="html">
         <source>Save changes</source>
-        <target state="new">Spara ändringar</target>
+        <target state="translated">Spara ändringar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/form/form.component.html</context>
           <context context-type="linenumber">233</context>
@@ -1684,7 +1684,7 @@
       </trans-unit>
       <trans-unit id="29b2380e08d31f0802e7a9f73faa778023ee3955" datatype="html">
         <source>Default DNID</source>
-        <target state="new">Default DNID</target>
+        <target state="final">Default DNID</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/list/list.component.html</context>
           <context context-type="linenumber">15</context>
@@ -1692,7 +1692,7 @@
       </trans-unit>
       <trans-unit id="caa2c7f1dc25a9e3de570a578272f5e81e5d24ba" datatype="html">
         <source>Default member no.</source>
-        <target state="new">Default member no.</target>
+        <target state="final">Default member nr.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/list/list.component.html</context>
           <context context-type="linenumber">20</context>
@@ -1700,7 +1700,7 @@
       </trans-unit>
       <trans-unit id="43db8e95ca937026b75daf1b250f2d808ed2d28d" datatype="html">
         <source>Ocean regions</source>
-        <target state="new">Ocean regions</target>
+        <target state="final">Havsregioner</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">15</context>
@@ -1708,7 +1708,7 @@
       </trans-unit>
       <trans-unit id="d0a60644c8c60022ae9cd004f4b78ac3009333a2" datatype="html">
         <source>East Atlantic</source>
-        <target state="new">East Atlantic</target>
+        <target state="final">Östra atlanten</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">17</context>
@@ -1716,7 +1716,7 @@
       </trans-unit>
       <trans-unit id="1e8d8f1998421efd4f3fa653d5d11700e885ac4e" datatype="html">
         <source>West Atlantic</source>
-        <target state="new">West Atlantic</target>
+        <target state="final">Västra Atlanten</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">18</context>
@@ -1724,7 +1724,7 @@
       </trans-unit>
       <trans-unit id="6189df41dc90fa4b2da70469765b8081e512ec8a" datatype="html">
         <source>Pacific</source>
-        <target state="new">Pacific</target>
+        <target state="final">Stilla Havet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">19</context>
@@ -1732,7 +1732,7 @@
       </trans-unit>
       <trans-unit id="98153614750605df5751262ba7159d35f55a72e8" datatype="html">
         <source>Indian</source>
-        <target state="new">Indian</target>
+        <target state="final">Indiska Oceanen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">20</context>
@@ -1742,7 +1742,7 @@
         <source>
             <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i>"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i>"/>
           </source>
-        <target state="new">
+        <target state="final">
             <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i>"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i>"/>
           </target>
         <context-group purpose="location">
@@ -1752,7 +1752,7 @@
       </trans-unit>
       <trans-unit id="5c54befce78d70e20c215f10a00e617245f53bc9" datatype="html">
         <source>Note</source>
-        <target state="new">Anteckning</target>
+        <target state="translated">Anteckning</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show-notes/show-notes.component.html</context>
           <context context-type="linenumber">10</context>
@@ -1764,7 +1764,7 @@
       </trans-unit>
       <trans-unit id="95376ad6bb7db54663842cfcc69d35244ffaf424" datatype="html">
         <source>Save choosen assets to groupp <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span>"/><x id="INTERPOLATION" equiv-text="{{data.selectedAssets.length}}"/> asset<x id="INTERPOLATION_1" equiv-text="{{data.selectedAssets.length !== 1 ? 's' : ''}}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span>"/></source>
-        <target state="new">Save choosen assets to groupp <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span>"/><x id="INTERPOLATION" equiv-text="{{data.selectedAssets.length}}"/> asset<x id="INTERPOLATION_1" equiv-text="{{data.selectedAssets.length !== 1 ? 's' : ''}}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span>"/></target>
+        <target state="final">Spara valt fartyg till grupp <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span>"/><x id="INTERPOLATION"/> asset<x id="INTERPOLATION_1"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/add-to-asset-group-dialog/add-to-asset-group-dialog.component.html</context>
           <context context-type="linenumber">1</context>
@@ -1772,7 +1772,7 @@
       </trans-unit>
       <trans-unit id="00764c8d30775467ecbbdf8a229db14561e0fafc" datatype="html">
         <source>Add to choosen group</source>
-        <target state="new">Add to choosen group</target>
+        <target state="translated">Lägg till i vald grupp</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/add-to-asset-group-dialog/add-to-asset-group-dialog.component.html</context>
           <context context-type="linenumber">25</context>
@@ -1780,7 +1780,7 @@
       </trans-unit>
       <trans-unit id="8bdc4c5122b3fa52f47c5aa9137323b7d451ccb8" datatype="html">
         <source>Edit <x id="INTERPOLATION" equiv-text="{{this.data.assetGroupFilter.name}}"/></source>
-        <target state="new">Edit <x id="INTERPOLATION" equiv-text="{{this.data.assetGroupFilter.name}}"/></target>
+        <target state="final">Ändra <x id="INTERPOLATION"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/edit-asset-group-dialog/edit-asset-group-dialog.component.html</context>
           <context context-type="linenumber">1</context>
@@ -1788,7 +1788,7 @@
       </trans-unit>
       <trans-unit id="285a16fec72f3b92e5327ddedb8a2ad08d9306fd" datatype="html">
         <source>Change name</source>
-        <target state="new">Change name</target>
+        <target state="translated">Byt namn</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/edit-asset-group-dialog/edit-asset-group-dialog.component.html</context>
           <context context-type="linenumber">4</context>
@@ -1796,7 +1796,7 @@
       </trans-unit>
       <trans-unit id="b27a38627d460b86795eafec0f74f16408f070a7" datatype="html">
         <source>Delete asset group?</source>
-        <target state="new">Delete asset group?</target>
+        <target state="translated">Ta bort fartygsgrupp?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-groups/asset-groups.component.html</context>
           <context context-type="linenumber">15</context>
@@ -1806,8 +1806,7 @@
         <source>
           You are about to delete the asset group <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="INTERPOLATION" equiv-text="{{assetGroup.name}}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/>. Are you sure?
         </source>
-        <target state="new">
-          You are about to delete the asset group <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="INTERPOLATION" equiv-text="{{assetGroup.name}}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/>. Are you sure?
+        <target state="translated">Du tar nu bort fartygsgruppen <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="INTERPOLATION"/><x id="CLOSE_BOLD_TEXT" ctype="x-b"/>. Är du säker?
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-groups/asset-groups.component.html</context>
@@ -1816,7 +1815,7 @@
       </trans-unit>
       <trans-unit id="826b25211922a1b46436589233cb6f1a163d89b7" datatype="html">
         <source>Delete</source>
-        <target state="new">Delete</target>
+        <target state="translated">Ta bort</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/asset-groups/asset-groups.component.html</context>
           <context context-type="linenumber">21</context>
@@ -1828,7 +1827,7 @@
       </trans-unit>
       <trans-unit id="121cc5391cd2a5115bc2b3160379ee5b36cd7716" datatype="html">
         <source>Settings</source>
-        <target state="new">Inställningar</target>
+        <target state="translated">Inställningar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">1</context>
@@ -1836,7 +1835,7 @@
       </trans-unit>
       <trans-unit id="e930ec3390a3967a42df7aa0a457c4cd2170358e" datatype="html">
         <source>Map default settings</source>
-        <target state="new">Map default settings</target>
+        <target state="final">Grundinställning</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">6</context>
@@ -1844,7 +1843,7 @@
       </trans-unit>
       <trans-unit id="b6a7368dc0eb52cf733d84551054a72097a7a9e5" datatype="html">
         <source>Show flags</source>
-        <target state="new">Visa flaggor</target>
+        <target state="translated">Visa flaggor</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">8</context>
@@ -1852,7 +1851,7 @@
       </trans-unit>
       <trans-unit id="de31048ba62012f46a25381c8938fc9e7a438078" datatype="html">
         <source>Show tracks</source>
-        <target state="new">Show tracks</target>
+        <target state="translated">Visa spår</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">9</context>
@@ -1860,7 +1859,7 @@
       </trans-unit>
       <trans-unit id="fc13edb6a1dbc14e61d06a34e9589fe24a940297" datatype="html">
         <source>Show names</source>
-        <target state="new">Visa namn</target>
+        <target state="translated">Visa namn</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">10</context>
@@ -1868,7 +1867,7 @@
       </trans-unit>
       <trans-unit id="9e1df32ade1d2c3d49bdfe473ec56eca4cc7b73e" datatype="html">
         <source>Show speeds</source>
-        <target state="new">Visa hastighet</target>
+        <target state="translated">Visa hastigheter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">11</context>
@@ -1876,7 +1875,7 @@
       </trans-unit>
       <trans-unit id="f1698e490d1552fda703392135aec7f2760a28e3" datatype="html">
         <source>Show forecasts</source>
-        <target state="new">Show forecasts</target>
+        <target state="final">Visa prognos</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">12</context>
@@ -1884,7 +1883,7 @@
       </trans-unit>
       <trans-unit id="eae7094df02979d8dbc4deffc9424ae1bb11fc2b" datatype="html">
         <source>Map start position</source>
-        <target state="new">Map start position</target>
+        <target state="final">Startposition på karta</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">16</context>
@@ -1892,7 +1891,7 @@
       </trans-unit>
       <trans-unit id="6fb187886b3be5b9ec1c2c0b158d5b326e45db7d" datatype="html">
         <source>Tracks and forecasts</source>
-        <target state="new">Tracks and forecasts</target>
+        <target state="final">Spår med prognos</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">34</context>
@@ -1900,7 +1899,7 @@
       </trans-unit>
       <trans-unit id="ba527563f380a168ab7516e396394b927445f2e2" datatype="html">
         <source>User manual</source>
-        <target state="new">Användarmanual</target>
+        <target state="translated">Användarmanual</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/information-panel/information-panel.component.html</context>
           <context context-type="linenumber">3</context>
@@ -1908,7 +1907,7 @@
       </trans-unit>
       <trans-unit id="a6c5662dc6d878b5b53e5296de74b4d87c87861d" datatype="html">
         <source>The search field is used for centering the map on a specific ship.</source>
-        <target state="new">Sökfältet används för att centrera kartan på ett specifikt fartyg.</target>
+        <target state="final">Sökfältet används för att centrera kartan på ett specifikt fartyg.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/information-panel/information-panel.component.html</context>
           <context context-type="linenumber">8</context>
@@ -1919,7 +1918,7 @@
         You can search ships by name in this field and once you have chosen the desired ship in the dropdown the
         map will center around that ship. The dropdown is sorted alphabetically and shows the top 10 results.
       </source>
-        <target state="new">
+        <target state="translated">
         Du kan söka på fartyg i detta fältet och när du har valt fartyg i listan kommer kartan att centreras på ditt valda fartyg. Listan är sorterad i alfabetisk ordning och visar dom 10 bästa resultaten.
       </target>
         <context-group purpose="location">
@@ -1932,7 +1931,7 @@
         The search will try to find any ship containing that letter combination.
         For example the search query <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>as<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;/u>"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/> will give you ships such as <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>As<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;/u>"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/>kungen but also ships like B<x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>as<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;/u>"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/>to.
       </source>
-        <target state="new">
+        <target state="translated">
 		Sökningen förösöker hitta alla fartyg som innehåller den bokstavskombinationen
         Till exempel kommer sökningen <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>as<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;/u>"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/> att ge dig fartyg som <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>As<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;/u>"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/>kungen men också fartyg som B<x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>as<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;/u>"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/>to.
       </target>
@@ -1943,7 +1942,7 @@
       </trans-unit>
       <trans-unit id="8d80b009801b8dcd5b8d02c859410cecc0d46635" datatype="html">
         <source>Special commands:</source>
-        <target state="new">Special commands:</target>
+        <target state="final">Särskilda kommandon</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/information-panel/information-panel.component.html</context>
           <context context-type="linenumber">18</context>
@@ -1972,9 +1971,8 @@
           By starting your command with <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>/c<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;/u>"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/> you can go directly to a specific cordinate.
           Example: <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>/c 58.43562 17.45620<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;/u>"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/>
         </source>
-        <target state="new">
-          By starting your command with <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>/c<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;/u>"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/> you can go directly to a specific cordinate.
-          Example: <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>/c 58.43562 17.45620<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;/u>"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/>
+        <target state="final">Ange <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>/c<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u"/><x id="CLOSE_BOLD_TEXT" ctype="x-b"/> för att komma till en specifik koordinat.
+Exempel: <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="START_UNDERLINED_TEXT" ctype="x-u" equiv-text="&lt;u>"/>/c 58.43562 17.45620<x id="CLOSE_UNDERLINED_TEXT" ctype="x-u"/><x id="CLOSE_BOLD_TEXT" ctype="x-b"/>
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/information-panel/information-panel.component.html</context>
@@ -1983,7 +1981,7 @@
       </trans-unit>
       <trans-unit id="b6ed72ca8a8c37a642966fca572c175383217096" datatype="html">
         <source>Filter map</source>
-        <target state="new">Filter map</target>
+        <target state="final">Kartfilter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">12</context>
@@ -1991,7 +1989,7 @@
       </trans-unit>
       <trans-unit id="dcbaa9aac20dce1bae88f2cf22bec49a30530ecf" datatype="html">
         <source>Quick filter</source>
-        <target state="new">Quick filter</target>
+        <target state="final">Snabbfilter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">15</context>
@@ -1999,7 +1997,7 @@
       </trans-unit>
       <trans-unit id="5ca707824ab93066c7d9b44e1b8bf216725c2c22" datatype="html">
         <source>Filter</source>
-        <target state="new">Filter</target>
+        <target state="final">Filter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/information-panel/information-panel.component.html</context>
           <context context-type="linenumber">33</context>
@@ -2175,7 +2173,7 @@
       </trans-unit>
       <trans-unit id="a7ec66c4ed394d5f6571bf5787b84fb47ad2685a" datatype="html">
         <source>Screen locations</source>
-        <target state="new">Screen locations</target>
+        <target state="final">Kartutsnitt</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/information-panel/information-panel.component.html</context>
           <context context-type="linenumber">106</context>
@@ -2211,7 +2209,7 @@
       </trans-unit>
       <trans-unit id="64c15988a93e0d8835243b671505bdcebb2d9156" datatype="html">
         <source>Asset names</source>
-        <target state="new">Fartygsnamn</target>
+        <target state="translated">Fartygsnamn</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/layer-filter/layer-filter.component.html</context>
           <context context-type="linenumber">9</context>
@@ -2219,7 +2217,7 @@
       </trans-unit>
       <trans-unit id="c65e59841c2de7dba204ee5ecf7cc682e65f2488" datatype="html">
         <source>Speed</source>
-        <target state="new">Hastighet</target>
+        <target state="final">Hastighet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
           <context context-type="linenumber">21</context>
@@ -2235,7 +2233,7 @@
       </trans-unit>
       <trans-unit id="0758b6449e80ae401986fefbb451b0b93f390efe" datatype="html">
         <source>Nationality</source>
-        <target state="new">Nationalitet</target>
+        <target state="translated">Nationalitet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">21</context>
@@ -2251,7 +2249,7 @@
       </trans-unit>
       <trans-unit id="15182cef4d46f2d2a989c95c3f0004dbaa2561a4" datatype="html">
         <source>Is owner?</source>
-        <target state="new">Är ägare?</target>
+        <target state="translated">Är ägare?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">25</context>
@@ -2263,7 +2261,7 @@
       </trans-unit>
       <trans-unit id="63e1d28508d11998ba489a6ea4d8349e837162f5" datatype="html">
         <source>Phone number</source>
-        <target state="new">Telefonnummer</target>
+        <target state="translated">Telefonnummer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">31</context>
@@ -2275,7 +2273,7 @@
       </trans-unit>
       <trans-unit id="7afd4fdb987c4f3510c8e876656f65a116b544d1" datatype="html">
         <source>Post office box</source>
-        <target state="new">Postbox</target>
+        <target state="final">Postbox</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">35</context>
@@ -2287,7 +2285,7 @@
       </trans-unit>
       <trans-unit id="7adf2fbf7fd545072fa151ed4305142832563957" datatype="html">
         <source>Postal area</source>
-        <target state="new">Postnummer</target>
+        <target state="translated">Postnummer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">39</context>
@@ -2299,7 +2297,7 @@
       </trans-unit>
       <trans-unit id="9e0d081c7fbd8c2b40dcd03e03d9d7208be15ece" datatype="html">
         <source>Street name</source>
-        <target state="new">Adress</target>
+        <target state="translated">Adress</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">43</context>
@@ -2311,7 +2309,7 @@
       </trans-unit>
       <trans-unit id="e5f74d4f69166b727e7e4337118204586c50a236" datatype="html">
         <source>Zip code</source>
-        <target state="new">Zip code</target>
+        <target state="final">Postnummer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">47</context>
@@ -2323,7 +2321,7 @@
       </trans-unit>
       <trans-unit id="6834fa6b43d1ecbdf147c48dd9c4d72f1484571d" datatype="html">
         <source>Source</source>
-        <target state="new">Source</target>
+        <target state="translated">Källa</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/contact/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">52</context>
@@ -2339,7 +2337,7 @@
       </trans-unit>
       <trans-unit id="f61c6867295f3b53d23557021f2f4e0aa1d0b8fc" datatype="html">
         <source>Type</source>
-        <target state="new">Type</target>
+        <target state="translated">Typ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
           <context context-type="linenumber">63</context>
@@ -2347,7 +2345,7 @@
       </trans-unit>
       <trans-unit id="ac8589c5c9e5b3794a91c7f5d51520299fcfb8ee" datatype="html">
         <source>Mobile terminals</source>
-        <target state="new">Mobilterminaler</target>
+        <target state="translated">Mobilterminaler</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
           <context context-type="linenumber">37</context>
@@ -2359,7 +2357,7 @@
       </trans-unit>
       <trans-unit id="34746fb1c7f3d2194d99652bdff89e6e14c9c4f4" datatype="html">
         <source>Contact</source>
-        <target state="new">Kontakt</target>
+        <target state="translated">Kontakt</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
           <context context-type="linenumber">63</context>
@@ -2367,7 +2365,7 @@
       </trans-unit>
       <trans-unit id="28f86ffd419b869711aa13f5e5ff54be6d70731c" datatype="html">
         <source>Edit</source>
-        <target state="new">Edit</target>
+        <target state="translated">Ändra</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">198</context>
@@ -2383,7 +2381,7 @@
       </trans-unit>
       <trans-unit id="a583219a4758b0b56503cde5770e26ab3c704930" datatype="html">
         <source>Typ</source>
-        <target state="new">Typ</target>
+        <target state="final">Typ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
           <context context-type="linenumber">9</context>
@@ -2391,7 +2389,7 @@
       </trans-unit>
       <trans-unit id="43c4133c7a0263d2e33dd4c2e74d40784b2e4b1c" datatype="html">
         <source>Inactive</source>
-        <target state="new">Inaktiv</target>
+        <target state="translated">Inaktiv</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show-mobile-terminal/show-mobile-terminal.component.html</context>
           <context context-type="linenumber">35</context>
@@ -2399,7 +2397,7 @@
       </trans-unit>
       <trans-unit id="fcde58253a4cfd52c228eebdae74e1be7a1ab714" datatype="html">
         <source>Notes</source>
-        <target state="new">Notes</target>
+        <target state="translated">Anteckningar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
           <context context-type="linenumber">45</context>
@@ -2415,7 +2413,7 @@
       </trans-unit>
       <trans-unit id="6e5dda3f5daa1d519fc6d3fe197abda52544f420" datatype="html">
         <source>Last positions</source>
-        <target state="new">Last positions</target>
+        <target state="translated">Senaste positioner</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
           <context context-type="linenumber">49</context>
@@ -2427,7 +2425,7 @@
       </trans-unit>
       <trans-unit id="2451f4addee3881817921e09941cebbcb158f48d" datatype="html">
         <source>Mobile terminal</source>
-        <target state="new">Mobilterminaler</target>
+        <target state="translated">Mobilterminal</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/layouts/asset/asset.component.html</context>
           <context context-type="linenumber">59</context>
@@ -2435,7 +2433,7 @@
       </trans-unit>
       <trans-unit id="cb98522066062d775f3b81f29c898a7cc76292c0" datatype="html">
         <source>Tracks</source>
-        <target state="new">Tracks</target>
+        <target state="translated">Spår</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/layer-filter/layer-filter.component.html</context>
           <context context-type="linenumber">30</context>
@@ -2443,7 +2441,7 @@
       </trans-unit>
       <trans-unit id="95c1a1cc6ebc0b20fe42dca5a2a412768baddd8e" datatype="html">
         <source>Forecasts</source>
-        <target state="new">Forecasts</target>
+        <target state="final">Prognos</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/layer-filter/layer-filter.component.html</context>
           <context context-type="linenumber">37</context>
@@ -2451,7 +2449,7 @@
       </trans-unit>
       <trans-unit id="56343315d0f75872e471e6694c08cbd716a5fbda" datatype="html">
         <source>Saved filters</source>
-        <target state="new">Sparade filter</target>
+        <target state="translated">Sparade filter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">27</context>
@@ -2459,7 +2457,7 @@
       </trans-unit>
       <trans-unit id="681d5027a7e0b753bf5927949859a4c48d7b3a32" datatype="html">
         <source>Asset groups</source>
-        <target state="new">Fartygsgrupper</target>
+        <target state="translated">Fartygsgrupper</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">44</context>
@@ -2467,7 +2465,7 @@
       </trans-unit>
       <trans-unit id="02a35d0b5e98941185738950c8d25e8c097ce1f6" datatype="html">
         <source>Workflows</source>
-        <target state="new">Workflows</target>
+        <target state="final">Arbetsflöde</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">73</context>
@@ -2475,7 +2473,7 @@
       </trans-unit>
       <trans-unit id="dc563aba0817263a1456201208fe35de85f1a0d9" datatype="html">
         <source>Assets not sending</source>
-        <target state="new">Assets not sending</target>
+        <target state="translated">Icke sändande fartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">76</context>
@@ -2483,7 +2481,7 @@
       </trans-unit>
       <trans-unit id="3aef80d99d53f7575319f86fa49bb637e3eec1b1" datatype="html">
         <source>Fishing Activity</source>
-        <target state="new">Fishing Activity</target>
+        <target state="translated">Fiskeaktivitet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">99</context>
@@ -2491,7 +2489,7 @@
       </trans-unit>
       <trans-unit id="eea5049959b2df35d07f23f3776df8144f0be33d" datatype="html">
         <source>Long termed parked</source>
-        <target state="new">Long termed parked</target>
+        <target state="translated">Långtidsparkerad</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">107</context>
@@ -2499,7 +2497,7 @@
       </trans-unit>
       <trans-unit id="e3217c1ae1cb32d17778abe206ac53dcf48bb017" datatype="html">
         <source>New Assets</source>
-        <target state="new">Nya fartyg</target>
+        <target state="translated">Nya fartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">115</context>
@@ -2507,7 +2505,7 @@
       </trans-unit>
       <trans-unit id="869a92c444d224d11863e6d2a2db4884bb043880" datatype="html">
         <source>AIS Assets</source>
-        <target state="new">AIS fartyg</target>
+        <target state="final">AIS-fartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">123</context>
@@ -2515,7 +2513,7 @@
       </trans-unit>
       <trans-unit id="83f5c974e0d964da593c057b2c83a2d8ea7a22d3" datatype="html">
         <source>Static VMS Assets</source>
-        <target state="new">Static VMS Assets</target>
+        <target state="final">AIS-fartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">131</context>
@@ -2523,7 +2521,7 @@
       </trans-unit>
       <trans-unit id="6ebc8f49659c731244ebc20c1c02b5ad03268dd7" datatype="html">
         <source>Risk Assets</source>
-        <target state="new">Riskfartyg</target>
+        <target state="translated">Riskfartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">139</context>
@@ -2531,7 +2529,7 @@
       </trans-unit>
       <trans-unit id="723c95de61a7cc860caa78fa66d82442f18c5e4c" datatype="html">
         <source>MMSI duplicates</source>
-        <target state="new">MMSI duplicates</target>
+        <target state="final">MMSI dubblett </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">147</context>
@@ -2539,7 +2537,7 @@
       </trans-unit>
       <trans-unit id="64c096b55680f318135331651d1fb0fef5e370bc" datatype="html">
         <source>Active Prior Notification</source>
-        <target state="new">Active Prior Notification</target>
+        <target state="final">Aktiv förhandsanmälan</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">155</context>
@@ -2547,7 +2545,7 @@
       </trans-unit>
       <trans-unit id="0fa674db2008a8ee81b0647df4a54f7c8590fa40" datatype="html">
         <source>Entry &amp; Exit Assets</source>
-        <target state="new">Entry &amp; Exit Assets</target>
+        <target state="final">Aktiva Entry- / Exit- rapporter</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-left-column/map-left-column.component.html</context>
           <context context-type="linenumber">163</context>
@@ -2555,7 +2553,7 @@
       </trans-unit>
       <trans-unit id="b05344a1cc64bfb22432c6338f6d9c9150884f50" datatype="html">
         <source>Map information</source>
-        <target state="new">Kartinformation</target>
+        <target state="translated">Kartinformation</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-right-column/map-right-column.component.html</context>
           <context context-type="linenumber">12</context>
@@ -2563,7 +2561,7 @@
       </trans-unit>
       <trans-unit id="79e60773a497a79ae94eb7bb6fdc39b7da33ddea" datatype="html">
         <source>Incident</source>
-        <target state="new">Incident</target>
+        <target state="final">Incident</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/container-components/map-right-column/map-right-column.component.html</context>
           <context context-type="linenumber">32</context>
@@ -2571,7 +2569,7 @@
       </trans-unit>
       <trans-unit id="d95840b42ca39e22b1458fe893c244e4f2c173f5" datatype="html">
         <source>Latitude</source>
-        <target state="new">Latitud</target>
+        <target state="translated">Latitud</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
           <context context-type="linenumber">11</context>
@@ -2583,7 +2581,7 @@
       </trans-unit>
       <trans-unit id="76fef7c7446cd96cd65b7b0f3e0e527955f9ef34" datatype="html">
         <source>Longitude</source>
-        <target state="new">Longitud</target>
+        <target state="translated">Longitud</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/positions/positions.component.html</context>
           <context context-type="linenumber">16</context>
@@ -2607,7 +2605,7 @@
       </trans-unit>
       <trans-unit id="eaf4bb03f832c87b6c68fc4344ce1474647ba0d6" datatype="html">
         <source>Choose time span</source>
-        <target state="new">Välj tidsintervall</target>
+        <target state="translated">Välj tidsintervall</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/period-selector/period-selector.component.html</context>
           <context context-type="linenumber">3</context>
@@ -2615,7 +2613,7 @@
       </trans-unit>
       <trans-unit id="fa0e595395f034f12c79f48af023ec95acccd835" datatype="html">
         <source>Period length</source>
-        <target state="new">Period length</target>
+        <target state="final">Tidsperiod</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/period-selector/period-selector.component.html</context>
           <context context-type="linenumber">7</context>
@@ -2623,7 +2621,7 @@
       </trans-unit>
       <trans-unit id="f60960faa2cd3e0db11e48688774d05dfa9d715b" datatype="html">
         <source>End date</source>
-        <target state="new">Slutdatum</target>
+        <target state="translated">Slutdatum</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">93</context>
@@ -2631,7 +2629,7 @@
       </trans-unit>
       <trans-unit id="7baf17486bb741f50e3fe8b89faf2b7bcccc30fd" datatype="html">
         <source>Inactivate before detaching</source>
-        <target state="new">Inactivate before detaching</target>
+        <target state="final">Inaktivera före avinstallation</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">142</context>
@@ -2639,7 +2637,7 @@
       </trans-unit>
       <trans-unit id="cb5612214e11980abd9a67a8e315d05321f9811d" datatype="html">
         <source>Detach</source>
-        <target state="new">Detach</target>
+        <target state="final">Avinstallera</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">156</context>
@@ -2651,7 +2649,7 @@
       </trans-unit>
       <trans-unit id="71c5a2d85870556e50fb868c43cb7946cff2a77a" datatype="html">
         <source>Warning!</source>
-        <target state="new">Warning!</target>
+        <target state="translated">Varning!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">158</context>
@@ -2663,7 +2661,7 @@
       </trans-unit>
       <trans-unit id="53d2e7bf4b70e9a5f3616fbc167e2611f121bf1d" datatype="html">
         <source>You are about to detach a mobile terminal from this asset.</source>
-        <target state="new">You are about to detach a mobile terminal from this asset.</target>
+        <target state="final">Du avregistrerar nu mobilterminalen från fartyget.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">160</context>
@@ -2671,7 +2669,7 @@
       </trans-unit>
       <trans-unit id="7d1dcf2a9146caac0581329acf94806ec69a89a5" datatype="html">
         <source>Are you sure you want to continue?</source>
-        <target state="new">Are you sure you want to continue?</target>
+        <target state="translated">Är du säker på att du vill fortsätta?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">161</context>
@@ -2683,7 +2681,7 @@
       </trans-unit>
       <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
         <source>Cancel</source>
-        <target state="new">Cancel</target>
+        <target state="final">Avbryt</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">164</context>
@@ -2711,7 +2709,7 @@
       </trans-unit>
       <trans-unit id="22c9be90eb27c5c613348fbb621792223afe5d1b" datatype="html">
         <source>Archive</source>
-        <target state="new">Archive</target>
+        <target state="final">Arkivera</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">176</context>
@@ -2723,7 +2721,7 @@
       </trans-unit>
       <trans-unit id="e5b847acfd2ba1a40276b7b6ac1bbd21ba804287" datatype="html">
         <source>You are about to archive this mobile terminal.</source>
-        <target state="new">You are about to archive this mobile terminal.</target>
+        <target state="final">Mobilterminalen arkiveras.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">180</context>
@@ -2731,7 +2729,7 @@
       </trans-unit>
       <trans-unit id="36b41257a3a82adf9972e97b082aad94fbcf6faf" datatype="html">
         <source>This action will also detach the mobile terminal.</source>
-        <target state="new">This action will also detach the mobile terminal.</target>
+        <target state="final">OBS: Denna handling avregistrerar mobilterminalen.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/show-by-asset/show-by-asset.component.html</context>
           <context context-type="linenumber">181</context>
@@ -2739,7 +2737,7 @@
       </trans-unit>
       <trans-unit id="61adde19a5312b366c5ae75f141597b712d430e1" datatype="html">
         <source>Get report</source>
-        <target state="new">Get report</target>
+        <target state="final">Hämta rapport</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/period-selector/period-selector.component.html</context>
           <context context-type="linenumber">28</context>
@@ -2747,7 +2745,7 @@
       </trans-unit>
       <trans-unit id="2a5dd262f38f4f4369ede6e8c2ee732a3c1e9b37" datatype="html">
         <source>Show all coordinate information</source>
-        <target state="new">Show all coordinate information</target>
+        <target state="translated">Visa all koordinatinformation</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/right-click-menu/right-click-menu.component.html</context>
           <context context-type="linenumber">2</context>
@@ -2755,7 +2753,7 @@
       </trans-unit>
       <trans-unit id="991fc2f4c6a2ccd85f43494a3bc9452d512c03e8" datatype="html">
         <source>Delete filter?</source>
-        <target state="new">Delete filter?</target>
+        <target state="translated">Ta bort filter?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/saved-filters/saved-filters.component.html</context>
           <context context-type="linenumber">15</context>
@@ -2765,8 +2763,7 @@
         <source>
           You are about to delete the filter <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="INTERPOLATION" equiv-text="{{savedFilter.name}}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/>. Are you sure?
         </source>
-        <target state="new">
-          You are about to delete the filter <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="INTERPOLATION" equiv-text="{{savedFilter.name}}"/><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b>"/>. Are you sure?
+        <target state="translated">Du tar nu bort filtret <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b>"/><x id="INTERPOLATION"/><x id="CLOSE_BOLD_TEXT" ctype="x-b"/>. Är du säker?
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/saved-filters/saved-filters.component.html</context>
@@ -2775,7 +2772,7 @@
       </trans-unit>
       <trans-unit id="d26383b3c0614e4c1445b8d5f82560cfb7253cce" datatype="html">
         <source>Create new</source>
-        <target state="new">Skapa ny</target>
+        <target state="translated">Skapa ny</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/saved-filters/saved-filters.component.html</context>
           <context context-type="linenumber">33</context>
@@ -2783,7 +2780,7 @@
       </trans-unit>
       <trans-unit id="fc02d2ae8c88b9b9b5d05b69f8cdac11cda90607" datatype="html">
         <source>Tools for selected assets</source>
-        <target state="new">Verktyg för valda fartyg</target>
+        <target state="translated">Verktyg för valda fartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/selected-assets-panel/selected-assets-panel.component.html</context>
           <context context-type="linenumber">26</context>
@@ -2791,7 +2788,7 @@
       </trans-unit>
       <trans-unit id="cc274f0c92a57e05b2c95813ec2caac31fecdfcf" datatype="html">
         <source>Add to watchlist</source>
-        <target state="new">Läg till på ???????</target>
+        <target state="final">Till bevakningslistan</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/selected-assets-panel/selected-assets-panel.component.html</context>
           <context context-type="linenumber">33</context>
@@ -2799,7 +2796,7 @@
       </trans-unit>
       <trans-unit id="c33a9cfa2cb994a8cf8bd92a507abaad07ccfff3" datatype="html">
         <source>Clear selected assets</source>
-        <target state="new">Rensa valda fartyg</target>
+        <target state="translated">Rensa valda fartyg</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/selected-assets-panel/selected-assets-panel.component.html</context>
           <context context-type="linenumber">46</context>
@@ -2807,7 +2804,7 @@
       </trans-unit>
       <trans-unit id="a55bfaabb5258f66c2f853ce2383cfead1abd258" datatype="html">
         <source>Close menu</source>
-        <target state="new">Stäng meny</target>
+        <target state="translated">Stäng meny</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/selected-assets-panel/selected-assets-panel.component.html</context>
           <context context-type="linenumber">52</context>
@@ -2815,7 +2812,7 @@
       </trans-unit>
       <trans-unit id="778917d22bd5dc13e34a30fb8a49e511452edd73" datatype="html">
         <source>Current timestamp</source>
-        <target state="new">Current timestamp</target>
+        <target state="final">Aktuell tidsstämpel</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/trip-player/trip-player.component.html</context>
           <context context-type="linenumber">2</context>
@@ -2823,7 +2820,7 @@
       </trans-unit>
       <trans-unit id="8b44af3d3176aa8669768809cefcced92767780a" datatype="html">
         <source>Half speed</source>
-        <target state="new">Half speed</target>
+        <target state="final">½ hastighet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/trip-player/trip-player.component.html</context>
           <context context-type="linenumber">16</context>
@@ -2831,7 +2828,7 @@
       </trans-unit>
       <trans-unit id="6575b59336c818d09f1d0a556debf42373bb9921" datatype="html">
         <source>Double speed</source>
-        <target state="new">Double speed</target>
+        <target state="final">2x hastighet</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/trip-player/trip-player.component.html</context>
           <context context-type="linenumber">17</context>
@@ -2839,7 +2836,7 @@
       </trans-unit>
       <trans-unit id="513acd6a54ffb7c9c494cfcac42a161aa12e69fe" datatype="html">
         <source>Add note</source>
-        <target state="new">Lägg till anteckning</target>
+        <target state="translated">Lägg till anteckning</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/notes/components/form/form.component.html</context>
           <context context-type="linenumber">9</context>
@@ -2847,7 +2844,7 @@
       </trans-unit>
       <trans-unit id="9fb13da3d22d6216b8a5a9c63777c9c0c506c7eb" datatype="html">
         <source>Update note</source>
-        <target state="new">Update note</target>
+        <target state="final">Uppdatera anteckning</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/notes/components/form/form.component.html</context>
           <context context-type="linenumber">10</context>
