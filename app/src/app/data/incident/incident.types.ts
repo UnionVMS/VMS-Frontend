@@ -19,6 +19,12 @@ export enum ManualPositionModeStatuses {
   RESOLVED = 'RESOLVED'
 }
 
+export enum SeasonalFishingStatuses {
+  PARKED = 'PARKED',
+  RECEIVING_AIS_POSITIONS = 'RECEIVING_AIS_POSITIONS',
+  RESOLVED = 'RESOLVED'
+}
+
 export enum IncidentRisk {
   none = 'NONE',
   low = 'LOW',
@@ -29,7 +35,7 @@ export enum IncidentRisk {
 export enum IncidentTypes {
   assetNotSending = 'ASSET_NOT_SENDING',
   seasonalFishing = 'SEASONAL_FISHING',
-  ownerTransfer = 'OWNER_TRANSFER',
+  ownershipTransfer = 'OWNER_TRANSFER',
   parked = 'PARKED',
   manualPositionMode = 'MANUAL_MODE',
 }
@@ -49,7 +55,7 @@ export type Incident = Readonly<{
   status: string,
   ticketId: string;
   updateDate: number;
-  type: string;
+  type: IncidentTypes;
   risk?: IncidentRisk;
   expiryDate?: number;
 }>;
@@ -71,6 +77,9 @@ export type IncidentIdsCollectionByType = Readonly<{
 export type IncidentIdsByTypeAndStatus = Readonly<{
   assetNotSending: IncidentIdsCollectionByType,
   manualPositionMode: IncidentIdsCollectionByType,
+  seasonalFishing: IncidentIdsCollectionByType,
+  parked: IncidentIdsCollectionByType,
+  ownershipTransfer: IncidentIdsCollectionByType,
 }>;
 
 export type IncidentNotifications = Readonly<{

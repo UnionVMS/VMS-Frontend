@@ -30,6 +30,10 @@ export const getIncidentTypes = createAction(
   '[Incident] Get incident types'
 );
 
+export const getValidIncidentStatusForTypes = createAction(
+  '[Incident] Get valid incident status for types'
+);
+
 export const pollIncident = createAction(
   '[Incident] Poll asset',
   props<{ incidentId: number, comment?: string }>()
@@ -60,6 +64,9 @@ export const setIncidentTypes = createAction(
   props<{ incidentTypes: IncidentTypes.IncidentTypesCollection }>()
 );
 
+export const setValidIncidentStatusForTypes = createAction(
+  '[Incident] Set valid incident status for types'
+);
 
 export const setIncidentListForAsset = createAction(
   '[Incident] Set incident list for asset',

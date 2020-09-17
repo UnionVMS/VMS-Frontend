@@ -228,6 +228,7 @@ export const assetReducer = createReducer(initialState,
   }),
   on(AssetActions.clearForecasts, (state) => ({ ...state, forecasts: [] })),
   on(AssetActions.clearTracks, (state) => ({ ...state, assetTracks: {}, positionsForInspection: {} })),
+  on(AssetActions.clearAllButPrimarySelectedAssets, (state) => ({ ...state, selectedAssets: [ state.selectedAsset ] })),
   on(AssetActions.clearSelectedAssets, (state) => ({ ...state, selectedAsset: null, selectedAssets: [] })),
   on(AssetActions.deselectAsset, (state, { assetId }) => {
     let selectedAsset = state.selectedAsset;

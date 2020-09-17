@@ -49,6 +49,10 @@ export const clearSelectedAssets = createAction(
   '[Asset] Clear selected assets'
 );
 
+export const clearAllButPrimarySelectedAssets = createAction(
+  '[Asset] Clear all but primary selected assets'
+);
+
 export const createManualMovement = createAction(
   '[Asset] Create manual movement',
   props<{ manualMovement: AssetTypes.ManualMovement }>()

@@ -63,6 +63,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public dispatchSelectIncident: (incidentId: number) => void;
   public selectIncident: (incident: IncidentTypes.Incident) => void;
   public setActivePanel: (activeRightPanel: ReadonlyArray<string>) => void;
+  public setActiveLeftPanelExtended: (activeLeftPanel: ReadonlyArray<string>) => void;
   public setActiveLeftPanel: (activeLeftPanel: ReadonlyArray<string>) => void;
   public untrackAsset: (assetId: string) => void;
   public saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
@@ -79,6 +80,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public setActiveAssetToMatchIncident = () => {
     this.selectAsset(this.selectedIncident.assetId);
     return true;
+  }
+
+  public setActiveWorkflow = (workflow: string) => {
+    this.setActiveLeftPanelExtended(['workflows', workflow]);
   }
 
   constructor(private readonly store: Store<any>) { }
@@ -133,6 +138,12 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   }
 
   mapDispatchToProps() {
+    this.setActiveLeftPanelExtended = (activeLeftPanel: ReadonlyArray<string>) => {
+      this.store.dispatch(AssetActions.clearAllButPrimarySelectedAssets());
+      this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
+      this.store.dispatch(AssetActions.removeTracks());
+    };
+
     this.clearNotificationsForIncident = (incident: IncidentTypes.Incident) =>
       this.store.dispatch(IncidentActions.clearNotificationsForIncident({ incident }));
     this.clearSelectedAssets = () =>

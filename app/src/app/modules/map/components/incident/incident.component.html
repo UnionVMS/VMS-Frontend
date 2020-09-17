@@ -95,6 +95,29 @@
         (click)="selectedTabIndex = 1"
       >Show full log</button>
 
+      <h4 i18n>Actions</h4>
+
+      <button
+        title="Resolve incident"
+        id="contact-info-button"
+        mat-stroked-button
+        color="accent"
+        type="button"
+        i18n
+        (click)="changeStatus('RESOLVED')"
+      >Resolve</button>
+
+      <button
+        *ngIf="checkPermission(incident, 'setStatusAttemptedContact')"
+        title="Full incident log"
+        id="show-full-log"
+        mat-stroked-button
+        color="primary"
+        type="button"
+        i18n
+        (click)="registerAttemptedContact()"
+      >Register attempted contact</button>
+
       <h4 i18n>Change incident type</h4>
       <map-incident-type-form
         [type]="incident.type"
@@ -102,12 +125,17 @@
         [changeType]="changeType"
       ></map-incident-type-form>
 
-      <h4 i18n>Change incident status</h4>
+      <h4 i18n>Change expiry date</h4>
+      <map-incident-expiry-date-form
+        [changeExpiryDate]="changeExpiryDate"
+      ></map-incident-expiry-date-form>
+
+      <!-- <h4 i18n>Change incident status</h4>
       <map-incident-status-form
         [status]="incident.status"
         [changeStatus]="changeStatus"
         (triggerShowLog)="selectedTabIndex = 2"
-      ></map-incident-status-form>
+      ></map-incident-status-form> -->
 
       <h4 i18n>Manually poll</h4>
       <map-manual-poll-form

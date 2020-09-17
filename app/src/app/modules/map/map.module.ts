@@ -45,6 +45,7 @@ import { EditAssetGroupDialogComponent } from './components/edit-asset-group-dia
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
 import { IncidentComponent } from './components/incident/incident.component';
 import { IncidentCardComponent } from './components/incident-card/incident-card.component';
+import { IncidentExpiryDateFormComponent } from './components/incident-expiry-date-form/incident-expiry-date-form.component';
 import { IncidentLogComponent } from './components/incident-log/incident-log.component';
 import { IncidentLogEntryNoteComponent } from './components/incident-log-entry-note/incident-log-entry-note.component';
 import { IncidentLogEntryPollComponent } from './components/incident-log-entry-poll/incident-log-entry-poll.component';
@@ -53,6 +54,7 @@ import { IncidentStatusFormComponent } from './components/incident-status-form/i
 import { IncidentTypeFormComponent } from './components/incident-type-form/incident-type-form.component';
 import { IncidentsAssetNotSendingComponent } from './components/incidents-asset-not-sending/incidents-asset-not-sending.component';
 import { IncidentsManualPositionModeComponent } from './components/incidents-manual-position-mode/incidents-manual-position-mode.component';
+import { IncidentsSeasonalFishingComponent } from './components/incidents-seasonal-fishing/incidents-seasonal-fishing.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
 import { LicenceInformationComponent } from './components/licence-information/licence-information.component';
@@ -112,6 +114,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     FlagstatesComponent,
     IncidentComponent,
     IncidentCardComponent,
+    IncidentExpiryDateFormComponent,
     IncidentLogComponent,
     IncidentLogEntryNoteComponent,
     IncidentLogEntryPollComponent,
@@ -120,6 +123,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentTypeFormComponent,
     IncidentsAssetNotSendingComponent,
     IncidentsManualPositionModeComponent,
+    IncidentsSeasonalFishingComponent,
     InformationPanelComponent,
     LayerFilterComponent,
     LicenceInformationComponent,

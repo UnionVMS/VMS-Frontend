@@ -30,13 +30,34 @@ export class IncidentComponent implements OnChanges {
   @Input() saveIncident: (incident: IncidentTypes.Incident) => void;
   @Input() createNote: (incidentId: number, note: NotesTypes.Note) => void;
   @Input() pollIncident: (incidentId: number, comment: string) => void;
+  @Input() setActiveWorkflow: (workflow: string) => void;
 
   public lastKnownPositionFormatted: Readonly<{ latitude: string, longitude: string }>;
   public selectedTabIndex = 0;
   public incidentStatusLog: IncidentTypes.IncidentLog;
   public incidentManualPositionLog: IncidentTypes.IncidentLog;
 
+  public previousType: IncidentTypes.IncidentTypes;
+
+  public permissionMatrix = {
+    setStatusAttemptedContact: {
+      [IncidentTypes.IncidentTypes.assetNotSending]: {
+        [IncidentTypes.AssetNotSendingStatuses.INCIDENT_CREATED]: true,
+        [IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT]: true
+      }
+    },
+  };
+
   ngOnChanges() {
+    if(typeof this.previousType === 'undefined') {
+      this.previousType = this.incident.type;
+    } else if(this.previousType !== this.incident.type) {
+      setTimeout(() => {
+        this.setActiveWorkflow(this.incident.type);
+      }, 10);
+      this.previousType = this.incident.type;
+    }
+
     this.lastKnownPositionFormatted = convertDDToDDM(
       this.incident.lastKnownLocation.location.latitude,
       this.incident.lastKnownLocation.location.longitude
@@ -77,12 +98,26 @@ export class IncidentComponent implements OnChanges {
     return this.saveIncident({ ...this.incident, status });
   }
 
-  public changeType = (type: string, expiryDate: number | null) => {
-    return this.saveIncident({ ...this.incident, type, expiryDate, status: null });
+  public changeType = (type: IncidentTypes.IncidentTypes) => {
+    return this.saveIncident({ ...this.incident, type, status: null });
+  }
+
+  public changeExpiryDate = (expiryDate: number | null) => {
+    return this.saveIncident({ ...this.incident, expiryDate });
   }
 
   public createNoteWithId = (note: NotesTypes.Note) => {
     return this.createNote(this.incident.id, { ...note, assetId: this.asset.asset.id });
+  }
+
+  public registerAttemptedContact = () => {
+    return this.saveIncident({ ...this.incident, status: IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT });
+  }
+
+  public checkPermission(incident: IncidentTypes.Incident, action: string) {
+    return typeof this.permissionMatrix[action] !== 'undefined'
+      && typeof this.permissionMatrix[action][incident.type] !== 'undefined'
+      && this.permissionMatrix[action][incident.type][incident.status];
   }
 
   formatDate(dateTime) {

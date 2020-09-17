@@ -9,7 +9,10 @@ export const initialState: Types.State = {
   incidentsForAssets: {},
   incidentsByTypesAndStatus: {
     assetNotSending: { unresolvedIncidentIds: [], recentlyResolvedIncidentIds: [] },
-    manualPositionMode: { unresolvedIncidentIds: [], recentlyResolvedIncidentIds: [] }
+    manualPositionMode: { unresolvedIncidentIds: [], recentlyResolvedIncidentIds: [] },
+    seasonalFishing: { unresolvedIncidentIds: [], recentlyResolvedIncidentIds: [] },
+    parked: { unresolvedIncidentIds: [], recentlyResolvedIncidentIds: [] },
+    ownershipTransfer: { unresolvedIncidentIds: [], recentlyResolvedIncidentIds: [] },
   },
   incidentLogs: {},
   incidentTypes: [],
@@ -41,6 +44,9 @@ export const incidentReducer = createReducer(initialState,
       incidentsByTypesAndStatus: {
         assetNotSending: filterAndCategorizeByType(incidents, Types.IncidentTypes.assetNotSending),
         manualPositionMode: filterAndCategorizeByType(incidents, Types.IncidentTypes.manualPositionMode),
+        seasonalFishing: filterAndCategorizeByType(incidents, Types.IncidentTypes.seasonalFishing),
+        parked: filterAndCategorizeByType(incidents, Types.IncidentTypes.parked),
+        ownershipTransfer: filterAndCategorizeByType(incidents, Types.IncidentTypes.ownershipTransfer),
       }
     };
   }),

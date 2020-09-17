@@ -101,7 +101,7 @@
     </map-panel-block>
     <map-panel-block
       i18n-blockTitle
-      blockTitle="Manual position  ({{incidentsByTypeAndStatus.manualPositionMode.unresolvedIncidents.length}})"
+      blockTitle="Manual position ({{incidentsByTypeAndStatus.manualPositionMode.unresolvedIncidents.length}})"
       [active]="activePanel[1] === 'MANUAL_MODE'"
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'MANUAL_MODE'])"
       [useArrowsAsToggle]="true"
@@ -117,25 +117,33 @@
     </map-panel-block>
     <map-panel-block
       i18n-blockTitle
-      blockTitle="Seasonal fishing (4 pcs)"
-      [active]="false"
-      [setActiveFunction]="emptyClick"
+      blockTitle="Seasonal fishing ({{incidentsByTypeAndStatus.seasonalFishing.unresolvedIncidents.length}})"
+      [active]="activePanel[1] === 'SEASONAL_FISHING'"
+      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING'])"
+      [useArrowsAsToggle]="true"
+    >
+      <map-incidents-seasonal-fishing
+        body
+        *ngIf="activePanel[1] === 'SEASONAL_FISHING'"
+        [incidents]="incidentsByTypeAndStatus.seasonalFishing"
+        [selectedIncident]="selectedIncident"
+        [selectIncident]="selectIncident"
+        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING', 'RESOLVED'])"
+      ></map-incidents-seasonal-fishing>
+    </map-panel-block>
+    <map-panel-block
+      i18n-blockTitle
+      blockTitle="Parked ({{incidentsByTypeAndStatus.parked.unresolvedIncidents.length}})"
+      [active]="activePanel[1] === 'PARKED'"
+      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'PARKED'])"
       [useArrowsAsToggle]="true"
     >
     </map-panel-block>
     <map-panel-block
       i18n-blockTitle
-      blockTitle="Parked (4 pcs)"
-      [active]="false"
-      [setActiveFunction]="emptyClick"
-      [useArrowsAsToggle]="true"
-    >
-    </map-panel-block>
-    <map-panel-block
-      i18n-blockTitle
-      blockTitle="Ownership transfer (2 pcs)"
-      [active]="false"
-      [setActiveFunction]="emptyClick"
+      blockTitle="Ownership transfer ({{incidentsByTypeAndStatus.ownershipTransfer.unresolvedIncidents.length}})"
+      [active]="activePanel[1] === 'OWNERSHIP_TRANSFER'"
+      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER'])"
       [useArrowsAsToggle]="true"
     >
     </map-panel-block>

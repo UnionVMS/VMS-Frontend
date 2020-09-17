@@ -26,7 +26,7 @@ export class IncidentTypeFormComponent implements OnChanges {
 
   @Input() type: string;
   @Input() types: IncidentTypes.IncidentTypesCollection;
-  @Input() changeType: (status: string, expiryDate: number | null) => void;
+  @Input() changeType: (status: string) => void;
 
   public formValidator: FormGroup;
 
@@ -41,15 +41,7 @@ export class IncidentTypeFormComponent implements OnChanges {
   }
 
   save() {
-    const expiryDate = this.formValidator.value.expiryDate !== null
-      ? this.formValidator.value.expiryDate.format('x')
-      : null;
-    this.changeType(this.formValidator.value.type, expiryDate);
-  }
-
-  updateTimestamp(dateTime: moment.Moment) {
-    const formControl = this.formValidator.get('expiryDate');
-    formControl.setValue(dateTime);
+    this.changeType(this.formValidator.value.type);
   }
 
   getErrors(path: string[]) {

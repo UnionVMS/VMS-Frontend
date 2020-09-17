@@ -1,17 +1,17 @@
 @import 'variables.scss';
 
-form.type-form {
+form.expiry-date-form {
   background: white;
   padding: $small_distance;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: $small_distance;
 
-  #type-form--types {
+  #expiry-date-form--expiryDate {
     grid-column: 1 / span 2;
   }
 
-  #types-form--save {
+  #expiry-date-form--save {
     grid-column-start: 2;
   }
 }

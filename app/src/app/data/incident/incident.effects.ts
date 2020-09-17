@@ -100,13 +100,25 @@ export class IncidentEffects {
     mergeMap(([action, authToken]: Array<any>) => {
       return this.incidentService.getIncidentTypes(authToken).pipe(
         map((incidentTypes: IncidentTypes.IncidentTypesCollection) => {
-          console.warn(incidentTypes);
           return IncidentActions.setIncidentTypes({ incidentTypes });
         })
       );
     }),
   );
 
+  @Effect()
+  getValidIncidentStatusForTypes$ = this.actions$.pipe(
+    ofType(IncidentActions.getValidIncidentStatusForTypes),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.incidentService.getValidIncidentStatusForTypes(authToken).pipe(
+        map((validIncidentStatusForType) => {
+          console.warn('STATUS!', validIncidentStatusForType);
+          return IncidentActions.setValidIncidentStatusForTypes();
+        })
+      );
+    }),
+  );
 
   @Effect()
   saveIncident$ = this.actions$.pipe(

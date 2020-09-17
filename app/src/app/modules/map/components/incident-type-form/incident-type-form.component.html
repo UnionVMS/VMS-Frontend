@@ -5,14 +5,6 @@
     </mat-select>
   </mat-form-field>
 
-  <ngx-datetime-picker
-    id="type-form--expiryDate"
-    [(dateTime)]="formValidator.value.expiryDate"
-    (dateTimeChange)="updateTimestamp($event)"
-    label="Expiry date"
-    [errorMessages]="getErrorMessages(['expiryDate'])"
-  ></ngx-datetime-picker>
-
   <button
     i18n
     id="types-form--save"
