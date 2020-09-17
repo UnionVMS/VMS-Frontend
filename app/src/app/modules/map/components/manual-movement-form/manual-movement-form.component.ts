@@ -32,7 +32,6 @@ import { convertDDMToDD } from '@app/helpers/wgs84-formatter';
 export class ManualMovementFormComponent implements OnInit, OnDestroy {
   @Input() createManualMovement: (manualMovement: AssetTypes.Movement) => void;
   @Input() map: Map;
-  @Output() triggerShowLog = new EventEmitter();
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;

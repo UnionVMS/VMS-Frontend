@@ -50,6 +50,7 @@ import { IncidentLogComponent } from './components/incident-log/incident-log.com
 import { IncidentLogEntryNoteComponent } from './components/incident-log-entry-note/incident-log-entry-note.component';
 import { IncidentLogEntryPollComponent } from './components/incident-log-entry-poll/incident-log-entry-poll.component';
 import { IncidentLogEntryPositionComponent } from './components/incident-log-entry-position/incident-log-entry-position.component';
+import { IncidentLogsComponent } from './components/incident-logs/incident-logs.component';
 import { IncidentStatusFormComponent } from './components/incident-status-form/incident-status-form.component';
 import { IncidentTypeFormComponent } from './components/incident-type-form/incident-type-form.component';
 import { IncidentsAssetNotSendingComponent } from './components/incidents-asset-not-sending/incidents-asset-not-sending.component';
@@ -119,6 +120,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentLogEntryNoteComponent,
     IncidentLogEntryPollComponent,
     IncidentLogEntryPositionComponent,
+    IncidentLogsComponent,
     IncidentStatusFormComponent,
     IncidentTypeFormComponent,
     IncidentsAssetNotSendingComponent,

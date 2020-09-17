@@ -29,7 +29,7 @@
     <h3 i18n>Map Information</h3>
   </div>
   <div class="panel showAsset-panel" *ngIf="activePanel[0] === 'showAsset'">
-    <div class="showAsset-panel--title">
+    <div class="panel-title">
       <i
         class="ri-arrow-left-s-line"
         aria-hidden="true"
@@ -96,25 +96,56 @@
     ></map-selected-assets-panel>
   </div>
   <div class="panel incident-panel" *ngIf="activePanel[0] === 'incident'">
-    <h3>
-      <ng-container i18n>Incident</ng-container>
-      <span *ngIf="selectedAsset !== undefined && selectedIncident !== undefined">
-        #{{ selectedIncident.id }}
-      </span>
-    </h3>
-    <map-incident
-      *ngIf="selectedAsset !== undefined && selectedIncident !== undefined"
-      [asset]="selectedAsset"
-      [incident]="selectedIncident"
-      [incidentLog]="incidentLogIfItExists()"
-      [map]="map"
-      [createManualMovement]="createManualMovement"
-      [saveIncident]="saveIncident"
-      [createNote]="createIncidentNote"
-      [pollIncident]="pollIncident"
-      [getLogForIncident]="getLogForIncident"
-      [incidentTypes]="incidentTypes$ | async"
-      [setActiveWorkflow]="setActiveWorkflow"
-    ></map-incident>
+    <div class="panel-title">
+      <i
+        class="ri-arrow-left-s-line panel-back-button"
+        aria-hidden="true"
+        (click)="setActivePanel(['incident'])"
+        *ngIf="checkIfSecondaryPanelIsActive()"
+      ></i>
+      <h3>
+        <ng-container i18n>Incident</ng-container>
+        <span *ngIf="selectedAsset !== undefined && selectedIncident !== undefined">
+          #{{ selectedIncident.id }}
+        </span>
+      </h3>
+      <div class="flag-and-name">
+        <img
+          *ngIf="selectedAsset !== undefined && selectedAsset.asset.flagStateCode !== '???' && selectedAsset.asset.flagStateCode !== undefined"
+          class="flag-image"
+          src="/assets/flags/4x3/{{getCountryCode(selectedAsset)}}.svg"
+          alt="getCountryCode(selectedAsset)"
+        />
+        <div class="asset-name" *ngIf="selectedAsset">
+          {{ selectedAsset.asset.name + (selectedAsset.asset.externalMarking !== undefined ? ' &#183; ' + selectedAsset.asset.externalMarking : '') }}
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="selectedAsset !== undefined && selectedIncident !== undefined">
+      <map-incident
+        *ngIf="!checkIfSecondaryPanelIsActive()"
+        [asset]="selectedAsset"
+        [incident]="selectedIncident"
+        [map]="map"
+        [createManualMovement]="createManualMovement"
+        [saveIncident]="saveIncident"
+        [createNote]="createIncidentNote"
+        [pollIncident]="pollIncident"
+        [incidentTypes]="incidentTypes$ | async"
+        [setActiveWorkflow]="setActiveWorkflow"
+        [setActiveRightPanel]="setActivePanelAndShowColumn"
+      ></map-incident>
+      <map-incident-logs
+        *ngIf="activePanel[1] === 'incidentLogs'"
+        [incident]="selectedIncident"
+        [incidentLog]="incidentLogIfItExists()"
+        [getLogForIncident]="getLogForIncident"
+      ></map-incident-logs>
+      <map-note-form
+        *ngIf="activePanel[1] === 'incidentNote'"
+        [createNote]="createNoteWithId"
+        [assetId]="selectedAsset.asset.id"
+      ></map-note-form>
+    </ng-container>
   </div>
 </div>

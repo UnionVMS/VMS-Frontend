@@ -3,6 +3,7 @@
     <mat-select formControlName="status" required>
       <mat-option *ngFor="let status of getStatusKeys()" id="mat-option-plugin--{{status}}" [value]="status">{{getStatusText(status)}}</mat-option>
     </mat-select>
+    <mat-error *ngFor="let error of getErrors(['type'])">{{ errorMessage(error) }}</mat-error>
   </mat-form-field>
 
   <button
@@ -16,7 +17,7 @@
   <button
     i18n
     id="status-form--save"
-    mat-raised-button
+    mat-button
     color="primary"
     type="button"
     [disabled]="!formValidator.valid || formValidator.value.status === status"

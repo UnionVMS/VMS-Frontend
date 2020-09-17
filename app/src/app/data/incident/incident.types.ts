@@ -25,6 +25,12 @@ export enum SeasonalFishingStatuses {
   RESOLVED = 'RESOLVED'
 }
 
+export enum ParkedStatuses {
+  PARKED = 'PARKED',
+  RECEIVING_AIS_POSITIONS = 'RECEIVING_AIS_POSITIONS',
+  RESOLVED = 'RESOLVED'
+}
+
 export enum IncidentRisk {
   none = 'NONE',
   low = 'LOW',

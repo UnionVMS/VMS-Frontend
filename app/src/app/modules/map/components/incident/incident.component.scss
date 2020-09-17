@@ -1,44 +1,40 @@
 @import 'variables.scss';
 
-map-incident > .content-container {
-  display: grid;
-  color: black;
-  padding: $medium_distance;
+$incident_header_height: 78px; // Is set automaticlly, unfortunatly this might change, and css might break.
 
-  #show-full-log, #contact-info-button {
-    margin-top: $large_distance;
-    background: white;
-    width: 100%;
+.content-container {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: calc(100vh - #{$navbar_height} - #{$incident_header_height});
+  grid-row-gap: distance(2);
+
+  .incident-body {
+    display: grid;
+    color: black;
+    padding: $medium_distance;
+    overflow-y: auto;
+    align-content: start;
   }
 
-  mat-tab-group {
-    display: grid;
-    mat-tab-header {
-      margin-bottom: distance(1);
-    }
-
-    .mat-tab-label {
-      min-width: unset;
-      font-size: 80%;
-      padding: 0 distance(1.5);
-    }
+  .content-block {
+    margin-bottom: distance(1);
   }
 
   h4 {
     margin: 0;
-    padding-bottom: $medium_distance;
-    padding-top: $x2large_distance;
+    padding: 0;
+  }
+
+  .incident-information {
     display: grid;
-    grid-column-gap: 8px;
-    grid-template-columns: auto 1fr;
+    grid-row-gap: distance(2);
+    background: white;
+    padding: distance(2);
 
-    &:first-child {
-      padding-top: 0;
-    }
-
-    .flag-image {
-      width: 20px;
-      place-self: center;
+    .button-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: distance(2);
     }
   }
 
@@ -74,6 +70,29 @@ map-incident > .content-container {
 
     a {
       color: black;
+    }
+  }
+
+  map-panel-block {
+    margin-top: distance(1);
+  }
+
+  .incident-footer {
+    padding: distance(2);
+    background: white;
+    box-shadow: 0px distance(-0.25) distance(1) $color_dark_gray;
+    align-self: end;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-row-gap: distance(1);
+
+    .notes-and-log {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: distance(2);
+      i.ri-arrow-drop-right-fill {
+        font-size: distance(3);
+      }
     }
   }
 }

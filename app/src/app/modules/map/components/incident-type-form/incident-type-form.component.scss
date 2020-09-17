@@ -1,17 +1,6 @@
 @import 'variables.scss';
 
 form.type-form {
-  background: white;
-  padding: $small_distance;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: $small_distance;
-
-  #type-form--types {
-    grid-column: 1 / span 2;
-  }
-
-  #types-form--save {
-    grid-column-start: 2;
-  }
+  grid-template-columns: 1fr;
 }

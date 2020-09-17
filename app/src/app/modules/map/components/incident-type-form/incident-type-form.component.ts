@@ -41,7 +41,9 @@ export class IncidentTypeFormComponent implements OnChanges {
   }
 
   save() {
-    this.changeType(this.formValidator.value.type);
+    if(this.formValidator.valid) {
+      this.changeType(this.formValidator.value.type);
+    }
   }
 
   getErrors(path: string[]) {
@@ -50,14 +52,6 @@ export class IncidentTypeFormComponent implements OnChanges {
   }
 
   errorMessage(error: string) {
-    if(error === 'maxlength') {
-      return 'Text can not be longer then 255 characters.';
-    }
-
     return errorMessage(error);
-  }
-
-  getErrorMessages(path: string[]): string[] {
-    return this.getErrors(path).map(error => this.errorMessage(error));
   }
 }

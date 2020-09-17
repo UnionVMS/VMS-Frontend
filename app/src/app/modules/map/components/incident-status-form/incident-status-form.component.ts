@@ -48,10 +48,6 @@ export class IncidentStatusFormComponent implements OnChanges {
   }
 
   errorMessage(error: string) {
-    if(error === 'maxlength') {
-      return 'Text can not be longer then 255 characters.';
-    }
-
     return errorMessage(error);
   }
 }

@@ -1,5 +1,4 @@
 import { Component, ViewEncapsulation, Input, OnChanges } from '@angular/core';
-import getContryISO2 from 'country-iso-3-to-2';
 
 import Map from 'ol/Map';
 
@@ -16,27 +15,24 @@ import { Position } from '@data/generic.types';
   selector: 'map-incident',
   templateUrl: './incident.component.html',
   styleUrls: ['./incident.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class IncidentComponent implements OnChanges {
   @Input() asset: AssetTypes.AssetData;
   @Input() incident: IncidentTypes.Incident;
-  @Input() incidentLog: IncidentTypes.IncidentLog;
   @Input() incidentTypes: IncidentTypes.IncidentTypesCollection;
   @Input() map: Map;
 
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
-  @Input() getLogForIncident: (incidentId: number) => void;
   @Input() saveIncident: (incident: IncidentTypes.Incident) => void;
   @Input() createNote: (incidentId: number, note: NotesTypes.Note) => void;
   @Input() pollIncident: (incidentId: number, comment: string) => void;
   @Input() setActiveWorkflow: (workflow: string) => void;
+  @Input() setActiveRightPanel: (rightPanel: ReadonlyArray<string>) => void;
+
 
   public lastKnownPositionFormatted: Readonly<{ latitude: string, longitude: string }>;
-  public selectedTabIndex = 0;
-  public incidentStatusLog: IncidentTypes.IncidentLog;
-  public incidentManualPositionLog: IncidentTypes.IncidentLog;
 
+  public currentActiveBlock: string;
   public previousType: IncidentTypes.IncidentTypes;
 
   public permissionMatrix = {
@@ -46,6 +42,16 @@ export class IncidentComponent implements OnChanges {
         [IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT]: true
       }
     },
+    expiryDateForm: {
+      [IncidentTypes.IncidentTypes.seasonalFishing]: {
+        [IncidentTypes.SeasonalFishingStatuses.PARKED]: true,
+        [IncidentTypes.SeasonalFishingStatuses.RECEIVING_AIS_POSITIONS]: true
+      },
+      [IncidentTypes.IncidentTypes.parked]: {
+        [IncidentTypes.ParkedStatuses.PARKED]: true,
+        [IncidentTypes.ParkedStatuses.RECEIVING_AIS_POSITIONS]: true
+      }
+    }
   };
 
   ngOnChanges() {
@@ -62,26 +68,6 @@ export class IncidentComponent implements OnChanges {
       this.incident.lastKnownLocation.location.latitude,
       this.incident.lastKnownLocation.location.longitude
     );
-    if(typeof this.incidentLog !== 'undefined') {
-      this.incidentStatusLog = {
-        log: Object.values(this.incidentLog.log).reduce((incidentStatusLog, logEntry) => {
-          if(logEntry.eventType === 'INCIDENT_STATUS') {
-            incidentStatusLog = { ...incidentStatusLog, [logEntry.id]: logEntry };
-          }
-          return incidentStatusLog;
-        }, {}),
-        relatedObjects: { notes: {}, polls: {}, positions: {} }
-      };
-      this.incidentManualPositionLog = {
-        log: Object.values(this.incidentLog.log).reduce((incidentStatusLog, logEntry) => {
-          if(logEntry.eventType === 'MANUAL_POSITION') {
-            incidentStatusLog = { ...incidentStatusLog, [logEntry.id]: logEntry };
-          }
-          return incidentStatusLog;
-        }, {}),
-        relatedObjects: { notes: {}, polls: {}, positions: this.incidentLog.relatedObjects.positions }
-      };
-    }
   }
 
   public createManualMovementCurried = (movement: AssetTypes.Movement) => {
@@ -106,32 +92,29 @@ export class IncidentComponent implements OnChanges {
     return this.saveIncident({ ...this.incident, expiryDate });
   }
 
-  public createNoteWithId = (note: NotesTypes.Note) => {
-    return this.createNote(this.incident.id, { ...note, assetId: this.asset.asset.id });
-  }
-
   public registerAttemptedContact = () => {
     return this.saveIncident({ ...this.incident, status: IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT });
   }
 
-  public checkPermission(incident: IncidentTypes.Incident, action: string) {
+  public checkPermission(action: string) {
     return typeof this.permissionMatrix[action] !== 'undefined'
-      && typeof this.permissionMatrix[action][incident.type] !== 'undefined'
-      && this.permissionMatrix[action][incident.type][incident.status];
+      && typeof this.permissionMatrix[action][this.incident.type] !== 'undefined'
+      && this.permissionMatrix[action][this.incident.type][this.incident.status];
+  }
+
+  public toggleCurrentActiveBlock = (blockName: string) => () => {
+    if(this.currentActiveBlock === blockName) {
+      this.currentActiveBlock = '';
+    } else {
+      this.currentActiveBlock = blockName;
+    }
   }
 
   formatDate(dateTime) {
     return formatUnixtimeWithDot(dateTime);
   }
 
-  getCountryCode(asset) {
-    return getContryISO2(asset.asset.flagStateCode).toLowerCase();
-  }
-
-  changeTab(tabIndex: number) {
-    this.selectedTabIndex = tabIndex;
-    if(tabIndex !== 0) {
-      this.getLogForIncident(this.incident.id);
-    }
+  isBlockActive(blockName: string) {
+    return this.currentActiveBlock === blockName;
   }
 }

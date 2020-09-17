@@ -4,14 +4,6 @@ form.expiry-date-form {
   background: white;
   padding: $small_distance;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-column-gap: $small_distance;
-
-  #expiry-date-form--expiryDate {
-    grid-column: 1 / span 2;
-  }
-
-  #expiry-date-form--save {
-    grid-column-start: 2;
-  }
 }

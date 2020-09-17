@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import Map from 'ol/Map';
+import getContryISO2 from 'country-iso-3-to-2';
 
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
 import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/incident';
@@ -223,5 +224,13 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
 
   checkIfSecondaryPanelIsActive() {
     return typeof this.activePanel[1] !== 'undefined';
+  }
+
+  getCountryCode(asset) {
+    return getContryISO2(asset.asset.flagStateCode).toLowerCase();
+  }
+
+  public createNoteWithId = (note: NotesTypes.Note) => {
+    return this.createIncidentNote(this.selectedIncident.id, { ...note, assetId: this.selectedAsset.asset.id });
   }
 }

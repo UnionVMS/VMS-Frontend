@@ -1,0 +1,20 @@
+@import 'variables.scss';
+
+map-incident-logs > .content-container {
+  display: grid;
+  color: black;
+  padding: $medium_distance;
+
+  mat-tab-group {
+    display: grid;
+    mat-tab-header {
+      margin-bottom: distance(1);
+    }
+
+    .mat-tab-label {
+      min-width: unset;
+      font-size: 80%;
+      padding: 0 distance(1.5);
+    }
+  }
+}

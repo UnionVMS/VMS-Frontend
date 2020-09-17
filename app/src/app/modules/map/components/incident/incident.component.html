@@ -1,166 +1,189 @@
 <div class="content-container">
-  <h4>
-    <img
-      header
-      *ngIf="asset.asset.flagStateCode !== '???' && asset.asset.flagStateCode !== undefined"
-      class="flag-image"
-      src="/assets/flags/4x3/{{getCountryCode(asset)}}.svg"
-      alt="getCountryCode(asset)"
-    />
-    <ui-truncated-text [text]="asset.asset.name" length="40"></ui-truncated-text>
-  </h4>
-
-  <mat-tab-group
-    animationDuration="0ms"
-    [selectedIndex]="selectedTabIndex"
-    (selectedIndexChange)="changeTab($event)"
-  >
-    <mat-tab label="Actions">
-      <div class="asset-information">
-        <h5 i18n>Last known position</h5>
-        <legend i18n>Latitude:</legend>
-        <div>{{lastKnownPositionFormatted.latitude}}</div>
-        <legend i18n>Longitude:</legend>
-        <div>{{lastKnownPositionFormatted.longitude}}</div>
-        <legend i18n>Heading:</legend>
-        <div>{{incident.lastKnownLocation.heading.toFixed(2)}}</div>
-        <legend i18n>Speed:</legend>
-        <div>{{incident.lastKnownLocation.speed.toFixed(2)}}</div>
-        <legend i18n>Time:</legend>
-        <div>{{formatDate(incident.lastKnownLocation.timestamp)}}</div>
-
-        <h5 i18n>Asset information</h5>
-        <ng-container *ngIf="asset.asset.ircs">
-          <legend i18n>Ircs:</legend>
-          <div>{{asset.asset.ircs}}</div>
-        </ng-container>
-        <ng-container *ngIf="asset.asset.mmsi">
-          <legend i18n>Mmsi:</legend>
-          <div>
-            <a
-              href="https://www.marinetraffic.com/en/ais/index/search/all?keyword={{asset.asset.mmsi}}"
-              target="_blank"
-            >{{asset.asset.mmsi}}</a>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="asset.asset.flagStateCode">
-          <legend i18n>Flagstate:</legend>
-          <div>{{asset.asset.flagStateCode}}</div>
-        </ng-container>
-        <ng-container *ngIf="asset.asset.externalMarking">
-          <legend i18n>External marking:</legend>
-          <div>{{asset.asset.externalMarking}}</div>
-        </ng-container>
-        <ng-container *ngIf="asset.asset.lengthOverAll">
-          <legend i18n>Length:</legend>
-          <div>{{asset.asset.lengthOverAll}}</div>
-        </ng-container>
-        <ng-container *ngIf="asset.asset.licenceType">
-          <legend i18n>LicenceType:</legend>
-          <div>{{asset.asset.licenceType}}</div>
-        </ng-container>
-        <ng-container *ngIf="asset.asset.vesselType">
-          <legend i18n>Vessel type:</legend>
-          <div>{{asset.asset.vesselType}}</div>
-        </ng-container>
-
-        <!-- <ng-container *ngIf="asset.asset.prodOrgCode">
-          <legend i18n>Org. Nr:</legend>
-          <div>{{asset.asset.prodOrgCode}}</div>
-        </ng-container>
-        <ng-container *ngIf="asset.asset.prodOrgName">
-          <legend i18n>Org. namn:</legend>
-          <div>{{asset.asset.prodOrgName}}</div>
-        </ng-container> -->
-      </div>
-
-      <button
-        title="Contact info"
-        id="contact-info-button"
-        mat-stroked-button
-        color="primary"
-        type="button"
-        i18n
-        routerLink="/asset/{{asset.asset.id}}/contacts"
-      >Contact info</button>
-
-
-      <button
-        title="Full incident log"
-        id="show-full-log"
-        mat-stroked-button
-        color="primary"
-        type="button"
-        i18n
-        (click)="selectedTabIndex = 1"
-      >Show full log</button>
-
-      <h4 i18n>Actions</h4>
-
-      <button
-        title="Resolve incident"
-        id="contact-info-button"
-        mat-stroked-button
-        color="accent"
-        type="button"
-        i18n
-        (click)="changeStatus('RESOLVED')"
-      >Resolve</button>
-
-      <button
-        *ngIf="checkPermission(incident, 'setStatusAttemptedContact')"
-        title="Full incident log"
-        id="show-full-log"
-        mat-stroked-button
-        color="primary"
-        type="button"
-        i18n
-        (click)="registerAttemptedContact()"
-      >Register attempted contact</button>
-
-      <h4 i18n>Change incident type</h4>
+  <div class="incident-body">
+    <div class="content-block">
+      <h4>Incident type</h4>
       <map-incident-type-form
         [type]="incident.type"
         [types]="incidentTypes"
         [changeType]="changeType"
       ></map-incident-type-form>
+    </div>
 
-      <h4 i18n>Change expiry date</h4>
+    <div class="incident-information">
+      <span i18n>Use this view when working with incidents.</span>
+      <span i18n>
+        For more information about the vessel,
+        switch to "detailed asset information"-panel
+        or use the links provided here.
+      </span>
+      <div class="button-wrapper">
+        <button
+          title="Contact info"
+          id="contact-info-button"
+          mat-stroked-button
+          color="primary"
+          type="button"
+          i18n
+          routerLink="/asset/{{asset.asset.id}}/contacts"
+        >Contact info</button>
+        <button
+          title="Contact info"
+          id="contact-info-button"
+          mat-stroked-button
+          color="primary"
+          type="button"
+          i18n
+          (click)="setActiveRightPanel(['showAsset'])"
+        >Asset info</button>
+      </div>
+    </div>
+
+    <map-panel-block
+      *ngIf="checkPermission('expiryDateForm')"
+      i18n-blockTitle
+      blockTitle="Change expiry date"
+      [active]="isBlockActive('expiryDateForm')"
+      [setActiveFunction]="toggleCurrentActiveBlock('expiryDateForm')"
+      [useArrowsAsToggle]="true"
+      noPadding="true"
+    >
       <map-incident-expiry-date-form
+        body
         [changeExpiryDate]="changeExpiryDate"
       ></map-incident-expiry-date-form>
+    </map-panel-block>
 
-      <!-- <h4 i18n>Change incident status</h4>
-      <map-incident-status-form
-        [status]="incident.status"
-        [changeStatus]="changeStatus"
-        (triggerShowLog)="selectedTabIndex = 2"
-      ></map-incident-status-form> -->
-
-      <h4 i18n>Manually poll</h4>
+    <map-panel-block
+      i18n-blockTitle
+      blockTitle="Manually poll"
+      [active]="isBlockActive('manuallyPoll')"
+      [setActiveFunction]="toggleCurrentActiveBlock('manuallyPoll')"
+      [useArrowsAsToggle]="true"
+      noPadding="true"
+    >
       <map-manual-poll-form
+        body
         [incidentId]="incident.id"
         [pollIncident]="pollIncident"
       ></map-manual-poll-form>
+    </map-panel-block>
 
-      <h4 i18n>Create manual position</h4>
+    <map-panel-block
+      i18n-blockTitle
+      blockTitle="Create manual position"
+      [active]="isBlockActive('manualPosition')"
+      [setActiveFunction]="toggleCurrentActiveBlock('manualPosition')"
+      [useArrowsAsToggle]="true"
+      noPadding="true"
+    >
       <map-manual-movement-form
+        body
         *ngIf="map !== undefined"
         [createManualMovement]="createManualMovementCurried"
         [map]="map"
-        (triggerShowLog)="selectedTabIndex = 3"
       ></map-manual-movement-form>
-      <h4 i18n>New note</h4>
-      <map-note-form [createNote]="createNoteWithId" [assetId]="asset.asset.id"></map-note-form>
-    </mat-tab>
-    <mat-tab label="Full log">
-      <map-incident-log *ngIf="incidentLog" [incidentLog]="incidentLog"></map-incident-log>
-    </mat-tab>
-    <mat-tab label="Status change log">
-      <map-incident-log *ngIf="incidentLog" [incidentLog]="incidentStatusLog"></map-incident-log>
-    </mat-tab>
-    <mat-tab label="Manual position log">
-      <map-incident-log *ngIf="incidentLog" [incidentLog]="incidentManualPositionLog"></map-incident-log>
-    </mat-tab>
-  </mat-tab-group>
-</div>
+    </map-panel-block>
+  </div>
+
+  <div class="incident-footer">
+    <div class="notes-and-log">
+      <button
+        title="Manage notes"
+        id="manage-notes"
+        mat-stroked-button
+        color="primary"
+        type="button"
+        (click)="setActiveRightPanel(['incident', 'incidentNote'])"
+      ><ng-container i18n>Notes</ng-container> <i class="ri-arrow-drop-right-fill"></i></button>
+
+      <button
+        title="Full incident log"
+        id="show-full-log"
+        mat-stroked-button
+        color="primary"
+        type="button"
+        (click)="setActiveRightPanel(['incident', 'incidentLogs'])"
+      ><ng-container i18n>View log</ng-container> <i class="ri-arrow-drop-right-fill"></i></button>
+    </div>
+
+    <button
+      *ngIf="checkPermission('setStatusAttemptedContact')"
+      title="Full incident log"
+      id="show-full-log"
+      mat-stroked-button
+      color="primary"
+      type="button"
+      i18n
+      (click)="registerAttemptedContact()"
+    >Register attempted contact</button>
+
+    <button
+      title="Resolve incident"
+      id="contact-info-button"
+      mat-flat-button
+      color="accent"
+      type="button"
+      i18n
+      (click)="changeStatus('RESOLVED')"
+    >Resolve</button>
+  </div>
+
+  <!-- <div class="asset-information">
+    <h5 i18n>Last known position</h5>
+    <legend i18n>Latitude:</legend>
+    <div>{{lastKnownPositionFormatted.latitude}}</div>
+    <legend i18n>Longitude:</legend>
+    <div>{{lastKnownPositionFormatted.longitude}}</div>
+    <legend i18n>Heading:</legend>
+    <div>{{incident.lastKnownLocation.heading.toFixed(2)}}</div>
+    <legend i18n>Speed:</legend>
+    <div>{{incident.lastKnownLocation.speed.toFixed(2)}}</div>
+    <legend i18n>Time:</legend>
+    <div>{{formatDate(incident.lastKnownLocation.timestamp)}}</div>
+
+    <h5 i18n>Asset information</h5>
+    <ng-container *ngIf="asset.asset.ircs">
+      <legend i18n>Ircs:</legend>
+      <div>{{asset.asset.ircs}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.mmsi">
+      <legend i18n>Mmsi:</legend>
+      <div>
+        <a
+          href="https://www.marinetraffic.com/en/ais/index/search/all?keyword={{asset.asset.mmsi}}"
+          target="_blank"
+        >{{asset.asset.mmsi}}</a>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.flagStateCode">
+      <legend i18n>Flagstate:</legend>
+      <div>{{asset.asset.flagStateCode}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.externalMarking">
+      <legend i18n>External marking:</legend>
+      <div>{{asset.asset.externalMarking}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.lengthOverAll">
+      <legend i18n>Length:</legend>
+      <div>{{asset.asset.lengthOverAll}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.licenceType">
+      <legend i18n>LicenceType:</legend>
+      <div>{{asset.asset.licenceType}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.vesselType">
+      <legend i18n>Vessel type:</legend>
+      <div>{{asset.asset.vesselType}}</div>
+    </ng-container>
+
+    <!-- <ng-container *ngIf="asset.asset.prodOrgCode">
+      <legend i18n>Org. Nr:</legend>
+      <div>{{asset.asset.prodOrgCode}}</div>
+    </ng-container>
+    <ng-container *ngIf="asset.asset.prodOrgName">
+      <legend i18n>Org. namn:</legend>
+      <div>{{asset.asset.prodOrgName}}</div>
+    </ng-container> -->
+  <!-- </div> -->
+
+  </div>

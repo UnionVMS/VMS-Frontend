@@ -5,6 +5,10 @@
   grid-row-gap: 2px;
   padding: $small_distance $medium_distance;
 
+  &.no-padding {
+    padding: 0;
+  }
+
   .panel-block-content {
     background: white;
     padding: $medium_distance;
@@ -15,12 +19,14 @@
     padding: $large_distance $medium_distance;
     background: white;
 
-    & > .arrowToggle {
+    &.full-header-clickable {
+      cursor: pointer;
+    }
+
+    & > .arrow-toggle {
       display: grid;
       grid-template-columns: 1fr auto;
       font-weight: 600;
-      // padding: $medium_distance;
-      cursor: pointer;
 
       .label {
         display: grid;

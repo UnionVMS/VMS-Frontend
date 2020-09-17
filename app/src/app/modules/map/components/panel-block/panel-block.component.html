@@ -1,18 +1,19 @@
-<div class="content-container">
-  <div class="panel-block-header">
-      <ui-button-toggle
-        *ngIf="useArrowsAsToggle !== true"
-        [label]="blockTitle"
-        [value]="active"
-        [switchFunction]="switchFunction"
-      ></ui-button-toggle>
-      <div *ngIf="useArrowsAsToggle === true" class="arrowToggle" (click)="switchFunction()">
-        <div class="label"><ng-content select="[header]"></ng-content>{{blockTitle}}</div>
-        <div class="arrow">
-          <i *ngIf="!active" class="fas fa-chevron-right" aria-hidden="true"></i>
-          <i *ngIf="active" class="fas fa-chevron-down" aria-hidden="true"></i>
-        </div>
+<div class="content-container{{ noPadding ? ' no-padding' : ''}}">
+  <div class="panel-block-header" *ngIf="useArrowsAsToggle !== true">
+    <ui-button-toggle
+      [label]="blockTitle"
+      [value]="active"
+      [switchFunction]="switchFunction"
+    ></ui-button-toggle>
+  </div>
+  <div class="panel-block-header full-header-clickable" *ngIf="useArrowsAsToggle === true" (click)="switchFunction()">
+    <div class="arrow-toggle">
+      <div class="label"><ng-content select="[header]"></ng-content>{{blockTitle}}</div>
+      <div class="arrow">
+        <i *ngIf="!active" class="fas fa-chevron-right" aria-hidden="true"></i>
+        <i *ngIf="active" class="fas fa-chevron-down" aria-hidden="true"></i>
       </div>
+    </div>
   </div>
   <div class="panel-block-content" *ngIf="active">
     <ng-content select="[body]"></ng-content>

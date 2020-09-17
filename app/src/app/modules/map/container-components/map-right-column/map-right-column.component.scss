@@ -82,52 +82,58 @@
   .panel {
     display: grid;
     transition: opacity $panel_animation_time/2 ease-out;
-
-    &.listAssets-panel {
-      grid-template-rows: auto 1fr;
-      height: calc(100vh -  #{$navbar_height});
-    }
-
-    &.showAsset-panel {
-      .showAsset-panel--title {
-        border-bottom: 1px solid $color_dark_gray;
-        margin-bottom: distance(1);
-        padding-bottom: distance(1);
-
-        display: grid;
-
-        & > * {
-          justify-self: center;
-        }
-
-        i.ri-arrow-left-s-line {
-          position: absolute;
-          left: distance(0.5);
-          top: distance(1.5);
-          font-size: distance(4);
-          color: $color_turquoise;
-          cursor: pointer;
-        }
-
-        h3 {
-          border-bottom: 0px;
-          margin-bottom: 0px;
-          padding-bottom: distance(1);
-        }
-
-        .asset-name {
-          color: $color_turquoise;
-          font-weight: 600;
-        }
-      }
-    }
-
+    height: calc(100vh -  #{$navbar_height});
+    grid-template-rows: auto 1fr;
 
     h3 {
       border-bottom: 1px solid $color_dark_gray;
       justify-self: center;
       margin-bottom: distance(1);
     }
+
+    .panel-title {
+      border-bottom: 1px solid $color_dark_gray;
+      margin-bottom: distance(1);
+      padding-bottom: distance(1);
+
+      display: grid;
+
+      & > * {
+        justify-self: center;
+      }
+
+      .flag-image {
+        width: 20px;
+        place-self: center;
+      }
+
+      i.ri-arrow-left-s-line {
+        position: absolute;
+        left: distance(0.5);
+        top: distance(1.5);
+        font-size: distance(4);
+        color: $color_turquoise;
+        cursor: pointer;
+      }
+
+      h3 {
+        border-bottom: 0px;
+        margin-bottom: 0px;
+        padding-bottom: distance(1);
+      }
+
+      .flag-and-name {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-column-gap: distance(1);
+      }
+
+      .asset-name {
+        color: $color_turquoise;
+        font-weight: 600;
+      }
+    }
+
 
     .breadcrumbs {
       list-style-type: "»";

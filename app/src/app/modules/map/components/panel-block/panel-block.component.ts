@@ -8,6 +8,7 @@ import { Component, Input, OnChanges, ContentChild, ElementRef } from '@angular/
 export class PanelBlockComponent implements OnChanges {
   @Input() blockTitle: string;
   @Input() active: boolean;
+  @Input() noPadding: boolean;
   // tslint:disable-next-line:no-inferrable-types
   @Input() useArrowsAsToggle: boolean = false;
 

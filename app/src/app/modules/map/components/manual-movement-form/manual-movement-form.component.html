@@ -90,16 +90,8 @@
   ></ngx-datetime-picker>
 
   <button
-    id="manual-position-form--all"
-    mat-stroked-button
-    color="accent"
-    type="button"
-    i18n
-    (click)="triggerShowLog.emit()"
-  >Show all</button>
-  <button
     id="manual-position-form--save"
-    mat-raised-button
+    mat-button
     color="primary"
     type="button"
     [disabled]="!formValidator.valid"
