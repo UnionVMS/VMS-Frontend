@@ -109,6 +109,7 @@
               "i18nFile": "src/i18n/messages.sv.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "sv",
+              "baseHref": "/sv/"
             },
             "dev": {
               "budgets": [
