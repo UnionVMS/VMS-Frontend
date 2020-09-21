@@ -22,6 +22,7 @@ export enum ManualPositionModeStatuses {
 export enum SeasonalFishingStatuses {
   PARKED = 'PARKED',
   RECEIVING_AIS_POSITIONS = 'RECEIVING_AIS_POSITIONS',
+  OVERDUE = 'OVERDUE',
   RESOLVED = 'RESOLVED'
 }
 
@@ -41,9 +42,9 @@ export enum IncidentRisk {
 export enum IncidentTypes {
   assetNotSending = 'ASSET_NOT_SENDING',
   seasonalFishing = 'SEASONAL_FISHING',
-  ownershipTransfer = 'OWNER_TRANSFER',
+  ownershipTransfer = 'OWNERSHIP_TRANSFER',
   parked = 'PARKED',
-  manualPositionMode = 'MANUAL_MODE',
+  manualPositionMode = 'MANUAL_POSITION_MODE',
 }
 
 export const IncidentTypesInverted = Object.entries(IncidentTypes).reduce((acc, [a, b]) => ({ ...acc, [b]: a }), {});

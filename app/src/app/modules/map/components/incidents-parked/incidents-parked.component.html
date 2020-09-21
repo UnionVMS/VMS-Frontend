@@ -9,7 +9,7 @@
 
   <div class="incidents" *ngIf="!resolved">
     <ng-container *ngIf="overdue.length > 0">
-      <h3 i18n>Seasonal fishing date overdue</h3>
+      <h3 i18n>Parked date overdue</h3>
       <ng-container *ngFor="let incident of overdue; trackBy: trackByIncidents">
         <map-incident-card
           [incident]="incident"
@@ -21,7 +21,7 @@
       </ng-container>
     </ng-container>
     <ng-container *ngIf="sending.length > 0">
-      <h3 i18n>Parked (seasonal) and sending AIS</h3>
+      <h3 i18n>Parked and sending AIS</h3>
       <ng-container *ngFor="let incident of sending; trackBy: trackByIncidents">
         <map-incident-card
           [incident]="incident"
@@ -32,7 +32,7 @@
       </ng-container>
     </ng-container>
     <ng-container *ngIf="pending.length > 0">
-      <h3 i18n>Seasonal fishing — parked</h3>
+      <h3 i18n>Parked</h3>
       <ng-container *ngFor="let incident of pending; trackBy: trackByIncidents">
         <map-incident-card
           [incident]="incident"

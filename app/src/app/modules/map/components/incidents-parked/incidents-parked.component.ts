@@ -6,11 +6,11 @@ import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
 import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 
 @Component({
-  selector: 'map-incidents-seasonal-fishing',
-  templateUrl: './incidents-seasonal-fishing.component.html',
-  styleUrls: ['./incidents-seasonal-fishing.component.scss']
+  selector: 'map-incidents-parked',
+  templateUrl: './incidents-parked.component.html',
+  styleUrls: ['./incidents-parked.component.scss']
 })
-export class IncidentsSeasonalFishingComponent implements OnChanges {
+export class IncidentsParkedComponent implements OnChanges {
   @Input() incidents: IncidentTypes.IncidentsCollectionByResolution;
   @Input() selectedIncident: IncidentTypes.Incident;
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;

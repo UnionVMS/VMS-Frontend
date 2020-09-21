@@ -17,13 +17,16 @@
     <div *ngIf="countdown !== undefined" class="countdown">
       <ui-progress-circle [progress]="getProgress()" diameter="60"></ui-progress-circle>
       <div class="texts">
-          <div class="time{{count > 0 ? ' overdue' : ''}}">
-            <span *ngIf="count > 0">+</span>
-            <span *ngIf="count < 60">{{count}} min</span>
-            <span *ngIf="count >= 60">{{floor(count / 60)}} hour</span>
-          </div>
-          <div class="time-description" *ngIf="count <= 0">time left</div>
-          <div class="time-description" *ngIf="count > 0">past time</div>
+        <div class="time{{count > 0 ? ' overdue' : ''}}">
+          <span *ngIf="count > 0">+</span>
+          <span *ngIf="count <= -5940">{{floor(count / 1440)}}</span>
+          <span *ngIf="count < 60 && count >= -120">{{count}} min</span>
+          <span *ngIf="(count >= 60 && count < 6000) || (count < -120 && count > -5940)">{{floor(count / 60)}} hour<ng-container *ngIf="count >= 120 || count <= -120">s</ng-container></span>
+          <span *ngIf="count >= 6000">{{floor(count / 1440)}} days</span>
+        </div>
+        <div class="time-description" *ngIf="count <= -5940">days left</div>
+        <div class="time-description" *ngIf="count <= 0 && count > -5940">time left</div>
+        <div class="time-description" *ngIf="count > 0">past time</div>
       </div>
     </div>
   </div>

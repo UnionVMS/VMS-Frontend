@@ -138,6 +138,14 @@
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'PARKED'])"
       [useArrowsAsToggle]="true"
     >
+      <map-incidents-parked
+        body
+        *ngIf="activePanel[1] === 'PARKED'"
+        [incidents]="incidentsByTypeAndStatus.parked"
+        [selectedIncident]="selectedIncident"
+        [selectIncident]="selectIncident"
+        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'PARKED', 'RESOLVED'])"
+      ></map-incidents-parked>
     </map-panel-block>
     <map-panel-block
       i18n-blockTitle

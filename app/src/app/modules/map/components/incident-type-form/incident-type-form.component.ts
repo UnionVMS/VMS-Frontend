@@ -18,10 +18,10 @@ export class IncidentTypeFormComponent implements OnChanges {
   public static typeTranslations = {
     ASSET_NOT_SENDING: $localize`:@@ts-issue-type-asset-not-sending:Asset not sending`,
     SEASONAL_FISHING: $localize`:@@ts-issue-type-seasonal-fishing:Seasonal fishing`,
-    OWNER_TRANSFER: $localize`:@@ts-issue-type-owner-transfer:Ownership transfer`,
+    OWNERSHIP_TRANSFER: $localize`:@@ts-issue-type-ownership-transfer:Ownership transfer`,
     LONG_TERM_PARKED: $localize`:@@ts-issue-type-long-term-parked:Long term parked`,
     PARKED: $localize`:@@ts-issue-type-parked:Parked`,
-    MANUAL_MODE: $localize`:@@ts-issue-type-manual-mode:Manual mode`
+    MANUAL_POSITION_MODE: $localize`:@@ts-issue-type-manual-position-mode:Manual position mode`
   };
 
   @Input() type: string;
