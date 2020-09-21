@@ -34,6 +34,12 @@ export enum ParkedStatuses {
   RESOLVED = 'RESOLVED'
 }
 
+export enum OwnershipTransferStatuses {
+  NOT_RECEIVING_VMS_POSITIONS = 'NOT_RECEIVING_VMS_POSITIONS',
+  RECEIVING_VMS_POSITIONS = 'RECEIVING_VMS_POSITIONS',
+  RESOLVED = 'RESOLVED',
+}
+
 export enum IncidentRisk {
   none = 'NONE',
   low = 'LOW',

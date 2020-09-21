@@ -55,6 +55,7 @@ import { IncidentStatusFormComponent } from './components/incident-status-form/i
 import { IncidentTypeFormComponent } from './components/incident-type-form/incident-type-form.component';
 import { IncidentsAssetNotSendingComponent } from './components/incidents-asset-not-sending/incidents-asset-not-sending.component';
 import { IncidentsManualPositionModeComponent } from './components/incidents-manual-position-mode/incidents-manual-position-mode.component';
+import { IncidentsOwnershipTransferComponent } from './components/incidents-ownership-transfer/incidents-ownership-transfer.component';
 import { IncidentsParkedComponent } from './components/incidents-parked/incidents-parked.component';
 import { IncidentsSeasonalFishingComponent } from './components/incidents-seasonal-fishing/incidents-seasonal-fishing.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
@@ -126,6 +127,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentTypeFormComponent,
     IncidentsAssetNotSendingComponent,
     IncidentsManualPositionModeComponent,
+    IncidentsOwnershipTransferComponent,
     IncidentsParkedComponent,
     IncidentsSeasonalFishingComponent,
     InformationPanelComponent,

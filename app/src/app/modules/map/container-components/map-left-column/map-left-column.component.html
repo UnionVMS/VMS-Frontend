@@ -154,6 +154,14 @@
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER'])"
       [useArrowsAsToggle]="true"
     >
+      <map-incidents-ownership-transfer
+        body
+        *ngIf="activePanel[1] === 'OWNERSHIP_TRANSFER'"
+        [incidents]="incidentsByTypeAndStatus.ownershipTransfer"
+        [selectedIncident]="selectedIncident"
+        [selectIncident]="selectIncident"
+        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER', 'RESOLVED'])"
+      ></map-incidents-ownership-transfer>
     </map-panel-block>
     <!-- <map-panel-block
       i18n-blockTitle

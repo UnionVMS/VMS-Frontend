@@ -1,0 +1,43 @@
+<div class="content-container">
+  <div class="filter-for-panel-content">
+    <ui-button-toggle
+      label="Recently resolved"
+      [value]="resolved"
+      [switchFunction]="switchShowResolved"
+    ></ui-button-toggle>
+  </div>
+
+  <div class="incidents" *ngIf="!resolved">
+    <ng-container *ngIf="receivingVms.length > 0">
+      <h3 i18n>Receiving VMS (last 24h)</h3>
+      <ng-container *ngFor="let incident of receivingVms; trackBy: trackByIncidents">
+        <map-incident-card
+          [incident]="incident"
+          [selectIncident]="selectIncident"
+          [incidentIsSelected]="incidentIsSelected(incident)"
+        ></map-incident-card>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="notReceivingVms.length > 0">
+      <h3 i18n>Not Receiving VMS (last 24h)</h3>
+      <ng-container *ngFor="let incident of notReceivingVms; trackBy: trackByIncidents">
+        <map-incident-card
+          [incident]="incident"
+          [selectIncident]="selectIncident"
+          [incidentIsSelected]="incidentIsSelected(incident)"
+        ></map-incident-card>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="incidents" *ngIf="resolved">
+    <ng-container *ngFor="let incident of incidents.recentlyResolvedIncidents; trackBy: trackByIncidents">
+      <map-incident-card
+        [incident]="incident"
+        [selectIncident]="selectIncident"
+        [incidentIsSelected]="incidentIsSelected(incident)"
+        urgency="LOW"
+      ></map-incident-card>
+    </ng-container>
+  </div>
+</div>
