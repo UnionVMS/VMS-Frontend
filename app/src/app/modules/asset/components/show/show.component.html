@@ -10,9 +10,10 @@
       <h2 i18n>{{asset.externalMarking}} • {{asset.ircs}}</h2>
       <span>{{asset.prodOrgName}} • Org. nr: {{asset.prodOrgCode}}</span>
     </div>
-    <div class="links">
+    <div class="linksAndIncidentStatus">
       <a *ngIf="asset.source !== 'NATIONAL'" class="edit-link" routerLink="/asset/{{asset.id}}/edit" i18n>Edit asset</a>
       <span *ngIf="asset.source === 'NATIONAL'" class="edit-link" i18n>Read only asset</span>
+      <div *ngIf="this.currentIncident !== undefined" class="currentIncidentStatus">{{this.currentIncident}}</div>
     </div>
   </div>
 

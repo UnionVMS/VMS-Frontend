@@ -6,6 +6,8 @@ export enum IncidentNotificationTypes {
   done
 }
 
+export const IncidentResolvedStatus = 'RESOLVED';
+
 export enum AssetNotSendingStatuses {
   INCIDENT_CREATED = 'INCIDENT_CREATED',
   ATTEMPTED_CONTACT = 'ATTEMPTED_CONTACT',
@@ -46,6 +48,15 @@ export enum IncidentTypes {
   parked = 'PARKED',
   manualPositionMode = 'MANUAL_POSITION_MODE',
 }
+
+export const IncidentTypesTranslations = {
+  ASSET_NOT_SENDING: $localize`:@@ts-issue-type-asset-not-sending:Asset not sending`,
+  SEASONAL_FISHING: $localize`:@@ts-issue-type-seasonal-fishing:Seasonal fishing`,
+  OWNERSHIP_TRANSFER: $localize`:@@ts-issue-type-ownership-transfer:Ownership transfer`,
+  LONG_TERM_PARKED: $localize`:@@ts-issue-type-long-term-parked:Long term parked`,
+  PARKED: $localize`:@@ts-issue-type-parked:Parked`,
+  MANUAL_POSITION_MODE: $localize`:@@ts-issue-type-manual-position-mode:Manual position mode`
+};
 
 export const IncidentTypesInverted = Object.entries(IncidentTypes).reduce((acc, [a, b]) => ({ ...acc, [b]: a }), {});
 export const IncidentTypesValues = Object.values(IncidentTypes).map((incidentType) => incidentType.toString());
@@ -126,7 +137,6 @@ export type IncidentLog = Readonly<{
 export type IncidentLogs = Readonly<{
   readonly [incidentId: number]: IncidentLog;
 }>;
-
 
 export type State = Readonly<{
   selectedIncidentId: number;

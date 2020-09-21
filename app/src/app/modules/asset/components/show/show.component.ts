@@ -4,6 +4,8 @@ import getContryISO2 from 'country-iso-3-to-2';
 import { formatUnixdate } from '@app/helpers/datetime-formatter';
 
 import { AssetTypes } from '@data/asset';
+import { IncidentTypes } from '@data/incident';
+
 
 @Component({
   selector: 'asset-show',
@@ -13,14 +15,24 @@ import { AssetTypes } from '@data/asset';
 export class ShowComponent implements OnChanges {
   @Input() asset: AssetTypes.Asset;
   @Input() licence: AssetTypes.AssetLicence;
+  @Input() incidents: ReadonlyArray<IncidentTypes.Incident>;
 
   public formattedLicence: AssetTypes.AssetLicence & {
     formattedToDate: string;
     formattedDecisionDate: string,
     formattedFromDate: string,
   };
+  public currentIncident: string;
 
   ngOnChanges() {
+    if(typeof this.incidents !== 'undefined') {
+      const openIncidents = Object.values(this.incidents).filter((incident) => incident.status !== IncidentTypes.IncidentResolvedStatus);
+      if(openIncidents.length > 0) {
+        this.currentIncident = typeof IncidentTypes.IncidentTypesTranslations[openIncidents[0].type] !== 'undefined'
+          ? IncidentTypes.IncidentTypesTranslations[openIncidents[0].type]
+          : openIncidents[0].type;
+      }
+    }
     if(typeof this.licence !== 'undefined' && this.licence !== null) {
       this.formattedLicence = {
         ...this.licence,

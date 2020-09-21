@@ -19,6 +19,21 @@
         padding: 0px;
       }
     }
+
+    .linksAndIncidentStatus {
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: end;
+
+      .currentIncidentStatus {
+        background-color: $color_warn;
+        color: white;
+        text-transform: uppercase;
+        align-self: center;
+        padding: 2px;
+        font-weight: 500;
+      }
+    }
   }
 
   .content-body {
