@@ -75,46 +75,24 @@
   </div>
   <div class="panel workflow-panel" *ngIf="activePanel[0] === 'workflows'">
     <h3 i18n>Workflows</h3>
-    <map-panel-block
-      i18n-blockTitle
-      blockTitle="Assets not sending ({{incidentsByTypeAndStatus.assetNotSending.unresolvedIncidents.length}})"
+    <map-incidents-asset-not-sending
+      body
       [active]="activePanel[1] === 'ASSET_NOT_SENDING'"
+      [incidents]="incidentsByTypeAndStatus.assetNotSending"
+      [selectedIncident]="selectedIncident"
+      [selectIncident]="selectIncident"
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING'])"
-      [useArrowsAsToggle]="true"
-    >
-      <!-- <div header class="notifications" *ngIf="incidentNotificationsByType !== undefined && incidentNotificationsByType.assetNotSending !== undefined">
-        <span class="created" *ngIf="countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'created') > 0">
-          {{countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'created')}}
-        </span>
-        <span class="updated" *ngIf="countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'updated') > 0">
-          {{countNotificationsOfType(incidentNotificationsByType.assetNotSending, 'updated')}}
-        </span>
-      </div> -->
-      <map-incidents-asset-not-sending
-        body
-        *ngIf="activePanel[1] === 'ASSET_NOT_SENDING'"
-        [incidents]="incidentsByTypeAndStatus.assetNotSending"
-        [selectedIncident]="selectedIncident"
-        [selectIncident]="selectIncident"
-        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING', 'RESOLVED'])"
-      ></map-incidents-asset-not-sending>
-    </map-panel-block>
-    <map-panel-block
-      i18n-blockTitle
-      blockTitle="Manual position ({{incidentsByTypeAndStatus.manualPositionMode.unresolvedIncidents.length}})"
+      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING', 'RESOLVED'])"
+    ></map-incidents-asset-not-sending>
+    <map-incidents-manual-position-mode
+      body
+      [incidents]="incidentsByTypeAndStatus.manualPositionMode"
+      [selectedIncident]="selectedIncident"
       [active]="activePanel[1] === 'MANUAL_MODE'"
+      [selectIncident]="selectIncident"
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'MANUAL_MODE'])"
-      [useArrowsAsToggle]="true"
-    >
-      <map-incidents-manual-position-mode
-        body
-        *ngIf="activePanel[1] === 'MANUAL_MODE'"
-        [incidents]="incidentsByTypeAndStatus.manualPositionMode"
-        [selectedIncident]="selectedIncident"
-        [selectIncident]="selectIncident"
-        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'MANUAL_MODE', 'RESOLVED'])"
-      ></map-incidents-manual-position-mode>
-    </map-panel-block>
+      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'MANUAL_MODE', 'RESOLVED'])"
+    ></map-incidents-manual-position-mode>
     <map-panel-block
       i18n-blockTitle
       blockTitle="Seasonal fishing ({{incidentsByTypeAndStatus.seasonalFishing.unresolvedIncidents.length}})"

@@ -13,12 +13,18 @@ import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 export class IncidentsAssetNotSendingComponent implements OnChanges {
   @Input() incidents: IncidentTypes.IncidentsCollectionByResolution;
   @Input() selectedIncident: IncidentTypes.Incident;
+  @Input() active: boolean;
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;
   @Input() showResolvedOnMap: (show: boolean) => void;
+  @Input() setActiveFunction: () => void;
 
   public resolved = false;
   public incidentsWithAttemptedContact: ReadonlyArray<IncidentTypes.Incident> = [];
   public unmanagedIncidents: ReadonlyArray<IncidentTypes.Incident> = [];
+  public nrOfIncidentsSortedByUrgency = {
+    high: 0,
+    medium: 0
+  };
 
   public incidentTypeUrgencry = {
     [IncidentTypes.IncidentRisk.low]: 1,
@@ -47,6 +53,16 @@ export class IncidentsAssetNotSendingComponent implements OnChanges {
     });
     this.incidentsWithAttemptedContact = [ ...this.incidentsWithAttemptedContact ].sort(this.incidentSortFunction);
     this.unmanagedIncidents = [ ...this.unmanagedIncidents ].sort(this.incidentSortFunction);
+
+    this.nrOfIncidentsSortedByUrgency = this.unmanagedIncidents.reduce((acc, incident) => {
+      if(incident.risk === IncidentTypes.IncidentRisk.high) {
+        acc.high++;
+      } else if(incident.risk === IncidentTypes.IncidentRisk.medium) {
+        acc.medium++;
+      }
+
+      return acc;
+    }, { high: 0, medium: 0 });
   }
 
   private readonly incidentSortFunction = (a: IncidentTypes.Incident, b: IncidentTypes.Incident) => {
