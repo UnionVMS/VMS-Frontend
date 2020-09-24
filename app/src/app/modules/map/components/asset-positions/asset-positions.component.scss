@@ -1,0 +1,50 @@
+@import 'variables.scss';
+
+.container-component {
+  padding: distance(1);
+  display: grid;
+  grid-row-gap: distance(1);
+
+  .positions .position {
+    padding: distance(2) distance(1);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-column-gap: distance(2);
+    grid-row-gap: distance(1);
+
+    &:nth-child(odd) {
+      background: $color_warm_dark_gray;
+    }
+
+    .position-block {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-row-gap: distance(0.5);
+
+      .label {
+        font-weight: bold;
+      }
+
+      .value {
+        font-size: 13px;
+      }
+
+
+      &.one-row {
+        grid-template-columns: auto 1fr;
+        grid-column-gap: distance(0.5);
+        font-size: 11px;
+        color: $color_dark_gray;
+
+        &.full-row {
+          grid-column: 1/span 2;
+
+          .value span.user {
+            color: $color_turquoise;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}

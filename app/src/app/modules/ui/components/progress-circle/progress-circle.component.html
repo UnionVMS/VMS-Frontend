@@ -1,4 +1,4 @@
-<div class="progress-circle-component">
+<div class="progress-circle-component{{ bright === true ? ' bright' : ''}}">
   <ng-container *ngIf="progress >= 0">
     <mat-progress-spinner
       class="track"

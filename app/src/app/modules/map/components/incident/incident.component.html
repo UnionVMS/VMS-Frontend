@@ -45,7 +45,7 @@
       [active]="isBlockActive('expiryDateForm')"
       [setActiveFunction]="toggleCurrentActiveBlock('expiryDateForm')"
       [useArrowsAsToggle]="true"
-      noPadding="true"
+      noExternalPadding="true"
     >
       <map-incident-expiry-date-form
         body
@@ -59,7 +59,7 @@
       [active]="isBlockActive('manuallyPoll')"
       [setActiveFunction]="toggleCurrentActiveBlock('manuallyPoll')"
       [useArrowsAsToggle]="true"
-      noPadding="true"
+      noExternalPadding="true"
     >
       <map-manual-poll-form
         body
@@ -74,13 +74,14 @@
       [active]="isBlockActive('manualPosition')"
       [setActiveFunction]="toggleCurrentActiveBlock('manualPosition')"
       [useArrowsAsToggle]="true"
-      noPadding="true"
+      noExternalPadding="true"
     >
       <map-manual-movement-form
         body
         *ngIf="map !== undefined"
         [createManualMovement]="createManualMovementCurried"
         [map]="map"
+        [userTimezone]="userTimezone"
       ></map-manual-movement-form>
     </map-panel-block>
   </div>

@@ -1,5 +1,12 @@
 import { Position, TimePosition } from '../generic.types';
 
+export const OceanRegionTranslation = {
+  AORE: 'East Atlantic',
+  AORW: 'West Atlantic',
+  POR: 'Pacific',
+  IOR: 'Indian'
+};
+
 export type Movement = Readonly<{
   location: Position;
   heading: number;

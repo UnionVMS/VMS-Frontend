@@ -36,7 +36,12 @@
         (click)="setActivePanel(['showAsset'])"
         *ngIf="checkIfSecondaryPanelIsActive()"
       ></i>
-      <h3 i18n>Detailed asset information</h3>
+      <h3>
+        <ng-container *ngIf="!checkIfSecondaryPanelIsActive()" i18n>Detailed asset information</ng-container>
+        <ng-container *ngIf="activePanel[1] === 'licenceInformation'" i18n>Licence</ng-container>
+        <ng-container *ngIf="activePanel[1] === 'incidentList'" i18n>Asset incidents</ng-container>
+        <ng-container *ngIf="activePanel[1] === 'positions'" i18n>Positions</ng-container>
+      </h3>
       <div class="asset-name" *ngIf="selectedAsset">
         {{ selectedAsset.asset.name + (selectedAsset.asset.externalMarking !== undefined ? ' &#183; ' + selectedAsset.asset.externalMarking : '') }}
       </div>
@@ -72,6 +77,15 @@
         [setActiveWorkflow]="setActiveLeftPanel"
         [currentWorkflow]="activeLeftPanel[1]"
       ></map-asset-incidents>
+      <map-asset-positions
+        *ngIf="activePanel[1] === 'positions'"
+        [asset]="selectedAsset.asset"
+        [positions]="lastFullPositionsForSelectedAsset$ | async"
+        [createManualMovement]="createManualMovement"
+        [map]="map"
+        [userTimezone]="userTimezone$ | async"
+        [getLastFullPositionsForAsset]="getLastFullPositionsForAsset"
+      ></map-asset-positions>
     </ng-container>
   </div>
   <div class="panel listAssets-panel" *ngIf="activePanel[0] === 'listAssets'">
@@ -134,6 +148,7 @@
         [incidentTypes]="incidentTypes$ | async"
         [setActiveWorkflow]="setActiveWorkflow"
         [setActiveRightPanel]="setActivePanelAndShowColumn"
+        [userTimezone]="userTimezone$ | async"
       ></map-incident>
       <map-incident-logs
         *ngIf="activePanel[1] === 'incidentLogs'"

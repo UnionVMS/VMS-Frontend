@@ -21,6 +21,7 @@ export class IncidentComponent implements OnChanges {
   @Input() incident: IncidentTypes.Incident;
   @Input() incidentTypes: IncidentTypes.IncidentTypesCollection;
   @Input() map: Map;
+  @Input() userTimezone: string;
 
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
   @Input() saveIncident: (incident: IncidentTypes.Incident) => void;

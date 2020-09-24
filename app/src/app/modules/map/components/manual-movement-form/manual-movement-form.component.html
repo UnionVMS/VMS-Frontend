@@ -85,7 +85,7 @@
     id="manual-position-form--timestamp"
     [(dateTime)]="formValidator.value.timestamp"
     (dateTimeChange)="updateTimestamp($event)"
-    label="Time"
+    label="Time ({{userTimezone}})"
     [errorMessages]="getErrorMessages(['timestamp'])"
   ></ngx-datetime-picker>
 
@@ -95,7 +95,7 @@
     color="primary"
     type="button"
     [disabled]="!formValidator.valid"
-    (click)="save()"
+    (click)="openSaveDialog()"
     i18n
   >Save</button>
 </form>

@@ -21,6 +21,7 @@ export class ShowComponent implements OnChanges {
     formattedToDate: string;
     formattedDecisionDate: string,
     formattedFromDate: string,
+    formattedCivicNumber: string,
   };
   public currentIncident: string;
 
@@ -39,8 +40,14 @@ export class ShowComponent implements OnChanges {
         formattedToDate: formatUnixdate(this.licence.toDate),
         formattedDecisionDate: formatUnixdate(this.licence.decisionDate),
         formattedFromDate: formatUnixdate(this.licence.fromDate),
+        formattedCivicNumber: this.formatCivicNumber(this.licence.civicNumber),
       };
     }
+  }
+
+  public formatCivicNumber(civicNumber: string) {
+    const insertPosition = length - 4;
+    return [civicNumber.slice(0, insertPosition), '-', civicNumber.slice(insertPosition)].join('');
   }
 
   public getCountryCode() {

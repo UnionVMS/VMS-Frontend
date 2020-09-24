@@ -14,6 +14,18 @@
     .incident-content .ircs-and-name {
       color: white;
     }
+
+    .incident-content.with-countdown .countdown .texts {
+      .time {
+        color: white;
+        &.overdue {
+          color: white;
+        }
+      }
+      .time-description {
+        color: white;
+      }
+    }
   }
 
   .status {

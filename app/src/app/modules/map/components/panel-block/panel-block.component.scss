@@ -12,6 +12,10 @@
   .panel-block-content {
     background: white;
     padding: $medium_distance;
+
+    &.no-padding {
+      padding: 0;
+    }
   }
 
   .panel-block-header {

@@ -50,23 +50,17 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
         this.asset = asset;
       }
     });
-    this.store.select(AssetSelectors.getLastFullPositionsForSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe(
+    this.store.select(AssetSelectors.getLastFullPositionsForUrlAsset).pipe(takeUntil(this.unmount$)).subscribe(
       (positions: ReadonlyArray<AssetTypes.FullMovement>) => {
         if(typeof positions === 'undefined') {
           this.positions = [];
         } else {
-          const oceanRegionTranslation = {
-            AORE: 'East Atlantic',
-            AORW: 'West Atlantic',
-            POR: 'Pacific',
-            IOR: 'Indian'
-          };
           this.positions = positions.map(position => ({
             ...position,
             locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude),
             formattedTimestamp: formatUnixtime(position.timestamp),
             formattedSpeed: position.speed.toFixed(2),
-            formattedOceanRegion: oceanRegionTranslation[position.sourceSatelliteId]
+            formattedOceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId]
           }));
           this.sortData({ active: 'timestamp', direction: 'desc' });
         }

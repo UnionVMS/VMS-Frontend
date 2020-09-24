@@ -15,7 +15,7 @@
     </div>
     <div class="location">{{ formattedIncident.formattedCoordinates }}</div>
     <div *ngIf="countdown !== undefined" class="countdown">
-      <ui-progress-circle [progress]="getProgress()" diameter="60"></ui-progress-circle>
+      <ui-progress-circle [progress]="getProgress()" diameter="60" [bright]="incidentIsSelected"></ui-progress-circle>
       <div class="texts">
         <div class="time{{count > 0 ? ' overdue' : ''}}">
           <span *ngIf="count > 0">+</span>

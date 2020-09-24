@@ -148,8 +148,7 @@
     <button
       i18n
       mat-button
-      routerLink="/asset/{{asset.asset.id}}"
-      disabled
+      (click)="setActiveRightPanel(['showAsset', 'positions'])"
       color="primary"
     >Positions</button>
     <button

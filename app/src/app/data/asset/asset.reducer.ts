@@ -96,7 +96,10 @@ export const assetReducer = createReducer(initialState,
       if(typeof acc[assetId] !== 'undefined') {
         if(
           assetMovements[assetId].microMove.source === 'AIS' &&
-          assetMovements[assetId].microMove.timestamp > acc[assetId].ais.timestamp
+          (
+            typeof acc[assetId].ais === 'undefined' ||
+            assetMovements[assetId].microMove.timestamp > acc[assetId].ais.timestamp
+          )
         ) {
           acc[assetId] = {
             ais: assetMovements[assetId].microMove,
@@ -104,7 +107,10 @@ export const assetReducer = createReducer(initialState,
           };
         } else if(
           assetMovements[assetId].microMove.source !== 'AIS' &&
-          assetMovements[assetId].microMove.timestamp > acc[assetId].vms.timestamp
+          (
+            typeof acc[assetId].vms === 'undefined' ||
+            assetMovements[assetId].microMove.timestamp > acc[assetId].vms.timestamp
+          )
         ) {
           acc[assetId] = {
             ais: acc[assetId].ais,

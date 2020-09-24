@@ -37,6 +37,7 @@ import { AssetIncidentsComponent } from './components/asset-incidents/asset-inci
 import { AssetIncidentsDialogComponent } from './components/asset-incidents-dialog/asset-incidents-dialog.component';
 import { AssetPanelComponent } from './components/asset-panel/asset-panel.component';
 import { AssetPanelShowComponent } from './components/asset-panel-show/asset-panel-show.component';
+import { AssetPositionsComponent } from './components/asset-positions/asset-positions.component';
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
 import { AssetsComponent } from './components/assets/assets.component';
 import { CoordinatesPopupComponent } from './components/coordinates-popup/coordinates-popup.component';
@@ -64,6 +65,7 @@ import { LicenceInformationComponent } from './components/licence-information/li
 import { MapLayersComponent } from './components/map-layers/map-layers.component';
 import { MapLocationsComponent } from './components/map-locations/map-locations.component';
 import { ManualMovementFormComponent } from './components/manual-movement-form/manual-movement-form.component';
+import { ManualMovementFormDialogComponent } from './components/manual-movement-form-dialog/manual-movement-form-dialog.component';
 import { ManualPollFormComponent } from './components/manual-poll-form/manual-poll-form.component';
 import { NoteFormComponent } from './components/note-form/note-form.component';
 import { PanelBlockComponent } from './components/panel-block/panel-block.component';
@@ -110,6 +112,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     AssetIncidentsDialogComponent,
     AssetPanelComponent,
     AssetPanelShowComponent,
+    AssetPositionsComponent,
     AssetSearchComponent,
     CoordinatesPopupComponent,
     DistanceBetweenPointsComponent,
@@ -138,6 +141,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MapLeftColumnComponent,
     MapRightColumnComponent,
     ManualMovementFormComponent,
+    ManualMovementFormDialogComponent,
     ManualPollFormComponent,
     NoteFormComponent,
     PanelBlockComponent,

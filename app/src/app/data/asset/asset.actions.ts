@@ -85,7 +85,7 @@ export const getTracksByTimeInterval = createAction(
 
 export const getLastFullPositionsForAsset = createAction(
   '[Asset] Get last full positions for asset',
-  props<{ assetId: string, amount: number, sources?: string[], excludeGivenSources?: boolean }>()
+  props<{ assetId: string, amount: number, sources?: ReadonlyArray<string>, excludeGivenSources?: boolean }>()
 );
 
 export const getLastPositionsForSelectedAsset = createAction(

@@ -11,6 +11,7 @@ import { MapActions, MapSelectors } from '@data/map';
 import { NotesActions, NotesTypes } from '@data/notes';
 import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors } from '@data/map-saved-filters';
 import { MapSettingsTypes, MapSettingsSelectors } from '@data/map-settings';
+import { UserSettingsSelectors } from '@data/user-settings';
 
 
 @Component({
@@ -27,7 +28,6 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
 
   public activePanel: ReadonlyArray<string>;
   public activeLeftPanel: ReadonlyArray<string>;
-  // public assetsNotSendingIncidents: Readonly<{ [assetId: string]: IncidentTypes.incident }>;
   public mapSettings: MapSettingsTypes.State;
   public forecasts$: Observable<any>;
   public selectedAsset: Readonly<AssetTypes.AssetData>;
@@ -39,8 +39,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public incidentLogs: IncidentTypes.IncidentLogs;
   public incidentsForAssets: Readonly<{ readonly [assetId: string]: ReadonlyArray<IncidentTypes.Incident> }>;
   public incidentTypes$: Observable<IncidentTypes.IncidentTypesCollection>;
+  public lastFullPositionsForSelectedAsset$: Observable<ReadonlyArray<AssetTypes.FullMovement>>;
   public licence$: Observable<AssetTypes.AssetLicence>;
   public licenceLoaded = false;
+  public userTimezone$: Observable<string>;
 
   public addForecast: (assetId: string) => void;
   public createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
@@ -54,6 +56,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public getAssetTrack: (assetId: string, movementId: string) => void;
   public getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
   public getIncidentsForAssetId: (assetId: string) => void;
+  public getLastFullPositionsForAsset: (assetId: string, amount: number, sources: ReadonlyArray<string>) => void;
   public getLicenceForAsset: (assetId: string) => void;
   public getLogForIncident: (incidentId: number) => void;
   public pollAsset: (assetId: string, comment: string) => void;
@@ -136,6 +139,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.licenceLoaded = true;
     }));
     this.incidentTypes$ = this.store.select(IncidentSelectors.getIncidentTypes);
+    this.lastFullPositionsForSelectedAsset$ = this.store.select(AssetSelectors.getLastFullPositionsForSelectedAsset);
+    this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
   }
 
   mapDispatchToProps() {
@@ -161,6 +166,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       }
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     };
+    this.getLastFullPositionsForAsset = (assetId: string, amount: number, sources: ReadonlyArray<string>) =>
+      this.store.dispatch(AssetActions.getLastFullPositionsForAsset({ assetId, amount, sources }));
     this.dispatchSelectIncident = (incidentId: number) =>
       this.store.dispatch(IncidentActions.selectIncident({ incidentId }));
     this.getAssetTrack = (assetId: string, movementId: string) =>
