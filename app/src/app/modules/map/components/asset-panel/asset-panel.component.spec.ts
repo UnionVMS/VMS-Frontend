@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 
 import { UIModule } from '@app/modules/ui/ui.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -14,7 +14,7 @@ import { PanelBlockComponent } from '../panel-block/panel-block.component';
 
 /* tslint:disable:no-string-literal */
 describe('AssetPanelComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         UIModule,

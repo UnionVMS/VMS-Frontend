@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
@@ -13,7 +13,7 @@ describe('AuthGuard', () => {
     createUrlTree: () => {}
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: Router, useValue: mockRouter },
