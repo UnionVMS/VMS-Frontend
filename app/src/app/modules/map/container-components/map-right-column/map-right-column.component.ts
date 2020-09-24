@@ -56,7 +56,9 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public getAssetTrack: (assetId: string, movementId: string) => void;
   public getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
   public getIncidentsForAssetId: (assetId: string) => void;
-  public getLastFullPositionsForAsset: (assetId: string, amount: number, sources: ReadonlyArray<string>) => void;
+  public getLastFullPositionsForAsset: (
+    assetId: string, amount: number, sources: ReadonlyArray<string>, excludeGivenSources?: boolean
+  ) => void;
   public getLicenceForAsset: (assetId: string) => void;
   public getLogForIncident: (incidentId: number) => void;
   public pollAsset: (assetId: string, comment: string) => void;
@@ -166,8 +168,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       }
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     };
-    this.getLastFullPositionsForAsset = (assetId: string, amount: number, sources: ReadonlyArray<string>) =>
-      this.store.dispatch(AssetActions.getLastFullPositionsForAsset({ assetId, amount, sources }));
+    this.getLastFullPositionsForAsset = (assetId: string, amount: number, sources: ReadonlyArray<string>, excludeGivenSources?: boolean ) =>
+      this.store.dispatch(AssetActions.getLastFullPositionsForAsset({ assetId, amount, sources, excludeGivenSources }));
     this.dispatchSelectIncident = (incidentId: number) =>
       this.store.dispatch(IncidentActions.selectIncident({ incidentId }));
     this.getAssetTrack = (assetId: string, movementId: string) =>

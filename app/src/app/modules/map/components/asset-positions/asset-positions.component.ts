@@ -23,17 +23,19 @@ export class AssetPositionsComponent implements OnInit, OnChanges {
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
   @Input() map: Map;
   @Input() userTimezone: string;
-  @Input() getLastFullPositionsForAsset: (assetId: string, amount: number, sources: ReadonlyArray<string>) => void;
+  @Input() getLastFullPositionsForAsset: (
+    assetId: string, amount: number, sources: ReadonlyArray<string>, excludeGivenSources?: boolean
+  ) => void;
 
   public formActive = true;
   public positionsActive = true;
 
   public extendedPositions: ReadonlyArray<ExtendedMovement>;
 
-  public sources: ReadonlyArray<string> = ['INMARSAT_C', 'MANUAL'];
+  public sourcesToExclude: ReadonlyArray<string> = ['AIS'];
 
   public ngOnInit() {
-    this.getLastFullPositionsForAsset(this.asset.id, 20, this.sources);
+    this.getLastFullPositionsForAsset(this.asset.id, 20, this.sourcesToExclude, true);
   }
 
 
@@ -54,7 +56,7 @@ export class AssetPositionsComponent implements OnInit, OnChanges {
   }
 
   public createManualMovementCurried = (movement: AssetTypes.Movement) => {
-    setTimeout(() => this.getLastFullPositionsForAsset(this.asset.id, 20, this.sources), 1000);
+    setTimeout(() => this.getLastFullPositionsForAsset(this.asset.id, 20, this.sourcesToExclude, true), 1000);
     return this.createManualMovement({
       movement,
       asset: {
