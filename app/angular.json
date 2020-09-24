@@ -44,9 +44,15 @@
               "src/app/modules/map/map.scss",
             ],
             "scripts": [
-              "node_modules/chart.js/dist/Chart.js",
-              "node_modules/hammerjs/hammer.min.js"
+              "node_modules/chart.js/dist/Chart.js"
             ],
+            "allowedCommonJsDependencies": [
+              "i18n-iso-countries",
+              "moment-timezone",
+              "event-source-polyfill",
+              "html-to-image",
+              "pixelworks/lib/index.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -175,8 +181,7 @@
               ]
             },
             "scripts": [
-              "node_modules/chart.js/dist/Chart.js",
-              "node_modules/hammerjs/hammer.min.js"
+              "node_modules/chart.js/dist/Chart.js"
             ],
             "assets": [
               "src/favicon.ico",
