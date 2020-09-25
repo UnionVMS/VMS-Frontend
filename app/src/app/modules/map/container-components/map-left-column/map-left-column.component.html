@@ -76,7 +76,6 @@
   <div class="panel workflow-panel" *ngIf="activePanel[0] === 'workflows'">
     <h3 i18n>Workflows</h3>
     <map-incidents-asset-not-sending
-      body
       [active]="activePanel[1] === 'ASSET_NOT_SENDING'"
       [incidents]="incidentsByTypeAndStatus.assetNotSending"
       [selectedIncident]="selectedIncident"
@@ -85,7 +84,6 @@
       [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING', 'RESOLVED'])"
     ></map-incidents-asset-not-sending>
     <map-incidents-manual-position-mode
-      body
       [incidents]="incidentsByTypeAndStatus.manualPositionMode"
       [selectedIncident]="selectedIncident"
       [active]="activePanel[1] === 'MANUAL_MODE'"
@@ -93,54 +91,30 @@
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'MANUAL_MODE'])"
       [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'MANUAL_MODE', 'RESOLVED'])"
     ></map-incidents-manual-position-mode>
-    <map-panel-block
-      i18n-blockTitle
-      blockTitle="Seasonal fishing ({{incidentsByTypeAndStatus.seasonalFishing.unresolvedIncidents.length}})"
+    <map-incidents-seasonal-fishing
       [active]="activePanel[1] === 'SEASONAL_FISHING'"
+      [incidents]="incidentsByTypeAndStatus.seasonalFishing"
+      [selectedIncident]="selectedIncident"
+      [selectIncident]="selectIncident"
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING'])"
-      [useArrowsAsToggle]="true"
-    >
-      <map-incidents-seasonal-fishing
-        body
-        *ngIf="activePanel[1] === 'SEASONAL_FISHING'"
-        [incidents]="incidentsByTypeAndStatus.seasonalFishing"
-        [selectedIncident]="selectedIncident"
-        [selectIncident]="selectIncident"
-        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING', 'RESOLVED'])"
-      ></map-incidents-seasonal-fishing>
-    </map-panel-block>
-    <map-panel-block
-      i18n-blockTitle
-      blockTitle="Parked ({{incidentsByTypeAndStatus.parked.unresolvedIncidents.length}})"
+      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING', 'RESOLVED'])"
+    ></map-incidents-seasonal-fishing>
+    <map-incidents-parked
       [active]="activePanel[1] === 'PARKED'"
+      [incidents]="incidentsByTypeAndStatus.parked"
+      [selectedIncident]="selectedIncident"
+      [selectIncident]="selectIncident"
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'PARKED'])"
-      [useArrowsAsToggle]="true"
-    >
-      <map-incidents-parked
-        body
-        *ngIf="activePanel[1] === 'PARKED'"
-        [incidents]="incidentsByTypeAndStatus.parked"
-        [selectedIncident]="selectedIncident"
-        [selectIncident]="selectIncident"
-        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'PARKED', 'RESOLVED'])"
-      ></map-incidents-parked>
-    </map-panel-block>
-    <map-panel-block
-      i18n-blockTitle
-      blockTitle="Ownership transfer ({{incidentsByTypeAndStatus.ownershipTransfer.unresolvedIncidents.length}})"
+      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'PARKED', 'RESOLVED'])"
+    ></map-incidents-parked>
+    <map-incidents-ownership-transfer
       [active]="activePanel[1] === 'OWNERSHIP_TRANSFER'"
+      [incidents]="incidentsByTypeAndStatus.ownershipTransfer"
+      [selectedIncident]="selectedIncident"
+      [selectIncident]="selectIncident"
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER'])"
-      [useArrowsAsToggle]="true"
-    >
-      <map-incidents-ownership-transfer
-        body
-        *ngIf="activePanel[1] === 'OWNERSHIP_TRANSFER'"
-        [incidents]="incidentsByTypeAndStatus.ownershipTransfer"
-        [selectedIncident]="selectedIncident"
-        [selectIncident]="selectIncident"
-        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER', 'RESOLVED'])"
-      ></map-incidents-ownership-transfer>
-    </map-panel-block>
+      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER', 'RESOLVED'])"
+    ></map-incidents-ownership-transfer>
     <!-- <map-panel-block
       i18n-blockTitle
       blockTitle="Fishing Report"

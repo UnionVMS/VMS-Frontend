@@ -13,8 +13,10 @@ import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 export class IncidentsOwnershipTransferComponent implements OnChanges {
   @Input() incidents: IncidentTypes.IncidentsCollectionByResolution;
   @Input() selectedIncident: IncidentTypes.Incident;
+  @Input() active: boolean;
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;
   @Input() showResolvedOnMap: (show: boolean) => void;
+  @Input() setActiveFunction: () => void;
 
   public resolved = false;
   public notReceivingVms: ReadonlyArray<IncidentTypes.Incident> = [];
