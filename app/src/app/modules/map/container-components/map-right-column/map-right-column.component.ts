@@ -61,6 +61,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   ) => void;
   public getLicenceForAsset: (assetId: string) => void;
   public getLogForIncident: (incidentId: number) => void;
+  public getLatestPollsForAsset: (assetId: string) => void;
   public pollAsset: (assetId: string, comment: string) => void;
   public pollIncident: (incidentId: number, comment: string) => void;
   public removeForecast: (assetId: string) => void;
@@ -184,6 +185,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.licenceLoaded = false;
       this.store.dispatch(AssetActions.getLicenceForAsset({ assetId }));
     };
+    this.getLatestPollsForAsset = (assetId: string) =>
+      this.store.dispatch(AssetActions.getLatestPollsForAsset({ assetId }));
     this.untrackAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
     this.selectAsset = (assetId: string) =>

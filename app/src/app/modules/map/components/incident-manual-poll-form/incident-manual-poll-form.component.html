@@ -1,0 +1,17 @@
+<form class="incident-manual-poll-form" [formGroup]="formValidator">
+  <mat-form-field id="manual-poll-form--comment">
+    <mat-label>Comment/Reason</mat-label>
+    <textarea matInput formControlName="comment" required></textarea>
+    <mat-error *ngFor="let error of getErrors(['comment'])">{{ errorMessage(error) }}</mat-error>
+  </mat-form-field>
+
+  <button
+    id="manual-poll-form--save"
+    mat-button
+    color="primary"
+    type="button"
+    [disabled]="!formValidator.valid"
+    (click)="save()"
+    i18n
+  >Poll manually</button>
+</form>

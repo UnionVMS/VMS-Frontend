@@ -225,6 +225,45 @@ export type AssetLicences = Readonly<{
   readonly [assetId: string]: AssetLicence
 }>;
 
+export enum PollType {
+  AUTOMATIC_POLL = 'AUTOMATIC_POLL',
+}
+
+export enum PollStatus {
+  PENDING = 'PENDING',
+  ISSUED = 'ISSUED',
+}
+
+export type PollHistory = Readonly<{
+  status: PollStatus,
+  timestamp: number
+}>;
+
+export type Poll = Readonly<{
+  pollInfo: {
+    assetId: string,
+    channelId: string,
+    comment: string,
+    creator: string,
+    id: string,
+    mobileterminalId: string,
+    pollTypeEnum: PollType,
+    updateTime: number;
+    updatedBy: string,
+  },
+  pollStatus: {
+    guid: string,
+    history: ReadonlyArray<PollHistory>,
+    identifier: string,
+    refMessage: string,
+    typeRef: {
+      message: string,
+      refGuid: string,
+      type: string
+    }
+  }
+}>;
+
 export type State = Readonly<{
   selectedAssets: ReadonlyArray<string>;
   selectedAsset: string|null;
@@ -246,4 +285,5 @@ export type State = Readonly<{
   filterQuery: ReadonlyArray<AssetFilterQuery>;
   unitTonnages: ReadonlyArray<UnitTonnage>;
   assetLicences: AssetLicences;
+  // getLatestPollsForAsset: Readonly<{ readonly [assetId]:  }>
 }>;

@@ -41,6 +41,7 @@
         <ng-container *ngIf="activePanel[1] === 'licenceInformation'" i18n>Licence</ng-container>
         <ng-container *ngIf="activePanel[1] === 'incidentList'" i18n>Asset incidents</ng-container>
         <ng-container *ngIf="activePanel[1] === 'positions'" i18n>Positions</ng-container>
+        <ng-container *ngIf="activePanel[1] === 'managePolling'" i18n>Manage polling</ng-container>
       </h3>
       <div class="asset-name" *ngIf="selectedAsset">
         {{ selectedAsset.asset.name + (selectedAsset.asset.externalMarking !== undefined ? ' &#183; ' + selectedAsset.asset.externalMarking : '') }}
@@ -86,6 +87,13 @@
         [userTimezone]="userTimezone$ | async"
         [getLastFullPositionsForAsset]="getLastFullPositionsForAsset"
       ></map-asset-positions>
+      <map-asset-poll
+        *ngIf="activePanel[1] === 'managePolling'"
+        [asset]="selectedAsset.asset"
+        [polls]="lastFullPositionsForSelectedAsset$ | async"
+        [pollAsset]="pollAsset"
+        [getLatestPollsForAsset]="getLatestPollsForAsset"
+      ></map-asset-poll>
     </ng-container>
   </div>
   <div class="panel listAssets-panel" *ngIf="activePanel[0] === 'listAssets'">

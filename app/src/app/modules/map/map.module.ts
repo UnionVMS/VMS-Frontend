@@ -38,6 +38,7 @@ import { AssetIncidentsDialogComponent } from './components/asset-incidents-dial
 import { AssetPanelComponent } from './components/asset-panel/asset-panel.component';
 import { AssetPanelShowComponent } from './components/asset-panel-show/asset-panel-show.component';
 import { AssetPositionsComponent } from './components/asset-positions/asset-positions.component';
+import { AssetPollComponent } from './components/asset-poll/asset-poll.component';
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
 import { AssetsComponent } from './components/assets/assets.component';
 import { CoordinatesPopupComponent } from './components/coordinates-popup/coordinates-popup.component';
@@ -52,6 +53,7 @@ import { IncidentLogEntryNoteComponent } from './components/incident-log-entry-n
 import { IncidentLogEntryPollComponent } from './components/incident-log-entry-poll/incident-log-entry-poll.component';
 import { IncidentLogEntryPositionComponent } from './components/incident-log-entry-position/incident-log-entry-position.component';
 import { IncidentLogsComponent } from './components/incident-logs/incident-logs.component';
+import { IncidentManualPollFormComponent } from './components/incident-manual-poll-form/incident-manual-poll-form.component';
 import { IncidentStatusFormComponent } from './components/incident-status-form/incident-status-form.component';
 import { IncidentTypeFormComponent } from './components/incident-type-form/incident-type-form.component';
 import { IncidentsAssetNotSendingComponent } from './components/incidents-asset-not-sending/incidents-asset-not-sending.component';
@@ -113,6 +115,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     AssetPanelComponent,
     AssetPanelShowComponent,
     AssetPositionsComponent,
+    AssetPollComponent,
     AssetSearchComponent,
     CoordinatesPopupComponent,
     DistanceBetweenPointsComponent,
@@ -126,6 +129,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentLogEntryPollComponent,
     IncidentLogEntryPositionComponent,
     IncidentLogsComponent,
+    IncidentManualPollFormComponent,
     IncidentStatusFormComponent,
     IncidentTypeFormComponent,
     IncidentsAssetNotSendingComponent,

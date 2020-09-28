@@ -487,6 +487,26 @@ export class AssetEffects {
   );
 
   @Effect()
+  getLatestPollsForAsset$ = this.actions$.pipe(
+    ofType(AssetActions.getLatestPollsForAsset),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([action, authToken]: Array<any>) => {
+        return this.assetService.getLatestPollsForAsset(authToken, action.assetId).pipe(
+          mergeMap((response: any) => {
+            console.warn('Last polls', response);
+            if(typeof response.code !== 'undefined') {
+              return [NotificationsActions.addError('Server error: Couldn\'t create a manual poll. Please contact system administrator.')];
+            }
+            return [NotificationsActions.addSuccess('Manual poll initiated. Response can take anywhere from a few minutes up to a couple of hours.')];
+          })
+        );
+      })
+    ))
+  );
+
+
+  @Effect()
   saveAsset$ = this.actions$.pipe(
     ofType(AssetActions.saveAsset),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),

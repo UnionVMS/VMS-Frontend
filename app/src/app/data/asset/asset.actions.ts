@@ -111,6 +111,11 @@ export const pollAsset = createAction(
   props<{ assetId: string, comment?: string }>()
 );
 
+export const getLatestPollsForAsset = createAction(
+  '[Asset] Get latest polls for asset',
+  props<{ assetId: string }>()
+);
+
 export const removeAssets = createAction(
   '[Asset] Remove asset',
   props<{ assetIds: Array<string>}>()

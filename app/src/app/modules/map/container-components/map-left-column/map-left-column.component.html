@@ -86,10 +86,10 @@
     <map-incidents-manual-position-mode
       [incidents]="incidentsByTypeAndStatus.manualPositionMode"
       [selectedIncident]="selectedIncident"
-      [active]="activePanel[1] === 'MANUAL_MODE'"
+      [active]="activePanel[1] === 'MANUAL_POSITION_MODE'"
       [selectIncident]="selectIncident"
-      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'MANUAL_MODE'])"
-      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'MANUAL_MODE', 'RESOLVED'])"
+      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'MANUAL_POSITION_MODE'])"
+      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'MANUAL_POSITION_MODE', 'RESOLVED'])"
     ></map-incidents-manual-position-mode>
     <map-incidents-seasonal-fishing
       [active]="activePanel[1] === 'SEASONAL_FISHING'"

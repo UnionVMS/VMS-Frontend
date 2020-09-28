@@ -255,4 +255,16 @@ export class AssetService {
       }
     );
   }
+
+  getLatestPollsForAsset(authToken: string, assetId: string) {
+    return this.http.get(
+      environment.baseApiUrl + `web-gateway/rest/poll/pollsForAsset/${assetId}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
 }
