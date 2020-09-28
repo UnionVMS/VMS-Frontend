@@ -15,5 +15,16 @@ export const notesReducer = createReducer(initialState,
         ...notes
       }
     });
+  }),
+  on(NotesActions.removeNoteFromStore, (state, { noteId }) => {
+    return ({
+      ...state,
+      notes: Object.values(state.notes).reduce((notes, note) => {
+        if(note.id !== noteId) {
+          return { ...notes, [note.id]: note };
+        }
+        return notes;
+      }, {})
+    });
   })
 );

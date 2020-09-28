@@ -1,9 +1,9 @@
 <div class="notes-list" *ngIf="asset">
   <div class="notes-list--create">
-    <h2>Create new note</h2>
-    <notes-form note="{}" [save]="save" [create]="true"></notes-form>
+    <h3>Create new note</h3>
+    <notes-form [note]="emptyNote" [save]="save" [create]="true"></notes-form>
   </div>
-  <h2 class="all-notes">All notes</h2>
+  <h3 class="all-notes">All notes</h3>
   <div class="search-wrapper">
     <mat-form-field>
       <mat-label>Search for notes</mat-label>
@@ -16,15 +16,23 @@
       <div class="left-column">
         <div>
           <span class="user">{{note.createdBy}}</span>
-          <span class="date">{{note.createdOnFormatted}}</span>
+          <span class="date">{{note.createdOnFormatted}} <span class="timezone">({{userTimezone}})</span></span>
         </div>
-        <div>{{note.note}}</div>
+        <div class="note-text">{{note.note}}</div>
       </div>
       <div class="right-column">
         <div class="menu">
-          <a class="edit-link" routerLink="/asset/{{asset.id}}/notes/{{note.id}}/edit" i18n>
+          <a matRipple [matMenuTriggerFor]="menu" class="edit-link">
             <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
           </a>
+          <mat-menu #menu="matMenu" class="notes-list--menu">
+            <ng-container *ngIf="note.createdBy === username">
+              <button mat-menu-item routerLink="/asset/{{asset.id}}/notes/{{note.id}}/edit" i18n>Edit note</button>
+              <button mat-menu-item (click)="openDeleteDialog(note)" class="notes-list--menu-delete-button" i18n>Delete note</button>
+              <button mat-menu-item disabled="disabled" i18n>Add file</button>
+            </ng-container>
+            <button mat-menu-item disabled="disabled" i18n>Print note</button>
+          </mat-menu>
         </div>
       </div>
     </div>

@@ -5,11 +5,12 @@
   // grid-column-gap: $x2large_distance;
   grid-template-columns: 1fr;
   background: white;
-  padding: distance(4);
+  padding: 0;
 
   fieldset {
     display: grid;
     grid-template-columns: 1fr;
+    padding: 0;
   }
 
   button#notes-form--save {
@@ -17,7 +18,7 @@
   }
 
   textarea{
-    min-height: 100px;
+    min-height: distance(6);
   }
   mat-label > .required {
     margin-left: $small_distance;

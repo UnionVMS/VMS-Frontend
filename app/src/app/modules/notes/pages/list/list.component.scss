@@ -1,24 +1,25 @@
 @import 'variables.scss';
 
-.notes-list {
+notes-list .notes-list {
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: $distance;
 
   & > * {
     background: white;
-    padding: distance(4);
+    padding: distance(2);
   }
 
   .notes-list--create {
     display: grid;
 
-    h2 {
-      padding-top: 0;
+    h3 {
+      padding: 0;
+      padding-bottom: distance(2);
     }
   }
 
-  h2.all-notes {
+  h3.all-notes {
     margin-top: distance(3);
   }
 
@@ -52,6 +53,10 @@
           margin-left: $distance;
           color: $color_gray;
         }
+
+        .note-text {
+          white-space: pre;
+        }
       }
 
       .right-column {
@@ -61,7 +66,7 @@
           display: grid;
           grid-row-gap: $distance;
 
-          .icon-wrapper, a {
+          .icon-wrapper, .edit-link {
             text-decoration: none;
             color: $color_turquoise;
             border-radius: 30px;
@@ -69,6 +74,7 @@
             display: grid;
             width: 60px;
             height: 60px;
+            cursor: pointer;
             i {
               font-size: 25px;
               place-self: center;
@@ -79,15 +85,24 @@
     }
   }
 
-  fieldset {
-    border: 1px solid #000;
-    label {
-      font-weight: bold;
-      color: $color_green;
-    }
+  // fieldset {
+  //   border: 1px solid #000;
+  //   label {
+  //     font-weight: bold;
+  //     color: $color_green;
+  //   }
+  //
+  //   .edit-link {
+  //     float: right;
+  //   }
+  // }
+}
 
-    .edit-link {
-      float: right;
-    }
+.notes-list--menu .mat-menu-content {
+  button {
+    font-weight: bolder;
+  }
+  .notes-list--menu-delete-button {
+    color: $color_warn;
   }
 }
