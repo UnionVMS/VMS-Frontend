@@ -18,6 +18,7 @@ export class ShowComponent implements OnChanges {
   @Input() incidents: ReadonlyArray<IncidentTypes.Incident>;
 
   public formattedLicence: AssetTypes.AssetLicence & {
+    valid: boolean;
     formattedToDate: string;
     formattedDecisionDate: string,
     formattedFromDate: string,
@@ -37,6 +38,7 @@ export class ShowComponent implements OnChanges {
     if(typeof this.licence !== 'undefined' && this.licence !== null) {
       this.formattedLicence = {
         ...this.licence,
+        valid: this.licence.toDate < new Date().getTime(),
         formattedToDate: formatUnixdate(this.licence.toDate),
         formattedDecisionDate: formatUnixdate(this.licence.decisionDate),
         formattedFromDate: formatUnixdate(this.licence.fromDate),
