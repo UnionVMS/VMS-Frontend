@@ -6,12 +6,12 @@
   grid-row-gap: distance(1);
   grid-column-gap: distance(1);
 
-  .active {
+  .valid {
     color: $color_accent;
     font-weight: bold;
   }
 
-  .inactive {
+  .invalid {
     color: $color_warn;
     font-weight: bold;
   }
