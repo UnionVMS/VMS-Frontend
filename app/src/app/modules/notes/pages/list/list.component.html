@@ -8,17 +8,24 @@
     <mat-form-field>
       <mat-label>Search for notes</mat-label>
       <input matInput [(ngModel)]="searchString" (ngModelChange)="searchNotes($event)">
-      <!-- <input matInput (keyup)="searchNotes($event)"> -->
     </mat-form-field>
   </div>
   <div class="notes">
-    <div class="note" *ngFor="let note of filteredNotes">
+    <div class="note" *ngFor="let note of filteredNotes; trackBy: trackByNoteId">
       <div class="left-column">
         <div>
           <span class="user">{{note.createdBy}}</span>
           <span class="date">{{note.createdOnFormatted}} <span class="timezone">({{userTimezone}})</span></span>
         </div>
-        <div class="note-text">{{note.note}}</div>
+        <div class="note-text" *ngIf="!notesInEditMode.includes(note.id)">{{note.note}}</div>
+        <notes-form
+          *ngIf="notesInEditMode.includes(note.id)"
+          [note]="note"
+          [save]="updateNote"
+          [create]="false"
+          [cancel]="cancelEditNote(note.id)"
+          [dontUpdate]="true"
+        ></notes-form>
       </div>
       <div class="right-column">
         <div class="menu">
@@ -27,7 +34,7 @@
           </a>
           <mat-menu #menu="matMenu" class="notes-list--menu">
             <ng-container *ngIf="note.createdBy === username">
-              <button mat-menu-item routerLink="/asset/{{asset.id}}/notes/{{note.id}}/edit" i18n>Edit note</button>
+              <button mat-menu-item (click)="editNote(note.id)" i18n>Edit note</button>
               <button mat-menu-item (click)="openDeleteDialog(note)" class="notes-list--menu-delete-button" i18n>Delete note</button>
               <button mat-menu-item disabled="disabled" i18n>Add file</button>
             </ng-container>

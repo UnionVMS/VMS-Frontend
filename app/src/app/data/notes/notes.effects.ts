@@ -97,7 +97,6 @@ export class NotesEffects {
       mergeMap(([pipedAction, authToken, selectedAsset]: Array<any>) => {
         const isNew = pipedAction.note.id === undefined || pipedAction.note.id === null;
         let request: Observable<object>;
-        console.warn(isNew);
         if(isNew) {
           if(typeof pipedAction.note.assetId === 'undefined' && typeof selectedAsset !== 'undefined') {
             request = this.notesService.createNote(authToken, { ...pipedAction.note, assetId: selectedAsset.id });

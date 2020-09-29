@@ -34,7 +34,7 @@ export class NotesListComponent implements OnInit, OnDestroy {
     note: FormattedNote,
     searchableString: string
   }>;
-  public save: (note: NotesTypes.Note, redirect: boolean) => void;
+  public save: (note: NotesTypes.Note) => void;
   public deleteNote: (noteId: string) => void;
 
   public searchString = '';
@@ -42,6 +42,7 @@ export class NotesListComponent implements OnInit, OnDestroy {
 
   public userTimezone: string;
   public username: string;
+  public notesInEditMode = [];
 
   public emptyNote = {};
 
@@ -106,6 +107,27 @@ export class NotesListComponent implements OnInit, OnDestroy {
     this.filteredNotes = this.notes
       .filter(note => note.searchableString.indexOf(searchString) !== -1)
       .map(note => note.note);
+  }
+
+  public updateNote = (note: NotesTypes.Note) => {
+    this.cancelEditNote(note.id)();
+    this.save(note);
+  }
+
+  public editNote = (noteId: string) => {
+    if(!this.notesInEditMode.includes(noteId)) {
+      this.notesInEditMode = [ ...this.notesInEditMode, noteId ];
+    }
+  }
+
+  public cancelEditNote = (noteId: string) => () => {
+    if(this.notesInEditMode.includes(noteId)) {
+      this.notesInEditMode = this.notesInEditMode.filter((iNoteId) => iNoteId !== noteId);
+    }
+  }
+
+  public trackByNoteId = (index: number, note: FormattedNote) => {
+    return note.id;
   }
 
   openDeleteDialog(note: FormattedNote): void {
