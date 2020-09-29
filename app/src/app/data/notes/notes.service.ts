@@ -47,6 +47,18 @@ export class NotesService {
     );
   }
 
+  deleteNote(authToken: string, noteId: string) {
+    return this.http.delete(
+      environment.baseApiUrl + `asset/rest/asset/notes/${noteId}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
   getNoteById(authToken: string, noteId: string) {
     return this.http.get(
       environment.baseApiUrl + `asset/rest/asset/note/${ noteId }`, {

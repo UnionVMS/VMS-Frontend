@@ -20,14 +20,17 @@ export class FormComponent implements OnChanges {
   @Input() note: NotesTypes.Note;
   @Input() save: (note: NotesTypes.Note) => void;
   @Input() create: boolean;
+  @Input() cancel?: () => void;
+  @Input() dontUpdate?: boolean;
 
   public notesSubscription: Subscription;
   public formValidator: FormGroup;
 
   ngOnChanges() {
-    this.formValidator = createNotesFormValidator(this.note);
+    if(this.formValidator === undefined || !this.dontUpdate) {
+      this.formValidator = createNotesFormValidator(this.note);
+    }
   }
-
 
   public saveFromFormValidator() {
     const note = {

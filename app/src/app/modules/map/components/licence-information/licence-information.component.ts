@@ -16,7 +16,8 @@ export class LicenceInformationComponent implements OnChanges {
     formattedToDate: string;
     formattedDecisionDate: string,
     formattedFromDate: string,
-    active: string,
+    formattedCivicNumber: string;
+    status: string,
   };
   public displayInformation = true;
   public toggleDisplayInformation = () => this.displayInformation = !this.displayInformation;
@@ -29,12 +30,18 @@ export class LicenceInformationComponent implements OnChanges {
         formattedToDate: formatUnixdate(this.licence.toDate),
         formattedDecisionDate: formatUnixdate(this.licence.decisionDate),
         formattedFromDate: formatUnixdate(this.licence.fromDate),
-        active: (
+        formattedCivicNumber: this.formatCivicNumber(this.licence.civicNumber),
+        status: (
           this.licence.fromDate < currentTimestamp &&
           currentTimestamp < this.licence.toDate
-          ? 'Active' : 'Inactive'
+          ? 'Valid' : 'Invalid'
         ),
       };
     }
+  }
+
+  public formatCivicNumber(civicNumber: string) {
+    const insertPosition = length - 4;
+    return [civicNumber.slice(0, insertPosition), '-', civicNumber.slice(insertPosition)].join('');
   }
 }

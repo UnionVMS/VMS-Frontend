@@ -96,6 +96,13 @@
   <div class="content-container">
     <div class="fields">
       <div class="row">
+        <div class="title"><span class="text" i18n>Licence status</span></div>
+        <div class="value">
+          <span class="valid" *ngIf="formattedLicence.valid" i18n>VALID</span>
+          <span class="invalid" *ngIf="!formattedLicence.valid" i18n>INVALID</span>
+        </div>
+      </div>
+      <div class="row">
         <div class="title"><span class="text" i18n>Licence no.</span></div>
         <div class="value">{{formattedLicence.licenceNumber}}</div>
       </div>
@@ -113,7 +120,7 @@
       </div>
       <div class="row">
         <div class="title"><span class="text" i18n>To date</span></div>
-        <div class="value">{{formattedLicence.formattedToDate}}</div>
+        <div class="value{{!formattedLicence.valid ? ' invalid' : ''}}">{{formattedLicence.formattedToDate}}</div>
       </div>
       <div class="row">
         <div class="title"><span class="text" i18n>Order date</span></div>

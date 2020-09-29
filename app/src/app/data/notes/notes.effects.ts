@@ -36,10 +36,7 @@ export class NotesEffects {
           return this.notesService.getNotesFromAssetId(authToken, mergedRoute.params.assetId).pipe(
             map((response: any) => {
               return NotesActions.setNotes({
-                notes: response.reduce((acc: { [id: string]: NotesTypes.Note }, note: NotesTypes.Note) => {
-                  acc[note.id] = note;
-                  return acc;
-                }, {})
+                notes: response
               });
             })
           );
@@ -75,6 +72,21 @@ export class NotesEffects {
   );
 
   @Effect()
+  deleteNote$ = this.actions$.pipe(
+    ofType(NotesActions.deleteNote),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([action, authToken]: Array<any>) => {
+        return this.notesService.deleteNote(authToken, action.noteId).pipe(
+          map((note: any) => {
+            return NotesActions.removeNoteFromStore({ noteId: action.noteId });
+          })
+        );
+      })
+    ))
+  );
+
+  @Effect()
   saveNote$ = this.actions$.pipe(
     ofType(NotesActions.saveNote),
     mergeMap((action) => of(action).pipe(
@@ -85,7 +97,6 @@ export class NotesEffects {
       mergeMap(([pipedAction, authToken, selectedAsset]: Array<any>) => {
         const isNew = pipedAction.note.id === undefined || pipedAction.note.id === null;
         let request: Observable<object>;
-        console.warn(isNew);
         if(isNew) {
           if(typeof pipedAction.note.assetId === 'undefined' && typeof selectedAsset !== 'undefined') {
             request = this.notesService.createNote(authToken, { ...pipedAction.note, assetId: selectedAsset.id });
