@@ -227,12 +227,28 @@ export type AssetLicences = Readonly<{
 
 export enum PollType {
   AUTOMATIC_POLL = 'AUTOMATIC_POLL',
+  PROGRAM_POLL = 'PROGRAM_POLL',
+  SAMPLING_POLL = 'SAMPLING_POLL',
+  MANUAL_POLL = 'MANUAL_POLL',
+  CONFIGURATION_POLL = 'CONFIGURATION_POLL',
+  BASE_POLL = 'BASE_POLL'
 }
 
 export enum PollStatus {
+  SUCCESSFUL = 'SUCCESSFUL',
+  TIMED_OUT = 'TIMED_OUT',
+  FAILED = 'FAILED',
   PENDING = 'PENDING',
   ISSUED = 'ISSUED',
 }
+
+export type PollPostObject = Readonly<{
+  comment: string,
+  pollType?: PollType,
+  frequency?: number,
+  startDate?: number,
+  endDate?: number,
+}>;
 
 export type PollHistory = Readonly<{
   status: PollStatus,
@@ -248,7 +264,7 @@ export type Poll = Readonly<{
     id: string,
     mobileterminalId: string,
     pollTypeEnum: PollType,
-    updateTime: number;
+    updateTime: number,
     updatedBy: string,
   },
   pollStatus: {
@@ -285,5 +301,9 @@ export type State = Readonly<{
   filterQuery: ReadonlyArray<AssetFilterQuery>;
   unitTonnages: ReadonlyArray<UnitTonnage>;
   assetLicences: AssetLicences;
-  // getLatestPollsForAsset: Readonly<{ readonly [assetId]:  }>
+  lastPollsForAsset: Readonly<{
+    readonly [assetId: string]: Readonly<{
+      readonly [pollId: string]: Poll
+    }>
+  }>
 }>;

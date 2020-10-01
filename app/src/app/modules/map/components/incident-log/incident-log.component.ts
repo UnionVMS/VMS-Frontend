@@ -30,6 +30,6 @@ export class IncidentLogComponent implements OnChanges {
   }
 
   getStatusText(status: string) {
-    return IncidentStatusFormComponent.statuses[status];
+    return IncidentTypes.statusTranslations[status] || status;
   }
 }

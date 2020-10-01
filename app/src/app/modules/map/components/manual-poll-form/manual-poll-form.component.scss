@@ -1,9 +1,25 @@
 @import 'variables.scss';
 
+mat-radio-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: distance(1);
+}
+
 form.manual-poll-form {
   background: white;
   padding: $small_distance;
   display: grid;
   grid-template-columns: 1fr;
   grid-column-gap: $small_distance;
+
+  .program-poll {
+    padding-top: distance(1);
+
+    .timestamps, .frequency {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: distance(1);
+    }
+  }
 }

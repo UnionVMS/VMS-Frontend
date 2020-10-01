@@ -1,0 +1,49 @@
+@import 'variables.scss';
+
+.poll {
+  display: grid;
+  padding: distance(2) distance(1) distance(1);
+  grid-row-gap: distance(1);
+  background: white;
+  &.even {
+    background: $color_warm_gray;
+  }
+
+  .core-data {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: distance(1);
+    grid-row-gap: distance(1);
+  }
+
+  .expanded-information {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    grid-column-gap: distance(1);
+    grid-row-gap: distance(1);
+
+  }
+
+  .poll-block {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-row-gap: distance(0.5);
+
+    &.position, &.comment, &.ocean-region {
+      grid-column: span 2;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    .value {
+      font-size: 13px;
+    }
+  }
+
+  .status {
+    font-weight: bold;
+    color: $color_light_turquoise;
+  }
+}

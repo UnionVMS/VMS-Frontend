@@ -4,13 +4,7 @@ import Map from 'ol/Map';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 import { AssetTypes } from '@data/asset';
-
-type ExtendedMovement = Readonly<AssetTypes.FullMovement & {
-  locationDDM: { latitude: string, longitude: string };
-  formattedTimestamp: string;
-  formattedSpeed: string,
-  formattedOceanRegion: string;
-}>;
+import { MobileTerminalTypes } from '@data/mobile-terminal';
 
 @Component({
   selector: 'map-asset-poll',
@@ -20,57 +14,43 @@ type ExtendedMovement = Readonly<AssetTypes.FullMovement & {
 export class AssetPollComponent implements OnInit, OnChanges {
   @Input() asset: AssetTypes.Asset;
   @Input() polls: ReadonlyArray<AssetTypes.Poll>;
-  @Input() pollAsset: (assetId: string, comment: string) => void;
+  @Input() pollAsset: (assetId: string, pollPostObject: AssetTypes.PollPostObject) => void;
   @Input() getLatestPollsForAsset: (assetId: string) => void;
+  @Input() mobileTerminals: Readonly<{ [mobileTerminalId: string]: MobileTerminalTypes.MobileTerminal }>;
 
   public formActive = true;
-  public positionsActive = true;
+  public pollsActive = true;
 
-  public extendedPositions: ReadonlyArray<ExtendedMovement>;
-
-  public sourcesToExclude: ReadonlyArray<string> = ['AIS'];
+  public sortedPolls: ReadonlyArray<AssetTypes.Poll>;
+  public pollsExpanded: ReadonlyArray<string> = [];
 
   public ngOnInit() {
     this.getLatestPollsForAsset(this.asset.id);
   }
 
-
   public ngOnChanges() {
-    // if(typeof this.positions === 'undefined') {
-    //   this.extendedPositions = [];
-    // } else {
-    //   this.extendedPositions = this.positions.map(position => ({
-    //     ...position,
-    //     locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude, 2),
-    //     formattedTimestamp: formatUnixtime(position.timestamp),
-    //     formattedSpeed: position.speed.toFixed(2),
-    //     formattedOceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId]
-    //   })).sort((a, b) => {
-    //     return b.timestamp - a.timestamp;
-    //   });
-    // }
+    if(typeof this.polls === 'undefined') {
+      this.sortedPolls = [];
+    } else {
+      this.sortedPolls = [ ...this.polls ].sort((a, b) => {
+        return b.pollInfo.updateTime - a.pollInfo.updateTime;
+      });
+    }
   }
 
-  public createManualMovementCurried = (movement: AssetTypes.Movement) => {
-    // setTimeout(() => this.getLastFullPositionsForAsset(this.asset.id, 20, this.sourcesToExclude, true), 1000);
-    // return this.createManualMovement({
-    //   movement,
-    //   asset: {
-    //     cfr: this.asset.cfr,
-    //     ircs: this.asset.ircs
-    //   }
-    // });
-  }
-
-  public trackByPositionId = (position: AssetTypes.FullMovement) =>  {
-    return position;
+  public trackByPollId = (index: number, poll: AssetTypes.Poll) =>  {
+    return poll.pollInfo.id;
   }
 
   public toggleFormActive = () => {
     this.formActive = !this.formActive;
   }
 
-  public togglePositionsActive = () => {
-    this.positionsActive = !this.positionsActive;
+  public togglePollsActive = () => {
+    this.pollsActive = !this.pollsActive;
+  }
+
+  public isProgramPoll = (poll: AssetTypes.Poll) => {
+    return poll.pollInfo.pollTypeEnum === AssetTypes.PollType.PROGRAM_POLL;
   }
 }

@@ -23,6 +23,7 @@ export const selectLastUserAssetSearch = (state: State) => state.asset.lastUserA
 export const selectSelectedAssets = (state: State) => state.asset.selectedAssets;
 export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
 export const selectLastFullPositions = (state: State) => state.asset.lastFullPositions;
+export const selectLastPollsForAsset = (state: State) => state.asset.lastPollsForAsset;
 export const selectFilterQuery = (state: State) => state.asset.filterQuery;
 export const selectSearchQuery = (state: State) => state.asset.searchQuery;
 export const selectPositionsForInspection = (state: State) => state.asset.positionsForInspection;
@@ -364,6 +365,15 @@ export const getLastFullPositionsForSelectedAsset = createSelector(
   selectLastFullPositions, selectSelectedAsset,
   (fullPositions: { [assetId: string]: ReadonlyArray<AssetTypes.FullMovement> }, assetId: string | null) =>
     typeof assetId !== 'undefined' && assetId !== null ? fullPositions[assetId] : undefined
+);
+
+export const getLastPollsForSelectedAsset = createSelector(
+  selectLastPollsForAsset, selectSelectedAsset,
+  (lastPollsForAsset, assetId) => typeof assetId !== 'undefined'
+    && assetId !== null
+    && typeof lastPollsForAsset[assetId] !== 'undefined'
+      ? Object.values(lastPollsForAsset[assetId])
+      : []
 );
 
 

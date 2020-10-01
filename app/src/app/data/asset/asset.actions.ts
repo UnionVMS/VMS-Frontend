@@ -108,12 +108,17 @@ export const getUnitTonnage = createAction(
 
 export const pollAsset = createAction(
   '[Asset] Poll asset',
-  props<{ assetId: string, comment?: string }>()
+  props<{ assetId: string, pollPostObject: AssetTypes.PollPostObject }>()
 );
 
 export const getLatestPollsForAsset = createAction(
   '[Asset] Get latest polls for asset',
   props<{ assetId: string }>()
+);
+
+export const setLastPollsForAsset = createAction(
+  '[Asset] Set latest polls for asset',
+  props<{ assetId: string, polls: Readonly<{ readonly [pollId: string]: AssetTypes.Poll }> }>()
 );
 
 export const removeAssets = createAction(

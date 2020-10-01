@@ -90,9 +90,10 @@
       <map-asset-poll
         *ngIf="activePanel[1] === 'managePolling'"
         [asset]="selectedAsset.asset"
-        [polls]="lastFullPositionsForSelectedAsset$ | async"
+        [polls]="lastPollsForSelectedAsset$ | async"
         [pollAsset]="pollAsset"
         [getLatestPollsForAsset]="getLatestPollsForAsset"
+        [mobileTerminals]="mobileTerminals$ | async"
       ></map-asset-poll>
     </ng-container>
   </div>

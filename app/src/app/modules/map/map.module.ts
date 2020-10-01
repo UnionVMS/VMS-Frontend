@@ -39,6 +39,8 @@ import { AssetPanelComponent } from './components/asset-panel/asset-panel.compon
 import { AssetPanelShowComponent } from './components/asset-panel-show/asset-panel-show.component';
 import { AssetPositionsComponent } from './components/asset-positions/asset-positions.component';
 import { AssetPollComponent } from './components/asset-poll/asset-poll.component';
+import { AssetPollManualComponent } from './components/asset-poll-manual/asset-poll-manual.component';
+import { AssetPollProgramComponent } from './components/asset-poll-program/asset-poll-program.component';
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
 import { AssetsComponent } from './components/assets/assets.component';
 import { CoordinatesPopupComponent } from './components/coordinates-popup/coordinates-popup.component';
@@ -116,6 +118,8 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     AssetPanelShowComponent,
     AssetPositionsComponent,
     AssetPollComponent,
+    AssetPollManualComponent,
+    AssetPollProgramComponent,
     AssetSearchComponent,
     CoordinatesPopupComponent,
     DistanceBetweenPointsComponent,

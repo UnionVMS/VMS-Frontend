@@ -1,0 +1,70 @@
+<div class="poll {{index % 2 === 0 ? 'even' : 'odd'}}">
+  <div class="core-data">
+    <div class="poll-block">
+      <span class="label" i18n>Timestamp</span>
+      <span class="value">{{formattedPoll.formattedTimestamp}}</span>
+    </div>
+    <div class="poll-block">
+      <span class="label" i18n>Status</span>
+      <span class="value status {{formattedPoll.formattedHistory[0].status}}">{{formattedPoll.formattedHistory[0].formattedStatus}}</span>
+    </div>
+    <div class="poll-block ocean-region">
+      <span class="label" i18n>Ocean region</span>
+      <span class="value">{{formattedPoll.oceanRegions.join(', ')}}</span>
+    </div>
+    <ng-container *ngIf="isPollSuccessful(formattedPoll)">
+      <div class="poll-block">
+        <span class="label" i18n>Code</span>
+        <span class="value">-</span>
+      </div>
+      <div class="poll-block position">
+        <span class="label" i18n>Position</span>
+        <span class="value">-</span>
+      </div>
+    </ng-container>
+  </div>
+  <button
+    *ngIf="!expanded"
+    type="button"
+    mat-button
+    (click)="expanded = true"
+    i18n
+  >Show more</button>
+  <ng-container *ngIf="expanded">
+    <div class="expanded-information">
+      <div class="poll-block history">
+        <span class="label" i18n>History</span>
+        <table class="value">
+          <tbody>
+            <tr *ngFor="let statusRow of formattedPoll.formattedHistory">
+              <td>{{statusRow.formattedDate}}</td>
+              <td>{{statusRow.formattedTime}}</td>
+              <td class="status {{statusRow.status}}">{{statusRow.formattedStatus}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="poll-block">
+        <span class="label" i18n>Poll type</span>
+        <span class="value">{{formattedPoll.pollInfo.pollTypeEnum}}</span>
+      </div>
+      <div class="poll-block">
+        <span class="label" i18n>Transponder</span>
+        <span class="value">{{formattedPoll.transponder}}</span>
+      </div>
+      <div class="poll-block">
+        <span class="label" i18n>Identifier</span>
+        <span class="value">{{formattedPoll.pollStatus.identifier}}</span>
+      </div>
+      <div class="poll-block">
+        <span class="label" i18n>User</span>
+        <span class="value">{{formattedPoll.pollInfo.creator}}</span>
+      </div>
+      <div class="poll-block comment">
+        <span class="label" i18n>Comment</span>
+        <span class="value">{{formattedPoll.pollInfo.comment}}</span>
+      </div>
+    </div>
+    <button type="button" mat-button (click)="expanded = false" i18n>Show less</button>
+  </ng-container>
+</div>

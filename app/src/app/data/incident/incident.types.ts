@@ -8,6 +8,21 @@ export enum IncidentNotificationTypes {
 
 export const IncidentResolvedStatus = 'RESOLVED';
 
+export const statusTranslations = {
+  POLL_FAILED: $localize`:@@ts-issue-status-poll-failed:Poll Failed`,
+  ATTEMPTED_CONTACT: $localize`:@@ts-issue-status-attempted-contact:Attempted Contact`,
+  MANUAL_POSITION_MODE: $localize`:@@ts-issue-status-manual-position-mode:Manual Position Mode`,
+  PARKED: $localize`:@@ts-issue-status-parked:Parked`,
+  TECHNICAL_ISSUE: $localize`:@@ts-issue-status-technical-issue:Technical issue`,
+  RESOLVED: $localize`:@@ts-issue-status-resolved:Resolved`,
+  INCIDENT_CREATED: $localize`:@@ts-issue-status-created:Created`,
+  MANUAL_POSITION_LATE: $localize`:@@ts-issue-status-manual-position-late:Overdue`,
+  RECEIVING_VMS_POSITIONS: $localize`:@@ts-issue-status-recieving-vms-positioins:Recieving VMS`,
+  NOT_RECEIVING_VMS_POSITIONS: $localize`:@@ts-issue-status-not-recieving-vms-positioins:Not recieving VMS`,
+  OVERDUE: $localize`:@@ts-issue-status-overdue:Overdue`,
+  RECEIVING_AIS_POSITIONS: $localize`:@@ts-issue-status-recieving-ais-positioins:Recieving AIS`,
+};
+
 export enum AssetNotSendingStatuses {
   INCIDENT_CREATED = 'INCIDENT_CREATED',
   ATTEMPTED_CONTACT = 'ATTEMPTED_CONTACT',
@@ -31,6 +46,7 @@ export enum SeasonalFishingStatuses {
 export enum ParkedStatuses {
   PARKED = 'PARKED',
   RECEIVING_AIS_POSITIONS = 'RECEIVING_AIS_POSITIONS',
+  OVERDUE = 'OVERDUE',
   RESOLVED = 'RESOLVED'
 }
 

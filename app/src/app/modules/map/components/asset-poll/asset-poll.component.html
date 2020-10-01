@@ -9,44 +9,35 @@
   >
     <map-manual-poll-form
       body
-      incidentId="123"
-      [pollIncident]="pollAsset"
+      [assetId]="asset.id"
+      [pollAsset]="pollAsset"
     ></map-manual-poll-form>
   </map-panel-block>
 
-  <!-- <map-panel-block
+  <map-panel-block
     i18n-blockTitle
-    blockTitle="Latest positions"
-    [active]="positionsActive === true"
-    [setActiveFunction]="togglePositionsActive"
+    blockTitle="Last 24 hours history"
+    [active]="pollsActive === true"
+    [setActiveFunction]="togglePollsActive"
     [useArrowsAsToggle]="true"
     noExternalPadding="true"
     noContentPadding="true"
   >
-    <div body class="positions">
-      <div *ngFor="let position of extendedPositions; trackBy: trackByPositionId; let i=index" class="position {{i % 2 === 0 ? 'even' : 'odd'}}">
-        <div class="position-block">
-          <span class="label" i18n>Timestamp</span>
-          <span class="value">{{position.formattedTimestamp}}</span>
-        </div>
-        <div class="position-block">
-          <span class="label" i18n="Longitude and latitude">Position</span>
-          <span class="value">{{position.locationDDM.latitude}}, {{position.locationDDM.longitude}}</span>
-        </div>
-        <div class="position-block one-row{{position.formattedOceanRegion > '' ? '' : ' full-row'}}">
-          <span class="label" i18n="This is related to what source the position is using, i.e. AIS, VMS and so on.">Type:</span>
-          <span class="value">
-            {{position.source}}
-            <ng-container *ngIf="position.source === 'MANUAL'">|
-              <span class="user">{{position.updatedBy}}</span>
-            </ng-container>
-          </span>
-        </div>
-        <div class="position-block one-row" *ngIf="position.formattedOceanRegion > ''">
-          <span class="label" i18n="Shortend version of Ocean Region:">OR:</span>
-          <span class="value">{{position.formattedOceanRegion}}</span>
-        </div>
-      </div>
+    <div body class="polls">
+      <ng-container *ngFor="let poll of sortedPolls; trackBy: trackByPollId; let i=index">
+        <map-asset-poll-manual
+          *ngIf="!isProgramPoll(poll)"
+          [poll]="poll"
+          [mobileTerminal]="mobileTerminals[poll.pollInfo.mobileterminalId]"
+          [index]="i"
+        ></map-asset-poll-manual>
+        <map-asset-poll-program
+          *ngIf="isProgramPoll(poll)"
+          [poll]="poll"
+          [mobileTerminal]="mobileTerminals[poll.pollInfo.mobileterminalId]"
+          [index]="i"
+        ></map-asset-poll-program>
+      </ng-container>
     </div>
-  </map-panel-block> -->
+  </map-panel-block>
 </div>

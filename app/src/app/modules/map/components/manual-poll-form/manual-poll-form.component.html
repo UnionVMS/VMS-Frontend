@@ -1,6 +1,57 @@
+<mat-radio-group aria-label="Poll type" [(ngModel)]="pollType" (change)="pollTypeUpdated($event)">
+  <mat-radio-button value="manual" i18n>Manual poll</mat-radio-button>
+  <mat-radio-button value="program" i18n>Program poll</mat-radio-button>
+</mat-radio-group>
+
 <form class="manual-poll-form" [formGroup]="formValidator">
+  <div class="program-poll">
+    <div class="timestamps">
+      <ngx-datetime-picker
+        class="timestamps--from"
+        [(dateTime)]="formValidator.value.from"
+        (dateTimeChange)="updateTimestamp($event, 'from')"
+        label="From"
+        [errorMessages]="getErrorMessages(['from'])"
+        [disabled]="pollType !== 'program'"
+        [positionFromRight]="true"
+      ></ngx-datetime-picker>
+      <ngx-datetime-picker
+        class="timestamps--to"
+        [(dateTime)]="formValidator.value.to"
+        (dateTimeChange)="updateTimestamp($event, 'to')"
+        label="to"
+        [errorMessages]="getErrorMessages(['to'])"
+        [disabled]="pollType !== 'program'"
+        [positionFromRight]="true"
+      ></ngx-datetime-picker>
+    </div>
+    <div class="frequency">
+      <mat-form-field>
+        <mat-label i18n>Frequency</mat-label>
+        <input
+          matInput
+          formControlName="frequencyHours"
+          type="number"
+          required
+        />
+        <span matSuffix i18n>h</span>
+        <mat-error *ngFor="let error of getErrors(['frequencyHours'])">{{ errorMessage(error) }}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="frequencyMinutes"
+          type="number"
+          required
+        />
+        <span matSuffix i18n>min</span>
+        <mat-error *ngFor="let error of getErrors(['frequencyMinutes'])">{{ errorMessage(error) }}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
   <mat-form-field id="manual-poll-form--comment">
-    <mat-label>Comment/Reason</mat-label>
+    <mat-label i18n>Comment/Reason</mat-label>
     <textarea matInput formControlName="comment" required></textarea>
     <mat-error *ngFor="let error of getErrors(['comment'])">{{ errorMessage(error) }}</mat-error>
   </mat-form-field>

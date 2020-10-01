@@ -27,6 +27,7 @@ export const initialState: Types.State = {
   filterQuery: [],
   unitTonnages: [],
   assetLicences: {},
+  lastPollsForAsset: {}
 };
 
 const speedSegments = {
@@ -368,6 +369,13 @@ export const assetReducer = createReducer(initialState,
     lastFullPositions: {
       ...state.lastFullPositions,
       ...fullPositionsByAsset
+    }
+  })),
+  on(AssetActions.setLastPollsForAsset, (state, { assetId, polls }) => ({
+    ...state,
+    lastPollsForAsset: {
+      ...state.lastPollsForAsset,
+      [assetId]: polls
     }
   })),
   on(AssetActions.setTracksForAsset, (state, { tracks, assetId, sources }) => {

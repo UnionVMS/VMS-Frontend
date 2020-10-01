@@ -243,10 +243,10 @@ export class AssetService {
     );
   }
 
-  poll(authToken: string, assetId: string, comment: string) {
+  poll(authToken: string, assetId: string, pollPostObject: AssetTypes.PollPostObject) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/poll/createPollForAsset/${assetId}`,
-      { comment },
+      pollPostObject,
       {
         headers: new HttpHeaders({
           Authorization: authToken,
@@ -256,7 +256,7 @@ export class AssetService {
     );
   }
 
-  getLatestPollsForAsset(authToken: string, assetId: string) {
+  getLastPollsForAsset(authToken: string, assetId: string) {
     return this.http.get(
       environment.baseApiUrl + `web-gateway/rest/poll/pollsForAsset/${assetId}`,
       {

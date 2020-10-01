@@ -11,6 +11,7 @@ import { MapActions, MapSelectors } from '@data/map';
 import { NotesActions, NotesTypes } from '@data/notes';
 import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors } from '@data/map-saved-filters';
 import { MapSettingsTypes, MapSettingsSelectors } from '@data/map-settings';
+import { MobileTerminalTypes, MobileTerminalSelectors, MobileTerminalActions } from '@data/mobile-terminal';
 import { UserSettingsSelectors } from '@data/user-settings';
 
 
@@ -40,8 +41,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public incidentsForAssets: Readonly<{ readonly [assetId: string]: ReadonlyArray<IncidentTypes.Incident> }>;
   public incidentTypes$: Observable<IncidentTypes.IncidentTypesCollection>;
   public lastFullPositionsForSelectedAsset$: Observable<ReadonlyArray<AssetTypes.FullMovement>>;
+  public lastPollsForSelectedAsset$: Observable<ReadonlyArray<AssetTypes.Poll>>;
   public licence$: Observable<AssetTypes.AssetLicence>;
   public licenceLoaded = false;
+  public mobileTerminals$: Observable<Readonly<{ [mobileTerminalId: string]: MobileTerminalTypes.MobileTerminal }>>;
   public userTimezone$: Observable<string>;
 
   public addForecast: (assetId: string) => void;
@@ -62,7 +65,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public getLicenceForAsset: (assetId: string) => void;
   public getLogForIncident: (incidentId: number) => void;
   public getLatestPollsForAsset: (assetId: string) => void;
-  public pollAsset: (assetId: string, comment: string) => void;
+  public pollAsset: (assetId: string, pollPostObject: AssetTypes.PollPostObject) => void;
   public pollIncident: (incidentId: number, comment: string) => void;
   public removeForecast: (assetId: string) => void;
   public saveIncident: (incident: IncidentTypes.Incident) => void;
@@ -143,6 +146,17 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     }));
     this.incidentTypes$ = this.store.select(IncidentSelectors.getIncidentTypes);
     this.lastFullPositionsForSelectedAsset$ = this.store.select(AssetSelectors.getLastFullPositionsForSelectedAsset);
+    this.lastPollsForSelectedAsset$ = this.store.select(AssetSelectors.getLastPollsForSelectedAsset).pipe(tap((polls) => {
+      polls.reduce((acc, poll) => {
+        if(!acc.includes(poll.pollInfo.mobileterminalId)) {
+          return [ ...acc, poll.pollInfo.mobileterminalId ];
+        }
+        return acc;
+      }, []).map((mobileTerminalId) => {
+        this.store.dispatch(MobileTerminalActions.getMobileTerminal({ mobileTerminalId }));
+      });
+    }));
+    this.mobileTerminals$ = this.store.select(MobileTerminalSelectors.getMobileTerminals);
     this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
   }
 
@@ -200,8 +214,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     };
     this.saveIncident = (incident: IncidentTypes.Incident) =>
       this.store.dispatch(IncidentActions.saveIncident({ incident }));
-    this.pollAsset = (assetId: string, comment: string) =>
-      this.store.dispatch(AssetActions.pollAsset({ assetId, comment }));
+    this.pollAsset = (assetId: string, pollPostObject: AssetTypes.PollPostObject) =>
+      this.store.dispatch(AssetActions.pollAsset({ assetId, pollPostObject }));
     this.pollIncident = (incidentId: number, comment: string) =>
       this.store.dispatch(IncidentActions.pollIncident({ incidentId, comment }));
     this.createNote = (note: NotesTypes.Note) =>
