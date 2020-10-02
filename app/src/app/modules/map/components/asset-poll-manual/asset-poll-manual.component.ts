@@ -30,6 +30,7 @@ export class AssetPollManualComponent implements OnChanges {
   @Input() poll: AssetTypes.Poll;
   @Input() mobileTerminal: MobileTerminalTypes.MobileTerminal;
   @Input() index: number;
+  @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 
   public formActive = true;
   public pollsActive = true;

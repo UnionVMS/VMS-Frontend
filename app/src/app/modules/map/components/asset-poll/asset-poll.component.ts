@@ -17,9 +17,10 @@ export class AssetPollComponent implements OnInit, OnChanges {
   @Input() pollAsset: (assetId: string, pollPostObject: AssetTypes.PollPostObject) => void;
   @Input() getLatestPollsForAsset: (assetId: string) => void;
   @Input() mobileTerminals: Readonly<{ [mobileTerminalId: string]: MobileTerminalTypes.MobileTerminal }>;
+  @Input() userTimezone: string;
 
   public formActive = true;
-  public pollsActive = true;
+  public pollsActive = false;
 
   public sortedPolls: ReadonlyArray<AssetTypes.Poll>;
   public pollsExpanded: ReadonlyArray<string> = [];

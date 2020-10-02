@@ -30,12 +30,14 @@
           [poll]="poll"
           [mobileTerminal]="mobileTerminals[poll.pollInfo.mobileterminalId]"
           [index]="i"
+          [userTimezone]="userTimezone"
         ></map-asset-poll-manual>
         <map-asset-poll-program
           *ngIf="isProgramPoll(poll)"
           [poll]="poll"
           [mobileTerminal]="mobileTerminals[poll.pollInfo.mobileterminalId]"
           [index]="i"
+          [userTimezone]="userTimezone"
         ></map-asset-poll-program>
       </ng-container>
     </div>

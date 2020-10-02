@@ -6,7 +6,6 @@ import { FormControl } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 
 import { compareTableSortString, compareTableSortNumber } from '@app/helpers/helpers';
-import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
 import { State } from '@app/app-reducer';
 
