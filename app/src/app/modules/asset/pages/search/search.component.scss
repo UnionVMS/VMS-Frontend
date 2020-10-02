@@ -41,8 +41,11 @@
       }
     }
 
-    .search-button-wrapper {
+    .form-button-wrapper {
       place-self: center;
+      display: grid;
+      grid-column-gap: distance(1);
+      grid-template-columns: 1fr 1fr;
     }
   }
 

@@ -64,6 +64,11 @@ export const assetReducer = createReducer(initialState,
       [assetMovement.asset]: assetMovement
     }
   })),
+  on(AssetActions.clearAssetSearch, (state) => ({
+    ...state,
+      currentAssetList: null,
+      lastUserAssetSearch: null
+  })),
   on(AssetActions.setAssetPositionsWithoutAffectingTracks, (state, { movementsByAsset }) => ({
     ...state,
     assetMovements: movementsByAsset

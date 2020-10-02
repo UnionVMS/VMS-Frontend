@@ -154,6 +154,8 @@ export const searchAssets = createAction(
   props<{ searchQuery: AssetTypes.AssetListSearchQuery, userSearch?: boolean }>()
 );
 
+export const clearAssetSearch = createAction('[Asset] Clear search');
+
 export const selectAsset = createAction(
   '[Asset] Select asset',
   props<{ assetId: string }>()
