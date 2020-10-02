@@ -2,9 +2,6 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { IncidentTypes } from '@data/incident';
 import { Position } from '@data/generic.types';
 
-import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
-import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
-
 @Component({
   selector: 'map-incidents-manual-position-mode',
   templateUrl: './incidents-manual-position-mode.component.html',
