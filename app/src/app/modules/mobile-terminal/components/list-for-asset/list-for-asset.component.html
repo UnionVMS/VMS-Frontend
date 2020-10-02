@@ -3,7 +3,7 @@
     animationDuration="0ms"
     (selectedTabChange)="changeCurrentMobileTerminalLocal($event)"
   >
-    <mat-tab *ngFor="let mobileTerminal of mobileTerminals" [label]="mobileTerminal.serialNo">
+    <mat-tab *ngFor="let mobileTerminal of formattedMobileTerminals" [label]="mobileTerminal.serialNo">
 
       <div class="mobileTerminal">
         <div class="row">

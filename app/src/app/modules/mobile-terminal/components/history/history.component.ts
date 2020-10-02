@@ -31,6 +31,7 @@ export class HistoryComponent implements OnChanges {
   @Input() mobileTerminalHistoryFilter: MobileTerminalTypes.MobileTerminalHistoryFilter;
   @Input() addMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
   @Input() removeMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
+  @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 
   public mobileTerminalHistoryArray: ReadonlyArray<ExtendedMobileTerminalHistory>;
   public filtersVisible = true;

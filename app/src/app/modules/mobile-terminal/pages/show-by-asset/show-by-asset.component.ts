@@ -5,13 +5,13 @@ import { Subscription, Observable, Subject } from 'rxjs';
 import { take, takeUntil, first } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { formatUnixtime } from '@app/helpers/datetime-formatter';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
 import { MobileTerminalTypes, MobileTerminalActions, MobileTerminalSelectors } from '@data/mobile-terminal';
 import { RouterTypes, RouterSelectors } from '@data/router';
+import { UserSettingsSelectors } from '@data/user-settings';
 
 @Component({
   selector: 'mobile-terminal-show-by-asset-page',
@@ -27,6 +27,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   ) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
+  public userTimezone$: Observable<string>;
   public currentTab = 0;
   public mobileTerminals: ReadonlyArray<MobileTerminalTypes.MobileTerminal>;
   public mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
@@ -50,18 +51,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
 
   mapStateToProps() {
     this.store.select(MobileTerminalSelectors.getMobileTerminalsForUrlAsset).pipe(takeUntil(this.unmount$)).subscribe((mobileTerminals) => {
-      this.mobileTerminals = mobileTerminals.map((mobileTerminal: MobileTerminalTypes.MobileTerminal) => ({
-        ...mobileTerminal,
-        installDateFormatted: formatUnixtime(mobileTerminal.installDate),
-        uninstallDateFormatted: formatUnixtime(mobileTerminal.uninstallDate),
-        channels: mobileTerminal.channels.slice().sort((c1: MobileTerminalTypes.Channel, c2: MobileTerminalTypes.Channel) => {
-          return c1.name.localeCompare(c2.name);
-        }).map(channel => ({
-          ...channel,
-          startDateFormatted: formatUnixtime(channel.startDate),
-          endDateFormatted: formatUnixtime(channel.endDate)
-        }))
-      }));
+      this.mobileTerminals = mobileTerminals;
       if(this.mobileTerminals.length > 0) {
         if(
           typeof this.currentMobileTerminal === 'undefined' ||
@@ -94,6 +84,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.store.dispatch(MobileTerminalActions.getMobileTerminalHistoryForAsset({ assetId: this.selectedAsset.id }));
       }
     });
+    this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
   }
 
   mapDispatchToProps() {
