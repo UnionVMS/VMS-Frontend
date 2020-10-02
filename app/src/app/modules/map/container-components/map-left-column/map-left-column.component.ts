@@ -7,6 +7,7 @@ import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
 import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
 import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors } from '@data/map-saved-filters';
+import { UserSettingsSelectors } from '@data/user-settings';
 
 
 @Component({
@@ -50,6 +51,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     assetEssentials: AssetTypes.AssetEssentialProperties
   }>>>;
   public selectAsset: (assetId: string) => void;
+  public userTimezone$: Observable<string>;
 
 
   public incidentsByTypeAndStatus: IncidentTypes.IncidentsByTypeAndStatus;
@@ -116,6 +118,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       .subscribe((assetEssentials) => {
         this.assetEssentialsForAssetGroups = assetEssentials;
       });
+    this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
   }
 
   mapDispatchToProps() {

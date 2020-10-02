@@ -27,6 +27,7 @@
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"
             [urgency]="incident.risk"
+            [userTimezone]="userTimezone"
           ></map-incident-card>
         </ng-container>
       </ng-container>
@@ -38,6 +39,7 @@
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"
             [urgency]="incident.risk"
+            [userTimezone]="userTimezone"
           ></map-incident-card>
         </ng-container>
       </ng-container>
@@ -50,6 +52,7 @@
           [selectIncident]="selectIncident"
           [incidentIsSelected]="incidentIsSelected(incident)"
           urgency="LOW"
+          [userTimezone]="userTimezone"
         ></map-incident-card>
       </ng-container>
     </div>

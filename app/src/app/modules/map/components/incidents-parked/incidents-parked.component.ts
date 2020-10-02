@@ -17,6 +17,7 @@ export class IncidentsParkedComponent implements OnChanges {
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;
   @Input() showResolvedOnMap: (show: boolean) => void;
   @Input() setActiveFunction: () => void;
+  @Input() userTimezone: string;
 
   public resolved = false;
   public overdue: ReadonlyArray<IncidentTypes.Incident> = [];

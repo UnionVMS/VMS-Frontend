@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import Map from 'ol/Map';
 
-import { formatUnixtime } from '@app/helpers/datetime-formatter';
-import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 import { AssetTypes } from '@data/asset';
 import { MobileTerminalTypes } from '@data/mobile-terminal';
 

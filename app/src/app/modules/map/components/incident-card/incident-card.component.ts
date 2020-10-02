@@ -18,6 +18,7 @@ export class IncidentCardComponent implements OnChanges, OnDestroy {
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;
   @Input() incidentIsSelected: boolean;
   @Input() urgency: IncidentTypes.IncidentRisk;
+  @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 
   @Input() countdownFrom?: number;
   @Input() countdownTo?: number;

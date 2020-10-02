@@ -82,6 +82,7 @@
       [selectIncident]="selectIncident"
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING'])"
       [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING', 'RESOLVED'])"
+      [userTimezone]="userTimezone$ | async"
     ></map-incidents-asset-not-sending>
     <map-incidents-manual-position-mode
       [incidents]="incidentsByTypeAndStatus.manualPositionMode"
@@ -90,6 +91,7 @@
       [selectIncident]="selectIncident"
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'MANUAL_POSITION_MODE'])"
       [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'MANUAL_POSITION_MODE', 'RESOLVED'])"
+      [userTimezone]="userTimezone$ | async"
     ></map-incidents-manual-position-mode>
     <map-incidents-seasonal-fishing
       [active]="activePanel[1] === 'SEASONAL_FISHING'"
@@ -98,6 +100,7 @@
       [selectIncident]="selectIncident"
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING'])"
       [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING', 'RESOLVED'])"
+      [userTimezone]="userTimezone$ | async"
     ></map-incidents-seasonal-fishing>
     <map-incidents-parked
       [active]="activePanel[1] === 'PARKED'"
@@ -106,6 +109,7 @@
       [selectIncident]="selectIncident"
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'PARKED'])"
       [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'PARKED', 'RESOLVED'])"
+      [userTimezone]="userTimezone$ | async"
     ></map-incidents-parked>
     <map-incidents-ownership-transfer
       [active]="activePanel[1] === 'OWNERSHIP_TRANSFER'"
@@ -114,6 +118,7 @@
       [selectIncident]="selectIncident"
       [setActiveFunction]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER'])"
       [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER', 'RESOLVED'])"
+      [userTimezone]="userTimezone$ | async"
     ></map-incidents-ownership-transfer>
     <!-- <map-panel-block
       i18n-blockTitle
