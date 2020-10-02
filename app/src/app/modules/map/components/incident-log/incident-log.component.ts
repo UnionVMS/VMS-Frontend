@@ -13,6 +13,7 @@ import { IncidentStatusFormComponent } from '../incident-status-form/incident-st
 })
 export class IncidentLogComponent implements OnChanges {
   @Input() incidentLog: IncidentTypes.IncidentLog;
+  @Input() userTimezone: string;
 
   public incidentLogList: ReadonlyArray<IncidentTypes.IncidentLogEntry> = [];
   public expanded: Array<number> = [];

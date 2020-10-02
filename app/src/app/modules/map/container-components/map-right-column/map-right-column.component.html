@@ -165,6 +165,7 @@
         [incident]="selectedIncident"
         [incidentLog]="incidentLogIfItExists()"
         [getLogForIncident]="getLogForIncident"
+        [userTimezone]="userTimezone$ | async"
       ></map-incident-logs>
       <map-note-form
         *ngIf="activePanel[1] === 'incidentNote'"

@@ -15,6 +15,7 @@
       <map-incident-log-entry-poll
         *ngIf="logEntry.relatedObjectType === 'POLL'"
         [poll]="incidentLog.relatedObjects.polls[logEntry.relatedObjectId]"
+        [userTimezone]="userTimezone"
       ></map-incident-log-entry-poll>
       <map-incident-log-entry-position
         *ngIf="logEntry.relatedObjectType === 'MOVEMENT'"
