@@ -5,3 +5,9 @@ export const momentValid = (c: FormControl) => {
     momentNotValid: true
   };
 };
+
+export const momentOnlyInThePast = (c: FormControl) => {
+  return c.value !== null && c.value.format('x') < Date.now() ? null : {
+    momentNotInThePast: true
+  };
+};
