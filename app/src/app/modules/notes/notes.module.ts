@@ -17,11 +17,12 @@ import { MatRippleModule } from '@angular/material/core';
 
 /* Pages */
 import { FormPageComponent } from './pages/form/form.component';
-import { NotesListComponent } from './pages/list/list.component';
+import { ListPageComponent } from './pages/list/list.component';
 
 /* Components */
-import { FormComponent } from './components/form/form.component';
 import { DeleteNoteDialogDialogComponent } from './components/delete-note-dialog/delete-note-dialog.component';
+import { FormComponent } from './components/form/form.component';
+import { ListComponent } from './components/list/list.component';
 
 @NgModule({
   imports: [
@@ -41,9 +42,10 @@ import { DeleteNoteDialogDialogComponent } from './components/delete-note-dialog
   ],
   declarations: [
     FormPageComponent,
-    NotesListComponent,
+    ListPageComponent,
     FormComponent,
     DeleteNoteDialogDialogComponent,
+    ListComponent,
   ]
 })
 

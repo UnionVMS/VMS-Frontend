@@ -31,7 +31,7 @@ import {
 
 // Notes-pages
 import { FormPageComponent as NotesFormPage } from '@app/modules/notes/pages/form/form.component';
-import { NotesListComponent as NotesListPage } from '@app/modules/notes/pages/list/list.component';
+import { ListPageComponent as NotesListPage } from '@app/modules/notes/pages/list/list.component';
 
 // Settings-pages
 import { UserSettingsComponent } from '@app/modules/settings/pages/user-settings/user-settings.component';

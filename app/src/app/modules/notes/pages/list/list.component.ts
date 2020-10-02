@@ -1,10 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { take, takeUntil, first } from 'rxjs/operators';
-import { FormGroup } from '@angular/forms';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { MatDialog } from '@angular/material/dialog';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
@@ -12,57 +9,30 @@ import { RouterTypes, RouterSelectors } from '@data/router';
 import { NotesActions, NotesTypes, NotesSelectors } from '@data/notes';
 import { UserSettingsSelectors } from '@data/user-settings';
 import { AuthSelectors } from '@data/auth';
-import { formatUnixtime } from '@app/helpers/datetime-formatter';
-
-import { DeleteNoteDialogDialogComponent } from '@modules/notes/components/delete-note-dialog/delete-note-dialog.component';
-
-type FormattedNote = NotesTypes.Note & { createdOnFormatted: string };
 
 @Component({
-  selector: 'notes-list',
+  selector: 'notes-list-page',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./list.component.scss']
 })
-export class NotesListComponent implements OnInit, OnDestroy {
-  constructor(private readonly store: Store<State>, public dialog: MatDialog) { }
+export class ListPageComponent implements OnInit, OnDestroy {
+  constructor(private readonly store: Store<State>) { }
 
+  public notes$: Observable<ReadonlyArray<NotesTypes.Note>>;
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public mergedRoute: RouterTypes.MergedRoute;
   public asset: AssetTypes.Asset;
-  public notes: ReadonlyArray<{
-    note: FormattedNote,
-    searchableString: string
-  }>;
+
   public save: (note: NotesTypes.Note) => void;
   public deleteNote: (noteId: string) => void;
 
-  public searchString = '';
-  public filteredNotes: ReadonlyArray<FormattedNote>;
-
   public userTimezone: string;
   public username: string;
-  public notesInEditMode = [];
 
   public emptyNote = {};
 
   mapStateToProps() {
-    this.store.select(NotesSelectors.getNotes).pipe(takeUntil(this.unmount$)).subscribe((notes) => {
-      this.notes = notes.map(note => ({
-        ...note,
-        createdOnFormatted: formatUnixtime(note.createdOn)
-      })).map(note => {
-        return {
-          note,
-          searchableString: note.createdBy + ' ' + note.createdOnFormatted + ' ' + note.note
-        };
-      }).sort((a, b) => {
-        return b.note.createdOn - a.note.createdOn;
-      });
-      this.filteredNotes = this.notes
-        .filter(note => note.searchableString.indexOf(this.searchString) !== -1)
-        .map(note => note.note);
-    });
+    this.notes$ = this.store.select(NotesSelectors.getNotes);
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
       this.mergedRoute = mergedRoute;
       if(typeof this.mergedRoute.params.assetId !== 'undefined') {
@@ -101,48 +71,5 @@ export class NotesListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
-  }
-
-  searchNotes(searchString: string) {
-    this.filteredNotes = this.notes
-      .filter(note => note.searchableString.indexOf(searchString) !== -1)
-      .map(note => note.note);
-  }
-
-  public updateNote = (note: NotesTypes.Note) => {
-    this.cancelEditNote(note.id)();
-    this.save(note);
-  }
-
-  public editNote = (noteId: string) => {
-    if(!this.notesInEditMode.includes(noteId)) {
-      this.notesInEditMode = [ ...this.notesInEditMode, noteId ];
-    }
-  }
-
-  public cancelEditNote = (noteId: string) => () => {
-    if(this.notesInEditMode.includes(noteId)) {
-      this.notesInEditMode = this.notesInEditMode.filter((iNoteId) => iNoteId !== noteId);
-    }
-  }
-
-  public trackByNoteId = (index: number, note: FormattedNote) => {
-    return note.id;
-  }
-
-  openDeleteDialog(note: FormattedNote): void {
-    const dialogRef = this.dialog.open(DeleteNoteDialogDialogComponent, {
-      data: {
-        username: this.username,
-        timestamp: note.createdOnFormatted,
-        userTimezone: this.userTimezone,
-      }
-    });
-
-    dialogRef.afterClosed().pipe(first()).subscribe(result => {
-      if(result === true) {
-        this.deleteNote(note.id);
-      }
-    });
   }
 }
