@@ -40,19 +40,19 @@ export class ListComponent implements OnChanges {
     })).map(note => {
       return {
         note,
-        searchableString: note.createdBy + ' ' + note.createdOnFormatted + ' ' + note.note
+        searchableString: (note.createdBy + ' ' + note.createdOnFormatted + ' ' + note.note).toLowerCase()
       };
     }).sort((a, b) => {
       return b.note.createdOn - a.note.createdOn;
     });
     this.filteredNotes = this.formattedNotes
-      .filter(note => note.searchableString.indexOf(this.searchString) !== -1)
+      .filter(note => note.searchableString.indexOf(this.searchString.toLowerCase()) !== -1)
       .map(note => note.note);
   }
 
   searchNotes(searchString: string) {
     this.filteredNotes = this.formattedNotes
-      .filter(note => note.searchableString.indexOf(searchString) !== -1)
+      .filter(note => note.searchableString.indexOf(searchString.toLowerCase()) !== -1)
       .map(note => note.note);
   }
 
