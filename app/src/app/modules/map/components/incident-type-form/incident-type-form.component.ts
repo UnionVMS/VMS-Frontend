@@ -18,11 +18,12 @@ export class IncidentTypeFormComponent implements OnChanges {
   @Input() type: string;
   @Input() types: IncidentTypes.IncidentTypesCollection;
   @Input() changeType: (status: string) => void;
+  @Input() disabled?: boolean;
 
   public formValidator: FormGroup;
 
   ngOnChanges() {
-    this.formValidator = createIncidentTypeFormValidator(this.type);
+    this.formValidator = createIncidentTypeFormValidator(this.type, this.disabled || false);
   }
 
   getTypeName(type) {

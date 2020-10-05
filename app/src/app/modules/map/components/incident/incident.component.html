@@ -6,6 +6,7 @@
         [type]="incident.type"
         [types]="incidentTypes"
         [changeType]="changeType"
+        [disabled]="!checkPermissionForIncidentTypeForm()"
       ></map-incident-type-form>
     </div>
 
@@ -39,7 +40,7 @@
     </div>
 
     <map-panel-block
-      *ngIf="checkPermission('expiryDateForm')"
+      *ngIf="checkPermissionForExpiryDateForm()"
       i18n-blockTitle
       blockTitle="Change expiry date"
       [active]="isBlockActive('expiryDateForm')"
@@ -54,6 +55,7 @@
     </map-panel-block>
 
     <map-panel-block
+      *ngIf="checkPermissionForManualPoll()"
       i18n-blockTitle
       blockTitle="Manually poll"
       [active]="isBlockActive('manuallyPoll')"
@@ -69,6 +71,7 @@
     </map-panel-block>
 
     <map-panel-block
+      *ngIf="checkPermissionForCreateManualPosition()"
       i18n-blockTitle
       blockTitle="Create manual position"
       [active]="isBlockActive('manualPosition')"
@@ -108,7 +111,7 @@
     </div>
 
     <button
-      *ngIf="checkPermission('setStatusAttemptedContact')"
+      *ngIf="checkPermissionForRegisterAttemptedContact()"
       title="Full incident log"
       id="show-full-log"
       mat-stroked-button
@@ -119,6 +122,7 @@
     >Register attempted contact</button>
 
     <button
+      *ngIf="checkPermissionForResloveButton()"
       title="Resolve incident"
       id="contact-info-button"
       mat-flat-button

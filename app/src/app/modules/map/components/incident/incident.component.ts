@@ -36,25 +36,6 @@ export class IncidentComponent implements OnChanges {
   public currentActiveBlock: string;
   public previousType: IncidentTypes.IncidentTypes;
 
-  public permissionMatrix = {
-    setStatusAttemptedContact: {
-      [IncidentTypes.IncidentTypes.assetNotSending]: {
-        [IncidentTypes.AssetNotSendingStatuses.INCIDENT_CREATED]: true,
-        [IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT]: true
-      }
-    },
-    expiryDateForm: {
-      [IncidentTypes.IncidentTypes.seasonalFishing]: {
-        [IncidentTypes.SeasonalFishingStatuses.PARKED]: true,
-        [IncidentTypes.SeasonalFishingStatuses.RECEIVING_AIS_POSITIONS]: true
-      },
-      [IncidentTypes.IncidentTypes.parked]: {
-        [IncidentTypes.ParkedStatuses.PARKED]: true,
-        [IncidentTypes.ParkedStatuses.RECEIVING_AIS_POSITIONS]: true
-      }
-    }
-  };
-
   ngOnChanges() {
     if(typeof this.previousType === 'undefined') {
       this.previousType = this.incident.type;
@@ -97,10 +78,46 @@ export class IncidentComponent implements OnChanges {
     return this.saveIncident({ ...this.incident, status: IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT });
   }
 
-  public checkPermission(action: string) {
-    return typeof this.permissionMatrix[action] !== 'undefined'
-      && typeof this.permissionMatrix[action][this.incident.type] !== 'undefined'
-      && this.permissionMatrix[action][this.incident.type][this.incident.status];
+  public checkPermissionForIncidentTypeForm() {
+    return this.incident.status !== IncidentTypes.IncidentResolvedStatus;
+  }
+
+  public checkPermissionForManualPoll() {
+    return this.incident.status !== IncidentTypes.IncidentResolvedStatus;
+  }
+
+  public checkPermissionForCreateManualPosition() {
+    return this.incident.status !== IncidentTypes.IncidentResolvedStatus;
+  }
+
+  public checkPermissionForRegisterAttemptedContact() {
+    const permission = {
+      [IncidentTypes.IncidentTypes.assetNotSending]: {
+        [IncidentTypes.AssetNotSendingStatuses.INCIDENT_CREATED]: true,
+        [IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT]: true,
+      }
+    };
+    return typeof permission[this.incident.type] !== 'undefined'
+      && permission[this.incident.type][this.incident.status] === true;
+  }
+
+  public checkPermissionForExpiryDateForm() {
+    const permission = {
+      [IncidentTypes.IncidentTypes.seasonalFishing]: {
+        [IncidentTypes.SeasonalFishingStatuses.PARKED]: true,
+        [IncidentTypes.SeasonalFishingStatuses.RECEIVING_AIS_POSITIONS]: true
+      },
+      [IncidentTypes.IncidentTypes.parked]: {
+        [IncidentTypes.ParkedStatuses.PARKED]: true,
+        [IncidentTypes.ParkedStatuses.RECEIVING_AIS_POSITIONS]: true
+      }
+    };
+    return typeof permission[this.incident.type] !== 'undefined'
+      && permission[this.incident.type][this.incident.status] === true;
+  }
+
+  public checkPermissionForResloveButton() {
+    return this.incident.status !== IncidentTypes.IncidentResolvedStatus;
   }
 
   public toggleCurrentActiveBlock = (blockName: string) => () => {
