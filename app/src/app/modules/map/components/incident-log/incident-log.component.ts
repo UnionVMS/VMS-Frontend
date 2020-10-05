@@ -19,7 +19,7 @@ export class IncidentLogComponent implements OnChanges {
   public expanded: Array<number> = [];
 
   ngOnChanges() {
-    this.incidentLogList = Object.values(this.incidentLog.log).sort((a, b) => a.createDate - b.createDate);
+    this.incidentLogList = Object.values(this.incidentLog.log).sort((a, b) => b.createDate - a.createDate);
   }
 
   formatTime(unixtime: number) {
