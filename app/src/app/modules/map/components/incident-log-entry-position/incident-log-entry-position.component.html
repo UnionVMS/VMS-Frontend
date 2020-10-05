@@ -3,15 +3,15 @@
     New position was registered and the incident was closed automaticly.
   </div>
   <legend i18n>Source:</legend>
-  <div>{{position.source}}</div>
+  <div>{{formattedPosition.source}}</div>
   <legend i18n>Latitude:</legend>
-  <div>{{position.location.latitude}}</div>
+  <div>{{formattedPosition.formattedLocation.latitude}}</div>
   <legend i18n>Longitude:</legend>
-  <div>{{position.location.longitude}}</div>
+  <div>{{formattedPosition.formattedLocation.longitude}}</div>
   <legend i18n>Heading:</legend>
-  <div>{{position.heading.toFixed(2)}}</div>
+  <div>{{formattedPosition.heading.toFixed(2)}}</div>
   <legend i18n>Speed:</legend>
-  <div>{{position.speed.toFixed(2)}}</div>
+  <div>{{formattedPosition.speed.toFixed(2)}}</div>
   <legend i18n>Time:</legend>
-  <div>{{formatDate(position.timestamp)}}</div>
+  <div>{{formattedPosition.formattedTimestamp}}</div>
 </div>

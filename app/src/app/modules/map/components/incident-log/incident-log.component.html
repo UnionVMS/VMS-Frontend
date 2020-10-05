@@ -21,6 +21,7 @@
         *ngIf="logEntry.relatedObjectType === 'MOVEMENT'"
         [position]="incidentLog.relatedObjects.positions[logEntry.relatedObjectId]"
         [incidentClosed]="logEntry.eventType === 'INCIDENT_CLOSED'"
+        [userTimezone]="userTimezone"
       ></map-incident-log-entry-position>
       <map-incident-log-entry-note
         *ngIf="logEntry.relatedObjectType === 'NOTE'"
