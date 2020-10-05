@@ -5,6 +5,8 @@
     (dateTimeChange)="updateTimestamp($event)"
     label="Expiry date"
     [errorMessages]="getErrorMessages(['expiryDate'])"
+    [positionFromTop]="true"
+    [customPopupStyle]="{ 'left': 'auto', 'right': '24px' }"
   ></ngx-datetime-picker>
 
   <button
