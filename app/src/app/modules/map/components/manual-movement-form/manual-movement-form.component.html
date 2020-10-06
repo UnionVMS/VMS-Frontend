@@ -87,6 +87,8 @@
     (dateTimeChange)="updateTimestamp($event)"
     label="Time ({{userTimezone}})"
     [errorMessages]="getErrorMessages(['timestamp'])"
+    [positionFromTop]="true"
+    [customPopupStyle]="{ 'left': 'auto', 'right': '24px', 'bottom': '-48px' }"
   ></ngx-datetime-picker>
 
   <button
@@ -97,5 +99,5 @@
     [disabled]="!formValidator.valid"
     (click)="openSaveDialog()"
     i18n
-  >Save</button>
+  >Save manual movement</button>
 </form>
