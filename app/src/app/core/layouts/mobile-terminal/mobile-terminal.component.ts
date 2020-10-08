@@ -84,6 +84,9 @@ export class MobileTerminalLayoutComponent implements OnInit, OnDestroy {
             this.router.navigate(['/mobileTerminal/' + this.selectedMobileTerminal.id + '/edit']);
             break;
           case '3':
+            this.router.navigate(['/mobileTerminal/' + this.selectedMobileTerminal.id + '/attachment-history']);
+            break;
+          case '4':
             this.router.navigate(['/mobileTerminal/' + this.selectedMobileTerminal.id + '/history']);
             break;
           default:

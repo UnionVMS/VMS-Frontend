@@ -33,6 +33,7 @@ import {
 import {
   AttachmentHistoryPageComponent as MobileTerminalAttachmentHistoryPage
 } from '@app/modules/mobile-terminal/pages/attachment-history/attachment-history.component';
+import { HistoryPageComponent as MobileTerminalHistoryPage } from '@app/modules/mobile-terminal/pages/history/history.component';
 
 
 // Notes-pages
@@ -118,9 +119,16 @@ export const vmsRoutes: Routes = [
         // tslint:disable-next-line:max-line-length
         title: $localize`:@@ts-layout-mobileTerminal-edit:<dont-translate>mobileTerminalName</dont-translate> — Mobile Terminal edit` || 'Mobile Terminal edit'
       }},
-      { path: 'mobileTerminal/:mobileTerminalId/history', component: MobileTerminalAttachmentHistoryPage, pathMatch: 'full', data: {
+      {
+        path: 'mobileTerminal/:mobileTerminalId/attachment-history',
+        component: MobileTerminalAttachmentHistoryPage, pathMatch: 'full', data: {
         // tslint:disable-next-line:max-line-length
-        title: $localize`:@@ts-layout-mobileTerminal-edit:<dont-translate>mobileTerminalName</dont-translate> — Mobile Terminal attachment history` || 'Mobile Terminal attachment history'
+        title: $localize`:@@ts-layout-mobileTerminal-attachment-history:<dont-translate>mobileTerminalName</dont-translate> — Mobile Terminal attachment history` || 'Mobile Terminal attachment history'
+      }},
+      {
+        path: 'mobileTerminal/:mobileTerminalId/history', component: MobileTerminalHistoryPage, pathMatch: 'full', data: {
+        // tslint:disable-next-line:max-line-length
+        title: $localize`:@@ts-layout-mobileTerminal-history:<dont-translate>mobileTerminalName</dont-translate> — Mobile Terminal history` || 'Mobile Terminal history'
       }},
     ]
   },

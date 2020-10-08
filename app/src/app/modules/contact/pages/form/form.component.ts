@@ -67,7 +67,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
         owner: this.formValidator.value.other.owner,
         source: this.formValidator.value.other.source,
       };
-      console.warn(this.selectedAsset, typeof this.selectedAsset === 'undefined', this.selectedAsset === null);
       if(typeof this.selectedAsset === 'undefined' || this.selectedAsset === null) {
         this.store.dispatch(ContactActions.saveContact({ contact }));
       } else {

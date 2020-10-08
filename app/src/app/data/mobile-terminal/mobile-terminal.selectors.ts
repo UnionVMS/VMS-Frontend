@@ -43,9 +43,46 @@ export const getMobileTerminalsForUrlAsset = createSelector(
   }
 );
 
-export const getMobileTerminalHistoryByMobileTerminalIds = createSelector(
+const filterMobileTerminalHistory = (
+  mobileTerminalHistory: MobileTerminalTypes.MobileTerminalHistoryList,
+  filter: MobileTerminalTypes.MobileTerminalHistoryFilter
+) => {
+  return Object.keys(mobileTerminalHistory).filter((historyId: string) => {
+    const history = mobileTerminalHistory[historyId];
+    if(history.changeType === MobileTerminalTypes.MobileTerminalChangeType.CREATED) {
+      return true;
+    }
+    if(history.changes.find(change => filter.mobileTerminalFields.includes(change.field))) {
+      return true;
+    }
+    if(filter.filterChannels) {
+      const channelChangesArray = Object.values(history.channelChanges);
+      if(channelChangesArray.find(channelChange =>
+        channelChange.changeType === MobileTerminalTypes.MobileTerminalChangeType.CREATED ||
+        channelChange.changeType === MobileTerminalTypes.MobileTerminalChangeType.REMOVED
+      )) {
+        return true;
+      }
+      if(channelChangesArray.find(channelChange => channelChange.changes.find(change => filter.channelFields.includes(change.field)))) {
+        return true;
+      }
+    }
+    return false;
+  }).reduce((acc, historyId) => {
+    return { ...acc, [historyId]: mobileTerminalHistory[historyId] };
+  }, {});
+};
+
+export const getMobileTerminalHistoryForUrlMobileTerminal = createSelector(
   selectMobileTerminalHistory,
-  (mobileTerminalHistory) => mobileTerminalHistory
+  getMergedRoute,
+  (mobileTerminalHistory, mergedRoute) => mobileTerminalHistory[mergedRoute.params.mobileTerminalId] || {}
+);
+
+export const getMobileTerminalHistoryFilteredForUrlMobileTerminal = createSelector(
+  getMobileTerminalHistoryForUrlMobileTerminal,
+  selectMobileTerminalHistoryFilter,
+  (mobileTerminalHistory, filter) => filterMobileTerminalHistory(mobileTerminalHistory, filter)
 );
 
 export const getMobileTerminalHistoryForUrlAsset = createSelector(
@@ -59,33 +96,7 @@ export const getMobileTerminalHistoryForUrlAsset = createSelector(
 export const getMobileTerminalHistoryFilteredForUrlAsset = createSelector(
   getMobileTerminalHistoryForUrlAsset,
   selectMobileTerminalHistoryFilter,
-  (mobileTerminalHistory, filter) => {
-    console.warn(mobileTerminalHistory);
-    return Object.keys(mobileTerminalHistory).filter((historyId: string) => {
-      const history = mobileTerminalHistory[historyId];
-      if(history.changeType === MobileTerminalTypes.MobileTerminalChangeType.CREATED) {
-        return true;
-      }
-      if(history.changes.find(change => filter.mobileTerminalFields.includes(change.field))) {
-        return true;
-      }
-      if(filter.filterChannels) {
-        const channelChangesArray = Object.values(history.channelChanges);
-        if(channelChangesArray.find(channelChange =>
-          channelChange.changeType === MobileTerminalTypes.MobileTerminalChangeType.CREATED ||
-          channelChange.changeType === MobileTerminalTypes.MobileTerminalChangeType.REMOVED
-        )) {
-          return true;
-        }
-        if(channelChangesArray.find(channelChange => channelChange.changes.find(change => filter.channelFields.includes(change.field)))) {
-          return true;
-        }
-      }
-      return false;
-    }).reduce((acc, historyId) => {
-      return { ...acc, [historyId]: mobileTerminalHistory[historyId] };
-    }, {});
-  }
+  (mobileTerminalHistory, filter) => filterMobileTerminalHistory(mobileTerminalHistory, filter)
 );
 
 export const getMobileTerminalByUrl = createSelector(

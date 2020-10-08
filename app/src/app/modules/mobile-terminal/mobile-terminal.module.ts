@@ -27,6 +27,7 @@ import { DatetimePickerModule } from 'ngx-moment-tz-picker';
 import { AttachmentHistoryPageComponent } from './pages/attachment-history/attachment-history.component';
 import { AttachPageComponent } from './pages/attach/attach.component';
 import { FormPageComponent } from './pages/form/form.component';
+import { HistoryPageComponent } from './pages/history/history.component';
 import { ListPageComponent } from './pages/list/list.component';
 import { ShowPageComponent } from './pages/show/show.component';
 import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.component';
@@ -64,12 +65,13 @@ import { ShowComponent } from './components/show/show.component';
     MatTableModule,
   ],
   declarations: [
+    AttachmentHistoryPageComponent,
     AttachPageComponent,
     FormPageComponent,
+    HistoryPageComponent,
     ListPageComponent,
     ShowPageComponent,
     ShowByAssetPageComponent,
-    AttachmentHistoryPageComponent,
     /* Components */
     AttachmentHistoryComponent,
     HistoryComponent,

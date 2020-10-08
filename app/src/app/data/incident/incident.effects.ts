@@ -113,7 +113,6 @@ export class IncidentEffects {
     mergeMap(([action, authToken]: Array<any>) => {
       return this.incidentService.getValidIncidentStatusForTypes(authToken).pipe(
         map((validIncidentStatusForType) => {
-          console.warn('STATUS!', validIncidentStatusForType);
           return IncidentActions.setValidIncidentStatusForTypes();
         })
       );

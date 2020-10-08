@@ -29,7 +29,6 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy {
 
   mapStateToProps() {
     this.store.select(ContactSelectors.getContactsOnAsset).pipe(takeUntil(this.unmount$)).subscribe((contacts) => {
-      console.warn(this.contacts);
       this.contacts = contacts;
     });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {

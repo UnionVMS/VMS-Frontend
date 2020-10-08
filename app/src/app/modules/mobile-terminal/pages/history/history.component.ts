@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { take, takeUntil, first, skipWhile, filter } from 'rxjs/operators';
@@ -14,10 +13,10 @@ import { RouterTypes, RouterSelectors } from '@data/router';
 import { UserSettingsSelectors } from '@data/user-settings';
 
 @Component({
-  selector: 'mobile-terminal-attachment-history-page',
-  templateUrl: './attachment-history.component.html',
+  selector: 'mobile-terminal-history-page',
+  templateUrl: './history.component.html',
 })
-export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
+export class HistoryPageComponent implements OnInit, OnDestroy {
 
   constructor(private readonly store: Store<State>) { }
 
@@ -26,7 +25,12 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
   public assets: Readonly<{ readonly [assetId: string]: AssetTypes.Asset }>;
   public mobileTerminal: MobileTerminalTypes.MobileTerminal;
   public mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
+  public mobileTerminalHistoryFilter$: Observable<MobileTerminalTypes.MobileTerminalHistoryFilter>;
   public mergedRoute: RouterTypes.MergedRoute;
+
+  public addMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
+  public removeMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
+
 
   mapStateToProps() {
     this.store.select(MobileTerminalSelectors.getMobileTerminalByUrl).pipe(
@@ -37,7 +41,7 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
       this.mobileTerminal = mobileTerminal;
     });
 
-    this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryForUrlMobileTerminal).pipe(
+    this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryFilteredForUrlMobileTerminal).pipe(
       takeUntil(this.unmount$)
     ).subscribe((mobileTerminalHistory) => {
       this.mobileTerminalHistoryList = mobileTerminalHistory;
@@ -74,9 +78,15 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
       }
     });
     this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
+    this.mobileTerminalHistoryFilter$ = this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryFilter);
   }
 
-  mapDispatchToProps() {}
+  mapDispatchToProps() {
+    this.addMobileTerminalHistoryFilters = (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) =>
+      this.store.dispatch(MobileTerminalActions.addMobileTerminalHistoryFilters({ historyFilter }));
+    this.removeMobileTerminalHistoryFilters = (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) =>
+      this.store.dispatch(MobileTerminalActions.removeMobileTerminalHistoryFilters({ historyFilter }));
+  }
 
   ngOnInit() {
     this.mapStateToProps();

@@ -41,7 +41,6 @@ export class MapSavedFiltersEffects {
         return request.pipe(
           map((response: any) => {
             const message = $localize`:@@ts-savedfilters-saved:Filter '<dont-translate>filterName</dont-translate>' saved!`;
-            console.warn('Saved filter response: ', response);
             return [
               NotificationsActions.addSuccess(replaceDontTranslate(message, { filterName: action.filter.name })),
               MapSavedFiltersActions.addSavedFilter({ filter: response })
@@ -62,7 +61,6 @@ export class MapSavedFiltersEffects {
       mergeMap(([action, authToken]: Array<any>) => {
         return this.mapSavedFiltersService.list(authToken).pipe(
           map((response: any) => {
-            console.warn('API RESPONSE: ', response);
             return MapSavedFiltersActions.setSavedFitlers({ filters: response.savedFilters });
           })
         );
@@ -78,7 +76,6 @@ export class MapSavedFiltersEffects {
       mergeMap(([action, authToken]: Array<any>) => {
         return this.mapSavedFiltersService.delete(authToken, action.filterId).pipe(
           map((response: any) => {
-            console.warn('API RESPONSE: ', response);
             return MapSavedFiltersActions.removeSavedFilter({ filterId: action.filterId });
           })
         );

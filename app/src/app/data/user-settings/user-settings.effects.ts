@@ -34,7 +34,6 @@ export class UserSettingsEffects {
     // If we should save to DB to, then continue with the rest of this code.
     withLatestFrom(this.store$.select(AuthSelectors.getUser), this.store$.select(UserSettingsSelectors.getUserSettings)),
     mergeMap(([setAction, user, settings]: Array<any>) => {
-      console.warn(settings);
       return this.userSettingsService.saveUserPreferences(user, settings).pipe(
         map((response: any, index: number) => [
           NotificationsActions.addSuccess($localize`:@@ts-user-settings-saved:Settings saved`),

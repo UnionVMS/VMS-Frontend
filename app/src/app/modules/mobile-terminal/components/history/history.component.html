@@ -120,177 +120,180 @@
 </div>
 
 <div class="mobile-terminal-history--list">
-  <div class="mobile-terminal-history" *ngFor="let mobileTerminalHistory of mobileTerminalHistoryArray">
-    <div class="history-header{{getMobileTerminalHeaderCssClass(mobileTerminalHistory)}}" (click)="toggleHistory(mobileTerminalHistory.id)">
-      <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.serialNo)}}">
-        <label>Serial no.</label>
-        <div class="value">{{ mobileTerminalHistory.snapshot.serialNo }}</div>
-      </div>
-      <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.satelliteNumber)}}">
-        <label>Satellite number</label>
-        <div class="value">{{ mobileTerminalHistory.snapshot.satelliteNumber }}</div>
-      </div>
-      <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.active)}}">
-        <label>Terminal</label>
-        <div class="value">
-          <span *ngIf="mobileTerminalHistory.snapshot.active" class="active">Active</span>
-          <span *ngIf="!mobileTerminalHistory.snapshot.active" class="inactive">Inactive</span>
+  <ng-container *ngFor="let mobileTerminalHistoryAndAsset of mobileTerminalHistoryArrayByAsset">
+    <h2 *ngIf="assets">{{ getAssetName(mobileTerminalHistoryAndAsset.asset) }}</h2>
+    <div class="mobile-terminal-history" *ngFor="let mobileTerminalHistory of mobileTerminalHistoryAndAsset.history">
+      <div class="history-header{{getMobileTerminalHeaderCssClass(mobileTerminalHistory)}}" (click)="toggleHistory(mobileTerminalHistory.id)">
+        <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.serialNo)}}">
+          <label>Serial no.</label>
+          <div class="value">{{ mobileTerminalHistory.snapshot.serialNo }}</div>
+        </div>
+        <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.satelliteNumber)}}">
+          <label>Satellite number</label>
+          <div class="value">{{ mobileTerminalHistory.snapshot.satelliteNumber }}</div>
+        </div>
+        <div class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.active)}}">
+          <label>Terminal</label>
+          <div class="value">
+            <span *ngIf="mobileTerminalHistory.snapshot.active" class="active">Active</span>
+            <span *ngIf="!mobileTerminalHistory.snapshot.active" class="inactive">Inactive</span>
+          </div>
+        </div>
+        <div class="field-column">
+          <label>Updated date</label>
+          <div class="value">{{ mobileTerminalHistory.updatedDateFormatted }}</div>
+        </div>
+        <div class="field-column">
+          <label>Updated by</label>
+          <div class="value">{{ mobileTerminalHistory.updatedBy }}</div>
+        </div>
+        <div class="arrow">
+          <i *ngIf="!isHistoryExpanded(mobileTerminalHistory.id)" class="fas fa-chevron-down" aria-hidden="true"></i>
+          <i *ngIf="isHistoryExpanded(mobileTerminalHistory.id)" class="fas fa-chevron-up" aria-hidden="true"></i>
         </div>
       </div>
-      <div class="field-column">
-        <label>Updated date</label>
-        <div class="value">{{ mobileTerminalHistory.updatedDateFormatted }}</div>
-      </div>
-      <div class="field-column">
-        <label>Updated by</label>
-        <div class="value">{{ mobileTerminalHistory.updatedBy }}</div>
-      </div>
-      <div class="arrow">
-        <i *ngIf="!isHistoryExpanded(mobileTerminalHistory.id)" class="fas fa-chevron-down" aria-hidden="true"></i>
-        <i *ngIf="isHistoryExpanded(mobileTerminalHistory.id)" class="fas fa-chevron-up" aria-hidden="true"></i>
-      </div>
-    </div>
-    <div class="extended-history" *ngIf="isHistoryExpanded(mobileTerminalHistory.id)">
-      <div
-        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.assetId)}}"
-        *ngIf="filtersChecked.mobileTerminalFields.assetId"
-      >
-        <label>Attached</label>
-        <div class="value">
-          <span *ngIf="mobileTerminalHistory.snapshot.assetId" class="active">Attached</span>
-          <span *ngIf="!mobileTerminalHistory.snapshot.assetId" class="inactive">Detached</span>
+      <div class="extended-history" *ngIf="isHistoryExpanded(mobileTerminalHistory.id)">
+        <div
+          class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.assetId)}}"
+          *ngIf="filtersChecked.mobileTerminalFields.assetId"
+        >
+          <label>Attached</label>
+          <div class="value">
+            <span *ngIf="mobileTerminalHistory.snapshot.assetId" class="active">Attached</span>
+            <span *ngIf="!mobileTerminalHistory.snapshot.assetId" class="inactive">Detached</span>
+          </div>
         </div>
-      </div>
-      <div
-        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.mobileTerminalType)}}"
-        *ngIf="filtersChecked.mobileTerminalFields.mobileTerminalType"
-      >
-        <label>Transceiver system</label>
-        <div class="value">{{ mobileTerminalHistory.snapshot.mobileTerminalType }}</div>
-      </div>
-      <div
-        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.transceiverType)}}"
-        *ngIf="filtersChecked.mobileTerminalFields.transceiverType"
-      >
-        <label>Transceiver type</label>
-        <div class="value">{{ mobileTerminalHistory.snapshot.transceiverType }}</div>
-      </div>
-      <div
-        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.softwareVersion)}}"
-        *ngIf="filtersChecked.mobileTerminalFields.softwareVersion"
-      >
-        <label>Software version</label>
-        <div class="value">{{ mobileTerminalHistory.snapshot.softwareVersion }}</div>
-      </div>
-      <div
-        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.antenna)}}"
-        *ngIf="filtersChecked.mobileTerminalFields.antenna"
-      >
-        <label>Antenna</label>
-        <div class="value">{{ mobileTerminalHistory.snapshot.antenna }}</div>
-      </div>
-      <div
-        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.oceanRegions)}}"
-        *ngIf="filtersChecked.mobileTerminalFields.oceanRegion"
-      >
-        <label>Ocean region</label>
-        <div class="value">{{ getOceanRegionsValue(mobileTerminalHistory.snapshot) }}</div>
-      </div>
-      <div
-        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.installDate)}}"
-        *ngIf="filtersChecked.mobileTerminalFields.installDate"
-      >
-        <label>Installation date</label>
-        <div class="value">{{ mobileTerminalHistory.installDateFormatted }}</div>
-      </div>
-      <div
-        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.uninstallDate)}}"
-        *ngIf="filtersChecked.mobileTerminalFields.uninstallDate"
-      >
-        <label>Uninstallation date</label>
-        <div class="value">{{ mobileTerminalHistory.uninstallDateFormatted }}</div>
-      </div>
-      <div
-        class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.installedBy)}}"
-        *ngIf="filtersChecked.mobileTerminalFields.installedBy"
-      >
-        <label>Installed by</label>
-        <div class="value">{{ mobileTerminalHistory.snapshot.installedBy }}</div>
-      </div>
-      <div class="channel" *ngIf="filtersChecked.enableChannelFilters">
-        <label>Channel</label>
-        <table>
-          <thead>
-            <tr>
-              <th>DNID</th>
-              <th>Type</th>
-              <th>Member number</th>
-              <th *ngIf="filtersChecked.channelFields.lesDescription">Land station</th>
-              <th *ngIf="filtersChecked.channelFields.startDate">Start date</th>
-              <th *ngIf="filtersChecked.channelFields.endDate">End date</th>
-              <th *ngIf="filtersChecked.channelFields.expectedFrequency">Expected Frq.</th>
-              <th *ngIf="filtersChecked.channelFields.frequencyGracePeriod">Frq. Grace Period</th>
-              <th *ngIf="filtersChecked.channelFields.expectedFrequencyInPort">Expected Frq. In Port</th>
-            </tr>
-          </thead>
-          <tbody>
-
-            <ng-template #channelRowTemplate let-channel="channel" let-isChannelRemoved="isChannelRemoved">
-              <tr class="channel-row {{getChannelRowClass(mobileTerminalHistory.channelChanges[channel.id])}}{{ isChannelRemoved ? ' removed' : ''}}">
-                <td
-                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'dnid')}}"
-                >{{channel.dnid}}</td>
-                <td
-                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'defaultChannel')}}
-                    {{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'pollChannel')}}
-                    {{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'configChannel')}}"
-                >{{channel.type}}</td>
-                <td
-                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'memberNumber')}}"
-                >{{channel.memberNumber}}</td>
-                <td
-                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'lesDescription')}}"
-                  *ngIf="filtersChecked.channelFields.lesDescription"
-                >{{channel.lesDescription}}</td>
-                <td
-                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'startDate')}}"
-                  *ngIf="filtersChecked.channelFields.startDate"
-                >{{channel.startDate}}</td>
-                <td
-                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'endDate')}}"
-                  *ngIf="filtersChecked.channelFields.endDate"
-                >{{channel.endDate}}</td>
-                <td
-                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'expectedFrequency')}}"
-                  *ngIf="filtersChecked.channelFields.expectedFrequency"
-                  >{{channel.expectedFrequency}}</td>
-                <td
-                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'frequencyGracePeriod')}}"
-                  *ngIf="filtersChecked.channelFields.frequencyGracePeriod"
-                >{{channel.frequencyGracePeriod}}</td>
-                <td
-                  class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'expectedFrequencyInPort')}}"
-                  *ngIf="filtersChecked.channelFields.expectedFrequencyInPort"
-                >{{channel.expectedFrequencyInPort}}</td>
+        <div
+          class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.mobileTerminalType)}}"
+          *ngIf="filtersChecked.mobileTerminalFields.mobileTerminalType"
+        >
+          <label>Transceiver system</label>
+          <div class="value">{{ mobileTerminalHistory.snapshot.mobileTerminalType }}</div>
+        </div>
+        <div
+          class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.transceiverType)}}"
+          *ngIf="filtersChecked.mobileTerminalFields.transceiverType"
+        >
+          <label>Transceiver type</label>
+          <div class="value">{{ mobileTerminalHistory.snapshot.transceiverType }}</div>
+        </div>
+        <div
+          class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.softwareVersion)}}"
+          *ngIf="filtersChecked.mobileTerminalFields.softwareVersion"
+        >
+          <label>Software version</label>
+          <div class="value">{{ mobileTerminalHistory.snapshot.softwareVersion }}</div>
+        </div>
+        <div
+          class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.antenna)}}"
+          *ngIf="filtersChecked.mobileTerminalFields.antenna"
+        >
+          <label>Antenna</label>
+          <div class="value">{{ mobileTerminalHistory.snapshot.antenna }}</div>
+        </div>
+        <div
+          class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.oceanRegions)}}"
+          *ngIf="filtersChecked.mobileTerminalFields.oceanRegion"
+        >
+          <label>Ocean region</label>
+          <div class="value">{{ getOceanRegionsValue(mobileTerminalHistory.snapshot) }}</div>
+        </div>
+        <div
+          class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.installDate)}}"
+          *ngIf="filtersChecked.mobileTerminalFields.installDate"
+        >
+          <label>Installation date</label>
+          <div class="value">{{ mobileTerminalHistory.installDateFormatted }}</div>
+        </div>
+        <div
+          class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.uninstallDate)}}"
+          *ngIf="filtersChecked.mobileTerminalFields.uninstallDate"
+        >
+          <label>Uninstallation date</label>
+          <div class="value">{{ mobileTerminalHistory.uninstallDateFormatted }}</div>
+        </div>
+        <div
+          class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.installedBy)}}"
+          *ngIf="filtersChecked.mobileTerminalFields.installedBy"
+        >
+          <label>Installed by</label>
+          <div class="value">{{ mobileTerminalHistory.snapshot.installedBy }}</div>
+        </div>
+        <div class="channel" *ngIf="filtersChecked.enableChannelFilters">
+          <label>Channel</label>
+          <table>
+            <thead>
+              <tr>
+                <th>DNID</th>
+                <th>Type</th>
+                <th>Member number</th>
+                <th *ngIf="filtersChecked.channelFields.lesDescription">Land station</th>
+                <th *ngIf="filtersChecked.channelFields.startDate">Start date</th>
+                <th *ngIf="filtersChecked.channelFields.endDate">End date</th>
+                <th *ngIf="filtersChecked.channelFields.expectedFrequency">Expected Frq.</th>
+                <th *ngIf="filtersChecked.channelFields.frequencyGracePeriod">Frq. Grace Period</th>
+                <th *ngIf="filtersChecked.channelFields.expectedFrequencyInPort">Expected Frq. In Port</th>
               </tr>
-            </ng-template>
+            </thead>
+            <tbody>
 
-            <ng-container *ngFor="let channel of getRemovedChannels(mobileTerminalHistory)">
-              <ng-container *ngTemplateOutlet="channelRowTemplate;context:{ channel: channel, isChannelRemoved: 'true' }"></ng-container>
-            </ng-container>
+              <ng-template #channelRowTemplate let-channel="channel" let-isChannelRemoved="isChannelRemoved">
+                <tr class="channel-row {{getChannelRowClass(mobileTerminalHistory.channelChanges[channel.id])}}{{ isChannelRemoved ? ' removed' : ''}}">
+                  <td
+                    class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'dnid')}}"
+                  >{{channel.dnid}}</td>
+                  <td
+                    class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'defaultChannel')}}
+                      {{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'pollChannel')}}
+                      {{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'configChannel')}}"
+                  >{{channel.type}}</td>
+                  <td
+                    class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'memberNumber')}}"
+                  >{{channel.memberNumber}}</td>
+                  <td
+                    class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'lesDescription')}}"
+                    *ngIf="filtersChecked.channelFields.lesDescription"
+                  >{{channel.lesDescription}}</td>
+                  <td
+                    class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'startDate')}}"
+                    *ngIf="filtersChecked.channelFields.startDate"
+                  >{{channel.startDate}}</td>
+                  <td
+                    class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'endDate')}}"
+                    *ngIf="filtersChecked.channelFields.endDate"
+                  >{{channel.endDate}}</td>
+                  <td
+                    class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'expectedFrequency')}}"
+                    *ngIf="filtersChecked.channelFields.expectedFrequency"
+                    >{{channel.expectedFrequency}}</td>
+                  <td
+                    class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'frequencyGracePeriod')}}"
+                    *ngIf="filtersChecked.channelFields.frequencyGracePeriod"
+                  >{{channel.frequencyGracePeriod}}</td>
+                  <td
+                    class="{{getChangedClassForChannel(mobileTerminalHistory.channelChanges[channel.id], 'expectedFrequencyInPort')}}"
+                    *ngIf="filtersChecked.channelFields.expectedFrequencyInPort"
+                  >{{channel.expectedFrequencyInPort}}</td>
+                </tr>
+              </ng-template>
 
-            <ng-container *ngFor="let channel of mobileTerminalHistory.snapshot.formattedChannels">
-              <ng-container *ngTemplateOutlet="channelRowTemplate;context:{ channel: channel }"></ng-container>
-            </ng-container>
-          </tbody>
-        </table>
-      </div>
-      <div
-        class="field-column comment{{getChangedClass(mobileTerminalHistory.changesAsObject.comment)}}"
-      >
-        <label>Edit Comments</label>
-        <div class="value">{{ mobileTerminalHistory.changesAsObject.comment ? mobileTerminalHistory.changesAsObject.comment.newValue : '' }}</div>
+              <ng-container *ngFor="let channel of getRemovedChannels(mobileTerminalHistory)">
+                <ng-container *ngTemplateOutlet="channelRowTemplate;context:{ channel: channel, isChannelRemoved: 'true' }"></ng-container>
+              </ng-container>
+
+              <ng-container *ngFor="let channel of mobileTerminalHistory.snapshot.formattedChannels">
+                <ng-container *ngTemplateOutlet="channelRowTemplate;context:{ channel: channel }"></ng-container>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="field-column comment{{getChangedClass(mobileTerminalHistory.changesAsObject.comment)}}"
+        >
+          <label>Edit Comments</label>
+          <div class="value">{{ mobileTerminalHistory.changesAsObject.comment ? mobileTerminalHistory.changesAsObject.comment.newValue : '' }}</div>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </div>

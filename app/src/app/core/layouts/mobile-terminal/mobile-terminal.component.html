@@ -35,9 +35,13 @@
           <span class="short-key">2</span>
           <span class="text" i18n>Edit</span>
         </li>
-        <li routerLink="/mobileTerminal/{{selectedMobileTerminal.id}}/history" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <li routerLink="/mobileTerminal/{{selectedMobileTerminal.id}}/attachment-history" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <span class="short-key">3</span>
           <span class="text" i18n>Attachment History</span>
+        </li>
+        <li routerLink="/mobileTerminal/{{selectedMobileTerminal.id}}/history" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span class="short-key">4</span>
+          <span class="text" i18n>History</span>
         </li>
       </ng-container>
       <ng-container *ngIf="!selectedMobileTerminal">
@@ -52,6 +56,10 @@
         <li class="deactivated">
           <span class="short-key">3</span>
           <span class="text" i18n>Attachment History</span>
+        </li>
+        <li class="deactivated">
+          <span class="short-key">4</span>
+          <span class="text" i18n>History</span>
         </li>
       </ng-container>
     </ul>
