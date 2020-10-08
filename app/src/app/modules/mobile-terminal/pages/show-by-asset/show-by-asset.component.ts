@@ -23,7 +23,8 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
   @ViewChild('toolbox') toolbox;
   constructor(
     private readonly store: Store<State>,
-    private readonly viewContainerRef: ViewContainerRef, public dialog: MatDialog
+    private readonly viewContainerRef: ViewContainerRef,
+    public dialog: MatDialog
   ) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
@@ -78,7 +79,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.store.dispatch(AssetActions.getSelectedAsset());
       }
     });
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
+    this.store.select(AssetSelectors.getAssetByUrl).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
       this.selectedAsset = asset;
       if(typeof this.selectedAsset !== 'undefined') {
         this.store.dispatch(MobileTerminalActions.getMobileTerminalHistoryForAsset({ assetId: this.selectedAsset.id }));

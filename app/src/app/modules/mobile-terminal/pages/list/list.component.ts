@@ -38,8 +38,14 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public assets: { [assetId: string]: AssetTypes.Asset };
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public mobileTerminals: ReadonlyArray<ExtendedMobileTerminal>;
+  public filteredMobileTerminals: ReadonlyArray<ExtendedMobileTerminal>;
   public searchMobileTerminals: (query: any, includeArchived: boolean) => void;
   public sortedMobileTerminals: ReadonlyArray<ExtendedMobileTerminal>;
+
+  public filterObject =  {
+    serialNo: '',
+    showOnlyActive: false
+  };
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -57,7 +63,7 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
         ...mobileTerminal,
         assetName: typeof this.assets[mobileTerminal.assetId] !== 'undefined' ? this.assets[mobileTerminal.assetId].name : ''
       }));
-      this.sortData({ active: 'serialNo', direction: 'desc' });
+      this.filter();
       this.loadingData = false;
       this.tableReadyForDisplay = true;
     });
@@ -94,7 +100,7 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
       if(assetIds.length === 0) {
-        this.sortData({ active: 'serialNo', direction: 'desc' });
+        this.filter();
         this.loadingData = false;
         this.tableReadyForDisplay = true;
       }
@@ -120,8 +126,21 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.unmount$.unsubscribe();
   }
 
+  filter() {
+    this.filteredMobileTerminals = this.mobileTerminals;
+    if(this.filterObject.showOnlyActive === true) {
+      this.filteredMobileTerminals = this.mobileTerminals.filter((mobileTerminal) => mobileTerminal.active);
+    }
+    if(this.filterObject.serialNo.length !== 0) {
+      this.filteredMobileTerminals = this.filteredMobileTerminals.filter(
+        (mobileTerminal) => mobileTerminal.serialNo.includes(this.filterObject.serialNo)
+      );
+    }
+    this.sortData({ active: 'serialNo', direction: 'desc' });
+  }
+
   sortData(sort: Sort) {
-    const mobileTerminals = this.mobileTerminals.slice();
+    const mobileTerminals = this.filteredMobileTerminals.slice();
     if (!sort.active || sort.direction === '') {
       this.sortedMobileTerminals = mobileTerminals;
       return;

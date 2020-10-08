@@ -344,7 +344,7 @@ export const getUnitTonnages = createSelector(
   (unitTonnages) => unitTonnages
 );
 
-export const getSelectedAsset = createSelector(
+export const getAssetByUrl = createSelector(
   selectAssets,
   getMergedRoute,
   (assets, mergedRoute) => {
@@ -355,8 +355,14 @@ export const getSelectedAsset = createSelector(
   }
 );
 
+export const getSelectedAsset = createSelector(
+  selectSelectedAsset,
+  selectAssets,
+  (selectedAssetId, assets) => assets[selectedAssetId]
+);
+
 export const getLastFullPositionsForUrlAsset = createSelector(
-  selectLastFullPositions, getSelectedAsset,
+  selectLastFullPositions, getAssetByUrl,
   (fullPositions: { [assetId: string]: ReadonlyArray<AssetTypes.FullMovement> }, asset: AssetTypes.Asset) =>
     typeof asset !== 'undefined' ? fullPositions[asset.id] : undefined
 );
@@ -395,7 +401,7 @@ export const getLicenceForSelectedMapAsset = createSelector(
 
 export const getLicenceForSelectedAsset = createSelector(
   selectAssetLicences,
-  getSelectedAsset,
+  getAssetByUrl,
   (assetLicences, selectedAssetUrl) => {
     if(typeof selectedAssetUrl === 'undefined' || typeof selectedAssetUrl.id === 'undefined') {
       return null;

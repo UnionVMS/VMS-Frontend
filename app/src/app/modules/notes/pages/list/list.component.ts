@@ -39,7 +39,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(AssetActions.getSelectedAsset());
       }
     });
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe(asset => {
+    this.store.select(AssetSelectors.getAssetByUrl).pipe(takeUntil(this.unmount$)).subscribe(asset => {
       if(typeof this.asset === 'undefined') {
         this.store.dispatch(NotesActions.getNotesForSelectedAsset());
       }

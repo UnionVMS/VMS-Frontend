@@ -17,6 +17,7 @@ import { AssetLayoutComponent } from './layouts/asset/asset.component';
 import { DefaultLayoutComponent } from './layouts/default/default.component';
 import { FullLayoutComponent } from './layouts/full/full.component';
 import { LoginLayoutComponent } from './layouts/login/login.component';
+import { MobileTerminalLayoutComponent } from './layouts/mobile-terminal/mobile-terminal.component';
 
 // Layouts: Efr
 import { EfrDefaultLayoutComponent } from './layouts/efr/efr-default/efr-default.component';
@@ -50,6 +51,7 @@ import { TypescriptTranslationsComponent } from './components/typescript-transla
     DefaultLayoutComponent,
     FullLayoutComponent,
     LoginLayoutComponent,
+    MobileTerminalLayoutComponent,
 
     // Efr-layouts
     FishingReportLayoutComponent,

@@ -36,6 +36,11 @@ export const getMobileTerminals = createAction(
   props<{ query: any }>()
 );
 
+export const getMobileTerminalHistory = createAction(
+  '[Mobile Terminals] Get history',
+  props<{ mobileTerminalId: string }>()
+);
+
 export const getMobileTerminalHistoryForAsset = createAction(
   '[Mobile Terminals] Get history for asset',
   props<{ assetId: string }>()
@@ -61,6 +66,13 @@ export const getPlugins = createAction(
 export const saveMobileTerminal = createAction(
   '[Mobile Terminals] Save',
   props<{ mobileTerminal: MobileTerminalTypes.MobileTerminal }>()
+);
+
+export const setMobileTerminalHistory = createAction(
+  '[Mobile Terminals] Set history',
+  props<{ mobileTerminalHistory: Readonly<{
+    readonly [mobileTerminalId: string]: MobileTerminalTypes.MobileTerminalHistoryList }>
+  }>()
 );
 
 export const setMobileTerminalHistoryForAsset = createAction(

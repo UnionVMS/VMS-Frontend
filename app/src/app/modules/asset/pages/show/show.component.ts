@@ -29,7 +29,7 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   mapStateToProps() {
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
+    this.store.select(AssetSelectors.getAssetByUrl).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
       if(typeof asset !== 'undefined') {
         if(this.asset.id !== asset.id) {
           this.store.dispatch(AssetActions.getLicenceForAsset({ assetId: asset.id }));

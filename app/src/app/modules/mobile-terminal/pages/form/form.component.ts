@@ -39,7 +39,6 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public createWithSerialNo: string | null;
   public formValidator: FormGroup;
-  public mobileTerminalSubscription: Subscription;
   public pluginSubscription: Subscription;
   public selectedAsset: AssetTypes.Asset;
 
@@ -105,7 +104,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
       };
     });
 
-    this.mobileTerminalSubscription = this.store.select(MobileTerminalSelectors.getMobileTerminalsByUrl)
+    this.store.select(MobileTerminalSelectors.getMobileTerminalByUrl)
       .pipe(
         takeUntil(this.unmount$),
         skipWhile(mobileTerminal => typeof mobileTerminal === 'undefined'),
@@ -195,7 +194,7 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
         );
       }
     });
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
+    this.store.select(AssetSelectors.getAssetByUrl).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
       this.selectedAsset = asset;
     });
   }
@@ -234,7 +233,9 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
           ? null
           : this.formValidator.value.mobileTerminalFields.uninstallDate.format('x'),
         installedBy: this.formValidator.value.mobileTerminalFields.installedBy,
-        assetId: typeof this.mobileTerminal.assetId !== 'undefined' ? this.mobileTerminal.assetId : this.selectedAsset.id,
+        assetId: typeof this.mobileTerminal.assetId !== 'undefined'
+          ? this.mobileTerminal.assetId
+          : (this.selectedAsset ? this.selectedAsset.id : null),
         channels: this.formValidator.value.channels.map((channel) => {
           const fixedChannel = {
             ...channel,
@@ -300,7 +301,6 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
         return seen.hasOwnProperty(channel.memberNumber) ? false : (seen[channel.memberNumber] = true);
     });
 
-    console.warn('Are we?', channelsWithUniqueChannelNr.length, formChannels.length);
     if(formChannels.length !== 0 && formChannels.length !== 1 && channelsWithUniqueChannelNr.length === formChannels.length) {
       const dialogRef = this.dialog.open(SaveUnmatchedMemberNumbersDialogComponent, { panelClass: 'dialog-without-padding' });
 

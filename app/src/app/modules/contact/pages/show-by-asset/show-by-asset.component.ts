@@ -39,7 +39,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe(selectedAsset => {
+    this.store.select(AssetSelectors.getAssetByUrl).pipe(takeUntil(this.unmount$)).subscribe(selectedAsset => {
       this.selectedAsset = selectedAsset;
     });
   }

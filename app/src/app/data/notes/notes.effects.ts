@@ -92,7 +92,7 @@ export class NotesEffects {
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(AssetSelectors.getSelectedAsset)
+        this.store$.select(AssetSelectors.getAssetByUrl)
       ),
       mergeMap(([pipedAction, authToken, selectedAsset]: Array<any>) => {
         const isNew = pipedAction.note.id === undefined || pipedAction.note.id === null;

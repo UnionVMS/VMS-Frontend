@@ -51,7 +51,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
         };
       }
     });
-    this.assetSubscription = this.store.select(AssetSelectors.getSelectedAsset).subscribe((asset: AssetTypes.Asset) => {
+    this.assetSubscription = this.store.select(AssetSelectors.getAssetByUrl).subscribe((asset: AssetTypes.Asset) => {
       if(typeof asset !== 'undefined') {
         this.asset = asset;
       }

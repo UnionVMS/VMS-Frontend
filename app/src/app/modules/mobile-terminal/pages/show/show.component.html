@@ -1,0 +1,27 @@
+<div class="page-content" *ngIf="mobileTerminal">
+  <h2>Status and attachment information</h2>
+  <div class="status-info">
+    <div class="row">
+      <div class="title"><span class="text" i18n>Terminal status</span></div>
+      <div class="value{{ mobileTerminal.active ? ' active' : ' inactive' }}">{{ mobileTerminal.active ? 'ACTIVE' : 'INACTIVE' }}</div>
+    </div>
+    <div class="row">
+      <div class="title"><span class="text" i18n>Attached to asset</span></div>
+      <div class="value">
+        <a *ngIf="mobileTerminal.assetId" routerLink="/asset/{{mobileTerminal.assetId}}">
+          {{ asset ? asset.name : mobileTerminal.assetId }}
+        </a>
+        <span *ngIf="!mobileTerminal.assetId">Detached</span>
+      </div>
+    </div>
+    <div class="info" i18n>
+      Please note that all operations regarding activation/deactivation and attachment/detachment only can be done on the asset.
+    </div>
+  </div>
+
+  <h2>Terminal details</h2>
+  <mobile-terminal-show-component
+    [mobileTerminal]="mobileTerminal"
+    [userTimezone]="userTimezone$ | async"
+  ></mobile-terminal-show-component>
+</div>

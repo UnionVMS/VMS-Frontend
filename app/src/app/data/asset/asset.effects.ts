@@ -441,7 +441,7 @@ export class AssetEffects {
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(AssetSelectors.getSelectedAsset),
+        this.store$.select(AssetSelectors.getAssetByUrl),
         this.store$.select(RouterSelectors.getMergedRoute)
       ),
       mergeMap(([pipedAction, authToken, selectedAsset, mergedRoute]: Array<any>) => {

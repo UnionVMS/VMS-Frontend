@@ -1,4 +1,19 @@
 <div class="page-container">
+  <form class="mobile-terminal-filter">
+
+    <mat-form-field class="serialNo">
+      <mat-label i18n>Serial number filter</mat-label>
+      <input matInput [(ngModel)]="filterObject.serialNo" name="serialNoFilter" (ngModelChange)="filter()">
+    </mat-form-field>
+
+    <mat-checkbox
+      class="only-active"
+      name="activeFilter"
+      [(ngModel)]="filterObject.showOnlyActive"
+      (ngModelChange)="filter()"
+    >Show active mobile terminals only</mat-checkbox>
+  </form>
+
   <mat-spinner class="load-spinner" *ngIf="loadingData"></mat-spinner>
   <div class="mobile-terminals-container mat-elevation-z8" *ngIf="tableReadyForDisplay">
     <div class="mobile-terminals-table-container">
@@ -8,7 +23,7 @@
 
         <ng-container matColumnDef="serialNo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Serial number</th>
-          <td mat-cell *matCellDef="let row">{{row.serialNo}}</td>
+          <td mat-cell *matCellDef="let row"><a routerLink="/mobileTerminal/{{row.id}}">{{row.serialNo}}</a></td>
         </ng-container>
 
         <ng-container matColumnDef="defaultDnid">
@@ -28,11 +43,11 @@
 
         <ng-container matColumnDef="active">
           <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Active</th>
-          <td mat-cell *matCellDef="let row">{{row.activeText}}</td>
+          <td mat-cell *matCellDef="let row" class="{{ row.active ? 'active' : 'inactive' }}">{{row.activeText}}</td>
         </ng-container>
 
         <ng-container matColumnDef="assetName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>asset</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Attached to</th>
           <td mat-cell *matCellDef="let row"><a routerLink="/asset/{{row.assetId}}">{{row.assetName}}</a></td>
         </ng-container>
 

@@ -50,7 +50,9 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   public flagstates = Object.values(allCountries).sort().filter(flagstate => !this.commonCountries.includes(flagstate));
 
   mapStateToProps() {
-    this.store.select(AssetSelectors.getLastUserAssetSearch).pipe(take(1)).subscribe((lastUserAssetSearch) => {
+    this.store.select(AssetSelectors.getLastUserAssetSearch).pipe(
+      filter(lastSearch => lastSearch !== null), take(1)
+    ).subscribe((lastUserAssetSearch) => {
       if(lastUserAssetSearch !== null) {
         this.store.dispatch(AssetActions.setCurrentAssetList({ assetListIdentifier: lastUserAssetSearch }));
       }

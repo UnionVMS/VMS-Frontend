@@ -1,0 +1,42 @@
+@import 'variables.scss';
+
+.page-content {
+  .status-info {
+    background: white;
+    padding: distance(2);
+    display: grid;
+    grid-row-gap: distance(1);
+
+    .info {
+      padding-top: distance(3);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+
+      .title .text{
+        display: grid;
+        grid-template-columns: auto 1fr;
+
+        &:after {
+          content: "";
+          border-bottom: 2px dotted $color_gray;
+          margin-left: distance(1);
+          margin-right: distance(1);
+        }
+      }
+
+      .value {
+        font-weight: bold;
+
+        &.active {
+          color: $color_accent;
+        }
+        &.inactive {
+          color: $color_warn;
+        }
+      }
+    }
+  }
+}

@@ -69,7 +69,7 @@ export class MobileTerminalEffects {
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(MobileTerminalSelectors.getMobileTerminalsByUrl),
+        this.store$.select(MobileTerminalSelectors.getMobileTerminalByUrl),
         this.store$.select(RouterSelectors.getMergedRoute)
       ),
       mergeMap(([pipedAction, authToken, selectedMobileTerminal, mergedRoute]: Array<any>) => {
@@ -116,6 +116,25 @@ export class MobileTerminalEffects {
       })
     ))
   );
+
+
+  @Effect()
+  getMobileTerminalHistory$ = this.actions$.pipe(
+    ofType(MobileTerminalActions.getMobileTerminalHistory),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      mergeMap(([action, authToken]: Array<any>) => {
+        return this.mobileTerminalService.getMobileTerminalHistory(authToken, action.mobileTerminalId).pipe(
+          map((response: MobileTerminalTypes.MobileTerminalHistoryList) => {
+            return MobileTerminalActions.setMobileTerminalHistory({
+              mobileTerminalHistory: { [action.mobileTerminalId]: response }
+            });
+          })
+        );
+      })
+    ))
+  );
+
 
   @Effect()
   getProposedMemberNumber$ = this.actions$.pipe(
@@ -168,7 +187,7 @@ export class MobileTerminalEffects {
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(AssetSelectors.getSelectedAsset)
+        this.store$.select(AssetSelectors.getAssetByUrl)
       ),
       mergeMap(([pipedAction, authToken, selectedAsset]: Array<any>) => {
         const isNew = action.mobileTerminal.id === undefined || action.mobileTerminal.id === null;
@@ -180,9 +199,13 @@ export class MobileTerminalEffects {
         }
         return request.pipe(
           map((mobileTerminal: any) => {
-            const assetId = typeof mobileTerminal.assetId !== 'undefined' ? mobileTerminal.assetId : selectedAsset.id;
+            if(selectedAsset) {
+              const assetId = typeof mobileTerminal.assetId !== 'undefined' ? mobileTerminal.assetId : selectedAsset.id;
+              this.router.navigate(['/asset/' + assetId + '/mobileTerminals']);
+            } else {
+              this.router.navigate(['/mobileTerminal/' + mobileTerminal.id]);
+            }
             let notification = $localize`:@@ts-mobile-terminal-updated:Mobile terminal updated successfully!`;
-            this.router.navigate(['/asset/' + assetId + '/mobileTerminals']);
             if(isNew) {
               notification = $localize`:@@ts-mobile-terminal-created:Mobile terminal created successfully!`;
             }
