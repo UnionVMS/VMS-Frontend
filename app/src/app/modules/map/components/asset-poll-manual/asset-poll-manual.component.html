@@ -14,12 +14,12 @@
     </div>
     <ng-container *ngIf="isPollSuccessful(formattedPoll)">
       <div class="poll-block">
-        <span class="label" i18n>Code</span>
-        <span class="value">-</span>
+        <span class="label" i18n>Status code</span>
+        <span class="value">{{formattedPoll.movement.status}}</span>
       </div>
-      <div class="poll-block position">
+      <div class="poll-block">
         <span class="label" i18n>Position</span>
-        <span class="value">-</span>
+        <span class="value">{{formattedPoll.formattedPosition.latitude}}, {{formattedPoll.formattedPosition.longitude}}</span>
       </div>
     </ng-container>
   </div>

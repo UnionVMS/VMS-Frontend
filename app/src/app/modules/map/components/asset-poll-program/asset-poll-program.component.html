@@ -38,6 +38,18 @@
         <span class="label" i18n>User</span>
         <span class="value">{{ formattedPoll.pollInfo.creator }}</span>
       </div>
+      <div class="poll-block">
+        <span class="label" i18n>Program poll start</span>
+        <span class="value">{{ formattedPoll.startDateFormatted }}</span>
+      </div>
+      <div class="poll-block">
+        <span class="label" i18n>Program poll end</span>
+        <span class="value">{{ formattedPoll.endDateFormatted }}</span>
+      </div>
+      <div class="poll-block">
+        <span class="label" i18n>Poll frequency</span>
+        <span class="value">{{ formattedPoll.frequencyFormatted }}</span>
+      </div>
       <div class="poll-block comment">
         <span class="label" i18n>Comment</span>
         <span class="value">{{ formattedPoll.pollInfo.comment }}</span>

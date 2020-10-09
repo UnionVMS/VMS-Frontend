@@ -11,7 +11,7 @@
 
   .core-data {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 110px 1fr;
     grid-column-gap: distance(1);
     grid-row-gap: distance(1);
   }
@@ -29,7 +29,7 @@
     grid-template-columns: 1fr;
     grid-row-gap: distance(0.5);
 
-    &.position, &.comment, &.ocean-region {
+    &.comment, &.ocean-region {
       grid-column: span 2;
     }
 

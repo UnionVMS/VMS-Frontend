@@ -32,7 +32,7 @@ export class AssetPollComponent implements OnInit, OnChanges {
       this.sortedPolls = [];
     } else {
       this.sortedPolls = [ ...this.polls ].sort((a, b) => {
-        return b.pollInfo.updateTime - a.pollInfo.updateTime;
+        return b.pollInfo.createTime - a.pollInfo.createTime;
       });
     }
   }

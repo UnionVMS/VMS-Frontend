@@ -7,7 +7,6 @@ import { AssetTypes } from '@data/asset';
 import { MobileTerminalTypes } from '@data/mobile-terminal';
 
 type ExtendedPoll = Readonly<AssetTypes.Poll & {
-  // locationDDM: { latitude: string, longitude: string };
   formattedTimestamp: string;
   formattedHistory: ReadonlyArray<Readonly<{
     status: string,
@@ -17,8 +16,7 @@ type ExtendedPoll = Readonly<AssetTypes.Poll & {
   }>>;
   oceanRegions: Array<string>;
   transponder: string;
-  // formattedSpeed: string,
-  // formattedOceanRegion: string;
+  formattedPosition?: { latitude: string, longitude: string };
 }>;
 
 @Component({
@@ -49,7 +47,7 @@ export class AssetPollManualComponent implements OnChanges {
 
     this.formattedPoll = {
       ...this.poll,
-      formattedTimestamp: formatUnixtime(this.poll.pollInfo.updateTime),
+      formattedTimestamp: formatUnixtime(this.poll.pollInfo.createTime),
       formattedHistory: this.poll.pollStatus.history.map((historyRow) => {
         const formattedTimestamp = formatUnixtime(historyRow.timestamp).split(' ');
         return {
@@ -61,10 +59,18 @@ export class AssetPollManualComponent implements OnChanges {
       }),
       oceanRegions,
       transponder: this.mobileTerminal ? this.mobileTerminal.mobileTerminalType : ''
-      // locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude, 2),
-      // formattedSpeed: position.speed.toFixed(2),
-      // formattedOceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId]
     };
+
+    if(this.poll.movement) {
+      this.formattedPoll = {
+        ...this.formattedPoll,
+        formattedPosition: convertDDToDDM(
+          this.formattedPoll.movement.location.latitude,
+          this.formattedPoll.movement.location.latitude,
+          2
+        ),
+      };
+    }
   }
 
   public isPollSuccessful(poll: ExtendedPoll) {

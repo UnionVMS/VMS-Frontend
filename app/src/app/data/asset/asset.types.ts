@@ -264,8 +264,11 @@ export type Poll = Readonly<{
     id: string,
     mobileterminalId: string,
     pollTypeEnum: PollType,
-    updateTime: number,
+    createTime: number,
     updatedBy: string,
+    frequency?: number,
+    endDate?: number,
+    startDate?: number,
   },
   pollStatus: {
     guid: string,
@@ -277,7 +280,8 @@ export type Poll = Readonly<{
       refGuid: string,
       type: string
     }
-  }
+  },
+  movement?: FullMovement
 }>;
 
 export type State = Readonly<{

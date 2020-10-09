@@ -11,6 +11,9 @@ type ExtendedPoll = Readonly<AssetTypes.Poll & {
   oceanRegions: Array<string>;
   transponder: string;
   identifier: string;
+  startDateFormatted: string;
+  endDateFormatted: string;
+  frequencyFormatted: string;
 }>;
 
 @Component({
@@ -44,12 +47,27 @@ export class AssetPollProgramComponent implements OnChanges {
 
     const identifier = channel ? channel.dnid + '.' + channel.memberNumber : '';
 
+    const frequencyHours = (this.poll.pollInfo.frequency / 3600);
+    const frequencyMinutes = ((this.poll.pollInfo.frequency / 60) % 60);
+    let frequency = '';
+
+    if(frequencyHours >= 1) {
+      frequency = frequencyHours.toFixed(0) + 'h ';
+    }
+    if(frequencyMinutes >= 1) {
+      frequency += frequencyMinutes.toFixed(0) + 'min';
+    }
+
+
     this.formattedPoll = {
       ...this.poll,
-      formattedTimestamp: formatUnixtime(this.poll.pollInfo.updateTime),
+      formattedTimestamp: formatUnixtime(this.poll.pollInfo.createTime),
       oceanRegions,
       transponder: this.mobileTerminal ? this.mobileTerminal.mobileTerminalType : '',
-      identifier
+      identifier,
+      startDateFormatted: formatUnixtime(this.poll.pollInfo.startDate),
+      endDateFormatted: formatUnixtime(this.poll.pollInfo.endDate),
+      frequencyFormatted: frequency,
     };
   }
 
