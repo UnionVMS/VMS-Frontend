@@ -120,16 +120,37 @@ export class IncidentEffects {
   );
 
   @Effect()
-  saveIncident$ = this.actions$.pipe(
-    ofType(IncidentActions.saveIncident),
+  updateIncidentType$ = this.actions$.pipe(
+    ofType(IncidentActions.updateIncidentType),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.incidentService.saveIncident(authToken, action.incident).pipe(
-        map((incident: IncidentTypes.Incident) => IncidentActions.setIncident({ incident }))
+      return this.incidentService.updateIncidentType(authToken, action.incidentId, action.incidentType, action.expiryDate).pipe(
+        map((incident: IncidentTypes.Incident) => IncidentActions.updateIncidents({ incidents: { [incident.id]: incident } }))
       );
     }),
   );
 
+  @Effect()
+  updateIncidentStatus$ = this.actions$.pipe(
+    ofType(IncidentActions.updateIncidentStatus),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.incidentService.updateIncidentStatus(authToken, action.incidentId, action.status, action.expiryDate).pipe(
+        map((incident: IncidentTypes.Incident) => IncidentActions.updateIncidents({ incidents: { [incident.id]: incident } }))
+      );
+    }),
+  );
+
+  @Effect()
+  updateIncidentExpiry$ = this.actions$.pipe(
+    ofType(IncidentActions.updateIncidentExpiry),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.incidentService.updateIncidentExpiry(authToken, action.incidentId, action.expiryDate).pipe(
+        map((incident: IncidentTypes.Incident) => IncidentActions.updateIncidents({ incidents: { [incident.id]: incident } }))
+      );
+    }),
+  );
 
   @Effect()
   pollIncident$ = this.actions$.pipe(

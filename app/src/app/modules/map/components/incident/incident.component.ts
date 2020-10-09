@@ -24,7 +24,9 @@ export class IncidentComponent implements OnChanges {
   @Input() userTimezone: string;
 
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
-  @Input() saveIncident: (incident: IncidentTypes.Incident) => void;
+  @Input() updateIncidentType: (incindentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) => void;
+  @Input() updateIncidentStatus: (incindentId: number, status: string, expiryDate?: number) => void;
+  @Input() updateIncidentExpiry: (incindentId: number, expiryDate: number) => void;
   @Input() createNote: (incidentId: number, note: NotesTypes.Note) => void;
   @Input() pollIncident: (incidentId: number, comment: string) => void;
   @Input() setActiveWorkflow: (workflow: string) => void;
@@ -63,19 +65,19 @@ export class IncidentComponent implements OnChanges {
   }
 
   public changeStatus = (status: string) => {
-    return this.saveIncident({ ...this.incident, status });
+    return this.updateIncidentStatus(this.incident.id, status);
   }
 
   public changeType = (type: IncidentTypes.IncidentTypes) => {
-    return this.saveIncident({ ...this.incident, type, status: null });
+    return this.updateIncidentType(this.incident.id, type);
   }
 
   public changeExpiryDate = (expiryDate: number | null) => {
-    return this.saveIncident({ ...this.incident, expiryDate });
+    return this.updateIncidentExpiry(this.incident.id, expiryDate);
   }
 
   public registerAttemptedContact = () => {
-    return this.saveIncident({ ...this.incident, status: IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT });
+    return this.changeStatus(IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT);
   }
 
   public checkPermissionForIncidentTypeForm() {

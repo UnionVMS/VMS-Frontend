@@ -68,7 +68,9 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public pollAsset: (assetId: string, pollPostObject: AssetTypes.PollPostObject) => void;
   public pollIncident: (incidentId: number, comment: string) => void;
   public removeForecast: (assetId: string) => void;
-  public saveIncident: (incident: IncidentTypes.Incident) => void;
+  public updateIncidentType: (incindentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) => void;
+  public updateIncidentStatus: (incindentId: number, status: string, expiryDate?: number) => void;
+  public updateIncidentExpiry: (incidentId: number, expiryDate: number) => void;
   public selectAsset: (assetId: string) => void;
   public dispatchSelectIncident: (incidentId: number) => void;
   public selectIncident: (incident: IncidentTypes.Incident) => void;
@@ -212,8 +214,12 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     this.createManualMovement = (manualMovement: AssetTypes.ManualMovement) => {
       return this.store.dispatch(AssetActions.createManualMovement({ manualMovement }));
     };
-    this.saveIncident = (incident: IncidentTypes.Incident) =>
-      this.store.dispatch(IncidentActions.saveIncident({ incident }));
+    this.updateIncidentType = (incidentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) =>
+      this.store.dispatch(IncidentActions.updateIncidentType({ incidentId, incidentType, expiryDate }));
+    this.updateIncidentStatus = (incidentId: number, status: string, expiryDate?: number) =>
+      this.store.dispatch(IncidentActions.updateIncidentStatus({ incidentId, status, expiryDate }));
+    this.updateIncidentExpiry = (incidentId: number, expiryDate: number) =>
+      this.store.dispatch(IncidentActions.updateIncidentExpiry({ incidentId, expiryDate }));
     this.pollAsset = (assetId: string, pollPostObject: AssetTypes.PollPostObject) =>
       this.store.dispatch(AssetActions.pollAsset({ assetId, pollPostObject }));
     this.pollIncident = (incidentId: number, comment: string) =>
