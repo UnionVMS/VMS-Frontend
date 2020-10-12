@@ -26,7 +26,7 @@ import { apiErrorHandler } from '@app/helpers/api-error-handler';
 @Injectable()
 export class AssetEffects {
 
-  private apiErrorHandler: (response: any, index: number) => boolean;
+  private readonly apiErrorHandler: (response: any, index: number) => boolean;
 
   constructor(
     private readonly actions$: Actions,
