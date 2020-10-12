@@ -13,13 +13,20 @@ import { NotificationsActions } from '@data/notifications';
 import { UserSettingsSelectors, UserSettingsTypes, UserSettingsActions } from './';
 import { UserSettingsService } from '@data/user-settings/user-settings.service';
 
+import { apiErrorHandler } from '@app/helpers/api-error-handler';
+
 @Injectable()
 export class UserSettingsEffects {
+
+  private apiErrorHandler: (response: any, index: number) => boolean;
+
   constructor(
     private readonly actions$: Actions,
     private readonly userSettingsService: UserSettingsService,
     private readonly store$: Store<State>
-  ) {}
+  ) {
+    this.apiErrorHandler = apiErrorHandler(this.store$);
+  }
 
   @Effect()
   setTimezoneObserver$ = this.actions$.pipe(
@@ -35,6 +42,7 @@ export class UserSettingsEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getUser), this.store$.select(UserSettingsSelectors.getUserSettings)),
     mergeMap(([setAction, user, settings]: Array<any>) => {
       return this.userSettingsService.saveUserPreferences(user, settings).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response: any, index: number) => [
           NotificationsActions.addSuccess($localize`:@@ts-user-settings-saved:Settings saved`),
         ]),

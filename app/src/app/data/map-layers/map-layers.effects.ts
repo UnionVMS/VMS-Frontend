@@ -9,13 +9,20 @@ import { AuthTypes, AuthSelectors } from '../auth';
 import { MapLayersService } from './map-layers.service';
 import { MapLayersActions } from './';
 
+import { apiErrorHandler } from '@app/helpers/api-error-handler';
+
 @Injectable()
 export class MapLayersEffects {
+
+  private apiErrorHandler: (response: any, index: number) => boolean;
+
   constructor(
     private readonly actions$: Actions,
     private readonly mapLayersService: MapLayersService,
     private readonly store$: Store<AuthTypes.State>
-  ) {}
+  ) {
+    this.apiErrorHandler = apiErrorHandler(this.store$);
+  }
 
   @Effect()
   getAreas$ = this.actions$.pipe(
@@ -23,6 +30,7 @@ export class MapLayersEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.mapLayersService.getAreas(authToken).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response: any) => MapLayersActions.addAreas({ mapLayers: response }))
       );
     })
@@ -38,6 +46,7 @@ export class MapLayersEffects {
       ),
       mergeMap(([action, authToken, user]: Array<any>) => {
         return this.mapLayersService.getUserAreas(authToken, user.scope.name, user.role.name).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           map((response: any) =>
             MapLayersActions.addAreas({ mapLayers: response.distinctAreaGroups.map((userLayerName: string) => (
               {

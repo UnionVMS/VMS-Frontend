@@ -21,15 +21,21 @@ import * as NotificationsActions from '@data/notifications/notifications.actions
 import { MobileTerminalTypes, MobileTerminalActions } from '@data/mobile-terminal';
 
 import { replaceDontTranslate } from '@app/helpers/helpers';
+import { apiErrorHandler } from '@app/helpers/api-error-handler';
 
 @Injectable()
 export class AssetEffects {
+
+  private apiErrorHandler: (response: any, index: number) => boolean;
+
   constructor(
     private readonly actions$: Actions,
     private readonly assetService: AssetService,
     private readonly store$: Store<State>,
     private readonly router: Router
-  ) {}
+  ) {
+    this.apiErrorHandler = apiErrorHandler(this.store$);
+  }
 
   @Effect()
   assetSearchObserver$ = this.actions$.pipe(
@@ -37,6 +43,7 @@ export class AssetEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.listAssets(authToken, action.searchQuery).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response: any) => {
           return AssetActions.setAssetList({
             searchQuery: action.searchQuery,
@@ -122,32 +129,36 @@ export class AssetEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return merge(
-        this.assetService.getInitalAssetMovements(authToken).pipe(map((assetMovements: any) => {
-          return new Observable((observer) => {
-            observer.next(
-              AssetActions.assetsMoved({
-                assetMovements: assetMovements.microMovements.reduce((acc, assetMovement) => {
-                  if(typeof assetMovement.microMove.speed === 'undefined') {
-                    assetMovement.microMove.speed = null;
-                  }
-                  acc[assetMovement.asset] = assetMovement;
-                  return acc;
-                }, {})
-              })
-            );
+        this.assetService.getInitalAssetMovements(authToken).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((assetMovements: any) => {
+            return new Observable((observer) => {
+              observer.next(
+                AssetActions.assetsMoved({
+                  assetMovements: assetMovements.microMovements.reduce((acc, assetMovement) => {
+                    if(typeof assetMovement.microMove.speed === 'undefined') {
+                      assetMovement.microMove.speed = null;
+                    }
+                    acc[assetMovement.asset] = assetMovement;
+                    return acc;
+                  }, {})
+                })
+              );
 
-            observer.next(
-              AssetActions.setEssentialProperties({
-                assetEssentialProperties: assetMovements.assetList.reduce((acc, assetEssentials) => {
-                  acc[assetEssentials.assetId] = assetEssentials;
-                  return acc;
-                }, {})
-              })
-            );
-            observer.next(MapActions.setReady({ ready: true }));
-            observer.complete();
-          });
-        }), mergeAll()),
+              observer.next(
+                AssetActions.setEssentialProperties({
+                  assetEssentialProperties: assetMovements.assetList.reduce((acc, assetEssentials) => {
+                    acc[assetEssentials.assetId] = assetEssentials;
+                    return acc;
+                  }, {})
+                })
+              );
+              observer.next(MapActions.setReady({ ready: true }));
+              observer.complete();
+            });
+          }),
+          mergeAll()
+        ),
         this.assetService.mapSubscription(authToken).pipe(
           bufferTime(1000),
           withLatestFrom(this.store$.select(AssetSelectors.getAssetsEssentials)),
@@ -281,14 +292,17 @@ export class AssetEffects {
       if(assetIdsWithoutEssentials.length > 0) {
         return this.assetService.getAssetEssentialProperties(
           authToken, assetIdsWithoutEssentials
-        ).pipe(map((assetsEssentials: Array<AssetTypes.AssetEssentialProperties>) => {
-          return AssetActions.setEssentialProperties({
-            assetEssentialProperties: assetsEssentials.reduce((acc, assetEssentials) => {
-              acc[assetEssentials.assetId] = assetEssentials;
-              return acc;
-            }, {})
-          });
-        }));
+        ).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((assetsEssentials: Array<AssetTypes.AssetEssentialProperties>) => {
+            return AssetActions.setEssentialProperties({
+              assetEssentialProperties: assetsEssentials.reduce((acc, assetEssentials) => {
+                acc[assetEssentials.assetId] = assetEssentials;
+                return acc;
+              }, {})
+            });
+          })
+        );
       } else {
         return EMPTY;
       }
@@ -301,6 +315,7 @@ export class AssetEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.getAsset(authToken, action.assetId).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((asset: any) => {
           return AssetActions.setFullAsset({ asset });
         })
@@ -314,6 +329,7 @@ export class AssetEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.getAssetTrackTimeInterval(authToken, action.assetId, action.startDate, action.endDate, action.sources).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         take(1),
         skipWhile((assetTrack: any) => assetTrack.length === 0),
         map((assetTrack: any) => {
@@ -329,6 +345,7 @@ export class AssetEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.getTracksByTimeInterval(authToken, action.query, action.startDate, action.endDate, action.sources).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((assetMovements: any) => {
           const assetMovementsOrdered = assetMovements.reverse();
           const movementsByAsset = assetMovementsOrdered.reduce((accMovementsByAsset, track) => {
@@ -372,6 +389,7 @@ export class AssetEffects {
         return this.assetService.getLastFullPositionsForAsset(
           authToken, action.assetId, action.amount, action.sources, action.excludeGivenSources
         ).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           map((assetMovements: any) => {
             const assetMovementsOrdered = assetMovements.reverse();
             return AssetActions.setLastFullPositions({ fullPositionsByAsset: { [action.assetId]: assetMovementsOrdered } });
@@ -388,8 +406,12 @@ export class AssetEffects {
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
         return forkJoin([
-          this.assetService.getLastFullPositionsForAsset(authToken, action.assetId, 1, ['AIS']),
-          this.assetService.getLastFullPositionsForAsset(authToken, action.assetId, 1, ['AIS'], true),
+          this.assetService.getLastFullPositionsForAsset(authToken, action.assetId, 1, ['AIS']).pipe(
+            filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          ),
+          this.assetService.getLastFullPositionsForAsset(authToken, action.assetId, 1, ['AIS'], true).pipe(
+            filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          ),
         ]).pipe(
           map((responses: any) => {
             const [ aisPosition, vmsPosition] = responses;
@@ -411,11 +433,14 @@ export class AssetEffects {
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
-        return this.assetService.getLicenceForAsset(authToken, action.assetId).pipe(map((assetLicence: AssetTypes.AssetLicence) => {
-          return AssetActions.addAssetLicences({ assetLicences: {
-            [action.assetId]: assetLicence
-          }});
-        }));
+        return this.assetService.getLicenceForAsset(authToken, action.assetId).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((assetLicence: AssetTypes.AssetLicence) => {
+            return AssetActions.addAssetLicences({ assetLicences: {
+              [action.assetId]: assetLicence
+            }});
+          })
+        );
       })
     ))
   );
@@ -426,6 +451,7 @@ export class AssetEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.getUnitTonnage(authToken).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((unitTonnage: any) => {
           return AssetActions.setUnitTonnage({
             unitTonnages: unitTonnage.map(unit => ({ name: unit.description, code: unit.primaryKey.code }))
@@ -449,6 +475,7 @@ export class AssetEffects {
           return EMPTY;
         }
         return this.assetService.getAsset(authToken, mergedRoute.params.assetId).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           map((asset: AssetTypes.Asset) => {
             const returnActions: Array<any> = [AssetActions.setFullAsset({ asset })];
             if(typeof asset.mobileTerminalIds !== 'undefined' && asset.mobileTerminalIds.length > 0) {
@@ -475,6 +502,7 @@ export class AssetEffects {
       ),
       mergeMap(([action, authToken, userName]: Array<any>) => {
         return this.assetService.poll(authToken, action.assetId, action.pollPostObject).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           mergeMap((response: any) => {
             if(typeof response.code !== 'undefined') {
               return [NotificationsActions.addError('Server error: Couldn\'t create a manual poll. Please contact system administrator.')];
@@ -493,6 +521,7 @@ export class AssetEffects {
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
         return this.assetService.getLastPollsForAsset(authToken, action.assetId).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           map((response: any) => AssetActions.setLastPollsForAsset({
             assetId: action.assetId,
             polls: response
@@ -516,6 +545,7 @@ export class AssetEffects {
         request = this.assetService.updateAsset(authToken, action.asset);
       }
       return request.pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((asset: AssetTypes.Asset) => {
           let notification = 'Asset updated successfully!';
           this.router.navigate(['/asset/' + asset.id]);
@@ -535,6 +565,7 @@ export class AssetEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.createManualMovement(authToken, action.manualMovement).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((asset: AssetTypes.Asset) => {
           return [NotificationsActions.addSuccess('Manual position created successfully!')];
         })
