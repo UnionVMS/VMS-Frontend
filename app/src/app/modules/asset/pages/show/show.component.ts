@@ -33,7 +33,7 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
       if(typeof asset !== 'undefined') {
         if(this.asset.id !== asset.id) {
           this.store.dispatch(AssetActions.getLicenceForAsset({ assetId: asset.id }));
-          this.store.dispatch(IncidentActions.getIncidentsForAssetId({ assetId: asset.id }));
+          this.store.dispatch(IncidentActions.getIncidentsForAssetId({ assetId: asset.id, onlyOpen: true }));
         }
         this.asset = asset;
       }

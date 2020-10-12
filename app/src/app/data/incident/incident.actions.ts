@@ -23,7 +23,7 @@ export const getLogForIncident = createAction(
 
 export const getIncidentsForAssetId = createAction(
   '[Incident] Get incidents for assetId',
-  props<{ assetId: string }>()
+  props<{ assetId: string, onlyOpen?: boolean }>()
 );
 
 export const getIncidentTypes = createAction(

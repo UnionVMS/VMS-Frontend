@@ -52,9 +52,9 @@ export class IncidentService {
     );
   }
 
-  getIncidentsForAssetId(authToken: string, assetId: string) {
+  getIncidentsForAssetId(authToken: string, assetId: string, onlyOpen = false) {
     return this.http.get(
-      environment.baseApiUrl + `incident/rest/incident/incidentsForAssetId/${assetId}`,
+      environment.baseApiUrl + `incident/rest/incident/incidentsForAssetId/${assetId}?onlyOpen=${onlyOpen}`,
       {
         headers: new HttpHeaders({
           Authorization: authToken,

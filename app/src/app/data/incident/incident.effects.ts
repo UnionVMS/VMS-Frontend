@@ -82,7 +82,7 @@ export class IncidentEffects {
     ofType(IncidentActions.getIncidentsForAssetId),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.incidentService.getIncidentsForAssetId(authToken, action.assetId).pipe(
+      return this.incidentService.getIncidentsForAssetId(authToken, action.assetId, action.onlyOpen).pipe(
         map((incidents: Readonly<{ [incidentId: string]: IncidentTypes.Incident }>) => {
           return IncidentActions.setIncidentListForAsset({
             assetId: action.assetId,
