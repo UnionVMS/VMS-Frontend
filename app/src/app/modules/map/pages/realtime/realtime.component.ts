@@ -27,6 +27,7 @@ import { MapSettingsActions, MapSettingsSelectors, MapSettingsTypes } from '@dat
 import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersTypes } from '@data/map-saved-filters';
 import { NotificationsActions } from '@data/notifications';
 import { RouterSelectors } from '@data/router';
+import { UserSettingsSelectors } from '@data/user-settings';
 
 import { Position } from '@data/generic.types';
 
@@ -83,6 +84,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public selectAsset: (assetId: string) => void;
   public unregisterOnClickFunction: (name: string) => void;
   public unregisterOnSelectFunction: (name: string) => void;
+  public userTimezone$: Observable<string>;
 
   public activePanel = '';
   public activeLeftPanel: ReadonlyArray<string>;
@@ -196,6 +198,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     ).subscribe((user) => {
       this.store.dispatch(MapLayersActions.getUserAreas());
     });
+    this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
   }
 
   mapDispatchToProps() {

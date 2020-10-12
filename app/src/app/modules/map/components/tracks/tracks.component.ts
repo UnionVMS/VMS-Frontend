@@ -28,6 +28,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   @Input() map: Map;
   @Input() registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   @Input() unregisterOnClickFunction: (name: string) => void;
+  @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -38,6 +39,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   private featuresPinned: Array<string> = [];
   private readonly renderedFeatureIdsByAssetId: { [assetId: string]: Array<string> } = {};
   private readonly lookupIndexLatLonFeature: { [latLon: string]: Feature[] } = {};
+  private previousUserTimezone = '';
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -88,28 +90,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         const featureId = closestFeature.getId();
         this.featuresHovered.push(featureId);
         currentHoveredFeatures.push(featureId);
-        const idParts = featureId.split('_');
-        const assetTrack = this.assetTracks.find((aTrack) => idParts[1] === aTrack.assetId);
-        const track = assetTrack.tracks.find((tr) => idParts[3] === tr.id);
-        const styles = closestFeature.getStyle();
-        let style = styles;
-        if(Array.isArray(styles)) {
-          style = styles[0];
-        }
-        style.setImage(new Circle({
-          radius: 3.5,
-          fill: new Fill({color: 'black'})
-        }));
-
-        style.setText(new Text({
-          font: '13px Calibri,sans-serif',
-          fill: new Fill({ color: '#ffffff' }),
-          backgroundFill: new Fill({ color: '#000000' }),
-          padding: [5, 5, 5, 5],
-          offsetX: 30,
-          textAlign: 'left',
-          text: formatUnixtime(track.timestamp) + ', ' + track.speed.toFixed(2) + ' kts, ' + track.source
-        }));
+        this.renderFeature(featureId, closestFeature);
         changed = true;
 
         const featuresToRemove = this.featuresHovered.filter(id => !currentHoveredFeatures.includes(id));
@@ -200,6 +181,17 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
         return acc;
       }, []);
+
+      // Check if timezone has changed, if that's the case, update pinned tracks.
+      if(this.previousUserTimezone !== this.userTimezone) {
+        this.previousUserTimezone = this.userTimezone;
+
+        this.featuresPinned.map((featureId) => {
+          const feature = this.vectorSource.getFeatureById(featureId);
+          this.renderFeature(featureId, feature);
+        });
+      }
+
       this.vectorSource.addFeatures(features);
       // this.removeDeletedFeatures();
       this.vectorLayer.getSource().changed();
@@ -248,5 +240,30 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
     this.lookupIndexLatLonFeature[shortendPosition].push(feature);
 
     return feature;
+  }
+
+  renderFeature(featureId: string, feature: any) {
+    const idParts = featureId.split('_');
+    const assetTrack = this.assetTracks.find((aTrack) => idParts[1] === aTrack.assetId);
+    const track = assetTrack.tracks.find((tr) => idParts[3] === tr.id);
+    const styles = feature.getStyle();
+    let style = styles;
+    if(Array.isArray(styles)) {
+      style = styles[0];
+    }
+    style.setImage(new Circle({
+      radius: 3.5,
+      fill: new Fill({color: 'black'})
+    }));
+
+    style.setText(new Text({
+      font: '13px Calibri,sans-serif',
+      fill: new Fill({ color: '#ffffff' }),
+      backgroundFill: new Fill({ color: '#000000' }),
+      padding: [5, 5, 5, 5],
+      offsetX: 30,
+      textAlign: 'left',
+      text: formatUnixtime(track.timestamp) + ', ' + track.speed.toFixed(2) + ' kts, ' + track.source
+    }));
   }
 }
