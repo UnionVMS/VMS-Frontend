@@ -17,16 +17,18 @@
 
   <div class="side-menu">
     <ul>
+      <li class="title">Search and list</li>
       <li routerLink="/asset" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <span class="short-key">S</span>
         <span class="text" i18n>Search</span>
       </li>
       <li routerLink="/mobileTerminals" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <span class="short-key">M</span>
-        <span class="text" i18n>Mobile Terminals</span>
+        <span class="text" i18n>All mobile terminals</span>
       </li>
       <li class="divider"></li>
       <ng-container *ngIf="selectedMobileTerminal">
+        <li class="title">Details {{ selectedMobileTerminal.serialNo }}</li>
         <li routerLink="/mobileTerminal/{{selectedMobileTerminal.id}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <span class="short-key">1</span>
           <span class="text" i18n>Details</span>
@@ -37,7 +39,7 @@
         </li>
         <li routerLink="/mobileTerminal/{{selectedMobileTerminal.id}}/attachment-history" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <span class="short-key">3</span>
-          <span class="text" i18n>Attachment History</span>
+          <span class="text" i18n>Attachment history</span>
         </li>
         <li routerLink="/mobileTerminal/{{selectedMobileTerminal.id}}/history" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <span class="short-key">4</span>
@@ -45,6 +47,7 @@
         </li>
       </ng-container>
       <ng-container *ngIf="!selectedMobileTerminal">
+        <li class="title deactivated">Details</li>
         <li class="deactivated">
           <span class="short-key">1</span>
           <span class="text" i18n>Details</span>
@@ -55,7 +58,7 @@
         </li>
         <li class="deactivated">
           <span class="short-key">3</span>
-          <span class="text" i18n>Attachment History</span>
+          <span class="text" i18n>Attachment history</span>
         </li>
         <li class="deactivated">
           <span class="short-key">4</span>
