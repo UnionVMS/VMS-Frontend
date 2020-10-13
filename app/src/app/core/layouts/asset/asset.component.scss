@@ -41,7 +41,22 @@
         cursor: pointer;
 
         &.divider {
-          border-top: distance(0.5) solid $color_gray;
+          border-top: distance(0.25) solid $color_gray;
+          margin-top: distance(2.5);
+          margin-bottom: distance(2);
+        }
+
+        &.title {
+          grid-template-columns: 1fr;
+          background: none;
+          font-size: distance(2.5);
+          font-weight: bolder;
+          color: $color_black;
+          cursor: default;
+          &.deactivated {
+            background: none;
+            color: $color_gray;
+          }
         }
 
         & > * {

@@ -67,6 +67,11 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
+
+    const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
+    if(cachedFeature) {
+      this.vectorSource.removeFeature(cachedFeature);
+    }
   }
 
   initializeFormValidator() {
