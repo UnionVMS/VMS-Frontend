@@ -24,17 +24,21 @@ import { MatTableModule } from '@angular/material/table';
 import { DatetimePickerModule } from 'ngx-moment-tz-picker';
 
 /* Pages */
+import { AttachmentHistoryPageComponent } from './pages/attachment-history/attachment-history.component';
 import { AttachPageComponent } from './pages/attach/attach.component';
 import { FormPageComponent } from './pages/form/form.component';
+import { HistoryPageComponent } from './pages/history/history.component';
 import { ListPageComponent } from './pages/list/list.component';
+import { ShowPageComponent } from './pages/show/show.component';
 import { ShowByAssetPageComponent } from './pages/show-by-asset/show-by-asset.component';
 
 /* Components */
+import { AttachmentHistoryComponent } from './components/attachment-history/attachment-history.component';
 import { HistoryComponent } from './components/history/history.component';
 import { ListForAssetComponent } from './components/list-for-asset/list-for-asset.component';
 import { SaveDialogComponent } from './components/save-dialog/save-dialog.component';
 import { SaveUnmatchedMemberNumbersDialogComponent } from './components/save-unmatched-member-numbers-dialog/save-unmatched-member-numbers-dialog.component';
-
+import { ShowComponent } from './components/show/show.component';
 
 @NgModule({
   imports: [
@@ -61,14 +65,19 @@ import { SaveUnmatchedMemberNumbersDialogComponent } from './components/save-unm
     MatTableModule,
   ],
   declarations: [
+    AttachmentHistoryPageComponent,
     AttachPageComponent,
     FormPageComponent,
+    HistoryPageComponent,
     ListPageComponent,
+    ShowPageComponent,
     ShowByAssetPageComponent,
     /* Components */
+    AttachmentHistoryComponent,
     HistoryComponent,
     ListForAssetComponent,
     SaveDialogComponent,
+    ShowComponent,
     SaveUnmatchedMemberNumbersDialogComponent,
   ]
 })

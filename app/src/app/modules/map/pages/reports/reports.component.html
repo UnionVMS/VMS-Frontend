@@ -42,6 +42,7 @@
         [map]="map"
         [registerOnClickFunction]="registerOnClickFunction"
         [unregisterOnClickFunction]="unregisterOnClickFunction"
+        [userTimezone]="userTimezone$ | async"
       ></map-tracks>
       <map-flagstates
         *ngIf="mapSettings.settings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"

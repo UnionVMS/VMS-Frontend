@@ -27,6 +27,7 @@ export const initialState: Types.State = {
   filterQuery: [],
   unitTonnages: [],
   assetLicences: {},
+  lastPollsForAsset: {}
 };
 
 const speedSegments = {
@@ -63,6 +64,11 @@ export const assetReducer = createReducer(initialState,
       [assetMovement.asset]: assetMovement
     }
   })),
+  on(AssetActions.clearAssetSearch, (state) => ({
+    ...state,
+      currentAssetList: null,
+      lastUserAssetSearch: null
+  })),
   on(AssetActions.setAssetPositionsWithoutAffectingTracks, (state, { movementsByAsset }) => ({
     ...state,
     assetMovements: movementsByAsset
@@ -96,7 +102,10 @@ export const assetReducer = createReducer(initialState,
       if(typeof acc[assetId] !== 'undefined') {
         if(
           assetMovements[assetId].microMove.source === 'AIS' &&
-          assetMovements[assetId].microMove.timestamp > acc[assetId].ais.timestamp
+          (
+            typeof acc[assetId].ais === 'undefined' ||
+            assetMovements[assetId].microMove.timestamp > acc[assetId].ais.timestamp
+          )
         ) {
           acc[assetId] = {
             ais: assetMovements[assetId].microMove,
@@ -104,7 +113,10 @@ export const assetReducer = createReducer(initialState,
           };
         } else if(
           assetMovements[assetId].microMove.source !== 'AIS' &&
-          assetMovements[assetId].microMove.timestamp > acc[assetId].vms.timestamp
+          (
+            typeof acc[assetId].vms === 'undefined' ||
+            assetMovements[assetId].microMove.timestamp > acc[assetId].vms.timestamp
+          )
         ) {
           acc[assetId] = {
             ais: acc[assetId].ais,
@@ -362,6 +374,13 @@ export const assetReducer = createReducer(initialState,
     lastFullPositions: {
       ...state.lastFullPositions,
       ...fullPositionsByAsset
+    }
+  })),
+  on(AssetActions.setLastPollsForAsset, (state, { assetId, polls }) => ({
+    ...state,
+    lastPollsForAsset: {
+      ...state.lastPollsForAsset,
+      [assetId]: polls
     }
   })),
   on(AssetActions.setTracksForAsset, (state, { tracks, assetId, sources }) => {

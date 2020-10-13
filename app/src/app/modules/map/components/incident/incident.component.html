@@ -6,6 +6,7 @@
         [type]="incident.type"
         [types]="incidentTypes"
         [changeType]="changeType"
+        [disabled]="!checkPermissionForIncidentTypeForm()"
       ></map-incident-type-form>
     </div>
 
@@ -39,13 +40,13 @@
     </div>
 
     <map-panel-block
-      *ngIf="checkPermission('expiryDateForm')"
+      *ngIf="checkPermissionForExpiryDateForm()"
       i18n-blockTitle
       blockTitle="Change expiry date"
       [active]="isBlockActive('expiryDateForm')"
       [setActiveFunction]="toggleCurrentActiveBlock('expiryDateForm')"
       [useArrowsAsToggle]="true"
-      noPadding="true"
+      noExternalPadding="true"
     >
       <map-incident-expiry-date-form
         body
@@ -54,33 +55,36 @@
     </map-panel-block>
 
     <map-panel-block
+      *ngIf="checkPermissionForManualPoll()"
       i18n-blockTitle
       blockTitle="Manually poll"
       [active]="isBlockActive('manuallyPoll')"
       [setActiveFunction]="toggleCurrentActiveBlock('manuallyPoll')"
       [useArrowsAsToggle]="true"
-      noPadding="true"
+      noExternalPadding="true"
     >
-      <map-manual-poll-form
+      <map-incident-manual-poll-form
         body
         [incidentId]="incident.id"
         [pollIncident]="pollIncident"
-      ></map-manual-poll-form>
+      ></map-incident-manual-poll-form>
     </map-panel-block>
 
     <map-panel-block
+      *ngIf="checkPermissionForCreateManualPosition()"
       i18n-blockTitle
       blockTitle="Create manual position"
       [active]="isBlockActive('manualPosition')"
       [setActiveFunction]="toggleCurrentActiveBlock('manualPosition')"
       [useArrowsAsToggle]="true"
-      noPadding="true"
+      noExternalPadding="true"
     >
       <map-manual-movement-form
         body
         *ngIf="map !== undefined"
         [createManualMovement]="createManualMovementCurried"
         [map]="map"
+        [userTimezone]="userTimezone"
       ></map-manual-movement-form>
     </map-panel-block>
   </div>
@@ -107,7 +111,7 @@
     </div>
 
     <button
-      *ngIf="checkPermission('setStatusAttemptedContact')"
+      *ngIf="checkPermissionForRegisterAttemptedContact()"
       title="Full incident log"
       id="show-full-log"
       mat-stroked-button
@@ -118,6 +122,7 @@
     >Register attempted contact</button>
 
     <button
+      *ngIf="checkPermissionForResloveButton()"
       title="Resolve incident"
       id="contact-info-button"
       mat-flat-button
@@ -125,7 +130,7 @@
       type="button"
       i18n
       (click)="changeStatus('RESOLVED')"
-    >Resolve</button>
+    >Resolve incident</button>
   </div>
 
   <!-- <div class="asset-information">

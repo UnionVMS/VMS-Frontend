@@ -85,7 +85,7 @@ export const getTracksByTimeInterval = createAction(
 
 export const getLastFullPositionsForAsset = createAction(
   '[Asset] Get last full positions for asset',
-  props<{ assetId: string, amount: number, sources?: string[], excludeGivenSources?: boolean }>()
+  props<{ assetId: string, amount: number, sources?: ReadonlyArray<string>, excludeGivenSources?: boolean }>()
 );
 
 export const getLastPositionsForSelectedAsset = createAction(
@@ -108,7 +108,17 @@ export const getUnitTonnage = createAction(
 
 export const pollAsset = createAction(
   '[Asset] Poll asset',
-  props<{ assetId: string, comment?: string }>()
+  props<{ assetId: string, pollPostObject: AssetTypes.PollPostObject }>()
+);
+
+export const getLatestPollsForAsset = createAction(
+  '[Asset] Get latest polls for asset',
+  props<{ assetId: string }>()
+);
+
+export const setLastPollsForAsset = createAction(
+  '[Asset] Set latest polls for asset',
+  props<{ assetId: string, polls: Readonly<{ readonly [pollId: string]: AssetTypes.Poll }> }>()
 );
 
 export const removeAssets = createAction(
@@ -143,6 +153,8 @@ export const searchAssets = createAction(
   '[Asset] search',
   props<{ searchQuery: AssetTypes.AssetListSearchQuery, userSearch?: boolean }>()
 );
+
+export const clearAssetSearch = createAction('[Asset] Clear search');
 
 export const selectAsset = createAction(
   '[Asset] Select asset',

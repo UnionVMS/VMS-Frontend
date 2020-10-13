@@ -5,89 +5,20 @@
   grid-template-columns: 1fr;
   grid-row-gap: $distance;
 
-  & > * {
-    background: white;
-    padding: distance(4);
-  }
-
   .notes-list--create {
     display: grid;
+    background: white;
+    padding: distance(2);
 
-    h2 {
-      padding-top: 0;
+    h3 {
+      padding: 0;
+      padding-bottom: distance(2);
     }
   }
 
-  h2.all-notes {
+  h3.all-notes {
     margin-top: distance(3);
-  }
-
-  .search-wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .notes {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-row-gap: $distance;
-
-    .note {
-      display: grid;
-      grid-template-columns: 1fr 100px;
-
-      & > * {
-        background: $color_cold_gray;
-        padding: distance(2);
-      }
-
-      .left-column {
-        display: grid;
-        grid-row-gap: $distance;
-
-        .user {
-          font-weight: bold;
-        }
-        .date {
-          margin-left: $distance;
-          color: $color_gray;
-        }
-      }
-
-      .right-column {
-        border-left: distance(0.5) dotted #FFFFFF;
-        .menu {
-          place-self: center;
-          display: grid;
-          grid-row-gap: $distance;
-
-          .icon-wrapper, a {
-            text-decoration: none;
-            color: $color_turquoise;
-            border-radius: 30px;
-            background: white;
-            display: grid;
-            width: 60px;
-            height: 60px;
-            i {
-              font-size: 25px;
-              place-self: center;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  fieldset {
-    border: 1px solid #000;
-    label {
-      font-weight: bold;
-      color: $color_green;
-    }
-
-    .edit-link {
-      float: right;
-    }
+    background: white;
+    padding: distance(2);
   }
 }

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store, Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY, Observable } from 'rxjs';
-import { map, mergeMap, flatMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { map, mergeMap, flatMap, catchError, withLatestFrom, filter } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer.ts';
 import { FishingReportActions, FishingReportTypes, FishingReportSelectors } from './';
@@ -13,15 +13,21 @@ import { AuthTypes, AuthSelectors } from '../auth';
 import * as RouterSelectors from '@data/router/router.selectors';
 
 import { hashCode } from '@app/helpers/helpers';
+import { apiErrorHandler } from '@app/helpers/api-error-handler';
 
 @Injectable()
 export class FishingReportEffects {
+
+  private readonly apiErrorHandler: (response: any, index: number) => boolean;
+
   constructor(
     private readonly actions$: Actions,
     private readonly store$: Store<State>,
     private readonly fishingReportService: FishingReportService,
     private readonly router: Router
-  ) {}
+  ) {
+    this.apiErrorHandler = apiErrorHandler(this.store$);
+  }
 
   @Effect()
   search$ = this.actions$.pipe(
@@ -29,6 +35,7 @@ export class FishingReportEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]) => {
       return this.fishingReportService.search(authToken, action.query).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response: Readonly<{
           fishingReports: FishingReportTypes.FishingReports,
           priorNotifications: FishingReportTypes.PriorNotifications
@@ -90,6 +97,7 @@ export class FishingReportEffects {
           return EMPTY;
         }
         return this.fishingReportService.getFishingReport(authToken, mergedRoute.params.fishingReportId).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           map((result: { fishingReports: FishingReportTypes.FishingReports }) => {
             const fishingReport: FishingReportTypes.FishingReport = Object.values(result.fishingReports)[0];
             if(typeof fishingReport === 'undefined') {

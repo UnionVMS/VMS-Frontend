@@ -4,9 +4,36 @@
 
   display: grid;
   grid-row-gap: $xlarge_distance;
+  margin-bottom: distance(2);
+
+  .mobile-terminal-filter {
+    padding: distance(5);
+    background: white;
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+    .serialNo {
+      grid-column: span 2;
+    }
+
+    .form-button-wrapper {
+      display: grid;
+      grid-column-gap: distance(1);
+      grid-template-columns: 1fr 1fr;
+    }
+  }
 
   .mobile-terminals-table-container > table {
     width: 100%;
+
+    .inactive {
+      color: $color_warn;
+      font-weight: bold;
+    }
+    .active {
+      color: $color_accent;
+      font-weight: bold;
+    }
   }
 
   .load-spinner {

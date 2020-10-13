@@ -4,6 +4,7 @@
   [setTimezone]="setTimezone"
   [timezone]="timezone$ | async"
   [fishingActivityUnlocked]="fishingActivityUnlocked$ | async"
+  [url]="(mergedRoute$ | async).url"
 ></core-top-menu-component>
 
 <div class="container">

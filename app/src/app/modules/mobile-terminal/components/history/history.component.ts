@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
+import { AssetTypes } from '@data/asset';
 import { MobileTerminalTypes, MobileTerminalReducer } from '@data/mobile-terminal';
 
 type ExtendedMobileTerminalHistory = MobileTerminalTypes.MobileTerminalHistory & {
@@ -31,8 +32,14 @@ export class HistoryComponent implements OnChanges {
   @Input() mobileTerminalHistoryFilter: MobileTerminalTypes.MobileTerminalHistoryFilter;
   @Input() addMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
   @Input() removeMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
+  @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
+  @Input() assets?: Readonly<{ readonly [assetId: string]: AssetTypes.Asset }>;
 
   public mobileTerminalHistoryArray: ReadonlyArray<ExtendedMobileTerminalHistory>;
+  public mobileTerminalHistoryArrayByAsset: ReadonlyArray<{
+    asset: AssetTypes.Asset | null,
+    history: ReadonlyArray<ExtendedMobileTerminalHistory>
+  }>;
   public filtersVisible = true;
   public historyExpanded: ReadonlyArray<string> = [];
   public filtersChecked: Readonly<{
@@ -117,6 +124,33 @@ export class HistoryComponent implements OnChanges {
       }
       return 0;
     });
+
+    if(typeof this.assets === 'undefined') {
+      this.mobileTerminalHistoryArrayByAsset = [
+        {
+          asset: null,
+          history: this.mobileTerminalHistoryArray
+        }
+      ];
+    } else {
+      this.mobileTerminalHistoryArrayByAsset = this.mobileTerminalHistoryArray.reduce((acc, history) => {
+        if(
+          acc.length === 0
+          || (typeof history.snapshot.assetId === 'undefined' && acc[acc.length - 1].asset !== null)
+          || (typeof history.snapshot.assetId !== 'undefined' && acc[acc.length - 1].asset === null)
+          || (acc[acc.length - 1].asset !== null && history.snapshot.assetId !== acc[acc.length - 1].asset.id)
+        ) {
+          acc.push({
+            asset: typeof history.snapshot.assetId === 'undefined' || history.snapshot.assetId === null
+              ? null : this.assets[history.snapshot.assetId],
+            history: [ history ]
+          });
+        } else {
+          acc[acc.length - 1].history.push(history);
+        }
+        return acc;
+      }, []);
+    }
   }
 
   toggleShowFilters() {
@@ -253,6 +287,13 @@ export class HistoryComponent implements OnChanges {
       oceanRegions.push('Indian');
     }
     return oceanRegions.join(', ');
+  }
+
+  getAssetName(asset: AssetTypes.Asset | null) {
+    if(asset === null) {
+      return 'Not attached';
+    }
+    return asset.externalMarking + ' ' + asset.name;
   }
 
   toggleAll() {

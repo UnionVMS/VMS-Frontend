@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, takeUntil, first } from 'rxjs/operators';
 
 
 // @ts-ignore
@@ -15,13 +16,14 @@ import Feature from 'ol/Feature';
 import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style';
 import { fromLonLat } from 'ol/proj';
 
-import { NotesActions, NotesTypes, NotesSelectors } from '@data/notes';
 import { AssetTypes } from '@data/asset';
 import { createNotesFormValidator } from './form-validator';
+import { ManualMovementFormDialogComponent } from '@modules/map/components/manual-movement-form-dialog/manual-movement-form-dialog.component';
 
 import { errorMessage } from '@app/helpers/validators/error-messages';
-import { formatDate, deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
+import { deg2rad } from '@app/helpers/helpers';
 import { convertDDMToDD } from '@app/helpers/wgs84-formatter';
+import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
 @Component({
   selector: 'map-manual-movement-form',
@@ -32,6 +34,7 @@ import { convertDDMToDD } from '@app/helpers/wgs84-formatter';
 export class ManualMovementFormComponent implements OnInit, OnDestroy {
   @Input() createManualMovement: (manualMovement: AssetTypes.Movement) => void;
   @Input() map: Map;
+  @Input() userTimezone: string;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -46,20 +49,10 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   @ViewChild('longitudeElement') longitudeElement: ElementRef;
   @ViewChild('longitudeDecimalsElement') longitudeDecimalsElement: ElementRef;
 
+  constructor(public dialog: MatDialog) { }
+
   ngOnInit() {
-    this.formValidator = createNotesFormValidator();
-    this.formValidator.controls.latitude.valueChanges
-      .pipe(takeUntil(this.unmount$), filter((value: string) => value !== null && value.toString().length === 2))
-      .subscribe(() => this.latitudeDecimalsElement.nativeElement.focus());
-    this.formValidator.controls.latitudeDecimals.valueChanges
-      .pipe(takeUntil(this.unmount$), filter((value: string) => value === null || value.toString().length === 0))
-      .subscribe(() => this.latitudeElement.nativeElement.focus());
-    this.formValidator.controls.longitude.valueChanges
-      .pipe(takeUntil(this.unmount$), filter((value: string) => value !== null && value.toString().length === 2))
-      .subscribe(() => this.longitudeDecimalsElement.nativeElement.focus());
-    this.formValidator.controls.longitudeDecimals.valueChanges
-      .pipe(takeUntil(this.unmount$), filter((value: string) => value === null || value.toString().length === 0))
-      .subscribe(() => this.longitudeElement.nativeElement.focus());
+    this.initializeFormValidator();
 
     this.vectorSource = new VectorSource();
     this.vectorLayer = new VectorLayer({
@@ -74,6 +67,22 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
+  }
+
+  initializeFormValidator() {
+    this.formValidator = createNotesFormValidator();
+    this.formValidator.controls.latitude.valueChanges
+      .pipe(takeUntil(this.unmount$), filter((value: string) => value !== null && value.toString().length === 2))
+      .subscribe(() => this.latitudeDecimalsElement.nativeElement.focus());
+    this.formValidator.controls.latitudeDecimals.valueChanges
+      .pipe(takeUntil(this.unmount$), filter((value: string) => value === null || value.toString().length === 0))
+      .subscribe(() => this.latitudeElement.nativeElement.focus());
+    this.formValidator.controls.longitude.valueChanges
+      .pipe(takeUntil(this.unmount$), filter((value: string) => value !== null && value.toString().length === 2))
+      .subscribe(() => this.longitudeDecimalsElement.nativeElement.focus());
+    this.formValidator.controls.longitudeDecimals.valueChanges
+      .pipe(takeUntil(this.unmount$), filter((value: string) => value === null || value.toString().length === 0))
+      .subscribe(() => this.longitudeElement.nativeElement.focus());
   }
 
   save() {
@@ -98,6 +107,15 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     } as AssetTypes.Movement);
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
     this.vectorSource.removeFeature(cachedFeature);
+
+    // Remove subscriptions for previous form.
+    this.unmount$.next(true);
+    this.formValidator.controls.latitude.setValue('');
+    this.formValidator.controls.latitudeDecimals.setValue('');
+    this.formValidator.controls.longitude.setValue('');
+    this.formValidator.controls.longitudeDecimals.setValue('');
+    this.unmount$.next(false);
+    this.initializeFormValidator();
   }
 
   renderPreview() {
@@ -201,5 +219,30 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   updateTimestamp(dateTime: moment.Moment) {
     const formControl = this.formValidator.get('timestamp');
     formControl.setValue(dateTime);
+  }
+
+  openSaveDialog(): void {
+    const location =
+      this.formValidator.value.latitudeDirection + ' ' +
+      this.formValidator.value.latitude + '° ' +
+      this.formValidator.value.latitudeDecimals + '\', ' +
+
+      this.formValidator.value.longitudeDirection + ' ' +
+      this.formValidator.value.longitude + '° ' +
+      this.formValidator.value.longitudeDecimals + '\'';
+
+    const dialogRef = this.dialog.open(ManualMovementFormDialogComponent, {
+      data: {
+        location,
+        timestamp: formatUnixtime(Math.floor(this.formValidator.value.timestamp.format('x'))),
+        userTimezone: this.userTimezone,
+      }
+    });
+
+    dialogRef.afterClosed().pipe(first()).subscribe(result => {
+      if(result === true) {
+        this.save();
+      }
+    });
   }
 }

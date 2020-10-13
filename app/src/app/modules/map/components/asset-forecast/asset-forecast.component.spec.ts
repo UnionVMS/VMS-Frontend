@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 
 import { fromLonLat, toLonLat } from 'ol/proj';
 import Feature from 'ol/Feature';
@@ -10,7 +10,7 @@ import AssetMovementStub from '@data/asset/stubs/assetMovement.stub';
 
 /* tslint:disable:no-string-literal */
 describe('AssetForecastComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AssetForecastComponent

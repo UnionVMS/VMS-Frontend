@@ -1,5 +1,6 @@
 import { Component, Input, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { truncFloat } from '@app/helpers/float';
+import { convertDDToDDM, convertDDToDMS } from '@app/helpers/wgs84-formatter';
 import { toLonLat, transform } from 'ol/proj';
 import { get as getProjection } from 'ol/proj';
 
@@ -45,27 +46,10 @@ export class RightClickMenuComponent implements OnInit, OnDestroy {
     this.closePopup();
     const id = 'coordinates-popups-' + this.coordinatePopupsIndex++;
     const [ baseLongitude, baseLatitude ] = toLonLat(this.currentPosition);
+
     const dd = truncFloat(baseLatitude, 7) + ', ' + truncFloat(baseLongitude, 7);
-
-    const verticalDirection = (baseLatitude > 0 ? 'N' : 'S');
-    const horizontalDirection = (baseLongitude > 0 ? 'E' : 'W');
-
-    const latitude = Math.abs(baseLatitude);
-    const longitude = Math.abs(baseLongitude);
-
-    const latitudeMinute = 60 * (latitude % 1);
-    const longitudeMinute = 60 * (longitude % 1);
-
-    const ddm =
-       verticalDirection + truncFloat(latitude, 0) + '° ' + truncFloat(latitudeMinute, 5) + '\' , ' +
-       horizontalDirection + truncFloat(longitude, 0) + '° ' + truncFloat(longitudeMinute, 5) + '\'';
-
-    const latitudeSecond = 60 * (latitudeMinute % 1);
-    const longitudeSecond = 60 * (longitudeMinute % 1);
-
-    const dms =
-      verticalDirection + truncFloat(latitude, 0) + '° ' + truncFloat(latitudeMinute, 0) + '\' ' + truncFloat(latitudeSecond, 2) + '", ' +
-      horizontalDirection + truncFloat(longitude, 0) + '° ' + truncFloat(longitudeMinute, 0) + '\' ' + truncFloat(longitudeSecond, 2) + '"';
+    const ddm = convertDDToDDM(baseLatitude, baseLongitude, 5);
+    const dms = convertDDToDMS(baseLatitude, baseLongitude, 2);
 
     const sweref99 = transform(this.currentPosition, 'EPSG:3857', 'EPSG:3006');
 
@@ -77,8 +61,8 @@ export class RightClickMenuComponent implements OnInit, OnDestroy {
         baseCoordinates: this.currentPosition,
         coordinates: {
           'WGS84 DD': dd,
-          'WGS84 DMS': dms,
-          'WGS84 DDM': ddm,
+          'WGS84 DMS': dms.latitude + ', ' + dms.longitude,
+          'WGS84 DDM': ddm.latitude + ', ' + ddm.longitude,
           RT90: truncFloat(rt90[1], 3) + ', ' + truncFloat(rt90[0], 3),
           SWEREF99: truncFloat(sweref99[1], 3) + ', ' + truncFloat(sweref99[0], 3)
         }

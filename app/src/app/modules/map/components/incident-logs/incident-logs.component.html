@@ -5,13 +5,13 @@
     (selectedIndexChange)="changeTab($event)"
   >
     <mat-tab label="Full log">
-      <map-incident-log *ngIf="incidentLog" [incidentLog]="incidentLog"></map-incident-log>
+      <map-incident-log *ngIf="incidentLog" [incidentLog]="incidentLog" [userTimezone]="userTimezone"></map-incident-log>
     </mat-tab>
     <mat-tab label="Status change log">
-      <map-incident-log *ngIf="incidentLog" [incidentLog]="incidentStatusLog"></map-incident-log>
+      <map-incident-log *ngIf="incidentLog" [incidentLog]="incidentStatusLog" [userTimezone]="userTimezone"></map-incident-log>
     </mat-tab>
     <mat-tab label="Manual position log">
-      <map-incident-log *ngIf="incidentLog" [incidentLog]="incidentManualPositionLog"></map-incident-log>
+      <map-incident-log *ngIf="incidentLog" [incidentLog]="incidentManualPositionLog" [userTimezone]="userTimezone"></map-incident-log>
     </mat-tab>
   </mat-tab-group>
 </div>

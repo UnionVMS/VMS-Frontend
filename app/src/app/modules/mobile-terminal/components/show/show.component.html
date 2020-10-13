@@ -1,0 +1,109 @@
+<div class="component-content">
+  <div class="mobileTerminal">
+    <div class="row">
+      <div class="title"><span class="text" i18n>Transceiver system</span></div>
+      <div class="value">{{formattedMobileTerminal.mobileTerminalType}}</div>
+    </div>
+    <div class="row">
+      <div class="title"><span class="text" i18n>Serial no.</span></div>
+      <div class="value">{{formattedMobileTerminal.serialNo}}</div>
+    </div>
+    <div class="row">
+      <div class="title"><span class="text" i18n>Ocean regions</span></div>
+      <div class="value ocean-regions">
+        <span *ngIf="formattedMobileTerminal.eastAtlanticOceanRegion" i18n>East Atlantic</span>
+        <span *ngIf="formattedMobileTerminal.westAtlanticOceanRegion" i18n>West Atlantic</span>
+        <span *ngIf="formattedMobileTerminal.pacificOceanRegion" i18n>Pacific</span>
+        <span *ngIf="formattedMobileTerminal.indianOceanRegion" i18n>Indian</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="title"><span class="text" i18n>Transceiver type</span></div>
+      <div class="value">{{formattedMobileTerminal.transceiverType}}</div>
+    </div>
+    <div class="row">
+      <div class="title"><span class="text" i18n>Software version</span></div>
+      <div class="value">{{formattedMobileTerminal.softwareVersion}}</div>
+    </div>
+    <div class="row">
+      <div class="title"><span class="text" i18n>Antenna</span></div>
+      <div class="value">{{formattedMobileTerminal.antenna}}</div>
+    </div>
+    <div class="row">
+      <div class="title"><span class="text" i18n>Satellite number</span></div>
+      <div class="value">{{formattedMobileTerminal.satelliteNumber}}</div>
+    </div>
+    <div class="row">
+      <div class="title"><span class="text" i18n>Installed by</span></div>
+      <div class="value">{{formattedMobileTerminal.installedBy}}</div>
+    </div>
+    <div class="row">
+      <div class="title"><span class="text" i18n>Installed on</span></div>
+      <div class="value">{{formattedMobileTerminal.installDateFormatted}}</div>
+    </div>
+    <div class="row">
+      <div class="title"><span class="text" i18n>Unistalled on</span></div>
+      <div class="value">{{formattedMobileTerminal.uninstallDateFormatted}}</div>
+    </div>
+  </div>
+  <h2>Channels</h2>
+  <mat-accordion id="channels">
+    <mat-expansion-panel *ngFor="let channel of formattedMobileTerminal.channels; let i = index">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{channel.name ? channel.name : channel.id}}</mat-panel-title>
+        <mat-panel-description>Channel {{i + 1}}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="channel">
+        <div class="row">
+          <div class="title"><span class="text" i18n>Land station</span></div>
+          <div class="value">{{channel.lesDescription}}</div>
+        </div>
+        <div class="row">
+          <div class="title"><span class="text" i18n>Dnid</span></div>
+          <div class="value">{{channel.dnid}}</div>
+        </div>
+        <div class="row">
+          <div class="title"><span class="text" i18n>Member no.</span></div>
+          <div class="value">{{channel.memberNumber}}</div>
+        </div>
+        <div class="row">
+          <div class="title"><span class="text" i18n>Channel</span></div>
+          <div class="value">{{channel.name}}</div>
+        </div>
+        <div class="row">
+          <div class="title"><span class="text" i18n>Poll Channel</span></div>
+          <div class="value"><span *ngIf="channel.pollChannel">Active</span></div>
+        </div>
+        <div class="row">
+          <div class="title"><span class="text" i18n>Config Channel</span></div>
+          <div class="value"><span *ngIf="channel.configChannel">Active</span></div>
+        </div>
+        <div class="row">
+          <div class="title"><span class="text" i18n>Default Channel</span></div>
+          <div class="value"><span *ngIf="channel.defaultChannel">Active</span></div>
+        </div>
+        <div class="row">
+          <div class="title"><span class="text" i18n>Start date</span></div>
+          <div class="value">{{channel.startDateFormatted}}</div>
+        </div>
+        <div class="row">
+          <div class="title"><span class="text" i18n>End date</span></div>
+          <div class="value">{{channel.endDateFormatted}}</div>
+        </div>
+        <div class="row">
+          <div class="title"><span class="text" i18n>Expected Frequency</span></div>
+          <div class="value">{{channel.expectedFrequency / (60 * 1000)}} min</div>
+        </div>
+        <div class="row">
+          <div class="title"><span class="text" i18n>Frequency Grace Period</span></div>
+          <div class="value">{{channel.frequencyGracePeriod / (60 * 1000)}} min</div>
+        </div>
+
+        <div class="row">
+          <div class="title"><span class="text" i18n>Expected Frequency In Port</span></div>
+          <div class="value">{{channel.expectedFrequencyInPort / (60 * 1000)}} min</div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

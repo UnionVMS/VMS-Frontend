@@ -44,12 +44,15 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     flagState: [],
   };
   public search: () => void;
+  public clearSearch: () => void;
   public commonCountries = ['Sweden', 'Finland', 'Denmark', 'Estonia', 'Norway'].sort();
   public allCountryCodes = allCountryCodes;
   public flagstates = Object.values(allCountries).sort().filter(flagstate => !this.commonCountries.includes(flagstate));
 
   mapStateToProps() {
-    this.store.select(AssetSelectors.getLastUserAssetSearch).pipe(take(1)).subscribe((lastUserAssetSearch) => {
+    this.store.select(AssetSelectors.getLastUserAssetSearch).pipe(
+      filter(lastSearch => lastSearch !== null), take(1)
+    ).subscribe((lastUserAssetSearch) => {
       if(lastUserAssetSearch !== null) {
         this.store.dispatch(AssetActions.setCurrentAssetList({ assetListIdentifier: lastUserAssetSearch }));
       }
@@ -188,6 +191,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
       this.store.dispatch(AssetActions.searchAssets({ searchQuery, userSearch: true }));
     };
+
+    this.clearSearch = () => this.store.dispatch(AssetActions.clearAssetSearch());
   }
 
   ngOnInit() {
@@ -198,6 +203,15 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
+  }
+
+  clear() {
+    this.assetSearchObject = {
+      search: '',
+      searchType: 'Swedish Assets',
+      flagState: [],
+    };
+    this.clearSearch();
   }
 
   sortData(sort: Sort) {

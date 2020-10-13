@@ -12,6 +12,7 @@ import { IncidentTypes } from '@data/incident';
 })
 export class IncidentLogEntryPollComponent implements OnChanges {
   @Input() poll: IncidentTypes.PollLogEntry;
+  @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 
   public history: ReadonlyArray<{ status: string, time: string; }> = [];
 

@@ -23,7 +23,7 @@ export const getLogForIncident = createAction(
 
 export const getIncidentsForAssetId = createAction(
   '[Incident] Get incidents for assetId',
-  props<{ assetId: string }>()
+  props<{ assetId: string, onlyOpen?: boolean }>()
 );
 
 export const getIncidentTypes = createAction(
@@ -39,19 +39,24 @@ export const pollIncident = createAction(
   props<{ incidentId: number, comment?: string }>()
 );
 
-export const saveIncident = createAction(
-  '[Incident] Save incidents',
-  props<{ incident: IncidentTypes.Incident }>()
+export const updateIncidentType = createAction(
+  '[Incident] Update incident type',
+  props<{ incidentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number }>()
+);
+
+export const updateIncidentStatus = createAction(
+  '[Incident] Update incident status',
+  props<{ incidentId: number, status: string, expiryDate?: number }>()
+);
+
+export const updateIncidentExpiry = createAction(
+  '[Incident] Update incident expiry',
+  props<{ incidentId: number, expiryDate?: number }>()
 );
 
 export const selectIncident = createAction(
   '[Incident] Select incident',
   props<{ incidentId: number }>()
-);
-
-export const setIncident = createAction(
-  '[Incident] Set incident',
-  props<{ incident: IncidentTypes.Incident }>()
 );
 
 export const setIncidents = createAction(

@@ -7,13 +7,25 @@ export const convertDDToDDM = (latitude: number, longitude: number, decimals = 4
   const absLatitude = Math.abs(latitude);
   const absLongitude = Math.abs(longitude);
 
-  const latitudeMinute = 60 * (absLatitude % 1);
-  const longitudeMinute = 60 * (absLongitude % 1);
+  const latitudeMinute = calculateMinuteOrSecond(absLatitude);
+  const longitudeMinute = calculateMinuteOrSecond(absLongitude);
 
   return {
     latitude: verticalDirection + ' ' + truncFloat(absLatitude, 0) + '° ' + truncFloat(latitudeMinute, decimals) + '\'',
     longitude: horizontalDirection + ' ' + truncFloat(absLongitude, 0) + '° ' + truncFloat(longitudeMinute, decimals) + '\''
   };
+};
+
+// Unfortunatly we need to do this calculation as tough it's an integear.
+// And we need to round the value half way through to prevent rounding errors in the end.
+const calculateMinuteOrSecond = (latOrLong: number) => {
+  const maxNumberOfDecimalsAJsFloatCanStore = 17;
+  const roundingErrorDecimals = 5;
+  const intConversionNumber = Math.pow(10, maxNumberOfDecimalsAJsFloatCanStore);
+
+  return Math.round(
+      (60 * ((intConversionNumber * latOrLong) % intConversionNumber)) / Math.pow(10, roundingErrorDecimals)
+    ) / Math.pow(10, maxNumberOfDecimalsAJsFloatCanStore - roundingErrorDecimals);
 };
 
 export const convertDDToDMS = (latitude: number, longitude: number, decimals = 2) => {
@@ -23,18 +35,18 @@ export const convertDDToDMS = (latitude: number, longitude: number, decimals = 2
   const absLatitude = Math.abs(latitude);
   const absLongitude = Math.abs(longitude);
 
-  const latitudeMinute = 60 * (absLatitude % 1);
-  const longitudeMinute = 60 * (absLongitude % 1);
+  const latitudeMinute = calculateMinuteOrSecond(absLatitude);
+  const longitudeMinute = calculateMinuteOrSecond(absLongitude);
 
-  const latitudeSecond = 60 * (latitudeMinute % 1);
-  const longitudeSecond = 60 * (longitudeMinute % 1);
+  const latitudeSecond = calculateMinuteOrSecond(latitudeMinute);
+  const longitudeSecond = calculateMinuteOrSecond(longitudeMinute);
 
   return {
-    latitude: verticalDirection +
+    latitude: verticalDirection + ' ' +
       truncFloat(latitude, 0) + '° ' +
       truncFloat(latitudeMinute, 0) + '\' ' +
       truncFloat(latitudeSecond, decimals) + '"',
-    longitude: horizontalDirection +
+    longitude: horizontalDirection + ' ' +
       truncFloat(longitude, 0) + '° ' +
       truncFloat(longitudeMinute, 0) + '\' ' +
       truncFloat(longitudeSecond, decimals) + '"'
@@ -49,8 +61,17 @@ export const convertDDMToDD = (latitude: string, longitude: string) => {
   const [latitudePrimary, latitudeMinute] = latitude.substring(2, latitude.length - 1).split('° ');
   const [longitudePrimary, longitudeMinute] = longitude.substring(2, longitude.length - 1).split('° ');
 
+  const maxNumberOfDecimalsAJsFloatCanStore = 17;
+  const intConversionNumber = Math.pow(10, maxNumberOfDecimalsAJsFloatCanStore);
+
   return {
-    latitude: verticalDirection * ( parseInt(latitudePrimary, 10) + (parseFloat(latitudeMinute) / 60) ),
-    longitude: horizontalDirection * ( parseInt(longitudePrimary, 10) + (parseFloat(longitudeMinute) / 60) )
+    latitude: verticalDirection * ((
+      intConversionNumber * parseInt(latitudePrimary, 10) +
+      intConversionNumber * (parseFloat(latitudeMinute) / 60)
+    ) / intConversionNumber ),
+    longitude: horizontalDirection * ((
+      intConversionNumber * parseInt(longitudePrimary, 10) +
+      intConversionNumber * (parseFloat(longitudeMinute) / 60)
+    ) / intConversionNumber )
   };
 };

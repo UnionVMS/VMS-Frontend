@@ -6,5 +6,5 @@
 </div>
 <div mat-dialog-actions align="end">
   <button mat-button mat-dialog-close cdkFocusInitial i18n>Cancel</button>
-  <button mat-button [mat-dialog-close]="save()" i18n>Save mobile terminal</button>
+  <button mat-button [disabled]="!note.valid" [mat-dialog-close]="save()" i18n>Save mobile terminal</button>
 </div>

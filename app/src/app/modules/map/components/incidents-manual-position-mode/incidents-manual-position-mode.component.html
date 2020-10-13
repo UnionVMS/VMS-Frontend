@@ -1,59 +1,77 @@
-<div class="content-container">
-  <div class="filter-for-panel-content">
-    <ui-button-toggle
-      label="Recently resolved"
-      [value]="resolved"
-      [switchFunction]="switchShowResolved"
-    ></ui-button-toggle>
+<map-panel-block
+  i18n-blockTitle
+  blockTitle="Manual position ({{incidents.unresolvedIncidents.length}})"
+  [active]="active"
+  [setActiveFunction]="setActiveFunction"
+  [useArrowsAsToggle]="true"
+>
+
+  <div header class="urgency-indicator">
+    <span class="high" *ngIf="overdue.length > 0">{{overdue.length}}</span>
+    <span class="medium" *ngIf="pending.length > 0">{{pending.length}}</span>
   </div>
 
-  <div class="incidents" *ngIf="!resolved">
-    <ng-container *ngIf="overdue.length > 0">
-      <h3 i18n>Expecting new manual position</h3>
-      <ng-container *ngFor="let incident of overdue; trackBy: trackByIncidents">
-        <map-incident-card
-          [incident]="incident"
-          [selectIncident]="selectIncident"
-          [incidentIsSelected]="incidentIsSelected(incident)"
-          urgency="HIGH"
-          [countdownTo]="incident.expiryDate"
-        ></map-incident-card>
+  <div body class="content-container" *ngIf="active">
+    <div class="filter-for-panel-content">
+      <ui-button-toggle
+        label="Recently resolved"
+        [value]="resolved"
+        [switchFunction]="switchShowResolved"
+      ></ui-button-toggle>
+    </div>
+
+    <div class="incidents" *ngIf="!resolved">
+      <ng-container *ngIf="overdue.length > 0">
+        <h3 i18n>Expecting new manual position</h3>
+        <ng-container *ngFor="let incident of overdue; trackBy: trackByIncidents">
+          <map-incident-card
+            [incident]="incident"
+            [selectIncident]="selectIncident"
+            [incidentIsSelected]="incidentIsSelected(incident)"
+            urgency="HIGH"
+            [countdownTo]="incident.expiryDate"
+            [userTimezone]="userTimezone"
+          ></map-incident-card>
+        </ng-container>
       </ng-container>
-    </ng-container>
-    <ng-container *ngIf="sending.length > 0">
-      <h3 i18n>Confirm recieving VMS positions</h3>
-      <ng-container *ngFor="let incident of sending; trackBy: trackByIncidents">
+      <ng-container *ngIf="sending.length > 0">
+        <h3 i18n>Confirm recieving VMS positions</h3>
+        <ng-container *ngFor="let incident of sending; trackBy: trackByIncidents">
+          <map-incident-card
+            [incident]="incident"
+            [selectIncident]="selectIncident"
+            [incidentIsSelected]="incidentIsSelected(incident)"
+            urgency="LOW"
+            [userTimezone]="userTimezone"
+          ></map-incident-card>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="pending.length > 0">
+        <h3 i18n>Time to next manual report</h3>
+        <ng-container *ngFor="let incident of pending; trackBy: trackByIncidents">
+          <map-incident-card
+            [incident]="incident"
+            [selectIncident]="selectIncident"
+            [incidentIsSelected]="incidentIsSelected(incident)"
+            urgency="none"
+            [countdownFrom]="getLastSeenTime(incident)"
+            [countdownTo]="incident.expiryDate"
+            [userTimezone]="userTimezone"
+          ></map-incident-card>
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <div class="incidents" *ngIf="resolved">
+      <ng-container *ngFor="let incident of incidents.recentlyResolvedIncidents; trackBy: trackByIncidents">
         <map-incident-card
           [incident]="incident"
           [selectIncident]="selectIncident"
           [incidentIsSelected]="incidentIsSelected(incident)"
           urgency="LOW"
+          [userTimezone]="userTimezone"
         ></map-incident-card>
       </ng-container>
-    </ng-container>
-    <ng-container *ngIf="pending.length > 0">
-      <h3 i18n>Time to next manual report</h3>
-      <ng-container *ngFor="let incident of pending; trackBy: trackByIncidents">
-        <map-incident-card
-          [incident]="incident"
-          [selectIncident]="selectIncident"
-          [incidentIsSelected]="incidentIsSelected(incident)"
-          urgency="none"
-          [countdownFrom]="getLastSeenTime(incident)"
-          [countdownTo]="incident.expiryDate"
-        ></map-incident-card>
-      </ng-container>
-    </ng-container>
+    </div>
   </div>
-
-  <div class="incidents" *ngIf="resolved">
-    <ng-container *ngFor="let incident of incidents.recentlyResolvedIncidents; trackBy: trackByIncidents">
-      <map-incident-card
-        [incident]="incident"
-        [selectIncident]="selectIncident"
-        [incidentIsSelected]="incidentIsSelected(incident)"
-        urgency="LOW"
-      ></map-incident-card>
-    </ng-container>
-  </div>
-</div>
+</map-panel-block>

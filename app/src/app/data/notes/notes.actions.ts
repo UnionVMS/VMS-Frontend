@@ -15,6 +15,16 @@ export const saveNote = createAction(
   props<{ note: NotesTypes.Note, redirect?: boolean }>()
 );
 
+export const deleteNote = createAction(
+  '[Notes] Delete note',
+  props<{ noteId: string }>()
+);
+
+export const removeNoteFromStore = createAction(
+  '[Notes] Remove note from store',
+  props<{ noteId: string }>()
+);
+
 export const getSelectedNote = createAction(
   '[Notes] Get selected note'
 );

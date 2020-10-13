@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { State } from '@app/app-reducer.ts';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY, Observable } from 'rxjs';
-import { mergeMap, map, flatMap, withLatestFrom, catchError } from 'rxjs/operators';
+import { mergeMap, map, flatMap, withLatestFrom, catchError, filter } from 'rxjs/operators';
 
 import { AuthReducer, AuthSelectors } from '../auth';
 
@@ -12,17 +12,22 @@ import { MapSavedFiltersActions, MapSavedFiltersSelectors } from './';
 import { UserSettingsService } from '../user-settings/user-settings.service';
 import { MapSavedFiltersService } from './map-saved-filters.service';
 
-
 import { replaceDontTranslate } from '@app/helpers/helpers';
+import { apiErrorHandler } from '@app/helpers/api-error-handler';
 
 @Injectable()
 export class MapSavedFiltersEffects {
+
+  private readonly apiErrorHandler: (response: any, index: number) => boolean;
+
   constructor(
     private readonly actions$: Actions,
     private readonly userSettingsService: UserSettingsService,
     private readonly mapSavedFiltersService: MapSavedFiltersService,
     private readonly store$: Store<State>
-  ) {}
+  ) {
+    this.apiErrorHandler = apiErrorHandler(this.store$);
+  }
 
   @Effect()
   saveMapFiltersObserver$ = this.actions$.pipe(
@@ -39,9 +44,9 @@ export class MapSavedFiltersEffects {
           request = this.mapSavedFiltersService.update(authToken, action.filter);
         }
         return request.pipe(
+          filter((response: any, fIndex: number) => this.apiErrorHandler(response, fIndex)),
           map((response: any) => {
             const message = $localize`:@@ts-savedfilters-saved:Filter '<dont-translate>filterName</dont-translate>' saved!`;
-            console.warn('Saved filter response: ', response);
             return [
               NotificationsActions.addSuccess(replaceDontTranslate(message, { filterName: action.filter.name })),
               MapSavedFiltersActions.addSavedFilter({ filter: response })
@@ -61,8 +66,8 @@ export class MapSavedFiltersEffects {
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
         return this.mapSavedFiltersService.list(authToken).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           map((response: any) => {
-            console.warn('API RESPONSE: ', response);
             return MapSavedFiltersActions.setSavedFitlers({ filters: response.savedFilters });
           })
         );
@@ -77,8 +82,8 @@ export class MapSavedFiltersEffects {
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
         return this.mapSavedFiltersService.delete(authToken, action.filterId).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           map((response: any) => {
-            console.warn('API RESPONSE: ', response);
             return MapSavedFiltersActions.removeSavedFilter({ filterId: action.filterId });
           })
         );

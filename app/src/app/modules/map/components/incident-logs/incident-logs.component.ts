@@ -11,6 +11,7 @@ import { IncidentTypes } from '@data/incident';
 export class IncidentLogsComponent implements OnChanges, OnInit {
   @Input() incident: IncidentTypes.Incident;
   @Input() incidentLog: IncidentTypes.IncidentLog;
+  @Input() userTimezone: string;
 
   @Input() getLogForIncident: (incidentId: number) => void;
 

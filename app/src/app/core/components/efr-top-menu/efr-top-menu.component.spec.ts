@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatSelectModule } from '@angular/material/select';
 
@@ -9,7 +9,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 describe('TopMenuComponent', () => {
   const initialState = { };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,

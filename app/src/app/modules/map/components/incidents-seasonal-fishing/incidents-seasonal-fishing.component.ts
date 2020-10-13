@@ -1,9 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { IncidentTypes } from '@data/incident';
-import { Position } from '@data/generic.types';
-
-import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
-import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 
 @Component({
   selector: 'map-incidents-seasonal-fishing',
@@ -13,11 +9,14 @@ import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 export class IncidentsSeasonalFishingComponent implements OnChanges {
   @Input() incidents: IncidentTypes.IncidentsCollectionByResolution;
   @Input() selectedIncident: IncidentTypes.Incident;
+  @Input() active: boolean;
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;
   @Input() showResolvedOnMap: (show: boolean) => void;
+  @Input() setActiveFunction: () => void;
+  @Input() userTimezone: string;
 
   public resolved = false;
-  // public overdue: ReadonlyArray<IncidentTypes.Incident> = [];
+  public overdue: ReadonlyArray<IncidentTypes.Incident> = [];
   public sending: ReadonlyArray<IncidentTypes.Incident> = [];
   public pending: ReadonlyArray<IncidentTypes.Incident> = [];
 
@@ -37,7 +36,7 @@ export class IncidentsSeasonalFishingComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    // this.overdue = [];
+    this.overdue = [];
     this.sending = [];
     this.pending = [];
 
@@ -46,14 +45,13 @@ export class IncidentsSeasonalFishingComponent implements OnChanges {
         this.pending = [ ...this.pending, incident ];
       } else if(incident.status === IncidentTypes.SeasonalFishingStatuses.RECEIVING_AIS_POSITIONS) {
         this.sending = [ ...this.sending, incident ];
+      } else if(incident.status === IncidentTypes.SeasonalFishingStatuses.OVERDUE) {
+        this.overdue = [ ...this.overdue, incident ];
       }
-      // else if(incident.status === IncidentTypes.ManualPositionModeStatuses.MANUAL_POSITION_LATE) {
-      //   this.overdue = [ ...this.overdue, incident ];
-      // }
     });
     this.pending = [ ...this.pending ].sort(this.incidentSortFunction);
     this.sending = [ ...this.sending ].sort(this.incidentSortFunction);
-    // this.overdue = [ ...this.overdue ].sort(this.incidentSortFunction);
+    this.overdue = [ ...this.overdue ].sort(this.incidentSortFunction);
   }
 
   private readonly incidentSortFunction = (a: IncidentTypes.Incident, b: IncidentTypes.Incident) => {

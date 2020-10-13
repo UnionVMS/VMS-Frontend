@@ -52,9 +52,9 @@ export class IncidentService {
     );
   }
 
-  getIncidentsForAssetId(authToken: string, assetId: string) {
+  getIncidentsForAssetId(authToken: string, assetId: string, onlyOpen = false) {
     return this.http.get(
-      environment.baseApiUrl + `incident/rest/incident/incidentsForAssetId/${assetId}`,
+      environment.baseApiUrl + `incident/rest/incident/incidentsForAssetId/${assetId}?onlyOpen=${onlyOpen}`,
       {
         headers: new HttpHeaders({
           Authorization: authToken,
@@ -88,10 +88,14 @@ export class IncidentService {
     );
   }
 
-  saveIncident(authToken: string, incident: IncidentTypes.Incident) {
+  updateIncidentType(authToken: string, incidentId: number, type: IncidentTypes.IncidentTypes, expiryDate?: number) {
+    const body = expiryDate
+      ? { incidentId, type, expiryDate }
+      : { incidentId, type };
+
     return this.http.put(
-      environment.baseApiUrl + `web-gateway/rest/incidents/updateIncident`,
-      incident,
+      environment.baseApiUrl + `web-gateway/rest/incidents/updateIncidentType`,
+      body,
       {
         headers: new HttpHeaders({
           Authorization: authToken,
@@ -101,13 +105,27 @@ export class IncidentService {
     );
   }
 
-  saveNewIncidentStatus(authToken: string, incidentId: number, status: string) {
-    return this.http.post(
-      environment.baseApiUrl + `incident/rest/incident/updateStatusForIncident/${incidentId}`,
+  updateIncidentStatus(authToken: string, incidentId: number, status: string, expiryDate?: number) {
+    const body = expiryDate
+      ? { incidentId, status, expiryDate }
+      : { incidentId, status };
+
+    return this.http.put(
+      environment.baseApiUrl + `web-gateway/rest/incidents/updateIncidentStatus`,
+      body,
       {
-        status,
-        eventType: 'INCIDENT_STATUS'
-      },
+        headers: new HttpHeaders({
+          Authorization: authToken,
+          'Cache-Control': 'no-cache'
+        })
+      }
+    );
+  }
+
+  updateIncidentExpiry(authToken: string, incidentId: number, expiryDate?: number) {
+    return this.http.put(
+      environment.baseApiUrl + `web-gateway/rest/incidents/updateIncidentExpiry`,
+      { incidentId, expiryDate },
       {
         headers: new HttpHeaders({
           Authorization: authToken,

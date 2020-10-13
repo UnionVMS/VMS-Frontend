@@ -13,12 +13,13 @@ import { IncidentStatusFormComponent } from '../incident-status-form/incident-st
 })
 export class IncidentLogComponent implements OnChanges {
   @Input() incidentLog: IncidentTypes.IncidentLog;
+  @Input() userTimezone: string;
 
   public incidentLogList: ReadonlyArray<IncidentTypes.IncidentLogEntry> = [];
   public expanded: Array<number> = [];
 
   ngOnChanges() {
-    this.incidentLogList = Object.values(this.incidentLog.log).sort((a, b) => a.createDate - b.createDate);
+    this.incidentLogList = Object.values(this.incidentLog.log).sort((a, b) => b.createDate - a.createDate);
   }
 
   formatTime(unixtime: number) {
@@ -30,6 +31,6 @@ export class IncidentLogComponent implements OnChanges {
   }
 
   getStatusText(status: string) {
-    return IncidentStatusFormComponent.statuses[status];
+    return IncidentTypes.statusTranslations[status] || status;
   }
 }

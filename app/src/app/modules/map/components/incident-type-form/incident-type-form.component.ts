@@ -15,28 +15,20 @@ import moment from 'moment-timezone';
 })
 export class IncidentTypeFormComponent implements OnChanges {
 
-  public static typeTranslations = {
-    ASSET_NOT_SENDING: $localize`:@@ts-issue-type-asset-not-sending:Asset not sending`,
-    SEASONAL_FISHING: $localize`:@@ts-issue-type-seasonal-fishing:Seasonal fishing`,
-    OWNER_TRANSFER: $localize`:@@ts-issue-type-owner-transfer:Ownership transfer`,
-    LONG_TERM_PARKED: $localize`:@@ts-issue-type-long-term-parked:Long term parked`,
-    PARKED: $localize`:@@ts-issue-type-parked:Parked`,
-    MANUAL_MODE: $localize`:@@ts-issue-type-manual-mode:Manual mode`
-  };
-
   @Input() type: string;
   @Input() types: IncidentTypes.IncidentTypesCollection;
   @Input() changeType: (status: string) => void;
+  @Input() disabled?: boolean;
 
   public formValidator: FormGroup;
 
   ngOnChanges() {
-    this.formValidator = createIncidentTypeFormValidator(this.type);
+    this.formValidator = createIncidentTypeFormValidator(this.type, this.disabled || false);
   }
 
   getTypeName(type) {
-    return typeof IncidentTypeFormComponent.typeTranslations[type] !== 'undefined'
-      ? IncidentTypeFormComponent.typeTranslations[type]
+    return typeof IncidentTypes.IncidentTypesTranslations[type] !== 'undefined'
+      ? IncidentTypes.IncidentTypesTranslations[type]
       : type;
   }
 

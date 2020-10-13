@@ -61,7 +61,6 @@ export class SelectedAssetsPanelComponent {
     });
 
     dialogRef.afterClosed().subscribe(resultDetach => {
-      console.warn(resultDetach);
       if(typeof resultDetach !== 'undefined' && resultDetach !== '') {
         this.saveFilter(resultDetach);
       }

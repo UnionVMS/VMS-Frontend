@@ -2,9 +2,6 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { IncidentTypes } from '@data/incident';
 import { Position } from '@data/generic.types';
 
-import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
-import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
-
 @Component({
   selector: 'map-incidents-manual-position-mode',
   templateUrl: './incidents-manual-position-mode.component.html',
@@ -13,8 +10,11 @@ import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 export class IncidentsManualPositionModeComponent implements OnChanges {
   @Input() incidents: IncidentTypes.IncidentsCollectionByResolution;
   @Input() selectedIncident: IncidentTypes.Incident;
+  @Input() active: boolean;
   @Input() selectIncident: (incident: IncidentTypes.Incident) => void;
   @Input() showResolvedOnMap: (show: boolean) => void;
+  @Input() setActiveFunction: () => void;
+  @Input() userTimezone: string;
 
   public resolved = false;
   public overdue: ReadonlyArray<IncidentTypes.Incident> = [];

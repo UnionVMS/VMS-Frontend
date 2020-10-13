@@ -23,6 +23,7 @@ import { MapSettingsActions, MapSettingsSelectors, MapSettingsTypes } from '@dat
 import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersTypes } from '@data/map-saved-filters';
 import { NotificationsActions } from '@data/notifications';
 import { RouterSelectors } from '@data/router';
+import { UserSettingsSelectors } from '@data/user-settings';
 
 import { Position } from '@data/generic.types';
 
@@ -103,6 +104,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public forecasts$: Observable<any>;
   public searchAutocompleteAsset$: Observable<any>;
   private selection: Select;
+  public userTimezone$: Observable<string>;
   // private hoverSelection: Select;
 
   private getAssetTrack: (assetId: string, movementId: string) => void;
@@ -194,6 +196,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
         this.mapSettingsLoaded = mapSettingsLoaded;
       }
     });
+    this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
 
     this.tripGranularity$ = this.store.select(AssetSelectors.getTripGranularity);
     this.tripTimestamps$ = this.store.select(AssetSelectors.getTripTimestamps);

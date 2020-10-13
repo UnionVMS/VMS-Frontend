@@ -1,0 +1,45 @@
+<div class="container-component">
+  <map-panel-block
+    i18n-blockTitle
+    blockTitle="Create poll"
+    [active]="formActive === true"
+    [setActiveFunction]="toggleFormActive"
+    [useArrowsAsToggle]="true"
+    noExternalPadding="true"
+  >
+    <map-manual-poll-form
+      body
+      [assetId]="asset.id"
+      [pollAsset]="pollAsset"
+    ></map-manual-poll-form>
+  </map-panel-block>
+
+  <map-panel-block
+    i18n-blockTitle
+    blockTitle="Last 24 hours history"
+    [active]="pollsActive === true"
+    [setActiveFunction]="togglePollsActive"
+    [useArrowsAsToggle]="true"
+    noExternalPadding="true"
+    noContentPadding="true"
+  >
+    <div body class="polls">
+      <ng-container *ngFor="let poll of sortedPolls; trackBy: trackByPollId; let i=index">
+        <map-asset-poll-manual
+          *ngIf="!isProgramPoll(poll)"
+          [poll]="poll"
+          [mobileTerminal]="mobileTerminals[poll.pollInfo.mobileterminalId]"
+          [index]="i"
+          [userTimezone]="userTimezone"
+        ></map-asset-poll-manual>
+        <map-asset-poll-program
+          *ngIf="isProgramPoll(poll)"
+          [poll]="poll"
+          [mobileTerminal]="mobileTerminals[poll.pollInfo.mobileterminalId]"
+          [index]="i"
+          [userTimezone]="userTimezone"
+        ></map-asset-poll-program>
+      </ng-container>
+    </div>
+  </map-panel-block>
+</div>

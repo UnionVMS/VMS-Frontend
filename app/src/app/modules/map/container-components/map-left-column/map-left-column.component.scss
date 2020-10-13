@@ -96,20 +96,6 @@
 
   .workflow-panel {
     grid-template-rows: repeat(10, auto) 1fr;
-
-    .notifications {
-      grid-area: right;
-
-      & > * {
-        @include badge();
-      }
-      .updated {
-        background: $color_yellow;
-      }
-      .created {
-        background: $color_warn;
-      }
-    }
   }
 
   &.panel-hidden {

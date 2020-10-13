@@ -1,0 +1,11 @@
+<div class="page-content">
+  <mobile-terminal-history-component
+    *ngIf="mobileTerminal && mobileTerminalHistoryList"
+    [mobileTerminalHistoryList]="mobileTerminalHistoryList"
+    [mobileTerminalHistoryFilter]="mobileTerminalHistoryFilter$ | async"
+    [addMobileTerminalHistoryFilters]="addMobileTerminalHistoryFilters"
+    [removeMobileTerminalHistoryFilters]="removeMobileTerminalHistoryFilters"
+    [userTimezone]="userTimezone$ | async"
+    [assets]="assets"
+  ></mobile-terminal-history-component>
+</div>

@@ -6,6 +6,9 @@
       <mat-error *ngFor="let error of getErrors(['essentailFields', 'note'])">{{ errorMessage(error) }}</mat-error>
     </mat-form-field>
   </fieldset>
-  <button *ngIf="create" id="notes-form--save" mat-raised-button color="primary" (click)="saveFromFormValidator()" i18n>Add note</button>
-  <button *ngIf="!create" id="notes-form--save" mat-raised-button color="primary" (click)="saveFromFormValidator()" i18n>Update note</button>
+  <div class="buttons">
+    <button *ngIf="cancel" id="notes-form--cancel" type="button" mat-raised-button color="basic" (click)="cancel()" i18n>Cancel</button>
+    <button *ngIf="create" [disabled]="!this.formValidator.valid" id="notes-form--save" type="button" mat-raised-button color="primary" (click)="saveFromFormValidator()" i18n>Add note</button>
+    <button *ngIf="!create" [disabled]="!this.formValidator.valid" id="notes-form--save" type="button" mat-raised-button color="primary" (click)="saveFromFormValidator()" i18n>Update note</button>
+  </div>
 </form>

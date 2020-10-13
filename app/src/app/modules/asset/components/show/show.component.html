@@ -10,9 +10,10 @@
       <h2 i18n>{{asset.externalMarking}} • {{asset.ircs}}</h2>
       <span>{{asset.prodOrgName}} • Org. nr: {{asset.prodOrgCode}}</span>
     </div>
-    <div class="links">
+    <div class="linksAndIncidentStatus">
       <a *ngIf="asset.source !== 'NATIONAL'" class="edit-link" routerLink="/asset/{{asset.id}}/edit" i18n>Edit asset</a>
       <span *ngIf="asset.source === 'NATIONAL'" class="edit-link" i18n>Read only asset</span>
+      <div *ngIf="this.currentIncident !== undefined" class="currentIncidentStatus">{{this.currentIncident}}</div>
     </div>
   </div>
 
@@ -95,6 +96,13 @@
   <div class="content-container">
     <div class="fields">
       <div class="row">
+        <div class="title"><span class="text" i18n>Licence status</span></div>
+        <div class="value">
+          <span class="valid" *ngIf="formattedLicence.valid" i18n>VALID</span>
+          <span class="invalid" *ngIf="!formattedLicence.valid" i18n>INVALID</span>
+        </div>
+      </div>
+      <div class="row">
         <div class="title"><span class="text" i18n>Licence no.</span></div>
         <div class="value">{{formattedLicence.licenceNumber}}</div>
       </div>
@@ -104,7 +112,7 @@
       </div>
       <div class="row">
         <div class="title"><span class="text" i18n>Civic number</span></div>
-        <div class="value">{{formattedLicence.civicNumber}}</div>
+        <div class="value">{{formattedLicence.formattedCivicNumber}}</div>
       </div>
       <div class="row">
         <div class="title"><span class="text" i18n>From date</span></div>
@@ -112,7 +120,7 @@
       </div>
       <div class="row">
         <div class="title"><span class="text" i18n>To date</span></div>
-        <div class="value">{{formattedLicence.formattedToDate}}</div>
+        <div class="value{{!formattedLicence.valid ? ' invalid' : ''}}">{{formattedLicence.formattedToDate}}</div>
       </div>
       <div class="row">
         <div class="title"><span class="text" i18n>Order date</span></div>

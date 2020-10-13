@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 
 import { deg2rad } from '@app/helpers/helpers';
 import { fromLonLat } from 'ol/proj';
@@ -8,7 +8,7 @@ import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWith
 
 /* tslint:disable:no-string-literal */
 describe('AssetsComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AssetsComponent

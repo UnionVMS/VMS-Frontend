@@ -1,0 +1,37 @@
+@import 'variables.scss';
+
+.mobile-terminal-history--page-header {
+  margin-top: distance(2);
+  padding: distance(2) distance(3);
+  background: white;
+  b {
+    font-style: italic;
+    font-size: 70%;
+  }
+}
+
+.mobile-terminal-history--list {
+  padding-top: distance(2);
+  display: grid;
+  grid-row-gap: distance(1);
+
+  .mobile-terminal-history {
+    padding: distance(2) distance(3);
+    background: white;
+    .history-header {
+      display: grid;
+      grid-template-columns: 3fr repeat(6, 2fr);
+    }
+  }
+
+  .field-column {
+    cursor: pointer;
+    display: grid;
+    grid-row-gap: distance(0.5);
+
+    label {
+      cursor: pointer;
+      font-weight: bolder;
+    }
+  }
+}

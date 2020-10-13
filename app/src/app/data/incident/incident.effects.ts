@@ -19,15 +19,21 @@ import { AssetTypes, AssetActions } from '@data/asset';
 import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
 import { MobileTerminalTypes, MobileTerminalActions } from '@data/mobile-terminal';
+import { apiErrorHandler } from '@app/helpers/api-error-handler';
 
 @Injectable()
 export class IncidentEffects {
+
+  private readonly apiErrorHandler: (response: any, index: number) => boolean;
+
   constructor(
     private readonly actions$: Actions,
     private readonly incidentService: IncidentService,
     private readonly store$: Store<State>,
     private readonly router: Router
-  ) {}
+  ) {
+    this.apiErrorHandler = apiErrorHandler(this.store$);
+  }
 
 
   @Effect()
@@ -37,6 +43,7 @@ export class IncidentEffects {
       withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken, selectedAsset]: Array<any>) => {
         return this.incidentService.createNote(authToken, action.incidentId, pipedAction.note).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           map((note: any) => {
             const notification = $localize`:@@ts-notes-created:Note created successfully!`;
             return [NotesActions.setNotes({ notes: { [note.id]: note } }), NotificationsActions.addSuccess(notification)];
@@ -53,6 +60,7 @@ export class IncidentEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.incidentService.getAllOpenIncidents(authToken).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((
           incidents: {
             unresolved: ReadonlyArray<IncidentTypes.Incident>,
@@ -82,7 +90,8 @@ export class IncidentEffects {
     ofType(IncidentActions.getIncidentsForAssetId),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.incidentService.getIncidentsForAssetId(authToken, action.assetId).pipe(
+      return this.incidentService.getIncidentsForAssetId(authToken, action.assetId, action.onlyOpen).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((incidents: Readonly<{ [incidentId: string]: IncidentTypes.Incident }>) => {
           return IncidentActions.setIncidentListForAsset({
             assetId: action.assetId,
@@ -99,6 +108,7 @@ export class IncidentEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.incidentService.getIncidentTypes(authToken).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((incidentTypes: IncidentTypes.IncidentTypesCollection) => {
           return IncidentActions.setIncidentTypes({ incidentTypes });
         })
@@ -112,8 +122,8 @@ export class IncidentEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.incidentService.getValidIncidentStatusForTypes(authToken).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((validIncidentStatusForType) => {
-          console.warn('STATUS!', validIncidentStatusForType);
           return IncidentActions.setValidIncidentStatusForTypes();
         })
       );
@@ -121,16 +131,40 @@ export class IncidentEffects {
   );
 
   @Effect()
-  saveIncident$ = this.actions$.pipe(
-    ofType(IncidentActions.saveIncident),
+  updateIncidentType$ = this.actions$.pipe(
+    ofType(IncidentActions.updateIncidentType),
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.incidentService.saveIncident(authToken, action.incident).pipe(
-        map((incident: IncidentTypes.Incident) => IncidentActions.setIncident({ incident }))
+      return this.incidentService.updateIncidentType(authToken, action.incidentId, action.incidentType, action.expiryDate).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        map((incident: IncidentTypes.Incident) => IncidentActions.updateIncidents({ incidents: { [incident.id]: incident } }))
       );
     }),
   );
 
+  @Effect()
+  updateIncidentStatus$ = this.actions$.pipe(
+    ofType(IncidentActions.updateIncidentStatus),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.incidentService.updateIncidentStatus(authToken, action.incidentId, action.status, action.expiryDate).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        map((incident: IncidentTypes.Incident) => IncidentActions.updateIncidents({ incidents: { [incident.id]: incident } }))
+      );
+    }),
+  );
+
+  @Effect()
+  updateIncidentExpiry$ = this.actions$.pipe(
+    ofType(IncidentActions.updateIncidentExpiry),
+    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      return this.incidentService.updateIncidentExpiry(authToken, action.incidentId, action.expiryDate).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        map((incident: IncidentTypes.Incident) => IncidentActions.updateIncidents({ incidents: { [incident.id]: incident } }))
+      );
+    }),
+  );
 
   @Effect()
   pollIncident$ = this.actions$.pipe(
@@ -142,6 +176,7 @@ export class IncidentEffects {
       ),
       mergeMap(([action, authToken, userName]: Array<any>) => {
         return this.incidentService.poll(authToken, action.incidentId, action.comment).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           mergeMap((response: any) => {
             if(typeof response.code !== 'undefined') {
               return [NotificationsActions.addError('Server error: Couldn\'t create a manual poll. Please contact system administrator.')];
@@ -159,6 +194,7 @@ export class IncidentEffects {
     withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.incidentService.getLogForIncident(authToken, action.incidentId).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((log: any) => {
           return IncidentActions.setLogForIncident({
             incidentId: action.incidentId,

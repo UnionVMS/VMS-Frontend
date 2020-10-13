@@ -1,0 +1,46 @@
+<div class="mobile-terminal-history--page-header">
+  <h2>Terminal Attachment History</h2>
+</div>
+
+<div class="mobile-terminal-history--list">
+  <div class="mobile-terminal-history" *ngFor="let mobileTerminalHistory of mobileTerminalHistoryArray">
+    <div class="history-header">
+      <div class="field-column">
+        <label>Attached to</label>
+        <div class="value">
+          <a *ngIf="mobileTerminalHistory.snapshot.assetId" routerLink="/asset/{{mobileTerminalHistory.snapshot.assetId}}">
+            {{ getAssetName(mobileTerminalHistory.snapshot.assetId) }}
+          </a>
+          <span *ngIf="!mobileTerminalHistory.snapshot.assetId">NONE</span>
+        </div>
+      </div>
+      <div class="field-column">
+        <label>Terminal</label>
+        <div class="value">
+          <span *ngIf="mobileTerminalHistory.snapshot.active" class="active">Active</span>
+          <span *ngIf="!mobileTerminalHistory.snapshot.active" class="inactive">Inactive</span>
+        </div>
+      </div>
+      <div class="field-column">
+        <label>Installation date</label>
+        <div class="value">{{ mobileTerminalHistory.installDateFormatted }}</div>
+      </div>
+      <div class="field-column">
+        <label>Uninstallation date</label>
+        <div class="value">{{ mobileTerminalHistory.uninstallDateFormatted }}</div>
+      </div>
+      <div class="field-column">
+        <label>Installed by</label>
+        <div class="value">{{ mobileTerminalHistory.snapshot.installedBy }}</div>
+      </div>
+      <div class="field-column">
+        <label>Updated date</label>
+        <div class="value">{{ mobileTerminalHistory.updatedDateFormatted }}</div>
+      </div>
+      <div class="field-column">
+        <label>Updated by</label>
+        <div class="value">{{ mobileTerminalHistory.updatedBy }}</div>
+      </div>
+    </div>
+  </div>
+</div>

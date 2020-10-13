@@ -14,6 +14,6 @@ export const createNotesFormValidator = () => {
     longitudeDirection: new FormControl('E', [Validators.required]),
     speed: new FormControl(),
     heading: new FormControl(),
-    timestamp: new FormControl(moment(), [CustomValidators.momentValid]),
+    timestamp: new FormControl(moment(), [CustomValidators.momentValid, CustomValidators.momentNotInTheFuture]),
   });
 };

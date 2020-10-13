@@ -1,0 +1,54 @@
+<div class="container-component">
+  <map-panel-block
+    i18n-blockTitle
+    blockTitle="Create position"
+    [active]="formActive === true"
+    [setActiveFunction]="toggleFormActive"
+    [useArrowsAsToggle]="true"
+    noExternalPadding="true"
+  >
+    <map-manual-movement-form
+      body
+      *ngIf="map !== undefined"
+      [createManualMovement]="createManualMovementCurried"
+      [map]="map"
+      [userTimezone]="userTimezone"
+    ></map-manual-movement-form>
+  </map-panel-block>
+
+  <map-panel-block
+    i18n-blockTitle
+    blockTitle="Latest positions"
+    [active]="positionsActive === true"
+    [setActiveFunction]="togglePositionsActive"
+    [useArrowsAsToggle]="true"
+    noExternalPadding="true"
+    noContentPadding="true"
+  >
+    <div body class="positions">
+      <div *ngFor="let position of extendedPositions; trackBy: trackByPositionId; let i=index" class="position {{i % 2 === 0 ? 'even' : 'odd'}}">
+        <div class="position-block">
+          <span class="label" i18n>Timestamp</span>
+          <span class="value">{{position.formattedTimestamp}}</span>
+        </div>
+        <div class="position-block">
+          <span class="label" i18n="Longitude and latitude">Position</span>
+          <span class="value">{{position.locationDDM.latitude}}, {{position.locationDDM.longitude}}</span>
+        </div>
+        <div class="position-block one-row{{position.formattedOceanRegion > '' ? '' : ' full-row'}}">
+          <span class="label" i18n="This is related to what source the position is using, i.e. AIS, VMS and so on.">Type:</span>
+          <span class="value">
+            {{position.source}}
+            <ng-container *ngIf="position.source === 'MANUAL'">|
+              <span class="user">{{position.updatedBy}}</span>
+            </ng-container>
+          </span>
+        </div>
+        <div class="position-block one-row" *ngIf="position.formattedOceanRegion > ''">
+          <span class="label" i18n="Shortend version of Ocean Region:">OR:</span>
+          <span class="value">{{position.formattedOceanRegion}}</span>
+        </div>
+      </div>
+    </div>
+  </map-panel-block>
+</div>

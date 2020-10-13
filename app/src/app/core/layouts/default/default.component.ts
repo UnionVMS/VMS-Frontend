@@ -5,6 +5,7 @@ import { Subscription, Observable } from 'rxjs';
 import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
 import { UserSettingsActions, UserSettingsSelectors, UserSettingsTypes } from '@data/user-settings';
 import { AuthSelectors } from '@data/auth';
+import { RouterTypes, RouterSelectors } from '@data/router';
 
 @Component({
   selector: 'core-default-layout-component',
@@ -19,6 +20,7 @@ export class DefaultLayoutComponent implements OnInit {
   public fishingActivityUnlocked$: Observable<boolean>;
   public timezone$: Observable<string>;
   public notifications$: Observable<NotificationsTypes.State>;
+  public mergedRoute$: Observable<RouterTypes.MergedRoute>;
 
   public dismissNotification: (type: string, index: number) => void;
   public setTimezone: (timezone: string) => void;
@@ -30,6 +32,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.timezone$ = this.store.select(UserSettingsSelectors.getTimezone);
     this.isAdmin$ = this.store.select(AuthSelectors.isAdmin);
     this.fishingActivityUnlocked$ = this.store.select(AuthSelectors.fishingActivityUnlocked);
+    this.mergedRoute$ = this.store.select(RouterSelectors.getMergedRoute);
   }
 
   mapDispatchToProps() {

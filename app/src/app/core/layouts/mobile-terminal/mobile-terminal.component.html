@@ -1,0 +1,69 @@
+<div class="mobile-terminal-layout--grid">
+  <core-top-menu-component
+    [appVersion]="appVersion"
+    [isAdmin]="isAdmin$ | async"
+    [setTimezone]="setTimezone"
+    [timezone]="timezone$ | async"
+    [fishingActivityUnlocked]="fishingActivityUnlocked$ | async"
+    [url]="mergedRoute.url"
+  ></core-top-menu-component>
+
+  <core-notifications
+    [notifications]="notifications$ | async"
+    [dismiss]="dismissNotification"
+  ></core-notifications>
+
+  <h1 class="page-title">{{getTitleName()}}</h1>
+
+  <div class="side-menu">
+    <ul>
+      <li routerLink="/asset" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <span class="short-key">S</span>
+        <span class="text" i18n>Search</span>
+      </li>
+      <li routerLink="/mobileTerminals" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <span class="short-key">M</span>
+        <span class="text" i18n>Mobile Terminals</span>
+      </li>
+      <li class="divider"></li>
+      <ng-container *ngIf="selectedMobileTerminal">
+        <li routerLink="/mobileTerminal/{{selectedMobileTerminal.id}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span class="short-key">1</span>
+          <span class="text" i18n>Details</span>
+        </li>
+        <li routerLink="/mobileTerminal/{{selectedMobileTerminal.id}}/edit" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span class="short-key">2</span>
+          <span class="text" i18n>Edit</span>
+        </li>
+        <li routerLink="/mobileTerminal/{{selectedMobileTerminal.id}}/attachment-history" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span class="short-key">3</span>
+          <span class="text" i18n>Attachment History</span>
+        </li>
+        <li routerLink="/mobileTerminal/{{selectedMobileTerminal.id}}/history" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span class="short-key">4</span>
+          <span class="text" i18n>Terminal history</span>
+        </li>
+      </ng-container>
+      <ng-container *ngIf="!selectedMobileTerminal">
+        <li class="deactivated">
+          <span class="short-key">1</span>
+          <span class="text" i18n>Details</span>
+        </li>
+        <li class="deactivated">
+          <span class="short-key">2</span>
+          <span class="text" i18n>Edit</span>
+        </li>
+        <li class="deactivated">
+          <span class="short-key">3</span>
+          <span class="text" i18n>Attachment History</span>
+        </li>
+        <li class="deactivated">
+          <span class="short-key">4</span>
+          <span class="text" i18n>Terminal history</span>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

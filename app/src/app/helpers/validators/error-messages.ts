@@ -9,6 +9,8 @@ export const errorMessages = {
   max: 'Number too big. Number maxsize: {max}, number given: {actual}',
   min: 'Number too small. Number minimumsize: {min}, number given: {actual}',
   momentNotValid: 'Not a valid date given.',
+  momentOnlyInThePast: 'Date must be in the past, a future date was given.',
+  momentInTheFuture: 'Date must not be in the future, a future date was given.',
 };
 
 export const errorMessage = (errorType: string, errorObject: any = null) => {

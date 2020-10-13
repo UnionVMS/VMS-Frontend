@@ -126,6 +126,7 @@ export type State = Readonly<{
   searchResults: Readonly<{ readonly [hash: number]: ReadonlyArray<string> }>;
   lastSearchHash: number;
   createWithSerialNo: string;
+  mobileTerminalHistory: Readonly<{ readonly [mobileTerminalId: string]: MobileTerminalHistoryList; }>;
   mobileTerminalHistoryForAsset: Readonly<{ readonly [assetId: string]: MobileTerminalHistoryList; }>;
   mobileTerminalHistoryFilter: MobileTerminalHistoryFilter
 }>;

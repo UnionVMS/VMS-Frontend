@@ -43,7 +43,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
       this.mergedRoute = mergedRoute;
       this.pageTitle = mergedRoute.data.title;
     });
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset: AssetTypes.Asset) => {
+    this.store.select(AssetSelectors.getAssetByUrl).pipe(takeUntil(this.unmount$)).subscribe((asset: AssetTypes.Asset) => {
       if(typeof asset !== 'undefined') {
         this.selectedAsset = asset;
       }

@@ -37,6 +37,10 @@ import { AssetIncidentsComponent } from './components/asset-incidents/asset-inci
 import { AssetIncidentsDialogComponent } from './components/asset-incidents-dialog/asset-incidents-dialog.component';
 import { AssetPanelComponent } from './components/asset-panel/asset-panel.component';
 import { AssetPanelShowComponent } from './components/asset-panel-show/asset-panel-show.component';
+import { AssetPositionsComponent } from './components/asset-positions/asset-positions.component';
+import { AssetPollComponent } from './components/asset-poll/asset-poll.component';
+import { AssetPollManualComponent } from './components/asset-poll-manual/asset-poll-manual.component';
+import { AssetPollProgramComponent } from './components/asset-poll-program/asset-poll-program.component';
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
 import { AssetsComponent } from './components/assets/assets.component';
 import { CoordinatesPopupComponent } from './components/coordinates-popup/coordinates-popup.component';
@@ -51,10 +55,13 @@ import { IncidentLogEntryNoteComponent } from './components/incident-log-entry-n
 import { IncidentLogEntryPollComponent } from './components/incident-log-entry-poll/incident-log-entry-poll.component';
 import { IncidentLogEntryPositionComponent } from './components/incident-log-entry-position/incident-log-entry-position.component';
 import { IncidentLogsComponent } from './components/incident-logs/incident-logs.component';
+import { IncidentManualPollFormComponent } from './components/incident-manual-poll-form/incident-manual-poll-form.component';
 import { IncidentStatusFormComponent } from './components/incident-status-form/incident-status-form.component';
 import { IncidentTypeFormComponent } from './components/incident-type-form/incident-type-form.component';
 import { IncidentsAssetNotSendingComponent } from './components/incidents-asset-not-sending/incidents-asset-not-sending.component';
 import { IncidentsManualPositionModeComponent } from './components/incidents-manual-position-mode/incidents-manual-position-mode.component';
+import { IncidentsOwnershipTransferComponent } from './components/incidents-ownership-transfer/incidents-ownership-transfer.component';
+import { IncidentsParkedComponent } from './components/incidents-parked/incidents-parked.component';
 import { IncidentsSeasonalFishingComponent } from './components/incidents-seasonal-fishing/incidents-seasonal-fishing.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
@@ -62,6 +69,7 @@ import { LicenceInformationComponent } from './components/licence-information/li
 import { MapLayersComponent } from './components/map-layers/map-layers.component';
 import { MapLocationsComponent } from './components/map-locations/map-locations.component';
 import { ManualMovementFormComponent } from './components/manual-movement-form/manual-movement-form.component';
+import { ManualMovementFormDialogComponent } from './components/manual-movement-form-dialog/manual-movement-form-dialog.component';
 import { ManualPollFormComponent } from './components/manual-poll-form/manual-poll-form.component';
 import { NoteFormComponent } from './components/note-form/note-form.component';
 import { PanelBlockComponent } from './components/panel-block/panel-block.component';
@@ -108,6 +116,10 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     AssetIncidentsDialogComponent,
     AssetPanelComponent,
     AssetPanelShowComponent,
+    AssetPositionsComponent,
+    AssetPollComponent,
+    AssetPollManualComponent,
+    AssetPollProgramComponent,
     AssetSearchComponent,
     CoordinatesPopupComponent,
     DistanceBetweenPointsComponent,
@@ -121,10 +133,13 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentLogEntryPollComponent,
     IncidentLogEntryPositionComponent,
     IncidentLogsComponent,
+    IncidentManualPollFormComponent,
     IncidentStatusFormComponent,
     IncidentTypeFormComponent,
     IncidentsAssetNotSendingComponent,
     IncidentsManualPositionModeComponent,
+    IncidentsOwnershipTransferComponent,
+    IncidentsParkedComponent,
     IncidentsSeasonalFishingComponent,
     InformationPanelComponent,
     LayerFilterComponent,
@@ -134,6 +149,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MapLeftColumnComponent,
     MapRightColumnComponent,
     ManualMovementFormComponent,
+    ManualMovementFormDialogComponent,
     ManualPollFormComponent,
     NoteFormComponent,
     PanelBlockComponent,

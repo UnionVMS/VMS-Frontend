@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY } from 'rxjs';
-import { map, mergeMap, flatMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, flatMap, catchError, filter } from 'rxjs/operators';
+
+import { State } from '@app/app-reducer.ts';
 
 import * as AuthActions from './auth.actions';
 import { AuthService } from './auth.service';
@@ -13,20 +15,28 @@ import * as NotificationsActions from '../notifications/notifications.actions';
 import { MapActions } from '@data/map';
 import { UserSettingsActions, UserSettingsReducer } from '@data/user-settings';
 
+import { apiErrorHandler } from '@app/helpers/api-error-handler';
 
 @Injectable()
 export class AuthEffects {
+
+  private readonly apiErrorHandler: (response: any, index: number) => boolean;
+
   constructor(
     private readonly actions$: Actions,
     private readonly authService: AuthService,
+    private readonly store: Store<State>,
     private readonly router: Router,
-  ) {}
+  ) {
+    this.apiErrorHandler = apiErrorHandler(this.store);
+  }
 
   @Effect()
   login$ = this.actions$.pipe(
     ofType(AuthActions.login),
     mergeMap((action: { username: string, password: string, type: string }) => {
       return this.authService.login(action.username, action.password).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((auth: any) => {
           this.router.navigate(['/map/realtime']);
           return AuthActions.loginSuccess({ jwtToken: auth.jwtoken });
@@ -46,6 +56,7 @@ export class AuthEffects {
     ofType(AuthActions.loginSuccess),
     mergeMap((action: any) => {
       return this.authService.getUserContext(action.payload.jwtToken.raw).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((context: any) => {
           const mapSettings = context.contextSet.contexts[0].preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSMapSettings'

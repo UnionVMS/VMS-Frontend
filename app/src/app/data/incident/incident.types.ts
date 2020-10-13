@@ -6,6 +6,23 @@ export enum IncidentNotificationTypes {
   done
 }
 
+export const IncidentResolvedStatus = 'RESOLVED';
+
+export const statusTranslations = {
+  POLL_FAILED: $localize`:@@ts-issue-status-poll-failed:Poll Failed`,
+  ATTEMPTED_CONTACT: $localize`:@@ts-issue-status-attempted-contact:Attempted Contact`,
+  MANUAL_POSITION_MODE: $localize`:@@ts-issue-status-manual-position-mode:Manual Position Mode`,
+  PARKED: $localize`:@@ts-issue-status-parked:Parked`,
+  TECHNICAL_ISSUE: $localize`:@@ts-issue-status-technical-issue:Technical issue`,
+  RESOLVED: $localize`:@@ts-issue-status-resolved:Resolved`,
+  INCIDENT_CREATED: $localize`:@@ts-issue-status-created:Created`,
+  MANUAL_POSITION_LATE: $localize`:@@ts-issue-status-manual-position-late:Overdue`,
+  RECEIVING_VMS_POSITIONS: $localize`:@@ts-issue-status-recieving-vms-positioins:Recieving VMS`,
+  NOT_RECEIVING_VMS_POSITIONS: $localize`:@@ts-issue-status-not-recieving-vms-positioins:Not recieving VMS`,
+  OVERDUE: $localize`:@@ts-issue-status-overdue:Overdue`,
+  RECEIVING_AIS_POSITIONS: $localize`:@@ts-issue-status-recieving-ais-positioins:Recieving AIS`,
+};
+
 export enum AssetNotSendingStatuses {
   INCIDENT_CREATED = 'INCIDENT_CREATED',
   ATTEMPTED_CONTACT = 'ATTEMPTED_CONTACT',
@@ -22,13 +39,21 @@ export enum ManualPositionModeStatuses {
 export enum SeasonalFishingStatuses {
   PARKED = 'PARKED',
   RECEIVING_AIS_POSITIONS = 'RECEIVING_AIS_POSITIONS',
+  OVERDUE = 'OVERDUE',
   RESOLVED = 'RESOLVED'
 }
 
 export enum ParkedStatuses {
   PARKED = 'PARKED',
   RECEIVING_AIS_POSITIONS = 'RECEIVING_AIS_POSITIONS',
+  OVERDUE = 'OVERDUE',
   RESOLVED = 'RESOLVED'
+}
+
+export enum OwnershipTransferStatuses {
+  NOT_RECEIVING_VMS_POSITIONS = 'NOT_RECEIVING_VMS_POSITIONS',
+  RECEIVING_VMS_POSITIONS = 'RECEIVING_VMS_POSITIONS',
+  RESOLVED = 'RESOLVED',
 }
 
 export enum IncidentRisk {
@@ -41,10 +66,19 @@ export enum IncidentRisk {
 export enum IncidentTypes {
   assetNotSending = 'ASSET_NOT_SENDING',
   seasonalFishing = 'SEASONAL_FISHING',
-  ownershipTransfer = 'OWNER_TRANSFER',
+  ownershipTransfer = 'OWNERSHIP_TRANSFER',
   parked = 'PARKED',
-  manualPositionMode = 'MANUAL_MODE',
+  manualPositionMode = 'MANUAL_POSITION_MODE',
 }
+
+export const IncidentTypesTranslations = {
+  ASSET_NOT_SENDING: $localize`:@@ts-issue-type-asset-not-sending:Asset not sending`,
+  SEASONAL_FISHING: $localize`:@@ts-issue-type-seasonal-fishing:Seasonal fishing`,
+  OWNERSHIP_TRANSFER: $localize`:@@ts-issue-type-ownership-transfer:Ownership transfer`,
+  LONG_TERM_PARKED: $localize`:@@ts-issue-type-long-term-parked:Long term parked`,
+  PARKED: $localize`:@@ts-issue-type-parked:Parked`,
+  MANUAL_POSITION_MODE: $localize`:@@ts-issue-type-manual-position-mode:Manual position mode`
+};
 
 export const IncidentTypesInverted = Object.entries(IncidentTypes).reduce((acc, [a, b]) => ({ ...acc, [b]: a }), {});
 export const IncidentTypesValues = Object.values(IncidentTypes).map((incidentType) => incidentType.toString());
@@ -125,7 +159,6 @@ export type IncidentLog = Readonly<{
 export type IncidentLogs = Readonly<{
   readonly [incidentId: number]: IncidentLog;
 }>;
-
 
 export type State = Readonly<{
   selectedIncidentId: number;

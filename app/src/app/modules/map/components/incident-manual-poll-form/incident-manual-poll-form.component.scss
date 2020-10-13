@@ -1,0 +1,9 @@
+@import 'variables.scss';
+
+form.incident-manual-poll-form {
+  background: white;
+  padding: $small_distance;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: $small_distance;
+}

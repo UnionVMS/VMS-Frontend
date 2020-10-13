@@ -1,66 +1,65 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
-import { FormGroup } from '@angular/forms';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { take, takeUntil, first } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
 import { RouterTypes, RouterSelectors } from '@data/router';
 import { NotesActions, NotesTypes, NotesSelectors } from '@data/notes';
-import { formatUnixtime } from '@app/helpers/datetime-formatter';
+import { UserSettingsSelectors } from '@data/user-settings';
+import { AuthSelectors } from '@data/auth';
 
 @Component({
-  selector: 'notes-list',
+  selector: 'notes-list-page',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class NotesListComponent implements OnInit, OnDestroy {
+export class ListPageComponent implements OnInit, OnDestroy {
   constructor(private readonly store: Store<State>) { }
 
+  public notes$: Observable<ReadonlyArray<NotesTypes.Note>>;
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public mergedRoute: RouterTypes.MergedRoute;
   public asset: AssetTypes.Asset;
-  public notes: ReadonlyArray<{ note: NotesTypes.Note, searchableString: string }>;
-  public save: (note: NotesTypes.Note, redirect: boolean) => void;
 
-  public searchString = '';
-  public filteredNotes: ReadonlyArray<NotesTypes.Note>;
+  public save: (note: NotesTypes.Note) => void;
+  public deleteNote: (noteId: string) => void;
+
+  public userTimezone: string;
+  public username: string;
+
+  public emptyNote = {};
 
   mapStateToProps() {
-    this.store.select(NotesSelectors.getNotes).pipe(takeUntil(this.unmount$)).subscribe((notes) => {
-      this.notes = notes.map(note => ({
-        ...note,
-        createdOnFormatted: formatUnixtime(note.createdOn)
-      })).map(note => {
-        return {
-          note,
-          searchableString: note.createdBy + ' ' + note.createdOnFormatted + ' ' + note.note
-        };
-      });
-      this.filteredNotes = this.notes
-        .filter(note => note.searchableString.indexOf(this.searchString) !== -1)
-        .map(note => note.note);
-    });
+    this.notes$ = this.store.select(NotesSelectors.getNotes);
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
       this.mergedRoute = mergedRoute;
       if(typeof this.mergedRoute.params.assetId !== 'undefined') {
         this.store.dispatch(AssetActions.getSelectedAsset());
       }
     });
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe(asset => {
+    this.store.select(AssetSelectors.getAssetByUrl).pipe(takeUntil(this.unmount$)).subscribe(asset => {
       if(typeof this.asset === 'undefined') {
         this.store.dispatch(NotesActions.getNotesForSelectedAsset());
       }
-      console.warn(asset);
       this.asset = asset;
+    });
+    this.store.select(UserSettingsSelectors.getTimezone).pipe(takeUntil(this.unmount$)).subscribe(userTimezone => {
+      this.userTimezone = userTimezone;
+    });
+    this.store.select(AuthSelectors.getUserName).pipe(takeUntil(this.unmount$)).subscribe(username => {
+      this.username = username;
     });
   }
 
   mapDispatchToProps() {
     this.save = (note: NotesTypes.Note) => {
       this.store.dispatch(NotesActions.saveNote({ note, redirect: false }));
+      this.emptyNote = {};
+    };
+    this.deleteNote = (noteId: string) => {
+      this.store.dispatch(NotesActions.deleteNote({ noteId }));
     };
   }
 
@@ -72,11 +71,5 @@ export class NotesListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unmount$.next(true);
     this.unmount$.unsubscribe();
-  }
-
-  searchNotes(searchString: string) {
-    this.filteredNotes = this.notes
-      .filter(note => note.searchableString.indexOf(searchString) !== -1)
-      .map(note => note.note);
   }
 }

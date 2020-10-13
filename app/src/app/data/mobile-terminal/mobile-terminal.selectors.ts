@@ -5,6 +5,7 @@ import { getMergedRoute } from '@data/router/router.selectors';
 
 
 export const selectMobileTerminals = (state: State) => state.mobileTerminal.mobileTerminals;
+export const selectMobileTerminalHistory = (state: State) => state.mobileTerminal.mobileTerminalHistory;
 export const selectMobileTerminalHistoryForAsset = (state: State) => state.mobileTerminal.mobileTerminalHistoryForAsset;
 export const selectTransponders = (state: State) => state.mobileTerminal.transponders;
 export const selectPlugins = (state: State) => state.mobileTerminal.plugins;
@@ -42,6 +43,48 @@ export const getMobileTerminalsForUrlAsset = createSelector(
   }
 );
 
+const filterMobileTerminalHistory = (
+  mobileTerminalHistory: MobileTerminalTypes.MobileTerminalHistoryList,
+  filter: MobileTerminalTypes.MobileTerminalHistoryFilter
+) => {
+  return Object.keys(mobileTerminalHistory).filter((historyId: string) => {
+    const history = mobileTerminalHistory[historyId];
+    if(history.changeType === MobileTerminalTypes.MobileTerminalChangeType.CREATED) {
+      return true;
+    }
+    if(history.changes.find(change => filter.mobileTerminalFields.includes(change.field))) {
+      return true;
+    }
+    if(filter.filterChannels) {
+      const channelChangesArray = Object.values(history.channelChanges);
+      if(channelChangesArray.find(channelChange =>
+        channelChange.changeType === MobileTerminalTypes.MobileTerminalChangeType.CREATED ||
+        channelChange.changeType === MobileTerminalTypes.MobileTerminalChangeType.REMOVED
+      )) {
+        return true;
+      }
+      if(channelChangesArray.find(channelChange => channelChange.changes.find(change => filter.channelFields.includes(change.field)))) {
+        return true;
+      }
+    }
+    return false;
+  }).reduce((acc, historyId) => {
+    return { ...acc, [historyId]: mobileTerminalHistory[historyId] };
+  }, {});
+};
+
+export const getMobileTerminalHistoryForUrlMobileTerminal = createSelector(
+  selectMobileTerminalHistory,
+  getMergedRoute,
+  (mobileTerminalHistory, mergedRoute) => mobileTerminalHistory[mergedRoute.params.mobileTerminalId] || {}
+);
+
+export const getMobileTerminalHistoryFilteredForUrlMobileTerminal = createSelector(
+  getMobileTerminalHistoryForUrlMobileTerminal,
+  selectMobileTerminalHistoryFilter,
+  (mobileTerminalHistory, filter) => filterMobileTerminalHistory(mobileTerminalHistory, filter)
+);
+
 export const getMobileTerminalHistoryForUrlAsset = createSelector(
   selectMobileTerminalHistoryForAsset,
   getMergedRoute,
@@ -53,36 +96,10 @@ export const getMobileTerminalHistoryForUrlAsset = createSelector(
 export const getMobileTerminalHistoryFilteredForUrlAsset = createSelector(
   getMobileTerminalHistoryForUrlAsset,
   selectMobileTerminalHistoryFilter,
-  (mobileTerminalHistory, filter) => {
-    console.warn(mobileTerminalHistory);
-    return Object.keys(mobileTerminalHistory).filter((historyId: string) => {
-      const history = mobileTerminalHistory[historyId];
-      if(history.changeType === MobileTerminalTypes.MobileTerminalChangeType.CREATED) {
-        return true;
-      }
-      if(history.changes.find(change => filter.mobileTerminalFields.includes(change.field))) {
-        return true;
-      }
-      if(filter.filterChannels) {
-        const channelChangesArray = Object.values(history.channelChanges);
-        if(channelChangesArray.find(channelChange =>
-          channelChange.changeType === MobileTerminalTypes.MobileTerminalChangeType.CREATED ||
-          channelChange.changeType === MobileTerminalTypes.MobileTerminalChangeType.REMOVED
-        )) {
-          return true;
-        }
-        if(channelChangesArray.find(channelChange => channelChange.changes.find(change => filter.channelFields.includes(change.field)))) {
-          return true;
-        }
-      }
-      return false;
-    }).reduce((acc, historyId) => {
-      return { ...acc, [historyId]: mobileTerminalHistory[historyId] };
-    }, {});
-  }
+  (mobileTerminalHistory, filter) => filterMobileTerminalHistory(mobileTerminalHistory, filter)
 );
 
-export const getMobileTerminalsByUrl = createSelector(
+export const getMobileTerminalByUrl = createSelector(
   selectMobileTerminals,
   getMergedRoute,
   (mobileTerminals, mergedRoute) => {

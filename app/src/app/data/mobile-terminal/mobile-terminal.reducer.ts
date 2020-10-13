@@ -15,6 +15,7 @@ export const initialState: MobileTerminalTypes.State = {
   lastSearchHash: null,
   createWithSerialNo: null,
   mobileTerminalHistoryForAsset: {},
+  mobileTerminalHistory: {},
   mobileTerminalHistoryFilter: {
     mobileTerminalFields: [
       'serialNo', 'active', 'mobileTerminalType', 'eastAtlanticOceanRegion', 'indianOceanRegion',
@@ -132,6 +133,13 @@ export const mobileTerminalReducer = createReducer(initialState,
     mobileTerminals: {
       ...state.mobileTerminals,
       [mobileTerminal.id]: mobileTerminal
+    }
+  })),
+  on(MobileTerminalActions.setMobileTerminalHistory, (state, { mobileTerminalHistory }) => ({
+    ...state,
+    mobileTerminalHistory: {
+      ...state.mobileTerminalHistory,
+      ...mobileTerminalHistory,
     }
   })),
   on(MobileTerminalActions.setMobileTerminalHistoryForAsset, (state, { mobileTerminalHistory }) => ({

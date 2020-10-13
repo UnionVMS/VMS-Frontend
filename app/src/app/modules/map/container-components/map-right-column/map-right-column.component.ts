@@ -11,6 +11,8 @@ import { MapActions, MapSelectors } from '@data/map';
 import { NotesActions, NotesTypes } from '@data/notes';
 import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors } from '@data/map-saved-filters';
 import { MapSettingsTypes, MapSettingsSelectors } from '@data/map-settings';
+import { MobileTerminalTypes, MobileTerminalSelectors, MobileTerminalActions } from '@data/mobile-terminal';
+import { UserSettingsSelectors } from '@data/user-settings';
 
 
 @Component({
@@ -27,7 +29,6 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
 
   public activePanel: ReadonlyArray<string>;
   public activeLeftPanel: ReadonlyArray<string>;
-  // public assetsNotSendingIncidents: Readonly<{ [assetId: string]: IncidentTypes.incident }>;
   public mapSettings: MapSettingsTypes.State;
   public forecasts$: Observable<any>;
   public selectedAsset: Readonly<AssetTypes.AssetData>;
@@ -39,8 +40,12 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public incidentLogs: IncidentTypes.IncidentLogs;
   public incidentsForAssets: Readonly<{ readonly [assetId: string]: ReadonlyArray<IncidentTypes.Incident> }>;
   public incidentTypes$: Observable<IncidentTypes.IncidentTypesCollection>;
+  public lastFullPositionsForSelectedAsset$: Observable<ReadonlyArray<AssetTypes.FullMovement>>;
+  public lastPollsForSelectedAsset$: Observable<ReadonlyArray<AssetTypes.Poll>>;
   public licence$: Observable<AssetTypes.AssetLicence>;
   public licenceLoaded = false;
+  public mobileTerminals$: Observable<Readonly<{ [mobileTerminalId: string]: MobileTerminalTypes.MobileTerminal }>>;
+  public userTimezone$: Observable<string>;
 
   public addForecast: (assetId: string) => void;
   public createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
@@ -54,12 +59,18 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public getAssetTrack: (assetId: string, movementId: string) => void;
   public getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
   public getIncidentsForAssetId: (assetId: string) => void;
+  public getLastFullPositionsForAsset: (
+    assetId: string, amount: number, sources: ReadonlyArray<string>, excludeGivenSources?: boolean
+  ) => void;
   public getLicenceForAsset: (assetId: string) => void;
   public getLogForIncident: (incidentId: number) => void;
-  public pollAsset: (assetId: string, comment: string) => void;
+  public getLatestPollsForAsset: (assetId: string) => void;
+  public pollAsset: (assetId: string, pollPostObject: AssetTypes.PollPostObject) => void;
   public pollIncident: (incidentId: number, comment: string) => void;
   public removeForecast: (assetId: string) => void;
-  public saveIncident: (incident: IncidentTypes.Incident) => void;
+  public updateIncidentType: (incindentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) => void;
+  public updateIncidentStatus: (incindentId: number, status: string, expiryDate?: number) => void;
+  public updateIncidentExpiry: (incidentId: number, expiryDate: number) => void;
   public selectAsset: (assetId: string) => void;
   public dispatchSelectIncident: (incidentId: number) => void;
   public selectIncident: (incident: IncidentTypes.Incident) => void;
@@ -136,6 +147,19 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.licenceLoaded = true;
     }));
     this.incidentTypes$ = this.store.select(IncidentSelectors.getIncidentTypes);
+    this.lastFullPositionsForSelectedAsset$ = this.store.select(AssetSelectors.getLastFullPositionsForSelectedAsset);
+    this.lastPollsForSelectedAsset$ = this.store.select(AssetSelectors.getLastPollsForSelectedAsset).pipe(tap((polls) => {
+      polls.reduce((acc, poll) => {
+        if(!acc.includes(poll.pollInfo.mobileterminalId)) {
+          return [ ...acc, poll.pollInfo.mobileterminalId ];
+        }
+        return acc;
+      }, []).map((mobileTerminalId) => {
+        this.store.dispatch(MobileTerminalActions.getMobileTerminal({ mobileTerminalId }));
+      });
+    }));
+    this.mobileTerminals$ = this.store.select(MobileTerminalSelectors.getMobileTerminals);
+    this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
   }
 
   mapDispatchToProps() {
@@ -161,6 +185,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       }
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     };
+    this.getLastFullPositionsForAsset = (assetId: string, amount: number, sources: ReadonlyArray<string>, excludeGivenSources?: boolean ) =>
+      this.store.dispatch(AssetActions.getLastFullPositionsForAsset({ assetId, amount, sources, excludeGivenSources }));
     this.dispatchSelectIncident = (incidentId: number) =>
       this.store.dispatch(IncidentActions.selectIncident({ incidentId }));
     this.getAssetTrack = (assetId: string, movementId: string) =>
@@ -175,6 +201,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.licenceLoaded = false;
       this.store.dispatch(AssetActions.getLicenceForAsset({ assetId }));
     };
+    this.getLatestPollsForAsset = (assetId: string) =>
+      this.store.dispatch(AssetActions.getLatestPollsForAsset({ assetId }));
     this.untrackAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
     this.selectAsset = (assetId: string) =>
@@ -186,10 +214,14 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     this.createManualMovement = (manualMovement: AssetTypes.ManualMovement) => {
       return this.store.dispatch(AssetActions.createManualMovement({ manualMovement }));
     };
-    this.saveIncident = (incident: IncidentTypes.Incident) =>
-      this.store.dispatch(IncidentActions.saveIncident({ incident }));
-    this.pollAsset = (assetId: string, comment: string) =>
-      this.store.dispatch(AssetActions.pollAsset({ assetId, comment }));
+    this.updateIncidentType = (incidentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) =>
+      this.store.dispatch(IncidentActions.updateIncidentType({ incidentId, incidentType, expiryDate }));
+    this.updateIncidentStatus = (incidentId: number, status: string, expiryDate?: number) =>
+      this.store.dispatch(IncidentActions.updateIncidentStatus({ incidentId, status, expiryDate }));
+    this.updateIncidentExpiry = (incidentId: number, expiryDate: number) =>
+      this.store.dispatch(IncidentActions.updateIncidentExpiry({ incidentId, expiryDate }));
+    this.pollAsset = (assetId: string, pollPostObject: AssetTypes.PollPostObject) =>
+      this.store.dispatch(AssetActions.pollAsset({ assetId, pollPostObject }));
     this.pollIncident = (incidentId: number, comment: string) =>
       this.store.dispatch(IncidentActions.pollIncident({ incidentId, comment }));
     this.createNote = (note: NotesTypes.Note) =>

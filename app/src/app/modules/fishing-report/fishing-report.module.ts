@@ -22,6 +22,7 @@ import { ShowPageComponent } from './pages/show/show.component';
 import { SecretPageComponent } from './pages/secret/secret.component';
 
 /* Components */
+import { ListComponent } from './components/list/list.component';
 import { ShowComponent } from './components/show/show.component';
 
 
@@ -43,9 +44,12 @@ import { ShowComponent } from './components/show/show.component';
     MatRadioModule,
   ],
   declarations: [
+    // Pages
     SearchPageComponent,
     ShowPageComponent,
     SecretPageComponent,
+    // Components
+    ListComponent,
     ShowComponent,
   ]
 })

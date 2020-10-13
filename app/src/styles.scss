@@ -35,6 +35,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
   font-size: 16px;
 }
 
+table.mat-table thead th {
+  color: $color_turquoise;
+  font-weight: bolder;
+}
+
 button {
   -webkit-appearance: button;
   -webkit-writing-mode: horizontal-tb !important;

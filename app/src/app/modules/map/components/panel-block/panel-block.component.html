@@ -1,4 +1,4 @@
-<div class="content-container{{ noPadding ? ' no-padding' : ''}}">
+<div class="content-container{{ noExternalPadding ? ' no-padding' : ''}}">
   <div class="panel-block-header" *ngIf="useArrowsAsToggle !== true">
     <ui-button-toggle
       [label]="blockTitle"
@@ -15,7 +15,7 @@
       </div>
     </div>
   </div>
-  <div class="panel-block-content" *ngIf="active">
+  <div class="panel-block-content{{ noContentPadding ? ' no-padding' : ''}}" *ngIf="active">
     <ng-content select="[body]"></ng-content>
   </div>
 

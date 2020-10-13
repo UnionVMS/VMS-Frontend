@@ -10,4 +10,5 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 export class ProgressCircleComponent {
   @Input() progress: number;
   @Input() diameter: number;
+  @Input() bright?: boolean;
 }

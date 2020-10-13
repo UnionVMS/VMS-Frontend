@@ -1,5 +1,12 @@
 import { Position, TimePosition } from '../generic.types';
 
+export const OceanRegionTranslation = {
+  AORE: 'East Atlantic',
+  AORW: 'West Atlantic',
+  POR: 'Pacific',
+  IOR: 'Indian'
+};
+
 export type Movement = Readonly<{
   location: Position;
   heading: number;
@@ -218,6 +225,65 @@ export type AssetLicences = Readonly<{
   readonly [assetId: string]: AssetLicence
 }>;
 
+export enum PollType {
+  AUTOMATIC_POLL = 'AUTOMATIC_POLL',
+  PROGRAM_POLL = 'PROGRAM_POLL',
+  SAMPLING_POLL = 'SAMPLING_POLL',
+  MANUAL_POLL = 'MANUAL_POLL',
+  CONFIGURATION_POLL = 'CONFIGURATION_POLL',
+  BASE_POLL = 'BASE_POLL'
+}
+
+export enum PollStatus {
+  SUCCESSFUL = 'SUCCESSFUL',
+  TIMED_OUT = 'TIMED_OUT',
+  FAILED = 'FAILED',
+  PENDING = 'PENDING',
+  ISSUED = 'ISSUED',
+}
+
+export type PollPostObject = Readonly<{
+  comment: string,
+  pollType?: PollType,
+  frequency?: number,
+  startDate?: number,
+  endDate?: number,
+}>;
+
+export type PollHistory = Readonly<{
+  status: PollStatus,
+  timestamp: number
+}>;
+
+export type Poll = Readonly<{
+  pollInfo: {
+    assetId: string,
+    channelId: string,
+    comment: string,
+    creator: string,
+    id: string,
+    mobileterminalId: string,
+    pollTypeEnum: PollType,
+    createTime: number,
+    updatedBy: string,
+    frequency?: number,
+    endDate?: number,
+    startDate?: number,
+  },
+  pollStatus: {
+    guid: string,
+    history: ReadonlyArray<PollHistory>,
+    identifier: string,
+    refMessage: string,
+    typeRef: {
+      message: string,
+      refGuid: string,
+      type: string
+    }
+  },
+  movement?: FullMovement
+}>;
+
 export type State = Readonly<{
   selectedAssets: ReadonlyArray<string>;
   selectedAsset: string|null;
@@ -239,4 +305,9 @@ export type State = Readonly<{
   filterQuery: ReadonlyArray<AssetFilterQuery>;
   unitTonnages: ReadonlyArray<UnitTonnage>;
   assetLicences: AssetLicences;
+  lastPollsForAsset: Readonly<{
+    readonly [assetId: string]: Readonly<{
+      readonly [pollId: string]: Poll
+    }>
+  }>
 }>;

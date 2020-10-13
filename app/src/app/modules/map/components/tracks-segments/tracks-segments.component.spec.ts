@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { Stroke, Style, Icon, Fill, Text } from 'ol/style.js';
 import { fromLonLat } from 'ol/proj';
 import { deg2rad } from '@app/helpers/helpers';
@@ -10,7 +10,7 @@ import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
 
 /* tslint:disable:no-string-literal */
 describe('tracksSegmentsComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TracksSegmentsComponent

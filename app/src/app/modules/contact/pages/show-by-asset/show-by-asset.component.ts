@@ -29,7 +29,6 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy {
 
   mapStateToProps() {
     this.store.select(ContactSelectors.getContactsOnAsset).pipe(takeUntil(this.unmount$)).subscribe((contacts) => {
-      console.warn(this.contacts);
       this.contacts = contacts;
     });
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe(mergedRoute => {
@@ -39,7 +38,7 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe(selectedAsset => {
+    this.store.select(AssetSelectors.getAssetByUrl).pipe(takeUntil(this.unmount$)).subscribe(selectedAsset => {
       this.selectedAsset = selectedAsset;
     });
   }

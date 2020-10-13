@@ -58,7 +58,7 @@ export const getIncidentLogs = createSelector(
 export const getIncidentsForAssets = createSelector(
   selectIncidentsForAssets,
   selectIncidents,
-  (incidentsForAssets, incidents) => {
+  (incidentsForAssets, incidents): { readonly [assetId: string]: ReadonlyArray<IncidentTypes.Incident> } => {
     return Object.keys(incidentsForAssets).reduce((acc, assetId) => ({
       ...acc,
       [assetId]: incidentsForAssets[assetId].map((incidentId: number) => incidents[incidentId])

@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, map } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer';
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
+import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/incident';
 
 @Component({
   selector: 'asset-show-page',
@@ -19,6 +20,7 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public asset = {} as AssetTypes.Asset;
   public licence$: Observable<AssetTypes.AssetLicence>;
+  public incidents$: Observable<ReadonlyArray<IncidentTypes.Incident>>;
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -27,14 +29,18 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   mapStateToProps() {
-    this.store.select(AssetSelectors.getSelectedAsset).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
+    this.store.select(AssetSelectors.getAssetByUrl).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
       if(typeof asset !== 'undefined') {
         if(this.asset.id !== asset.id) {
           this.store.dispatch(AssetActions.getLicenceForAsset({ assetId: asset.id }));
+          this.store.dispatch(IncidentActions.getIncidentsForAssetId({ assetId: asset.id, onlyOpen: true }));
         }
         this.asset = asset;
       }
     });
+    this.incidents$ = this.store.select(IncidentSelectors.getIncidentsForAssets).pipe(map((incidentsByAsset) => {
+      return incidentsByAsset[this.asset.id];
+    }));
     this.licence$ = this.store.select(AssetSelectors.getLicenceForSelectedAsset);
   }
 

@@ -23,6 +23,7 @@ export const selectLastUserAssetSearch = (state: State) => state.asset.lastUserA
 export const selectSelectedAssets = (state: State) => state.asset.selectedAssets;
 export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
 export const selectLastFullPositions = (state: State) => state.asset.lastFullPositions;
+export const selectLastPollsForAsset = (state: State) => state.asset.lastPollsForAsset;
 export const selectFilterQuery = (state: State) => state.asset.filterQuery;
 export const selectSearchQuery = (state: State) => state.asset.searchQuery;
 export const selectPositionsForInspection = (state: State) => state.asset.positionsForInspection;
@@ -343,7 +344,7 @@ export const getUnitTonnages = createSelector(
   (unitTonnages) => unitTonnages
 );
 
-export const getSelectedAsset = createSelector(
+export const getAssetByUrl = createSelector(
   selectAssets,
   getMergedRoute,
   (assets, mergedRoute) => {
@@ -354,11 +355,33 @@ export const getSelectedAsset = createSelector(
   }
 );
 
-export const getLastFullPositionsForSelectedAsset = createSelector(
-  selectLastFullPositions, getSelectedAsset,
+export const getSelectedAsset = createSelector(
+  selectSelectedAsset,
+  selectAssets,
+  (selectedAssetId, assets) => assets[selectedAssetId]
+);
+
+export const getLastFullPositionsForUrlAsset = createSelector(
+  selectLastFullPositions, getAssetByUrl,
   (fullPositions: { [assetId: string]: ReadonlyArray<AssetTypes.FullMovement> }, asset: AssetTypes.Asset) =>
     typeof asset !== 'undefined' ? fullPositions[asset.id] : undefined
 );
+
+export const getLastFullPositionsForSelectedAsset = createSelector(
+  selectLastFullPositions, selectSelectedAsset,
+  (fullPositions: { [assetId: string]: ReadonlyArray<AssetTypes.FullMovement> }, assetId: string | null) =>
+    typeof assetId !== 'undefined' && assetId !== null ? fullPositions[assetId] : undefined
+);
+
+export const getLastPollsForSelectedAsset = createSelector(
+  selectLastPollsForAsset, selectSelectedAsset,
+  (lastPollsForAsset, assetId) => typeof assetId !== 'undefined'
+    && assetId !== null
+    && typeof lastPollsForAsset[assetId] !== 'undefined'
+      ? Object.values(lastPollsForAsset[assetId])
+      : []
+);
+
 
 export const getSelectedAssetsLastPositions = createSelector(
   selectSelectedAssetsLastPositions,
@@ -378,7 +401,7 @@ export const getLicenceForSelectedMapAsset = createSelector(
 
 export const getLicenceForSelectedAsset = createSelector(
   selectAssetLicences,
-  getSelectedAsset,
+  getAssetByUrl,
   (assetLicences, selectedAssetUrl) => {
     if(typeof selectedAssetUrl === 'undefined' || typeof selectedAssetUrl.id === 'undefined') {
       return null;
