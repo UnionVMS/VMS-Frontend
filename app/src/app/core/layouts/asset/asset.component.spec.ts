@@ -164,7 +164,7 @@ describe('AssetLayoutComponent', () => {
     };
     store.setState(currentState);
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.asset-layout--grid .side-menu .active .text').textContent).toBe('Mobile terminals');
+    expect(fixture.nativeElement.querySelector('.asset-layout--grid .side-menu .active .text').textContent).toBe('Mobile terminal');
 
 
     const router = TestBed.inject(Router);
