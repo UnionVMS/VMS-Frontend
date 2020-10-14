@@ -71,7 +71,7 @@ export class MobileTerminalLayoutComponent implements OnInit, OnDestroy {
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if(event.altKey) {
-      if(event.key === 's') {
+      if(event.key === 'a') {
         this.router.navigate(['/asset']);
       } else if(event.key === 'm') {
         this.router.navigate(['/mobileTerminals']);
