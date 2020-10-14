@@ -14,7 +14,7 @@ export type Movement = Readonly<{
   timestamp: number;
   speed: number | null;
   source: string;
-  sourceSatelliteId?: number;
+  sourceSatelliteId?: string;
 }>;
 
 export type FullMovement = Readonly<{
