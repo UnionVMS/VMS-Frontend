@@ -83,12 +83,12 @@ describe('AssetLayoutComponent', () => {
     let expectedTimesCalled = 0;
 
     expect(navigateSpy).toHaveBeenCalledTimes(expectedTimesCalled);
-    component.keyEvent({ altKey: true, key: 's' } as KeyboardEvent);
+    component.keyEvent({ altKey: true, key: 'a' } as KeyboardEvent);
     expectedTimesCalled++;
     expect(navigateSpy).toHaveBeenCalledTimes(expectedTimesCalled);
     expect(navigateSpy).toHaveBeenCalledWith(['/asset']);
 
-    component.keyEvent({ altKey: false, key: 's' } as KeyboardEvent);
+    component.keyEvent({ altKey: false, key: 'a' } as KeyboardEvent);
     expect(navigateSpy).toHaveBeenCalledTimes(expectedTimesCalled);
 
     const store = TestBed.inject(MockStore);
