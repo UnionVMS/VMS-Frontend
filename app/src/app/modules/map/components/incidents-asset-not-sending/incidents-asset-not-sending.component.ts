@@ -51,7 +51,7 @@ export class IncidentsAssetNotSendingComponent implements OnChanges {
     this.incidentsWithAttemptedContact = [ ...this.incidentsWithAttemptedContact ].sort(this.incidentSortFunction);
     this.unmanagedIncidents = [ ...this.unmanagedIncidents ].sort(this.incidentSortFunction);
 
-    this.nrOfIncidentsSortedByUrgency = this.unmanagedIncidents.reduce((acc, incident) => {
+    this.nrOfIncidentsSortedByUrgency = this.incidents.unresolvedIncidents.reduce((acc, incident) => {
       if(incident.risk === IncidentTypes.IncidentRisk.high) {
         acc.high++;
       } else if(incident.risk === IncidentTypes.IncidentRisk.medium) {
