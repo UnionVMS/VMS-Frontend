@@ -99,4 +99,8 @@ export class AssetPanelShowComponent {
     const formattedPosition = convertDDToDDM(location.latitude, location.longitude, 2);
     return formattedPosition.latitude + ' ' + formattedPosition.longitude;
   }
+
+  translateOceanRegion(sourceSatelliteId: string) {
+    return AssetTypes.OceanRegionTranslation[sourceSatelliteId] || sourceSatelliteId;
+  }
 }

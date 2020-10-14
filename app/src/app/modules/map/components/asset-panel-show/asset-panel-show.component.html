@@ -21,11 +21,10 @@
         </ng-container>
 
         <div class="asset-information--last-position" *ngIf="selectedAssetsLastPositions !== undefined">
-          <h3>Last AIS position:</h3>
+          <h3>Last AIS position</h3>
           <div class="asset-information--last-position--content" *ngIf="selectedAssetsLastPositions.ais !== undefined">
             <div class="time-and-source">
               <div class="time">{{ formatDate(selectedAssetsLastPositions.ais.timestamp) }}</div>
-              <div class="source">{{ selectedAssetsLastPositions.ais.source }}</div>
             </div>
             <div class="position-fields">
               <label i18n>Speed:</label>
@@ -39,14 +38,13 @@
         </div>
 
         <div class="asset-information--last-position" *ngIf="selectedAssetsLastPositions !== undefined">
-          <h3>Last VMS position:</h3>
+          <h3>Last VMS position ({{ selectedAssetsLastPositions.vms.source }})</h3>
           <div class="asset-information--last-position--content" *ngIf="selectedAssetsLastPositions.vms !== undefined">
             <div class="time-and-source">
               <div class="time">{{ formatDate(selectedAssetsLastPositions.vms.timestamp) }}</div>
               <div class="source">
-                {{ selectedAssetsLastPositions.vms.source }}
                 <span *ngIf="selectedAssetsLastPositions.vms.sourceSatelliteId !== undefined">
-                  | {{ selectedAssetsLastPositions.vms.sourceSatelliteId }}
+                  {{ translateOceanRegion(selectedAssetsLastPositions.vms.sourceSatelliteId) }}
                 </span>
               </div>
             </div>
