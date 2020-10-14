@@ -1,6 +1,7 @@
 <div class="content-container">
-  <ng-container *ngFor="let row of history">
+  <ng-container *ngFor="let row of history; let i = index">
     <span>{{ row.time }}</span>
-    <span>{{ row.status }}</span>
+    <span class="status {{ row.status }}">{{ row.formattedStatus }}</span>
+    <div *ngIf="i === 0 && lastStatusIsFailedOrTimedOut" class="ref-message {{row.status}}">{{ poll.refMessage }}</div>
   </ng-container>
 </div>

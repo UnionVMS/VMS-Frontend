@@ -255,6 +255,18 @@ export type PollHistory = Readonly<{
   timestamp: number
 }>;
 
+export type PollStatusObject = Readonly<{
+  guid: string,
+  history: ReadonlyArray<PollHistory>,
+  identifier: string,
+  refMessage: string,
+  typeRef: {
+    message: string,
+    refGuid: string,
+    type: string
+  }
+}>;
+
 export type Poll = Readonly<{
   pollInfo: {
     assetId: string,
@@ -270,17 +282,7 @@ export type Poll = Readonly<{
     endDate?: number,
     startDate?: number,
   },
-  pollStatus: {
-    guid: string,
-    history: ReadonlyArray<PollHistory>,
-    identifier: string,
-    refMessage: string,
-    typeRef: {
-      message: string,
-      refGuid: string,
-      type: string
-    }
-  },
+  pollStatus: PollStatusObject,
   movement?: FullMovement
 }>;
 

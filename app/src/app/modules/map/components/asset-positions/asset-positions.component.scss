@@ -13,7 +13,7 @@
     grid-row-gap: distance(1);
 
     &:nth-child(odd) {
-      background: $color_warm_dark_gray;
+      background: $color_table_alternate_color;
     }
 
     .position-block {
