@@ -58,7 +58,7 @@ export class AssetPositionsComponent implements OnInit, OnChanges {
   public createManualMovementCurried = (movement: AssetTypes.Movement) => {
     setTimeout(() => this.getLastFullPositionsForAsset(this.asset.id, 20, this.sourcesToExclude, true), 1000);
     return this.createManualMovement({
-      microMove,
+      microMove: movement,
       asset: {
         cfr: this.asset.cfr,
         ircs: this.asset.ircs
