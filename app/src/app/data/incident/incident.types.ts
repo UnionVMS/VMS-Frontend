@@ -1,4 +1,4 @@
-import { FullMovement, PollStatusObject } from '@data/asset/asset.types';
+import { Movement, PollStatusObject } from '@data/asset/asset.types';
 
 export enum IncidentNotificationTypes {
   created,
@@ -91,7 +91,7 @@ export type Incident = Readonly<{
   assetIrcs: string;
   assetName: string;
   createDate: number;
-  lastKnownLocation: FullMovement;
+  lastKnownLocation: Movement;
   status: string,
   ticketId: string;
   updateDate: number;
@@ -145,7 +145,7 @@ export type IncidentLog = Readonly<{
   relatedObjects: {
     notes: { readonly [noteLogId: string]: any },
     polls: { readonly [pollLogId: string]: PollStatusObject },
-    positions: { readonly [positionLogId: string]: FullMovement }
+    positions: { readonly [positionLogId: string]: Movement }
   }
 }>;
 

@@ -15,18 +15,18 @@ export type Movement = Readonly<{
   speed: number | null;
   source: string;
   movementType: string;
-  lesReportTime: number;
   updated: number;
   updatedBy: string;
 
   aisPositionAccuracy?: number;
+  lesReportTime?: number;
   sourceSatelliteId?: number;
   status?: string;
 }>;
 
 
 export type ManualMovement = Readonly<{
-  movement: Movement;
+  microMove: Movement;
   asset: Readonly<{
     cfr: string,
     ircs: string,
