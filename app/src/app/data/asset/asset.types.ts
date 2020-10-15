@@ -20,7 +20,7 @@ export type Movement = Readonly<{
 
   aisPositionAccuracy?: number;
   lesReportTime?: number;
-  sourceSatelliteId?: number;
+  sourceSatelliteId?: string;
   status?: string;
 }>;
 
