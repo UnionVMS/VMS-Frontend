@@ -40,7 +40,7 @@
               <div class="source">
                 {{ asset.currentPosition.microMove.source }}
                 <span *ngIf="asset.currentPosition.microMove.sourceSatelliteId !== undefined">
-                  | {{ asset.currentPosition.microMove.sourceSatelliteId }}
+                  | {{ translateOceanRegion(asset.currentPosition.microMove.sourceSatelliteId) }}
                 </span>
               </div>
             </div>

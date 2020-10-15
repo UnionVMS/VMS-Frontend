@@ -92,6 +92,10 @@ export class AssetPanelComponent {
     return formattedPosition.latitude + ' ' + formattedPosition.longitude;
   }
 
+  translateOceanRegion(sourceSatelliteId: string) {
+    return AssetTypes.OceanRegionTranslation[sourceSatelliteId] || sourceSatelliteId;
+  }
+
   public selectAssetWrapper() {
     return () => this.selectAsset(this.asset.asset.id);
   }

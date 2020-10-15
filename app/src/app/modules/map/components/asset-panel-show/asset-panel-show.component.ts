@@ -103,4 +103,16 @@ export class AssetPanelShowComponent {
   translateOceanRegion(sourceSatelliteId: string) {
     return AssetTypes.OceanRegionTranslation[sourceSatelliteId] || sourceSatelliteId;
   }
+
+  getAisClass() {
+    if(typeof this.selectedAssetsLastPositions.ais.status !== 'undefined' && this.selectedAssetsLastPositions.ais.status > '' ) {
+      const typeNr = parseInt(this.selectedAssetsLastPositions.ais.status, 10);
+      if(typeNr >= 1 && typeNr <= 3) {
+        return $localize`:@@ts-movement-ais-class-a:Class A`;
+      } else if(typeNr === 18) {
+        return $localize`:@@ts-movement-ais-class-b:Class B`;
+      }
+    }
+    return $localize`:@@ts-movement-ais-class-unkown:Unkown class`;
+  }
 }

@@ -213,7 +213,7 @@ export const setCurrentAssetList = createAction(
 
 export const setLastFullPositions = createAction(
   '[Asset] Set last full positions',
-  props<{ fullPositionsByAsset: { [assetId: string]: ReadonlyArray<AssetTypes.FullMovement> } }>()
+  props<{ fullPositionsByAsset: { [assetId: string]: ReadonlyArray<AssetTypes.Movement> } }>()
 );
 
 export const setLastPositionsForSelectedAsset = createAction(
