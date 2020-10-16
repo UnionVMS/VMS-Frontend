@@ -2,6 +2,10 @@ import { createAction, props } from '@ngrx/store';
 import jwtDecode from 'jwt-decode';
 import * as AuthTypes from './auth.types';
 
+export const activateLoggedOutPopup = createAction(
+  '[Auth] Activate logged out popup',
+);
+
 export const login = createAction(
   '[Auth] Login',
   props<{ username: string; password: string }>()

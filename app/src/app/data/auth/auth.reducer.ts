@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 export const initialState: Types.State = {
   user: null,
   fishingActivityUnlocked: environment.fishingActivityDefaultUnlocked,
+  loggedOutPopupActive: false,
 };
 
 export const authReducer = createReducer(initialState,
@@ -32,5 +33,9 @@ export const authReducer = createReducer(initialState,
   on(AuthActions.unlockFishingActivity, (state) => ({
     ...state,
     fishingActivityUnlocked: true
+  })),
+  on(AuthActions.activateLoggedOutPopup, (state) => ({
+    ...state,
+    loggedOutPopupActive: true
   })),
 );

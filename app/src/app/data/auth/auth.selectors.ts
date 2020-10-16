@@ -1,7 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { State } from './auth.types';
+import { State as AppState } from '@app/app-reducer';
 
 export const getAuthState = createFeatureSelector<State>('auth');
+export const selectLoggedOutPopupActive = (state: AppState) => state.auth.loggedOutPopupActive;
 
 export const getAuthToken = createSelector(
   getAuthState,
@@ -11,6 +13,11 @@ export const getAuthToken = createSelector(
     }
     return null;
   }
+);
+
+export const getLoggedOutPopupActive = createSelector(
+  selectLoggedOutPopupActive,
+  (loggedOutPopupActive: boolean) => loggedOutPopupActive
 );
 
 export const getUser = createSelector(

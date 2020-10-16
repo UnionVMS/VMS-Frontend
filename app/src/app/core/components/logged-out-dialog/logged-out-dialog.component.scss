@@ -1,0 +1,22 @@
+@import 'variables.scss';
+
+core-logged-out-dialog {
+  .mat-dialog-title {
+    padding-top: distance(6);
+  }
+
+  .mat-dialog-content {
+    padding-left: distance(8);
+    padding-right: distance(8);
+  }
+
+  .mat-dialog-actions {
+    padding-top: distance(3);
+    padding-bottom: distance(6);
+    margin-bottom: 0px;
+
+    .login-button {
+      padding: 0px distance(10);
+    }
+  }
+}

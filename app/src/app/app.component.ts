@@ -1,16 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '@app/app-reducer';
-import { AuthActions } from '@data/auth/';
-// import { MapSettingsActions } from '@data/map-settings/';
+import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { AuthActions, AuthSelectors } from '@data/auth/';
 import jwtDecode from 'jwt-decode';
+
+import { LoggedOutDialogComponent } from '@app/core/components/logged-out-dialog/logged-out-dialog.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  constructor(private readonly store: Store<State>) {}
+  public unmount$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(private readonly store: Store<State>, public dialog: MatDialog) {}
+
+  mapStateToProps() {
+    this.store.select(AuthSelectors.getLoggedOutPopupActive).pipe(takeUntil(this.unmount$)).subscribe((loggedOutPopupActive) => {
+      if(loggedOutPopupActive) {
+        const dialogRef = this.dialog.open(LoggedOutDialogComponent, {
+          disableClose: true,
+          backdropClass: 'blurry-backdrop'
+        });
+      }
+    });
+  }
 
   ngOnInit() {
     if(typeof window.localStorage.authToken !== 'undefined') {
@@ -31,6 +49,8 @@ export class AppComponent implements OnInit {
         this.openUpFishingActivityIfApplicable();
       }
     }
+
+    this.mapStateToProps();
   }
 
   openUpFishingActivityIfApplicable() {

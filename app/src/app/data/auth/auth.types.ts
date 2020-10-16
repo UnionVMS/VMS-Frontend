@@ -4,7 +4,15 @@ export type UserData = Readonly<{
 
 export type JwtTokenData = Readonly<{
   raw: string;
-  decoded: any;
+  decoded: Readonly<{
+    exp: number,
+    features: ReadonlyArray<number>,
+    iat: number,
+    iss: string,
+    jti: string;
+    sub: string,
+    userName: string,
+  }>;
 }>;
 
 export type Role = Readonly<{
@@ -30,4 +38,5 @@ export type User = Readonly<{
 export type State = Readonly<{
   user: User|null;
   fishingActivityUnlocked: boolean;
+  loggedOutPopupActive: boolean;
 }>;
