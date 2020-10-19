@@ -26,7 +26,7 @@ export type Movement = Readonly<{
 
 
 export type ManualMovement = Readonly<{
-  microMove: Movement;
+  movement: Movement;
   asset: Readonly<{
     cfr: string,
     ircs: string,

@@ -56,7 +56,7 @@ export class IncidentComponent implements OnChanges {
 
   public createManualMovementCurried = (movement: AssetTypes.Movement) => {
     return this.createManualMovement({
-      microMove: movement,
+      movement: movement,
       asset: {
         cfr: this.asset.asset.cfr,
         ircs: this.asset.asset.ircs
