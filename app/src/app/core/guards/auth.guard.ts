@@ -16,7 +16,7 @@ import { RouterSelectors } from '@data/router';
 export class AuthGuard implements CanActivate, OnDestroy {
   private isLoggedIn = false;
   private currentUrl: string;
-  private unmount$: Subject<boolean> = new Subject<boolean>();
+  private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private readonly store: Store<any>, private readonly router: Router) {
     this.store.select(RouterSelectors.getMergedRoute).pipe(takeUntil(this.unmount$)).subscribe(mergedRoute => {

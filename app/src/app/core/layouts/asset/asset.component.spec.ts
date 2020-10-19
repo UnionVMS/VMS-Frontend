@@ -18,6 +18,7 @@ import { AssetLayoutComponent } from './asset.component';
 
 
 // Components
+import { LogoutTimerComponent } from '../../components/logout-timer/logout-timer.component';
 import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 
@@ -47,6 +48,7 @@ describe('AssetLayoutComponent', () => {
       ],
       declarations: [
         AssetLayoutComponent,
+        LogoutTimerComponent,
         TopMenuComponent,
         NotificationsComponent,
       ],

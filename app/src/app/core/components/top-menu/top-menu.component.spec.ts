@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatSelectModule } from '@angular/material/select';
 
 import { TopMenuComponent } from './top-menu.component';
+import { LogoutTimerComponent } from '@app/core/components/logout-timer/logout-timer.component';
 
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -16,7 +17,8 @@ describe('TopMenuComponent', () => {
         MatSelectModule
       ],
       declarations: [
-        TopMenuComponent
+        TopMenuComponent,
+        LogoutTimerComponent,
       ],
       providers: [
         provideMockStore({ initialState }),
