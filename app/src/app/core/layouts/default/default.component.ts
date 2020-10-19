@@ -21,6 +21,7 @@ export class DefaultLayoutComponent implements OnInit {
   public timezone$: Observable<string>;
   public notifications$: Observable<NotificationsTypes.State>;
   public mergedRoute$: Observable<RouterTypes.MergedRoute>;
+  public timeToLogout$: Observable<number|null>;
 
   public dismissNotification: (type: string, index: number) => void;
   public setTimezone: (timezone: string) => void;
@@ -33,6 +34,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.isAdmin$ = this.store.select(AuthSelectors.isAdmin);
     this.fishingActivityUnlocked$ = this.store.select(AuthSelectors.fishingActivityUnlocked);
     this.mergedRoute$ = this.store.select(RouterSelectors.getMergedRoute);
+    this.timeToLogout$ = this.store.select(AuthSelectors.getTimeToLogout);
   }
 
   mapDispatchToProps() {

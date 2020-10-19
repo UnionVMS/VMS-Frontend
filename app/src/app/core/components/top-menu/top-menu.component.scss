@@ -5,7 +5,7 @@
   color: white;
   height: $navbar_height;
   display: grid;
-  grid-template-columns: 150px 1fr auto;
+  grid-template-columns: 150px 1fr auto auto;
 
   a {
     color: white;
@@ -66,6 +66,8 @@
     .timezone-selector {
       padding: 0px;
       min-width: 200px;
+      margin-bottom: distance(-0.5);
+
       .mat-select-value-text {
         color: white;
       }
@@ -73,5 +75,12 @@
         color: white;
       }
     }
+  }
+
+  core-logout-timer-component {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    padding-right: distance(4);
   }
 }

@@ -91,4 +91,11 @@
       }
     }
   }
+
+  .logout-time-left {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    padding-right: distance(4);
+  }
 }

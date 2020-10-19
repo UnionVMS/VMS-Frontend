@@ -18,6 +18,7 @@ export class EfrTopMenuComponent implements OnInit, OnChanges {
   @Input() setTimezone: (timezone: string) => void;
   @Input() timezone: string;
   @Input() fishingActivityUnlocked: boolean;
+  @Input() timeToLogout: number | null;
 
   public baseUrl = window.location.origin;
   public currentTimezone: string;
@@ -29,5 +30,9 @@ export class EfrTopMenuComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.currentTimezone = this.timezone;
+  }
+
+  getTimeToLogout() {
+    return Math.ceil(this.timeToLogout / 60);
   }
 }

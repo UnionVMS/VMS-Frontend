@@ -6,6 +6,11 @@ export const activateLoggedOutPopup = createAction(
   '[Auth] Activate logged out popup',
 );
 
+export const setTimeToLogout = createAction(
+  '[Auth] Set time to logout',
+  props<{ timeToLogout: number | null }>()
+);
+
 export const login = createAction(
   '[Auth] Login',
   props<{ username: string; password: string }>()

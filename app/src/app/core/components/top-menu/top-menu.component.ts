@@ -19,6 +19,7 @@ export class TopMenuComponent implements OnInit, OnChanges {
   @Input() setTimezone: (timezone: string) => void;
   @Input() timezone: string;
   @Input() fishingActivityUnlocked: boolean;
+  @Input() timeToLogout: number | null;
   @Input() url: string;
 
   public baseUrl = window.location.origin;
@@ -40,5 +41,9 @@ export class TopMenuComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.currentTimezone = this.timezone;
     this.assetTabActive = this.url.match(/^\/mobileTerminal(s)?.*$/g) !== null;
+  }
+
+  getTimeToLogout() {
+    return Math.ceil(this.timeToLogout / 60);
   }
 }

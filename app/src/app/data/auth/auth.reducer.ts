@@ -7,6 +7,7 @@ export const initialState: Types.State = {
   user: null,
   fishingActivityUnlocked: environment.fishingActivityDefaultUnlocked,
   loggedOutPopupActive: false,
+  timeToLogout: null,
 };
 
 export const authReducer = createReducer(initialState,
@@ -29,6 +30,10 @@ export const authReducer = createReducer(initialState,
       role,
       scope
     }
+  })),
+  on(AuthActions.setTimeToLogout, (state, { timeToLogout }) => ({
+    ...state,
+    timeToLogout
   })),
   on(AuthActions.unlockFishingActivity, (state) => ({
     ...state,

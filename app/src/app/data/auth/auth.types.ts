@@ -39,4 +39,5 @@ export type State = Readonly<{
   user: User|null;
   fishingActivityUnlocked: boolean;
   loggedOutPopupActive: boolean;
+  timeToLogout: number | null;
 }>;

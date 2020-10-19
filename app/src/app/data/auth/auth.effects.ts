@@ -53,27 +53,24 @@ export class AuthEffects {
 
   private readonly logoutTimePassed$: Subject<boolean> = new Subject<boolean>();
 
-  @Effect()
+  @Effect({ dispatch: false })
   setLogoutCountdown$ = this.actions$.pipe(
     ofType(AuthActions.loginSuccess),
     mergeMap((action: any) => {
       this.logoutTimePassed$.next(false);
-      // TODO: increase with one 0 to make it every minute, temp every 6 seconds during dev.
-      return interval(2000).pipe( // Every minute (milliseconds)
+      return interval(60000).pipe( // Every minute (milliseconds)
         takeUntil(this.logoutTimePassed$),
         map((intervalCount) => {
-          const timeToLogout = action.payload.jwtToken.decoded.exp - Date.now() / 1000;
-          console.warn(timeToLogout);
+          const timeToLogout = Math.round(action.payload.jwtToken.decoded.exp - Date.now() / 1000);
           if(timeToLogout < 0) { // Are we logged out?
             this.store.dispatch(AuthActions.logout());
             this.store.dispatch(AuthActions.activateLoggedOutPopup());
+            this.store.dispatch(AuthActions.setTimeToLogout({ timeToLogout: null }));
             // This prevents the returned action from being consumed so we need to dispatch all actions before.
             this.logoutTimePassed$.next(true);
           } else if(timeToLogout < 3600) { // Less then 1 hour (in seconds)
-            // TODO: Display popup/thingi that warns for logout time approaching.
-            console.warn('Time to show logout warning, less then one hour left...');
+            this.store.dispatch(AuthActions.setTimeToLogout({ timeToLogout }));
           }
-          return NotificationsActions.addNotice('Checking login...');
         })
       );
     })

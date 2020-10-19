@@ -4,6 +4,7 @@ import { State as AppState } from '@app/app-reducer';
 
 export const getAuthState = createFeatureSelector<State>('auth');
 export const selectLoggedOutPopupActive = (state: AppState) => state.auth.loggedOutPopupActive;
+export const selectTimeToLogout = (state: AppState) => state.auth.timeToLogout;
 
 export const getAuthToken = createSelector(
   getAuthState,
@@ -18,6 +19,11 @@ export const getAuthToken = createSelector(
 export const getLoggedOutPopupActive = createSelector(
   selectLoggedOutPopupActive,
   (loggedOutPopupActive: boolean) => loggedOutPopupActive
+);
+
+export const getTimeToLogout = createSelector(
+  selectTimeToLogout,
+  (timeToLogout) => timeToLogout
 );
 
 export const getUser = createSelector(
