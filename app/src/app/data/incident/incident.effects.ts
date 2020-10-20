@@ -19,7 +19,7 @@ import { AssetTypes, AssetActions } from '@data/asset';
 import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
 import { MobileTerminalTypes, MobileTerminalActions } from '@data/mobile-terminal';
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class IncidentEffects {

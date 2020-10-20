@@ -19,6 +19,14 @@ export const authReducer = createReducer(initialState,
       data
     }
   })),
+  on(AuthActions.updateToken, (state, { payload: { jwtToken, data } }) => ({
+    ...state,
+    user: {
+      ...state.user,
+      jwtToken,
+      data
+    }
+  })),
   on(AuthActions.logout, (state) => ({
     ...state,
     user: null

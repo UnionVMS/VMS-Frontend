@@ -13,7 +13,7 @@ import { UserSettingsService } from '../user-settings/user-settings.service';
 import { MapSavedFiltersService } from './map-saved-filters.service';
 
 import { replaceDontTranslate } from '@app/helpers/helpers';
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class MapSavedFiltersEffects {

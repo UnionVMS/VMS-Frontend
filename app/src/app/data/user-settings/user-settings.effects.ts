@@ -13,7 +13,7 @@ import { NotificationsActions } from '@data/notifications';
 import { UserSettingsSelectors, UserSettingsTypes, UserSettingsActions } from './';
 import { UserSettingsService } from '@data/user-settings/user-settings.service';
 
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class UserSettingsEffects {

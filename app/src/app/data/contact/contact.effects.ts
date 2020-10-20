@@ -13,7 +13,7 @@ import * as NotificationsActions from '../notifications/notifications.actions';
 import { AuthTypes, AuthSelectors } from '../auth';
 import * as RouterSelectors from '@data/router/router.selectors';
 
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class ContactEffects {

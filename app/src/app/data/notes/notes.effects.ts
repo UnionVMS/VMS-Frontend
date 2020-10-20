@@ -13,7 +13,7 @@ import * as NotificationsActions from '../notifications/notifications.actions';
 import {  AuthSelectors } from '../auth';
 import { AssetSelectors } from '../asset';
 
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class NotesEffects {

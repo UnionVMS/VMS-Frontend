@@ -14,7 +14,7 @@ import { AuthTypes, AuthSelectors } from '../auth';
 import * as RouterSelectors from '@data/router/router.selectors';
 
 import { hashCode } from '@app/helpers/helpers';
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class MobileTerminalEffects {

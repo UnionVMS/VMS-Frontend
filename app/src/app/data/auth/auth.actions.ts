@@ -34,6 +34,19 @@ export const loginSuccess = createAction(
   }
 );
 
+export const updateToken = createAction(
+  '[Auth] Update token',
+  ({ jwtToken }: { jwtToken: string }) => {
+    const tokenDecoded = jwtDecode(jwtToken);
+    return {
+      payload: {
+        jwtToken: { raw: jwtToken, decoded: tokenDecoded },
+        data: { username: tokenDecoded.userName }
+      }
+    };
+  }
+);
+
 export const logout = createAction(
   '[Auth] Logut',
 );

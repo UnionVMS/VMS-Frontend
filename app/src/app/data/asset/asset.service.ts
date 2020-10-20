@@ -84,7 +84,8 @@ export class AssetService {
         headers: new HttpHeaders({
           Authorization: authToken,
           'Cache-Control': 'no-cache'
-        })
+        }),
+        observe: 'response',
       }
     );
   }

@@ -12,7 +12,7 @@ import { MapSettingsSelectors, MapSettingsTypes, MapSettingsActions } from './';
 import { MapSettingsService } from '@data/map-settings/map-settings.service';
 import { UserSettingsService } from '@data/user-settings/user-settings.service';
 
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class MapSettingsEffects {

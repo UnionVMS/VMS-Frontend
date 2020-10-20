@@ -9,7 +9,7 @@ import { AuthTypes, AuthSelectors } from '../auth';
 import { MapLayersService } from './map-layers.service';
 import { MapLayersActions } from './';
 
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class MapLayersEffects {

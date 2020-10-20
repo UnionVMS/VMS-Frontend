@@ -3,19 +3,20 @@ import { Action, Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY, interval, Subject } from 'rxjs';
-import { map, mergeMap, flatMap, catchError, filter, takeUntil } from 'rxjs/operators';
+import { map, mergeMap, flatMap, catchError, filter, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer.ts';
 
 import * as AuthActions from './auth.actions';
 import { AuthService } from './auth.service';
+import * as AuthSelectors from './auth.selectors';
 import * as MapSettings from '../map-settings/map-settings.actions';
 import { MapSavedFiltersActions } from '../map-saved-filters/';
 import * as NotificationsActions from '../notifications/notifications.actions';
 import { MapActions } from '@data/map';
 import { UserSettingsActions, UserSettingsReducer } from '@data/user-settings';
 
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class AuthEffects {
@@ -60,8 +61,9 @@ export class AuthEffects {
       this.logoutTimePassed$.next(false);
       return interval(60000).pipe( // Every minute (milliseconds)
         takeUntil(this.logoutTimePassed$),
-        map((intervalCount) => {
-          const timeToLogout = Math.round(action.payload.jwtToken.decoded.exp - Date.now() / 1000);
+        withLatestFrom(this.store.select(AuthSelectors.getDecodedAuthToken)),
+        map(([intervalCount, decodedAuthToken]) => {
+          const timeToLogout = Math.round(decodedAuthToken.exp - Date.now() / 1000);
           if(timeToLogout < 0) { // Are we logged out?
             this.store.dispatch(AuthActions.logout());
             this.store.dispatch(AuthActions.activateLoggedOutPopup());
