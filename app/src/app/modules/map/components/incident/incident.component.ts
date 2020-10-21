@@ -107,11 +107,13 @@ export class IncidentComponent implements OnChanges {
     const permission = {
       [IncidentTypes.IncidentTypes.seasonalFishing]: {
         [IncidentTypes.SeasonalFishingStatuses.PARKED]: true,
-        [IncidentTypes.SeasonalFishingStatuses.RECEIVING_AIS_POSITIONS]: true
+        [IncidentTypes.SeasonalFishingStatuses.RECEIVING_AIS_POSITIONS]: true,
+        [IncidentTypes.ParkedStatuses.OVERDUE]: true
       },
       [IncidentTypes.IncidentTypes.parked]: {
         [IncidentTypes.ParkedStatuses.PARKED]: true,
-        [IncidentTypes.ParkedStatuses.RECEIVING_AIS_POSITIONS]: true
+        [IncidentTypes.ParkedStatuses.RECEIVING_AIS_POSITIONS]: true,
+        [IncidentTypes.ParkedStatuses.OVERDUE]: true
       }
     };
     return typeof permission[this.incident.type] !== 'undefined'

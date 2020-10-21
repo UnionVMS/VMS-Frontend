@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { NotesTypes } from '@data/notes';
 
+import { getDefaultHttpOptions } from '@app/helpers/api-request';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,12 +14,8 @@ export class NotesService {
 
   getNotesFromAssetId(authToken: string, assetId: string) {
     return this.http.get(
-      environment.baseApiUrl + `asset/rest/asset/${ assetId }/notes`, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + `asset/rest/asset/${ assetId }/notes`,
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -25,12 +23,7 @@ export class NotesService {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/notes`,
       note,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -38,35 +31,21 @@ export class NotesService {
     return this.http.put(
       environment.baseApiUrl + `asset/rest/asset/notes`,
       note,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   deleteNote(authToken: string, noteId: string) {
     return this.http.delete(
       environment.baseApiUrl + `asset/rest/asset/notes/${noteId}`,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getNoteById(authToken: string, noteId: string) {
     return this.http.get(
-      environment.baseApiUrl + `asset/rest/asset/note/${ noteId }`, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + `asset/rest/asset/note/${ noteId }`,
+      getDefaultHttpOptions(authToken)
     );
   }
 

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { toUTF8Array } from '@app/helpers/helpers';
 import { AuthTypes } from '@data/auth';
 import { MapSavedFiltersTypes } from '@data/map-saved-filters';
+import { getDefaultHttpOptions } from '@app/helpers/api-request';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,7 @@ export class MapSavedFiltersService {
     return this.http.post(
       environment.baseApiUrl + 'asset/rest/filter',
       filter,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -31,34 +27,21 @@ export class MapSavedFiltersService {
     return this.http.put(
       environment.baseApiUrl + 'asset/rest/filter',
       filter,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   list(authToken: string) {
     return this.http.get(
-      environment.baseApiUrl + 'asset/rest/filter/list', {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + 'asset/rest/filter/list',
+      getDefaultHttpOptions(authToken)
     );
   }
 
   delete(authToken: string, filterId: string) {
     return this.http.delete(
-      environment.baseApiUrl + `asset/rest/filter/${filterId}`, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + `asset/rest/filter/${filterId}`,
+      getDefaultHttpOptions(authToken)
     );
   }
 }

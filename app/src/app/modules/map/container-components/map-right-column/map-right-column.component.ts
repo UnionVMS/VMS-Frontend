@@ -40,7 +40,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public incidentLogs: IncidentTypes.IncidentLogs;
   public incidentsForAssets: Readonly<{ readonly [assetId: string]: ReadonlyArray<IncidentTypes.Incident> }>;
   public incidentTypes$: Observable<IncidentTypes.IncidentTypesCollection>;
-  public lastFullPositionsForSelectedAsset$: Observable<ReadonlyArray<AssetTypes.FullMovement>>;
+  public lastFullPositionsForSelectedAsset$: Observable<ReadonlyArray<AssetTypes.Movement>>;
   public lastPollsForSelectedAsset$: Observable<ReadonlyArray<AssetTypes.Poll>>;
   public licence$: Observable<AssetTypes.AssetLicence>;
   public licenceLoaded = false;

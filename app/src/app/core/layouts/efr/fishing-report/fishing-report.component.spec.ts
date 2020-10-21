@@ -18,6 +18,7 @@ import { FishingReportLayoutComponent } from './fishing-report.component';
 
 
 // Components
+import { LogoutTimerComponent } from '@app/core/components/logout-timer/logout-timer.component';
 import { TopMenuComponent } from '@app/core/components/top-menu/top-menu.component';
 import { NotificationsComponent } from '@app/core/components/notifications/notifications.component';
 
@@ -43,6 +44,7 @@ describe('AssetLayoutComponent', () => {
       ],
       declarations: [
         FishingReportLayoutComponent,
+        LogoutTimerComponent,
         TopMenuComponent,
         NotificationsComponent,
       ],

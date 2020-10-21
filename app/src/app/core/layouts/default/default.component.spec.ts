@@ -6,6 +6,7 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { DefaultLayoutComponent } from './default.component';
 
 // Components
+import { LogoutTimerComponent } from '../../components/logout-timer/logout-timer.component';
 import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 
@@ -21,6 +22,7 @@ describe('DefaultLayoutComponent', () => {
       ],
       declarations: [
         DefaultLayoutComponent,
+        LogoutTimerComponent,
         TopMenuComponent,
         NotificationsComponent,
       ],

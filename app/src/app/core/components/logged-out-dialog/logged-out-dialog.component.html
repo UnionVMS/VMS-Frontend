@@ -1,0 +1,18 @@
+<h1 mat-dialog-title align="center" i18n>Automatically logged out</h1>
+<div mat-dialog-content>
+  <p i18n>
+    You have been logged out due to inactivity and need to login again to continue working.<br />
+    If you want to stay logged out, just close the tab.
+  </p>
+</div>
+<div mat-dialog-actions align="center">
+  <button
+    mat-raised-button
+    color="primary"
+    routerLink="/login"
+    class="login-button"
+    mat-dialog-close
+    cdkFocusInitial
+    i18n
+  >Login again</button>
+</div>

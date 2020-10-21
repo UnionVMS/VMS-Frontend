@@ -10,6 +10,9 @@
     <a class="navbar-brand" routerLink="/efr/overview">Electronic catch reporting - EFR Support tool</a>
     <div class="app-version">v {{appVersion}}</div>
   </div>
+  <core-logout-timer-component
+    [timeToLogout]="timeToLogout"
+  ></core-logout-timer-component>
   <!-- Links -->
   <ul class="navbar-nav right-bar">
     <li class="nav-item">

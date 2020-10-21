@@ -18,6 +18,7 @@ import { EfrDefaultLayoutComponent } from './efr-default.component';
 
 
 // Components
+import { LogoutTimerComponent } from '@app/core/components/logout-timer/logout-timer.component';
 import { EfrTopMenuComponent } from '@app/core/components/efr-top-menu/efr-top-menu.component';
 import { NotificationsComponent } from '@app/core/components/notifications/notifications.component';
 
@@ -43,6 +44,7 @@ describe('AssetLayoutComponent', () => {
       ],
       declarations: [
         EfrDefaultLayoutComponent,
+        LogoutTimerComponent,
         EfrTopMenuComponent,
         NotificationsComponent,
       ],

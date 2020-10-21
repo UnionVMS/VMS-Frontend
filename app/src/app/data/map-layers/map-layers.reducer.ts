@@ -3,7 +3,7 @@ import * as MapLayersActions from './map-layers.actions';
 import * as Types from './map-layers.types';
 
 export const initialState: Types.State = {
-  mapLayers: [],
+  mapLayers: {},
   activeLayers: []
 };
 
@@ -11,11 +11,11 @@ export const mapLayersReducer = createReducer(initialState,
   on(MapLayersActions.addAreas, (state, { mapLayers }) => {
     console.warn(state.mapLayers, mapLayers);
     return ({
-    ...state,
-    mapLayers: [
-      ...state.mapLayers,
-      ...mapLayers
-    ]
+      ...state,
+      mapLayers: {
+        ...state.mapLayers,
+        ...mapLayers
+      }
     });
   }),
   on(MapLayersActions.setAreas, (state, { mapLayers }) => ({

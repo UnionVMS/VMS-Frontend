@@ -12,6 +12,9 @@ const AssetTrackStub: AssetTrack = {
       timestamp: 1554883672000,
       speed: 7.900000095367432,
       source: 'AIS',
+      movementType: 'POS',
+      updated: 1554883672000,
+      updatedBy: 'OTHER',
     },
     {
       location: {
@@ -23,6 +26,9 @@ const AssetTrackStub: AssetTrack = {
       timestamp: 1554883642000,
       speed: 7.900000095367432,
       source: 'AIS',
+      movementType: 'POS',
+      updated: 1554883642000,
+      updatedBy: 'OTHER',
     },
     {
       location: {
@@ -34,6 +40,9 @@ const AssetTrackStub: AssetTrack = {
       timestamp: 1554883612000,
       speed: 7.900000095367432,
       source: 'AIS',
+      movementType: 'POS',
+      updated: 1554883612000,
+      updatedBy: 'OTHER',
     },
     {
       location: {
@@ -45,6 +54,9 @@ const AssetTrackStub: AssetTrack = {
       timestamp: 1554883700000,
       speed: 7.800000190734863,
       source: 'AIS',
+      movementType: 'POS',
+      updated: 1554883700000,
+      updatedBy: 'OTHER',
     },
     {
       location: {
@@ -56,6 +68,9 @@ const AssetTrackStub: AssetTrack = {
       timestamp: 1554883820000,
       speed: 7.800000190734863,
       source: 'AIS',
+      movementType: 'POS',
+      updated: 1554883820000,
+      updatedBy: 'OTHER',
     },
     {
       location: {
@@ -67,6 +82,9 @@ const AssetTrackStub: AssetTrack = {
       timestamp: 1554883940000,
       speed: 7.800000190734863,
       source: 'AIS',
+      movementType: 'POS',
+      updated: 1554883940000,
+      updatedBy: 'OTHER',
     },
     {
       location: {
@@ -78,6 +96,9 @@ const AssetTrackStub: AssetTrack = {
       timestamp: 1554884120000,
       speed: 7.800000190734863,
       source: 'AIS',
+      movementType: 'POS',
+      updated: 1554884120000,
+      updatedBy: 'OTHER',
     }
   ],
   lastAddedTracks: [{
@@ -90,6 +111,9 @@ const AssetTrackStub: AssetTrack = {
     timestamp: 1554884120000,
     speed: 7.800000190734863,
     source: 'AIS',
+    movementType: 'POS',
+    updated: 1554884120000,
+    updatedBy: 'OTHER',
   }],
   assetId: '6938453e-8ea7-4e55-b646-921b9c866e58',
   lineSegments: [

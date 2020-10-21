@@ -8,6 +8,6 @@ export type MapLayer = Readonly<{
 }>;
 
 export type State = Readonly<{
-  mapLayers: ReadonlyArray<MapLayer>;
+  mapLayers: Readonly<{ readonly [typeName: string]: MapLayer }>;
   activeLayers: ReadonlyArray<string>;
 }>;

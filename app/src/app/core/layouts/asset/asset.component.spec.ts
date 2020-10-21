@@ -18,6 +18,7 @@ import { AssetLayoutComponent } from './asset.component';
 
 
 // Components
+import { LogoutTimerComponent } from '../../components/logout-timer/logout-timer.component';
 import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 
@@ -47,6 +48,7 @@ describe('AssetLayoutComponent', () => {
       ],
       declarations: [
         AssetLayoutComponent,
+        LogoutTimerComponent,
         TopMenuComponent,
         NotificationsComponent,
       ],
@@ -83,12 +85,12 @@ describe('AssetLayoutComponent', () => {
     let expectedTimesCalled = 0;
 
     expect(navigateSpy).toHaveBeenCalledTimes(expectedTimesCalled);
-    component.keyEvent({ altKey: true, key: 's' } as KeyboardEvent);
+    component.keyEvent({ altKey: true, key: 'a' } as KeyboardEvent);
     expectedTimesCalled++;
     expect(navigateSpy).toHaveBeenCalledTimes(expectedTimesCalled);
     expect(navigateSpy).toHaveBeenCalledWith(['/asset']);
 
-    component.keyEvent({ altKey: false, key: 's' } as KeyboardEvent);
+    component.keyEvent({ altKey: false, key: 'a' } as KeyboardEvent);
     expect(navigateSpy).toHaveBeenCalledTimes(expectedTimesCalled);
 
     const store = TestBed.inject(MockStore);

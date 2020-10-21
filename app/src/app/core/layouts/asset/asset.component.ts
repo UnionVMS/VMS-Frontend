@@ -26,6 +26,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
   public fishingActivityUnlocked$: Observable<boolean>;
   public timezone$: Observable<string>;
   public notifications$: Observable<NotificationsTypes.State>;
+  public timeToLogout$: Observable<number|null>;
 
   public dismissNotification: (type: string, index: number) => void;
   public setTimezone: (timezone: string) => void;
@@ -51,6 +52,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
     this.timezone$ = this.store.select(UserSettingsSelectors.getTimezone);
     this.isAdmin$ = this.store.select(AuthSelectors.isAdmin);
     this.fishingActivityUnlocked$ = this.store.select(AuthSelectors.fishingActivityUnlocked);
+    this.timeToLogout$ = this.store.select(AuthSelectors.getTimeToLogout);
   }
 
   mapDispatchToProps() {
@@ -68,7 +70,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if(event.altKey) {
-      if(event.key === 's') {
+      if(event.key === 'a') {
         this.router.navigate(['/asset']);
       } else if(event.key === 'm') {
         this.router.navigate(['/mobileTerminals']);

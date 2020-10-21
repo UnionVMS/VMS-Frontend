@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
 import { AssetTypes } from '@data/asset';
-import { SimulateMovement } from '@data/asset/tools/movement-simulator';
+// import { SimulateMovement } from '@data/asset/tools/movement-simulator';
+import { getDefaultHttpOptions } from '@app/helpers/api-request';
 
 
 @Injectable({
@@ -22,12 +23,7 @@ export class AssetService {
     return this.http.post(
       environment.baseApiUrl + 'movement/rest/micro/latest',
       [],
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -80,24 +76,16 @@ export class AssetService {
 
   getAsset(authToken: string, assetId: string) {
     return this.http.get(
-      environment.baseApiUrl + 'asset/rest/asset/' + assetId, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + 'asset/rest/asset/' + assetId,
+      getDefaultHttpOptions(authToken)
     );
   }
 
   // /unionvms/movement/rest/micro/track/movement/{id}
   getAssetTrack(authToken: string, movementId: string) {
     return this.http.get(
-      environment.baseApiUrl + 'movement/rest/micro/track/movement/' + movementId, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + 'movement/rest/micro/track/movement/' + movementId,
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -107,29 +95,18 @@ export class AssetService {
     return this.http.post(
       environment.baseApiUrl + `movement/rest/micro/track/asset/${assetId}?startDate=${startDate}&endDate=${endDate}`,
       sources,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
-  getLicenceForAsset(authToken: string, assetId: string): Observable<AssetTypes.AssetLicence> {
+  getLicenceForAsset(authToken: string, assetId: string) {
     return this.http.get(
-      environment.baseApiUrl + `asset/rest/asset/${assetId}/licence`, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
-    ) as Observable<AssetTypes.AssetLicence>;
+      environment.baseApiUrl + `asset/rest/asset/${assetId}/licence`,
+      getDefaultHttpOptions(authToken)
+    );
   }
 
-  // /unionvms/movement/rest/micro/track/assets
   getTracksByTimeInterval(authToken: string, query: any, startDate: number, endDate: number, sources: string[]) {
-    // const datetime = "2019-03-28 12:00:00 +0100";
     return this.http.post(
       environment.baseApiUrl + `web-gateway/rest/reports/tracksByAssetSearch`,
       {
@@ -138,12 +115,7 @@ export class AssetService {
         startDate,
         endDate
       },
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -157,12 +129,7 @@ export class AssetService {
     return this.http.post(
       environment.baseApiUrl + `movement/rest/movement/track/latest/asset/${assetId}?maxNbr=${amount}`,
       postSources,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -170,12 +137,7 @@ export class AssetService {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/list/`,
       searchQuery,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -183,24 +145,14 @@ export class AssetService {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/microAssets`,
       listOfAssetIds,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getUnitTonnage(authToken: string) {
     return this.http.get(
       environment.baseApiUrl + `asset/rest/customcodes/listcodesforconstant/UNIT_TONNAGE`,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -208,12 +160,7 @@ export class AssetService {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset`,
       asset,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -221,12 +168,7 @@ export class AssetService {
     return this.http.post(
       environment.baseApiUrl + `movement/rest/manualMovement`,
       manualMovement,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -234,12 +176,7 @@ export class AssetService {
     return this.http.put(
       environment.baseApiUrl + `asset/rest/asset`,
       asset,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -247,24 +184,14 @@ export class AssetService {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/poll/createPollForAsset/${assetId}`,
       pollPostObject,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getLastPollsForAsset(authToken: string, assetId: string) {
     return this.http.get(
       environment.baseApiUrl + `web-gateway/rest/poll/pollsForAsset/${assetId}`,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 }

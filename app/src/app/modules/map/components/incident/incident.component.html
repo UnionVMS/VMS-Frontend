@@ -42,7 +42,7 @@
     <map-panel-block
       *ngIf="checkPermissionForExpiryDateForm()"
       i18n-blockTitle
-      blockTitle="Change expiry date"
+      blockTitle="Set expiry date"
       [active]="isBlockActive('expiryDateForm')"
       [setActiveFunction]="toggleCurrentActiveBlock('expiryDateForm')"
       [useArrowsAsToggle]="true"
@@ -57,7 +57,7 @@
     <map-panel-block
       *ngIf="checkPermissionForManualPoll()"
       i18n-blockTitle
-      blockTitle="Manually poll"
+      blockTitle="Send manual poll"
       [active]="isBlockActive('manuallyPoll')"
       [setActiveFunction]="toggleCurrentActiveBlock('manuallyPoll')"
       [useArrowsAsToggle]="true"

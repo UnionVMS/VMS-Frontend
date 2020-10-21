@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { getDefaultHttpOptions } from '@app/helpers/api-request';
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +12,15 @@ export class MapLayersService {
 
   getAreas(authToken: string) {
     return this.http.get(
-      environment.baseApiUrl + 'spatialSwe/rest/area/layers', {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + 'spatialSwe/rest/area/layers',
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getUserAreas(authToken: string, scopeName: string, roleName: string) {
     return this.http.get(
-      environment.baseApiUrl + 'spatialSwe/rest/userarea/layers/distinctAreaGroups?scopeName=' + scopeName, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache',
-        })
-      }
+      environment.baseApiUrl + 'spatialSwe/rest/userarea/layers/distinctAreaGroups?scopeName=' + scopeName,
+      getDefaultHttpOptions(authToken)
     );
   }
 }

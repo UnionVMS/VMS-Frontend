@@ -30,7 +30,6 @@ export class EditAssetGroupDialogComponent {
   }
 
   getErrorMessage() {
-    console.warn(this.filterName);
     if (this.filterName.hasError('required')) {
       return 'You must enter a value';
     }

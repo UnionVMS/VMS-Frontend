@@ -6,10 +6,20 @@ import { environment } from '../../../environments/environment';
 export const initialState: Types.State = {
   user: null,
   fishingActivityUnlocked: environment.fishingActivityDefaultUnlocked,
+  loggedOutPopupActive: false,
+  timeToLogout: null,
 };
 
 export const authReducer = createReducer(initialState,
   on(AuthActions.loginSuccess, (state, { payload: { jwtToken, data } }) => ({
+    ...state,
+    user: {
+      ...state.user,
+      jwtToken,
+      data
+    }
+  })),
+  on(AuthActions.updateToken, (state, { payload: { jwtToken, data } }) => ({
     ...state,
     user: {
       ...state.user,
@@ -29,8 +39,16 @@ export const authReducer = createReducer(initialState,
       scope
     }
   })),
+  on(AuthActions.setTimeToLogout, (state, { timeToLogout }) => ({
+    ...state,
+    timeToLogout
+  })),
   on(AuthActions.unlockFishingActivity, (state) => ({
     ...state,
     fishingActivityUnlocked: true
+  })),
+  on(AuthActions.activateLoggedOutPopup, (state) => ({
+    ...state,
+    loggedOutPopupActive: true
   })),
 );

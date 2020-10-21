@@ -8,7 +8,7 @@ import { State } from '@app/app-reducer';
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { RouterTypes, RouterSelectors } from '@data/router';
 
-type ExtendedMovement = Readonly<AssetTypes.FullMovement & {
+type ExtendedMovement = Readonly<AssetTypes.Movement & {
   formattedTimestamp: string;
   formattedSpeed: string,
   formattedOceanRegion: string;
@@ -21,7 +21,7 @@ type ExtendedMovement = Readonly<AssetTypes.FullMovement & {
 })
 export class PositionsComponent implements OnChanges {
 
-  @Input() positions: ReadonlyArray<AssetTypes.FullMovement>;
+  @Input() positions: ReadonlyArray<AssetTypes.Movement>;
   @Input() coordinateFormat: string;
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 

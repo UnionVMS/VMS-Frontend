@@ -5,7 +5,7 @@ import { formatUnixtime } from '@app/helpers/datetime-formatter';
 import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 import { AssetTypes } from '@data/asset';
 
-type ExtendedMovement = Readonly<AssetTypes.FullMovement & {
+type ExtendedMovement = Readonly<AssetTypes.Movement & {
   locationDDM: { latitude: string, longitude: string };
   formattedTimestamp: string;
   formattedSpeed: string,
@@ -19,7 +19,7 @@ type ExtendedMovement = Readonly<AssetTypes.FullMovement & {
 })
 export class AssetPositionsComponent implements OnInit, OnChanges {
   @Input() asset: AssetTypes.Asset;
-  @Input() positions: ReadonlyArray<AssetTypes.FullMovement>;
+  @Input() positions: ReadonlyArray<AssetTypes.Movement>;
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
   @Input() map: Map;
   @Input() userTimezone: string;
@@ -66,7 +66,7 @@ export class AssetPositionsComponent implements OnInit, OnChanges {
     });
   }
 
-  public trackByPositionId = (position: AssetTypes.FullMovement) =>  {
+  public trackByPositionId = (position: AssetTypes.Movement) =>  {
     return position;
   }
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { MobileTerminalTypes } from '@data/mobile-terminal';
+import { getDefaultHttpOptions } from '@app/helpers/api-request';
 
 @Injectable({
   providedIn: 'root'
@@ -14,56 +15,35 @@ export class MobileTerminalService {
     return this.http.post(
       environment.baseApiUrl + 'asset/rest/mobileterminal/list?includeArchived=' + includeArchived,
       query,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getMobileTerminal(authToken: string, mobileTerminalId: string) {
     return this.http.get(
-      environment.baseApiUrl + 'asset/rest/mobileterminal/' + mobileTerminalId, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + 'asset/rest/mobileterminal/' + mobileTerminalId,
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getMobileTerminalHistoryForAsset(authToken: string, assetId: string) {
     return this.http.get(
-      environment.baseApiUrl + 'asset/rest/mobileterminal/history/getMtHistoryForAsset/' + assetId, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + 'asset/rest/mobileterminal/history/getMtHistoryForAsset/' + assetId,
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getMobileTerminalHistory(authToken: string, mobileTerminalId: string) {
     return this.http.get(
-      environment.baseApiUrl + `asset/rest/mobileterminal/${mobileTerminalId}/changeHistory/`, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + `asset/rest/mobileterminal/${mobileTerminalId}/changeHistory/`,
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getTransponders(authToken: string) {
     return this.http.get(
-      environment.baseApiUrl + 'asset/rest/config/MT/transponders', {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + 'asset/rest/config/MT/transponders',
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -76,12 +56,7 @@ export class MobileTerminalService {
           ...channel
         }))
       },
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -89,56 +64,35 @@ export class MobileTerminalService {
     return this.http.put(
       environment.baseApiUrl + `asset/rest/mobileterminal`,
       mobileTerminal,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getPlugins(authToken: string) {
     return this.http.get(
-      environment.baseApiUrl + 'asset/rest/plugin/plugins', {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + 'asset/rest/plugin/plugins',
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getSerialNumberExists(authToken: string, serialNr: string) {
     return this.http.get(
-      environment.baseApiUrl + 'asset/rest/mobileterminal/checkIfExists/serialNr/' + serialNr, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + 'asset/rest/mobileterminal/checkIfExists/serialNr/' + serialNr,
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getMemberAndDnidCombinationExists(authToken: string, memberNumber: string, dnid: string) {
     return this.http.get(
-      environment.baseApiUrl + 'asset/rest/mobileterminal/checkIfExists/memberNbr/dnid/' + memberNumber + '/' + dnid, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + 'asset/rest/mobileterminal/checkIfExists/memberNbr/dnid/' + memberNumber + '/' + dnid,
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getProposedMemberNumber(authToken: string, dnid: number) {
     return this.http.get(
-      environment.baseApiUrl + `asset/rest/mobileterminal/lowestFreeMemberNumberForDnid/${dnid}`, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + `asset/rest/mobileterminal/lowestFreeMemberNumberForDnid/${dnid}`,
+      getDefaultHttpOptions(authToken)
     );
   }
 

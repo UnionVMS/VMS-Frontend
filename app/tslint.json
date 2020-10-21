@@ -23,6 +23,7 @@
       "rxjs/Rx"
     ],
     "interface-name": false,
+    "interface-over-type-literal": false,
     "eofline": true,
     "linebreak-style": [
       true,

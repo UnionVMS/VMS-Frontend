@@ -8,6 +8,9 @@
       <span class="label" i18n>Status</span>
       <span class="value status {{formattedPoll.formattedHistory[0].status}}">{{formattedPoll.formattedHistory[0].formattedStatus}}</span>
     </div>
+    <div *ngIf="isPollFailedOrTimedOut(formattedPoll)" class="poll-block ref-message">
+      {{formattedPoll.pollStatus.refMessage}}
+    </div>
     <div class="poll-block ocean-region">
       <span class="label" i18n>Ocean region</span>
       <span class="value">{{formattedPoll.oceanRegions.join(', ')}}</span>

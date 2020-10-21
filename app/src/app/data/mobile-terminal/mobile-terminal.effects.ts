@@ -14,29 +14,32 @@ import { AuthTypes, AuthSelectors } from '../auth';
 import * as RouterSelectors from '@data/router/router.selectors';
 
 import { hashCode } from '@app/helpers/helpers';
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class MobileTerminalEffects {
 
-  private readonly apiErrorHandler: (response: any, index: number) => boolean;
+  private readonly apiErrorHandler: (response: any, index: number, withHeaders?: boolean) => boolean;
+  private readonly apiUpdateTokenHandler: (response: any) => any;
 
   constructor(
     private readonly actions$: Actions,
-    private readonly store$: Store<State>,
+    private readonly store: Store<State>,
     private readonly mobileTerminalService: MobileTerminalService,
     private readonly router: Router
   ) {
-    this.apiErrorHandler = apiErrorHandler(this.store$);
+    this.apiErrorHandler = apiErrorHandler(this.store);
+    this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
   @Effect()
   search$ = this.actions$.pipe(
     ofType(MobileTerminalActions.search),
-    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]) => {
       return this.mobileTerminalService.search(authToken, action.query, action.includeArchived).pipe(
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
         map((response: { mobileTerminalList: Array<MobileTerminalTypes.MobileTerminal> }) => {
           const result = [
             MobileTerminalActions.addMobileTerminals({
@@ -75,9 +78,9 @@ export class MobileTerminalEffects {
     ofType(MobileTerminalActions.getSelectedMobileTerminal),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
-        this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(MobileTerminalSelectors.getMobileTerminalByUrl),
-        this.store$.select(RouterSelectors.getMergedRoute)
+        this.store.select(AuthSelectors.getAuthToken),
+        this.store.select(MobileTerminalSelectors.getMobileTerminalByUrl),
+        this.store.select(RouterSelectors.getMergedRoute)
       ),
       mergeMap(([pipedAction, authToken, selectedMobileTerminal, mergedRoute]: Array<any>) => {
         if(typeof selectedMobileTerminal !== 'undefined' || typeof mergedRoute.params.mobileTerminalId === 'undefined') {
@@ -85,6 +88,7 @@ export class MobileTerminalEffects {
         }
         return this.mobileTerminalService.getMobileTerminal(authToken, mergedRoute.params.mobileTerminalId).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((mobileTerminal: MobileTerminalTypes.MobileTerminal) => {
             return MobileTerminalActions.setMobileTerminal({ mobileTerminal });
           })
@@ -97,10 +101,11 @@ export class MobileTerminalEffects {
   getMobileTerminal$ = this.actions$.pipe(
     ofType(MobileTerminalActions.getMobileTerminal),
     mergeMap((outerAction) => of(outerAction).pipe(
-      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
         return this.mobileTerminalService.getMobileTerminal(authToken, action.mobileTerminalId).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((mobileTerminal: MobileTerminalTypes.MobileTerminal) => {
             return MobileTerminalActions.setMobileTerminal({ mobileTerminal });
           })
@@ -113,10 +118,11 @@ export class MobileTerminalEffects {
   getMobileTerminalHistoryForAsset$ = this.actions$.pipe(
     ofType(MobileTerminalActions.getMobileTerminalHistoryForAsset),
     mergeMap((outerAction) => of(outerAction).pipe(
-      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
         return this.mobileTerminalService.getMobileTerminalHistoryForAsset(authToken, action.assetId).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((response: MobileTerminalTypes.MobileTerminalHistoryList) => {
             return MobileTerminalActions.setMobileTerminalHistoryForAsset({
               mobileTerminalHistory: { [action.assetId]: response }
@@ -132,10 +138,11 @@ export class MobileTerminalEffects {
   getMobileTerminalHistory$ = this.actions$.pipe(
     ofType(MobileTerminalActions.getMobileTerminalHistory),
     mergeMap((outerAction) => of(outerAction).pipe(
-      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
         return this.mobileTerminalService.getMobileTerminalHistory(authToken, action.mobileTerminalId).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((response: MobileTerminalTypes.MobileTerminalHistoryList) => {
             return MobileTerminalActions.setMobileTerminalHistory({
               mobileTerminalHistory: { [action.mobileTerminalId]: response }
@@ -151,10 +158,11 @@ export class MobileTerminalEffects {
   getProposedMemberNumber$ = this.actions$.pipe(
     ofType(MobileTerminalActions.getProposedMemberNumber),
     mergeMap((outerAction) => of(outerAction).pipe(
-      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
         return this.mobileTerminalService.getProposedMemberNumber(authToken, action.dnid).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((response: any) => {
             return MobileTerminalActions.setProposedMemberNumber({ memberNumber: response });
           })
@@ -167,10 +175,11 @@ export class MobileTerminalEffects {
   getTransponders$ = this.actions$.pipe(
     ofType(MobileTerminalActions.getTransponders),
     mergeMap((action) => of(action).pipe(
-      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken]: Array<any>) => {
         return this.mobileTerminalService.getTransponders(authToken).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((response: any) => {
             return MobileTerminalActions.setTransponders({ transponders: response.data });
           })
@@ -183,10 +192,11 @@ export class MobileTerminalEffects {
   getPlugins$ = this.actions$.pipe(
     ofType(MobileTerminalActions.getPlugins),
     mergeMap((action) => of(action).pipe(
-      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken]: Array<any>) => {
         return this.mobileTerminalService.getPlugins(authToken).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((response: any) => {
             return MobileTerminalActions.setPlugins({ plugins: response });
           })
@@ -200,8 +210,8 @@ export class MobileTerminalEffects {
     ofType(MobileTerminalActions.saveMobileTerminal),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
-        this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(AssetSelectors.getAssetByUrl)
+        this.store.select(AuthSelectors.getAuthToken),
+        this.store.select(AssetSelectors.getAssetByUrl)
       ),
       mergeMap(([pipedAction, authToken, selectedAsset]: Array<any>) => {
         const isNew = action.mobileTerminal.id === undefined || action.mobileTerminal.id === null;
@@ -213,6 +223,7 @@ export class MobileTerminalEffects {
         }
         return request.pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((mobileTerminal: any) => {
             if(selectedAsset) {
               const assetId = typeof mobileTerminal.assetId !== 'undefined' ? mobileTerminal.assetId : selectedAsset.id;
@@ -237,7 +248,7 @@ export class MobileTerminalEffects {
   checkIfSerialNumberExists$ = this.actions$.pipe(
     ofType(MobileTerminalActions.getSerialNumberExists),
     mergeMap((action) => of(action).pipe(
-      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken]: Array<any>) => {
         if(pipedAction.isSelf === true) {
           return new Observable((observer) => {
@@ -247,6 +258,7 @@ export class MobileTerminalEffects {
         }
         return this.mobileTerminalService.getSerialNumberExists(authToken, pipedAction.serialNumber).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((response: any) => {
             return MobileTerminalActions.setSerialNumberExists({ serialNumberExists: response });
           })
@@ -261,8 +273,8 @@ export class MobileTerminalEffects {
     ofType(MobileTerminalActions.getMemberNumberAndDnidCombinationExists),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
-        this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(MobileTerminalSelectors.getMemberNumberAndDnidCombinationExists)
+        this.store.select(AuthSelectors.getAuthToken),
+        this.store.select(MobileTerminalSelectors.getMemberNumberAndDnidCombinationExists)
       ),
       mergeMap(([pipedAction, authToken, memberAndDnidCombinationExists]: Array<any>) => {
         if(pipedAction.isSelf === true) {
@@ -276,6 +288,7 @@ export class MobileTerminalEffects {
         }
         return this.mobileTerminalService.getMemberAndDnidCombinationExists(authToken, pipedAction.memberNumber, pipedAction.dnid).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((response: any) => {
             return MobileTerminalActions.setMemberNumberAndDnidCombinationExists({
               channelId: pipedAction.channelId,

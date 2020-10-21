@@ -5,6 +5,7 @@
     [setTimezone]="setTimezone"
     [timezone]="timezone$ | async"
     [fishingActivityUnlocked]="fishingActivityUnlocked$ | async"
+    [timeToLogout]="timeToLogout$ | async"
     [url]="mergedRoute.url"
   ></core-top-menu-component>
 
@@ -17,14 +18,14 @@
 
   <div class="side-menu">
     <ul>
-      <li class="title">Search and list</li>
+      <li class="title">Search</li>
       <li routerLink="/asset" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <span class="short-key">S</span>
-        <span class="text" i18n>Search</span>
+        <span class="short-key">A</span>
+        <span class="text" i18n>Assets</span>
       </li>
       <li routerLink="/mobileTerminals" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <span class="short-key">M</span>
-        <span class="text" i18n>All mobile terminals</span>
+        <span class="text" i18n>Mobile terminals</span>
       </li>
       <li class="divider"></li>
       <ng-container *ngIf="selectedMobileTerminal">

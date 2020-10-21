@@ -5,6 +5,8 @@ import {
   createSelector,
   MetaReducer
 } from '@ngrx/store';
+import { Observable, Subscriber } from 'rxjs';
+import { bufferTime } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 
@@ -58,12 +60,21 @@ export const reducers: ActionReducerMap<State> = {
   userSettings: UserSettingsReducer.userSettingsReducer,
 };
 
+let setAuthTokenSubscriber: Subscriber<unknown>;
+const setAuthToken$ = new Observable(subscriber => {
+  setAuthTokenSubscriber = subscriber;
+}).pipe(bufferTime(1000)).subscribe((rawTokens) => {
+  if(rawTokens.length > 0) {
+    window.localStorage.authToken = rawTokens[rawTokens.length - 1];
+  }
+});
+
 // Not allowed to use EC6 function notation here for some reason, i18n extractor goes crasy...
 // tslint:disable-next-line:only-arrow-functions
 export function saveJwtTokenToStorage(reducer: ActionReducer<any>): ActionReducer<any> {
   return (state, action: any) => {
-    if(action.type === AuthActions.loginSuccess.type) {
-      window.localStorage.authToken = action.payload.jwtToken.raw;
+    if(action.type === AuthActions.loginSuccess.type || action.type === AuthActions.updateToken.type) {
+      setAuthTokenSubscriber.next(action.payload.jwtToken.raw);
     }
 
     return reducer(state, action);

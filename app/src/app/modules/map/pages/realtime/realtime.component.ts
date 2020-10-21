@@ -229,7 +229,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.selectAsset = (assetId: string) => {
       if(this.activeLeftPanel[0] === 'workflows') {
         this.getIncidentsForAssetId(assetId);
-        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset', 'incidentList'] }));
+        this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset'] }));
       } else {
         if(this.selectedAssets.length === 0) {
           this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset'] }));

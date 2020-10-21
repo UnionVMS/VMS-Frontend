@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ContactTypes } from '@data/contact';
+import { getDefaultHttpOptions } from '@app/helpers/api-request';
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +13,15 @@ export class ContactService {
 
   getContactById(authToken: string, contactId: string) {
     return this.http.get(
-      environment.baseApiUrl + `asset/rest/asset/contact/${ contactId }`, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + `asset/rest/asset/contact/${ contactId }`,
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getContactsFromAssetId(authToken: string, assetId: string) {
     return this.http.get(
-      environment.baseApiUrl + `asset/rest/asset/${ assetId }/contacts`, {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + `asset/rest/asset/${ assetId }/contacts`,
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -36,12 +29,7 @@ export class ContactService {
     return this.http.put(
       environment.baseApiUrl + `asset/rest/asset/contacts`,
       contact,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -49,12 +37,7 @@ export class ContactService {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/contacts`,
       contact,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 }

@@ -103,18 +103,22 @@
             <mat-expansion-panel-header>
               <mat-panel-title>{{channel.name ? channel.name : 'New channel'}}</mat-panel-title>
               <mat-panel-description>Channel {{i + 1}}</mat-panel-description>
+              <button
+                mat-raised-button
+                color="warn"
+                *ngIf="formValidator.controls.channels?.value.length > 1"
+                type="button"
+                name="removeChannel"
+                class="remove-channel-button"
+                (click)="removeChannel(i)"
+                i18n
+              >Remove channel</button>
             </mat-expansion-panel-header>
             <fieldset
               class="channel"
               formGroupName="{{i}}"
             >
-              <button
-                *ngIf="formValidator.controls.channels?.value.length > 1"
-                type="button"
-                name="button"
-                (click)="removeChannel(i)"
-                i18n
-              >Remove channel</button>
+
 
               <mat-form-field class="mobile-terminal-form--channel-name">
                 <mat-label i18n>Name</mat-label>

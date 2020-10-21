@@ -2,25 +2,27 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, EMPTY } from 'rxjs';
-import { map, mergeMap, flatMap, catchError, filter } from 'rxjs/operators';
+import { of, EMPTY, interval, Subject } from 'rxjs';
+import { map, mergeMap, flatMap, catchError, filter, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { State } from '@app/app-reducer.ts';
 
 import * as AuthActions from './auth.actions';
 import { AuthService } from './auth.service';
+import * as AuthSelectors from './auth.selectors';
 import * as MapSettings from '../map-settings/map-settings.actions';
 import { MapSavedFiltersActions } from '../map-saved-filters/';
 import * as NotificationsActions from '../notifications/notifications.actions';
 import { MapActions } from '@data/map';
 import { UserSettingsActions, UserSettingsReducer } from '@data/user-settings';
 
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class AuthEffects {
 
-  private readonly apiErrorHandler: (response: any, index: number) => boolean;
+  private readonly apiErrorHandler: (response: any, index: number, withHeaders?: boolean) => boolean;
+  private readonly apiUpdateTokenHandler: (response: any) => any;
 
   constructor(
     private readonly actions$: Actions,
@@ -29,6 +31,7 @@ export class AuthEffects {
     private readonly router: Router,
   ) {
     this.apiErrorHandler = apiErrorHandler(this.store);
+    this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
   @Effect()
@@ -36,7 +39,7 @@ export class AuthEffects {
     ofType(AuthActions.login),
     mergeMap((action: { username: string, password: string, type: string }) => {
       return this.authService.login(action.username, action.password).pipe(
-        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        filter((response: any, index: number) => this.apiErrorHandler(response, index, false)),
         map((auth: any) => {
           this.router.navigate(['/map/realtime']);
           return AuthActions.loginSuccess({ jwtToken: auth.jwtoken });
@@ -51,12 +54,40 @@ export class AuthEffects {
     })
   );
 
+  private readonly logoutTimePassed$: Subject<boolean> = new Subject<boolean>();
+
+  @Effect({ dispatch: false })
+  setLogoutCountdown$ = this.actions$.pipe(
+    ofType(AuthActions.loginSuccess),
+    mergeMap((action: any) => {
+      this.logoutTimePassed$.next(false);
+      return interval(60000).pipe( // Every minute (milliseconds)
+        takeUntil(this.logoutTimePassed$),
+        withLatestFrom(this.store.select(AuthSelectors.getDecodedAuthToken)),
+        map(([intervalCount, decodedAuthToken]) => {
+          const timeToLogout = Math.round(decodedAuthToken.exp - Date.now() / 1000);
+          if(timeToLogout < 0) { // Are we logged out?
+            this.store.dispatch(AuthActions.logout());
+            this.store.dispatch(AuthActions.activateLoggedOutPopup());
+            this.store.dispatch(AuthActions.setTimeToLogout({ timeToLogout: null }));
+            // This prevents the returned action from being consumed so we need to dispatch all actions before.
+            this.logoutTimePassed$.next(true);
+          } else if(timeToLogout < 3600) { // Less then 1 hour (in seconds)
+            this.store.dispatch(AuthActions.setTimeToLogout({ timeToLogout }));
+          }
+        })
+      );
+    })
+  );
+
+
   @Effect()
   getUserContext$ = this.actions$.pipe(
     ofType(AuthActions.loginSuccess),
     mergeMap((action: any) => {
       return this.authService.getUserContext(action.payload.jwtToken.raw).pipe(
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
         map((context: any) => {
           const mapSettings = context.contextSet.contexts[0].preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSMapSettings'
@@ -116,11 +147,11 @@ export class AuthEffects {
   logout$ = this.actions$.pipe(
     ofType(AuthActions.logout),
     mergeMap((action) => {
-      delete window.localStorage.authToken;
+      localStorage.removeItem('authToken');
       localStorage.removeItem('ngStorage-token');
       localStorage.removeItem('ngStorage-roleName');
       localStorage.removeItem('ngStorage-scopeName');
-      delete window.localStorage.fishingActivityUnlocked;
+      localStorage.removeItem('fishingActivityUnlocked');
       return EMPTY;
     })
   );

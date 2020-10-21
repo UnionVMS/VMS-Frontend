@@ -183,6 +183,10 @@ mat-dialog-container {
   }
 }
 
+.blurry-backdrop {
+  backdrop-filter: blur(10px) grayscale(80%);
+}
+
 .dialog-without-padding {
   .mat-dialog-container {
     padding-left: 0px;

@@ -1,11 +1,15 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { State } from './auth.types';
+import * as AuthTypes from './auth.types';
+import { State } from '@app/app-reducer';
 
-export const getAuthState = createFeatureSelector<State>('auth');
+export const getAuthState = createFeatureSelector<AuthTypes.State>('auth');
+export const selectLoggedOutPopupActive = (state: State) => state.auth.loggedOutPopupActive;
+export const selectTimeToLogout = (state: State) => state.auth.timeToLogout;
+export const selectDecodedAuthToken = (state: State) => state.auth.user.jwtToken.decoded;
 
 export const getAuthToken = createSelector(
   getAuthState,
-  (state: State) => {
+  (state: AuthTypes.State) => {
     if (state.user !== null) {
       return state.user.jwtToken.raw;
     }
@@ -13,14 +17,29 @@ export const getAuthToken = createSelector(
   }
 );
 
+export const getDecodedAuthToken = createSelector(
+  selectDecodedAuthToken,
+  (decodedAuthToken: AuthTypes.JwtTokenData) => decodedAuthToken
+);
+
+export const getLoggedOutPopupActive = createSelector(
+  selectLoggedOutPopupActive,
+  (loggedOutPopupActive: boolean) => loggedOutPopupActive
+);
+
+export const getTimeToLogout = createSelector(
+  selectTimeToLogout,
+  (timeToLogout) => timeToLogout
+);
+
 export const getUser = createSelector(
   getAuthState,
-  (state: State) => state.user
+  (state: AuthTypes.State) => state.user
 );
 
 export const getUserName = createSelector(
   getAuthState,
-  (state: State) => {
+  (state: AuthTypes.State) => {
     if (
       state.user !== null &&
       typeof state.user.data !== 'undefined' &&
@@ -34,7 +53,7 @@ export const getUserName = createSelector(
 
 export const isLoggedIn = createSelector(
   getAuthState,
-  (state: State) => {
+  (state: AuthTypes.State) => {
     if (
       state.user !== null &&
       typeof state.user.data !== 'undefined' &&
@@ -48,7 +67,7 @@ export const isLoggedIn = createSelector(
 
 export const isAdmin = createSelector(
   getAuthState,
-  (state: State) => {
+  (state: AuthTypes.State) => {
     let returnBoolean = false;
     if(
       state.user !== null &&
@@ -68,7 +87,7 @@ export const isAdmin = createSelector(
 
 export const fishingActivityUnlocked = createSelector(
   getAuthState,
-  (state: State) => {
+  (state: AuthTypes.State) => {
     return state.fishingActivityUnlocked;
   }
 );

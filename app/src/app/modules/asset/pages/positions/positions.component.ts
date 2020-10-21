@@ -22,7 +22,7 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public asset = {} as AssetTypes.Asset;
   public mergedRoute: RouterTypes.MergedRoute;
-  public positions$: Observable<ReadonlyArray<AssetTypes.FullMovement>>;
+  public positions$: Observable<ReadonlyArray<AssetTypes.Movement>>;
   public userTimezone$: Observable<string>;
 
   public coordinateFormat: FormControl = new FormControl('DDM');

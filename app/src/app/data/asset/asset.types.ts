@@ -14,25 +14,14 @@ export type Movement = Readonly<{
   timestamp: number;
   speed: number | null;
   source: string;
-  sourceSatelliteId?: number;
-}>;
-
-export type FullMovement = Readonly<{
-  location: Position;
-  heading: number;
-  id: string;
-  timestamp: number;
-  speed: number | null;
-  source: string;
-  sourceSatelliteId: number;
-
-  tripNumber: number;
-  internalReferenceNumber: string;
-  status: string;
   movementType: string;
-  lesReportTime: number;
   updated: number;
   updatedBy: string;
+
+  aisPositionAccuracy?: number;
+  lesReportTime?: number;
+  sourceSatelliteId?: string;
+  status?: string;
 }>;
 
 
@@ -255,6 +244,18 @@ export type PollHistory = Readonly<{
   timestamp: number
 }>;
 
+export type PollStatusObject = Readonly<{
+  guid: string,
+  history: ReadonlyArray<PollHistory>,
+  identifier: string,
+  refMessage: string,
+  typeRef: {
+    message: string,
+    refGuid: string,
+    type: string
+  }
+}>;
+
 export type Poll = Readonly<{
   pollInfo: {
     assetId: string,
@@ -270,18 +271,8 @@ export type Poll = Readonly<{
     endDate?: number,
     startDate?: number,
   },
-  pollStatus: {
-    guid: string,
-    history: ReadonlyArray<PollHistory>,
-    identifier: string,
-    refMessage: string,
-    typeRef: {
-      message: string,
-      refGuid: string,
-      type: string
-    }
-  },
-  movement?: FullMovement
+  pollStatus: PollStatusObject,
+  movement?: Movement
 }>;
 
 export type State = Readonly<{
@@ -298,7 +289,7 @@ export type State = Readonly<{
   lastUserAssetSearch: string;
   assetMovements: Readonly<{ readonly [assetId: string]: AssetMovement }>;
   assetTracks: Readonly<{ readonly [assetId: string]: AssetTrack }>;
-  lastFullPositions: Readonly<{ readonly [assetId: string]: ReadonlyArray<FullMovement> }>;
+  lastFullPositions: Readonly<{ readonly [assetId: string]: ReadonlyArray<Movement> }>;
   forecasts: ReadonlyArray<string>;
   positionsForInspection: Readonly<{ readonly [id: number]: Movement }>;
   searchQuery: string;

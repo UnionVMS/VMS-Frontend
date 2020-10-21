@@ -13,29 +13,32 @@ import { AuthTypes, AuthSelectors } from '../auth';
 import * as RouterSelectors from '@data/router/router.selectors';
 
 import { hashCode } from '@app/helpers/helpers';
-import { apiErrorHandler } from '@app/helpers/api-error-handler';
+import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class FishingReportEffects {
 
-  private readonly apiErrorHandler: (response: any, index: number) => boolean;
+  private readonly apiErrorHandler: (response: any, index: number, withHeaders?: boolean) => boolean;
+  private readonly apiUpdateTokenHandler: (response: any) => any;
 
   constructor(
     private readonly actions$: Actions,
-    private readonly store$: Store<State>,
+    private readonly store: Store<State>,
     private readonly fishingReportService: FishingReportService,
     private readonly router: Router
   ) {
-    this.apiErrorHandler = apiErrorHandler(this.store$);
+    this.apiErrorHandler = apiErrorHandler(this.store);
+    this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
   @Effect()
   search$ = this.actions$.pipe(
     ofType(FishingReportActions.search),
-    withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+    withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]) => {
       return this.fishingReportService.search(authToken, action.query).pipe(
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
         map((response: Readonly<{
           fishingReports: FishingReportTypes.FishingReports,
           priorNotifications: FishingReportTypes.PriorNotifications
@@ -88,9 +91,9 @@ export class FishingReportEffects {
     ofType(FishingReportActions.getFishingReportByUrl),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(
-        this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(FishingReportSelectors.getFishingReportByUrl),
-        this.store$.select(RouterSelectors.getMergedRoute)
+        this.store.select(AuthSelectors.getAuthToken),
+        this.store.select(FishingReportSelectors.getFishingReportByUrl),
+        this.store.select(RouterSelectors.getMergedRoute)
       ),
       mergeMap(([action, authToken, selectedFishingReport, mergedRoute]) => {
         if(typeof selectedFishingReport !== 'undefined' || typeof mergedRoute.params.fishingReportId === 'undefined') {
@@ -98,6 +101,7 @@ export class FishingReportEffects {
         }
         return this.fishingReportService.getFishingReport(authToken, mergedRoute.params.fishingReportId).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((result: { fishingReports: FishingReportTypes.FishingReports }) => {
             const fishingReport: FishingReportTypes.FishingReport = Object.values(result.fishingReports)[0];
             if(typeof fishingReport === 'undefined') {

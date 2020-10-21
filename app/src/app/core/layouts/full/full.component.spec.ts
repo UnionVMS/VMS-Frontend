@@ -6,6 +6,7 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { FullLayoutComponent } from './full.component';
 
 // Components
+import { LogoutTimerComponent } from '../../components/logout-timer/logout-timer.component';
 import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 
@@ -21,6 +22,7 @@ describe('FullLayoutComponent', () => {
       ],
       declarations: [
         FullLayoutComponent,
+        LogoutTimerComponent,
         TopMenuComponent,
         NotificationsComponent,
       ],

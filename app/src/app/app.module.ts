@@ -19,6 +19,8 @@ declare module '@ngrx/store' {
   }
 }
 
+import { MatDialogModule } from '@angular/material/dialog';
+
 import { AppRoutingModule } from './routing/app-routing.module';
 import { AppComponent } from './app.component';
 import { reducers, metaReducers } from './app-reducer';
@@ -84,6 +86,7 @@ const imports = [
   ]),
   BrowserAnimationsModule,
   CoreModule,
+  MatDialogModule,
   AssetModule,
   ContactModule,
   FishingReportModule,

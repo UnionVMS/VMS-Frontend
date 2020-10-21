@@ -6,7 +6,6 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { LoginLayoutComponent } from './login.component';
 
 // Components
-import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 
 describe('LoginLayoutComponent', () => {
@@ -21,7 +20,6 @@ describe('LoginLayoutComponent', () => {
       ],
       declarations: [
         LoginLayoutComponent,
-        TopMenuComponent,
         NotificationsComponent,
       ],
       providers: [

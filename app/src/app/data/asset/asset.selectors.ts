@@ -363,13 +363,13 @@ export const getSelectedAsset = createSelector(
 
 export const getLastFullPositionsForUrlAsset = createSelector(
   selectLastFullPositions, getAssetByUrl,
-  (fullPositions: { [assetId: string]: ReadonlyArray<AssetTypes.FullMovement> }, asset: AssetTypes.Asset) =>
+  (fullPositions: { [assetId: string]: ReadonlyArray<AssetTypes.Movement> }, asset: AssetTypes.Asset) =>
     typeof asset !== 'undefined' ? fullPositions[asset.id] : undefined
 );
 
 export const getLastFullPositionsForSelectedAsset = createSelector(
   selectLastFullPositions, selectSelectedAsset,
-  (fullPositions: { [assetId: string]: ReadonlyArray<AssetTypes.FullMovement> }, assetId: string | null) =>
+  (fullPositions: { [assetId: string]: ReadonlyArray<AssetTypes.Movement> }, assetId: string | null) =>
     typeof assetId !== 'undefined' && assetId !== null ? fullPositions[assetId] : undefined
 );
 
