@@ -41,6 +41,7 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public filteredMobileTerminals: ReadonlyArray<ExtendedMobileTerminal>;
   public searchMobileTerminals: (query: any, includeArchived: boolean) => void;
   public sortedMobileTerminals: ReadonlyArray<ExtendedMobileTerminal>;
+  public currentSort: Sort = { active: 'serialNo', direction: 'desc' };
 
   public filterObject =  {
     serialNo: '',
@@ -132,11 +133,13 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.filteredMobileTerminals = this.mobileTerminals.filter((mobileTerminal) => mobileTerminal.active);
     }
     if(this.filterObject.serialNo.length !== 0) {
+      const filterSerialNoInLowerCase = this.filterObject.serialNo.toLowerCase();
       this.filteredMobileTerminals = this.filteredMobileTerminals.filter(
-        (mobileTerminal) => mobileTerminal.serialNo.includes(this.filterObject.serialNo)
+        (mobileTerminal) => mobileTerminal.serialNo.toLowerCase().includes(filterSerialNoInLowerCase)
       );
     }
-    this.sortData({ active: 'serialNo', direction: 'desc' });
+
+    this.sortData(this.currentSort);
   }
 
   sortData(sort: Sort) {
@@ -145,6 +148,7 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.sortedMobileTerminals = mobileTerminals;
       return;
     }
+    this.currentSort = sort;
 
     this.sortedMobileTerminals = mobileTerminals.sort((a, b) => {
       const isAsc = sort.direction === 'asc';

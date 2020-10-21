@@ -112,8 +112,8 @@ export class AttachPageComponent implements OnInit, OnDestroy {
   search() {
     this.loadingData = true;
     this.tableReadyForDisplay = false;
-    this.lastSearchedSerialNo = this.serialNo.value;
-    this.searchMobileTerminals({ serialNumbers: [this.serialNo.value] }, true);
+    this.lastSearchedSerialNo = this.serialNo.value.trim();
+    this.searchMobileTerminals({ serialNumbers: [this.lastSearchedSerialNo] }, true);
   }
 
   errorMessage() {
