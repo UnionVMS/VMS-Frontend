@@ -9,7 +9,6 @@ export const initialState: Types.State = {
 
 export const mapLayersReducer = createReducer(initialState,
   on(MapLayersActions.addAreas, (state, { mapLayers }) => {
-    console.warn(state.mapLayers, mapLayers);
     return ({
       ...state,
       mapLayers: {
