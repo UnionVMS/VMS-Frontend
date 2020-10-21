@@ -21,7 +21,8 @@ import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-respons
 @Injectable()
 export class AuthEffects {
 
-  private readonly apiErrorHandler: (response: any, index: number) => boolean;
+  private readonly apiErrorHandler: (response: any, index: number, withHeaders?: boolean) => boolean;
+  private readonly apiUpdateTokenHandler: (response: any) => any;
 
   constructor(
     private readonly actions$: Actions,
@@ -30,6 +31,7 @@ export class AuthEffects {
     private readonly router: Router,
   ) {
     this.apiErrorHandler = apiErrorHandler(this.store);
+    this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
   @Effect()
@@ -37,7 +39,7 @@ export class AuthEffects {
     ofType(AuthActions.login),
     mergeMap((action: { username: string, password: string, type: string }) => {
       return this.authService.login(action.username, action.password).pipe(
-        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        filter((response: any, index: number) => this.apiErrorHandler(response, index, false)),
         map((auth: any) => {
           this.router.navigate(['/map/realtime']);
           return AuthActions.loginSuccess({ jwtToken: auth.jwtoken });
@@ -85,6 +87,7 @@ export class AuthEffects {
     mergeMap((action: any) => {
       return this.authService.getUserContext(action.payload.jwtToken.raw).pipe(
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
         map((context: any) => {
           const mapSettings = context.contextSet.contexts[0].preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSMapSettings'

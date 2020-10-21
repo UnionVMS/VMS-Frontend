@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { toUTF8Array } from '@app/helpers/helpers';
 import { AuthTypes } from '@data/auth';
 
+import { getDefaultHttpOptions } from '@app/helpers/api-request';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,12 +17,8 @@ export class UserSettingsService {
 
   getUserContext(authToken: string) {
     return this.http.get(
-      environment.baseApiUrl + 'usm-administration/rest/userContexts', {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      environment.baseApiUrl + 'usm-administration/rest/userContexts',
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -50,12 +48,7 @@ export class UserSettingsService {
         optionName: 'settings',
         optionValue: arrayBuffer // To byte array for some reason...
       },
-      {
-        headers: new HttpHeaders({
-          Authorization: user.jwtToken.raw,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(user.jwtToken.raw)
     );
   }
 }

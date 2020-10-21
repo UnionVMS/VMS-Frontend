@@ -3,7 +3,7 @@ import { MapLayer } from './map-layers.types';
 
 export const addAreas = createAction(
   '[Map Layers] Add areas',
-  props<{ mapLayers: Array<MapLayer> }>()
+  props<{ mapLayers: Readonly<{ readonly [typeName: string]: MapLayer }> }>()
 );
 
 export const getAreas = createAction(
@@ -16,7 +16,7 @@ export const getUserAreas = createAction(
 
 export const setAreas = createAction(
   '[Map Layers] Set areas',
-  props<{ mapLayers: Array<MapLayer> }>()
+  props<{ mapLayers: Readonly<{ readonly [typeName: string]: MapLayer }> }>()
 );
 
 export const addActiveLayer = createAction(

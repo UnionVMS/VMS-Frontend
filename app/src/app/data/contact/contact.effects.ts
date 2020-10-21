@@ -13,20 +13,22 @@ import * as NotificationsActions from '../notifications/notifications.actions';
 import { AuthTypes, AuthSelectors } from '../auth';
 import * as RouterSelectors from '@data/router/router.selectors';
 
-import { apiErrorHandler } from '@app/helpers/api-response-handler';
+import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class ContactEffects {
 
-  private readonly apiErrorHandler: (response: any, index: number) => boolean;
+  private readonly apiErrorHandler: (response: any, index: number, withHeaders?: boolean) => boolean;
+  private readonly apiUpdateTokenHandler: (response: any) => any;
 
   constructor(
     private readonly actions$: Actions,
-    private readonly store$: Store<State>,
+    private readonly store: Store<State>,
     private readonly contactService: ContactService,
     private readonly router: Router
   ) {
-    this.apiErrorHandler = apiErrorHandler(this.store$);
+    this.apiErrorHandler = apiErrorHandler(this.store);
+    this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
   @Effect()
@@ -34,13 +36,14 @@ export class ContactEffects {
     ofType(ContactActions.getContactsForSelectedAsset),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
-        this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(getMergedRoute)
+        this.store.select(AuthSelectors.getAuthToken),
+        this.store.select(getMergedRoute)
       ),
       mergeMap(([pipedAction, authToken, mergedRoute]: Array<any>) => {
         if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {
           return this.contactService.getContactsFromAssetId(authToken, mergedRoute.params.assetId).pipe(
             filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+            map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
             map((response: any) => {
               return ContactActions.setContacts({
                 contacts: response.reduce((acc: { [id: string]: ContactTypes.Contact }, contact: ContactTypes.Contact) => {
@@ -62,13 +65,14 @@ export class ContactEffects {
     ofType(ContactActions.getSelectedContact),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
-        this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(getMergedRoute)
+        this.store.select(AuthSelectors.getAuthToken),
+        this.store.select(getMergedRoute)
       ),
       mergeMap(([pipedAction, authToken, mergedRoute]: Array<any>) => {
         if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.contactId !== 'undefined') {
           return this.contactService.getContactById(authToken, mergedRoute.params.contactId).pipe(
             filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+            map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
             map((contact: ContactTypes.Contact) => {
               return ContactActions.setContacts({
                 contacts: { [contact.id]: contact }
@@ -88,7 +92,7 @@ export class ContactEffects {
     ofType(ContactActions.saveContact),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
-        this.store$.select(AuthSelectors.getAuthToken)
+        this.store.select(AuthSelectors.getAuthToken)
       ),
       mergeMap(([pipedAction, authToken, mergedRoute]: Array<any>) => {
         const isNew = action.contact.id === undefined || action.contact.id === null;
@@ -101,6 +105,7 @@ export class ContactEffects {
 
         return request.pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((contact: any) => {
             let notification = $localize`:@@ts-contact-update-success:Contact updated successfully!`;
             this.router.navigate(['/asset/' + contact.assetId]);

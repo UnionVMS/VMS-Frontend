@@ -4,6 +4,8 @@ import { environment } from '../../../environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Observable } from 'rxjs';
 
+import { getDefaultHttpOptions } from '@app/helpers/api-request';
+
 import { IncidentTypes } from './';
 import { AssetTypes } from '@data/asset';
 import { NotesTypes } from '@data/notes';
@@ -19,72 +21,42 @@ export class IncidentService {
   getAssetNotSendingEvents(authToken: string) {
     return this.http.get(
       environment.baseApiUrl + `incident/rest/incident/assetNotSending`,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getAllOpenIncidents(authToken: string) {
     return this.http.get(
       environment.baseApiUrl + `incident/rest/incident/allOpenIncidents`,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getLogForIncident(authToken: string, incidentId: number) {
     return this.http.get(
       environment.baseApiUrl + `web-gateway/rest/incidents/incidentLogForIncident/${incidentId}`,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getIncidentsForAssetId(authToken: string, assetId: string, onlyOpen = false) {
     return this.http.get(
       environment.baseApiUrl + `incident/rest/incident/incidentsForAssetId/${assetId}?onlyOpen=${onlyOpen}`,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getIncidentTypes(authToken: string) {
     return this.http.get(
       environment.baseApiUrl + `incident/rest/incident/incidentTypes`,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
   getValidIncidentStatusForTypes(authToken: string) {
     return this.http.get(
       environment.baseApiUrl + `incident/rest/incident/validStatusForTypes`,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -96,12 +68,7 @@ export class IncidentService {
     return this.http.put(
       environment.baseApiUrl + `web-gateway/rest/incidents/updateIncidentType`,
       body,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -113,12 +80,7 @@ export class IncidentService {
     return this.http.put(
       environment.baseApiUrl + `web-gateway/rest/incidents/updateIncidentStatus`,
       body,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -126,12 +88,7 @@ export class IncidentService {
     return this.http.put(
       environment.baseApiUrl + `web-gateway/rest/incidents/updateIncidentExpiry`,
       { incidentId, expiryDate },
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -139,12 +96,7 @@ export class IncidentService {
     return this.http.post(
       environment.baseApiUrl + `web-gateway/rest/incidents/createSimplePollForIncident/${incidentId}`,
       { comment },
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -152,12 +104,7 @@ export class IncidentService {
     return this.http.post(
       environment.baseApiUrl + `web-gateway/rest/incidents/addNoteToIncident/${incidentId}`,
       note,
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { toUTF8Array } from '@app/helpers/helpers';
+import { getDefaultHttpOptions } from '@app/helpers/api-request';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ export class MapSettingsService {
 
   constructor(private readonly http: HttpClient) {}
 
-  saveMapSettings(authToken, preferences) {
+  saveMapSettings(authToken: string, preferences) {
     const preferencesAsString = JSON.stringify(preferences);
     const arrayBuffer = toUTF8Array(preferencesAsString);
 
@@ -25,12 +26,7 @@ export class MapSettingsService {
         optionName: 'settings',
         optionValue: arrayBuffer
       },
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 
@@ -38,12 +34,7 @@ export class MapSettingsService {
   getMovementSources(authToken: string) {
     return this.http.get(
       environment.baseApiUrl + 'movement/rest/config/movementSourceTypes',
-      {
-        headers: new HttpHeaders({
-          Authorization: authToken,
-          'Cache-Control': 'no-cache'
-        })
-      }
+      getDefaultHttpOptions(authToken)
     );
   }
 }

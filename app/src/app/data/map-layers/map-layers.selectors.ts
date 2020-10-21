@@ -7,8 +7,8 @@ export const selectActiveLayers = (state: State) => state.mapLayers.activeLayers
 
 export const getMapLayers = createSelector(
   selectMapLayers,
-  (mapLayers: Array<MapLayersInterface.MapLayer>) => {
-    return [ ...mapLayers ];
+  (mapLayers: Readonly<{ readonly [typeName: string]: MapLayersInterface.MapLayer }>) => {
+    return Object.values(mapLayers);
   }
 );
 

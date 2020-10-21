@@ -13,20 +13,22 @@ import * as NotificationsActions from '../notifications/notifications.actions';
 import {  AuthSelectors } from '../auth';
 import { AssetSelectors } from '../asset';
 
-import { apiErrorHandler } from '@app/helpers/api-response-handler';
+import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
 export class NotesEffects {
 
-  private readonly apiErrorHandler: (response: any, index: number) => boolean;
+  private readonly apiErrorHandler: (response: any, index: number, withHeaders?: boolean) => boolean;
+  private readonly apiUpdateTokenHandler: (response: any) => any;
 
   constructor(
     private readonly actions$: Actions,
-    private readonly store$: Store<State>,
+    private readonly store: Store<State>,
     private readonly notesService: NotesService,
     private readonly router: Router
   ) {
-    this.apiErrorHandler = apiErrorHandler(this.store$);
+    this.apiErrorHandler = apiErrorHandler(this.store);
+    this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
   @Effect()
@@ -34,13 +36,14 @@ export class NotesEffects {
     ofType(NotesActions.getNotesForSelectedAsset),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
-        this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(getMergedRoute)
+        this.store.select(AuthSelectors.getAuthToken),
+        this.store.select(getMergedRoute)
       ),
       mergeMap(([pipedAction, authToken, mergedRoute]: Array<any>) => {
         if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {
           return this.notesService.getNotesFromAssetId(authToken, mergedRoute.params.assetId).pipe(
             filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+            map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
             map((response: any) => {
               return NotesActions.setNotes({
                 notes: response
@@ -59,13 +62,14 @@ export class NotesEffects {
     ofType(NotesActions.getSelectedNote),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
-        this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(getMergedRoute)
+        this.store.select(AuthSelectors.getAuthToken),
+        this.store.select(getMergedRoute)
       ),
       mergeMap(([pipedAction, authToken, mergedRoute]: Array<any>) => {
         if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.noteId !== 'undefined') {
           return this.notesService.getNoteById(authToken, mergedRoute.params.noteId).pipe(
             filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+            map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
             map((note: any) => {
               return NotesActions.setNotes({
                 notes: { [note.id]: note }
@@ -83,10 +87,11 @@ export class NotesEffects {
   deleteNote$ = this.actions$.pipe(
     ofType(NotesActions.deleteNote),
     mergeMap((outerAction) => of(outerAction).pipe(
-      withLatestFrom(this.store$.select(AuthSelectors.getAuthToken)),
+      withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
       mergeMap(([action, authToken]: Array<any>) => {
         return this.notesService.deleteNote(authToken, action.noteId).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((note: any) => {
             return NotesActions.removeNoteFromStore({ noteId: action.noteId });
           })
@@ -100,8 +105,8 @@ export class NotesEffects {
     ofType(NotesActions.saveNote),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
-        this.store$.select(AuthSelectors.getAuthToken),
-        this.store$.select(AssetSelectors.getAssetByUrl)
+        this.store.select(AuthSelectors.getAuthToken),
+        this.store.select(AssetSelectors.getAssetByUrl)
       ),
       mergeMap(([pipedAction, authToken, selectedAsset]: Array<any>) => {
         const isNew = pipedAction.note.id === undefined || pipedAction.note.id === null;
@@ -117,6 +122,7 @@ export class NotesEffects {
         }
         return request.pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((note: any) => {
             let notification = $localize`:@@ts-notes-updated:Notes updated successfully!`;
             if(pipedAction.redirect) {
