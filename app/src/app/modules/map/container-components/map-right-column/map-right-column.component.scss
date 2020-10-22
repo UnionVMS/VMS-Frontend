@@ -97,6 +97,7 @@
       padding-bottom: distance(1);
 
       display: grid;
+      position: relative;
 
       & > * {
         justify-self: center;

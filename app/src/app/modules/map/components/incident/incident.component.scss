@@ -10,6 +10,7 @@ $incident_header_height: 78px; // Is set automaticlly, unfortunatly this might c
 
   .incident-body {
     display: grid;
+    grid-row-gap: distance(1);
     color: black;
     padding: $medium_distance;
     overflow-y: auto;
@@ -23,6 +24,11 @@ $incident_header_height: 78px; // Is set automaticlly, unfortunatly this might c
   h4 {
     margin: 0;
     padding: 0;
+    margin-top: distance(2);
+
+    &:first-child {
+      margin-top: distance(1);
+    }
   }
 
   .incident-information {
@@ -63,18 +69,12 @@ $incident_header_height: 78px; // Is set automaticlly, unfortunatly this might c
     }
 
     legend {
-      // font-weight: bold;
       font-size: $default_font_size;
-      // text-decoration: underline;
     }
 
     a {
       color: black;
     }
-  }
-
-  map-panel-block {
-    margin-top: distance(1);
   }
 
   .incident-footer {

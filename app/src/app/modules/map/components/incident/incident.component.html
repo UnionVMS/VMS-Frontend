@@ -1,44 +1,8 @@
 <div class="content-container">
   <div class="incident-body">
-    <div class="content-block">
-      <h4>Incident type</h4>
-      <map-incident-type-form
-        [type]="incident.type"
-        [types]="incidentTypes"
-        [changeType]="changeType"
-        [disabled]="!checkPermissionForIncidentTypeForm()"
-      ></map-incident-type-form>
-    </div>
 
-    <div class="incident-information">
-      <span i18n>Use this view when working with incidents.</span>
-      <span i18n>
-        For more information about the vessel,
-        switch to "detailed asset information"-panel
-        or use the links provided here.
-      </span>
-      <div class="button-wrapper">
-        <button
-          title="Contact info"
-          id="contact-info-button"
-          mat-stroked-button
-          color="primary"
-          type="button"
-          i18n
-          routerLink="/asset/{{asset.asset.id}}/contacts"
-        >Contact info</button>
-        <button
-          title="Contact info"
-          id="contact-info-button"
-          mat-stroked-button
-          color="primary"
-          type="button"
-          i18n
-          (click)="setActiveRightPanel(['showAsset'])"
-        >Asset info</button>
-      </div>
-    </div>
 
+    <h4>Workflow specific tools</h4>
     <map-panel-block
       *ngIf="checkPermissionForExpiryDateForm()"
       i18n-blockTitle
@@ -87,27 +51,63 @@
         [userTimezone]="userTimezone"
       ></map-manual-movement-form>
     </map-panel-block>
+
+    <h4>Additional tools and info</h4>
+    <button
+      title="Manage notes"
+      mat-stroked-button
+      color="primary"
+      type="button"
+      (click)="setActiveRightPanel(['incident', 'incidentNote'])"
+      class="map-panel-button"
+    ><ng-container i18n>Notes</ng-container> <i class="ri-arrow-drop-right-fill"></i></button>
+
+    <button
+      title="Full incident log"
+      mat-stroked-button
+      color="primary"
+      type="button"
+      (click)="setActiveRightPanel(['incident', 'incidentLogs'])"
+      class="map-panel-button"
+    ><ng-container i18n>View log</ng-container> <i class="ri-arrow-drop-right-fill"></i></button>
+    <button
+      title="Contact info"
+      mat-stroked-button
+      color="primary"
+      type="button"
+      routerLink="/asset/{{asset.asset.id}}/contacts"
+      class="map-panel-button"
+    >
+      <ng-container i18n>Contact info</ng-container>
+      <i class="ri-external-link-fill"></i>
+    </button>
+    <button
+      title="Contact info"
+      mat-stroked-button
+      color="primary"
+      type="button"
+      (click)="setActiveRightPanel(['showAsset'])"
+      class="map-panel-button"
+    >
+      <ng-container i18n>Asset info</ng-container>
+      <i class="ri-external-link-fill"></i>
+    </button>
+
+
   </div>
 
   <div class="incident-footer">
+    <div class="content-block">
+      <h4>Move to workflow</h4>
+      <map-incident-type-form
+        [type]="incident.type"
+        [types]="incidentTypes"
+        [changeType]="changeType"
+        [disabled]="!checkPermissionForIncidentTypeForm()"
+      ></map-incident-type-form>
+    </div>
     <div class="notes-and-log">
-      <button
-        title="Manage notes"
-        id="manage-notes"
-        mat-stroked-button
-        color="primary"
-        type="button"
-        (click)="setActiveRightPanel(['incident', 'incidentNote'])"
-      ><ng-container i18n>Notes</ng-container> <i class="ri-arrow-drop-right-fill"></i></button>
 
-      <button
-        title="Full incident log"
-        id="show-full-log"
-        mat-stroked-button
-        color="primary"
-        type="button"
-        (click)="setActiveRightPanel(['incident', 'incidentLogs'])"
-      ><ng-container i18n>View log</ng-container> <i class="ri-arrow-drop-right-fill"></i></button>
     </div>
 
     <button
