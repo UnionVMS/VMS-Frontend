@@ -41,6 +41,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   private readonly layerTitle = 'Manual movement form preview';
   public formValidator: FormGroup;
   private readonly featureId = 'manual_movement_preview';
+  public autoUpdateDatetime = false;
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
@@ -113,6 +114,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
     this.vectorSource.removeFeature(cachedFeature);
 
+    this.autoUpdateDatetime = true;
     // Remove subscriptions for previous form.
     this.unmount$.next(true);
     this.formValidator.controls.latitude.setValue('');
@@ -122,6 +124,9 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     this.formValidator.controls.timestamp.setValue(null);
     this.unmount$.next(false);
     this.initializeFormValidator();
+    setTimeout(() => {
+      this.autoUpdateDatetime = false;
+    }, 100);
   }
 
   renderPreview() {
