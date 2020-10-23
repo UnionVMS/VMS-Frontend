@@ -582,6 +582,22 @@ export class AssetEffects {
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
       return this.assetService.createManualMovement(authToken, action.manualMovement).pipe(
+        filter((response: any, index: number) => {
+          const { body } = response;
+          if(
+            typeof body !== 'undefined'
+            && body !== null
+            && (typeof body.code !== 'undefined'
+            && typeof body.description !== 'undefined')
+            && body.code === 400
+          ) {
+            this.store.dispatch(NotificationsActions.addError(
+              $localize`:@@ts-api-error-manual-movement:Creation of manual position failed!<br />\n Reason:<br />\n` + body.description
+            ));
+            return false;
+          }
+          return true;
+        }),
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
         map((asset: AssetTypes.Asset) => {
