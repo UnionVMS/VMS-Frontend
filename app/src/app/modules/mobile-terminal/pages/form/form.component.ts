@@ -298,10 +298,10 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
     const formChannels = this.formValidator.value.channels;
     const seen = {};
     const channelsWithUniqueChannelNr = formChannels.filter((channel) => {
-        return seen.hasOwnProperty(channel.memberNumber) ? false : (seen[channel.memberNumber] = true);
+        return typeof seen[channel.memberNumber] !== 'undefined' ? false : (seen[channel.memberNumber] = true);
     });
 
-    if(formChannels.length !== 0 && formChannels.length !== 1 && channelsWithUniqueChannelNr.length === formChannels.length) {
+    if(formChannels.length !== 0 && formChannels.length !== 1 && channelsWithUniqueChannelNr.length > 1) {
       const dialogRef = this.dialog.open(SaveUnmatchedMemberNumbersDialogComponent, { panelClass: 'dialog-without-padding' });
 
       dialogRef.afterClosed().subscribe(accepted => {

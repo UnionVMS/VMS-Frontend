@@ -17,7 +17,7 @@ import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style
 import { fromLonLat } from 'ol/proj';
 
 import { AssetTypes } from '@data/asset';
-import { createNotesFormValidator } from './form-validator';
+import { createManualMovementFormValidator } from './form-validator';
 import { ManualMovementFormDialogComponent } from '@modules/map/components/manual-movement-form-dialog/manual-movement-form-dialog.component';
 
 import { errorMessage } from '@app/helpers/validators/error-messages';
@@ -75,7 +75,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   }
 
   initializeFormValidator() {
-    this.formValidator = createNotesFormValidator();
+    this.formValidator = createManualMovementFormValidator();
     this.formValidator.controls.latitude.valueChanges
       .pipe(takeUntil(this.unmount$), filter((value: string) => value !== null && value.toString().length === 2))
       .subscribe(() => this.latitudeDecimalsElement.nativeElement.focus());
@@ -119,6 +119,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     this.formValidator.controls.latitudeDecimals.setValue('');
     this.formValidator.controls.longitude.setValue('');
     this.formValidator.controls.longitudeDecimals.setValue('');
+    this.formValidator.controls.timestamp.setValue(null);
     this.unmount$.next(false);
     this.initializeFormValidator();
   }
@@ -210,10 +211,6 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   }
 
   errorMessage(error: string) {
-    if(error === 'maxlength') {
-      return 'Text can not be longer then 255 characters.';
-    }
-
     return errorMessage(error);
   }
 

@@ -4,7 +4,7 @@ import CustomValidators from '@validators/.';
 // @ts-ignore
 import moment from 'moment-timezone';
 
-export const createNotesFormValidator = () => {
+export const createManualMovementFormValidator = () => {
   return new FormGroup({
     latitude: new FormControl(null, [Validators.required]),
     latitudeDecimals: new FormControl(null, [Validators.required]),
