@@ -1,4 +1,4 @@
-<form class="manual-position-form" [formGroup]="formValidator">
+<form class="manual-position-form" [formGroup]="formValidator" autocomplete="off">
   <div id="manual-position-form--latitude--wrapper">
     <mat-form-field id="manual-position-form--latitude-direction" floatLabel="always">
       <mat-label i18n>Latitude</mat-label>
@@ -14,17 +14,28 @@
         type="number"
         required
         (blur)="renderPreview()"
-        (paste)="pasteLatitude($event)"
         #latitudeElement
       />
       <span matSuffix>&#176;&nbsp;</span>
       <mat-error *ngFor="let error of getErrors(['latitude'])">{{ errorMessage(error) }}</mat-error>
     </mat-form-field>
+    <mat-form-field id="manual-position-form--latitude-minute">
+      <input
+        matInput
+        formControlName="latitudeMinute"
+        type="number"
+        required
+        (blur)="renderPreview()"
+        #latitudeMinuteElement
+      />
+      <span matSuffix>.</span>
+      <mat-error *ngFor="let error of getErrors(['latitudeMinute'])">{{ errorMessage(error) }}</mat-error>
+    </mat-form-field>
     <mat-form-field id="manual-position-form--latitude-decimals">
       <input
         matInput
         formControlName="latitudeDecimals"
-        pattern="[0-9]+([\.][0-9]+)?"
+        type="number"
         required
         (blur)="renderPreview()"
         #latitudeDecimalsElement
@@ -48,17 +59,28 @@
         type="number"
         required
         (blur)="renderPreview()"
-        (paste)="pasteLongitude($event)"
         #longitudeElement
       />
       <span matSuffix>&#176;&nbsp;</span>
       <mat-error *ngFor="let error of getErrors(['longitude'])">{{ errorMessage(error) }}</mat-error>
     </mat-form-field>
+    <mat-form-field id="manual-position-form--longitude-minute">
+      <input
+        matInput
+        formControlName="longitudeMinute"
+        type="number"
+        required
+        (blur)="renderPreview()"
+        #longitudeMinuteElement
+      />
+      <span matSuffix>.</span>
+      <mat-error *ngFor="let error of getErrors(['longitudeMinute'])">{{ errorMessage(error) }}</mat-error>
+    </mat-form-field>
     <mat-form-field id="manual-position-form--longitude-decimals">
       <input
         matInput
         formControlName="longitudeDecimals"
-        pattern="[0-9]+([\.][0-9]+)?"
+        type="number"
         required
         (blur)="renderPreview()"
         #longitudeDecimalsElement

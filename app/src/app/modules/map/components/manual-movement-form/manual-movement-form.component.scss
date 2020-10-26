@@ -9,7 +9,19 @@ form.manual-position-form {
 
   #manual-position-form--latitude--wrapper, #manual-position-form--longitude--wrapper {
     display: grid;
-    grid-template-columns: 20px 1fr 3fr;
+    grid-template-columns: 20px 35px 20px 1fr;
+    position: relative;
+
+    .mat-form-field {
+      position: unset;
+      .mat-form-field-wrapper {
+        position: unset;
+
+        .mat-form-field-subscript-wrapper {
+          left: 0px;
+        }
+      }
+    }
 
     mat-form-field:first-child {
       .mat-form-field-label-wrapper {
