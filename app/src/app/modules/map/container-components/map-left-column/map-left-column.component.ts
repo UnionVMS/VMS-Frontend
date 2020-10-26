@@ -8,6 +8,7 @@ import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/inciden
 import { MapActions, MapSelectors } from '@data/map';
 import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors } from '@data/map-saved-filters';
 import { UserSettingsSelectors } from '@data/user-settings';
+import { Position } from '@data/generic.types';
 
 
 @Component({
@@ -170,6 +171,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.dispatchSelectIncident(incident.id);
       this.clearNotificationsForIncident(incident);
       this.setActiveRightPanel(['incident']);
+      this.centerMapOnPosition(incident.lastKnownLocation.location);
     };
     this.countNotificationsOfType = (
       incidentNotifications: IncidentTypes.IncidentNotificationsCollections,

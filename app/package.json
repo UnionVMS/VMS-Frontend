@@ -1,6 +1,6 @@
 {
   "name": "vms-frontend",
-  "version": "0.27.9",
+  "version": "0.28.6",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host=0.0.0.0 --configuration=dev --hmr=true",
@@ -41,7 +41,7 @@
     "i18n-iso-countries": "^5.5.0",
     "jwt-decode": "^3.0.0-beta.2",
     "moment-timezone": "^0.5.28",
-    "ngx-moment-tz-picker": "^0.1.8",
+    "ngx-moment-tz-picker": "^0.2.0",
     "ol": "^6.3.1",
     "proj4": "^2.6.1",
     "remixicon": "^2.4.0",

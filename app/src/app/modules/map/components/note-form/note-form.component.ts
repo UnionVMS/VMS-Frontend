@@ -31,9 +31,9 @@ export class NoteFormComponent implements OnInit {
   }
 
   errorMessage(error: string) {
-    if(error === 'maxlength') {
-      return 'Text can not be longer then 255 characters.';
-    }
+    // if(error === 'maxlength') {
+    //   return 'Text can not be longer then 255 characters.';
+    // }
 
     return errorMessage(error);
   }

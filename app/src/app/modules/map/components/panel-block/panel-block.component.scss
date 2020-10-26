@@ -29,7 +29,7 @@
 
     & > .arrow-toggle {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr distance(4);
       font-weight: 600;
 
       .label {
@@ -39,8 +39,15 @@
         grid-template-areas: 'left right';
       }
 
-      i.fas {
-        font-size: $large_distance;
+      .arrow {
+        position: relative;
+
+        i {
+          font-size: distance(4);
+          position: absolute;
+          right: distance(-0.5);
+          bottom: distance(-1);
+        }
       }
     }
   }

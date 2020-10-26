@@ -132,21 +132,6 @@
     display: grid;
     grid-row-gap: distance(1);
     margin-top: distance(1);
-
-    button {
-      background: white;
-      text-align: left;
-      border-radius: 0px;
-
-      &::after {
-        display: inline-block;
-        float: right;
-        place-self: center;
-        height: distance(2.5);
-        width: distance(2.5);
-        content: '\027A4';
-      }
-    }
   }
 
 }

@@ -44,7 +44,7 @@
         <ng-container *ngIf="activePanel[1] === 'managePolling'" i18n>Manage polling</ng-container>
       </h3>
       <div class="asset-name" *ngIf="selectedAsset">
-        {{ selectedAsset.asset.name + (selectedAsset.asset.externalMarking !== undefined ? ' &#183; ' + selectedAsset.asset.externalMarking : '') }}
+        {{ (selectedAsset.asset.ircs !== undefined ? selectedAsset.asset.ircs + ' &#183; ' : '') + selectedAsset.asset.name }}
       </div>
     </div>
     <ng-container *ngIf="selectedAsset">
@@ -141,7 +141,7 @@
           alt="getCountryCode(selectedAsset)"
         />
         <div class="asset-name" *ngIf="selectedAsset">
-          {{ selectedAsset.asset.name + (selectedAsset.asset.externalMarking !== undefined ? ' &#183; ' + selectedAsset.asset.externalMarking : '') }}
+          {{ (selectedAsset.asset.ircs !== undefined ? selectedAsset.asset.ircs + ' &#183; ' : '') + selectedAsset.asset.name }}
         </div>
       </div>
     </div>

@@ -135,28 +135,40 @@
   </div>
   <div class="bottom-button-wrapper" footer>
     <button
-      i18n
       mat-button
       (click)="getLicenceForAsset(asset.asset.id); setActiveRightPanel(['showAsset', 'licenceInformation'])"
       color="primary"
-    >License</button>
+      class="map-panel-button"
+    >
+      <ng-container i18n>License</ng-container>
+      <i class="ri-arrow-drop-right-fill"></i>
+    </button>
     <button
-      i18n
       mat-button
       (click)="setActiveRightPanel(['showAsset', 'managePolling'])"
       color="primary"
-    >Manage polling</button>
+      class="map-panel-button"
+    >
+      <ng-container i18n>Manage polling</ng-container>
+      <i class="ri-arrow-drop-right-fill"></i>
+    </button>
     <button
-      i18n
       mat-button
       (click)="setActiveRightPanel(['showAsset', 'positions'])"
       color="primary"
-    >Positions</button>
+      class="map-panel-button"
+    >
+      <ng-container i18n>Positions</ng-container>
+      <i class="ri-arrow-drop-right-fill"></i>
+    </button>
     <button
-      i18n
       mat-button
       (click)="getIncidentsForAssetId(asset.asset.id); setActiveRightPanel(['showAsset', 'incidentList'])"
       color="primary"
-    >Incidents</button>
+      class="map-panel-button"
+    >
+      <ng-container i18n>Incidents</ng-container>
+      <i class="ri-arrow-drop-right-fill"></i>
+    </button>
   </div>
 </div>

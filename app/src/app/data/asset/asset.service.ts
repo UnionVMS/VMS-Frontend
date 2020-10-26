@@ -38,7 +38,7 @@ export class AssetService {
       if (event.type === 'error') {
         console.error('Map event stream: [Error]', event);
       } else {
-        console.warn('Map event stream: [' + event.type + '] ', (event.type === 'message' ? event.data : event));
+        console.log('Map event stream: [' + event.type + '] ', (event.type === 'message' ? event.data : event));
       }
     };
     this.mapEventSource.addEventListener('open', listener);
