@@ -52,25 +52,25 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private namesVisibleCalculated: boolean;
   private speedsVisibleCalculated: boolean;
 
-  private knownVesselTypes = [
+  private readonly knownVesselTypes = [
     'FISHING', 'LAW ENFORCEMENT', 'MILITARY', 'WIG', 'PLEASURE', 'SAILING', 'SAR',
     'ANTI POLLUTION', 'CARGO', 'DIVING', 'DREDGING', 'HSC', 'MEDICAL', 'PASSENGER', 'PILOT',
     'PORT TENDER', 'SHIPS ACCORDING TO RR', 'TANKER', 'TOWING', 'TOWING LONG/WIDE', 'TUG',
   ];
 
-  private mostCommonFlagstates = [
+  private readonly mostCommonFlagstates = [
     'SWE', 'DNK', 'NOR', 'FIN', 'POL', 'LTU', 'LVA', 'EST',
     'GBR', 'DEU', 'NLD', 'IRL', 'MHL', 'LBR', 'PAN', 'MLT',
   ];
 
-  private colors = [
+  private readonly colors = [
     '#88FBA3', '#A185F8', '#89FBF5', '#F386F9', '#33C6CF', '#F0FC8B', '#9FCAFF', '#FF6969',
     '#CCFF7F', '#751EBA', '#BD22B4', '#FF8EA7', '#0000FF', '#FF0000', '#FF7F00', '#00FF00',
     '#F888B5', '#F9A287', '#4D70C8', '#C74B6E', '#83DC60', '#C9852E', '#CCD53A', '#FFD07A', '#34CF8A',
   ];
 
-  private allocatedColors: { [logicType: string]: { [type: string]: string } } = {};
-  private allocatedIndex: { [logicType: string]: number } = {};
+  private readonly allocatedColors: { [logicType: string]: { [type: string]: string } } = {};
+  private readonly allocatedIndex: { [logicType: string]: number } = {};
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
