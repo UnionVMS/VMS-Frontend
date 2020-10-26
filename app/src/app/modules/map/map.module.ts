@@ -13,6 +13,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { DatetimePickerModule } from 'ngx-moment-tz-picker';
@@ -70,6 +71,7 @@ import { MapLayersComponent } from './components/map-layers/map-layers.component
 import { MapLocationsComponent } from './components/map-locations/map-locations.component';
 import { ManualMovementFormComponent } from './components/manual-movement-form/manual-movement-form.component';
 import { ManualMovementFormDialogComponent } from './components/manual-movement-form-dialog/manual-movement-form-dialog.component';
+import { ManualMovementFormTooltipComponent } from './components/manual-movement-form-tooltip/manual-movement-form-tooltip.component';
 import { ManualPollFormComponent } from './components/manual-poll-form/manual-poll-form.component';
 import { NoteFormComponent } from './components/note-form/note-form.component';
 import { PanelBlockComponent } from './components/panel-block/panel-block.component';
@@ -101,6 +103,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MatProgressSpinnerModule,
     MatRadioModule,
     MatSliderModule,
+    MatTooltipModule,
     RouterModule,
     DatetimePickerModule
   ],
@@ -150,6 +153,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MapRightColumnComponent,
     ManualMovementFormComponent,
     ManualMovementFormDialogComponent,
+    ManualMovementFormTooltipComponent,
     ManualPollFormComponent,
     NoteFormComponent,
     PanelBlockComponent,

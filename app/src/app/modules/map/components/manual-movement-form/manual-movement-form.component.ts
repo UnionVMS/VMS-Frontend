@@ -81,11 +81,11 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     this.formValidator = createManualMovementFormValidator();
 
     this.formValidator.controls.latitude.valueChanges
-      .pipe(takeUntil(this.unmount$), filter((value: string) => value !== null && value.toString().length >= 3))
+      .pipe(takeUntil(this.unmount$), filter((value: string) => value !== null && value.toString().length >= 2))
       .subscribe((value) => {
-        if(value.toString().length > 3) {
+        if(value.toString().length > 2) {
           const formControlLat = this.formValidator.get('latitude');
-          formControlLat.setValue(value.toString().substring(0, 3));
+          formControlLat.setValue(value.toString().substring(0, 2));
         }
         this.latitudeMinuteElement.nativeElement.focus();
       });

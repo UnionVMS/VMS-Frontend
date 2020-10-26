@@ -5,6 +5,10 @@
   display: grid;
   grid-row-gap: distance(1);
 
+  map-manual-movement-form-tooltip {
+    grid-area: right;
+  }
+
   .positions .position {
     padding: distance(2) distance(1);
     display: grid;

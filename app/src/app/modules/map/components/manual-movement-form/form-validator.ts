@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
 
 export const createManualMovementFormValidator = () => {
   return new FormGroup({
-    latitude: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(180)]),
+    latitude: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(90)]),
     latitudeMinute: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(59)]),
     latitudeDecimals: new FormControl(null, [Validators.required, Validators.min(0)]),
     latitudeDirection: new FormControl('N', [Validators.required]),
