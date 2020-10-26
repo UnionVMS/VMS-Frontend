@@ -52,6 +52,26 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private namesVisibleCalculated: boolean;
   private speedsVisibleCalculated: boolean;
 
+  private knownVesselTypes = [
+    'FISHING', 'LAW ENFORCEMENT', 'MILITARY', 'WIG', 'PLEASURE', 'SAILING', 'SAR',
+    'ANTI POLLUTION', 'CARGO', 'DIVING', 'DREDGING', 'HSC', 'MEDICAL', 'PASSENGER', 'PILOT',
+    'PORT TENDER', 'SHIPS ACCORDING TO RR', 'TANKER', 'TOWING', 'TOWING LONG/WIDE', 'TUG',
+  ];
+
+  private mostCommonFlagstates = [
+    'SWE', 'DNK', 'NOR', 'FIN', 'POL', 'LTU', 'LVA', 'EST',
+    'GBR', 'DEU', 'NLD', 'IRL', 'MHL', 'LBR', 'PAN', 'MLT',
+  ];
+
+  private colors = [
+    '#88FBA3', '#A185F8', '#89FBF5', '#F386F9', '#33C6CF', '#F0FC8B', '#9FCAFF', '#FF6969',
+    '#CCFF7F', '#751EBA', '#BD22B4', '#FF8EA7', '#0000FF', '#FF0000', '#FF7F00', '#00FF00',
+    '#F888B5', '#F9A287', '#4D70C8', '#C74B6E', '#83DC60', '#C9852E', '#CCD53A', '#FFD07A', '#34CF8A',
+  ];
+
+  private allocatedColors: { [logicType: string]: { [type: string]: string } } = {};
+  private allocatedIndex: { [logicType: string]: number } = {};
+
   ngOnInit() {
     this.vectorSource = new VectorSource();
     this.vectorLayer = new VectorLayer({
@@ -253,59 +273,150 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     return assetFeature;
   }
 
-  getShipColor(asset) {
+  getOldSystemShipColor(asset: AssetTypes.AssetMovementWithEssentials) {
+    if(
+      typeof asset.assetEssentials === 'undefined' ||
+      asset.assetEssentials.vesselType === null ||
+      typeof asset.assetEssentials.vesselType === 'undefined'
+    ) {
+      return '#FFFFFF';
+    }
+
+    const typeName = asset.assetEssentials.vesselType.toUpperCase();
+
+    if(typeName === 'FISHING') {
+      return '#F1FF62';
+    }
+
+    if(['LAW ENFORCEMENT', 'MILITARY', 'WIG'].includes(typeName)) {
+      return '#73C2FB';
+    }
+
+    if(['PLEASURE', 'SAILING'].includes(typeName)) {
+      return '#A9A9A9';
+    }
+
+    if(typeName === 'SAR') {
+      return '#FF7F50';
+    }
+
+    if([
+      'ANTI POLLUTION', 'CARGO', 'DIVING', 'DREDGING', 'HSC', 'MEDICAL',
+      'PASSENGER', 'PILOT', 'PORT TENDER', 'SHIPS ACCORDING TO RR',
+      'TANKER', 'TOWING', 'TOWING LONG/WIDE', 'TUG',
+    ].includes(typeName)) {
+      return '#32CD32';
+    }
+
+    if(asset.assetEssentials.vesselType === 'No such code : 0') {
+      return '#FFFFFF';
+    }
+
+    return '#' + intToRGB(hashCode(typeName));
+  }
+
+  getShipColorByLength(asset: AssetTypes.AssetMovementWithEssentials) {
+    if(
+      typeof asset.assetEssentials === 'undefined' ||
+      asset.assetEssentials.lengthOverAll === null ||
+      typeof asset.assetEssentials.lengthOverAll === 'undefined'
+    ) {
+      return '#FFFFFF';
+    }
+    let color;
+    if(asset.assetEssentials.lengthOverAll < 20) {
+      color = (Math.round((asset.assetEssentials.lengthOverAll) / 20 * 200) + 55).toString(16).toUpperCase();
+      if(color.length === 1) {
+        color = `0${color}`;
+      }
+      return `#${color}0000`;
+    } else if(asset.assetEssentials.lengthOverAll < 30) {
+      color = (Math.round((asset.assetEssentials.lengthOverAll - 20) / 10 * 200) + 55).toString(16).toUpperCase();
+      if(color.length === 1) {
+        color = `0${color}`;
+      }
+      return `#00${color}00`;
+    } else {
+      color = ((asset.assetEssentials.lengthOverAll - 30) / 10 * 200) + 55;
+      if(color > 255) {
+        color = 255;
+      }
+      color = Math.round(color).toString(16).toUpperCase();
+      if(color.length === 1) {
+        color = `0${color}`;
+      }
+      return `#0000${color}`;
+    }
+  }
+
+  getShipColorByShiptype(asset: AssetTypes.AssetMovementWithEssentials) {
+    if(
+      typeof asset.assetEssentials === 'undefined' ||
+      asset.assetEssentials.vesselType === null ||
+      typeof asset.assetEssentials.vesselType === 'undefined' ||
+      asset.assetEssentials.vesselType === 'No such code : 0'
+    ) {
+      return '#FFFFFF';
+    }
+    if(typeof this.allocatedColors.shiptype === 'undefined') {
+      this.allocatedIndex.shiptype = 0;
+      this.allocatedColors.shiptype = this.knownVesselTypes.reduce((acc, aVesselType) => {
+        acc[aVesselType] = this.colors[this.allocatedIndex.shiptype++];
+        return acc;
+      }, {});
+    }
+
+    const vesselType = asset.assetEssentials.vesselType.toUpperCase();
+    if(typeof this.allocatedColors.shiptype[vesselType] === 'undefined') {
+      if(this.allocatedIndex.shiptype + 1 >= this.colors.length) {
+        this.allocatedColors.shiptype[vesselType] = '#' + intToRGB(hashCode(vesselType));
+      } else {
+        this.allocatedColors.shiptype[vesselType] = this.colors[this.allocatedIndex.shiptype++];
+      }
+    }
+    return this.allocatedColors.shiptype[vesselType];
+  }
+
+  getShipColorByFlagstate(asset: AssetTypes.AssetMovementWithEssentials) {
+    if(
+      typeof asset.assetEssentials === 'undefined' ||
+      asset.assetEssentials.flagstate === null ||
+      typeof asset.assetEssentials.flagstate === 'undefined' ||
+      asset.assetEssentials.flagstate === 'UNK' ||
+      asset.assetEssentials.flagstate === 'ERR'
+    ) {
+      return '#FFFFFF';
+    }
+
+    if(typeof this.allocatedColors.flagstate === 'undefined') {
+      this.allocatedIndex.flagstate = 0;
+      this.allocatedColors.flagstate = this.mostCommonFlagstates.reduce((acc, aFlagState) => {
+        acc[aFlagState] = this.colors[this.allocatedIndex.flagstate++];
+        return acc;
+      }, {});
+    }
+
+    if(typeof this.allocatedColors.flagstate[asset.assetEssentials.flagstate] === 'undefined') {
+      if(this.allocatedIndex.flagstate + 1 >= this.colors.length) {
+        this.allocatedColors.flagstate[asset.assetEssentials.flagstate] =
+          '#' + intToRGB(hashCode(getCountryName(asset.assetEssentials.flagstate, 'en') || asset.assetEssentials.flagstate));
+      } else {
+        this.allocatedColors.flagstate[asset.assetEssentials.flagstate] = this.colors[this.allocatedIndex.flagstate++];
+      }
+    }
+    return this.allocatedColors.flagstate[asset.assetEssentials.flagstate];
+  }
+
+  getShipColor(asset: AssetTypes.AssetMovementWithEssentials) {
     switch (this.shipColorLogic) {
-      case 'Shiptype':
-        if(
-          typeof asset.assetEssentials === 'undefined' ||
-          asset.assetEssentials.vesselType === null ||
-          typeof asset.assetEssentials.vesselType === 'undefined'
-        ) {
-          return '#FFFFFF';
-        }
-        return '#' + intToRGB(hashCode(asset.assetEssentials.vesselType));
-      case 'Flagstate':
-        if(
-          typeof asset.assetEssentials === 'undefined' ||
-          asset.assetEssentials.flagstate === null ||
-          typeof asset.assetEssentials.flagstate === 'undefined'
-        ) {
-          return '#FFFFFF';
-        }
-        const country = getCountryName(asset.assetEssentials.flagstate, 'en') || asset.assetEssentials.flagstate;
-        return '#' + intToRGB(hashCode(country));
-      case 'Size (length)':
-        if(
-          typeof asset.assetEssentials === 'undefined' ||
-          asset.assetEssentials.lengthOverAll === null ||
-          typeof asset.assetEssentials.lengthOverAll === 'undefined'
-        ) {
-          return '#FFFFFF';
-        }
-        let color;
-        if(asset.assetEssentials.lengthOverAll < 20) {
-          color = (Math.round((asset.assetEssentials.lengthOverAll) / 20 * 200) + 55).toString(16).toUpperCase();
-          if(color.length === 1) {
-            color = `0${color}`;
-          }
-          return `#${color}0000`;
-        } else if(asset.assetEssentials.lengthOverAll < 30) {
-          color = (Math.round((asset.assetEssentials.lengthOverAll - 20) / 10 * 200) + 55).toString(16).toUpperCase();
-          if(color.length === 1) {
-            color = `0${color}`;
-          }
-          return `#00${color}00`;
-        } else {
-          color = ((asset.assetEssentials.lengthOverAll - 30) / 10 * 200) + 55;
-          if(color > 255) {
-            color = 255;
-          }
-          color = Math.round(color).toString(16).toUpperCase();
-          if(color.length === 1) {
-            color = `0${color}`;
-          }
-          return `#0000${color}`;
-        }
+      case 'shiptype':
+      return this.getShipColorByShiptype(asset);
+      case 'oldSystemShiptype':
+        return this.getOldSystemShipColor(asset);
+      case 'flagstate':
+        return this.getShipColorByFlagstate(asset);
+      case 'length':
+        return this.getShipColorByLength(asset);
       default:
         return '#' + intToRGB(hashCode(asset.assetMovement.asset));
     }

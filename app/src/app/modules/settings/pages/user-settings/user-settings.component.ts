@@ -28,8 +28,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   private mapSettings: MapSettingsTypes.Settings;
   private mapSettingsSubscription: Subscription;
 
-  public assetColorMethods = ['Shiptype', 'Flagstate', 'Size (length)'];
-
   public resetToDefault = () => {
     this.formValidator = createUserSettingsFormValidator({ ...MapSettingsReducer.initialState.settings });
   }

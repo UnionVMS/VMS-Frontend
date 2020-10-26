@@ -53,9 +53,10 @@
         aria-labelledby="map-asset-colors"
         class="map-asset-colors"
         formControlName="assetColorMethod">
-        <mat-radio-button class="map-asset-color-button" *ngFor="let assetColorMethod of assetColorMethods" [value]="assetColorMethod">
-          {{assetColorMethod}}
-        </mat-radio-button>
+        <mat-radio-button class="map-asset-color-button" value="shiptype" i18n>Shiptype</mat-radio-button>
+        <mat-radio-button class="map-asset-color-button" value="flagstate" i18n>Flagstate</mat-radio-button>
+        <mat-radio-button class="map-asset-color-button" value="length" i18n>Size (length)</mat-radio-button>
+        <mat-radio-button class="map-asset-color-button" value="oldSystemShiptype" i18n>Old system shiptype</mat-radio-button>
       </mat-radio-group>
 
       <mat-form-field>
