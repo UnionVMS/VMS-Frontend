@@ -3,7 +3,7 @@
   <div class="status-info">
     <div class="row">
       <div class="title"><span class="text" i18n>Terminal status</span></div>
-      <div class="value{{ mobileTerminal.active ? ' active' : ' inactive' }}">{{ mobileTerminal.active ? 'ACTIVE' : 'INACTIVE' }}</div>
+      <div class="value{{ mobileTerminal.active ? ' active' : ' inactive' }}">{{ mobileTerminal.archived ? 'ARCHIVED' : (mobileTerminal.active ? 'ACTIVE' : 'INACTIVE') }}</div>
     </div>
     <div class="row">
       <div class="title"><span class="text" i18n>Attached to asset</span></div>

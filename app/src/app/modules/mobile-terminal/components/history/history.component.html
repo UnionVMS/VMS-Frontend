@@ -192,6 +192,16 @@
           <div class="value">{{ mobileTerminalHistory.snapshot.antenna }}</div>
         </div>
         <div
+          class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.archived)}}"
+          *ngIf="filtersChecked.mobileTerminalFields.archived"
+        >
+          <label>Archived</label>
+          <div class="value">
+            <span *ngIf="mobileTerminalHistory.snapshot.archived" i18n>Archived</span>
+            <span *ngIf="!mobileTerminalHistory.snapshot.archived"> - </span>
+          </div>
+        </div>
+        <div
           class="field-column{{getChangedClass(mobileTerminalHistory.changesAsObject.oceanRegions)}}"
           *ngIf="filtersChecked.mobileTerminalFields.oceanRegion"
         >

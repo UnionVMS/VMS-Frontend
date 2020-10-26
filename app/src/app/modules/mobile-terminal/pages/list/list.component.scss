@@ -21,6 +21,12 @@
       grid-column-gap: distance(1);
       grid-template-columns: 1fr 1fr;
     }
+
+    .lifecycle-state-filter {
+      display: grid;
+      grid-auto-flow: column;
+      grid-column-gap: distance(2);
+    }
   }
 
   .mobile-terminals-table-container > table {
