@@ -226,7 +226,9 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   }
 
   validateNumber(event: KeyboardEvent) {
-    const allowedKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Tab', 'Shift', 'Backspace', 'Delete', 'ArrowRight', 'ArrowLeft'];
+    const allowedKeys = [
+      '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'Tab', 'Shift', 'Backspace', 'Delete', 'ArrowRight', 'ArrowLeft'
+    ];
 
     if (!allowedKeys.includes(event.key)) {
       event.preventDefault();
