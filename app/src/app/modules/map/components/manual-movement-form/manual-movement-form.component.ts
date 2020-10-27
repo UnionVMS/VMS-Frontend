@@ -225,6 +225,14 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  validateNumber(event: KeyboardEvent) {
+    const allowedKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'Tab', 'Shift', 'Backspace', 'Delete', 'ArrowRight', 'ArrowLeft'];
+
+    if (!allowedKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
   // pasteLatitude(event: ClipboardEvent) {
   //   // @ts-ignore
   //   const clipboardData = event.clipboardData || window.clipboardData;
@@ -256,8 +264,12 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   // }
 
   getErrors(path: string[]) {
-    const errors = this.formValidator.get(path).errors;
-    return errors === null ? [] : Object.entries(errors).map(error => ({ errorType: error[0], errorObject: error[1] }));
+    const field = this.formValidator.get(path);
+    if(!field.untouched) {
+      const errors = this.formValidator.get(path).errors;
+      return errors === null ? [] : Object.entries(errors).map(error => ({ errorType: error[0], errorObject: error[1] }));
+    }
+    return [];
   }
 
   errorMessage(error: Readonly<{errorType: string, errorObject: any}>) {
