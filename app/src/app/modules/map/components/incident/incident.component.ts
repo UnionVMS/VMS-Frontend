@@ -27,7 +27,7 @@ export class IncidentComponent implements OnChanges {
   @Input() updateIncidentType: (incindentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) => void;
   @Input() updateIncidentStatus: (incindentId: number, status: string, expiryDate?: number) => void;
   @Input() updateIncidentExpiry: (incindentId: number, expiryDate: number) => void;
-  @Input() createNote: (incidentId: number, note: NotesTypes.Note) => void;
+  @Input() createNote: (incidentId: number, note: NotesTypes.NoteParameters) => void;
   @Input() pollIncident: (incidentId: number, comment: string) => void;
   @Input() setActiveWorkflow: (workflow: string) => void;
   @Input() setActiveRightPanel: (rightPanel: ReadonlyArray<string>) => void;
@@ -54,8 +54,8 @@ export class IncidentComponent implements OnChanges {
     );
   }
 
-  public createNoteCurried = (note: NotesTypes.Note) => {
-    return this.createNote(this.incident.id, { ...note, assetId: this.asset.asset.id });
+  public createNoteCurried = (note: string) => {
+    return this.createNote(this.incident.id, { note, assetId: this.asset.asset.id });
   }
 
   public createManualMovementCurried = (movement: AssetTypes.Movement) => {

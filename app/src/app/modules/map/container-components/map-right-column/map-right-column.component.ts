@@ -49,8 +49,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
 
   public addForecast: (assetId: string) => void;
   public createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
-  public createNote: (note: NotesTypes.Note) => void;
-  public createIncidentNote: (incidentId: number, note: NotesTypes.Note) => void;
+  public createNote: (note: NotesTypes.NoteParameters) => void;
+  public createIncidentNote: (incidentId: number, note: NotesTypes.NoteParameters) => void;
   public clearNotificationsForIncident: (incident: IncidentTypes.Incident) => void;
   public clearSelectedAssets: () => void;
   public clearForecasts: () => void;
@@ -224,9 +224,9 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.pollAsset({ assetId, pollPostObject }));
     this.pollIncident = (incidentId: number, comment: string) =>
       this.store.dispatch(IncidentActions.pollIncident({ incidentId, comment }));
-    this.createNote = (note: NotesTypes.Note) =>
+    this.createNote = (note: NotesTypes.NoteParameters) =>
       this.store.dispatch(NotesActions.saveNote({ note }));
-    this.createIncidentNote = (incidentId: number, note: NotesTypes.Note) =>
+    this.createIncidentNote = (incidentId: number, note: NotesTypes.NoteParameters) =>
       this.store.dispatch(IncidentActions.createNote({ incidentId, note }));
     this.saveFilter = (filter: MapSavedFiltersTypes.SavedFilter) =>
       this.store.dispatch(MapSavedFiltersActions.saveFilter({ filter }));
@@ -262,7 +262,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     return getContryISO2(asset.asset.flagStateCode).toLowerCase();
   }
 
-  public createNoteWithId = (note: NotesTypes.Note) => {
-    return this.createIncidentNote(this.selectedIncident.id, { ...note, assetId: this.selectedAsset.asset.id });
+  public createNoteWithIncidentId = (note: NotesTypes.NoteParameters) => {
+    return this.createIncidentNote(this.selectedIncident.id, note);
   }
 }

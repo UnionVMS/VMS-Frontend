@@ -36,7 +36,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   @Input() createManualMovement: (manualMovement: AssetTypes.Movement) => void;
   @Input() map: Map;
   @Input() userTimezone: string;
-  @Input() createNote: (note: NotesTypes.Note) => void;
+  @Input() createNote: (note: string) => void;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -166,9 +166,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
     this.vectorSource.removeFeature(cachedFeature);
 
-    this.createNote({
-      note: this.formValidator.value.note as string
-    } as NotesTypes.Note);
+    this.createNote(this.formValidator.value.note);
 
     this.autoUpdateDatetime = true;
     // Remove subscriptions for previous form.

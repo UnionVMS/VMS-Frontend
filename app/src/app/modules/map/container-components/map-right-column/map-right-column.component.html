@@ -172,7 +172,7 @@
       ></map-incident-logs>
       <map-note-form
         *ngIf="activePanel[1] === 'incidentNote'"
-        [createNote]="createNoteWithId"
+        [createNote]="createNoteWithIncidentId"
         [assetId]="selectedAsset.asset.id"
       ></map-note-form>
     </ng-container>

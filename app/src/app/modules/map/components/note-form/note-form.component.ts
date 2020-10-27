@@ -11,14 +11,15 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
   styleUrls: ['./note-form.component.scss']
 })
 export class NoteFormComponent implements OnInit {
-  @Input() createNote: (note: NotesTypes.Note) => void;
+  @Input() createNote: (note: NotesTypes.NoteParameters) => void;
   @Input() assetId: string;
 
   public formValidator: FormGroup;
   public save = () => {
     return this.createNote({
-      note: this.formValidator.value.note as string
-    } as NotesTypes.Note);
+      note: this.formValidator.value.note as string,
+      assetId: this.assetId
+    });
   }
 
   ngOnInit() {

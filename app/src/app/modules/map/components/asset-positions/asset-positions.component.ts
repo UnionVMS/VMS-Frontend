@@ -22,7 +22,7 @@ export class AssetPositionsComponent implements OnInit, OnChanges {
   @Input() asset: AssetTypes.Asset;
   @Input() positions: ReadonlyArray<AssetTypes.Movement>;
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
-  @Input() createNote: (note: NotesTypes.Note) => void;
+  @Input() createNote: (note: NotesTypes.NoteParameters) => void;
   @Input() map: Map;
   @Input() userTimezone: string;
   @Input() getLastFullPositionsForAsset: (
@@ -57,8 +57,8 @@ export class AssetPositionsComponent implements OnInit, OnChanges {
     }
   }
 
-  public createNoteCurried = (note: NotesTypes.Note) => {
-    return this.createNote({ ...note, assetId: this.asset.id });
+  public createNoteCurried = (note: string) => {
+    return this.createNote({ note, assetId: this.asset.id });
   }
 
   public createManualMovementCurried = (movement: AssetTypes.Movement) => {

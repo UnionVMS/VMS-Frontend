@@ -1,6 +1,6 @@
 import { Action, createAction, props } from '@ngrx/store';
 import * as IncidentTypes from './incident.types';
-import { Note } from '@data/notes/notes.types';
+import { NoteParameters } from '@data/notes/notes.types';
 
 export const clearNotificationsForIncident = createAction(
   '[Incident] clear notification for incident',
@@ -9,7 +9,7 @@ export const clearNotificationsForIncident = createAction(
 
 export const createNote = createAction(
   '[Incident] Create note',
-  props<{ incidentId: number, note: Note }>()
+  props<{ incidentId: number, note: NoteParameters }>()
 );
 
 export const getAllOpenIncidents = createAction(
