@@ -16,8 +16,10 @@ import moment from 'moment-timezone';
 export class IncidentExpiryDateFormComponent implements OnChanges {
 
   @Input() changeExpiryDate: (expiryDate: number | null) => void;
+  @Input() createNote: (note: string) => void;
 
   public formValidator: FormGroup;
+  public autoUpdateDatetime = false;
 
   ngOnChanges() {
     this.formValidator = createIncidentExpiryDateFormValidator();
@@ -28,6 +30,13 @@ export class IncidentExpiryDateFormComponent implements OnChanges {
       ? this.formValidator.value.expiryDate.format('x')
       : null;
     this.changeExpiryDate(expiryDate);
+    this.createNote(this.formValidator.value.note);
+
+    this.autoUpdateDatetime = true;
+    this.formValidator = createIncidentExpiryDateFormValidator();
+    setTimeout(() => {
+      this.autoUpdateDatetime = false;
+    }, 100);
   }
 
   updateTimestamp(dateTime: moment.Moment) {
