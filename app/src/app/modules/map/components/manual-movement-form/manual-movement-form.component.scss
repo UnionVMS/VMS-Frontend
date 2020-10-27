@@ -47,10 +47,8 @@ form.manual-position-form {
     }
   }
 
-  #manual-position-form--timestamp {
-    grid-column: 1 / span 2;
-  }
-
+  #manual-position-form--timestamp,
+  #manual-position-form--note,
   #manual-position-form--save {
     grid-column: 1 / span 2;
   }

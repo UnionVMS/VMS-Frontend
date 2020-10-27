@@ -17,5 +17,6 @@ export const createManualMovementFormValidator = () => {
     speed: new FormControl(null, [Validators.min(0), Validators.max(40)]),
     heading: new FormControl(null, [Validators.min(0), Validators.max(360)]),
     timestamp: new FormControl(moment(), [CustomValidators.momentValid, CustomValidators.momentNotInTheFuture]),
+    note: new FormControl('', [Validators.required]),
   });
 };

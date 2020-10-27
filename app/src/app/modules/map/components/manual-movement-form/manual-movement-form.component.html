@@ -126,6 +126,12 @@
     [autoUpdateDatetime]="autoUpdateDatetime"
   ></ngx-datetime-picker>
 
+  <mat-form-field id="manual-position-form--note">
+    <mat-label i18n>Note</mat-label>
+    <input matInput formControlName="note" />
+    <mat-error *ngFor="let error of getErrors(['note'])">{{ errorMessage(error) }}</mat-error>
+  </mat-form-field>
+
   <button
     id="manual-position-form--save"
     mat-button

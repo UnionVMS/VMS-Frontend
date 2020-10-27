@@ -17,6 +17,7 @@ import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style
 import { fromLonLat } from 'ol/proj';
 
 import { AssetTypes } from '@data/asset';
+import { NotesTypes } from '@data/notes';
 import { createManualMovementFormValidator } from './form-validator';
 import { ManualMovementFormDialogComponent } from '@modules/map/components/manual-movement-form-dialog/manual-movement-form-dialog.component';
 
@@ -35,6 +36,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   @Input() createManualMovement: (manualMovement: AssetTypes.Movement) => void;
   @Input() map: Map;
   @Input() userTimezone: string;
+  @Input() createNote: (note: NotesTypes.Note) => void;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -164,6 +166,10 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
     this.vectorSource.removeFeature(cachedFeature);
 
+    this.createNote({
+      note: this.formValidator.value.note as string
+    } as NotesTypes.Note);
+
     this.autoUpdateDatetime = true;
     // Remove subscriptions for previous form.
     this.unmount$.next(true);
@@ -174,6 +180,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     this.formValidator.controls.longitudeMinute.setValue('');
     this.formValidator.controls.longitudeDecimals.setValue('');
     this.formValidator.controls.timestamp.setValue(null);
+    this.formValidator.controls.note.setValue('');
     this.unmount$.next(false);
     this.initializeFormValidator();
     setTimeout(() => {

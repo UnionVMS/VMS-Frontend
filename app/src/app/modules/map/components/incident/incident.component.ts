@@ -54,6 +54,10 @@ export class IncidentComponent implements OnChanges {
     );
   }
 
+  public createNoteCurried = (note: NotesTypes.Note) => {
+    return this.createNote(this.incident.id, { ...note, assetId: this.asset.asset.id });
+  }
+
   public createManualMovementCurried = (movement: AssetTypes.Movement) => {
     return this.createManualMovement({
       movement,
