@@ -53,9 +53,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private speedsVisibleCalculated: boolean;
 
   private readonly knownVesselTypes = [
-    'FISHING', 'LAW ENFORCEMENT', 'MILITARY', 'WIG', 'PLEASURE', 'SAILING', 'SAR',
-    'ANTI POLLUTION', 'CARGO', 'DIVING', 'DREDGING', 'HSC', 'MEDICAL', 'PASSENGER', 'PILOT',
-    'PORT TENDER', 'SHIPS ACCORDING TO RR', 'TANKER', 'TOWING', 'TOWING LONG/WIDE', 'TUG',
+    'Fishing', 'Law Enforcement', 'Military', 'WIG', 'Pleasure Craft', 'Sailing', 'SAR',
+    'Anti-pollution', 'Cargo', 'Diving', 'Dredging', 'HSC', 'Medical Transport', 'Passenger',
+    'Pilot', 'Port Tender', 'Ships according to RR', 'Tanker', 'Towing', 'Tug'
   ];
 
   private readonly mostCommonFlagstates = [
@@ -64,9 +64,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   ];
 
   private readonly colors = [
-    '#88FBA3', '#A185F8', '#89FBF5', '#F386F9', '#33C6CF', '#F0FC8B', '#9FCAFF', '#FF6969',
-    '#CCFF7F', '#751EBA', '#BD22B4', '#FF8EA7', '#0000FF', '#FF0000', '#FF7F00', '#00FF00',
-    '#F888B5', '#F9A287', '#4D70C8', '#C74B6E', '#83DC60', '#C9852E', '#CCD53A', '#FFD07A', '#34CF8A',
+    '#34CF8A', '#A185F8', '#89FBF5', '#F386F9', '#33C6CF', '#F0FC8B', '#9FCAFF', '#FF6969',
+    '#CCFF7F', '#751EBA', '#BD22B4', '#0000FF', '#FF0000', '#FF7F00', '#00FF00',
+    '#F9A287', '#4D70C8', '#C74B6E', '#83DC60', '#C9852E', '#CCD53A', '#FFD07A',
   ];
 
   private readonly allocatedColors: { [logicType: string]: { [type: string]: string } } = {};
@@ -282,17 +282,20 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       return '#FFFFFF';
     }
 
-    const typeName = asset.assetEssentials.vesselType.toUpperCase();
+    const typeName = asset.assetEssentials.vesselType;
 
-    if(typeName === 'FISHING') {
+    if(typeName === 'Fishing') {
       return '#F1FF62';
     }
 
-    if(['LAW ENFORCEMENT', 'MILITARY', 'WIG'].includes(typeName)) {
+    if(['Law Enforcement', 'Military', 'WIG'].includes(typeName)) {
+      if(typeName === 'Law Enforcement' && asset.assetEssentials.assetName.includes('KBV')) {
+        return '#0000FF';
+      }
       return '#73C2FB';
     }
 
-    if(['PLEASURE', 'SAILING'].includes(typeName)) {
+    if(['Pleasure Craft', 'Sailing'].includes(typeName)) {
       return '#A9A9A9';
     }
 
@@ -301,9 +304,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if([
-      'ANTI POLLUTION', 'CARGO', 'DIVING', 'DREDGING', 'HSC', 'MEDICAL',
-      'PASSENGER', 'PILOT', 'PORT TENDER', 'SHIPS ACCORDING TO RR',
-      'TANKER', 'TOWING', 'TOWING LONG/WIDE', 'TUG',
+      'Anti-pollution', 'Cargo', 'Diving', 'Dredging', 'HSC', 'Medical Transport',
+      'Passenger', 'Pilot', 'Port Tender', 'Ships according to RR',
+      'Tanker', 'Towing', 'Tug',
     ].includes(typeName)) {
       return '#32CD32';
     }
@@ -312,7 +315,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       return '#FFFFFF';
     }
 
-    return '#' + intToRGB(hashCode(typeName));
+    return '#F82ACE';
   }
 
   getShipColorByLength(asset: AssetTypes.AssetMovementWithEssentials) {
