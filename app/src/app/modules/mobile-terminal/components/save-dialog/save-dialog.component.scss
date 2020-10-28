@@ -2,24 +2,24 @@
 
 $angular_material_margin: 24px;
 
-mobile-terminal-save-dialog {
-  h1 {
-    margin: 0px;
-    padding: 0px $angular_material_margin distance(1.5);
+mat-dialog-container.mat-dialog-container {
+  mobile-terminal-save-dialog {
+    h1.mat-dialog-title {
+      margin: 0px;
+      padding: 0px $angular_material_margin distance(1.5);
 
-    span.selected-assets {
-      color: $color_gray;
-      margin-left: distance(2);
+      span.selected-assets {
+        color: $color_gray;
+        margin-left: distance(2);
+      }
     }
-  }
 
-  .mat-dialog-content {
-    border-top: 1px solid $color_dark_gray;
-    padding: 0px;
+    .mat-dialog-content {
 
-    .mat-form-field {
-      width: 100%;
-      padding: 0px 8px;
+      .mat-form-field {
+        width: 100%;
+        padding: 0px 8px;
+      }
     }
   }
 }

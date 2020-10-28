@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation, Input, OnChanges } from '@angular/core';
-
+import { MatDialog } from '@angular/material/dialog';
 import Map from 'ol/Map';
+import { first } from 'rxjs/operators';
 
 import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
 import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
@@ -10,6 +11,7 @@ import { IncidentTypes } from '@data/incident';
 import { NotesTypes } from '@data/notes';
 import { Position } from '@data/generic.types';
 
+import { IncidentTypeFormDialogComponent } from '@modules/map/components/incident-type-form-dialog/incident-type-form-dialog.component';
 
 @Component({
   selector: 'map-incident',
@@ -37,6 +39,8 @@ export class IncidentComponent implements OnChanges {
 
   public currentActiveBlock: string;
   public previousType: IncidentTypes.IncidentTypes;
+
+  constructor(public dialog: MatDialog) { }
 
   ngOnChanges() {
     if(typeof this.previousType === 'undefined') {
@@ -136,8 +140,17 @@ export class IncidentComponent implements OnChanges {
     }
   }
 
-  formatDate(dateTime) {
-    return formatUnixtimeWithDot(dateTime);
+  openIncidentTypeFormDialog() {
+    const dialogRef = this.dialog.open(IncidentTypeFormDialogComponent, {
+      data: { type: this.incident.type, types: this.incidentTypes, incident: this.incident }
+    });
+
+    dialogRef.afterClosed().pipe(first()).subscribe(detachResult => {
+      if(typeof detachResult !== 'undefined' && detachResult !== false) {
+        this.changeType(detachResult.type);
+        this.createNoteCurried(detachResult.note);
+      }
+    });
   }
 
   isBlockActive(blockName: string) {

@@ -58,7 +58,7 @@ import { IncidentLogEntryPositionComponent } from './components/incident-log-ent
 import { IncidentLogsComponent } from './components/incident-logs/incident-logs.component';
 import { IncidentManualPollFormComponent } from './components/incident-manual-poll-form/incident-manual-poll-form.component';
 import { IncidentStatusFormComponent } from './components/incident-status-form/incident-status-form.component';
-import { IncidentTypeFormComponent } from './components/incident-type-form/incident-type-form.component';
+import { IncidentTypeFormDialogComponent } from './components/incident-type-form-dialog/incident-type-form-dialog.component';
 import { IncidentsAssetNotSendingComponent } from './components/incidents-asset-not-sending/incidents-asset-not-sending.component';
 import { IncidentsManualPositionModeComponent } from './components/incidents-manual-position-mode/incidents-manual-position-mode.component';
 import { IncidentsOwnershipTransferComponent } from './components/incidents-ownership-transfer/incidents-ownership-transfer.component';
@@ -138,7 +138,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentLogsComponent,
     IncidentManualPollFormComponent,
     IncidentStatusFormComponent,
-    IncidentTypeFormComponent,
+    IncidentTypeFormDialogComponent,
     IncidentsAssetNotSendingComponent,
     IncidentsManualPositionModeComponent,
     IncidentsOwnershipTransferComponent,

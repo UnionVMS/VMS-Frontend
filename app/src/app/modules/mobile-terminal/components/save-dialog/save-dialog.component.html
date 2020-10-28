@@ -1,10 +1,13 @@
 <h1 mat-dialog-title i18n>To save, add a comment on whats changed.</h1>
 <div mat-dialog-content>
-  <mat-form-field>
-    <textarea matInput [formControl]="note" required></textarea>
-  </mat-form-field>
+  <div class="content-container">
+    <mat-form-field>
+      <mat-label i18n>Comment</mat-label>
+      <textarea matInput [formControl]="note" required></textarea>
+    </mat-form-field>
+  </div>
 </div>
-<div mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close cdkFocusInitial i18n>Cancel</button>
-  <button mat-button [disabled]="!note.valid" [mat-dialog-close]="save()" i18n>Save mobile terminal</button>
+<div mat-dialog-actions align="center">
+  <button mat-stroked-button color="primary" mat-dialog-close cdkFocusInitial i18n>Cancel</button>
+  <button mat-raised-button color="accent" [disabled]="!note.valid" [mat-dialog-close]="save()" i18n>Save mobile terminal</button>
 </div>

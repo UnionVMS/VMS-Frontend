@@ -1,8 +1,8 @@
 <h1 mat-dialog-title i18n>Save position</h1>
 <div mat-dialog-content>
-  <p i18n>Are you sure you want to save the position <b>{{data.location}}</b> on timestamp <b>{{data.timestamp}} ({{data.userTimezone}})</b>.</p>
+  <div class="ingress" i18n>Are you sure you want to save the position <b>{{data.location}}</b> on timestamp <b>{{data.timestamp}} ({{data.userTimezone}})</b>.</div>
 </div>
-<div mat-dialog-actions align="end">
-  <button mat-button matDialogClose cdkFocusInitial color="primary" i18n>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" color="primary" i18n>Save</button>
+<div mat-dialog-actions align="center">
+  <button mat-stroked-button matDialogClose cdkFocusInitial color="primary" i18n>Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="true" color="accent" i18n>Save</button>
 </div>

@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { IncidentTypes } from '@data/incident';
 import { createIncidentTypeFormValidator } from './form-validator';
@@ -9,21 +10,20 @@ import { errorMessage } from '@app/helpers/validators/error-messages';
 import moment from 'moment-timezone';
 
 @Component({
-  selector: 'map-incident-type-form',
-  templateUrl: './incident-type-form.component.html',
-  styleUrls: ['./incident-type-form.component.scss']
+  selector: 'map-incident-type-form-dialog',
+  templateUrl: './incident-type-form-dialog.component.html',
+  styleUrls: ['./incident-type-form-dialog.component.scss']
 })
-export class IncidentTypeFormComponent implements OnChanges {
-
-  @Input() type: string;
-  @Input() types: IncidentTypes.IncidentTypesCollection;
-  @Input() changeType: (status: string) => void;
-  @Input() disabled?: boolean;
+export class IncidentTypeFormDialogComponent {
 
   public formValidator: FormGroup;
 
-  ngOnChanges() {
-    this.formValidator = createIncidentTypeFormValidator(this.type, this.disabled || false);
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {
+    type: string,
+    types: IncidentTypes.IncidentTypesCollection,
+    incident: IncidentTypes.Incident
+  }) {
+    this.formValidator = createIncidentTypeFormValidator(this.data.type);
   }
 
   getTypeName(type) {
@@ -33,9 +33,7 @@ export class IncidentTypeFormComponent implements OnChanges {
   }
 
   save() {
-    if(this.formValidator.valid) {
-      this.changeType(this.formValidator.value.type);
-    }
+    return { type: this.formValidator.value.type, note: this.formValidator.value.note };
   }
 
   getErrors(path: string[]) {

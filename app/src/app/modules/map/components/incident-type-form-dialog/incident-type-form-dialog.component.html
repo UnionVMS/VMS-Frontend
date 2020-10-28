@@ -1,0 +1,33 @@
+<h1 mat-dialog-title i18n>Move to workflow...</h1>
+<div mat-dialog-content>
+  <div class="ingress">
+    <div i18n>You are about to move incident #{{data.incident.id}} to another workflow.</div>
+    <div i18n>Choose desired workflow, enter comment and confirm to complete the action.</div>
+  </div>
+  <div class="content-container">
+    <form class="type-form" [formGroup]="formValidator">
+      <div id="type-form--types">
+        <mat-radio-group formControlName="type" required>
+          <mat-radio-button id="mat-radio-button--{{type}}" *ngFor="let type of data.types" [value]="type" color="primary">
+            {{getTypeName(type)}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <mat-form-field id="type-form--note">
+        <mat-label i18n>Why are you moving this incident?</mat-label>
+        <input matInput formControlName="note" required />
+        <mat-error *ngFor="let error of getErrors(['note'])">{{ errorMessage(error) }}</mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-stroked-button [matDialogClose]="false" cdkFocusInitial color="primary" i18n>Cancel</button>
+  <button
+    mat-raised-button
+    [mat-dialog-close]="save()"
+    color="accent"
+    i18n
+    [disabled]="data.type === formValidator.value.type || !formValidator.valid"
+  >Move to {{getTypeName(formValidator.value.type)}}</button>
+</div>

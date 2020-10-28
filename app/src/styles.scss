@@ -190,10 +190,38 @@ mat-form-field .mat-form-field-infix {
   width: inherit;
 }
 
-mat-dialog-container {
-  h1 {
-    margin-top: 0px;
+mat-dialog-container.mat-dialog-container {
+  padding: distance(4) distance(8);
+
+  .mat-dialog-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0px;
     padding: 0px;
+  }
+
+  .mat-dialog-content {
+    .ingress {
+      padding-top: distance(2);
+      text-align: center;
+      font-size: 18px;
+      line-spacing: 28pt;
+    }
+    .content-container {
+      padding-top: distance(4);
+    }
+  }
+
+  .mat-dialog-actions {
+    padding: 0px;
+    margin: 0px;
+    padding-top: distance(4);
+
+    button {
+      height: 48px;
+      line-height: 16px;
+    }
   }
 
   p {

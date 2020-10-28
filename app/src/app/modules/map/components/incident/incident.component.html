@@ -94,28 +94,24 @@
       <ng-container i18n>Asset info</ng-container>
       <i class="ri-external-link-fill"></i>
     </button>
-
-
   </div>
 
   <div class="incident-footer">
-    <div class="content-block">
-      <h4>Move to workflow</h4>
-      <map-incident-type-form
-        [type]="incident.type"
-        [types]="incidentTypes"
-        [changeType]="changeType"
-        [disabled]="!checkPermissionForIncidentTypeForm()"
-      ></map-incident-type-form>
-    </div>
-    <div class="notes-and-log">
-
-    </div>
+    <button
+      *ngIf="checkPermissionForIncidentTypeForm()"
+      title="Full incident log"
+      id="show-full-log"
+      mat-stroked-button
+      color="primary"
+      type="button"
+      i18n
+      (click)="openIncidentTypeFormDialog()"
+    >Move to workflow...</button>
 
     <button
       *ngIf="checkPermissionForRegisterAttemptedContact()"
-      title="Full incident log"
-      id="show-full-log"
+      title="Register attempted contact"
+      id="register-attempted-contact"
       mat-stroked-button
       color="primary"
       type="button"
@@ -134,63 +130,4 @@
       (click)="changeStatus('RESOLVED')"
     >Resolve incident</button>
   </div>
-
-  <!-- <div class="asset-information">
-    <h5 i18n>Last known position</h5>
-    <legend i18n>Latitude:</legend>
-    <div>{{lastKnownPositionFormatted.latitude}}</div>
-    <legend i18n>Longitude:</legend>
-    <div>{{lastKnownPositionFormatted.longitude}}</div>
-    <legend i18n>Heading:</legend>
-    <div>{{incident.lastKnownLocation.heading.toFixed(2)}}</div>
-    <legend i18n>Speed:</legend>
-    <div>{{incident.lastKnownLocation.speed.toFixed(2)}}</div>
-    <legend i18n>Time:</legend>
-    <div>{{formatDate(incident.lastKnownLocation.timestamp)}}</div>
-
-    <h5 i18n>Asset information</h5>
-    <ng-container *ngIf="asset.asset.ircs">
-      <legend i18n>Ircs:</legend>
-      <div>{{asset.asset.ircs}}</div>
-    </ng-container>
-    <ng-container *ngIf="asset.asset.mmsi">
-      <legend i18n>Mmsi:</legend>
-      <div>
-        <a
-          href="https://www.marinetraffic.com/en/ais/index/search/all?keyword={{asset.asset.mmsi}}"
-          target="_blank"
-        >{{asset.asset.mmsi}}</a>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="asset.asset.flagStateCode">
-      <legend i18n>Flagstate:</legend>
-      <div>{{asset.asset.flagStateCode}}</div>
-    </ng-container>
-    <ng-container *ngIf="asset.asset.externalMarking">
-      <legend i18n>External marking:</legend>
-      <div>{{asset.asset.externalMarking}}</div>
-    </ng-container>
-    <ng-container *ngIf="asset.asset.lengthOverAll">
-      <legend i18n>Length:</legend>
-      <div>{{asset.asset.lengthOverAll}}</div>
-    </ng-container>
-    <ng-container *ngIf="asset.asset.licenceType">
-      <legend i18n>LicenceType:</legend>
-      <div>{{asset.asset.licenceType}}</div>
-    </ng-container>
-    <ng-container *ngIf="asset.asset.vesselType">
-      <legend i18n>Vessel type:</legend>
-      <div>{{asset.asset.vesselType}}</div>
-    </ng-container>
-
-    <!-- <ng-container *ngIf="asset.asset.prodOrgCode">
-      <legend i18n>Org. Nr:</legend>
-      <div>{{asset.asset.prodOrgCode}}</div>
-    </ng-container>
-    <ng-container *ngIf="asset.asset.prodOrgName">
-      <legend i18n>Org. namn:</legend>
-      <div>{{asset.asset.prodOrgName}}</div>
-    </ng-container> -->
-  <!-- </div> -->
-
-  </div>
+</div>
