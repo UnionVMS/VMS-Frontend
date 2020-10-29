@@ -12,6 +12,7 @@ import { NotesTypes } from '@data/notes';
 import { Position } from '@data/generic.types';
 
 import { IncidentAttemptedContactDialogComponent } from '@modules/map/components/incident-attempted-contact-dialog/incident-attempted-contact-dialog.component';
+import { IncidentResolveDialogComponent } from '@modules/map/components/incident-resolve-dialog/incident-resolve-dialog.component';
 import { IncidentTypeFormDialogComponent } from '@modules/map/components/incident-type-form-dialog/incident-type-form-dialog.component';
 
 @Component({
@@ -158,6 +159,19 @@ export class IncidentComponent implements OnChanges {
     dialogRef.afterClosed().pipe(first()).subscribe(detachResult => {
       if(typeof detachResult !== 'undefined' && detachResult !== false) {
         this.changeStatus(IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT);
+        this.createNoteCurried(detachResult.note);
+      }
+    });
+  }
+
+  openIncidentResolveDialog() {
+    const dialogRef = this.dialog.open(IncidentResolveDialogComponent, {
+      data: { incident: this.incident }
+    });
+
+    dialogRef.afterClosed().pipe(first()).subscribe(detachResult => {
+      if(typeof detachResult !== 'undefined' && detachResult !== false) {
+        this.changeStatus(IncidentTypes.IncidentResolvedStatus);
         this.createNoteCurried(detachResult.note);
       }
     });

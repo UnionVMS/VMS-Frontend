@@ -58,6 +58,7 @@ import { IncidentLogEntryPollComponent } from './components/incident-log-entry-p
 import { IncidentLogEntryPositionComponent } from './components/incident-log-entry-position/incident-log-entry-position.component';
 import { IncidentLogsComponent } from './components/incident-logs/incident-logs.component';
 import { IncidentManualPollFormComponent } from './components/incident-manual-poll-form/incident-manual-poll-form.component';
+import { IncidentResolveDialogComponent } from './components/incident-resolve-dialog/incident-resolve-dialog.component';
 import { IncidentStatusFormComponent } from './components/incident-status-form/incident-status-form.component';
 import { IncidentTypeFormDialogComponent } from './components/incident-type-form-dialog/incident-type-form-dialog.component';
 import { IncidentsAssetNotSendingComponent } from './components/incidents-asset-not-sending/incidents-asset-not-sending.component';
@@ -139,6 +140,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentLogEntryPositionComponent,
     IncidentLogsComponent,
     IncidentManualPollFormComponent,
+    IncidentResolveDialogComponent,
     IncidentStatusFormComponent,
     IncidentTypeFormDialogComponent,
     IncidentsAssetNotSendingComponent,

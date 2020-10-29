@@ -117,7 +117,7 @@
       type="button"
       i18n
       (click)="openIncidentAttemptedContactDialog()"
-    >Register attempted contact</button>
+    >Register attempted contact...</button>
 
     <button
       *ngIf="checkPermissionForResloveButton()"
@@ -127,7 +127,7 @@
       color="accent"
       type="button"
       i18n
-      (click)="changeStatus('RESOLVED')"
-    >Resolve incident</button>
+      (click)="openIncidentResolveDialog()"
+    >Resolve incident...</button>
   </div>
 </div>
