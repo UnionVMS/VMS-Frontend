@@ -11,6 +11,7 @@ import { IncidentTypes } from '@data/incident';
 import { NotesTypes } from '@data/notes';
 import { Position } from '@data/generic.types';
 
+import { IncidentAttemptedContactDialogComponent } from '@modules/map/components/incident-attempted-contact-dialog/incident-attempted-contact-dialog.component';
 import { IncidentTypeFormDialogComponent } from '@modules/map/components/incident-type-form-dialog/incident-type-form-dialog.component';
 
 @Component({
@@ -84,10 +85,6 @@ export class IncidentComponent implements OnChanges {
     return this.updateIncidentExpiry(this.incident.id, expiryDate);
   }
 
-  public registerAttemptedContact = () => {
-    return this.changeStatus(IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT);
-  }
-
   public checkPermissionForIncidentTypeForm() {
     return this.incident.status !== IncidentTypes.IncidentResolvedStatus;
   }
@@ -148,6 +145,19 @@ export class IncidentComponent implements OnChanges {
     dialogRef.afterClosed().pipe(first()).subscribe(detachResult => {
       if(typeof detachResult !== 'undefined' && detachResult !== false) {
         this.changeType(detachResult.type);
+        this.createNoteCurried(detachResult.note);
+      }
+    });
+  }
+
+  openIncidentAttemptedContactDialog() {
+    const dialogRef = this.dialog.open(IncidentAttemptedContactDialogComponent, {
+      data: { incident: this.incident }
+    });
+
+    dialogRef.afterClosed().pipe(first()).subscribe(detachResult => {
+      if(typeof detachResult !== 'undefined' && detachResult !== false) {
+        this.changeStatus(IncidentTypes.AssetNotSendingStatuses.ATTEMPTED_CONTACT);
         this.createNoteCurried(detachResult.note);
       }
     });

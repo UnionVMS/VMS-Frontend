@@ -50,6 +50,7 @@ import { EditAssetGroupDialogComponent } from './components/edit-asset-group-dia
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
 import { IncidentComponent } from './components/incident/incident.component';
 import { IncidentCardComponent } from './components/incident-card/incident-card.component';
+import { IncidentAttemptedContactDialogComponent } from './components/incident-attempted-contact-dialog/incident-attempted-contact-dialog.component';
 import { IncidentExpiryDateFormComponent } from './components/incident-expiry-date-form/incident-expiry-date-form.component';
 import { IncidentLogComponent } from './components/incident-log/incident-log.component';
 import { IncidentLogEntryNoteComponent } from './components/incident-log-entry-note/incident-log-entry-note.component';
@@ -130,6 +131,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     FlagstatesComponent,
     IncidentComponent,
     IncidentCardComponent,
+    IncidentAttemptedContactDialogComponent,
     IncidentExpiryDateFormComponent,
     IncidentLogComponent,
     IncidentLogEntryNoteComponent,
