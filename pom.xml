@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>eu.europa.ec.fisheries.uvms</groupId>
 	<artifactId>vms-web</artifactId>
-	<version>0.30.0</version>
+	<version>0.30.1-SNAPSHOT</version>
 	<name>vms-web</name>
 	<packaging>war</packaging>
 
@@ -147,7 +147,7 @@
 	<scm>
 		<connection>${scm.connection}</connection>
         <developerConnection>${scm.connection}</developerConnection>
-		<tag>vms-web-0.30.0</tag>
+		<tag>vms-web-0.27.5</tag>
 	</scm>
 
 </project>
