@@ -9,7 +9,7 @@ import { NotificationsTypes } from '@data/notifications';
 
 export class NotificationsComponent {
   @Input() notifications: NotificationsTypes.State;
-  @Input() dismiss: (type: string, index: number) => void;
+  @Input() dismiss: (type: string, id: string) => void;
   @Input() overlay: boolean;
 
   addConditionalClasses() {

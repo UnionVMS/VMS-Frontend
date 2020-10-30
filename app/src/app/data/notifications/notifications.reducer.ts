@@ -9,16 +9,16 @@ export const initialState: Types.State = {
 };
 
 export const notificationsReducer = createReducer(initialState,
-  on(NotificationsActions.addNotification, (state, { notificationType, notification }) => {
+  on(NotificationsActions.addNotification, (state, { notificationType, notification, autoDismissInMs, id }) => {
     return ({
       ...state,
-      [notificationType]: [ ...state[notificationType], notification ]
+      [notificationType]: [ ...state[notificationType], { notification, autoDismissInMs, id } ]
     });
   }),
-  on(NotificationsActions.dismiss, (state, { notificationType, index }) => {
+  on(NotificationsActions.dismiss, (state, { notificationType, id }) => {
     return ({
       ...state,
-      [notificationType]: state[notificationType].filter((notification: string, currentIndex: number) => currentIndex !== index)
+      [notificationType]: state[notificationType].filter((notification: Types.Notification) => notification.id !== id)
     });
   }),
 );

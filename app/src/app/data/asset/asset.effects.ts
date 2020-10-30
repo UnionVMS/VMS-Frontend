@@ -522,7 +522,7 @@ export class AssetEffects {
             if(typeof response.code !== 'undefined') {
               return [NotificationsActions.addError('Server error: Couldn\'t create a manual poll. Please contact system administrator.')];
             }
-            return [NotificationsActions.addSuccess('Manual poll initiated. Response can take anywhere from a few minutes up to a couple of hours.')];
+            return [NotificationsActions.addSuccess('Manual poll initiated. Response can take anywhere from a few minutes up to a couple of hours.', 7000)];
           })
         );
       })
