@@ -48,24 +48,25 @@ import { CoordinatesPopupComponent } from './components/coordinates-popup/coordi
 import { DistanceBetweenPointsComponent } from './components/distance-between-points/distance-between-points.component';
 import { EditAssetGroupDialogComponent } from './components/edit-asset-group-dialog/edit-asset-group-dialog.component';
 import { FlagstatesComponent } from './components/flagstates/flagstates.component';
-import { IncidentComponent } from './components/incident/incident.component';
-import { IncidentCardComponent } from './components/incident-card/incident-card.component';
-import { IncidentAttemptedContactDialogComponent } from './components/incident-attempted-contact-dialog/incident-attempted-contact-dialog.component';
-import { IncidentExpiryDateFormComponent } from './components/incident-expiry-date-form/incident-expiry-date-form.component';
-import { IncidentLogComponent } from './components/incident-log/incident-log.component';
-import { IncidentLogEntryNoteComponent } from './components/incident-log-entry-note/incident-log-entry-note.component';
-import { IncidentLogEntryPollComponent } from './components/incident-log-entry-poll/incident-log-entry-poll.component';
-import { IncidentLogEntryPositionComponent } from './components/incident-log-entry-position/incident-log-entry-position.component';
-import { IncidentLogsComponent } from './components/incident-logs/incident-logs.component';
-import { IncidentManualPollFormComponent } from './components/incident-manual-poll-form/incident-manual-poll-form.component';
-import { IncidentResolveDialogComponent } from './components/incident-resolve-dialog/incident-resolve-dialog.component';
-import { IncidentStatusFormComponent } from './components/incident-status-form/incident-status-form.component';
-import { IncidentTypeFormDialogComponent } from './components/incident-type-form-dialog/incident-type-form-dialog.component';
-import { IncidentsAssetNotSendingComponent } from './components/incidents-asset-not-sending/incidents-asset-not-sending.component';
-import { IncidentsManualPositionModeComponent } from './components/incidents-manual-position-mode/incidents-manual-position-mode.component';
-import { IncidentsOwnershipTransferComponent } from './components/incidents-ownership-transfer/incidents-ownership-transfer.component';
-import { IncidentsParkedComponent } from './components/incidents-parked/incidents-parked.component';
-import { IncidentsSeasonalFishingComponent } from './components/incidents-seasonal-fishing/incidents-seasonal-fishing.component';
+import { IncidentComponent } from './components/incident/incident/incident.component';
+import { IncidentCardComponent } from './components/incident/incident-card/incident-card.component';
+import { IncidentAttemptedContactDialogComponent } from './components/incident/incident-attempted-contact-dialog/incident-attempted-contact-dialog.component';
+import { IncidentExpiryDateFormComponent } from './components/incident/incident-expiry-date-form/incident-expiry-date-form.component';
+import { IncidentLogComponent } from './components/incident/incident-logs/incident-log/incident-log.component';
+import { IncidentLogEntryExpiryDateComponent } from './components/incident/incident-logs/incident-log-entry/incident-log-entry-expiry-date/incident-log-entry-expiry-date.component';
+import { IncidentLogEntryNoteComponent } from './components/incident/incident-logs/incident-log-entry/incident-log-entry-note/incident-log-entry-note.component';
+import { IncidentLogEntryPollComponent } from './components/incident/incident-logs/incident-log-entry/incident-log-entry-poll/incident-log-entry-poll.component';
+import { IncidentLogEntryPositionComponent } from './components/incident/incident-logs/incident-log-entry/incident-log-entry-position/incident-log-entry-position.component';
+import { IncidentLogsComponent } from './components/incident/incident-logs/incident-logs/incident-logs.component';
+import { IncidentManualPollFormComponent } from './components/incident/incident-manual-poll-form/incident-manual-poll-form.component';
+import { IncidentResolveDialogComponent } from './components/incident/incident-resolve-dialog/incident-resolve-dialog.component';
+import { IncidentStatusFormComponent } from './components/incident/incident-status-form/incident-status-form.component';
+import { IncidentTypeFormDialogComponent } from './components/incident/incident-type-form-dialog/incident-type-form-dialog.component';
+import { IncidentsAssetNotSendingComponent } from './components/incident/incidents-asset-not-sending/incidents-asset-not-sending.component';
+import { IncidentsManualPositionModeComponent } from './components/incident/incidents-manual-position-mode/incidents-manual-position-mode.component';
+import { IncidentsOwnershipTransferComponent } from './components/incident/incidents-ownership-transfer/incidents-ownership-transfer.component';
+import { IncidentsParkedComponent } from './components/incident/incidents-parked/incidents-parked.component';
+import { IncidentsSeasonalFishingComponent } from './components/incident/incidents-seasonal-fishing/incidents-seasonal-fishing.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
 import { LicenceInformationComponent } from './components/licence-information/licence-information.component';
@@ -135,6 +136,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentAttemptedContactDialogComponent,
     IncidentExpiryDateFormComponent,
     IncidentLogComponent,
+    IncidentLogEntryExpiryDateComponent,
     IncidentLogEntryNoteComponent,
     IncidentLogEntryPollComponent,
     IncidentLogEntryPositionComponent,

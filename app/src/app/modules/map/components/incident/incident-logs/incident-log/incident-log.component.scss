@@ -11,6 +11,11 @@
     padding: distance(1);
     background: white;
 
+    .grid-entry {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
     .incident-log-entry--content {
       display: grid;
     }

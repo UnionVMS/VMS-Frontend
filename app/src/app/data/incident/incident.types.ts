@@ -8,7 +8,7 @@ export enum IncidentNotificationTypes {
 
 export const IncidentResolvedStatus = 'RESOLVED';
 
-export const statusTranslations = {
+export const StatusTranslations = {
   POLL_FAILED: $localize`:@@ts-issue-status-poll-failed:Poll Failed`,
   ATTEMPTED_CONTACT: $localize`:@@ts-issue-status-attempted-contact:Attempted Contact`,
   MANUAL_POSITION_MODE: $localize`:@@ts-issue-status-manual-position-mode:Manual Position Mode`,
@@ -131,9 +131,32 @@ export type IncidentNotificationsCollections = Readonly<{
   readonly [incidentId: number]: IncidentNotifications;
 }>;
 
+export enum LogEntryType {
+  MANUAL_POSITION = 'MANUAL_POSITION',
+  MANUAL_POSITION_LATE = 'MANUAL_POSITION_LATE',
+  RECEIVED_AIS_POSITION = 'RECEIVED_AIS_POSITION',
+  RECEIVED_VMS_POSITION = 'RECEIVED_VMS_POSITION',
+  POLL_CREATED = 'POLL_CREATED',
+  AUTO_POLL_CREATED = 'AUTO_POLL_CREATED',
+  AUTO_POLL_CREATION_FAILED = 'AUTO_POLL_CREATION_FAILED',
+  NOTE_CREATED = 'NOTE_CREATED',
+  INCIDENT_CREATED = 'INCIDENT_CREATED',
+  EXPIRY_UPDATED = 'EXPIRY_UPDATED',
+  INCIDENT_CLOSED = 'INCIDENT_CLOSED',
+  INCIDENT_STATUS = 'INCIDENT_STATUS',
+  INCIDENT_TYPE = 'INCIDENT_TYPE',
+}
+
 export type IncidentLogEntry = Readonly<{
   id: number,
-  eventType: string,
+  data?: {
+    user?: string,
+    expiry?: number,
+    from?: string,
+    to?: string,
+    errorMessage?: string,
+  };
+  eventType: LogEntryType,
   createDate: number,
   incidentId: number,
   message: string,

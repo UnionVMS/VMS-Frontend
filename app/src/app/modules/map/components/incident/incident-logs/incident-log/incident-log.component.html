@@ -10,8 +10,29 @@
     </div>
     <div *ngIf="isExpanded(logEntry.id)" class="incident-log-entry--expanded-block">
       <div
-        *ngIf="logEntry.eventType === 'INCIDENT_STATUS'"
-      >New status: {{ getStatusText(logEntry.incidentStatus) }}</div>
+        *ngIf="isStatusUpdatedEvent(logEntry)"
+        class="grid-entry"
+      >
+        <b i18n>From:</b><div>{{getIncidentStatusTranslation(logEntry.data.from)}}</div>
+        <b i18n>To:</b><div>{{getIncidentStatusTranslation(logEntry.data.to)}}</div>
+        <b i18n>By user:</b><div>{{logEntry.data.user}}</div>
+      </div>
+      <div
+        *ngIf="isIncidentTypeChangeEvent(logEntry)"
+        class="grid-entry"
+      >
+        <b i18n>From:</b><div>{{getIncidentTypeTranslation(logEntry.data.from)}}</div>
+        <b i18n>To:</b><div>{{getIncidentTypeTranslation(logEntry.data.to)}}</div>
+        <b i18n>By user:</b><div>{{logEntry.data.user}}</div>
+      </div>
+      <div
+        *ngIf="isAutoPollCreationFailedEvent(logEntry)"
+      ><b i18n>Reason: </b>{{logEntry.data.errorMessage}}</div>
+      <map-incident-log-entry-expiry-date
+        *ngIf="isExpiryDateEvent(logEntry)"
+        [logEntry]="logEntry"
+        [userTimezone]="userTimezone"
+      ></map-incident-log-entry-expiry-date>
       <map-incident-log-entry-poll
         *ngIf="logEntry.relatedObjectType === 'POLL'"
         [poll]="incidentLog.relatedObjects.polls[logEntry.relatedObjectId]"

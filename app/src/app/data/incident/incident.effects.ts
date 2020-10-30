@@ -207,12 +207,23 @@ export class IncidentEffects {
       return this.incidentService.getLogForIncident(authToken, action.incidentId).pipe(
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
-        map((log: any) => {
+        map((response: any) => {
+          const log: { readonly [logEntryId: number]: IncidentTypes.IncidentLogEntry } = Object.values(response.incidentLogs).reduce(
+            (acc: { readonly [logEntryId: number]: IncidentTypes.IncidentLogEntry }, incidentLog: IncidentTypes.IncidentLogEntry) => {
+              const parsedLog =  typeof incidentLog.data !== 'undefined'
+                ? { ...incidentLog, data: JSON.parse(incidentLog.data as string) }
+                : incidentLog;
+              return { ...acc,
+                [incidentLog.id]: parsedLog
+              };
+            }, {}
+          ) as { readonly [logEntryId: number]: IncidentTypes.IncidentLogEntry };
+
           return IncidentActions.setLogForIncident({
             incidentId: action.incidentId,
             incidentLog: {
-              log: log.incidentLogs,
-              relatedObjects: log.relatedObjects
+              log,
+              relatedObjects: response.relatedObjects
             }
           });
         })

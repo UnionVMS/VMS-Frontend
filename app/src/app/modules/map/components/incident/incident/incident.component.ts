@@ -11,9 +11,9 @@ import { IncidentTypes } from '@data/incident';
 import { NotesTypes } from '@data/notes';
 import { Position } from '@data/generic.types';
 
-import { IncidentAttemptedContactDialogComponent } from '@modules/map/components/incident-attempted-contact-dialog/incident-attempted-contact-dialog.component';
-import { IncidentResolveDialogComponent } from '@modules/map/components/incident-resolve-dialog/incident-resolve-dialog.component';
-import { IncidentTypeFormDialogComponent } from '@modules/map/components/incident-type-form-dialog/incident-type-form-dialog.component';
+import { IncidentAttemptedContactDialogComponent } from '@modules/map/components/incident/incident-attempted-contact-dialog/incident-attempted-contact-dialog.component';
+import { IncidentResolveDialogComponent } from '@modules/map/components/incident/incident-resolve-dialog/incident-resolve-dialog.component';
+import { IncidentTypeFormDialogComponent } from '@modules/map/components/incident/incident-type-form-dialog/incident-type-form-dialog.component';
 
 @Component({
   selector: 'map-incident',
