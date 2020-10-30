@@ -1,6 +1,6 @@
 {
   "name": "vms-frontend",
-  "version": "0.30.2",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host=0.0.0.0 --configuration=dev --hmr=true",
