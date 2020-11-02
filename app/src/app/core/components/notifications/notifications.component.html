@@ -1,20 +1,29 @@
 <ul class="notifications {{addConditionalClasses()}}" *ngIf="notifications.success.length > 0 || notifications.notices.length > 0 || notifications.errors.length > 0">
-  <li *ngFor="let successNotification of notifications.success; let i = index" class="alert alert-success">
+  <li *ngFor="let successNotification of notifications.success; let i = index" class="alert alert-success{{ successNotification.autoDismissInMs === undefined ? ' no-countdown' : '' }}">
     <span [innerHTML]="successNotification.notification"></span>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismiss('success', successNotification.id)" i18n>
-      Dismiss
-    </button>
+    <div class="end-section">
+      <ui-countdown-circle *ngIf="successNotification.autoDismissInMs !== undefined" diameter="30" [seconds]="successNotification.autoDismissInMs / 1000" color="accent"></ui-countdown-circle>
+      <button mat-stroked-button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismiss('success', successNotification.id)" i18n>
+        Dismiss
+      </button>
+    </div>
   </li>
-  <li *ngFor="let noticesNotification of notifications.notices; let i = index" class="alert alert-notice">
+  <li *ngFor="let noticesNotification of notifications.notices; let i = index" class="alert alert-notice{{ noticesNotification.autoDismissInMs === undefined ? ' no-countdown' : '' }}">
     <span [innerHTML]="noticesNotification.notification"></span>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismiss('notices', noticesNotification.id)" i18n>
-      Dismiss
-    </button>
+    <div class="end-section">
+      <ui-countdown-circle *ngIf="noticesNotification.autoDismissInMs !== undefined" diameter="30" [seconds]="noticesNotification.autoDismissInMs / 1000" color="primary"></ui-countdown-circle>
+      <button mat-stroked-button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismiss('notices', noticesNotification.id)" i18n>
+        Dismiss
+      </button>
+    </div>
   </li>
-  <li *ngFor="let errorsNotification of notifications.errors; let i = index" class="alert alert-error">
+  <li *ngFor="let errorsNotification of notifications.errors; let i = index" class="alert alert-error{{ errorsNotification.autoDismissInMs === undefined ? ' no-countdown' : '' }}">
     <span [innerHTML]="errorsNotification.notification"></span>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismiss('errors', errorsNotification.id)" i18n>
-      Dismiss
-    </button>
+    <div class="end-section">
+      <ui-countdown-circle *ngIf="errorsNotification.autoDismissInMs !== undefined" diameter="30" [seconds]="errorsNotification.autoDismissInMs / 1000" color="warn"></ui-countdown-circle>
+      <button mat-stroked-button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismiss('errors', errorsNotification.id)" i18n>
+        Dismiss
+      </button>
+    </div>
   </li>
 </ul>

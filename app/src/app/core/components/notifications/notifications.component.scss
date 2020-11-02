@@ -22,19 +22,24 @@ ul.notifications {
     margin-bottom: 1rem;
     border: 1px solid transparent;
     border-radius: .25rem;
-    padding-right: 40px;
+    padding-right: 130px;
 
-    button.close {
-      padding: 0;
-      background-color: transparent;
-      border: 0;
-      -webkit-appearance: none;
-      cursor: pointer;
+    &.no-countdown {
+      padding-right: 100px;
+    }
+
+    .end-section {
+      align-self: start;
+      display: grid;
+      grid-auto-flow: column;
+      grid-column-gap: distance(1);
       position: absolute;
-      top: 0;
-      right: 0;
-      padding: .75rem 1.25rem;
-      color: inherit;
+      right: distance(0.25);
+      top: 0px;
+
+      button.close {
+        margin-top: 2px;
+      }
     }
   }
 
