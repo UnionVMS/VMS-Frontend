@@ -55,7 +55,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private readonly knownVesselTypes = [
     'Fishing', 'Law Enforcement', 'Military', 'WIG', 'Pleasure Craft', 'Sailing', 'SAR',
     'Anti-pollution', 'Cargo', 'Diving', 'Dredging', 'HSC', 'Medical Transport', 'Passenger',
-    'Pilot', 'Port Tender', 'Ships according to RR', 'Tanker', 'Towing', 'Tug'
+    'Pilot', 'Port Tender', 'Ships according to RR', 'Tanker', 'Towing', 'Tug', 'Other'
   ];
 
   private readonly mostCommonFlagstates = [
@@ -288,7 +288,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       return '#F1FF62';
     }
 
-    if(['Law Enforcement', 'Military', 'WIG'].includes(typeName)) {
+    if(['Law Enforcement', 'Military', 'WIG', 'Other'].includes(typeName)) {
       if(typeName === 'Law Enforcement' && asset.assetEssentials.assetName.includes('KBV')) {
         return '#0000FF';
       }
