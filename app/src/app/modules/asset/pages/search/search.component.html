@@ -14,10 +14,10 @@
             <mat-label>Flag state</mat-label>
             <mat-select name="flagState" [(ngModel)]="assetSearchObject.flagState" multiple>
               <mat-optgroup label="Common countries">
-                <mat-option *ngFor="let country of commonCountries" id="mat-option-{{allCountryCodes[country]}}" [value]="allCountryCodes[country]">{{country}}</mat-option>
+                <mat-option *ngFor="let country of commonCountries" id="mat-option-{{allCountryCodes[country]}}" [value]="allCountryCodes[country]">{{country}} - {{allCountryCodes[country]}}</mat-option>
               </mat-optgroup>
               <mat-optgroup label="Other countries">
-                <mat-option *ngFor="let flagstate of flagstates" id="mat-option-{{allCountryCodes[flagstate]}}" [value]="allCountryCodes[flagstate]">{{flagstate}}</mat-option>
+                <mat-option *ngFor="let flagstate of flagstates" id="mat-option-{{allCountryCodes[flagstate]}}" [value]="allCountryCodes[flagstate]">{{flagstate}} - {{allCountryCodes[flagstate]}}</mat-option>
               </mat-optgroup>
             </mat-select>
         </mat-form-field>
