@@ -31,7 +31,12 @@
     <li class="nav-item">
       <fieldset *ngIf="currentTimezone" class="timezone-selector">
         <mat-select [(value)]="currentTimezone" (selectionChange)="setTimezone($event.value)">
-          <mat-option *ngFor="let timezoneName of timezones" id="mat-option--timezone-{{timezoneName.replace('/', '-')}}" value="{{timezoneName}}">{{timezoneName}}</mat-option>
+          <mat-optgroup label="Common timezones">
+            <mat-option *ngFor="let timezoneName of commonTimezones" id="mat-option--timezone-{{timezoneName.replace('/', '-')}}" value="{{timezoneName}}">{{timezoneName}}</mat-option>
+          </mat-optgroup>
+          <mat-optgroup label="Other timezones">
+            <mat-option *ngFor="let timezoneName of timezones" id="mat-option--timezone-{{timezoneName.replace('/', '-')}}" value="{{timezoneName}}">{{timezoneName}}</mat-option>
+          </mat-optgroup>
         </mat-select>
       </fieldset>
     </li>
