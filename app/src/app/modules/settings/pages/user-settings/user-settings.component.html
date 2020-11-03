@@ -70,9 +70,8 @@
 
     <fieldset formGroupName="userSettings" class="user-settings">
       <legend i18n>Test the latest and greatest</legend>
-      <div class="map-toggle-buttons">
-        <mat-slide-toggle formControlName="experimentalFeaturesEnabled" color="primary" i18n>Enable experimental features</mat-slide-toggle>
-      </div>
+      <div class="experimental-features-warning" i18n>Warning: these features might not work as expected and will probably have more bugs.</div>
+      <mat-slide-toggle formControlName="experimentalFeaturesEnabled" color="primary" i18n>Enable experimental features</mat-slide-toggle>
     </fieldset>
 
 

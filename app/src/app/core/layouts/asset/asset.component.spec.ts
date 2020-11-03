@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick, discardPeriodicTasks } from '@angular/core/testing';
 import { NgZone } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
@@ -18,9 +18,8 @@ import { AssetLayoutComponent } from './asset.component';
 
 
 // Components
-import { LogoutTimerComponent } from '../../components/logout-timer/logout-timer.component';
-import { TopMenuComponent } from '../../components/top-menu/top-menu.component';
-import { NotificationsComponent } from '../../components/notifications/notifications.component';
+import { TopMenuComponent } from '../../test-dummys/top-menu/top-menu.component';
+import { NotificationsComponent } from '../../test-dummys/notifications/notifications.component';
 
 describe('AssetLayoutComponent', () => {
 
@@ -48,7 +47,6 @@ describe('AssetLayoutComponent', () => {
       ],
       declarations: [
         AssetLayoutComponent,
-        LogoutTimerComponent,
         TopMenuComponent,
         NotificationsComponent,
       ],
@@ -139,6 +137,7 @@ describe('AssetLayoutComponent', () => {
   it('should show the correct link as active when navigating', fakeAsync(() => {
     const { fixture, component } = setup();
 
+
     const ngZone = TestBed.inject(NgZone);
     const store = TestBed.inject(MockStore);
     let currentState = initialState;
@@ -147,7 +146,6 @@ describe('AssetLayoutComponent', () => {
     fixture.detectChanges();
     expect(component.matchAssetInfoUrl()).toBeTrue();
     expect(fixture.nativeElement.querySelector('.asset-layout--grid .side-menu .active .text').textContent).toBe('Asset info');
-
 
     currentState = { ...currentState,
       router: {
