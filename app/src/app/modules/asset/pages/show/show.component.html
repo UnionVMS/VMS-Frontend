@@ -1,4 +1,9 @@
-<asset-show [asset]="asset" [licence]="licence$ | async" [incidents]="incidents$ | async"></asset-show>
+<asset-show
+  [asset]="asset"
+  [licence]="licence$ | async"
+  [incidents]="incidents$ | async"
+  [experimentalFeaturesEnabled]="experimentalFeaturesEnabled$ | async"
+></asset-show>
 <ng-template #toolbox>
   <div class="toolbox-wrapper">
     <div class="toolbox">

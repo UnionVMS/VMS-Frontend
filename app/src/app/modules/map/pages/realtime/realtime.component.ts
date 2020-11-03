@@ -85,6 +85,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public unregisterOnClickFunction: (name: string) => void;
   public unregisterOnSelectFunction: (name: string) => void;
   public userTimezone$: Observable<string>;
+  public experimentalFeaturesEnabled$: Observable<boolean>;
 
   public activePanel = '';
   public activeLeftPanel: ReadonlyArray<string>;
@@ -199,6 +200,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapLayersActions.getUserAreas());
     });
     this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
+    this.experimentalFeaturesEnabled$ = this.store.select(UserSettingsSelectors.getExperimentalFeaturesEnabled);
   }
 
   mapDispatchToProps() {

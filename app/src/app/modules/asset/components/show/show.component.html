@@ -11,8 +11,8 @@
       <span>{{asset.prodOrgName}} • Org. nr: {{asset.prodOrgCode}}</span>
     </div>
     <div class="linksAndIncidentStatus">
-      <a *ngIf="asset.source !== 'NATIONAL'" class="edit-link" routerLink="/asset/{{asset.id}}/edit" i18n>Edit asset</a>
-      <span *ngIf="asset.source === 'NATIONAL'" class="edit-link" i18n>Read only asset</span>
+      <a *ngIf="experimentalFeaturesEnabled && asset.source !== 'NATIONAL'" class="edit-link" routerLink="/asset/{{asset.id}}/edit" i18n>Edit asset</a>
+      <span *ngIf="experimentalFeaturesEnabled && asset.source === 'NATIONAL'" class="edit-link" i18n>Read only asset</span>
       <div *ngIf="this.currentIncident !== undefined" class="currentIncidentStatus">{{this.currentIncident}}</div>
     </div>
   </div>

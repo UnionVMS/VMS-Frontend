@@ -147,7 +147,7 @@
               aria-hidden="true"
             ></i>
           </li>
-          <li>
+          <li *ngIf="(experimentalFeaturesEnabled$ | async)">
             <i
               (click)="toggleActivePanel('pick-source')"
               title="Pick source"
