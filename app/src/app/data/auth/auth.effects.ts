@@ -112,8 +112,12 @@ export class AuthEffects {
           }));
 
           if(typeof userSettings !== 'undefined' && userSettings.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
-            const timezone = JSON.parse(userSettings.optionValue).timezone || UserSettingsReducer.initialState.timezone;
+            const userSettingsParsed = JSON.parse(userSettings.optionValue);
+            const timezone = userSettingsParsed.timezone || UserSettingsReducer.initialState.timezone;
             response.push(UserSettingsActions.setTimezone({ timezone }));
+            response.push(UserSettingsActions.setExperimentalFeaturesEnabled({
+              experimentalFeaturesEnabled: userSettingsParsed.experimentalFeaturesEnabled
+            }));
           } else {
             response.push(UserSettingsActions.setTimezone({ timezone: UserSettingsReducer.initialState.timezone }));
           }

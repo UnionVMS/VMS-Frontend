@@ -6,6 +6,7 @@ import { takeUntil, map } from 'rxjs/operators';
 import { State } from '@app/app-reducer';
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/incident';
+import { UserSettingsSelectors } from '@data/user-settings';
 
 @Component({
   selector: 'asset-show-page',
@@ -21,6 +22,7 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public asset = {} as AssetTypes.Asset;
   public licence$: Observable<AssetTypes.AssetLicence>;
   public incidents$: Observable<ReadonlyArray<IncidentTypes.Incident>>;
+  public experimentalFeaturesEnabled$: Observable<boolean>;
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -42,6 +44,7 @@ export class ShowPageComponent implements OnInit, OnDestroy, AfterViewInit {
       return incidentsByAsset[this.asset.id];
     }));
     this.licence$ = this.store.select(AssetSelectors.getLicenceForSelectedAsset);
+    this.experimentalFeaturesEnabled$ = this.store.select(UserSettingsSelectors.getExperimentalFeaturesEnabled);
   }
 
   mapDispatchToProps() {

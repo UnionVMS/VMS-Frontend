@@ -15,6 +15,10 @@ $incident_header_height: 78px; // Is set automaticlly, unfortunatly this might c
     padding: $medium_distance;
     overflow-y: auto;
     align-content: start;
+
+    map-manual-movement-form-tooltip {
+      grid-area: right;
+    }
   }
 
   .content-block {

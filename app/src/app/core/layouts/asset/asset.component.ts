@@ -28,7 +28,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
   public notifications$: Observable<NotificationsTypes.State>;
   public timeToLogout$: Observable<number|null>;
 
-  public dismissNotification: (type: string, index: number) => void;
+  public dismissNotification: (type: string, id: string) => void;
   public setTimezone: (timezone: string) => void;
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
@@ -56,8 +56,8 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
   }
 
   mapDispatchToProps() {
-    this.dismissNotification = (type: string, index: number) =>
-      this.store.dispatch(NotificationsActions.dismiss({ notificationType: type, index }));
+    this.dismissNotification = (type: string, id: string) =>
+      this.store.dispatch(NotificationsActions.dismiss({ notificationType: type, id }));
     this.setTimezone = (timezone: string) =>
       this.store.dispatch(UserSettingsActions.setTimezone({ timezone, save: true }));
   }

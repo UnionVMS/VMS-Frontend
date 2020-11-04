@@ -26,6 +26,7 @@ export class TopMenuComponent implements OnInit, OnChanges {
   public currentTimezone: string;
   public timezones: string[];
   public assetTabActive: boolean;
+  public commonTimezones = ['Europe/Stockholm', 'UTC'];
 
   ngOnInit() {
     // Remove afew timezones. GMT because moment.js inverts GMT timezones.
@@ -34,7 +35,8 @@ export class TopMenuComponent implements OnInit, OnChanges {
     this.timezones = moment.tz.names().filter((name: string) =>
       !name.toLowerCase().includes('gmt') &&
       !name.toLowerCase().includes('uct') &&
-      !name.toLowerCase().includes('etc/')
+      !name.toLowerCase().includes('etc/') &&
+      !this.commonTimezones.includes(name)
     );
   }
 

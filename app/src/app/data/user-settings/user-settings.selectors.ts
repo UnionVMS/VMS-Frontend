@@ -4,6 +4,7 @@ import { State } from '@app/app-reducer';
 
 export const selectUserSettings = (state: State) => state.userSettings;
 export const selectTimezone = (state: State) => state.userSettings.timezone;
+export const selectExperimentalFeaturesEnabled = (state: State) => state.userSettings.experimentalFeaturesEnabled;
 
 
 export const getUserSettings = createSelector(
@@ -14,4 +15,9 @@ export const getUserSettings = createSelector(
 export const getTimezone = createSelector(
   selectTimezone,
   (timezone: string) => timezone
+);
+
+export const getExperimentalFeaturesEnabled = createSelector(
+  selectExperimentalFeaturesEnabled,
+  (experimentalFeaturesEnabled: boolean) => experimentalFeaturesEnabled
 );

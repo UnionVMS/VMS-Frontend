@@ -23,7 +23,16 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: $small_distance;
+    grid-template-areas: "zoom-out zoom-in";
     padding: 0px;
+
+    .ol-zoom-in {
+      grid-area: zoom-in;
+    }
+
+    .ol-zoom-out {
+      grid-area: zoom-out;
+    }
 
     &.ol-control {
       background-color: transparent;

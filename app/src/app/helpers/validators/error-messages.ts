@@ -11,6 +11,7 @@ export const errorMessages = {
   momentNotValid: 'Not a valid date given.',
   momentOnlyInThePast: 'Date must be in the past, a future date was given.',
   momentInTheFuture: 'Date must not be in the future, a future date was given.',
+  required: 'Input is required.'
 };
 
 export const errorMessage = (errorType: string, errorObject: any = null) => {

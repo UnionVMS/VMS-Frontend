@@ -85,6 +85,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public unregisterOnClickFunction: (name: string) => void;
   public unregisterOnSelectFunction: (name: string) => void;
   public userTimezone$: Observable<string>;
+  public experimentalFeaturesEnabled$: Observable<boolean>;
 
   public activePanel = '';
   public activeLeftPanel: ReadonlyArray<string>;
@@ -184,7 +185,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
             this.selectAsset(assetMovement.assetMovement.asset);
             this.centerMapOnPosition(assetMovement.assetMovement.microMove.location);
           } else {
-            this.store.dispatch(NotificationsActions.addError(
+            this.store.dispatch(NotificationsActions.addNotice(
               // tslint:disable-next-line max-line-length
               $localize`:@@ts-map-realtime-selected-asset-dont-exist-error:Asset has not sent a position for the last 8 hours and is not shown on map.`
             ));
@@ -199,6 +200,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapLayersActions.getUserAreas());
     });
     this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
+    this.experimentalFeaturesEnabled$ = this.store.select(UserSettingsSelectors.getExperimentalFeaturesEnabled);
   }
 
   mapDispatchToProps() {

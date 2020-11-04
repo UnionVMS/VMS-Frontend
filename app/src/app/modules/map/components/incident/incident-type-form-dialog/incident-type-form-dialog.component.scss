@@ -1,0 +1,26 @@
+@import 'variables.scss';
+
+form.type-form {
+  margin: 0px auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  #type-form--types {
+    width: fit-content;
+    margin: 0px auto;
+
+    mat-radio-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-bottom: distance(2);
+
+      mat-radio-button {
+        border-radius: 5px;
+        padding: distance(1);
+
+        &.mat-radio-checked {
+          background: rgba(0,95,136, 0.3);
+        }
+      }
+    }
+  }
+}

@@ -23,7 +23,7 @@ export class DefaultLayoutComponent implements OnInit {
   public mergedRoute$: Observable<RouterTypes.MergedRoute>;
   public timeToLogout$: Observable<number|null>;
 
-  public dismissNotification: (type: string, index: number) => void;
+  public dismissNotification: (type: string, id: string) => void;
   public setTimezone: (timezone: string) => void;
 
   constructor(private readonly store: Store<any>) { }
@@ -38,8 +38,8 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   mapDispatchToProps() {
-    this.dismissNotification = (type: string, index: number) =>
-      this.store.dispatch(NotificationsActions.dismiss({ notificationType: type, index }));
+    this.dismissNotification = (type: string, id: string) =>
+      this.store.dispatch(NotificationsActions.dismiss({ notificationType: type, id }));
     this.setTimezone = (timezone: string) =>
       this.store.dispatch(UserSettingsActions.setTimezone({ timezone, save: true }));
   }

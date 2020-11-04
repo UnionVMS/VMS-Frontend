@@ -92,13 +92,13 @@ export class AttachPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const alphanumericWithHyphenAndSpaceTest = (c: FormControl) => {
-      const REGEXP = /^[a-z0-9\- ]*$/i;
+    const alphanumericWithHyphenTest = (c: FormControl) => {
+      const REGEXP = /^[a-z0-9\-]*$/i;
       return c.value === null || c.value.length === 0 || REGEXP.test(c.value) ? null : {
-        validateAlphanumericHyphenAndSpace: true
+        validateAlphanumericHyphen: true
       };
     };
-    this.serialNo = new FormControl('', [Validators.required, alphanumericWithHyphenAndSpaceTest]);
+    this.serialNo = new FormControl('', [Validators.required, alphanumericWithHyphenTest]);
 
     this.mapStateToProps();
     this.mapDispatchToProps();
@@ -121,7 +121,7 @@ export class AttachPageComponent implements OnInit, OnDestroy {
       return 'You must enter a value';
     }
 
-    return this.serialNo.hasError('validateAlphanumericHyphenAndSpace') ? 'Not a valid serial number' : '';
+    return this.serialNo.hasError('validateAlphanumericHyphen') ? 'Not a valid serial number' : '';
   }
 
   sortData(sort: Sort) {

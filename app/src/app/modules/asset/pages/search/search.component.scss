@@ -3,7 +3,7 @@
 .page-container {
 
   display: grid;
-  grid-row-gap: $xlarge_distance;
+  grid-row-gap: distance(4);
 
   .top-row {
     display: grid;
@@ -18,9 +18,9 @@
 
   .asset-search-form {
     display: grid;
-    grid-column-gap: $x2large_distance;
+    grid-column-gap: distance(3);
     grid-template-columns: 1fr auto;
-    padding: $x3large_distance;
+    padding: distance(3) distance(3) distance(2);
     background: white;
 
     mat-form-field.free-search {
@@ -29,7 +29,7 @@
 
     mat-radio-group {
       display: grid;
-      grid-column-gap: $x2large_distance;
+      grid-column-gap: distance(3);
       grid-template-columns: 1fr 1fr 1fr;
 
       & > * {
@@ -49,24 +49,32 @@
     }
   }
 
-  .asset-table-container > table {
-    width: 100%;
-  }
-
   .load-spinner {
     margin: 150px auto;
   }
 
-  .asset-container {
-    // padding: $x3large_distance;
-    // background: white;
+  .response-container {
+    display: grid;
+    grid-column: 1fr;
+    grid-row-gap: distance(2);
 
-    .asset-table-container .cdk-row {
-      cursor: pointer;
+    .search-result-info {
+      font-weight: bold;
+      font-size: distance(2);
+    }
 
-      &:hover {
-        background-color: rgba( $color_blue, 0.2);
-        text-decoration: underline;
+    .asset-table-container > table {
+      width: 100%;
+    }
+
+    .asset-container {
+      .asset-table-container .cdk-row {
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba( $color_blue, 0.2);
+          text-decoration: underline;
+        }
       }
     }
   }

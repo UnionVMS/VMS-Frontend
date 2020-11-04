@@ -7,7 +7,14 @@
     [errorMessages]="getErrorMessages(['expiryDate'])"
     [positionFromTop]="true"
     [customPopupStyle]="{ 'left': 'auto', 'right': '24px', 'bottom': '-48px' }"
+    [autoUpdateDatetime]="autoUpdateDatetime"
   ></ngx-datetime-picker>
+
+  <mat-form-field id="expiry-date-form--note">
+    <mat-label i18n>Note</mat-label>
+    <input matInput formControlName="note" required />
+    <mat-error *ngFor="let error of getErrors(['note'])">{{ errorMessage(error) }}</mat-error>
+  </mat-form-field>
 
   <button
     i18n

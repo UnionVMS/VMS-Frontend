@@ -12,7 +12,7 @@ export const setNotes = createAction(
 
 export const saveNote = createAction(
   '[Notes] Save note',
-  props<{ note: NotesTypes.Note, redirect?: boolean }>()
+  props<{ note: NotesTypes.Note | NotesTypes.NoteParameters, redirect?: boolean }>()
 );
 
 export const deleteNote = createAction(

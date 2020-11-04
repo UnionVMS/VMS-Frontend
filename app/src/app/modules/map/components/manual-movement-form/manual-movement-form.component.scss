@@ -12,15 +12,12 @@ form.manual-position-form {
     grid-template-columns: 20px 35px 20px 1fr;
     position: relative;
 
-    .mat-form-field {
-      position: unset;
-      .mat-form-field-wrapper {
-        position: unset;
-
-        .mat-form-field-subscript-wrapper {
-          left: 0px;
-        }
-      }
+    .errors {
+      grid-column: span 4;
+      font-size: 75%;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-row-gap: distance(1);
     }
 
     mat-form-field:first-child {
@@ -50,10 +47,8 @@ form.manual-position-form {
     }
   }
 
-  #manual-position-form--timestamp {
-    grid-column: 1 / span 2;
-  }
-
+  #manual-position-form--timestamp,
+  #manual-position-form--note,
   #manual-position-form--save {
     grid-column: 1 / span 2;
   }

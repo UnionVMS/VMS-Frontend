@@ -1,8 +1,0 @@
-<form class="type-form" [formGroup]="formValidator">
-  <mat-form-field id="type-form--types">
-    <mat-select formControlName="type" required (selectionChange)="save()">
-      <mat-option *ngFor="let type of types" id="mat-option-plugin--{{type}}" [value]="type">{{getTypeName(type)}}</mat-option>
-    </mat-select>
-    <mat-error *ngFor="let error of getErrors(['type'])">{{ errorMessage(error) }}</mat-error>
-  </mat-form-field>
-</form>

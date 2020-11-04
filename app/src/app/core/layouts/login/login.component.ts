@@ -13,7 +13,7 @@ import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from
 export class LoginLayoutComponent implements OnInit {
   public appVersion: string = version;
   public notifications$: Observable<NotificationsTypes.State>;
-  public dismissNotification: (type: string, index: number) => void;
+  public dismissNotification: (type: string, id: string) => void;
 
   constructor(private readonly store: Store<any>) { }
 
@@ -22,8 +22,8 @@ export class LoginLayoutComponent implements OnInit {
   }
 
   mapDispatchToProps() {
-    this.dismissNotification = (type: string, index: number) =>
-      this.store.dispatch(NotificationsActions.dismiss({ notificationType: type, index }));
+    this.dismissNotification = (type: string, id: string) =>
+      this.store.dispatch(NotificationsActions.dismiss({ notificationType: type, id }));
   }
 
   ngOnInit() {

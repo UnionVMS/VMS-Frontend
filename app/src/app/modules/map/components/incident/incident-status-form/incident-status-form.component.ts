@@ -26,11 +26,11 @@ export class IncidentStatusFormComponent implements OnChanges {
   }
 
   getStatusKeys() {
-    return Object.keys(IncidentTypes.statusTranslations);
+    return Object.keys(IncidentTypes.StatusTranslations);
   }
 
   getStatusText(status: string) {
-    return IncidentTypes.statusTranslations[status];
+    return IncidentTypes.StatusTranslations[status];
   }
 
   getErrors(path: string[]) {

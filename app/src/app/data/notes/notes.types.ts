@@ -6,6 +6,11 @@ export type Note = Readonly<{
   createdBy: string;
 }>;
 
+export type NoteParameters = Readonly<{
+  assetId: string;
+  note: string;
+}>;
+
 export type State = Readonly<{
   notes: Readonly<{ readonly [id: string]: Note }>;
 }>;

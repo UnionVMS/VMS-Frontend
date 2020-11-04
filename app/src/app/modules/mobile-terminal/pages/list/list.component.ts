@@ -17,7 +17,7 @@ import { RouterTypes, RouterSelectors } from '@data/router';
 type ExtendedMobileTerminal = Readonly<MobileTerminalTypes.MobileTerminal & {
   defaultDnid: number;
   defaultMemberNumber: number;
-  activeText: string;
+  statusText: string;
   assetName: string;
 }>;
 
@@ -33,7 +33,7 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public loadingData = false;
   public tableReadyForDisplay = false;
-  public displayedColumns: string[] = ['serialNo', 'defaultDnid', 'defaultMemberNumber', 'satelliteNumber', 'active', 'assetName'];
+  public displayedColumns: string[] = ['serialNo', 'defaultDnid', 'defaultMemberNumber', 'satelliteNumber', 'status', 'assetName'];
 
   public assets: { [assetId: string]: AssetTypes.Asset };
   public unmount$: Subject<boolean> = new Subject<boolean>();
@@ -45,7 +45,9 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public filterObject =  {
     serialNo: '',
-    showOnlyActive: false
+    lifecycleState: 'allUnarchived',
+    showOnlyActive: false,
+    showOnlyArchived: false,
   };
 
   ngAfterViewInit() {
@@ -95,7 +97,7 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
           ...mobileTerminal,
           defaultDnid: typeof defaultChannel !== 'undefined' ? defaultChannel.dnid : undefined,
           defaultMemberNumber: typeof defaultChannel !== 'undefined' ? defaultChannel.memberNumber : undefined,
-          activeText: mobileTerminal.active ? 'Active' : 'Inactive',
+          statusText: mobileTerminal.archived ? 'Archived' : (mobileTerminal.active ? 'Active' : 'Inactive'),
           assetName: undefined
         };
       });
@@ -129,9 +131,18 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filter() {
     this.filteredMobileTerminals = this.mobileTerminals;
-    if(this.filterObject.showOnlyActive === true) {
-      this.filteredMobileTerminals = this.mobileTerminals.filter((mobileTerminal) => mobileTerminal.active);
+    switch (this.filterObject.lifecycleState) {
+      case 'onlyActive':
+        this.filteredMobileTerminals = this.mobileTerminals.filter((mobileTerminal) => mobileTerminal.active);
+        break;
+      case 'onlyArchived':
+        this.filteredMobileTerminals = this.mobileTerminals.filter((mobileTerminal) => mobileTerminal.archived);
+        break;
+      default:
+        this.filteredMobileTerminals = this.mobileTerminals.filter((mobileTerminal) => !mobileTerminal.archived);
+        break;
     }
+
     if(this.filterObject.serialNo.length !== 0) {
       const filterSerialNoInLowerCase = this.filterObject.serialNo.toLowerCase();
       this.filteredMobileTerminals = this.filteredMobileTerminals.filter(
@@ -157,7 +168,7 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
         case 'defaultDnid': return compareTableSortNumber(a.defaultDnid, b.defaultDnid, isAsc);
         case 'defaultMemberNumber': return compareTableSortNumber(a.defaultMemberNumber, b.defaultMemberNumber, isAsc);
         case 'satelliteNumber': return compareTableSortString(a.satelliteNumber, b.satelliteNumber, isAsc);
-        case 'active': return compareTableSortString(a.activeText, b.activeText, isAsc);
+        case 'status': return compareTableSortString(a.statusText, b.statusText, isAsc);
         case 'assetName': return compareTableSortString(a.assetName, b.assetName, isAsc);
         default: return 0;
       }
@@ -173,8 +184,9 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     csv = csv + this.sortedMobileTerminals.reduce((acc, mobileTerminal, mtIndex) => {
       return acc + this.displayedColumns.reduce((csvRow, column, index) => {
+        const fieldName = (column === 'status' ? 'statusText' : column);
         return csvRow +
-          (typeof mobileTerminal[column] !== 'undefined' ? mobileTerminal[column] : '') +
+          (typeof mobileTerminal[fieldName] !== 'undefined' ? mobileTerminal[fieldName] : '') +
           (nrOfColumns !== index + 1 ? ';' : '');
       }, '') + (nrOfRows !== mtIndex + 1 ? '\r\n' : '');
     }, '');

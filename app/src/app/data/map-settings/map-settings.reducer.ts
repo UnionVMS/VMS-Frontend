@@ -11,13 +11,13 @@ export const initialState: Types.State = {
     forecastsVisible: true,
     forecastInterval: 30,
     tracksMinuteCap: 360,
-    startZoomLevel: 10,
+    startZoomLevel: 6,
     unitOfDistance: 'metric',
     startPosition: {
-      latitude: 57.6806116,
-      longitude: 12.1047925
+      latitude: 58.6806116,
+      longitude: 14.1047925
     },
-    assetColorMethod: 'Shiptype',
+    assetColorMethod: 'shiptype',
   },
   mapLocations: {},
   currentControlPanel: null,

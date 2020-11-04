@@ -1,0 +1,15 @@
+@import 'variables.scss';
+
+.countdown {
+  position: relative;
+  display: grid;
+  height: 100%;
+
+  .seconds {
+    place-self: center;
+  }
+  mat-progress-spinner {
+    position: absolute;
+    top: 0px;
+  }
+}

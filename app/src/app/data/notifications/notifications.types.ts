@@ -1,5 +1,11 @@
+export type Notification = Readonly<{
+  id: string;
+  notification: string;
+  autoDismissInMs: number;
+}>;
+
 export type State = Readonly<{
-  errors: ReadonlyArray<string>;
-  notices: ReadonlyArray<string>;
-  success: ReadonlyArray<string>;
+  errors: ReadonlyArray<Notification>;
+  notices: ReadonlyArray<Notification>;
+  success: ReadonlyArray<Notification>;
 }>;

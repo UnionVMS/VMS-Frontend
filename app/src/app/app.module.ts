@@ -49,6 +49,7 @@ import { MapSavedFiltersEffects } from '@data/map-saved-filters/map-saved-filter
 import { MapLayersEffects } from '@data/map-layers/map-layers.effects';
 import { MobileTerminalEffects } from '@data/mobile-terminal/mobile-terminal.effects';
 import { NotesEffects } from '@data/notes/notes.effects';
+import { NotificationEffects } from '@data/notifications/notifications.effects';
 import { UserSettingsEffects } from '@data/user-settings/user-settings.effects';
 
 
@@ -82,6 +83,7 @@ const imports = [
     MapLayersEffects,
     MobileTerminalEffects,
     NotesEffects,
+    NotificationEffects,
     UserSettingsEffects,
   ]),
   BrowserAnimationsModule,

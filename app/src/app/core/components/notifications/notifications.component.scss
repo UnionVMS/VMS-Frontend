@@ -1,7 +1,6 @@
 @import 'variables.scss';
 
 ul.notifications {
-
   padding-left: 0px;
   list-style-type: none;
   z-index: 100;
@@ -18,23 +17,29 @@ ul.notifications {
 
   .alert {
     position: relative;
-    padding: .75rem 1.25rem;
-    margin-bottom: 1rem;
+    margin-bottom: distance(1);
     border: 1px solid transparent;
-    border-radius: .25rem;
-    padding-right: 40px;
+    border-radius: distance(0.5);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-column-gap: distance(2);
 
-    button.close {
-      padding: 0;
-      background-color: transparent;
-      border: 0;
-      -webkit-appearance: none;
-      cursor: pointer;
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: .75rem 1.25rem;
-      color: inherit;
+    span {
+      padding: distance(1.5) distance(2);
+      line-height: distance(2.5);
+    }
+
+    .end-section {
+      place-self: center;
+      display: grid;
+      grid-auto-flow: column;
+      grid-column-gap: distance(2);
+      margin-right: distance(2);
+
+      .coundown-wrapper {
+        height: 30px;
+        place-self: center;
+      }
     }
   }
 
@@ -51,8 +56,8 @@ ul.notifications {
   }
 
   .alert-error {
-      color: #721c24;
-      background-color: #f8d7da;
-      border-color: #f5c6cb;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
   }
 }

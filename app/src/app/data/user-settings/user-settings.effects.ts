@@ -33,13 +33,7 @@ export class UserSettingsEffects {
   @Effect()
   setTimezoneObserver$ = this.actions$.pipe(
     ofType(UserSettingsActions.setTimezone),
-    mergeMap((action: { timezone: string, save?: boolean }) => {
-      moment.tz.setDefault(action.timezone);
-      if (typeof action.save !== 'undefined' && action.save === true) {
-        return of(action);
-      }
-      return EMPTY;
-    }),
+    filter((action: { timezone: string, save?: boolean }) => typeof action.save !== 'undefined' && action.save === true),
     // If we should save to DB to, then continue with the rest of this code.
     withLatestFrom(this.store.select(AuthSelectors.getUser), this.store.select(UserSettingsSelectors.getUserSettings)),
     mergeMap(([setAction, user, settings]: Array<any>) => {
@@ -47,7 +41,28 @@ export class UserSettingsEffects {
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
         map((response: any, index: number) => [
-          NotificationsActions.addSuccess($localize`:@@ts-user-settings-saved:Settings saved`),
+          NotificationsActions.addSuccess($localize`:@@ts-user-settings-saved:User settings saved`),
+        ]),
+        flatMap(a => a),
+        catchError((err) => of({ type: 'API ERROR', payload: err }))
+      );
+    })
+  );
+
+  @Effect()
+  setExperimentalFeaturesEnabledObserver$ = this.actions$.pipe(
+    ofType(UserSettingsActions.setExperimentalFeaturesEnabled),
+    filter((action: { experimentalFeaturesEnabled: boolean, save?: boolean }) =>
+      typeof action.save !== 'undefined' && action.save === true
+    ),
+    // If we should save to DB to, then continue with the rest of this code.
+    withLatestFrom(this.store.select(AuthSelectors.getUser), this.store.select(UserSettingsSelectors.getUserSettings)),
+    mergeMap(([setAction, user, settings]: Array<any>) => {
+      return this.userSettingsService.saveUserPreferences(user, settings).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
+        map((response: any, index: number) => [
+          NotificationsActions.addSuccess($localize`:@@ts-user-settings-saved:User settings saved`, 6000),
         ]),
         flatMap(a => a),
         catchError((err) => of({ type: 'API ERROR', payload: err }))

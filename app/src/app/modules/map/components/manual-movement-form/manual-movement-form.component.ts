@@ -17,6 +17,7 @@ import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style
 import { fromLonLat } from 'ol/proj';
 
 import { AssetTypes } from '@data/asset';
+import { NotesTypes } from '@data/notes';
 import { createManualMovementFormValidator } from './form-validator';
 import { ManualMovementFormDialogComponent } from '@modules/map/components/manual-movement-form-dialog/manual-movement-form-dialog.component';
 
@@ -35,6 +36,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   @Input() createManualMovement: (manualMovement: AssetTypes.Movement) => void;
   @Input() map: Map;
   @Input() userTimezone: string;
+  @Input() createNote: (note: string) => void;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -81,11 +83,11 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     this.formValidator = createManualMovementFormValidator();
 
     this.formValidator.controls.latitude.valueChanges
-      .pipe(takeUntil(this.unmount$), filter((value: string) => value !== null && value.toString().length >= 3))
+      .pipe(takeUntil(this.unmount$), filter((value: string) => value !== null && value.toString().length >= 2))
       .subscribe((value) => {
-        if(value.toString().length > 3) {
+        if(value.toString().length > 2) {
           const formControlLat = this.formValidator.get('latitude');
-          formControlLat.setValue(value.toString().substring(0, 3));
+          formControlLat.setValue(value.toString().substring(0, 2));
         }
         this.latitudeMinuteElement.nativeElement.focus();
       });
@@ -164,6 +166,8 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
     this.vectorSource.removeFeature(cachedFeature);
 
+    this.createNote(this.formValidator.value.note);
+
     this.autoUpdateDatetime = true;
     // Remove subscriptions for previous form.
     this.unmount$.next(true);
@@ -174,6 +178,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     this.formValidator.controls.longitudeMinute.setValue('');
     this.formValidator.controls.longitudeDecimals.setValue('');
     this.formValidator.controls.timestamp.setValue(null);
+    this.formValidator.controls.note.setValue('');
     this.unmount$.next(false);
     this.initializeFormValidator();
     setTimeout(() => {
@@ -225,6 +230,16 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  validateNumber(event: KeyboardEvent) {
+    const allowedKeys = [
+      '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'Tab', 'Shift', 'Backspace', 'Delete', 'ArrowRight', 'ArrowLeft'
+    ];
+
+    if (!allowedKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
   // pasteLatitude(event: ClipboardEvent) {
   //   // @ts-ignore
   //   const clipboardData = event.clipboardData || window.clipboardData;
@@ -256,8 +271,12 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   // }
 
   getErrors(path: string[]) {
-    const errors = this.formValidator.get(path).errors;
-    return errors === null ? [] : Object.entries(errors).map(error => ({ errorType: error[0], errorObject: error[1] }));
+    const field = this.formValidator.get(path);
+    if(!field.untouched) {
+      const errors = this.formValidator.get(path).errors;
+      return errors === null ? [] : Object.entries(errors).map(error => ({ errorType: error[0], errorObject: error[1] }));
+    }
+    return [];
   }
 
   errorMessage(error: Readonly<{errorType: string, errorObject: any}>) {

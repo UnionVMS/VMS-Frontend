@@ -16,6 +16,7 @@ export class ShowComponent implements OnChanges {
   @Input() asset: AssetTypes.Asset;
   @Input() licence: AssetTypes.AssetLicence;
   @Input() incidents: ReadonlyArray<IncidentTypes.Incident>;
+  @Input() experimentalFeaturesEnabled: boolean;
 
   public formattedLicence: AssetTypes.AssetLicence & {
     valid: boolean;

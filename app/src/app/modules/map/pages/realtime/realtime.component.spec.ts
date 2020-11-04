@@ -375,10 +375,10 @@ describe('RealtimeComponent', () => {
     it('should initialize a map and respond to move events', () => {
       const { component } = initializationSetup();
 
-      expect(component['mapZoom']).toEqual(10);
+      expect(component['mapZoom']).toEqual(6);
 
       component.map.getView().setZoom(2);
-      expect(component['mapZoom']).toEqual(10);
+      expect(component['mapZoom']).toEqual(6);
       component.map.dispatchEvent({
         type: 'moveend'
       });

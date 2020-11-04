@@ -4,6 +4,7 @@ import Map from 'ol/Map';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 import { AssetTypes } from '@data/asset';
+import { NotesTypes } from '@data/notes';
 
 type ExtendedMovement = Readonly<AssetTypes.Movement & {
   locationDDM: { latitude: string, longitude: string };
@@ -21,6 +22,7 @@ export class AssetPositionsComponent implements OnInit, OnChanges {
   @Input() asset: AssetTypes.Asset;
   @Input() positions: ReadonlyArray<AssetTypes.Movement>;
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
+  @Input() createNote: (note: NotesTypes.NoteParameters) => void;
   @Input() map: Map;
   @Input() userTimezone: string;
   @Input() getLastFullPositionsForAsset: (
@@ -53,6 +55,10 @@ export class AssetPositionsComponent implements OnInit, OnChanges {
         return b.timestamp - a.timestamp;
       });
     }
+  }
+
+  public createNoteCurried = (note: string) => {
+    return this.createNote({ note, assetId: this.asset.id });
   }
 
   public createManualMovementCurried = (movement: AssetTypes.Movement) => {

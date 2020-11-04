@@ -2,7 +2,7 @@
 
 <ng-container *ngIf="isFormReady">
   <form class="mobile-terminal-edit-form" [formGroup]="formValidator">
-    <fieldset class="map-settings">
+    <fieldset formGroupName="mapSettings" class="map-settings">
       <legend i18n>Map default settings</legend>
       <div class="map-toggle-buttons">
         <mat-slide-toggle formControlName="flagsVisible" color="primary" i18n>Show flags</mat-slide-toggle>
@@ -16,7 +16,7 @@
         <legend i18n>Map start position</legend>
         <mat-form-field>
           <input matInput type="number" placeholder="Start zoom level" formControlName="startZoomLevel" required>
-          <mat-error *ngFor="let error of getErrors(['mapStartPosition', 'startZoomLevel'])">{{ errorMessage(error) }}</mat-error>
+          <mat-error *ngFor="let error of getErrors(['mapSettings', 'mapStartPosition', 'startZoomLevel'])">{{ errorMessage(error) }}</mat-error>
         </mat-form-field>
 
         <div class="map-starting-positions">
@@ -53,9 +53,10 @@
         aria-labelledby="map-asset-colors"
         class="map-asset-colors"
         formControlName="assetColorMethod">
-        <mat-radio-button class="map-asset-color-button" *ngFor="let assetColorMethod of assetColorMethods" [value]="assetColorMethod">
-          {{assetColorMethod}}
-        </mat-radio-button>
+        <mat-radio-button class="map-asset-color-button" value="shiptype" i18n>Shiptype</mat-radio-button>
+        <mat-radio-button class="map-asset-color-button" value="flagstate" i18n>Flagstate</mat-radio-button>
+        <mat-radio-button class="map-asset-color-button" value="length" i18n>Size (length)</mat-radio-button>
+        <mat-radio-button class="map-asset-color-button" value="oldSystemShiptype" i18n>Old system shiptype (Sjöbasis)</mat-radio-button>
       </mat-radio-group>
 
       <mat-form-field>
@@ -67,7 +68,11 @@
       </mat-form-field>
     </fieldset>
 
-
+    <fieldset formGroupName="userSettings" class="user-settings">
+      <legend i18n>Test the latest and greatest</legend>
+      <div class="experimental-features-warning" i18n>Warning: these features might not work as expected and will probably have more bugs.</div>
+      <mat-slide-toggle formControlName="experimentalFeaturesEnabled" color="primary" i18n>Enable experimental features</mat-slide-toggle>
+    </fieldset>
 
 
     <fieldset class="button-block">

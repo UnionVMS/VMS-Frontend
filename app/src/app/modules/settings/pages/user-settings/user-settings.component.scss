@@ -42,3 +42,9 @@ fieldset.button-block {
     margin-right: $medium_distance;
   }
 }
+
+.experimental-features-warning {
+  color: $color_warn;
+  font-style: italic;
+  font-size: 90%;
+}

@@ -1,0 +1,9 @@
+<div class="countdown" style="width: {{diameter}}px;">
+  <span class="seconds">{{ secondsLeft }}</span>
+  <mat-progress-spinner
+    [color]="color || 'accent'"
+    mode="determinate"
+    [diameter]="diameter"
+    [value]="progress"
+  ></mat-progress-spinner>
+</div>

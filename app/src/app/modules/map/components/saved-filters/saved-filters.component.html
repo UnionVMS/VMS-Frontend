@@ -14,11 +14,13 @@
       <ng-template #myDialog>
         <h1 matDialogTitle i18n>Delete filter?</h1>
         <mat-dialog-content i18n>
-          You are about to delete the filter <b>{{savedFilter.name}}</b>. Are you sure?
+          <div class="ingress">
+            You are about to delete the filter <b>{{savedFilter.name}}</b>. Are you sure?
+          </div>
         </mat-dialog-content>
-        <mat-dialog-actions align="end">
-          <button mat-button matDialogClose cdkFocusInitial color="primary" i18n>Cancel</button>
-          <button mat-button [mat-dialog-close]="true" color="warn" i18n>Delete</button>
+        <mat-dialog-actions align="center">
+          <button mat-stroked-button matDialogClose cdkFocusInitial color="primary" i18n>Cancel</button>
+          <button mat-raised-button [mat-dialog-close]="true" color="warn" i18n>Delete</button>
         </mat-dialog-actions>
       </ng-template>
     </div>
@@ -30,7 +32,7 @@
       color="primary"
       type="button"
       (click)="creatingNewFilter = true"
-    ><i class="fas fa-plus" aria-hidden="true"></i> <ng-container i18n>Create new</ng-container></button>
+    ><ng-container i18n>Create new</ng-container></button>
     <mat-form-field *ngIf="creatingNewFilter">
       <input matInput placeholder="Name" [(ngModel)]="newFilterName">
     </mat-form-field>

@@ -118,7 +118,7 @@ export class NotesEffects {
             request = this.notesService.createNote(authToken, { ...pipedAction.note, assetId: pipedAction.note.assetId });
           }
         } else {
-          request = this.notesService.updateNote(authToken, action.note);
+          request = this.notesService.updateNote(authToken, action.note as NotesTypes.Note);
         }
         return request.pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
