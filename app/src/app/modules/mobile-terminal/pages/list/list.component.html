@@ -18,45 +18,51 @@
   </form>
 
   <mat-spinner class="load-spinner" *ngIf="loadingData"></mat-spinner>
-  <div class="mobile-terminals-container mat-elevation-z8" *ngIf="tableReadyForDisplay">
-    <div class="mobile-terminals-table-container">
 
-      <table mat-table [dataSource]="sortedMobileTerminals" class="mobile-terminal-table" matSort
-        matSortActive="serialNo" matSortDisableClear matSortStart="desc" matSortDirection="desc" (matSortChange)="sortData($event)">
+  <div *ngIf="!loadingData && sortedMobileTerminals !== undefined" class="filter-response-container">
+    <div class="filter-info">
+      <span i18n>Mobile terminals showing:</span> {{sortedMobileTerminals.length}}. <span i18n>Mobile terminals filtered:</span> {{mobileTerminals.length - sortedMobileTerminals.length}}.
+    </div>
+    <div class="mobile-terminals-container mat-elevation-z8" *ngIf="tableReadyForDisplay">
+      <div class="mobile-terminals-table-container">
 
-        <ng-container matColumnDef="serialNo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Serial number</th>
-          <td mat-cell *matCellDef="let row"><a routerLink="/mobileTerminal/{{row.id}}">{{row.serialNo}}</a></td>
-        </ng-container>
+        <table mat-table [dataSource]="sortedMobileTerminals" class="mobile-terminal-table" matSort
+          matSortActive="serialNo" matSortDisableClear matSortStart="desc" matSortDirection="desc" (matSortChange)="sortData($event)">
 
-        <ng-container matColumnDef="defaultDnid">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Default DNID</th>
-          <td mat-cell *matCellDef="let row">{{row.defaultDnid}}</td>
-        </ng-container>
+          <ng-container matColumnDef="serialNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Serial number</th>
+            <td mat-cell *matCellDef="let row"><a routerLink="/mobileTerminal/{{row.id}}">{{row.serialNo}}</a></td>
+          </ng-container>
 
-        <ng-container matColumnDef="defaultMemberNumber">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Default member no.</th>
-          <td mat-cell *matCellDef="let row">{{row.defaultMemberNumber}}</td>
-        </ng-container>
+          <ng-container matColumnDef="defaultDnid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Default DNID</th>
+            <td mat-cell *matCellDef="let row">{{row.defaultDnid}}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="satelliteNumber">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Satellite number</th>
-          <td mat-cell *matCellDef="let row">{{row.satelliteNumber}}</td>
-        </ng-container>
+          <ng-container matColumnDef="defaultMemberNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Default member no.</th>
+            <td mat-cell *matCellDef="let row">{{row.defaultMemberNumber}}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Status</th>
-          <td mat-cell *matCellDef="let row" class="{{ row.active ? 'active' : 'inactive' }}">{{row.statusText}}</td>
-        </ng-container>
+          <ng-container matColumnDef="satelliteNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Satellite number</th>
+            <td mat-cell *matCellDef="let row">{{row.satelliteNumber}}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="assetName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Attached to</th>
-          <td mat-cell *matCellDef="let row"><a routerLink="/asset/{{row.assetId}}">{{row.assetName}}</a></td>
-        </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Status</th>
+            <td mat-cell *matCellDef="let row" class="{{ row.active ? 'active' : 'inactive' }}">{{row.statusText}}</td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+          <ng-container matColumnDef="assetName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Attached to</th>
+            <td mat-cell *matCellDef="let row"><a routerLink="/asset/{{row.assetId}}">{{row.assetName}}</a></td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
     </div>
   </div>
 </div>
