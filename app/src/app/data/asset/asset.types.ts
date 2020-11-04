@@ -7,6 +7,28 @@ export const OceanRegionTranslation = {
   IOR: 'Indian'
 };
 
+export const MovementStatusTranslation = {
+  11: 'Time of Position',
+  64: 'Power Up',
+  66: 'Power Down',
+  69: 'Antenna Blocked',
+  70: 'Stored Position',
+  71: 'Io Report',
+  72: 'Enter Zone',
+  73: 'Leave Zone',
+  80: 'Enter Sleepmode',
+  81: 'In Sleepmode',
+  82: 'Leave Sleepmode',
+  83: 'Fix Time Begin',
+  85: 'Enter Reduced',
+  86: 'In Reduced',
+  87: 'Leave Reduced',
+  88: 'Manual Position',
+  89: 'Above Speed Limit',
+  90: 'Below Speed Limit',
+  91: 'GPS Blocked',
+};
+
 export type Movement = Readonly<{
   location: Position;
   heading: number;

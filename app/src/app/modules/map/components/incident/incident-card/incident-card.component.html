@@ -10,7 +10,14 @@
       <ui-truncated-text *ngIf="countdown === undefined" class="name" [text]="incident.assetName" length="16"></ui-truncated-text>
     </div>
     <div class="status-code-and-time">
-      <span class="status-code" *ngIf="formattedIncident.lastKnownLocationStatus">{{ formattedIncident.lastKnownLocationStatus }} • </span>
+      <ng-container *ngIf="formattedIncident.lastKnownLocationStatus">
+        <span
+          class="status-code"
+          #tooltip="matTooltip"
+          matTooltip="{{formattedIncident.lastKnownLocationStatusDescription}}"
+          matTooltipPosition="above"
+        >{{ formattedIncident.lastKnownLocationStatus }}</span> •
+      </ng-container>
       <span class="time">{{ formattedIncident.formattedDate }}</span>
     </div>
     <div class="location">{{ formattedIncident.formattedCoordinates }}</div>
