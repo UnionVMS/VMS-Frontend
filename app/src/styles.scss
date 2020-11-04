@@ -249,6 +249,10 @@ mat-dialog-container.mat-dialog-container {
   margin: 0px auto;
 }
 
+img.flag-image {
+  border: 1px solid $color_dark_gray;
+}
+
 @media (min-width: 1620px) {
   .container {
     max-width: 1600px;
