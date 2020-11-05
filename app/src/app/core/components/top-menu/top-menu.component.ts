@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 
 import { Router } from '@angular/router';
 
 // @ts-ignore
 import moment from 'moment-timezone';
+import { formatUnixtimeWithoutDate } from '@app/helpers/datetime-formatter';
 
 @Component({
   selector: 'core-top-menu-component',
@@ -12,21 +13,23 @@ import moment from 'moment-timezone';
   styleUrls: ['./top-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class TopMenuComponent implements OnInit, OnChanges {
+export class TopMenuComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() appVersion: string;
   @Input() isAdmin: boolean;
   @Input() setTimezone: (timezone: string) => void;
-  @Input() timezone: string;
+  @Input() currentTimezone: string;
   @Input() fishingActivityUnlocked: boolean;
   @Input() timeToLogout: number | null;
   @Input() url: string;
 
   public baseUrl = window.location.origin;
-  public currentTimezone: string;
   public timezones: string[];
   public assetTabActive: boolean;
   public commonTimezones = ['Europe/Stockholm', 'UTC'];
+  public currentTime: string;
+
+  private intervalId: number;
 
   ngOnInit() {
     // Remove afew timezones. GMT because moment.js inverts GMT timezones.
@@ -38,11 +41,18 @@ export class TopMenuComponent implements OnInit, OnChanges {
       !name.toLowerCase().includes('etc/') &&
       !this.commonTimezones.includes(name)
     );
+
+    this.intervalId = window.setInterval(() => {
+      this.currentTime = formatUnixtimeWithoutDate(new Date().getTime());
+    }, 1000);
   }
 
   ngOnChanges() {
-    this.currentTimezone = this.timezone;
     this.assetTabActive = this.url.match(/^\/mobileTerminal(s)?.*$/g) !== null;
+  }
+
+  ngOnDestroy() {
+    window.clearInterval(this.intervalId);
   }
 
   getTimeToLogout() {

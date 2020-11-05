@@ -14,7 +14,7 @@ export class EditAssetGroupDialogComponent {
 
   public assetGroupFilterQuery: Readonly<MapSavedFiltersTypes.AssetFilterQuery>;
   public filterName: FormControl;
-  public assetEssentials: ReadonlyArray<AssetTypes.AssetEssentialProperties>;
+  public miniAssets: ReadonlyArray<{ assetName: string, assetId: string }>;
   public assetsToRemove: ReadonlyArray<string> = [];
 
   constructor(
@@ -25,7 +25,10 @@ export class EditAssetGroupDialogComponent {
     }
   ) {
     this.assetGroupFilterQuery = data.assetGroupFilter.filter.find(filterQuery => filterQuery.type === 'GUID');
-    this.assetEssentials = this.assetGroupFilterQuery.values.map(assetId => data.assetEssentials[assetId]);
+    this.miniAssets = this.assetGroupFilterQuery.values.map(assetId => ({
+      assetId,
+      assetName: data.assetEssentials[assetId] ? data.assetEssentials[assetId].assetName : null
+    }));
     this.filterName = new FormControl(data.assetGroupFilter.name, Validators.required);
   }
 

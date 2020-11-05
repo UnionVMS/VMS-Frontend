@@ -10,12 +10,13 @@
     <h2>Remove assets from group:</h2>
     <div class="assets">
       <mat-checkbox
-        *ngFor="let assetEssential of assetEssentials" class="asset"
-        title="{{assetEssential.assetName}}"
-        [checked]="this.assetsToRemove.includes(assetEssential.assetId)"
-        (change)="toggleRemoveAsset(assetEssential.assetId)"
+        *ngFor="let miniAsset of miniAssets" class="asset"
+        title="{{miniAsset.assetName || 'Asset no longer exists' }}"
+        [checked]="this.assetsToRemove.includes(miniAsset.assetId)"
+        (change)="toggleRemoveAsset(miniAsset.assetId)"
       >
-        <ui-truncated-text [text]="assetEssential.assetName" length="30"></ui-truncated-text>
+        <ui-truncated-text *ngIf="miniAsset.assetName !== null" [text]="miniAsset.assetName" length="30"></ui-truncated-text>
+        <span *ngIf="miniAsset.assetName === null" class="danger">Asset no longer exists</span>
       </mat-checkbox>
     </div>
   </div>

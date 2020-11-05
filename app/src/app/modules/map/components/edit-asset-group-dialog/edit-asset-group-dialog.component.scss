@@ -10,6 +10,11 @@ map-edit-asset-group-dialog {
     .assets {
       display: grid;
       padding-bottom: distance(1);
+
+      .danger {
+        color: $color_warn;
+        text-decoration: line-through;
+      }
     }
   }
 }
