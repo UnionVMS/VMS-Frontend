@@ -24,7 +24,6 @@ export class EditAssetGroupDialogComponent {
       assetEssentials: Readonly<{ readonly [assetId: string]: AssetTypes.AssetEssentialProperties }>
     }
   ) {
-    console.warn(data);
     this.assetGroupFilterQuery = data.assetGroupFilter.filter.find(filterQuery => filterQuery.type === 'GUID');
     this.assetEssentials = this.assetGroupFilterQuery.values.map(assetId => data.assetEssentials[assetId]);
     this.filterName = new FormControl(data.assetGroupFilter.name, Validators.required);
