@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, OnDestroy, ViewChild, ElementRef, AfterViewInit  } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { IncidentTypes } from '@data/incident';
@@ -13,16 +13,39 @@ import moment from 'moment-timezone';
   templateUrl: './incident-expiry-date-form.component.html',
   styleUrls: ['./incident-expiry-date-form.component.scss']
 })
-export class IncidentExpiryDateFormComponent implements OnChanges {
-
+export class IncidentExpiryDateFormComponent implements OnChanges, OnDestroy, AfterViewInit {
   @Input() changeExpiryDate: (expiryDate: number | null) => void;
   @Input() createNote: (note: string) => void;
 
+  @ViewChild('expiryDateForm') expiryDateForm: ElementRef;
+
   public formValidator: FormGroup;
   public autoUpdateDatetime = false;
+  public bottomPosition = -48;
+  public topPosition: number;
+  public dateTimePickerPosition: {
+    left: string, right: string, top?: string, bottom?: string
+  } = { left: 'auto', right: '24px' };
+  private intervalId: number;
+
+  ngAfterViewInit() {
+    this.intervalId = window.setInterval(() => {
+      const distanceToWindowTop = this.expiryDateForm.nativeElement.getBoundingClientRect().top;
+      if(-this.bottomPosition + 500 > distanceToWindowTop) {
+        this.topPosition = -distanceToWindowTop;
+        this.dateTimePickerPosition = { ...this.dateTimePickerPosition, top: this.topPosition + 'px', bottom: 'auto' };
+      } else {
+        this.dateTimePickerPosition = { ...this.dateTimePickerPosition, bottom: this.bottomPosition + 'px' };
+      }
+    }, 1000);
+  }
 
   ngOnChanges() {
     this.formValidator = createIncidentExpiryDateFormValidator();
+  }
+
+  ngOnDestroy() {
+    window.clearInterval(this.intervalId);
   }
 
   save() {
