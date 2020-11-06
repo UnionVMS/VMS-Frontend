@@ -29,12 +29,8 @@
     grid-template-columns: 1fr;
     grid-row-gap: distance(0.5);
 
-    &.comment, &.ocean-region, &.ref-message {
+    &.comment, &.ocean-region {
       grid-column: span 2;
-    }
-
-    &.ref-message {
-      color: $color_warn;
     }
 
     .label {

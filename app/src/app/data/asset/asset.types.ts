@@ -294,7 +294,7 @@ export type Poll = Readonly<{
     endDate?: number,
     startDate?: number,
   },
-  pollStatus: PollStatusObject,
+  pollStatus?: PollStatusObject,
   movement?: Movement,
   mobileTerminalSnapshot: MobileTerminal,
 }>;

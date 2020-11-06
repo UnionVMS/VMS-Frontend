@@ -69,15 +69,4 @@ export class AssetPollProgramComponent implements OnChanges {
       frequencyFormatted: frequency,
     };
   }
-
-  public isPollSuccessful(poll: ExtendedPoll) {
-    return poll.pollStatus.history[0].status === AssetTypes.PollStatus.SUCCESSFUL;
-  }
-
-  public isPollFailedOrTimedOut(poll: ExtendedPoll) {
-    return [
-      AssetTypes.PollStatus.TIMED_OUT,
-      AssetTypes.PollStatus.FAILED
-    ].includes(poll.pollStatus.history[0].status);
-  }
 }
