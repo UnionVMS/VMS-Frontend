@@ -80,7 +80,7 @@ describe('AssetPanelComponent', () => {
     component['toggleTracks'](selectedAsset);
     expect(getAssetTrackSpy).toHaveBeenCalledTimes(1);
     expect(getAssetTrackSpy).toHaveBeenCalledWith(
-      selectedAsset.asset.id, selectedAsset.currentPosition.microMove.id
+      selectedAsset.asset.id, selectedAsset.currentPosition.movement.id
     );
   });
 
@@ -113,7 +113,7 @@ describe('AssetPanelComponent', () => {
     component['goToAsset'](component.asset);
     expect(centerMapOnPositionSpy).toHaveBeenCalledTimes(1);
     expect(centerMapOnPositionSpy).toHaveBeenCalledWith(
-      component.asset.currentPosition.microMove.location
+      component.asset.currentPosition.movement.location
     );
   });
 });

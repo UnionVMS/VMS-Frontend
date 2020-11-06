@@ -31,6 +31,7 @@ export const MovementStatusTranslation = {
 };
 
 export type Movement = Readonly<{
+  asset: string;
   location: Position;
   heading: number;
   id: string;
@@ -57,9 +58,9 @@ export type ManualMovement = Readonly<{
 }>;
 
 export type AssetMovement = Readonly<{
-  microMove: Movement;
+  movement: Movement;
   asset: string;
-  decayPercentage: number|undefined;
+  decayPercentage?: number;
 }>;
 
 export type AssetList = Readonly<{

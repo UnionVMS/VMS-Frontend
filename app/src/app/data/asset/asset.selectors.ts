@@ -49,10 +49,10 @@ export const getAssetsMovementsDependingOnLeftPanel = createSelector(
       if(IncidentTypes.IncidentTypesValues.includes(activeLeftPanel[1])) {
         const statusName = (activeLeftPanel[2] === 'RESOLVED' ? 'recentlyResolvedIncidentIds' : 'unresolvedIncidentIds');
         return incidentsByTypeAndStatus[IncidentTypes.IncidentTypesInverted[activeLeftPanel[1]]][statusName].reduce(
-          (acc, incidentId) => {
+          (acc: AssetTypes.AssetMovement, incidentId: string): AssetTypes.AssetMovement => {
             const incident = incidents[incidentId];
             acc[incident.assetId] = {
-              microMove: incident.lastKnownLocation,
+              movement: incident.lastKnownLocation,
               asset: incident.assetId
             };
             return acc;

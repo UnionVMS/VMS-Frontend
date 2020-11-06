@@ -118,7 +118,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
       return false;
     }
     const flagFeature = new Feature(new Point(fromLonLat([
-      asset.assetMovement.microMove.location.longitude, asset.assetMovement.microMove.location.latitude
+      asset.assetMovement.movement.location.longitude, asset.assetMovement.movement.location.latitude
     ])));
     const flagStyle = new Style({
       image: new Icon({
@@ -145,7 +145,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
 
   updateFeatureFromAsset(assetFeature: Feature, asset: AssetTypes.AssetMovement) {
     assetFeature.setGeometry(new Point(fromLonLat([
-      asset.microMove.location.longitude, asset.microMove.location.latitude
+      asset.movement.location.longitude, asset.movement.location.latitude
     ])));
     return assetFeature;
   }

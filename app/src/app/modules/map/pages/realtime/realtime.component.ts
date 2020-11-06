@@ -183,7 +183,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
           const assetMovement = this.assetMovements.find((asset) => asset.assetMovement.asset === this.assetIdFromUrl);
           if(assetMovement !== undefined) {
             this.selectAsset(assetMovement.assetMovement.asset);
-            this.centerMapOnPosition(assetMovement.assetMovement.microMove.location);
+            this.centerMapOnPosition(assetMovement.assetMovement.movement.location);
           } else {
             this.store.dispatch(NotificationsActions.addNotice(
               // tslint:disable-next-line max-line-length

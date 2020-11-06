@@ -168,8 +168,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
             // We need to reset position to force rerender of asset.
             selectedAssetFeature.setGeometry(new Point(fromLonLat([
-              selectedAsset.currentPosition.microMove.location.longitude,
-              selectedAsset.currentPosition.microMove.location.latitude
+              selectedAsset.currentPosition.movement.location.longitude,
+              selectedAsset.currentPosition.movement.location.latitude
             ])));
           }
         }
@@ -236,14 +236,14 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     const assetMovement = asset.assetMovement;
     const assetEssentials = asset.assetEssentials;
     const assetFeature = new Feature(new Point(fromLonLat([
-      assetMovement.microMove.location.longitude, assetMovement.microMove.location.latitude
+      assetMovement.movement.location.longitude, assetMovement.movement.location.latitude
     ])));
 
     const styleProperties: any = {
       image: new Icon({
         src: '/assets/Vessel.png',
         opacity: 1,
-        rotation: deg2rad(assetMovement.microMove.heading),
+        rotation: deg2rad(assetMovement.movement.heading),
         color: this.getShipColor(asset)
       })
     };
@@ -254,8 +254,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     const assetStyle = new Style(styleProperties);
 
     assetFeature.setStyle(assetStyle);
-    // assetFeature.getStyle().getImage().setOpacity(1);
-    // assetFeature.getStyle().getImage().setRotation(deg2rad(assetMovement.microMove.heading));
     assetFeature.setId(assetMovement.asset);
 
     if(asset.assetMovement.decayPercentage !== undefined) {
@@ -263,9 +261,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     const currentAssetPosition = [
-      asset.assetMovement.microMove.location.latitude,
-      asset.assetMovement.microMove.location.longitude,
-      asset.assetMovement.microMove.heading,
+      asset.assetMovement.movement.location.latitude,
+      asset.assetMovement.movement.location.longitude,
+      asset.assetMovement.movement.heading,
       asset.assetMovement.decayPercentage,
       typeof asset.assetEssentials === 'undefined'
     ];
@@ -427,9 +425,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
   updateFeatureFromAsset(assetFeature: Feature, asset: AssetTypes.AssetMovementWithEssentials) {
     const currentAssetPosition = [
-      asset.assetMovement.microMove.location.latitude,
-      asset.assetMovement.microMove.location.longitude,
-      asset.assetMovement.microMove.heading,
+      asset.assetMovement.movement.location.latitude,
+      asset.assetMovement.movement.location.longitude,
+      asset.assetMovement.movement.heading,
       asset.assetMovement.decayPercentage,
       typeof asset.assetEssentials === 'undefined'
     ];
@@ -440,13 +438,13 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       oldStuff[0] !== currentAssetPosition[0] || oldStuff[1] !== currentAssetPosition[1] || oldStuff[2] !== currentAssetPosition[2]
     ) {
       assetFeature.setGeometry(new Point(fromLonLat(
-        [asset.assetMovement.microMove.location.longitude, asset.assetMovement.microMove.location.latitude]
+        [asset.assetMovement.movement.location.longitude, asset.assetMovement.movement.location.latitude]
       )));
       const style = assetFeature.getStyle();
       if(Array.isArray(style)) {
-        style[0].getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
+        style[0].getImage().setRotation(deg2rad(asset.assetMovement.movement.heading));
       } else {
-        style.getImage().setRotation(deg2rad(asset.assetMovement.microMove.heading));
+        style.getImage().setRotation(deg2rad(asset.assetMovement.movement.heading));
       }
       this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
     }
@@ -458,8 +456,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       this.speedsWereVisibleLastRerender !== this.speedsVisibleCalculated ||
       (
         this.speedsVisibleCalculated &&
-        asset.assetMovement.microMove.speed !== null &&
-        this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] !== asset.assetMovement.microMove.speed.toFixed(2)
+        asset.assetMovement.movement.speed !== null &&
+        this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] !== asset.assetMovement.movement.speed.toFixed(2)
       )
     ) {
       const style = assetFeature.getStyle();
@@ -486,7 +484,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       actualStyle.setImage(new Icon({
         src: '/assets/Vessel.png',
         opacity: actualStyle.getImage().getOpacity(),
-        rotation: deg2rad(asset.assetMovement.microMove.heading),
+        rotation: deg2rad(asset.assetMovement.movement.heading),
         color: this.getShipColor(asset)
       }));
     }
@@ -499,15 +497,15 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     if (this.namesVisibleCalculated && asset.assetEssentials !== undefined) {
       text = asset.assetEssentials.assetName;
     }
-    if (this.speedsVisibleCalculated && asset.assetMovement.microMove.speed !== null) {
+    if (this.speedsVisibleCalculated && asset.assetMovement.movement.speed !== null) {
       if (text !== null) {
-        text += '\n' + asset.assetMovement.microMove.speed.toFixed(2) + ' kts';
+        text += '\n' + asset.assetMovement.movement.speed.toFixed(2) + ' kts';
         offsetY = 30;
       } else {
-        text = asset.assetMovement.microMove.speed.toFixed(2) + ' kts';
+        text = asset.assetMovement.movement.speed.toFixed(2) + ' kts';
       }
-      this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] = asset.assetMovement.microMove.speed !== null
-        ? asset.assetMovement.microMove.speed.toFixed(2)
+      this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] = asset.assetMovement.movement.speed !== null
+        ? asset.assetMovement.movement.speed.toFixed(2)
         : null;
     }
 

@@ -37,7 +37,7 @@ export class AssetPanelComponent {
   }
 
   public goToAsset(asset: AssetTypes.AssetData) {
-    this.centerMapOnPosition(asset.currentPosition.microMove.location);
+    this.centerMapOnPosition(asset.currentPosition.movement.location);
   }
 
   // Extracting this code to separete function so we can override this code in unit-tests.
@@ -50,7 +50,7 @@ export class AssetPanelComponent {
     if(this.tracksIsVisible(asset)) {
       this.untrackAsset(asset.asset.id);
     } else if(this.tracksMinuteCap === null) {
-      this.getAssetTrack(asset.asset.id, asset.currentPosition.microMove.id);
+      this.getAssetTrack(asset.asset.id, asset.currentPosition.movement.id);
     } else {
       this.getAssetTrackTimeInterval(
         asset.asset.id,

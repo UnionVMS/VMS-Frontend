@@ -42,8 +42,8 @@ describe('FlagstatesComponent', () => {
     const feature = component.createFeatureFromAsset(AssetMovementWithEssentialsStub);
     expect(feature.getId()).toEqual(`flag_${AssetMovementWithEssentialsStub.assetEssentials.assetId}`);
     expect(feature.getGeometry().getCoordinates()).toEqual(fromLonLat([
-      AssetMovementWithEssentialsStub.assetMovement.microMove.location.longitude,
-      AssetMovementWithEssentialsStub.assetMovement.microMove.location.latitude
+      AssetMovementWithEssentialsStub.assetMovement.movement.location.longitude,
+      AssetMovementWithEssentialsStub.assetMovement.movement.location.latitude
     ]));
     expect(component['flagCanvasByCountry'][getContryISO2(AssetMovementWithEssentialsStub.assetEssentials.flagstate).toLowerCase()])
       .not.toBeUndefined();
@@ -58,12 +58,12 @@ describe('FlagstatesComponent', () => {
 
     const feature = component.createFeatureFromAsset(AssetMovementWithEssentialsStub);
     expect(feature.getGeometry().getCoordinates()).toEqual(fromLonLat([
-      AssetMovementWithEssentialsStub.assetMovement.microMove.location.longitude,
-      AssetMovementWithEssentialsStub.assetMovement.microMove.location.latitude
+      AssetMovementWithEssentialsStub.assetMovement.movement.location.longitude,
+      AssetMovementWithEssentialsStub.assetMovement.movement.location.latitude
     ]));
 
     const movement = { ...AssetMovementWithEssentialsStub.assetMovement,
-      microMove: { ...AssetMovementWithEssentialsStub.assetMovement.microMove,
+      movement: { ...AssetMovementWithEssentialsStub.assetMovement.movement,
         location: {
           longitude: 13.37,
           latitude:  112.911
@@ -73,8 +73,8 @@ describe('FlagstatesComponent', () => {
 
     component.updateFeatureFromAsset(feature, movement);
     expect(feature.getGeometry().getCoordinates()).toEqual(fromLonLat([
-      movement.microMove.location.longitude,
-      movement.microMove.location.latitude
+      movement.movement.location.longitude,
+      movement.movement.location.latitude
     ]));
 
   });

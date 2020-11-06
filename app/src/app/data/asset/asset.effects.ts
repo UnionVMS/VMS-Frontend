@@ -87,7 +87,7 @@ export class AssetEffects {
             const oneHour = 1000 * 60 * 60;
             const positionsToRemoveOrUpdate = Object.values(assetMovements).reduce(
               (acc, assetMovement, index) => {
-                const date = new Date(assetMovement.microMove.timestamp);
+                const date = new Date(assetMovement.movement.timestamp);
                 const timeBetweenNowAndThen = Date.now() - date.getTime();
                 if((timeBetweenNowAndThen > oneHour * 9)) {
                   acc.assetsToDelete.push(assetMovement.asset);
@@ -135,15 +135,19 @@ export class AssetEffects {
         this.assetService.getInitalAssetMovements(authToken).pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
-          map((assetMovements: any) => {
+          map((response: {
+            assetList: ReadonlyArray<AssetTypes.AssetEssentialProperties>,
+            movements: ReadonlyArray<AssetTypes.Movement>
+          }) => {
             return new Observable((observer) => {
               observer.next(
                 AssetActions.assetsMoved({
-                  assetMovements: assetMovements.microMovements.reduce((acc, assetMovement) => {
-                    if(typeof assetMovement.microMove.speed === 'undefined') {
-                      assetMovement.microMove.speed = null;
+                  assetMovements: response.movements.reduce((acc, movement) => {
+                    if(typeof movement.speed === 'undefined') {
+                      acc[movement.asset] = { movement: { ...movement, speed: null }, asset: movement.asset };
+                    } else {
+                      acc[movement.asset] = { movement, asset: movement.asset };
                     }
-                    acc[assetMovement.asset] = assetMovement;
                     return acc;
                   }, {})
                 })
@@ -151,7 +155,7 @@ export class AssetEffects {
 
               observer.next(
                 AssetActions.setEssentialProperties({
-                  assetEssentialProperties: assetMovements.assetList.reduce((acc, assetEssentials) => {
+                  assetEssentialProperties: response.assetList.reduce((acc, assetEssentials) => {
                     acc[assetEssentials.assetId] = assetEssentials;
                     return acc;
                   }, {})
@@ -183,11 +187,14 @@ export class AssetEffects {
               const actions = [];
 
               if(typeof messagesByType.Movement !== 'undefined') {
-                const assetsMovedData = {assetMovements: messagesByType.Movement.reduce((acc, assetMovement) => {
-                  if(typeof assetMovement.microMove.speed === 'undefined') {
-                    assetMovement.microMove.speed = null;
+                const assetsMovedData = {assetMovements: messagesByType.Movement.reduce((
+                  acc: { [assetId: string]: AssetTypes.AssetMovement }, movement: AssetTypes.Movement
+                ) => {
+                  if(typeof movement.speed === 'undefined') {
+                    acc[movement.asset] = { movement: { ...movement, speed: null }, asset: movement.asset };
+                  } else {
+                    acc[movement.asset] = { movement, asset: movement.asset };
                   }
-                  acc[assetMovement.asset] = assetMovement;
                   return acc;
                 }, {})};
                 actions.push(AssetActions.assetsMoved(assetsMovedData));
@@ -361,8 +368,8 @@ export class AssetEffects {
               accMovementsByAsset.assetMovements[track.asset] = [];
               accMovementsByAsset.movements[track.asset] = [];
             }
-            accMovementsByAsset.assetMovements[track.asset].push(track);
-            accMovementsByAsset.movements[track.asset].push(track.microMove);
+            accMovementsByAsset.assetMovements[track.asset].push({ movement: track, asset: track.asset });
+            accMovementsByAsset.movements[track.asset].push(track);
 
             return accMovementsByAsset;
           }, { assetMovements: {}, movements: {} });
