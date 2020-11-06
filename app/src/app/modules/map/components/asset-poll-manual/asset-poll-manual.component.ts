@@ -26,8 +26,7 @@ type ExtendedPoll = Readonly<AssetTypes.Poll & {
 })
 export class AssetPollManualComponent implements OnChanges {
   @Input() poll: AssetTypes.Poll;
-  @Input() mobileTerminal: MobileTerminalTypes.MobileTerminal;
-  @Input() index: number;
+  @Input() index?: number = 1; // tslint:disable-line: no-inferrable-types
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 
   public formActive = true;
@@ -38,11 +37,11 @@ export class AssetPollManualComponent implements OnChanges {
 
   public ngOnChanges() {
     const oceanRegions = [];
-    if(this.mobileTerminal) {
-      if(this.mobileTerminal.eastAtlanticOceanRegion) { oceanRegions.push('East Atlantic'); }
-      if(this.mobileTerminal.indianOceanRegion) { oceanRegions.push('Indian'); }
-      if(this.mobileTerminal.pacificOceanRegion) { oceanRegions.push('Pacific'); }
-      if(this.mobileTerminal.westAtlanticOceanRegion) { oceanRegions.push('West Atlantic'); }
+    if(this.poll.mobileTerminalSnapshot) {
+      if(this.poll.mobileTerminalSnapshot.eastAtlanticOceanRegion) { oceanRegions.push('East Atlantic'); }
+      if(this.poll.mobileTerminalSnapshot.indianOceanRegion) { oceanRegions.push('Indian'); }
+      if(this.poll.mobileTerminalSnapshot.pacificOceanRegion) { oceanRegions.push('Pacific'); }
+      if(this.poll.mobileTerminalSnapshot.westAtlanticOceanRegion) { oceanRegions.push('West Atlantic'); }
     }
 
     this.formattedPoll = {
@@ -58,7 +57,7 @@ export class AssetPollManualComponent implements OnChanges {
         };
       }),
       oceanRegions,
-      transponder: this.mobileTerminal ? this.mobileTerminal.mobileTerminalType : ''
+      transponder: this.poll.mobileTerminalSnapshot ? this.poll.mobileTerminalSnapshot.mobileTerminalType : ''
     };
 
     if(this.poll.movement) {

@@ -44,7 +44,6 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public lastPollsForSelectedAsset$: Observable<ReadonlyArray<AssetTypes.Poll>>;
   public licence$: Observable<AssetTypes.AssetLicence>;
   public licenceLoaded = false;
-  public mobileTerminals$: Observable<Readonly<{ [mobileTerminalId: string]: MobileTerminalTypes.MobileTerminal }>>;
   public userTimezone$: Observable<string>;
 
   public addForecast: (assetId: string) => void;
@@ -158,7 +157,6 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
         this.store.dispatch(MobileTerminalActions.getMobileTerminal({ mobileTerminalId }));
       });
     }));
-    this.mobileTerminals$ = this.store.select(MobileTerminalSelectors.getMobileTerminals);
     this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
   }
 

@@ -8,14 +8,14 @@
     <form class="resolve-form" [formGroup]="formValidator">
       <mat-form-field id="resolve-form--note">
         <mat-label i18n>Why was the incident resolved?</mat-label>
-        <input matInput formControlName="note" required />
+        <input matInput formControlName="note" required cdkFocusInitial />
         <mat-error *ngFor="let error of getErrors(['note'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
     </form>
   </div>
 </div>
 <div mat-dialog-actions align="center">
-  <button mat-stroked-button [matDialogClose]="false" cdkFocusInitial color="primary" i18n>Cancel</button>
+  <button mat-stroked-button [matDialogClose]="false" color="primary" i18n>Cancel</button>
   <button
     mat-raised-button
     [mat-dialog-close]="save()"

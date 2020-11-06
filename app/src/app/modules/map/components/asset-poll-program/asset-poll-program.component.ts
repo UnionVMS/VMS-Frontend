@@ -23,8 +23,7 @@ type ExtendedPoll = Readonly<AssetTypes.Poll & {
 })
 export class AssetPollProgramComponent implements OnChanges {
   @Input() poll: AssetTypes.Poll;
-  @Input() mobileTerminal: MobileTerminalTypes.MobileTerminal;
-  @Input() index: number;
+  @Input() index?: number = 1; // tslint:disable-line: no-inferrable-types
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 
   public formActive = true;
@@ -36,13 +35,13 @@ export class AssetPollProgramComponent implements OnChanges {
   public ngOnChanges() {
     const oceanRegions = [];
     let channel: MobileTerminalTypes.Channel;
-    if(this.mobileTerminal) {
-      if(this.mobileTerminal.eastAtlanticOceanRegion) { oceanRegions.push('East Atlantic'); }
-      if(this.mobileTerminal.indianOceanRegion) { oceanRegions.push('Indian'); }
-      if(this.mobileTerminal.pacificOceanRegion) { oceanRegions.push('Pacific'); }
-      if(this.mobileTerminal.westAtlanticOceanRegion) { oceanRegions.push('West Atlantic'); }
+    if(this.poll.mobileTerminalSnapshot) {
+      if(this.poll.mobileTerminalSnapshot.eastAtlanticOceanRegion) { oceanRegions.push('East Atlantic'); }
+      if(this.poll.mobileTerminalSnapshot.indianOceanRegion) { oceanRegions.push('Indian'); }
+      if(this.poll.mobileTerminalSnapshot.pacificOceanRegion) { oceanRegions.push('Pacific'); }
+      if(this.poll.mobileTerminalSnapshot.westAtlanticOceanRegion) { oceanRegions.push('West Atlantic'); }
 
-      channel = this.mobileTerminal.channels.find((iChannel) => this.poll.pollInfo.channelId === iChannel.id);
+      channel = this.poll.mobileTerminalSnapshot.channels.find((iChannel) => this.poll.pollInfo.channelId === iChannel.id);
     }
 
     const identifier = channel ? channel.dnid + '.' + channel.memberNumber : '';
@@ -63,7 +62,7 @@ export class AssetPollProgramComponent implements OnChanges {
       ...this.poll,
       formattedTimestamp: formatUnixtime(this.poll.pollInfo.createTime),
       oceanRegions,
-      transponder: this.mobileTerminal ? this.mobileTerminal.mobileTerminalType : '',
+      transponder: this.poll.mobileTerminalSnapshot ? this.poll.mobileTerminalSnapshot.mobileTerminalType : '',
       identifier,
       startDateFormatted: formatUnixtime(this.poll.pollInfo.startDate),
       endDateFormatted: formatUnixtime(this.poll.pollInfo.endDate),

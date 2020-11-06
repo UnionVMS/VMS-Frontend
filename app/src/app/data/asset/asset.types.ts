@@ -1,4 +1,5 @@
 import { Position, TimePosition } from '../generic.types';
+import { MobileTerminal } from '@data/mobile-terminal/mobile-terminal.types';
 
 export const OceanRegionTranslation = {
   AORE: 'East Atlantic',
@@ -294,7 +295,8 @@ export type Poll = Readonly<{
     startDate?: number,
   },
   pollStatus: PollStatusObject,
-  movement?: Movement
+  movement?: Movement,
+  mobileTerminalSnapshot: MobileTerminal,
 }>;
 
 export type State = Readonly<{
