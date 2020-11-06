@@ -1,4 +1,7 @@
 <div class="content-container">
-<span class="who">{{ note.createdBy }} wrote:</span>
-<span class="note">{{ note.note }}</span>
+  <ng-container *ngIf="note">
+    <span class="who">{{ note.createdBy }} <ng-container i18n>wrote:</ng-container></span>
+    <span class="note">{{ note.note }}</span>
+  </ng-container>
+  <span *ngIf="!note" class="danger" i18n>Error: Note not found / deleted.</span>
 </div>
