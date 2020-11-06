@@ -361,15 +361,15 @@ export class AssetEffects {
       return this.assetService.getTracksByTimeInterval(authToken, action.query, action.startDate, action.endDate, action.sources).pipe(
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
-        map((assetMovements: any) => {
-          const assetMovementsOrdered = assetMovements.reverse();
+        map((movements: ReadonlyArray<AssetTypes.Movement>) => {
+          const assetMovementsOrdered = movements.slice().reverse().map(movement => ({ movement, asset: movement.asset }));
           const movementsByAsset = assetMovementsOrdered.reduce((accMovementsByAsset, track) => {
             if(typeof accMovementsByAsset.assetMovements[track.asset] === 'undefined') {
               accMovementsByAsset.assetMovements[track.asset] = [];
               accMovementsByAsset.movements[track.asset] = [];
             }
-            accMovementsByAsset.assetMovements[track.asset].push({ movement: track, asset: track.asset });
-            accMovementsByAsset.movements[track.asset].push(track);
+            accMovementsByAsset.assetMovements[track.asset].push(track);
+            accMovementsByAsset.movements[track.asset].push(track.movement);
 
             return accMovementsByAsset;
           }, { assetMovements: {}, movements: {} });

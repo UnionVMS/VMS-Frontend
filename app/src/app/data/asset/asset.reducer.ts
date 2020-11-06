@@ -322,7 +322,7 @@ export const assetReducer = createReducer(initialState,
   on(AssetActions.setAssetTripGranularity, (state, { assetTripGranularity }) => ({ ...state, assetTripGranularity })),
   on(AssetActions.setAssetTrips, (state, { assetMovements }) => {
     const granularityInSeconds = state.assetTripGranularity * 60;
-    const assetTrips = assetMovements.reduce((tripAccumilator, movement) => {
+    const assetTrips = assetMovements.reduce((tripAccumilator, movement: Types.AssetMovement) => {
       const timestamps = Object.keys(tripAccumilator);
       const timestampOfMovement = movement.movement.timestamp;
       if(timestamps.length === 0) {
