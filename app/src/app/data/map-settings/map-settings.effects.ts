@@ -60,11 +60,9 @@ export class MapSettingsEffects {
       return this.userSettingsService.saveMapLocations(user, mapLocations).pipe(
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
-        map((response: any, index: number) => [
+        map((response: any, index: number) =>
           NotificationsActions.addSuccess($localize`:@@ts-map-location-saved:Map location saved`, 6000),
-          MapSettingsActions.replaceSettings({ settings: action.settings })
-        ]),
-        flatMap(a => a),
+        ),
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );
     })
