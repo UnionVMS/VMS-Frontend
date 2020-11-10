@@ -1,8 +1,10 @@
 import { Position } from '../generic.types';
 
 export type MapLocation = Readonly<{
+  name: string;
   zoom: number;
   center: ReadonlyArray<number>;
+  base64Image?: string;
 }>;
 
 export type Settings = Readonly<{

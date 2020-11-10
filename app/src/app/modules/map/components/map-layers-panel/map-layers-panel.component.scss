@@ -1,0 +1,21 @@
+@import 'variables.scss';
+#map-layers-panel.content-container {
+  display: grid;
+  grid-row-gap: distance(0.5);
+  padding: distance(1);
+
+  mat-checkbox {
+    background: white;
+    padding: distance(0.5) distance(1);
+    overflow: hidden;
+
+    .mat-checkbox-layout {
+      max-width: 100%;
+
+      .mat-checkbox-label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

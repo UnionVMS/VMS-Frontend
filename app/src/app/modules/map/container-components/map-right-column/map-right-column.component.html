@@ -25,6 +25,36 @@
       ><i class="icon-incident {{ activePanel[0] === 'incident' ? 'active' : '' }} {{ selectedIncident === undefined ? 'disabled' : '' }}" aria-hidden="true"></i></li>
     </ng-container>
   </ul>
+  <ul id="realtime-right-column-bottom-menu">
+    <li (click)="setActivePanelAndShowColumn(['map-layers'])">
+      <i
+        title="Map layers."
+        class="icon-map-layers {{activePanel[0] === 'map-layers' ? 'active' : '' }}"
+        aria-hidden="true"
+      ></i>
+    </li>
+    <li (click)="setActivePanelAndShowColumn(['distance-between-points'])">
+      <i
+        title="Messure distance."
+        class="icon-distance-between-points {{activePanel[0] === 'distance-between-points' ? 'active' : '' }}"
+        aria-hidden="true"
+      ></i>
+    </li>
+    <li (click)="setActivePanelAndShowColumn(['asset-layers'])">
+      <i
+        title="Hide and show asset information on map."
+        class="icon-asset-layers {{activePanel[0] === 'asset-layers' ? 'active' : '' }}"
+        aria-hidden="true"
+      ></i>
+    </li>
+    <li (click)="setActivePanelAndShowColumn(['map-locations'])">
+      <i
+        title="Saved map positions."
+        class="icon-map-locations {{activePanel[0] === 'map-locations' ? 'active' : '' }}"
+        aria-hidden="true"
+      ></i>
+    </li>
+  </ul>
   <div class="panel information-panel" *ngIf="activePanel[0] === 'information'">
     <h3 i18n>Map Information</h3>
   </div>
@@ -175,5 +205,46 @@
         [assetId]="selectedAsset.asset.id"
       ></map-note-form>
     </ng-container>
+  </div>
+  <div class="panel map-locations-panel" *ngIf="activePanel[0] === 'map-locations' && mapSettings && map">
+    <h3 i18n>Map positions</h3>
+    <map-locations
+      [centerMapOnPosition]="centerMapOnPosition"
+      [mapLocations]="mapSettings.mapLocations"
+      [map]="map"
+      [saveMapLocation]="saveMapLocation"
+      [deleteMapLocation]="deleteMapLocation"
+    ></map-locations>
+  </div>
+  <div class="panel map-layers-panel" *ngIf="activePanel[0] === 'map-layers'">
+    <h3 i18n>Map layers</h3>
+    <map-layers-panel
+      [activeMapLayers]="activeMapLayers$ | async"
+      [mapLayers]="mapLayers$ | async"
+      [addActiveLayerFunction]="addActiveLayer"
+      [removeActiveLayerFunction]="removeActiveLayer"
+    ></map-layers-panel>
+  </div>
+  <div class="panel map-distance-between-points-panel" *ngIf="activePanel[0] === 'distance-between-points'">
+    <h3 i18n>Messure distance</h3>
+    <map-distance-between-points-panel
+      [clearMessurements]="clearMessurements"
+    ></map-distance-between-points-panel>
+  </div>
+  <div class="panel map-layer-filter-panel" *ngIf="activePanel[0] === 'asset-layers'">
+    <h3 i18n>Asset features on map</h3>
+    <map-layer-filter
+      [mapSettings]="mapSettings"
+      [setVisibilityForAssetNames]="setVisibilityForAssetNames"
+      [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
+      [setVisibilityForFlags]="setVisibilityForFlags"
+      [setVisibilityForTracks]="setVisibilityForTracks"
+      [setVisibilityForForecast]="setVisibilityForForecast"
+      [flagsDisabled]="mapZoom < 10"
+      [tracksDisabled]="false"
+      [namesDisabled]="mapZoom < 10"
+      [speedsDisabled]="mapZoom < 10"
+      [forecastsDisabled]="mapZoom < 10"
+    ></map-layer-filter>
   </div>
 </div>

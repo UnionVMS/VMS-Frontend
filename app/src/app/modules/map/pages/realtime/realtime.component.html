@@ -60,85 +60,22 @@
         [assetMovements]="forecasts$|async"
         [forecastInterval]="mapSettings.settings.forecastInterval"
       ></map-asset-forecast>
+      <map-layers
+        *ngIf="(authToken$ | async) !== undefined && (mapLayers$ | async).length > 0"
+        [map]="map"
+        [authToken]="authToken$ | async"
+        [mapLayers]="mapLayers$ | async"
+        [activeMapLayers]="activeMapLayers$ | async"
+      ></map-layers>
+      <map-distance-between-points
+        [map]="map"
+        [registerOnClickFunction]="registerOnClickFunction"
+        [active]="activeRightPanel[0] === 'distance-between-points'"
+        [unitOfDistance]="mapSettings.settings.unitOfDistance"
+        [clearMeasurements$]="clearMeasurements$"
+      ></map-distance-between-points>
       <div class="control-panel">
         <ul class="control-panel-menu">
-          <li>
-            <i
-              (click)="toggleActivePanel('map-layers')"
-              title="Map layers."
-              class="icon-map-layers {{activePanel === 'map-layers' ? 'active' : '' }}"
-              aria-hidden="true"
-            ></i>
-            <div class="control-panel-submenu">
-              <map-layers
-                *ngIf="(authToken$ | async) !== undefined && (mapLayers$ | async).length > 0"
-                [map]="map"
-                [authToken]="authToken$ | async"
-                [mapLayers]="mapLayers$ | async"
-                [activeMapLayers]="activeMapLayers$ | async"
-                [menuActive]="activePanel === 'map-layers'"
-                [addActiveLayerFunction]="addActiveLayer"
-                [removeActiveLayerFunction]="removeActiveLayer"
-              ></map-layers>
-            </div>
-          </li>
-          <li>
-            <i
-              (click)="toggleActivePanel('distance-between-points')"
-              title="Messure distance."
-              class="icon-distance-between-points {{activePanel === 'distance-between-points' ? 'active' : '' }}"
-              aria-hidden="true"
-            ></i>
-            <div class="control-panel-submenu">
-              <map-distance-between-points
-                [map]="map"
-                [registerOnClickFunction]="registerOnClickFunction"
-                [active]="activePanel === 'distance-between-points'"
-                [unitOfDistance]="mapSettings.settings.unitOfDistance"
-              ></map-distance-between-points>
-            </div>
-          </li>
-          <li>
-            <i
-              (click)="toggleActivePanel('asset-layers')"
-              title="Hide and show asset information on map."
-              class="icon-asset-layers {{activePanel === 'asset-layers' ? 'active' : '' }}"
-              aria-hidden="true"
-            ></i>
-            <div class="control-panel-submenu">
-              <map-layer-filter
-                *ngIf="activePanel === 'asset-layers'"
-                [mapSettings]="mapSettings"
-                [setVisibilityForAssetNames]="setVisibilityForAssetNames"
-                [setVisibilityForAssetSpeeds]="setVisibilityForAssetSpeeds"
-                [setVisibilityForFlags]="setVisibilityForFlags"
-                [setVisibilityForTracks]="setVisibilityForTracks"
-                [setVisibilityForForecast]="setVisibilityForForecast"
-                [flagsDisabled]="mapZoom < 10"
-                [tracksDisabled]="false"
-                [namesDisabled]="mapZoom < 10"
-                [speedsDisabled]="mapZoom < 10"
-                [forecastsDisabled]="mapZoom < 10"
-              ></map-layer-filter>
-            </div>
-          </li>
-          <li>
-            <i
-              (click)="toggleActivePanel('map-locations')"
-              title="Saved map positions."
-              class="icon-map-locations {{activePanel === 'map-locations' ? 'active' : '' }}"
-              aria-hidden="true"
-            ></i>
-            <div class="control-panel-submenu" *ngIf="mapSettings">
-              <map-locations
-                [menuActive]="activePanel === 'map-locations'"
-                [centerMapOnPosition]="centerMapOnPosition"
-                [mapLocations]="mapSettings.mapLocations"
-                [map]="map"
-                [saveMapLocation]="saveMapLocation"
-              ></map-locations>
-            </div>
-          </li>
           <li>
             <i
               (click)="centerOnDefaultPosition()"
@@ -172,5 +109,7 @@
     [map]="map"
     [hideRightColumn]="hideRightColumn"
     [columnHidden]="rightColumnHidden"
+    [clearMessurements]="clearMessurements"
+    [mapZoom]="mapZoom"
   ></map-right-column>
 </div>

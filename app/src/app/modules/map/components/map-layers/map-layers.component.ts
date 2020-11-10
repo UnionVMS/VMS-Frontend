@@ -1,23 +1,14 @@
 import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { MapLayersTypes } from '@data/map-layers';
-import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 import { environment } from '@src/environments/environment';
 
 import Map from 'ol/Map';
-import { Stroke, Style, Icon, Fill, Text } from 'ol/style.js';
 import TileLayer from 'ol/layer/Tile';
 import TileWMS from 'ol/source/TileWMS';
-import { LineString, Point } from 'ol/geom';
-import Feature from 'ol/Feature';
-import { fromLonLat } from 'ol/proj';
-import Collection from 'ol/Collection';
 
 @Component({
   selector: 'map-layers',
-  templateUrl: './map-layers.component.html',
-  styleUrls: ['./map-layers.component.scss']
+  template: '',
 })
 export class MapLayersComponent implements OnChanges, OnDestroy {
 
@@ -26,18 +17,8 @@ export class MapLayersComponent implements OnChanges, OnDestroy {
   @Input() activeMapLayers: Array<string>;
   @Input() mapLayers: Array<MapLayersTypes.MapLayer>;
   @Input() menuActive: boolean;
-  @Input() addActiveLayerFunction: (layerName: string) => void;
-  @Input() removeActiveLayerFunction: (layerName: string) => void;
 
   private readonly layers: { [layerName: string]: TileLayer} = {};
-
-  toggleMapLayer(mapLayer: MapLayersTypes.MapLayer) {
-    if(!this.activeMapLayers.includes(mapLayer.typeName)) {
-      this.addActiveLayerFunction(mapLayer.typeName);
-    } else {
-      this.removeActiveLayerFunction(mapLayer.typeName);
-    }
-  }
 
   ngOnChanges() {
     // Remove layers that are no longer active

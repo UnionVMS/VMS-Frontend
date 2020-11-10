@@ -10,7 +10,8 @@ import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/inciden
 import { MapActions, MapSelectors } from '@data/map';
 import { NotesActions, NotesTypes } from '@data/notes';
 import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors } from '@data/map-saved-filters';
-import { MapSettingsTypes, MapSettingsSelectors } from '@data/map-settings';
+import { MapSettingsActions, MapSettingsTypes, MapSettingsSelectors } from '@data/map-settings';
+import { MapLayersActions, MapLayersTypes, MapLayersSelectors } from '@data/map-layers';
 import { MobileTerminalTypes, MobileTerminalSelectors, MobileTerminalActions } from '@data/mobile-terminal';
 import { UserSettingsSelectors } from '@data/user-settings';
 
@@ -26,6 +27,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   @Input() map: Map;
   @Input() columnHidden: boolean;
   @Input() hideRightColumn: (hidden: boolean) => void;
+  @Input() clearMessurements: () => void;
+  @Input() mapZoom: number;
 
   public activePanel: ReadonlyArray<string>;
   public activeLeftPanel: ReadonlyArray<string>;
@@ -44,8 +47,12 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public lastPollsForSelectedAsset$: Observable<ReadonlyArray<AssetTypes.Poll>>;
   public licence$: Observable<AssetTypes.AssetLicence>;
   public licenceLoaded = false;
+  public mapLayers$: Observable<Array<MapLayersTypes.MapLayer>>;
+  public activeMapLayers$: Observable<Array<string>>;
   public userTimezone$: Observable<string>;
 
+  public addActiveLayer: (layerName: string) => void;
+  public removeActiveLayer: (layerName: string) => void;
   public addForecast: (assetId: string) => void;
   public createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
   public createNote: (note: NotesTypes.NoteParameters) => void;
@@ -76,8 +83,15 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public setActivePanel: (activeRightPanel: ReadonlyArray<string>) => void;
   public setActiveLeftPanelExtended: (activeLeftPanel: ReadonlyArray<string>) => void;
   public setActiveLeftPanel: (activeLeftPanel: ReadonlyArray<string>) => void;
+  public setVisibilityForAssetNames: (visible: boolean) => void;
+  public setVisibilityForAssetSpeeds: (visible: boolean) => void;
+  public setVisibilityForForecast: (visible: boolean) => void;
+  public setVisibilityForTracks: (visible: boolean) => void;
+  public setVisibilityForFlags: (visible: boolean) => void;
   public untrackAsset: (assetId: string) => void;
   public saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
+  public saveMapLocation: (key: number, mapLocation: MapSettingsTypes.MapLocation, save?: boolean) => void;
+  public deleteMapLocation: (key: number) => void;
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
@@ -142,6 +156,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unmount$)).subscribe(selectedAssetsLastPositions => {
         this.selectedAssetsLastPositions = selectedAssetsLastPositions;
       });
+    this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers).pipe(tap((t) => console.warn(t)));
+    this.activeMapLayers$ = this.store.select(MapLayersSelectors.getActiveLayers);
     this.licence$ = this.store.select(AssetSelectors.getLicenceForSelectedMapAsset).pipe(tap((licence) => {
       this.licenceLoaded = true;
     }));
@@ -161,6 +177,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   }
 
   mapDispatchToProps() {
+    this.addActiveLayer = (layerName: string) =>
+      this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
     this.setActiveLeftPanelExtended = (activeLeftPanel: ReadonlyArray<string>) => {
       this.store.dispatch(AssetActions.clearAllButPrimarySelectedAssets());
       this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
@@ -203,6 +221,20 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.getLatestPollsForAsset({ assetId }));
     this.untrackAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
+    this.saveMapLocation = (key: number, mapLocation: MapSettingsTypes.MapLocation, save?: boolean) =>
+      this.store.dispatch(MapSettingsActions.saveMapLocation({ key, mapLocation, save }));
+    this.deleteMapLocation = (key: number) =>
+      this.store.dispatch(MapSettingsActions.deleteMapLocation({ key }));
+    this.setVisibilityForAssetNames = (visible: boolean) =>
+      this.store.dispatch(MapSettingsActions.setVisibilityForAssetNames({ visibility: visible }));
+    this.setVisibilityForAssetSpeeds = (visible: boolean) =>
+      this.store.dispatch(MapSettingsActions.setVisibilityForAssetSpeeds({ visibility: visible }));
+    this.setVisibilityForTracks = (visible: boolean) =>
+      this.store.dispatch(MapSettingsActions.setVisibilityForTracks({ visibility: visible }));
+    this.setVisibilityForFlags = (visible: boolean) =>
+      this.store.dispatch(MapSettingsActions.setVisibilityForFlags({ visibility: visible }));
+    this.setVisibilityForForecast = (forecasts: boolean) =>
+      this.store.dispatch(MapSettingsActions.setVisibilityForForecast({ visibility: forecasts }));
     this.selectAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
     this.setActivePanel = (activeRightPanel: ReadonlyArray<string>) =>
@@ -226,6 +258,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(NotesActions.saveNote({ note }));
     this.createIncidentNote = (incidentId: number, note: NotesTypes.NoteParameters) =>
       this.store.dispatch(IncidentActions.createNote({ incidentId, note }));
+    this.removeActiveLayer = (layerName: string) =>
+      this.store.dispatch(MapLayersActions.removeActiveLayer({ layerName }));
     this.saveFilter = (filter: MapSavedFiltersTypes.SavedFilter) =>
       this.store.dispatch(MapSavedFiltersActions.saveFilter({ filter }));
   }

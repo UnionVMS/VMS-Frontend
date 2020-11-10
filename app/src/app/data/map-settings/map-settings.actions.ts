@@ -15,7 +15,6 @@ export const setChoosenMovementSources = createAction(
   props<{ movementSources: ReadonlyArray<string> }>()
 );
 
-
 export const setVisibilityForAssetNames = createAction(
   '[MapSettings] Set visibility for asset names',
   props<{ visibility: boolean }>()
@@ -58,7 +57,17 @@ export const setCurrentControlPanel = createAction(
 
 export const saveMapLocation = createAction(
   '[MapSettings] Save map location',
-  props<{ key: number, mapLocation: MapLocation }>()
+  props<{ key: number, mapLocation: MapLocation, save?: boolean }>()
+);
+
+export const setMapLocations = createAction(
+  '[MapSettings] Set map locations',
+  props<{ mapLocations: { [key: number]: MapLocation } }>()
+);
+
+export const deleteMapLocation = createAction(
+  '[MapSettings] Delete map location',
+  props<{ key: number }>()
 );
 
 export const replaceSettings = createAction(

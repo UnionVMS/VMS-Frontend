@@ -9,6 +9,7 @@ export const OceanRegionTranslation = {
 };
 
 export const MovementStatusTranslation = {
+  10: 'Manual Position',
   11: 'Time of Position',
   64: 'Power Up',
   66: 'Power Down',

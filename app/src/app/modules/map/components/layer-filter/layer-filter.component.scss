@@ -2,8 +2,9 @@
 
 .content-container-minimal {
   display: grid;
-  grid-row-gap: $medium_distance;
+  grid-row-gap: distance(1);
   color: $color_turquoise;
+  padding: distance(1);
 
   .layer-filters {
     display: grid;

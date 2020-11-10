@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges, ViewEncapsulation  } from '@angular/core';
+import { Observable } from 'rxjs';
 import { intToRGB, hashCode, destinationPoint } from '@app/helpers/helpers';
 
 import Map from 'ol/Map';
@@ -15,7 +16,7 @@ import Draw from 'ol/interaction/Draw.js';
 
 @Component({
   selector: 'map-distance-between-points',
-  templateUrl: './distance-between-points.component.html',
+  template: '',
   styleUrls: ['./distance-between-points.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
@@ -26,6 +27,7 @@ export class DistanceBetweenPointsComponent implements OnInit, OnDestroy, OnChan
   @Input() registerOnClickFunction: (name: string, clickEvent: (event) => void) => void;
   @Input() active: boolean;
   @Input() unitOfDistance: string;
+  @Input() clearMeasurements$: Observable<boolean>;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -121,6 +123,15 @@ export class DistanceBetweenPointsComponent implements OnInit, OnDestroy, OnChan
 
     this.map.addLayer(this.vectorLayer);
     this.vectorLayer.getSource().changed();
+
+    this.clearMeasurements$.subscribe((val) => {
+      this.clearMeasurements();
+    });
+
+    if(this.active) {
+      this.map.addInteraction(this.drawEvent);
+      this.isDrawing = true;
+    }
   }
 
   ngOnChanges() {

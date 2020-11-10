@@ -16,13 +16,13 @@
   }
   .ol-zoom {
     left: unset;
-    right: calc(#{$right_column_width} + #{$medium_distance});
+    right: calc(#{$right_column_width} + #{distance(7)});
     transition: right $panel_animation_time ease-out;
     top: unset;
-    bottom: $medium_distance;
+    bottom: calc(#{distance(1)} - 1px);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: $small_distance;
+    grid-column-gap: distance(0.5);
     grid-template-areas: "zoom-out zoom-in";
     padding: 0px;
 

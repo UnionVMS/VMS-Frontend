@@ -1,4 +1,4 @@
-<div class="content-container" *ngIf="menuActive && mapLayers.length > 0">
+<div id="map-layers-panel" class="content-container" *ngIf="mapLayers.length > 0">
   <mat-checkbox
     *ngFor="let mapLayer of mapLayers"
     [checked]="this.activeMapLayers.includes(mapLayer.typeName)"
