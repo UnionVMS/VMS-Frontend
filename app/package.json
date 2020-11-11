@@ -37,7 +37,6 @@
     "core-js": "^3.6.5",
     "country-iso-3-to-2": "^1.0.1",
     "event-source-polyfill": "^1.0.20",
-    "html-to-image": "^0.1.1",
     "i18n-iso-countries": "^5.5.0",
     "jwt-decode": "^3.0.0-beta.2",
     "moment-timezone": "^0.5.28",

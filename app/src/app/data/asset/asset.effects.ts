@@ -62,6 +62,41 @@ export class AssetEffects {
   );
 
   @Effect()
+  getNumberOfVMSAssetsInSystemObserver$ = this.actions$.pipe(
+    ofType(AssetActions.getNumberOfVMSAssetsInSystem),
+    withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
+    mergeMap(([action, authToken]: Array<any>) => {
+      const searchQuery: AssetTypes.AssetListSearchQuery = {
+        fields: [
+          {
+            searchField: 'flagStateCode',
+            searchValue: 'SWE'
+          },
+          {
+            searchField: 'lengthOverAll',
+            searchValue: 12,
+            operator: '>=',
+          },
+          {
+            searchField: 'vesselType',
+            searchValue: 'fishing'
+          },
+        ],
+        logicalAnd: true,
+      };
+      return this.assetService.countAssets(authToken, searchQuery).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
+        map((response: any) => {
+          return AssetActions.setNumberOfVMSAssetsInSystem({
+            numberOfVMSAssetsInSystem: response
+          });
+        })
+      );
+    })
+  );
+
+  @Effect()
   assetMovementUnsubscribeObserver$ = this.actions$.pipe(
     ofType(AssetActions.unsubscribeToMovements),
     mergeMap((action) => {

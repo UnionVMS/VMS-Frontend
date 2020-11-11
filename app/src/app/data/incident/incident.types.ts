@@ -122,6 +122,13 @@ export type IncidentIdsByTypeAndStatus = Readonly<{
   ownershipTransfer: IncidentIdsCollectionByType,
 }>;
 
+export type UrgentByType = Readonly<{
+  assetNotSending: number,
+  manualPositionMode: number,
+  seasonalFishing: number,
+  parked: number,
+}>;
+
 export type IncidentNotifications = Readonly<{
   created: number;
   updated: number;

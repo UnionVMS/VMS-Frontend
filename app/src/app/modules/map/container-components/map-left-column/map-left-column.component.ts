@@ -29,7 +29,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   public filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>;
   public setGivenFilterActive: (filterTypeName: string, status: boolean) => void;
-  public filterAssets: (filterQuery: Array<AssetTypes.AssetFilterQuery>) => void;
+  public filterAssets: (filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>) => void;
 
   public assetEssentialsForAssetGroups: Readonly<{ readonly [assetId: string]: AssetTypes.AssetEssentialProperties }>;
   public currentFilterQuery$: Observable<ReadonlyArray<AssetTypes.AssetFilterQuery>>;
@@ -45,6 +45,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public clearAssetGroup: (assetGroup: AssetTypes.AssetGroup) => void;
   public clearSelectedAssets: () => void;
   public clearNotificationsForIncident: (incident: IncidentTypes.Incident) => void;
+  public clearSelectedIncident: () => void;
 
   public searchAutocomplete: (searchQuery: string) => void;
   public searchAutocompleteResult$: Observable<ReadonlyArray<Readonly<{
@@ -75,6 +76,10 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     } else {
       const panelTreeMutation = [ ...panelTree ];
       panelTreeMutation.pop();
+      if(panelTreeMutation.length <= 1) {
+        this.setActiveRightPanel(['information']);
+        this.clearSelectedIncident();
+      }
       this.setActivePanelAndShowColumn(panelTreeMutation);
     }
   }
@@ -133,9 +138,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     };
     this.setGivenFilterActive = (filterTypeName: string, status: boolean) =>
       this.store.dispatch(MapActions.setGivenFilterActive({ filterTypeName, status }));
-    this.filterAssets = (filterQuery: Array<AssetTypes.AssetFilterQuery>) => {
-      return this.store.dispatch(AssetActions.setFilterQuery({filterQuery}));
-    };
+    this.filterAssets = (filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>) =>
+      this.store.dispatch(AssetActions.setFilterQuery({filterQuery}));
     this.saveFilter = (filter: MapSavedFiltersTypes.SavedFilter) =>
       this.store.dispatch(MapSavedFiltersActions.saveFilter({ filter }));
     this.deleteFilter = (filterId: string) =>
@@ -163,6 +167,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.clearSelectedAssets());
     this.clearNotificationsForIncident = (incident: IncidentTypes.Incident) =>
       this.store.dispatch(IncidentActions.clearNotificationsForIncident({ incident }));
+    this.clearSelectedIncident = () => this.store.dispatch(IncidentActions.clearSelectedIncident());
   }
 
   mapFunctionsToProps() {

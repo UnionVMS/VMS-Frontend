@@ -1,0 +1,109 @@
+@import 'variables.scss';
+
+.container-component {
+  padding: distance(1);
+  display: grid;
+  grid-row-gap: distance(2);
+
+  .intro-text {
+    font-weight: bold;
+    // text-align: center;
+  }
+
+  .split-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: distance(2);
+
+    .statistics-block {
+      grid-column-gap: distance(1);
+    }
+  }
+
+  .statistics-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: distance(2);
+
+    .title-block {
+      background: white;
+      font-weight: bold;
+      display: grid;
+      padding: distance(1.5);
+      place-items: center;
+      grid-column: span 2;
+    }
+
+    .data-block {
+      background: white;
+      display: grid;
+      padding: distance(1) 0px;
+      place-items: center;
+      grid-row-gap: distance(1);
+
+      .data {
+        font-size: distance(2.5);
+        font-weight: bold;
+        color: $color_accent;
+
+
+
+        &.info {
+          color: $color_dark_turquoise;
+        }
+      }
+
+      &.link {
+        cursor: pointer;
+
+        .data {
+          border-bottom: 1px solid $color_accent;
+
+          &.info, .info {
+            border-bottom: 1px solid $color_dark_turquoise;
+          }
+          &.warn, .warn {
+            border-bottom: 1px solid $color_warn;
+          }
+        }
+      }
+    }
+
+    &.incidents {
+      grid-row-gap: distance(1);
+
+      .incident-block {
+        grid-column: span 2;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        background: white;
+        padding: distance(1);
+        cursor: pointer;
+
+        .incident-name {
+          display: grid;
+          align-items: center;
+          color: $color_turquoise;
+        }
+
+        .number-of-incidents {
+          background: $color_system_red;
+          color: white;
+          padding: distance(0.5) 0px;
+          width: distance(5);
+          font-weight: bold;
+          font-size: distance(2);
+          text-align: center;
+
+          &.no-warnings {
+            background: $color_dark_gray;
+          }
+        }
+      }
+    }
+  }
+
+  .warn {
+    color: $color_warn;
+  }
+}

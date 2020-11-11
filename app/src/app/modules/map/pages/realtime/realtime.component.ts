@@ -275,6 +275,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     });
     this.store.dispatch(MapSettingsActions.getMovementSources());
     this.store.dispatch(MapSavedFiltersActions.getAll());
+    this.store.dispatch(AssetActions.getNumberOfVMSAssetsInSystem());
   }
 
   setupMap() {

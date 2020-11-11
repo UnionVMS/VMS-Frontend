@@ -120,7 +120,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       const reRenderAssets = Object.keys(this.renderedAssetIds).some((assetId) => assetsToRender[assetId] !== true);
 
       if(reRenderAssets) {
-        console.warn('-- Rerendering all assets');
         // Instead of removing them one by one which triggers recalculations inside open layers after every removal
         // we clear the entire map of assets and redraw them, this scales linearly instead of exponentialy it appears.
         this.vectorSource.clear();

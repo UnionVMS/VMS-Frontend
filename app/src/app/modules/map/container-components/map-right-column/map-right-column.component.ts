@@ -50,6 +50,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public mapLayers$: Observable<Array<MapLayersTypes.MapLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
   public userTimezone$: Observable<string>;
+  public mapStatistics$: Observable<any>;
 
   public addActiveLayer: (layerName: string) => void;
   public removeActiveLayer: (layerName: string) => void;
@@ -62,6 +63,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public clearForecasts: () => void;
   public clearTracks: () => void;
   public deselectAsset: (assetId: string) => void;
+  public filterAssets: (filterQuery: Array<AssetTypes.AssetFilterQuery>) => void;
   public getAssetTrack: (assetId: string, movementId: string) => void;
   public getAssetTrackTimeInterval: (assetId: string, startDate: number, endDate: number) => void;
   public getIncidentsForAssetId: (assetId: string) => void;
@@ -156,7 +158,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unmount$)).subscribe(selectedAssetsLastPositions => {
         this.selectedAssetsLastPositions = selectedAssetsLastPositions;
       });
-    this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers).pipe(tap((t) => console.warn(t)));
+    this.mapStatistics$ = this.store.select(AssetSelectors.getMapStatistics);
+    this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers);
     this.activeMapLayers$ = this.store.select(MapLayersSelectors.getActiveLayers);
     this.licence$ = this.store.select(AssetSelectors.getLicenceForSelectedMapAsset).pipe(tap((licence) => {
       this.licenceLoaded = true;
@@ -201,6 +204,8 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       }
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
     };
+    this.filterAssets = (filterQuery: Array<AssetTypes.AssetFilterQuery>) =>
+      this.store.dispatch(AssetActions.setFilterQuery({filterQuery}));
     this.getLastFullPositionsForAsset = (assetId: string, amount: number, sources: ReadonlyArray<string>, excludeGivenSources?: boolean ) =>
       this.store.dispatch(AssetActions.getLastFullPositionsForAsset({ assetId, amount, sources, excludeGivenSources }));
     this.dispatchSelectIncident = (incidentId: number) =>

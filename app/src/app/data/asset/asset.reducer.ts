@@ -27,7 +27,8 @@ export const initialState: Types.State = {
   filterQuery: [],
   unitTonnages: [],
   assetLicences: {},
-  lastPollsForAsset: {}
+  lastPollsForAsset: {},
+  numberOfVMSAssetsInSystem: 0,
 };
 
 const speedSegments = {
@@ -84,6 +85,10 @@ export const assetReducer = createReducer(initialState,
       ...state.selectedAssetsLastPositions,
       [assetId]: { ais: aisPosition, vms: vmsPosition }
     }
+  })),
+  on(AssetActions.setNumberOfVMSAssetsInSystem, (state, { numberOfVMSAssetsInSystem }) => ({
+    ...state,
+    numberOfVMSAssetsInSystem
   })),
   on(AssetActions.assetsMoved, (state, { assetMovements }) => {
     const newAssetMovements = Object.keys(assetMovements).reduce((rNewAssetMovements, assetId) => {

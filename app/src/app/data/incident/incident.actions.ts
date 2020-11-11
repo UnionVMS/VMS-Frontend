@@ -59,6 +59,10 @@ export const selectIncident = createAction(
   props<{ incidentId: number }>()
 );
 
+export const clearSelectedIncident = createAction(
+  '[Incident] Clear selected incident'
+);
+
 export const setIncidents = createAction(
   '[Incident] Set incidents',
   props<{ incidents: IncidentTypes.IncidentsCollectionByResolution }>()

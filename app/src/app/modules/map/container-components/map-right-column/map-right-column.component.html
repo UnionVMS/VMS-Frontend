@@ -57,6 +57,11 @@
   </ul>
   <div class="panel information-panel" *ngIf="activePanel[0] === 'information'">
     <h3 i18n>Map Information</h3>
+    <map-statistics
+      [mapStatistics]="mapStatistics$ | async"
+      [setAssetFilter]="filterAssets"
+      [setActiveLeftPanel]="setActiveLeftPanel"
+    ></map-statistics>
   </div>
   <div class="panel showAsset-panel" *ngIf="activePanel[0] === 'showAsset'">
     <div class="panel-title">
