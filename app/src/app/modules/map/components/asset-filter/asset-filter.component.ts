@@ -17,6 +17,7 @@ export class AssetFilterComponent implements OnChanges {
   @Input() filterFunction: (filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>) => void;
   @Input() filterQuerySaved: ReadonlyArray<AssetTypes.AssetFilterQuery>;
   @Input() setActiveInformationPanel: (activeInformationPanel: string | null) => void;
+  @Input() setActiveRightPanel: (activeRightPanel: ReadonlyArray<string>) => void;
 
   public filterQuery = '';
   public lastSentFilterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>;

@@ -81,7 +81,6 @@ export class MapSettingsEffects {
         map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
         map((response: any, index: number) => [
           NotificationsActions.addSuccess($localize`:@@ts-map-location-saved:Map location removed`, 6000),
-          MapSettingsActions.replaceSettings({ settings: action.settings })
         ]),
         flatMap(a => a),
         catchError((err) => of({ type: 'API ERROR', payload: err }))

@@ -56,20 +56,27 @@
     </li>
   </ul>
   <div class="panel information-panel" *ngIf="activeInformationPanel !== null || activePanel[0] === 'information'">
-    <ng-container *ngIf="activeInformationPanel === null">
+    <ng-container *ngIf="activeInformationPanel === null && activePanel[1] === undefined">
       <h3 i18n>Map Information</h3>
       <map-statistics
         [mapStatistics]="mapStatistics$ | async"
         [setAssetFilter]="filterAssets"
         [setActiveLeftPanel]="setActiveLeftPanel"
+        [setActiveRightPanel]="setActivePanel"
       ></map-statistics>
     </ng-container>
-    <ng-container *ngIf="activeInformationPanel === 'asset-filter'">
-      <h3 i18n>Quick filter</h3>
+    <ng-container *ngIf="activeInformationPanel === 'asset-filter' || activePanel[1] === 'asset-filter'">
+      <div class="panel-title">
+        <i class="ri-arrow-left-s-line panel-back-button" aria-hidden="true" (click)="setActivePanel(['information'])"></i>
+        <h3 i18n>Quick filter</h3>
+      </div>
       <map-asset-filter-information-panel></map-asset-filter-information-panel>
     </ng-container>
-    <ng-container *ngIf="activeInformationPanel === 'asset-search'">
-      <h3 i18n>Asset search</h3>
+    <ng-container *ngIf="activeInformationPanel === 'asset-search' || activePanel[1] === 'asset-search'">
+      <div class="panel-title">
+        <i class="ri-arrow-left-s-line panel-back-button" aria-hidden="true" (click)="setActivePanel(['information'])"></i>
+        <h3 i18n>Asset search</h3>
+      </div>
       <map-asset-search-information-panel></map-asset-search-information-panel>
     </ng-container>
   </div>

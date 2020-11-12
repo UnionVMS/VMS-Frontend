@@ -63,4 +63,26 @@
     </div>
   </div>
 
+  <h3>Other information</h3>
+  <div class="other-information-buttons">
+    <button
+      mat-button
+      (click)="setActiveRightPanel(['information', 'asset-filter'])"
+      color="primary"
+      class="map-panel-button"
+    >
+      <ng-container i18n>How to use "Quick filter"</ng-container>
+      <i class="ri-arrow-drop-right-fill"></i>
+    </button>
+    <button
+      mat-button
+      (click)="setActiveRightPanel(['information', 'asset-search'])"
+      color="primary"
+      class="map-panel-button"
+    >
+      <ng-container i18n>How to use "Search in map"</ng-container>
+      <i class="ri-arrow-drop-right-fill"></i>
+    </button>
+  </div>
+
 </div>

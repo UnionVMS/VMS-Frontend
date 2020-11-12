@@ -8,6 +8,7 @@ import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/inciden
 import { MapActions, MapSelectors } from '@data/map';
 import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors } from '@data/map-saved-filters';
 import { UserSettingsSelectors } from '@data/user-settings';
+import { MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
 import { Position } from '@data/generic.types';
 
 
@@ -55,6 +56,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   }>>>;
   public selectAsset: (assetId: string) => void;
   public userTimezone$: Observable<string>;
+  public mapSettings: MapSettingsTypes.Settings;
 
 
   public incidentsByTypeAndStatus: IncidentTypes.IncidentsByTypeAndStatus;
@@ -125,6 +127,9 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       .subscribe((assetEssentials) => {
         this.assetEssentialsForAssetGroups = assetEssentials;
       });
+    this.store.select(MapSettingsSelectors.getMapSettings).pipe(takeUntil(this.unmount$)).subscribe((mapSettings) => {
+      this.mapSettings = mapSettings;
+    });
     this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
   }
 
@@ -137,8 +142,11 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
       this.store.dispatch(AssetActions.removeTracks());
     };
-    this.setActiveInformationPanel = (activeInformationPanel: string | null) =>
-      this.store.dispatch(MapActions.setActiveInformationPanel({ activeInformationPanel }));
+    this.setActiveInformationPanel = (activeInformationPanel: string | null) => {
+      if(this.mapSettings.autoHelp === true) {
+        this.store.dispatch(MapActions.setActiveInformationPanel({ activeInformationPanel }));
+      }
+    };
     this.setGivenFilterActive = (filterTypeName: string, status: boolean) =>
       this.store.dispatch(MapActions.setGivenFilterActive({ filterTypeName, status }));
     this.filterAssets = (filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>) =>

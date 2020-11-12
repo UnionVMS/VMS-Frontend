@@ -19,6 +19,7 @@ export type Settings = Readonly<{
   startPosition: Position;
   unitOfDistance: string;
   assetColorMethod: string;
+  autoHelp: boolean;
 }>;
 
 export type State = Readonly<{

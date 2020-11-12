@@ -29,6 +29,7 @@ export const createUserSettingsFormValidator = (
         forecastInterval: new FormControl(mapSettings.forecastInterval, [Validators.required]),
       }),
       assetColorMethod: new FormControl(mapSettings.assetColorMethod),
+      autoHelp: new FormControl(mapSettings.autoHelp),
     }),
     userSettings: new FormGroup({
       experimentalFeaturesEnabled: new FormControl(userSettings.experimentalFeaturesEnabled),

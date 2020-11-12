@@ -13,6 +13,7 @@ export class MapStatisticsComponent implements OnChanges {
   @Input() mapStatistics: AssetTypes.MapStatistics;
   @Input() setAssetFilter: (filterQuery: Array<AssetTypes.AssetFilterQuery>) => void;
   @Input() setActiveLeftPanel: (activeLeftPanel: ReadonlyArray<string>) => void;
+  @Input() setActiveRightPanel: (activeRightPanel: ReadonlyArray<string>) => void;
 
   public incidentTypeStatistics: ReadonlyArray<{ type: string, amount: number }>;
 

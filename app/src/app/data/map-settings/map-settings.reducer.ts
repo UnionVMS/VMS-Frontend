@@ -17,7 +17,8 @@ export const initialState: Types.State = {
       latitude: 58.6806116,
       longitude: 14.1047925
     },
-    assetColorMethod: 'shiptype',
+    assetColorMethod: 'oldSystemShiptype',
+    autoHelp: true,
   },
   mapLocations: {},
   currentControlPanel: null,
@@ -89,6 +90,6 @@ export const mapSettingsReducer = createReducer(initialState,
   })),
   on(MapSettingsActions.replaceSettings, (state, { settings }) => ({
     ...state,
-    settings: { ...settings }
+    settings: { ...state.settings, ...settings }
   })),
 );
