@@ -58,6 +58,12 @@
         [assetMovements]="forecasts$|async"
         [forecastInterval]="mapSettings.settings.forecastInterval"
       ></map-asset-forecast>
+      <map-locations
+        [centerMapOnPosition]="centerMapOnPosition"
+        [mapLocations]="mapSettings.mapLocations"
+        [map]="map"
+        [saveMapLocation]="saveMapLocation"
+      ></map-locations>
       <map-trip-player
         [tripGranularity]="tripGranularity$ | async"
         [tripTimestamps]="tripTimestamps$ | async"
