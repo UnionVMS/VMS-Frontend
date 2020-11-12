@@ -33,6 +33,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
 
   public activePanel: ReadonlyArray<string>;
   public activeLeftPanel: ReadonlyArray<string>;
+  public activeInformationPanel: string | null;
   public mapSettings: MapSettingsTypes.State;
   public forecasts$: Observable<any>;
   public selectedAsset: Readonly<AssetTypes.AssetData>;
@@ -122,6 +123,9 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     });
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
       this.activeLeftPanel = activePanel;
+    });
+    this.store.select(MapSelectors.getActiveInformationPanel).pipe(takeUntil(this.unmount$)).subscribe((activeInformationPanel) => {
+      this.activeInformationPanel = activeInformationPanel;
     });
     this.addForecast = (assetId: string) =>
       this.store.dispatch(AssetActions.addForecast({ assetId }));

@@ -170,9 +170,9 @@ export type AssetFilterQuery = Readonly<{
 }>;
 
 export enum AssetFilterValueTypes {
-  NUMBER = 'number',
-  STRING = 'string',
-  BOOLEAN = 'boolean'
+  NUMBER = 'NUMBER',
+  STRING = 'STRING',
+  BOOLEAN = 'BOOLEAN'
 }
 
 export type AssetEssentialProperties = Readonly<{

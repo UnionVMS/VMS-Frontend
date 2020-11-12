@@ -33,6 +33,7 @@ import { MapRightColumnComponent } from './container-components/map-right-column
 import { AddToAssetGroupDialogComponent } from './components/add-to-asset-group-dialog/add-to-asset-group-dialog.component';
 import { AssetGroupsComponent } from './components/asset-groups/asset-groups.component';
 import { AssetFilterComponent } from './components/asset-filter/asset-filter.component';
+import { AssetFilterInformationPanelComponent } from './components/asset-filter-information-panel/asset-filter-information-panel.component';
 import { AssetForecastComponent } from './components/asset-forecast/asset-forecast.component';
 import { AssetIncidentsComponent } from './components/asset-incidents/asset-incidents.component';
 import { AssetIncidentsDialogComponent } from './components/asset-incidents-dialog/asset-incidents-dialog.component';
@@ -121,6 +122,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     AssetsComponent,
     AssetGroupsComponent,
     AssetFilterComponent,
+    AssetFilterInformationPanelComponent,
     AssetForecastComponent,
     AssetIncidentsComponent,
     AssetIncidentsDialogComponent,

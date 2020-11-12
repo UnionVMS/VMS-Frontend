@@ -13,4 +13,5 @@ export type State = Readonly<{
   filtersActive: { readonly [filterTypeName: string]: boolean }
   activeLeftPanel: ReadonlyArray<string>;
   activeRightPanel: ReadonlyArray<string>;
+  activeInformationPanel: string | null;
 }>;

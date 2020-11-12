@@ -17,6 +17,7 @@ export const initialState: Types.State = {
   },
   activeLeftPanel: ['filters'],
   activeRightPanel: ['information'],
+  activeInformationPanel: null,
 };
 
 export const mapReducer = createReducer(initialState,
@@ -43,5 +44,9 @@ export const mapReducer = createReducer(initialState,
   on(MapsActions.setActiveRightPanel, (state, { activeRightPanel }) => ({
     ...state,
     activeRightPanel
+  })),
+  on(MapsActions.setActiveInformationPanel, (state, { activeInformationPanel }) => ({
+    ...state,
+    activeInformationPanel
   })),
 );

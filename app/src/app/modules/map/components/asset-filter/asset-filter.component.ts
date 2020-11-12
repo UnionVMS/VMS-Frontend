@@ -16,6 +16,7 @@ type QueryParam = Readonly<{
 export class AssetFilterComponent implements OnChanges, OnInit {
   @Input() filterFunction: (filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>) => void;
   @Input() filterQuerySaved: ReadonlyArray<AssetTypes.AssetFilterQuery>;
+  @Input() setActiveInformationPanel: (activeInformationPanel: string | null) => void;
 
   public filterQuery = '';
   public displayInfo = false;

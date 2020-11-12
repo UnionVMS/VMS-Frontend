@@ -12,6 +12,13 @@
     <mat-form-field>
       <div title="Help & manual for filter" class="open-information-panel" (click)="displayInfo = true">?</div>
       <map-information-panel *ngIf="displayInfo" [hideFunction]="hideInfoFunction"></map-information-panel>
-      <input matInput placeholder="Filter" [(ngModel)]="filterQuery" (keyup)="filterKeyUp($event)">
+      <input
+        matInput
+        placeholder="Filter"
+        [(ngModel)]="filterQuery"
+        (keyup)="filterKeyUp($event)"
+        (blur)="setActiveInformationPanel(null)"
+        (focus)="setActiveInformationPanel('asset-filter')"
+      >
     </mat-form-field>
 </div>

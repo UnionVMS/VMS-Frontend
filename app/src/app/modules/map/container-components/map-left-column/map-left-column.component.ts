@@ -26,6 +26,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public activePanel: ReadonlyArray<string>;
   public setActivePanel: (activeLeftPanel: ReadonlyArray<string>) => void;
   public setActiveRightPanel: (activeRightPanel: ReadonlyArray<string>) => void;
+  public setActiveInformationPanel: (activeInformationPanel: string | null) => void;
 
   public filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>;
   public setGivenFilterActive: (filterTypeName: string, status: boolean) => void;
@@ -136,6 +137,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
       this.store.dispatch(AssetActions.removeTracks());
     };
+    this.setActiveInformationPanel = (activeInformationPanel: string | null) =>
+      this.store.dispatch(MapActions.setActiveInformationPanel({ activeInformationPanel }));
     this.setGivenFilterActive = (filterTypeName: string, status: boolean) =>
       this.store.dispatch(MapActions.setGivenFilterActive({ filterTypeName, status }));
     this.filterAssets = (filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>) =>

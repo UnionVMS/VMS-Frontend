@@ -17,6 +17,7 @@ export class MapLocationsComponent {
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
+    // We do not want this to trigger when we are using inputfields and the like.
     // @ts-ignore
     if(event.target.tagName === 'BODY') {
       if(event.altKey) {
