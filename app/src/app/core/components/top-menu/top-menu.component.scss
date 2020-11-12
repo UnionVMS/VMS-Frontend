@@ -34,9 +34,6 @@
         background-size: 103.375px 32px;
         margin-top: distance(-0.5);
       }
-      img {
-        height: calc(#{$navbar_height} - #{distance(2)});
-      }
     }
   }
 
