@@ -78,7 +78,7 @@ describe('RealtimeComponent', () => {
     it('should dispatch MapSettingsActions.saveViewport when saveViewport is called.', () => {
       const { component, dispatchSpy } = mapDispatchToPropsSetup();
 
-      const mapLocation = { name: 'Saved location #1', zoom: 10, center: [1.213, 12.321] };
+      const mapLocation = { name: 'Saved location #1', zoom: 10, center: { longitude: 14.123, latitude: 57.321 } };
       expect(dispatchSpy).toHaveBeenCalledTimes(0);
       component.saveMapLocation(1, mapLocation);
 
