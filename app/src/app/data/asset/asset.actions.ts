@@ -78,6 +78,10 @@ export const getAssetTrackTimeInterval = createAction(
   props<{ assetId: string, startDate: number, endDate: number, sources: ReadonlyArray<string> }>()
 );
 
+export const getNumberOfVMSAssetsInSystem = createAction(
+  '[Asset] Get number of VMS assets in system'
+);
+
 export const getTracksByTimeInterval = createAction(
   '[Asset] Get asset tracks by time interval',
   props<{ query: any, startDate: number, endDate: number, sources: string[] }>()
@@ -120,6 +124,12 @@ export const setLastPollsForAsset = createAction(
   '[Asset] Set latest polls for asset',
   props<{ assetId: string, polls: Readonly<{ readonly [pollId: string]: AssetTypes.Poll }> }>()
 );
+
+export const setNumberOfVMSAssetsInSystem = createAction(
+  '[Asset] Set number of VMS assets in system',
+  props<{ numberOfVMSAssetsInSystem: number }>()
+);
+
 
 export const removeAssets = createAction(
   '[Asset] Remove asset',
@@ -164,6 +174,11 @@ export const selectAsset = createAction(
 export const selectIncident = createAction(
   '[Asset] Select incident',
   props<{ incident: IncidentTypes.Incident, incidentType: string }>()
+);
+
+export const setAssetCount = createAction(
+  '[Asset] Set asset count',
+  props<{ searchQuery: AssetTypes.AssetListSearchQuery, count: number }>()
 );
 
 export const setAutocompleteQuery = createAction(
@@ -228,7 +243,7 @@ export const setEssentialProperties = createAction(
 
 export const setFilterQuery = createAction(
   '[Asset] Set Filter Query',
-  props<{ filterQuery: Array<AssetTypes.AssetFilterQuery> }>()
+  props<{ filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery> }>()
 );
 
 export const setFullAsset = createAction(

@@ -4,6 +4,7 @@ import { take, map, finalize } from 'rxjs/operators';
 
 import { IncidentTypes } from '@data/incident';
 import { Position } from '@data/generic.types';
+import { MovementStatusTranslation } from '@data/asset/asset.types';
 
 import { formatUnixtimeWithDot } from '@app/helpers/datetime-formatter';
 import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
@@ -27,6 +28,7 @@ export class IncidentCardComponent implements OnChanges, OnDestroy {
     formattedDate: string;
     formattedCoordinates: string;
     lastKnownLocationStatus?: string;
+    lastKnownLocationStatusDescription?: string;
   };
 
   public countdownLength: number;
@@ -65,11 +67,22 @@ export class IncidentCardComponent implements OnChanges, OnDestroy {
         this.incident.lastKnownLocation.location.longitude,
         2
       );
+
+      const lastKnownLocationStatusDescription = this.incident.lastKnownLocation.status + ' - ' + (
+        (
+          typeof this.incident.lastKnownLocation.status !== 'undefined'
+          && typeof MovementStatusTranslation[this.incident.lastKnownLocation.status] !== 'undefined'
+        )
+        ? MovementStatusTranslation[this.incident.lastKnownLocation.status]
+        : 'No such code'
+      );
+      console.warn(lastKnownLocationStatusDescription);
       this.formattedIncident = {
         ...this.incident,
         formattedDate: formatUnixtimeWithDot(this.incident.lastKnownLocation.timestamp),
         formattedCoordinates: formattedLocation.latitude + ', ' + formattedLocation.longitude,
-        lastKnownLocationStatus: this.incident.lastKnownLocation.status
+        lastKnownLocationStatus: this.incident.lastKnownLocation.status,
+        lastKnownLocationStatusDescription
       };
     } else {
       this.formattedIncident = {

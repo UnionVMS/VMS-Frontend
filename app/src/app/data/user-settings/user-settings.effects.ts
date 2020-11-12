@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { State } from '@app/app-reducer.ts';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY } from 'rxjs';
-import { mergeMap, map, flatMap, withLatestFrom, catchError, filter } from 'rxjs/operators';
+import { mergeMap, map, flatMap, withLatestFrom, catchError, filter, tap } from 'rxjs/operators';
 // @ts-ignore
 import moment from 'moment-timezone';
 
@@ -33,6 +33,7 @@ export class UserSettingsEffects {
   @Effect()
   setTimezoneObserver$ = this.actions$.pipe(
     ofType(UserSettingsActions.setTimezone),
+    tap((action: { timezone: string, save?: boolean }) => { moment.tz.setDefault(action.timezone); }),
     filter((action: { timezone: string, save?: boolean }) => typeof action.save !== 'undefined' && action.save === true),
     // If we should save to DB to, then continue with the rest of this code.
     withLatestFrom(this.store.select(AuthSelectors.getUser), this.store.select(UserSettingsSelectors.getUserSettings)),

@@ -107,6 +107,10 @@ export const incidentReducer = createReducer(initialState,
     ...state,
     selectedIncidentId: incidentId
   })),
+  on(IncidentActions.clearSelectedIncident, (state) => ({
+    ...state,
+    selectedIncidentId: null,
+  })),
   on(IncidentActions.setIncidentListForAsset, (state, { assetId, incidents }) => ({
     ...state,
     incidents: {

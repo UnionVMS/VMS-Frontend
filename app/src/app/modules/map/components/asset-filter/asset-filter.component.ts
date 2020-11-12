@@ -14,15 +14,16 @@ type QueryParam = Readonly<{
   styleUrls: ['./asset-filter.component.scss']
 })
 export class AssetFilterComponent implements OnChanges, OnInit {
-  @Input() filterFunction: (filterQuery: Array<AssetTypes.AssetFilterQuery>) => void;
+  @Input() filterFunction: (filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>) => void;
   @Input() filterQuerySaved: ReadonlyArray<AssetTypes.AssetFilterQuery>;
 
   public filterQuery = '';
   public displayInfo = false;
   public hideInfoFunction: () => void;
+  public lastSentFilterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>;
 
   private readonly handleQueryString = ({ queryObject, queryString }: QueryParam): QueryParam => {
-    if(!queryObject.isNumber && !(queryString.indexOf('/') === 0)) {
+    if(queryObject.valueType === AssetTypes.AssetFilterValueTypes.STRING && !(queryString.indexOf('/') === 0)) {
       if(queryString.indexOf('!') === 0) {
         queryString = queryString.substring(1);
         const values = queryString.split(',').map(value => value.trim()).filter(value => value.length > 0);
@@ -35,18 +36,54 @@ export class AssetFilterComponent implements OnChanges, OnInit {
     return { queryObject, queryString };
   }
 
+  private readonly handleQueryBoolean = ({ queryObject, queryString }: QueryParam): QueryParam => {
+    if(queryObject.valueType === AssetTypes.AssetFilterValueTypes.BOOLEAN) {
+      if(queryString.indexOf('!') === 0) {
+        queryString = queryString.substring(1);
+        const values = queryString.split(',').map(value => {
+          const trimmedValue = value.trim();
+          if(trimmedValue === 'true' || trimmedValue === 't') {
+            return true;
+          } else if(trimmedValue === 'false' || trimmedValue === 'f') {
+            return false;
+          } else {
+            return null;
+          }
+        }).filter(value => value !== null);
+        return { queryObject: { ...queryObject, values, inverse: true }, queryString };
+      } else {
+        const values = queryString.split(',').map(value => {
+          const trimmedValue = value.trim();
+          if(trimmedValue === 'true' || trimmedValue === 't') {
+            return true;
+          } else if(trimmedValue === 'false' || trimmedValue === 'f') {
+            return false;
+          } else {
+            return null;
+          }
+        }).filter(value => value !== null);
+        return { queryObject: { ...queryObject, values }, queryString };
+      }
+    }
+    return { queryObject, queryString };
+  }
+
   private readonly handleQueryNumber = ({ queryObject, queryString }: QueryParam): QueryParam => {
-    if(queryObject.isNumber) {
+    if(queryObject.valueType === AssetTypes.AssetFilterValueTypes.NUMBER) {
       return {
         queryObject: { ...queryObject, values: queryString.split(',')
           .map(value => value.trim())
           .filter(value => value.length > 0)
           .map((value) => {
-            if(value.indexOf('<') !== -1) {
-              return { operator: 'less then', value: value.substring(1) };
+            if(value.indexOf('<=') !== -1) {
+              return { operator: 'less than or equal', value: value.substring(2) };
+            } else if(value.indexOf('>=') !== -1) {
+              return { operator: 'greater than or equal', value: value.substring(2) };
+            } else if(value.indexOf('<') !== -1) {
+              return { operator: 'less than', value: value.substring(1) };
             } else if(value.indexOf('>') !== -1) {
-              return { operator: 'greater then', value: value.substring(1) };
-            } else if(value.indexOf('~') !== -1) {
+              return { operator: 'greater than', value: value.substring(1) };
+            }  else if(value.indexOf('~') !== -1) {
               return { operator: 'almost equal', value: value.substring(1) };
             } else {
               return { operator: 'equal', value };
@@ -74,58 +111,72 @@ export class AssetFilterComponent implements OnChanges, OnInit {
     } else if(queryString.indexOf('/e ') === 0) {
       return { queryObject: { ...queryObject, type: 'externalMarking' }, queryString: queryString.substring(3) };
     } else if(queryString.indexOf('/l ') === 0) {
-      return { queryObject: { ...queryObject, type: 'lengthOverAll', isNumber: true }, queryString: queryString.substring(3) };
+      return { queryObject: {
+        ...queryObject, type: 'lengthOverAll', valueType: AssetTypes.AssetFilterValueTypes.NUMBER
+      }, queryString: queryString.substring(3) };
+    } else if(queryString.indexOf('/p ') === 0) {
+      return { queryObject: {
+        ...queryObject, type: 'hasLicence', valueType: AssetTypes.AssetFilterValueTypes.BOOLEAN
+      }, queryString: queryString.substring(3) };
     }
     return { queryObject, queryString };
   }
 
   filterKeyUp = (event) => {
     const filterQuery = this.filterQuery.split('&');
-    this.filterFunction(filterQuery.map(queryPart => {
+    this.lastSentFilterQuery = filterQuery.map(queryPart => {
       const queryResult = this.handleQueryString(
-        this.handleQueryNumber(
-          this.setQueryType({
-            queryObject: {
-              type: 'name',
-              values: [],
-              inverse: false,
-              isNumber: false
-            },
-            queryString: queryPart.trim()
-          })
+        this.handleQueryBoolean(
+          this.handleQueryNumber(
+            this.setQueryType({
+              queryObject: {
+                type: 'name',
+                values: [],
+                inverse: false,
+                valueType: AssetTypes.AssetFilterValueTypes.STRING
+              },
+              queryString: queryPart.trim()
+            })
+          )
         )
       );
       return queryResult.queryObject;
-    }).filter(queryObject => queryObject.values.length > 0));
+    }).filter(queryObject => queryObject.values.length > 0);
+    this.filterFunction(this.lastSentFilterQuery);
   }
 
   generateQueryStringFromFilter(filters: ReadonlyArray<AssetTypes.AssetFilterQuery>) {
-    const typeList = { flagstate: 'f', ircs: 'i', cfr: 'c', vesselType: 'v', externalMarking: 'e', lengthOverAll: 'l' };
-    const operatorList = { 'less then': '< ', 'greater then': '> ', 'almost equal': '~ ', equal: '' };
+    const typeList = { flagstate: 'f', ircs: 'i', cfr: 'c', vesselType: 'v', externalMarking: 'e', lengthOverAll: 'l', hasLicence: 'p' };
+    const operatorList = {
+      'less than': '< ', 'greater than': '> ', 'almost equal': '~ ', equal: '',
+      'greater than or equal': '>=', 'less than or equal': '<=',
+    };
     return filters.map(filter => {
       let valueString: string;
-      if(filter.isNumber) {
+      if(filter.valueType === AssetTypes.AssetFilterValueTypes.NUMBER) {
         valueString = filter.values.map(value => {
           return `${operatorList[value.operator]}${value.value}`;
         }).join(',');
       } else {
         valueString = filter.values.join(',');
       }
-      return `/${typeList[filter.type]} ${valueString}`;
+      if(filter.type === 'name') {
+        return `${valueString}`;
+      } else {
+        return `/${typeList[filter.type]} ${valueString}`;
+      }
     }).join(' && ');
   }
 
   ngOnInit() {
-    if(this.filterQuerySaved.length > 0) {
-      this.filterQuery = this.generateQueryStringFromFilter(this.filterQuerySaved);
-    }
     this.hideInfoFunction = () => {
       this.displayInfo = false;
     };
   }
 
   ngOnChanges() {
-    // console.warn(this.filterQuerySaved);
-    // this.filterQuery = this.filterQuerySaved;
+    if(this.filterQuerySaved.length > 0 && this.lastSentFilterQuery !== this.filterQuerySaved) {
+      this.filterQuery = this.generateQueryStringFromFilter(this.filterQuerySaved);
+    }
   }
 }

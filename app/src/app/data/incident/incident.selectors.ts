@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { State } from '@app/app-reducer';
-import { IncidentTypes } from './';
+import * as IncidentTypes from './incident.types';
 
 export const selectSelectedIncidentId = (state: State) => state.incident.selectedIncidentId;
 export const selectIncidents = (state: State) => state.incident.incidents;
@@ -69,4 +69,28 @@ export const getIncidentsForAssets = createSelector(
 export const getIncidentTypes = createSelector(
   selectIncidentTypes,
   (incidentTypes) => incidentTypes
+);
+
+export const getUrgentByType = createSelector(
+  selectIncidents,
+  selectIncidentsByTypeAndStatus,
+  (
+    incidents: { readonly [incidentId: number]: IncidentTypes.Incident },
+    incidentsByTypeAndStatus: IncidentTypes.IncidentIdsByTypeAndStatus
+  ) => {
+    return {
+      assetNotSending: incidentsByTypeAndStatus.assetNotSending.unresolvedIncidentIds.filter((incidentId) =>
+        incidents[incidentId] && incidents[incidentId].risk === IncidentTypes.IncidentRisk.high
+      ).length,
+      manualPositionMode: incidentsByTypeAndStatus.manualPositionMode.unresolvedIncidentIds.filter((incidentId) =>
+        incidents[incidentId] && incidents[incidentId].status === IncidentTypes.ManualPositionModeStatuses.MANUAL_POSITION_LATE
+      ).length,
+      seasonalFishing: incidentsByTypeAndStatus.seasonalFishing.unresolvedIncidentIds.filter((incidentId) =>
+        incidents[incidentId] && incidents[incidentId].status === IncidentTypes.SeasonalFishingStatuses.OVERDUE
+      ).length,
+      parked: incidentsByTypeAndStatus.parked.unresolvedIncidentIds.filter((incidentId) =>
+        incidents[incidentId] && incidents[incidentId].status === IncidentTypes.SeasonalFishingStatuses.OVERDUE
+      ).length
+    };
+  }
 );

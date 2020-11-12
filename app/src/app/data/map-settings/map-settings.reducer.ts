@@ -73,6 +73,20 @@ export const mapSettingsReducer = createReducer(initialState,
       [key]: mapLocation
     }
   })),
+  on(MapSettingsActions.setMapLocations, (state, { mapLocations }) => ({
+    ...state,
+    mapLocations,
+  })),
+  on(MapSettingsActions.deleteMapLocation, (state, { key }) => ({
+    ...state,
+    mapLocations: Object.entries(state.mapLocations).reduce((acc, [locationKey, value]) => {
+      const intKey = parseInt(locationKey, 10);
+      if(key !== intKey) {
+        return { ...acc, [intKey]: value };
+      }
+      return acc;
+    }, {})
+  })),
   on(MapSettingsActions.replaceSettings, (state, { settings }) => ({
     ...state,
     settings: { ...settings }

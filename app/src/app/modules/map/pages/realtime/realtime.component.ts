@@ -47,6 +47,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public authToken$: Observable<string|null>;
   public mapLayers$: Observable<Array<MapLayersTypes.MapLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
+  public clearMeasurements$: Subject<boolean>;
 
   public assetIdFromUrl: string;
 
@@ -56,15 +57,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   public deselectAsset: (assetId: string) => void;
   public getIncidentsForAssetId: (assetId: string) => void;
-  public setVisibilityForAssetNames: (visible: boolean) => void;
-  public setVisibilityForAssetSpeeds: (visible: boolean) => void;
-  public setVisibilityForForecast: (visible: boolean) => void;
-  public setVisibilityForTracks: (visible: boolean) => void;
-  public setVisibilityForFlags: (visible: boolean) => void;
   public setChoosenMovementSources: (movementSources: ReadonlyArray<string>) => void;
-  public addActiveLayer: (layerName: string) => void;
-  public removeActiveLayer: (layerName: string) => void;
-  public saveMapLocation: (key: number, mapLocation: MapSettingsTypes.MapLocation) => void;
+  public clearMessurements: () => void;
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
@@ -88,6 +82,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public experimentalFeaturesEnabled$: Observable<boolean>;
 
   public activePanel = '';
+  public activeRightPanel: ReadonlyArray<string>;
   public activeLeftPanel: ReadonlyArray<string>;
   public rightColumnHidden = false;
   public leftColumnHidden = false;
@@ -146,6 +141,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {
+    this.store.select(MapSelectors.getActiveRightPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
+      this.activeRightPanel = activePanel;
+    });
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
       this.activeLeftPanel = activePanel;
       if(typeof this.map !== 'undefined') {
@@ -183,7 +181,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
           const assetMovement = this.assetMovements.find((asset) => asset.assetMovement.asset === this.assetIdFromUrl);
           if(assetMovement !== undefined) {
             this.selectAsset(assetMovement.assetMovement.asset);
-            this.centerMapOnPosition(assetMovement.assetMovement.microMove.location);
+            this.centerMapOnPosition(assetMovement.assetMovement.movement.location);
           } else {
             this.store.dispatch(NotificationsActions.addNotice(
               // tslint:disable-next-line max-line-length
@@ -204,8 +202,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   }
 
   mapDispatchToProps() {
-    this.addActiveLayer = (layerName: string) =>
-      this.store.dispatch(MapLayersActions.addActiveLayer({ layerName }));
     this.deselectAsset = (assetId) => {
       if(this.selectedAssets.length === 1) {
         this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['information'] }));
@@ -216,18 +212,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     };
     this.getIncidentsForAssetId = (assetId) =>
       this.store.dispatch(IncidentActions.getIncidentsForAssetId({ assetId }));
-    this.saveMapLocation = (key: number, mapLocation: MapSettingsTypes.MapLocation) =>
-      this.store.dispatch(MapSettingsActions.saveMapLocation({key, mapLocation}));
-    this.setVisibilityForAssetNames = (visible: boolean) =>
-      this.store.dispatch(MapSettingsActions.setVisibilityForAssetNames({ visibility: visible }));
-    this.setVisibilityForAssetSpeeds = (visible: boolean) =>
-      this.store.dispatch(MapSettingsActions.setVisibilityForAssetSpeeds({ visibility: visible }));
-    this.setVisibilityForTracks = (visible: boolean) =>
-      this.store.dispatch(MapSettingsActions.setVisibilityForTracks({ visibility: visible }));
-    this.setVisibilityForFlags = (visible: boolean) =>
-      this.store.dispatch(MapSettingsActions.setVisibilityForFlags({ visibility: visible }));
-    this.setVisibilityForForecast = (forecasts: boolean) =>
-      this.store.dispatch(MapSettingsActions.setVisibilityForForecast({ visibility: forecasts }));
     this.selectAsset = (assetId: string) => {
       if(this.activeLeftPanel[0] === 'workflows') {
         this.getIncidentsForAssetId(assetId);
@@ -242,8 +226,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
       this.store.dispatch(AssetActions.getLastPositionsForSelectedAsset({ assetId }));
     };
-    this.removeActiveLayer = (layerName: string) =>
-      this.store.dispatch(MapLayersActions.removeActiveLayer({ layerName }));
     this.setChoosenMovementSources = (movementSources) =>
       this.store.dispatch(MapSettingsActions.setChoosenMovementSources({ movementSources }));
   }
@@ -276,6 +258,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.clearMeasurements$ = new Subject<boolean>();
+    this.clearMessurements = () => this.clearMeasurements$.next(true);
     this.mapStateToProps();
     this.mapDispatchToProps();
     this.store.dispatch(AssetActions.subscribeToMovements());
@@ -291,6 +275,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     });
     this.store.dispatch(MapSettingsActions.getMovementSources());
     this.store.dispatch(MapSavedFiltersActions.getAll());
+    this.store.dispatch(AssetActions.getNumberOfVMSAssetsInSystem());
   }
 
   setupMap() {
@@ -340,7 +325,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.mapFunctionsToProps();
 
     // set up the mutation observer
-    const observer = new MutationObserver((mutations, mutationObserver) => {
+    const mapMountedObserver = new MutationObserver((mutations, mutationObserver) => {
       // `mutations` is an array of mutations that occurred
       // `mutationObserver` is the MutationObserver instance
       const canvasList = document.getElementById('realtime-map').getElementsByTagName('canvas');
@@ -352,15 +337,20 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     });
 
     // start observing
-    observer.observe(document.getElementById('realtime-map'), {
+    mapMountedObserver.observe(document.getElementById('realtime-map'), {
       childList: true,
       subtree: true
     });
   }
 
   ngOnDestroy() {
-    this.unmount$.next(true);
-    this.unmount$.unsubscribe();
+    if(this.unmount$) {
+      this.unmount$.next(true);
+      this.unmount$.unsubscribe();
+    }
+    if(this.clearMeasurements$) {
+      this.clearMeasurements$.unsubscribe();
+    }
     this.store.dispatch(AssetActions.unsubscribeToMovements());
     this.store.dispatch(AssetActions.removeMovementsAndTracks());
   }

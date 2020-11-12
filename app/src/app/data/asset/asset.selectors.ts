@@ -30,6 +30,7 @@ export const selectPositionsForInspection = (state: State) => state.asset.positi
 export const selectUnitTonnages = (state: State) => state.asset.unitTonnages;
 export const selectSelectedAssetsLastPositions = (state: State) => state.asset.selectedAssetsLastPositions;
 export const selectAssetLicences = (state: State) => state.asset.assetLicences;
+export const selectNumberOfVMSAssetsInSystem = (state: State) => state.asset.numberOfVMSAssetsInSystem;
 
 
 export const getAssetsMovementsDependingOnLeftPanel = createSelector(
@@ -49,10 +50,10 @@ export const getAssetsMovementsDependingOnLeftPanel = createSelector(
       if(IncidentTypes.IncidentTypesValues.includes(activeLeftPanel[1])) {
         const statusName = (activeLeftPanel[2] === 'RESOLVED' ? 'recentlyResolvedIncidentIds' : 'unresolvedIncidentIds');
         return incidentsByTypeAndStatus[IncidentTypes.IncidentTypesInverted[activeLeftPanel[1]]][statusName].reduce(
-          (acc, incidentId) => {
+          (acc: AssetTypes.AssetMovement, incidentId: string): AssetTypes.AssetMovement => {
             const incident = incidents[incidentId];
             acc[incident.assetId] = {
-              microMove: incident.lastKnownLocation,
+              movement: incident.lastKnownLocation,
               asset: incident.assetId
             };
             return acc;
@@ -178,39 +179,45 @@ export const getAssetMovements = createSelector(
         if(filterQuery.length > 0) {
           filterQuery.map(query => {
             let columnName = 'assetName';
-            if(['flagstate', 'ircs', 'cfr', 'vesselType', 'externalMarking', 'lengthOverAll'].indexOf(query.type) !== -1) {
+            if(['flagstate', 'ircs', 'cfr', 'vesselType', 'externalMarking', 'lengthOverAll', 'hasLicence'].indexOf(query.type) !== -1) {
               columnName = query.type;
             } else if(query.type === 'GUID') {
               columnName = 'assetId';
             }
             assetMovementKeys = assetMovementKeys.filter(key => {
-              if(typeof assetsEssentials[key] === 'undefined') {
-                return false;
-              }
-              if(assetsEssentials[key][columnName] === null) {
+              if(
+                typeof assetsEssentials[key] === 'undefined' ||
+                assetsEssentials[key][columnName] === null ||
+                typeof assetsEssentials[key][columnName] === 'undefined'
+              ) {
                 return false;
               }
 
-              if(query.isNumber) {
+              if(query.valueType === AssetTypes.AssetFilterValueTypes.NUMBER) {
                 return query.values.reduce((acc, value) => {
                   if(acc === true) {
                     return acc;
                   }
                   if(
-                    (value.operator === 'less then' && assetsEssentials[key][columnName] < value.value) ||
-                    (value.operator === 'greater then' && assetsEssentials[key][columnName] > value.value) ||
+                    (value.operator === 'less than' && assetsEssentials[key][columnName] < value.value) ||
+                    (value.operator === 'greater than' && assetsEssentials[key][columnName] > value.value) ||
                     (value.operator === 'almost equal' && Math.floor(assetsEssentials[key][columnName]) === Math.floor(value.value)) ||
-                    (value.operator === 'equal' && assetsEssentials[key][columnName] === value.value)
+                    (value.operator === 'equal' && assetsEssentials[key][columnName] === value.value) ||
+                    (value.operator === 'less than or equal' && assetsEssentials[key][columnName] <= value.value) ||
+                    (value.operator === 'greater than or equal' && assetsEssentials[key][columnName] >= value.value)
                   ) {
                     return true;
                   } else {
                     return false;
                   }
                 }, false);
-              } else {
-                if(typeof assetsEssentials[key][columnName] === 'undefined') {
-                  return false;
+              } else if(query.valueType === AssetTypes.AssetFilterValueTypes.BOOLEAN) {
+                if(query.inverse) {
+                  return query.values.some(value => assetsEssentials[key][columnName] !== value);
+                } else {
+                  return query.values.some(value => assetsEssentials[key][columnName] === value);
                 }
+              } else {
                 const valueToCheck = assetsEssentials[key][columnName].toLowerCase();
                 if(query.inverse) {
                   return query.values.some(value => valueToCheck.indexOf(value.toLowerCase()) === -1);
@@ -237,6 +244,49 @@ export const getAssetMovements = createSelector(
       // }
     }
     return assetMovementKeys.map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] }));
+  }
+);
+
+export const getMapStatistics = createSelector(
+  getAssetMovements,
+  getAssetsMovementsDependingOnLeftPanel,
+  selectAssetsEssentials,
+  IncidentSelectors.getUrgentByType,
+  selectNumberOfVMSAssetsInSystem,
+  (
+    assetMovements,
+    onMapDepndingOnLeftPanel: { readonly [uid: string]: AssetTypes.AssetMovement },
+    assetsEssentials: { readonly [uid: string]: AssetTypes.AssetEssentialProperties },
+    urgentByType: IncidentTypes.UrgentByType,
+    numberOfVMSAssetsInSystem: number
+  ) => {
+    const sweVMSAssetsOnMapStatistics = Object.keys(onMapDepndingOnLeftPanel).reduce((acc, assetId) => {
+      const currentAsset = assetsEssentials[assetId];
+      if(currentAsset && currentAsset.flagstate === 'SWE' && currentAsset.vesselType === 'Fishing' && currentAsset.lengthOverAll >= 12) {
+        return {
+          ...acc,
+          count: acc.count + 1,
+          licenceInfo: {
+            valid: currentAsset.hasLicence ? acc.licenceInfo.valid + 1 : acc.licenceInfo.valid,
+            missing: !currentAsset.hasLicence ? acc.licenceInfo.missing + 1 : acc.licenceInfo.missing,
+          }
+        };
+      }
+      return acc;
+    }, { count: 0, licenceInfo: { valid: 0, missing: 0 } });
+
+    return {
+      assetFilter: {
+        showing: assetMovements.length,
+        total: Object.keys(onMapDepndingOnLeftPanel).length
+      },
+      sweVMS: {
+        sending: sweVMSAssetsOnMapStatistics.count,
+        total: numberOfVMSAssetsInSystem,
+      },
+      licenceInfo: sweVMSAssetsOnMapStatistics.licenceInfo,
+      incidentInfo: urgentByType
+    };
   }
 );
 

@@ -92,6 +92,9 @@ export class AuthEffects {
           const mapSettings = context.contextSet.contexts[0].preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSMapSettings'
           );
+          const mapLocations = context.contextSet.contexts[0].preferences.preferences.find(
+            (settings) => settings.applicationName === 'VMSMapLocations'
+          );
           const userSettings = context.contextSet.contexts[0].preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSFrontend'
           );
@@ -124,6 +127,9 @@ export class AuthEffects {
 
           if(typeof mapSettings !== 'undefined' && mapSettings.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
             response.push(MapSettings.replaceSettings({ settings: JSON.parse(mapSettings.optionValue) }));
+          }
+          if(typeof mapLocations !== 'undefined' && mapLocations.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
+            response.push(MapSettings.setMapLocations({ mapLocations: JSON.parse(mapLocations.optionValue) }));
           }
           response.push(MapActions.setMapSettingsLoaded({ mapSettingsLoaded: true }));
 

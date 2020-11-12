@@ -71,18 +71,6 @@ $control_panel_right_offset: 148px;
             bottom: $x4large_distance;
           }
 
-          .icon-map-layers {
-            @include svg-icon('/assets/svg-icons/layers.svg');
-          }
-          .icon-distance-between-points {
-            @include svg-icon('/assets/svg-icons/messure.svg');
-          }
-          .icon-asset-layers {
-            @include svg-icon('/assets/svg-icons/eye.svg');
-          }
-          .icon-map-locations {
-            @include svg-icon('/assets/svg-icons/map.svg');
-          }
           .icon-center-sweden {
             @include svg-icon('/assets/svg-icons/target.svg');
           }

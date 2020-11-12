@@ -57,7 +57,7 @@ describe('AssetForecastComponent', () => {
 
     component.drawFuturePosition({
       ...AssetMovementStub,
-      microMove: { ...AssetMovementStub.microMove,
+      movement: { ...AssetMovementStub.movement,
         location: {
           longitude: lonLat[0],
           latitude: lonLat[1]
@@ -73,8 +73,8 @@ describe('AssetForecastComponent', () => {
 
     component.drawFuturePosition({
       ...AssetMovementStub,
-      microMove: { ...AssetMovementStub.microMove,
-        heading: (AssetMovementStub.microMove.heading + 180) % 360,
+      movement: { ...AssetMovementStub.movement,
+        heading: (AssetMovementStub.movement.heading + 180) % 360,
         location: {
           longitude: lonLat[0],
           latitude: lonLat[1]
@@ -83,9 +83,9 @@ describe('AssetForecastComponent', () => {
     });
     const returningPosition = toLonLat(savedFeatures[id].getGeometry().getCoordinates());
     expect(returningPosition[0].toFixed(3))
-      .toEqual(AssetMovementStub.microMove.location.longitude.toFixed(3));
+      .toEqual(AssetMovementStub.movement.location.longitude.toFixed(3));
     expect(returningPosition[1].toFixed(4))
-      .toEqual(AssetMovementStub.microMove.location.latitude.toFixed(4));
+      .toEqual(AssetMovementStub.movement.location.latitude.toFixed(4));
 
     component.forecastInterval = null;
     component.drawFuturePosition(AssetMovementStub);

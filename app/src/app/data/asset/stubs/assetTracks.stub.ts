@@ -3,6 +3,7 @@ import { AssetTrack } from '../asset.types';
 const AssetTrackStub: AssetTrack = {
   tracks: [
     {
+      asset: '6938453e-8ea7-4e55-b646-921b9c866e58',
       location: {
         longitude: 11.642,
         latitude: 57.470666666666666
@@ -17,6 +18,7 @@ const AssetTrackStub: AssetTrack = {
       updatedBy: 'OTHER',
     },
     {
+      asset: '6938453e-8ea7-4e55-b646-921b9c866e58',
       location: {
         longitude: 11.642,
         latitude: 57.469500000000004
@@ -31,6 +33,7 @@ const AssetTrackStub: AssetTrack = {
       updatedBy: 'OTHER',
     },
     {
+      asset: '6938453e-8ea7-4e55-b646-921b9c866e58',
       location: {
         longitude: 11.642,
         latitude: 57.4685
@@ -45,6 +48,7 @@ const AssetTrackStub: AssetTrack = {
       updatedBy: 'OTHER',
     },
     {
+      asset: '6938453e-8ea7-4e55-b646-921b9c866e58',
       location: {
         longitude: 11.642,
         latitude: 57.47166666666667
@@ -59,6 +63,7 @@ const AssetTrackStub: AssetTrack = {
       updatedBy: 'OTHER',
     },
     {
+      asset: '6938453e-8ea7-4e55-b646-921b9c866e58',
       location: {
         longitude: 11.642,
         latitude: 57.4791
@@ -73,6 +78,7 @@ const AssetTrackStub: AssetTrack = {
       updatedBy: 'OTHER',
     },
     {
+      asset: '6938453e-8ea7-4e55-b646-921b9c866e58',
       location: {
         longitude: 11.642,
         latitude: 57.4883
@@ -87,6 +93,7 @@ const AssetTrackStub: AssetTrack = {
       updatedBy: 'OTHER',
     },
     {
+      asset: '6938453e-8ea7-4e55-b646-921b9c866e58',
       location: {
         longitude: 11.642,
         latitude: 57.49621
@@ -102,6 +109,7 @@ const AssetTrackStub: AssetTrack = {
     }
   ],
   lastAddedTracks: [{
+    asset: '6938453e-8ea7-4e55-b646-921b9c866e58',
     location: {
       longitude: 11.642,
       latitude: 57.49621

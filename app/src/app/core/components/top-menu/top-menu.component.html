@@ -28,6 +28,7 @@
   ></core-logout-timer-component>
   <!-- Links -->
   <ul class="navbar-nav right-bar">
+    <span class="current-time">{{currentTime}}</span>
     <li class="nav-item">
       <fieldset *ngIf="currentTimezone" class="timezone-selector">
         <mat-select [(value)]="currentTimezone" (selectionChange)="setTimezone($event.value)">

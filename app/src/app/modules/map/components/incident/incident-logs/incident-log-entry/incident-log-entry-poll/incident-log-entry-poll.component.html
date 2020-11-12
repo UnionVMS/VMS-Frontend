@@ -1,7 +1,10 @@
-<div class="content-container">
-  <ng-container *ngFor="let row of history; let i = index">
-    <span>{{ row.time }}</span>
-    <span class="status {{ row.status }}">{{ row.formattedStatus }}</span>
-    <div *ngIf="i === 0 && lastStatusIsFailedOrTimedOut" class="ref-message {{row.status}}">{{ poll.refMessage }}</div>
-  </ng-container>
-</div>
+<map-asset-poll-manual
+  *ngIf="!isProgramPoll(poll)"
+  [poll]="poll"
+  [userTimezone]="userTimezone"
+></map-asset-poll-manual>
+<map-asset-poll-program
+  *ngIf="isProgramPoll(poll)"
+  [poll]="poll"
+  [userTimezone]="userTimezone"
+></map-asset-poll-program>

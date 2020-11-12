@@ -59,6 +59,11 @@
 
   ul.navbar-nav.right-bar {
     padding-right: $large_distance;
+
+    .current-time {
+      margin-right: distance(1);
+    }
+
     a {
       cursor: pointer;
     }

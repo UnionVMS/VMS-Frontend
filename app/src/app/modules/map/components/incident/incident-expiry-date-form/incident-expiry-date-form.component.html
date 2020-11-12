@@ -1,4 +1,4 @@
-<form class="expiry-date-form" [formGroup]="formValidator">
+<form class="expiry-date-form" [formGroup]="formValidator" #expiryDateForm>
   <ngx-datetime-picker
     id="expiry-date-form--expiryDate"
     [(dateTime)]="formValidator.value.expiryDate"
@@ -6,7 +6,7 @@
     label="Expiry date"
     [errorMessages]="getErrorMessages(['expiryDate'])"
     [positionFromTop]="true"
-    [customPopupStyle]="{ 'left': 'auto', 'right': '24px', 'bottom': '-48px' }"
+    [customPopupStyle]="dateTimePickerPosition"
     [autoUpdateDatetime]="autoUpdateDatetime"
   ></ngx-datetime-picker>
 

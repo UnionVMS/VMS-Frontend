@@ -1,13 +1,6 @@
 @import 'variables.scss';
 
-map-distance-between-points {
-  .content-container {
-    background: white;
-    padding: $medium_distance;
-  }
-}
-
-#realtime-map .ol-overlay-container {
+#realtime-map .ol-overlay-container, #reports-map .ol-overlay-container {
   .tooltip {
     position: relative;
     background: rgba(0, 0, 0, 0.5);

@@ -11,7 +11,7 @@
     background-color: $color_turquoise;
     color: white;
 
-    .incident-content .ircs-and-name {
+    .incident-content .ircs-and-name, .incident-content .status-code-and-time .status-code {
       color: white;
     }
 
@@ -98,6 +98,8 @@
 
       .status-code {
         font-weight: bolder;
+        color: $color_turquoise;
+        text-decoration: underline;
       }
     }
 

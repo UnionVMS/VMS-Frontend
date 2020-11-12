@@ -1,7 +1,8 @@
 import { AssetMovement } from '../asset.types';
 
 const AssetMovementStub: AssetMovement = {
-  microMove: {
+  movement: {
+    asset: 'ba498d76-ecd1-486a-9302-728367b237a7',
     location: {
       longitude: 23.17178167666667,
       latitude:  65.15318167666667

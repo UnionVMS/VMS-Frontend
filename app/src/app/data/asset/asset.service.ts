@@ -141,6 +141,14 @@ export class AssetService {
     );
   }
 
+  countAssets(authToken: string, searchQuery: AssetTypes.AssetListSearchQuery) {
+    return this.http.post(
+      environment.baseApiUrl + `asset/rest/asset/listcount/`,
+      searchQuery,
+      getDefaultHttpOptions(authToken)
+    );
+  }
+
   getAssetEssentialProperties(authToken: string, listOfAssetIds: ReadonlyArray<string>) {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/microAssets`,

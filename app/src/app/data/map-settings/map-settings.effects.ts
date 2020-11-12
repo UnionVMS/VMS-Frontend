@@ -49,6 +49,47 @@ export class MapSettingsEffects {
   );
 
   @Effect()
+  saveMapLocationObserver$ = this.actions$.pipe(
+    ofType(MapSettingsActions.saveMapLocation),
+    filter((action) => action.save),
+    withLatestFrom(
+      this.store.select(AuthSelectors.getUser),
+      this.store.select(MapSettingsSelectors.getMapLocations)
+    ),
+    mergeMap(([action, user, mapLocations]: Array<any>) => {
+      return this.userSettingsService.saveMapLocations(user, mapLocations).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
+        map((response: any, index: number) =>
+          NotificationsActions.addSuccess($localize`:@@ts-map-location-saved:Map location saved`, 6000),
+        ),
+        catchError((err) => of({ type: 'API ERROR', payload: err }))
+      );
+    })
+  );
+
+  @Effect()
+  deleteMapLocationObserver$ = this.actions$.pipe(
+    ofType(MapSettingsActions.deleteMapLocation),
+    withLatestFrom(
+      this.store.select(AuthSelectors.getUser),
+      this.store.select(MapSettingsSelectors.getMapLocations)
+    ),
+    mergeMap(([action, user, mapLocations]: Array<any>) => {
+      return this.userSettingsService.saveMapLocations(user, mapLocations).pipe(
+        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+        map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
+        map((response: any, index: number) => [
+          NotificationsActions.addSuccess($localize`:@@ts-map-location-saved:Map location removed`, 6000),
+          MapSettingsActions.replaceSettings({ settings: action.settings })
+        ]),
+        flatMap(a => a),
+        catchError((err) => of({ type: 'API ERROR', payload: err }))
+      );
+    })
+  );
+
+  @Effect()
   getMovementSourcesObserver$ = this.actions$.pipe(
     ofType(MapSettingsActions.getMovementSources),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),

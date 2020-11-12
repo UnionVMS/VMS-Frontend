@@ -27,7 +27,8 @@ export const initialState: Types.State = {
   filterQuery: [],
   unitTonnages: [],
   assetLicences: {},
-  lastPollsForAsset: {}
+  lastPollsForAsset: {},
+  numberOfVMSAssetsInSystem: 0,
 };
 
 const speedSegments = {
@@ -85,11 +86,15 @@ export const assetReducer = createReducer(initialState,
       [assetId]: { ais: aisPosition, vms: vmsPosition }
     }
   })),
+  on(AssetActions.setNumberOfVMSAssetsInSystem, (state, { numberOfVMSAssetsInSystem }) => ({
+    ...state,
+    numberOfVMSAssetsInSystem
+  })),
   on(AssetActions.assetsMoved, (state, { assetMovements }) => {
     const newAssetMovements = Object.keys(assetMovements).reduce((rNewAssetMovements, assetId) => {
       if(
         typeof rNewAssetMovements[assetId] === 'undefined' ||
-        assetMovements[assetId].microMove.timestamp > rNewAssetMovements[assetId].microMove.timestamp
+        assetMovements[assetId].movement.timestamp > rNewAssetMovements[assetId].movement.timestamp
       ) {
         // Instead of spreading the object and making new instances we have to mutate the object inside this reduce-function
         // Otherwise we take a performance hit that make the map go from 3 ms loadtime to 6 seconds loadtime.
@@ -101,26 +106,26 @@ export const assetReducer = createReducer(initialState,
     const newSelectedAssetsLastPositions = Object.keys(assetMovements).reduce((acc, assetId) => {
       if(typeof acc[assetId] !== 'undefined') {
         if(
-          assetMovements[assetId].microMove.source === 'AIS' &&
+          assetMovements[assetId].movement.source === 'AIS' &&
           (
             typeof acc[assetId].ais === 'undefined' ||
-            assetMovements[assetId].microMove.timestamp > acc[assetId].ais.timestamp
+            assetMovements[assetId].movement.timestamp > acc[assetId].ais.timestamp
           )
         ) {
           acc[assetId] = {
-            ais: assetMovements[assetId].microMove,
+            ais: assetMovements[assetId].movement,
             vms: acc[assetId].vms
           };
         } else if(
-          assetMovements[assetId].microMove.source !== 'AIS' &&
+          assetMovements[assetId].movement.source !== 'AIS' &&
           (
             typeof acc[assetId].vms === 'undefined' ||
-            assetMovements[assetId].microMove.timestamp > acc[assetId].vms.timestamp
+            assetMovements[assetId].movement.timestamp > acc[assetId].vms.timestamp
           )
         ) {
           acc[assetId] = {
             ais: acc[assetId].ais,
-            vms: assetMovements[assetId].microMove
+            vms: assetMovements[assetId].movement
           };
         }
       }
@@ -140,13 +145,13 @@ export const assetReducer = createReducer(initialState,
           typeof assetTracks[assetId].sources !== 'undefined' &&
           (
             assetTracks[assetId].sources.length === 0 ||
-            assetTracks[assetId].sources.includes(assetMovements[assetId].microMove.source)
+            assetTracks[assetId].sources.includes(assetMovements[assetId].movement.source)
           )
         ) {
           const lineSegments = assetTracks[assetId].lineSegments;
-          const segmentSpeed = speeds.find((speed) => assetMovements[assetId].microMove.speed < speed);
+          const segmentSpeed = speeds.find((speed) => assetMovements[assetId].movement.speed < speed);
 
-          const timePosition = { ...assetMovements[assetId].microMove.location, time: assetMovements[assetId].microMove.timestamp };
+          const timePosition = { ...assetMovements[assetId].movement.location, time: assetMovements[assetId].movement.timestamp };
 
           const reverseIndexs = assetTracks[assetId].lineSegments.slice().reverse().reduce((acc, lineSegment, segmentReverseIndex) => {
             if(typeof acc.positionReverseIndex !== 'undefined') {
@@ -201,20 +206,20 @@ export const assetReducer = createReducer(initialState,
           }
 
           const trackIndex = assetTracks[assetId].tracks.length - assetTracks[assetId].tracks.slice().reverse().findIndex(
-            (position) => position.timestamp < assetMovements[assetId].microMove.timestamp
+            (position) => position.timestamp < assetMovements[assetId].movement.timestamp
           );
 
           assetTracks[assetId] = {
             ...assetTracks[assetId],
             tracks: [
               ...assetTracks[assetId].tracks.slice(0, trackIndex),
-              assetMovements[assetId].microMove,
+              assetMovements[assetId].movement,
               ...assetTracks[assetId].tracks.slice(trackIndex),
             ],
             lineSegments: newLineSegments,
             lastAddedTracks: [
               ...assetTracks[assetId].lastAddedTracks,
-              assetMovements[assetId].microMove
+              assetMovements[assetId].movement
             ]
           };
         }
@@ -322,9 +327,9 @@ export const assetReducer = createReducer(initialState,
   on(AssetActions.setAssetTripGranularity, (state, { assetTripGranularity }) => ({ ...state, assetTripGranularity })),
   on(AssetActions.setAssetTrips, (state, { assetMovements }) => {
     const granularityInSeconds = state.assetTripGranularity * 60;
-    const assetTrips = assetMovements.reduce((tripAccumilator, movement) => {
+    const assetTrips = assetMovements.reduce((tripAccumilator, movement: Types.AssetMovement) => {
       const timestamps = Object.keys(tripAccumilator);
-      const timestampOfMovement = movement.microMove.timestamp;
+      const timestampOfMovement = movement.movement.timestamp;
       if(timestamps.length === 0) {
         return { [timestampOfMovement + granularityInSeconds]: { [movement.asset]: movement } };
       } else {

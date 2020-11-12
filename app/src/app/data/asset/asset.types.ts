@@ -1,4 +1,6 @@
 import { Position, TimePosition } from '../generic.types';
+import { MobileTerminal } from '@data/mobile-terminal/mobile-terminal.types';
+import { UrgentByType } from '@data/incident/incident.types';
 
 export const OceanRegionTranslation = {
   AORE: 'East Atlantic',
@@ -7,7 +9,31 @@ export const OceanRegionTranslation = {
   IOR: 'Indian'
 };
 
+export const MovementStatusTranslation = {
+  10: 'Manual Position',
+  11: 'Time of Position',
+  64: 'Power Up',
+  66: 'Power Down',
+  69: 'Antenna Blocked',
+  70: 'Stored Position',
+  71: 'Io Report',
+  72: 'Enter Zone',
+  73: 'Leave Zone',
+  80: 'Enter Sleepmode',
+  81: 'In Sleepmode',
+  82: 'Leave Sleepmode',
+  83: 'Fix Time Begin',
+  85: 'Enter Reduced',
+  86: 'In Reduced',
+  87: 'Leave Reduced',
+  88: 'Manual Position',
+  89: 'Above Speed Limit',
+  90: 'Below Speed Limit',
+  91: 'GPS Blocked',
+};
+
 export type Movement = Readonly<{
+  asset: string;
   location: Position;
   heading: number;
   id: string;
@@ -34,9 +60,9 @@ export type ManualMovement = Readonly<{
 }>;
 
 export type AssetMovement = Readonly<{
-  microMove: Movement;
+  movement: Movement;
   asset: string;
-  decayPercentage: number|undefined;
+  decayPercentage?: number;
 }>;
 
 export type AssetList = Readonly<{
@@ -99,7 +125,7 @@ export type Asset = Readonly<{
   portOfRegistration: string;
   powerOfAuxEngine: any;
   powerOfMainEngine: any;
-  hasLicence: any;
+  hasLicence: boolean;
   licenceType: any;
   mainFishingGearCode: any;
   subFishingGearCode: any;
@@ -140,8 +166,14 @@ export type AssetFilterQuery = Readonly<{
   type: string;
   values: ReadonlyArray<any>; // ReadonlyArray<string|Readonly<{ operator?: string, value: number }>>
   inverse: boolean;
-  isNumber: boolean;
+  valueType: AssetFilterValueTypes;
 }>;
+
+export enum AssetFilterValueTypes {
+  NUMBER = 'number',
+  STRING = 'string',
+  BOOLEAN = 'boolean'
+}
 
 export type AssetEssentialProperties = Readonly<{
   assetId: string;
@@ -152,6 +184,7 @@ export type AssetEssentialProperties = Readonly<{
   cfr: string;
   externalMarking: string;
   lengthOverAll: number;
+  hasLicence?: boolean;
 }>;
 
 export type AssetMovementWithEssentials = Readonly<{
@@ -214,6 +247,13 @@ export type AssetLicences = Readonly<{
   readonly [assetId: string]: AssetLicence
 }>;
 
+export type MapStatistics = Readonly<{
+  assetFilter: Readonly<{ showing: number, total: number }>,
+  sweVMS: Readonly<{ sending: number, total: number }>,
+  licenceInfo: Readonly<{ valid: number, missing: number }>,
+  incidentInfo: UrgentByType
+}>;
+
 export enum PollType {
   AUTOMATIC_POLL = 'AUTOMATIC_POLL',
   PROGRAM_POLL = 'PROGRAM_POLL',
@@ -271,8 +311,9 @@ export type Poll = Readonly<{
     endDate?: number,
     startDate?: number,
   },
-  pollStatus: PollStatusObject,
-  movement?: Movement
+  pollStatus?: PollStatusObject,
+  movement?: Movement,
+  mobileTerminalSnapshot: MobileTerminal,
 }>;
 
 export type State = Readonly<{
@@ -300,5 +341,6 @@ export type State = Readonly<{
     readonly [assetId: string]: Readonly<{
       readonly [pollId: string]: Poll
     }>
-  }>
+  }>,
+  numberOfVMSAssetsInSystem: number;
 }>;

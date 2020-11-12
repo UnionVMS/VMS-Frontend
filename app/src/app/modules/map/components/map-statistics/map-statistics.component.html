@@ -1,0 +1,66 @@
+<div class="container-component">
+  <div class="intro-text" i18n>
+    This area shows aggregated map information. <span class="warn">Red</span> needs attention.
+  </div>
+
+  <div class="split-row">
+    <div class="statistics-block">
+      <div class="title-block" i18n>Swe VMS-assets</div>
+      <div class="data-block link" (click)="filterSendingVms()">
+        <div
+          class="data{{ mapStatistics.sweVMS.total - mapStatistics.sweVMS.sending !== 0 ? ' info' : '' }}"
+        >{{mapStatistics.sweVMS.sending}}</div>
+        <div class="description">Sending</div>
+      </div>
+      <div class="data-block">
+        <div class="data">{{mapStatistics.sweVMS.total}}</div>
+        <div class="description">In System</div>
+      </div>
+    </div>
+    <div class="statistics-block">
+      <div class="title-block" i18n>Filtered assets</div>
+      <div class="data-block">
+        <div
+          class="data{{ mapStatistics.assetFilter.total - mapStatistics.assetFilter.showing !== 0 ? ' info' : '' }}"
+        >{{mapStatistics.assetFilter.showing}}</div>
+        <div class="description">Showing</div>
+      </div>
+      <div class="data-block">
+        <div class="data">{{mapStatistics.assetFilter.total}}</div>
+        <div class="description">Total</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="statistics-block">
+    <div class="title-block" i18n>Swedish VMS-assets licences</div>
+    <div class="data-block link" (click)="filterValidLicence(true)">
+      <div
+        class="data{{ mapStatistics.sweVMS.sending - mapStatistics.licenceInfo.valid !== 0 ? ' info' : '' }}"
+      >{{mapStatistics.licenceInfo.valid}}</div>
+      <div class="description">Valid license</div>
+    </div>
+    <div class="data-block link" (click)="filterValidLicence(false)">
+      <div class="data">
+        <span *ngIf="mapStatistics.licenceInfo.missing !== 0" class="warn">{{mapStatistics.licenceInfo.missing}}</span>
+        <span *ngIf="mapStatistics.licenceInfo.missing === 0" class="info"> - </span>
+      </div>
+      <div class="description">Missing / Expired</div>
+    </div>
+  </div>
+
+  <div class="statistics-block incidents">
+    <div class="title-block" i18n>Incidents requiring attention</div>
+    <div
+      class="incident-block"
+      *ngFor="let incidentTypeStatistic of incidentTypeStatistics; trackBy: trackByIncident"
+      (click)="setActiveLeftPanelByWorkflowType(incidentTypeStatistic.type)"
+    >
+      <div class="incident-name">{{ getIncidentTypeName(incidentTypeStatistic.type) }}</div>
+      <div class="number-of-incidents {{ incidentTypeStatistic.amount === 0 ? 'no-warnings' : ''}}">
+        {{ incidentTypeStatistic.amount > 0 ? incidentTypeStatistic.amount : '-' }}
+      </div>
+    </div>
+  </div>
+
+</div>

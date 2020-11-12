@@ -58,6 +58,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public tripGranularity$: Observable<number>;
   public tripTimestamps$: Observable<ReadonlyArray<number>>;
   public tripTimestamp$: Observable<number>;
+  public clearMeasurements$: Subject<boolean>;
 
   public assetIdFromUrl: string;
 
@@ -68,6 +69,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   // tslint:disable:ban-types
   public addForecast: Function;
   public addPositionForInspection: Function;
+  public clearMessurements: () => void;
   public deselectAsset: (assetId: string) => void;
   public setForecastInterval: Function;
   public setVisibilityForAssetNames: Function;
@@ -115,6 +117,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public unregisterOnSelectFunction: (name: string) => void;
   // private unregisterOnHoverFunction: (name: string) => void;
 
+  public activeRightPanel: ReadonlyArray<string>;
   public activePanel = '';
   public rightColumnHidden = false;
   public leftColumnHidden = false;
@@ -172,6 +175,9 @@ export class ReportsComponent implements OnInit, OnDestroy {
   constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {
+    this.store.select(MapSelectors.getActiveRightPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
+      this.activeRightPanel = activePanel;
+    });
     this.store.select(AssetSelectors.getAssetMovements).pipe(takeUntil(this.unmount$)).subscribe((assets) => {
       this.assetMovements = assets;
     });
@@ -310,6 +316,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.clearMeasurements$ = new Subject<boolean>();
+    this.clearMessurements = () => this.clearMeasurements$.next(true);
     this.mapStateToProps();
     this.mapDispatchToProps();
     this.store.dispatch(AssetActions.getSelectedAsset());
@@ -384,8 +392,13 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unmount$.next(true);
-    this.unmount$.unsubscribe();
+    if(this.unmount$) {
+      this.unmount$.next(true);
+      this.unmount$.unsubscribe();
+    }
+    if(this.clearMeasurements$) {
+      this.clearMeasurements$.unsubscribe();
+    }
     this.store.dispatch(AssetActions.removeMovementsAndTracks());
   }
 
