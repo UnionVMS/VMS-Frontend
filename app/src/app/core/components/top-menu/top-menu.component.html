@@ -2,8 +2,11 @@
 <div class="navbar layout-top-menu">
   <!-- Navbar brand -->
   <div class="navbar-brand-and-version">
+    <a class="navbar-brand" routerLink="/">
+      <i class="brand-image"></i>
+      <!-- <img src="/assets/UVMS_logo.svg" alt="UVMS"> -->
+    </a>
     <div class="app-version">v {{appVersion}}</div>
-    <a class="navbar-brand" routerLink="/">F-Admin</a>
   </div>
   <!-- Links -->
   <ul class="navbar-nav">
@@ -28,7 +31,7 @@
   ></core-logout-timer-component>
   <!-- Links -->
   <ul class="navbar-nav right-bar">
-    <span class="current-time">{{currentTime}}</span>
+    <li><span class="current-time">{{currentTime}}</span></li>
     <li class="nav-item">
       <fieldset *ngIf="currentTimezone" class="timezone-selector">
         <mat-select [(value)]="currentTimezone" (selectionChange)="setTimezone($event.value)">
@@ -46,7 +49,6 @@
     </li>
     <li *ngIf="isAdmin" class="nav-item" routerLinkActive="active">
       <a class="nav-link waves-light" href="{{baseUrl}}/unionvms/"><strong>ADMIN</strong></a>
-      <a *ngIf="!fishingActivityUnlocked" class="nav-link waves-light" routerLink="/secret" class="secret">s</a>
     </li>
   </ul>
 

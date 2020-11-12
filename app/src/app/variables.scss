@@ -45,17 +45,17 @@ $color_background_gray: #F5F9FF;
 
 $color_table_alternate_color: #FAFAFB;
 
-$default_font_size: 14px;
-$h1_font_size: 20px;
-$navbar_height: 45px;
-$efr_navbar_height: 60px;
-
-$map_overlay_background: rgba( $color_turquoise, 0.7);
-
 $distance: 8px;
 @function distance($times) {
   @return $times * $distance;
 }
+
+$default_font_size: 14px;
+$h1_font_size: 20px;
+$navbar_height: distance(6);
+$efr_navbar_height: 60px;
+
+$map_overlay_background: rgba( $color_turquoise, 0.7);
 
 $small_distance: distance(0.5); // 4px
 $medium_distance: distance(1);  // 8px
