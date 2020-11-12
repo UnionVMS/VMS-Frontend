@@ -1,7 +1,7 @@
 @import 'variables.scss';
 
 .content-container {
-  grid-row-gap: $medium_distance;
+  grid-row-gap: distance(1);
 
   h4 {
     margin: 0px;
@@ -41,6 +41,12 @@
 
   .create-new-filter {
     display: grid;
-    margin-top: $medium_distance;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: distance(1);
+    margin-top: distance(1);
+
+    mat-form-field, .create-new-button {
+      grid-column: span 2;
+    }
   }
 }

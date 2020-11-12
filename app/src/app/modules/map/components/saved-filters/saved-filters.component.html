@@ -31,19 +31,26 @@
       mat-raised-button
       color="primary"
       type="button"
-      (click)="creatingNewFilter = true"
-    ><ng-container i18n>Create new</ng-container></button>
+      class="create-new-button"
+      (click)="createNewFilter()"
+    ><ng-container i18n>Create new filter</ng-container></button>
     <mat-form-field *ngIf="creatingNewFilter">
-      <input matInput placeholder="Name" [(ngModel)]="newFilterName">
+      <input matInput #createNewFilterNameInput placeholder="Name" [(ngModel)]="newFilterName">
     </mat-form-field>
+    <button
+      *ngIf="creatingNewFilter"
+      mat-stroked-button
+      type="button"
+      (click)="cancelFilter()"
+      i18n
+    >Cancel</button>
     <button
       *ngIf="creatingNewFilter"
       mat-raised-button
       color="primary"
       type="button"
-      class="save-new-filter"
       (click)="saveFilter()"
       i18n
-    >Save</button>
+    >Save filter</button>
   </div>
 </div>
