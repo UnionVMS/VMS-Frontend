@@ -68,6 +68,10 @@
       <h3 i18n>Quick filter</h3>
       <map-asset-filter-information-panel></map-asset-filter-information-panel>
     </ng-container>
+    <ng-container *ngIf="activeInformationPanel === 'asset-search'">
+      <h3 i18n>Asset search</h3>
+      <map-asset-search-information-panel></map-asset-search-information-panel>
+    </ng-container>
   </div>
   <div class="panel showAsset-panel" *ngIf="activePanel[0] === 'showAsset'">
     <div class="panel-title">

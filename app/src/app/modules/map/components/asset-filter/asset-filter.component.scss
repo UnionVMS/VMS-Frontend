@@ -2,13 +2,4 @@
 
 .content-container {
   display: grid;
-  .open-information-panel {
-    cursor: pointer;
-    background: $color_gray;
-    border-radius: 8px;
-    float: right;
-    padding: 0px 6px;
-    color: white;
-    font-size: 16px;
-  }
 }

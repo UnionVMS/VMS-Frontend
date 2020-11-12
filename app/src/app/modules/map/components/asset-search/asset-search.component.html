@@ -1,7 +1,17 @@
 <div class="content-container">
   <div class="search-wrapper">
     <mat-form-field>
-      <input matInput placeholder="Search" i18n-placeholder type="text" (keyup)="searchKeyUp($event)" [(ngModel)]="searchQuery" [matAutocomplete]="auto">
+      <input
+        matInput
+        placeholder="Search"
+        i18n-placeholder
+        type="text"
+        (keyup)="searchKeyUp($event)"
+        [(ngModel)]="searchQuery"
+        [matAutocomplete]="auto"
+        (blur)="setActiveInformationPanel(null)"
+        (focus)="setActiveInformationPanel('asset-search')"
+      >
     </mat-form-field>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
       <mat-option *ngFor="let option of searchResults" [value]="option.value" data-id="{{option.id}}">

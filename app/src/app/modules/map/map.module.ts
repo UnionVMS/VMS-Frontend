@@ -44,6 +44,7 @@ import { AssetPollComponent } from './components/asset-poll/asset-poll.component
 import { AssetPollManualComponent } from './components/asset-poll-manual/asset-poll-manual.component';
 import { AssetPollProgramComponent } from './components/asset-poll-program/asset-poll-program.component';
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
+import { AssetSearchInformationPanelComponent } from './components/asset-search-information-panel/asset-search-information-panel.component';
 import { AssetsComponent } from './components/assets/assets.component';
 import { CoordinatesPopupComponent } from './components/coordinates-popup/coordinates-popup.component';
 import { DistanceBetweenPointsComponent } from './components/distance-between-points/distance-between-points.component';
@@ -69,7 +70,6 @@ import { IncidentsManualPositionModeComponent } from './components/incident/inci
 import { IncidentsOwnershipTransferComponent } from './components/incident/incidents-ownership-transfer/incidents-ownership-transfer.component';
 import { IncidentsParkedComponent } from './components/incident/incidents-parked/incidents-parked.component';
 import { IncidentsSeasonalFishingComponent } from './components/incident/incidents-seasonal-fishing/incidents-seasonal-fishing.component';
-import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { LayerFilterComponent } from './components/layer-filter/layer-filter.component';
 import { LicenceInformationComponent } from './components/licence-information/licence-information.component';
 import { MapLayersComponent } from './components/map-layers/map-layers.component';
@@ -133,6 +133,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     AssetPollManualComponent,
     AssetPollProgramComponent,
     AssetSearchComponent,
+    AssetSearchInformationPanelComponent,
     CoordinatesPopupComponent,
     DistanceBetweenPointsComponent,
     DistanceBetweenPointsPanelComponent,
@@ -157,7 +158,6 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     IncidentsOwnershipTransferComponent,
     IncidentsParkedComponent,
     IncidentsSeasonalFishingComponent,
-    InformationPanelComponent,
     LayerFilterComponent,
     LicenceInformationComponent,
     MapLocationsComponent,

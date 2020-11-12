@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { formatDate } from '../../../../helpers/helpers';
 import * as AssetTypes from '@data/asset/asset.types';
 
@@ -13,14 +13,12 @@ type QueryParam = Readonly<{
   templateUrl: './asset-filter.component.html',
   styleUrls: ['./asset-filter.component.scss']
 })
-export class AssetFilterComponent implements OnChanges, OnInit {
+export class AssetFilterComponent implements OnChanges {
   @Input() filterFunction: (filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>) => void;
   @Input() filterQuerySaved: ReadonlyArray<AssetTypes.AssetFilterQuery>;
   @Input() setActiveInformationPanel: (activeInformationPanel: string | null) => void;
 
   public filterQuery = '';
-  public displayInfo = false;
-  public hideInfoFunction: () => void;
   public lastSentFilterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>;
 
   private readonly handleQueryString = ({ queryObject, queryString }: QueryParam): QueryParam => {
@@ -167,12 +165,6 @@ export class AssetFilterComponent implements OnChanges, OnInit {
         return `/${typeList[filter.type]} ${valueString}`;
       }
     }).join(' && ');
-  }
-
-  ngOnInit() {
-    this.hideInfoFunction = () => {
-      this.displayInfo = false;
-    };
   }
 
   ngOnChanges() {

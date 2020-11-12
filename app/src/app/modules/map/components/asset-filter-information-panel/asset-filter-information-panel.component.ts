@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './asset-filter-information-panel.component.html',
   styleUrls: ['./asset-filter-information-panel.component.scss']
 })
-export class AssetFilterInformationPanelComponent {
-}
+export class AssetFilterInformationPanelComponent {}
