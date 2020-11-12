@@ -3,7 +3,7 @@ import { Position } from '../generic.types';
 export type MapLocation = Readonly<{
   name: string;
   zoom: number;
-  center: ReadonlyArray<number>;
+  center: Position;
   base64Image?: string;
 }>;
 

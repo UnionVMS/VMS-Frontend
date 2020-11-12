@@ -213,13 +213,12 @@
   </div>
   <div class="panel map-locations-panel" *ngIf="activePanel[0] === 'map-locations' && mapSettings && map">
     <h3 i18n>Map positions</h3>
-    <map-locations
+    <map-locations-panel
       [centerMapOnPosition]="centerMapOnPosition"
       [mapLocations]="mapSettings.mapLocations"
-      [map]="map"
       [saveMapLocation]="saveMapLocation"
       [deleteMapLocation]="deleteMapLocation"
-    ></map-locations>
+    ></map-locations-panel>
   </div>
   <div class="panel map-layers-panel" *ngIf="activePanel[0] === 'map-layers'">
     <h3 i18n>Map layers</h3>

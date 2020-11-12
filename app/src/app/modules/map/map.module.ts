@@ -74,6 +74,7 @@ import { LicenceInformationComponent } from './components/licence-information/li
 import { MapLayersComponent } from './components/map-layers/map-layers.component';
 import { MapLayersPanelComponent } from './components/map-layers-panel/map-layers-panel.component';
 import { MapLocationsComponent } from './components/map-locations/map-locations.component';
+import { MapLocationsPanelComponent } from './components/map-locations-panel/map-locations-panel.component';
 import { MapStatisticsComponent } from './components/map-statistics/map-statistics.component';
 import { ManualMovementFormComponent } from './components/manual-movement-form/manual-movement-form.component';
 import { ManualMovementFormDialogComponent } from './components/manual-movement-form-dialog/manual-movement-form-dialog.component';
@@ -158,6 +159,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     LayerFilterComponent,
     LicenceInformationComponent,
     MapLocationsComponent,
+    MapLocationsPanelComponent,
     MapStatisticsComponent,
     MapLayersComponent,
     MapLayersPanelComponent,

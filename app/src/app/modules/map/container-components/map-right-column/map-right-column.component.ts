@@ -5,6 +5,7 @@ import { takeUntil, tap } from 'rxjs/operators';
 import Map from 'ol/Map';
 import getContryISO2 from 'country-iso-3-to-2';
 
+import { Position } from '@data/generic.types';
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
 import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
