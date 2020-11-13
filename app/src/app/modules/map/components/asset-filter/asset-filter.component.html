@@ -4,6 +4,7 @@
     <input
       matInput
       placeholder="Filter"
+      i18n-placeholder
       [(ngModel)]="filterQuery"
       (keyup)="filterKeyUp($event)"
       (blur)="setActiveInformationPanel(null)"

@@ -3,7 +3,7 @@
 
     <mat-form-field class="free-search">
       <mat-label i18n>Serial number</mat-label>
-      <input matInput placeholder="Serial number" name="Search" [formControl]="serialNo" required>
+      <input matInput placeholder="Serial number" i18n-placeholder name="Search" [formControl]="serialNo" required>
       <mat-error *ngIf="serialNo.invalid">{{ errorMessage() }}</mat-error>
     </mat-form-field>
 

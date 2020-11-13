@@ -13,7 +13,7 @@
       <div class="location-header">
         <div class="name">
           <span *ngIf="!editName[locationKey]">{{mapLocations[locationKey].name}}</span>
-          <input *ngIf="editName[locationKey]" matInput placeholder="Location name" [(ngModel)]="locationNames[locationKey]">
+          <input *ngIf="editName[locationKey]" matInput placeholder="Location name" i18n-placeholder [(ngModel)]="locationNames[locationKey]">
         </div>
 
         <i class="ri-pencil-fill" (click)="toggleEditName(locationKey)"></i>

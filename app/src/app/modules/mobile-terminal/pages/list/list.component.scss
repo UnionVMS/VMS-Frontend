@@ -29,6 +29,11 @@
     }
   }
 
+  .load-spinner {
+    margin: 150px auto;
+    place-self: center;
+  }
+
   .filter-response-container {
     display: grid;
     grid-column: 1fr;
@@ -50,10 +55,6 @@
         color: $color_accent;
         font-weight: bold;
       }
-    }
-
-    .load-spinner {
-      margin: 150px auto;
     }
 
     .mobile-terminals-table-container a {
