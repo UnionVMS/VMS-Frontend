@@ -76,7 +76,6 @@ export class IncidentCardComponent implements OnChanges, OnDestroy {
         ? MovementStatusTranslation[this.incident.lastKnownLocation.status]
         : 'No such code'
       );
-      console.warn(lastKnownLocationStatusDescription);
       this.formattedIncident = {
         ...this.incident,
         formattedDate: formatUnixtimeWithDot(this.incident.lastKnownLocation.timestamp),

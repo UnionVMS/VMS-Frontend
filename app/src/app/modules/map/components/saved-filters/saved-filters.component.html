@@ -35,7 +35,7 @@
       (click)="createNewFilter()"
     ><ng-container i18n>Create new filter</ng-container></button>
     <mat-form-field *ngIf="creatingNewFilter">
-      <input matInput #createNewFilterNameInput placeholder="Name" [(ngModel)]="newFilterName">
+      <input matInput #createNewFilterNameInput placeholder="Name" i18n-placeholder [(ngModel)]="newFilterName">
     </mat-form-field>
     <button
       *ngIf="creatingNewFilter"

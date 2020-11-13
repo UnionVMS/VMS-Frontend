@@ -66,37 +66,37 @@ export const vmsRoutes: Routes = [
         }
       },
       { path: 'asset/:assetId/edit', component: AssetFormPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-edit:<dont-translate>assetName</dont-translate> — Edit asset` || 'Edit asset'
+        title: $localize`:@@ts-layout-asset-edit:[[[assetName]]] — Edit asset` || 'Edit asset'
       }},
       { path: 'asset/:assetId/mobileTerminals', component: MobileTerminalsShowByAssetPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Mobile Terminals` || 'Mobile Terminals'
+        title: $localize`:@@ts-layout-asset-mobile-terminals:[[[assetName]]] — Mobile Terminals` || 'Mobile Terminals'
       }},
       { path: 'asset/:assetId', component: AssetShowPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-info:<dont-translate>assetName</dont-translate> — Asset information` || 'Asset information'
+        title: $localize`:@@ts-layout-asset-info:[[[assetName]]] — Asset information` || 'Asset information'
       }},
       { path: 'asset', component: AssetSearchPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-search:Assets — Asset search` || 'Asset search'
       }},
       { path: 'asset/:assetId/mobileTerminal/attach', component: MobileTerminalAttachPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-mobileTerminal-edit:<dont-translate>assetName</dont-translate> — Attach Mobile Terminal`
+        title: $localize`:@@ts-layout-asset-mobileTerminal-attach:[[[assetName]]] — Attach Mobile Terminal`
           || 'Attach Mobile Terminal'
       }},
       { path: 'asset/:assetId/mobileTerminal/create', component: MobileTerminalFormPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-mobileTerminal-create:<dont-translate>assetName</dont-translate> — Mobile Terminal`
+        title: $localize`:@@ts-layout-asset-mobileTerminal-create:[[[assetName]]] — Mobile Terminal`
           || 'Create Mobile Terminal'
       }},
       { path: 'asset/:assetId/mobileTerminal/:mobileTerminalId/edit', component: MobileTerminalFormPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-mobileTerminal-edit:<dont-translate>assetName</dont-translate> — Mobile Terminal`
+        title: $localize`:@@ts-layout-asset-mobileTerminal-edit:[[[assetName]]] — Mobile Terminal`
           || 'Edit Mobile Terminal'
       }},
       { path: 'asset/:assetId/contacts', component: ContactShowByAssetPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-contacts:<dont-translate>assetName</dont-translate> — Contacts` || 'Contacts'
+        title: $localize`:@@ts-layout-asset-contacts:[[[assetName]]] — Contacts` || 'Contacts'
       }},
       { path: 'asset/:assetId/notes', component: NotesListPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-notes:<dont-translate>assetName</dont-translate> — Notes` || 'Notes'
+        title: $localize`:@@ts-layout-asset-notes:[[[assetName]]] — Notes` || 'Notes'
       }},
       { path: 'asset/:assetId/positions', component: AssetPositionsPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-asset-positions:<dont-translate>assetName</dont-translate> — Last positions` || 'Last positions'
+        title: $localize`:@@ts-layout-asset-positions:[[[assetName]]] — Last positions` || 'Last positions'
       }},
       { path: 'asset/:assetId/notes/:noteId/edit', component: NotesFormPage, pathMatch: 'full', data: {
         title: $localize`:@@ts-layout-asset-notes-edit:Notes — Edit` || 'Notes — Edit'
@@ -113,22 +113,22 @@ export const vmsRoutes: Routes = [
       }},
       { path: 'mobileTerminal/:mobileTerminalId', component: MobileTerminalShowPage, pathMatch: 'full', data: {
         // tslint:disable-next-line:max-line-length
-        title: $localize`:@@ts-layout-mobileTerminal-show:<dont-translate>mobileTerminalName</dont-translate> — Mobile Terminal information` || 'Mobile Terminal information'
+        title: $localize`:@@ts-layout-mobileTerminal-show:[[[mobileTerminalName]]] — Mobile Terminal information` || 'Mobile Terminal information'
       }},
       { path: 'mobileTerminal/:mobileTerminalId/edit', component: MobileTerminalFormPage, pathMatch: 'full', data: {
         // tslint:disable-next-line:max-line-length
-        title: $localize`:@@ts-layout-mobileTerminal-edit:<dont-translate>mobileTerminalName</dont-translate> — Mobile Terminal edit` || 'Mobile Terminal edit'
+        title: $localize`:@@ts-layout-mobileTerminal-edit:[[[mobileTerminalName]]] — Mobile Terminal edit` || 'Mobile Terminal edit'
       }},
       {
         path: 'mobileTerminal/:mobileTerminalId/attachment-history',
         component: MobileTerminalAttachmentHistoryPage, pathMatch: 'full', data: {
         // tslint:disable-next-line:max-line-length
-        title: $localize`:@@ts-layout-mobileTerminal-attachment-history:<dont-translate>mobileTerminalName</dont-translate> — Mobile Terminal attachment history` || 'Mobile Terminal attachment history'
+        title: $localize`:@@ts-layout-mobileTerminal-attachment-history:[[[mobileTerminalName]]] — Mobile Terminal attachment history` || 'Mobile Terminal attachment history'
       }},
       {
         path: 'mobileTerminal/:mobileTerminalId/history', component: MobileTerminalHistoryPage, pathMatch: 'full', data: {
         // tslint:disable-next-line:max-line-length
-        title: $localize`:@@ts-layout-mobileTerminal-history:<dont-translate>mobileTerminalName</dont-translate> — Mobile Terminal history` || 'Mobile Terminal history'
+        title: $localize`:@@ts-layout-mobileTerminal-history:[[[mobileTerminalName]]] — Mobile Terminal history` || 'Mobile Terminal history'
       }},
     ]
   },

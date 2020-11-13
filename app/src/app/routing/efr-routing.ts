@@ -41,7 +41,7 @@ export const efrRoutes: Routes = [
         title: $localize`:@@ts-layout-fishing-report-search:Fishing report — Search` || 'Fishing report — Search'
       }},
       { path: 'fishing-report/:fishingReportId', component: FishingReportShowPage, pathMatch: 'full', data: {
-        title: $localize`:@@ts-layout-fishing-report-info:<dont-translate>fishingReportCfr</dont-translate> — Fishing report information` || 'Fishing report — information'
+        title: $localize`:@@ts-layout-fishing-report-info:[[[fishingReportCfr]]] — Fishing report information` || 'Fishing report — information'
       }},
     ]
   },

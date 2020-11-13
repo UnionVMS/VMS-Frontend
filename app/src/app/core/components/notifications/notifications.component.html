@@ -3,7 +3,7 @@
   *ngIf="notificationsVisible"
 >
   <li *ngFor="let notification of notifications.success" [@dropAndFadeAnimation]="'in'" class="alert alert-success">
-    <span [innerHTML]="notification.notification"></span>
+    <span [innerHTML]="notification.notification" ngPreserveWhitespaces></span>
     <div class="end-section">
       <div class="coundown-wrapper" *ngIf="notification.autoDismissInMs !== undefined">
         <ui-countdown-circle diameter="30" [seconds]="notification.autoDismissInMs / 1000" color="accent"></ui-countdown-circle>
@@ -14,7 +14,7 @@
     </div>
   </li>
   <li *ngFor="let notification of notifications.notices" [@dropAndFadeAnimation]="'in'" class="alert alert-notice">
-    <span [innerHTML]="notification.notification"></span>
+    <span [innerHTML]="notification.notification" ngPreserveWhitespaces></span>
     <div class="end-section">
       <div class="coundown-wrapper" *ngIf="notification.autoDismissInMs !== undefined">
         <ui-countdown-circle diameter="30" [seconds]="notification.autoDismissInMs / 1000" color="primary"></ui-countdown-circle>
@@ -25,7 +25,7 @@
     </div>
   </li>
   <li *ngFor="let notification of notifications.errors" [@dropAndFadeAnimation]="'in'" class="alert alert-error">
-    <span [innerHTML]="notification.notification"></span>
+    <span [innerHTML]="notification.notification" ngPreserveWhitespaces></span>
     <div class="end-section">
       <div class="coundown-wrapper" *ngIf="notification.autoDismissInMs !== undefined">
         <ui-countdown-circle diameter="30" [seconds]="notification.autoDismissInMs / 1000" color="warn"></ui-countdown-circle>

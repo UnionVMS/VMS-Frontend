@@ -3,7 +3,7 @@
 
     <mat-form-field class="free-search">
       <mat-label i18n>Search for Name, External Marking, CFR, IRCS or MMSI</mat-label>
-      <input matInput placeholder="Search" name="Search" [(ngModel)]="assetSearchObject.search">
+      <input matInput placeholder="Search" i18n-placeholder name="Search" [(ngModel)]="assetSearchObject.search">
     </mat-form-field>
 
     <mat-radio-group name="searchType" [(ngModel)]="assetSearchObject.searchType">
