@@ -146,7 +146,15 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/fishing-report/pages/search/search.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/fishing-report/pages/search/search.component.html</context>
           <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
+          <context context-type="linenumber">6</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/pages/search/search.component.html</context>
@@ -495,6 +503,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/asset/components/show-contacts/show-contacts.component.html</context>
           <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/saved-filters/saved-filters.component.html</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c040d59def69d42ca29d3a17953d06d1553174fc" datatype="html">
@@ -872,6 +884,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/attach/attach.component.html</context>
           <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/mobile-terminal/pages/attach/attach.component.html</context>
+          <context context-type="linenumber">6</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/mobile-terminal/pages/list/list.component.html</context>
@@ -1547,6 +1563,27 @@
           <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="accd2665f9d111f0ac8fa49f5fb232e9aba105ac" datatype="html">
+        <source>Start zoom level</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5636a5d343635cd10e9cdd24ba3954573284c568" datatype="html">
+        <source>Start latitude</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5b70abc6d76b59dfccaa91b006112d4e58d02b0e" datatype="html">
+        <source>Start longitude</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="6fb187886b3be5b9ec1c2c0b158d5b326e45db7d" datatype="html">
         <source>Tracks and forecasts</source>
         <context-group purpose="location">
@@ -1587,6 +1624,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
           <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bdb24b7cc8a128561913e50552feef130a2e3b17" datatype="html">
+        <source>Track length</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e53622db991ab0684fde328e4bd5a4719f512bde" datatype="html">
+        <source>Forecast interval (min)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/settings/pages/user-settings/user-settings.component.html</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d163ce0d8d09b53c17cec9c401507251346c87ab" datatype="html">
@@ -1961,161 +2012,161 @@
         <source>Poll Failed</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-status-attempted-contact" datatype="html">
         <source>Attempted Contact</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-status-manual-position-mode" datatype="html">
         <source>Manual position mode</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">40</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-status-parked" datatype="html">
         <source>Parked</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-status-technical-issue" datatype="html">
         <source>Technical issue</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-status-resolved" datatype="html">
         <source>Resolved</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-status-created" datatype="html">
         <source>Created</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-status-manual-position-late" datatype="html">
         <source>Overdue</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-status-recieving-vms-positioins" datatype="html">
         <source>Recieving VMS</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-status-not-recieving-vms-positioins" datatype="html">
         <source>Not recieving VMS</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-status-overdue" datatype="html">
         <source>Overdue</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-status-recieving-ais-positioins" datatype="html">
         <source>Recieving AIS</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-type-asset-not-sending" datatype="html">
         <source>Asset not sending</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-type-seasonal-fishing" datatype="html">
         <source>Seasonal fishing</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-type-ownership-transfer" datatype="html">
         <source>Ownership transfer</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-type-long-term-parked" datatype="html">
         <source>Long term parked</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-type-parked" datatype="html">
         <source>Parked</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-issue-type-manual-position-mode" datatype="html">
         <source>Manual position mode</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-api-error" datatype="html">
         <source>An API error occured!\nThe application might not work as expected.\nPlease reload the page and try again, if the issue persists, please contact system administrator.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-api-error-manual-movement" datatype="html">
         <source>Creation of manual position failed!\n Reason:\n</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-movement-ais-class-a" datatype="html">
         <source>Class A</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-movement-ais-class-b" datatype="html">
         <source>Class B</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-movement-ais-class-unkown" datatype="html">
         <source>Unkown class</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="40de9b8392fd79d487c28855f98eb350074a4287" datatype="html">
@@ -2614,6 +2665,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/saved-filters/saved-filters.component.html</context>
           <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5ca707824ab93066c7d9b44e1b8bf216725c2c22" datatype="html">
+        <source>Filter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/asset-filter/asset-filter.component.html</context>
+          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7ae95bd543a28ea74769b870c8bc9dd53044498f" datatype="html">
@@ -3693,6 +3751,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/map/components/licence-information/licence-information.component.html</context>
           <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="74e506b6f0723a4a2e53aa22def98c3fecdef0c4" datatype="html">
+        <source>Location name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/map/components/map-locations-panel/map-locations-panel.component.html</context>
+          <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a57051b14390b9fc0d63fffb662f249c67786800" datatype="html">
