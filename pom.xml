@@ -133,9 +133,13 @@
 							<directory>${basedir}/app/dist/en</directory>
 						</resource>
 						<resource>
+							<directory>${basedir}/app/dist/sv</directory>
+							<targetPath>sv</targetPath>
+						</resource>
+						<resource>
 							<directory>${basedir}/webContent</directory>
-								<include>**/*.xml</include>
-								<include>**/*.conf</include>
+							<include>**/*.xml</include>
+							<include>**/*.conf</include>
 							<filtering>true</filtering>
 						</resource>
 					</webResources>
