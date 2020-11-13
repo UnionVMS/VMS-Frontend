@@ -8,7 +8,7 @@ import { AuthSelectors } from '@data/auth';
 import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
 import { UserSettingsActions, UserSettingsSelectors, UserSettingsTypes } from '@data/user-settings';
 import { FishingReportSelectors, FishingReportTypes } from '@data/fishing-report';
-import { replaceDontTranslate } from '@app/helpers/helpers';
+import { replacePlaceholdersInTranslation } from '@app/helpers/helpers';
 
 import { RouterTypes, RouterSelectors } from '@data/router';
 
@@ -106,7 +106,7 @@ export class EfrDefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   getTitleName() {
-    return replaceDontTranslate(this.pageTitle, {
+    return replacePlaceholdersInTranslation(this.pageTitle, {
       fishingReportCfr: typeof this.selectedFishingReport !== 'undefined' ? this.selectedFishingReport.shipCfr : 'Fishing report'
     });
   }

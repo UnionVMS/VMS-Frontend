@@ -20,7 +20,7 @@ import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
 import { MobileTerminalTypes, MobileTerminalActions } from '@data/mobile-terminal';
 
-import { replaceDontTranslate } from '@app/helpers/helpers';
+import { replacePlaceholdersInTranslation } from '@app/helpers/helpers';
 import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
@@ -259,7 +259,7 @@ export class AssetEffects {
                     newAssetName = newAsset.assetName;
                   }
 
-                  const noticeMessage = replaceDontTranslate(
+                  const noticeMessage = replacePlaceholdersInTranslation(
                     // tslint:disable-next-line max-line-length
                     $localize`:@@ts-asset-notice-merged:Asset '${oldAssetName}' merged with '${newAssetName}', and has been removed from the map.`,
                     { oldAssetName, newAssetName }
@@ -634,7 +634,7 @@ export class AssetEffects {
             && body.code === 400
           ) {
             this.store.dispatch(NotificationsActions.addError(
-              $localize`:@@ts-api-error-manual-movement:Creation of manual position failed!<br />\n Reason:<br />\n` + body.description
+              $localize`:@@ts-api-error-manual-movement:Creation of manual position failed!\n Reason:\n` + body.description
             ));
             return false;
           }

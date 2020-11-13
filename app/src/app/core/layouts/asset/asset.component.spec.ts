@@ -156,7 +156,7 @@ describe('AssetLayoutComponent', () => {
           },
           queryParams: {},
           data: {
-            title: '<dont-translate>assetName</dont-translate> — Mobile Terminals'
+            title: '[[[assetName]]] — Mobile Terminals'
           }
         },
         navigationId: 2
@@ -179,7 +179,7 @@ describe('AssetLayoutComponent', () => {
           },
           queryParams: {},
           data: {
-            title: '<dont-translate>assetName</dont-translate> — Contacts'
+            title: '[[[assetName]]] — Contacts'
           }
         },
         navigationId: 3
@@ -201,7 +201,7 @@ describe('AssetLayoutComponent', () => {
           },
           queryParams: {},
           data: {
-            title: '<dont-translate>assetName</dont-translate> — Notes'
+            title: '[[[assetName]]] — Notes'
           }
         },
         navigationId: 4
@@ -223,7 +223,7 @@ describe('AssetLayoutComponent', () => {
           },
           queryParams: {},
           data: {
-            title: '<dont-translate>assetName</dont-translate> — Last positions'
+            title: '[[[assetName]]] — Last positions'
           }
         },
         navigationId: 4

@@ -8,7 +8,7 @@ const RouterStub: { state: MergedRoute, navigationId: number } = {
     },
     queryParams: {},
     data: {
-      title: '<dont-translate>assetName</dont-translate> — Asset information'
+      title: '[[[assetName]]] — Asset information'
     }
   },
   navigationId: 1

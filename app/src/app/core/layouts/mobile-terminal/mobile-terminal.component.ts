@@ -9,7 +9,7 @@ import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from
 import { UserSettingsActions, UserSettingsSelectors, UserSettingsTypes } from '@data/user-settings';
 import { MobileTerminalSelectors, MobileTerminalTypes } from '@data/mobile-terminal';
 
-import { replaceDontTranslate } from '@app/helpers/helpers';
+import { replacePlaceholdersInTranslation } from '@app/helpers/helpers';
 
 import { RouterTypes, RouterSelectors } from '@data/router';
 
@@ -104,7 +104,7 @@ export class MobileTerminalLayoutComponent implements OnInit, OnDestroy {
   }
 
   getTitleName() {
-    return replaceDontTranslate(this.pageTitle, {
+    return replacePlaceholdersInTranslation(this.pageTitle, {
       mobileTerminalName: typeof this.selectedMobileTerminal !== 'undefined' ? this.selectedMobileTerminal.serialNo : 'Mobile Terminal'
     });
   }

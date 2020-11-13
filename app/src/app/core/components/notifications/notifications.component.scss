@@ -27,6 +27,7 @@ ul.notifications {
     span {
       padding: distance(1.5) distance(2);
       line-height: distance(2.5);
+      white-space: pre;
     }
 
     .end-section {

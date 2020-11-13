@@ -8,7 +8,7 @@ import { AuthSelectors } from '@data/auth';
 import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
 import { UserSettingsActions, UserSettingsSelectors, UserSettingsTypes } from '@data/user-settings';
 import { AssetSelectors, AssetTypes } from '@data/asset';
-import { replaceDontTranslate } from '@app/helpers/helpers';
+import { replacePlaceholdersInTranslation } from '@app/helpers/helpers';
 
 import { RouterTypes, RouterSelectors } from '@data/router';
 
@@ -104,7 +104,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
   }
 
   getTitleName() {
-    return replaceDontTranslate(this.pageTitle, {
+    return replacePlaceholdersInTranslation(this.pageTitle, {
       assetName: typeof this.selectedAsset !== 'undefined' ? this.selectedAsset.name : 'Assets'
     });
   }

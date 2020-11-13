@@ -12,7 +12,7 @@ import { MapSavedFiltersActions, MapSavedFiltersSelectors } from './';
 import { UserSettingsService } from '../user-settings/user-settings.service';
 import { MapSavedFiltersService } from './map-saved-filters.service';
 
-import { replaceDontTranslate } from '@app/helpers/helpers';
+import { replacePlaceholdersInTranslation } from '@app/helpers/helpers';
 import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
@@ -49,9 +49,9 @@ export class MapSavedFiltersEffects {
           filter((response: any, fIndex: number) => this.apiErrorHandler(response, fIndex)),
           map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((response: any) => {
-            const message = $localize`:@@ts-savedfilters-saved:Filter '<dont-translate>filterName</dont-translate>' saved!`;
+            const message = $localize`:@@ts-savedfilters-saved:Filter '[[[filterName]]]' saved!`;
             return [
-              NotificationsActions.addSuccess(replaceDontTranslate(message, { filterName: action.filter.name })),
+              NotificationsActions.addSuccess(replacePlaceholdersInTranslation(message, { filterName: action.filter.name })),
               MapSavedFiltersActions.addSavedFilter({ filter: response })
             ];
           }),
