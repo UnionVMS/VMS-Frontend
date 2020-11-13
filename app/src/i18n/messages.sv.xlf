@@ -336,7 +336,7 @@
       </trans-unit>
       <trans-unit id="ts-savedfilters-saved" datatype="html">
         <source>Filter '<x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>filterName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/>' saved!</source>
-        <target state="new">Filter ':filter-name:' saved!</target>
+        <target state="new">Filter '<x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>filterName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/>' saved!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">8</context>
@@ -408,7 +408,7 @@
       </trans-unit>
       <trans-unit id="ts-layout-asset-contacts" datatype="html">
         <source><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>assetName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Contacts</source>
-        <target state="new"> — Contacts</target>
+        <target state="new"><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>assetName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Contacts</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">17</context>
@@ -416,7 +416,7 @@
       </trans-unit>
       <trans-unit id="ts-layout-asset-notes" datatype="html">
         <source><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>assetName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Notes</source>
-        <target state="new"> — Notes</target>
+        <target state="new"><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>assetName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Notes</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">18</context>
@@ -432,7 +432,7 @@
       </trans-unit>
       <trans-unit id="ts-layout-asset-positions" datatype="html">
         <source><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>assetName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Last positions</source>
-        <target state="new"> — Last positions</target>
+        <target state="new"><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>assetName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Last positions</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">20</context>
@@ -472,7 +472,7 @@
       </trans-unit>
       <trans-unit id="ts-layout-mobileTerminal-history" datatype="html">
         <source><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>mobileTerminalName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Mobile Terminal history</source>
-        <target state="new"> — Mobile Terminal history</target>
+        <target state="new"><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>mobileTerminalName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Mobile Terminal history</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">25</context>
@@ -480,7 +480,7 @@
       </trans-unit>
       <trans-unit id="ts-layout-mobileTerminal-attachment-history" datatype="html">
         <source><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>mobileTerminalName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Mobile Terminal attachment history</source>
-        <target state="new"> — Mobile Terminal attachment history</target>
+        <target state="new"><x id="START_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;dont-translate>"/>mobileTerminalName<x id="CLOSE_TAG_DONT-TRANSLATE" ctype="x-dont-translate" equiv-text="&lt;/dont-translate>"/> — Mobile Terminal attachment history</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">26</context>
@@ -631,16 +631,16 @@
         </context-group>
       </trans-unit>
       <trans-unit id="ts-api-error" datatype="html">
-        <source>An API error occured!<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>\nThe application might not work as expected.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>\nPlease reload the page and try again, if the issue persists, please contact system administrator.</source>
-        <target state="new">An API error occured!\nThe application might not work as expected.\nPlease reload the page and try again, if the issue persists, please contact system administrator.</target>
+        <source>An API error occured!<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/>"/>\nThe application might not work as expected.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/>"/>\nPlease reload the page and try again, if the issue persists, please contact system administrator.</source>
+        <target state="new">An API error occured!<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/>"/>\nThe application might not work as expected.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/>"/>\nPlease reload the page and try again, if the issue persists, please contact system administrator.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ts-api-error-manual-movement" datatype="html">
-        <source>Creation of manual position failed!<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>\n Reason:<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>\n</source>
-        <target state="new">Creation of manual position failed!\n Reason:\n</target>
+        <source>Creation of manual position failed!<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/>"/>\n Reason:<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/>"/>\n</source>
+        <target state="new">Creation of manual position failed!<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/>"/>\n Reason:<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/>"/>\n</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/core/components/typescript-translations/typescript-translations.component.html</context>
           <context context-type="linenumber">49</context>
