@@ -10,11 +10,11 @@
         <div
           class="data{{ mapStatistics.sweVMS.total - mapStatistics.sweVMS.sending !== 0 ? ' info' : '' }}"
         >{{mapStatistics.sweVMS.sending}}</div>
-        <div class="description">Sending</div>
+        <div class="description" i18n>Sending</div>
       </div>
       <div class="data-block">
         <div class="data">{{mapStatistics.sweVMS.total}}</div>
-        <div class="description">In System</div>
+        <div class="description" i18n>In System</div>
       </div>
     </div>
     <div class="statistics-block">
@@ -23,11 +23,11 @@
         <div
           class="data{{ mapStatistics.assetFilter.total - mapStatistics.assetFilter.showing !== 0 ? ' info' : '' }}"
         >{{mapStatistics.assetFilter.showing}}</div>
-        <div class="description">Showing</div>
+        <div class="description" i18n>Showing</div>
       </div>
       <div class="data-block">
         <div class="data">{{mapStatistics.assetFilter.total}}</div>
-        <div class="description">Total</div>
+        <div class="description" i18n>Total</div>
       </div>
     </div>
   </div>
@@ -38,14 +38,14 @@
       <div
         class="data{{ mapStatistics.sweVMS.sending - mapStatistics.licenceInfo.valid !== 0 ? ' info' : '' }}"
       >{{mapStatistics.licenceInfo.valid}}</div>
-      <div class="description">Valid license</div>
+      <div class="description" i18n>Valid license</div>
     </div>
     <div class="data-block link" (click)="filterValidLicence(false)">
       <div class="data">
         <span *ngIf="mapStatistics.licenceInfo.missing !== 0" class="warn">{{mapStatistics.licenceInfo.missing}}</span>
         <span *ngIf="mapStatistics.licenceInfo.missing === 0" class="info"> - </span>
       </div>
-      <div class="description">Missing / Expired</div>
+      <div class="description" i18n>Missing / Expired</div>
     </div>
   </div>
 
@@ -61,6 +61,28 @@
         {{ incidentTypeStatistic.amount > 0 ? incidentTypeStatistic.amount : '-' }}
       </div>
     </div>
+  </div>
+
+  <h3>Other information</h3>
+  <div class="other-information-buttons">
+    <button
+      mat-button
+      (click)="setActiveRightPanel(['information', 'asset-filter'])"
+      color="primary"
+      class="map-panel-button"
+    >
+      <ng-container i18n>How to use "Quick filter"</ng-container>
+      <i class="ri-arrow-drop-right-fill"></i>
+    </button>
+    <button
+      mat-button
+      (click)="setActiveRightPanel(['information', 'asset-search'])"
+      color="primary"
+      class="map-panel-button"
+    >
+      <ng-container i18n>How to use "Search in map"</ng-container>
+      <i class="ri-arrow-drop-right-fill"></i>
+    </button>
   </div>
 
 </div>

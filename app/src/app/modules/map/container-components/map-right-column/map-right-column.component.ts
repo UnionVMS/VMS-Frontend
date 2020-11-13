@@ -5,6 +5,7 @@ import { takeUntil, tap } from 'rxjs/operators';
 import Map from 'ol/Map';
 import getContryISO2 from 'country-iso-3-to-2';
 
+import { Position } from '@data/generic.types';
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
 import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
@@ -32,6 +33,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
 
   public activePanel: ReadonlyArray<string>;
   public activeLeftPanel: ReadonlyArray<string>;
+  public activeInformationPanel: string | null;
   public mapSettings: MapSettingsTypes.State;
   public forecasts$: Observable<any>;
   public selectedAsset: Readonly<AssetTypes.AssetData>;
@@ -121,6 +123,9 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     });
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
       this.activeLeftPanel = activePanel;
+    });
+    this.store.select(MapSelectors.getActiveInformationPanel).pipe(takeUntil(this.unmount$)).subscribe((activeInformationPanel) => {
+      this.activeInformationPanel = activeInformationPanel;
     });
     this.addForecast = (assetId: string) =>
       this.store.dispatch(AssetActions.addForecast({ assetId }));

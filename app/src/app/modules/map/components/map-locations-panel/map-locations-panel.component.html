@@ -21,9 +21,9 @@
       </div>
       <div class="location" (click)="setLocation(locationKey)">
         <img
-          *ngIf="mapLocations[locationKey].base64Image !== undefined || imageUrls[locationKey] !== undefined"
+          *ngIf="mapLocations[locationKey].base64Image !== undefined"
           class="location-image"
-          src="{{mapLocations[locationKey].base64Image || imageUrls[locationKey]}}"
+          src="{{mapLocations[locationKey].base64Image}}"
           alt="{{locationKey}}"
         />
         <div class="location-text">{{locationKey}}</div>

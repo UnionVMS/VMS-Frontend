@@ -78,7 +78,8 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
           },
           forecastInterval: parseInt(this.formValidator.value.mapSettings.mapLimits.forecastInterval, 10),
           tracksMinuteCap: parseInt(this.formValidator.value.mapSettings.mapLimits.tracksMinuteCap, 10),
-          assetColorMethod: this.formValidator.value.mapSettings.assetColorMethod
+          assetColorMethod: this.formValidator.value.mapSettings.assetColorMethod,
+          autoHelp: this.formValidator.value.mapSettings.autoHelp,
         } as MapSettingsTypes.Settings
       }));
       this.store.dispatch(UserSettingsActions.setExperimentalFeaturesEnabled({

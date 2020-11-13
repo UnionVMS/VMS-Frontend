@@ -10,7 +10,7 @@ import { State } from '@app/app-reducer.ts';
 import * as AuthActions from './auth.actions';
 import { AuthService } from './auth.service';
 import * as AuthSelectors from './auth.selectors';
-import * as MapSettings from '../map-settings/map-settings.actions';
+import * as MapSettingsActions from '../map-settings/map-settings.actions';
 import { MapSavedFiltersActions } from '../map-saved-filters/';
 import * as NotificationsActions from '../notifications/notifications.actions';
 import { MapActions } from '@data/map';
@@ -126,10 +126,10 @@ export class AuthEffects {
           }
 
           if(typeof mapSettings !== 'undefined' && mapSettings.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
-            response.push(MapSettings.replaceSettings({ settings: JSON.parse(mapSettings.optionValue) }));
+            response.push(MapSettingsActions.replaceSettings({ settings: JSON.parse(mapSettings.optionValue) }));
           }
           if(typeof mapLocations !== 'undefined' && mapLocations.optionValue !== 'SYSTEM_DEFAULT_VALUE') {
-            response.push(MapSettings.setMapLocations({ mapLocations: JSON.parse(mapLocations.optionValue) }));
+            response.push(MapSettingsActions.setMapLocations({ mapLocations: JSON.parse(mapLocations.optionValue) }));
           }
           response.push(MapActions.setMapSettingsLoaded({ mapSettingsLoaded: true }));
 

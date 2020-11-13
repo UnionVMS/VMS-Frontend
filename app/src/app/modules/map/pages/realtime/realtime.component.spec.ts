@@ -32,7 +32,6 @@ import { AssetSearchComponent } from '../../components/asset-search/asset-search
 // Not tested yet.
 import { DistanceBetweenPointsComponent } from '../../components/distance-between-points/distance-between-points.component';
 import { FlagstatesComponent } from '../../components/flagstates/flagstates.component';
-import { InformationPanelComponent } from '../../components/information-panel/information-panel.component';
 import { LayerFilterComponent } from '../../components/layer-filter/layer-filter.component'; // Not tested yet.
 import { MapLocationsComponent } from '../../components/map-locations/map-locations.component';
 import { SavedFiltersComponent } from '../../components/saved-filters/saved-filters.component'; // Not tested yet.
@@ -71,7 +70,6 @@ describe('RealtimeComponent', () => {
         AssetSearchComponent,
         DistanceBetweenPointsComponent,
         FlagstatesComponent,
-        InformationPanelComponent,
         LayerFilterComponent,
         MapLocationsComponent,
         MapLeftColumnComponent,

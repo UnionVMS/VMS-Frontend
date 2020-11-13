@@ -24,6 +24,8 @@
         body
         [filterFunction]="filterAssets"
         [filterQuerySaved]="currentFilterQuery$ | async"
+        [setActiveInformationPanel]="setActiveInformationPanel"
+        [setActiveRightPanel]="setActiveRightPanel"
       ></map-asset-filter>
     </map-panel-block>
     <map-panel-block
@@ -60,6 +62,7 @@
         [saveFilter]="saveFilter"
       ></map-asset-groups>
     </map-panel-block>
+    <h3 class="search-in-map-h3" i18n>Search in map</h3>
     <div class="search-container">
       <div class="search-header" i18n>Search in map</div>
       <div class="search-content">
@@ -68,7 +71,9 @@
           [autocompleteFunction]="searchAutocomplete"
           [autocompleteResult]="searchAutocompleteResult$ | async"
           [centerMapOnPosition]="centerMapOnPosition"
+          [setActiveInformationPanel]="setActiveInformationPanel"
           [selectAsset]="selectAsset"
+          [setActiveRightPanel]="setActiveRightPanel"
         ></map-asset-search>
       </div>
     </div>

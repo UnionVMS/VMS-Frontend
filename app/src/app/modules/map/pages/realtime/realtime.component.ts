@@ -62,6 +62,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
 
   public registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
+  public saveMapLocation: (key: number, mapLocation: MapSettingsTypes.MapLocation, save?: boolean) => void;
 
   public assetMovements: Array<AssetTypes.AssetMovementWithEssentials>;
   public mapZoom = 10;
@@ -228,6 +229,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     };
     this.setChoosenMovementSources = (movementSources) =>
       this.store.dispatch(MapSettingsActions.setChoosenMovementSources({ movementSources }));
+    this.saveMapLocation = (key: number, mapLocation: MapSettingsTypes.MapLocation, save?: boolean) =>
+      this.store.dispatch(MapSettingsActions.saveMapLocation({ key, mapLocation, save }));
   }
 
   mapFunctionsToProps() {

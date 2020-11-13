@@ -1,11 +1,11 @@
 @import 'variables.scss';
 
 .layout-top-menu.navbar {
-  background: $color_turquoise;
+  background: $color_light_turquoise;
   color: white;
   height: $navbar_height;
   display: grid;
-  grid-template-columns: 150px 1fr auto auto;
+  grid-template-columns: auto 1fr auto auto;
 
   a {
     color: white;
@@ -16,24 +16,35 @@
     margin: auto 0px;
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-column-gap: distance(2);
+    grid-column-gap: distance(1);
 
     .app-version {
-      margin-top: 2px;
-      padding-left: distance(1);
-      font-size: 80%;
-      font-style: italic;
+      place-self: center;
+      font-size: 75%;
     }
 
     .navbar-brand {
-      font-weight: bolder;
+      padding-left: distance(1);
+
+      i.brand-image {
+        display: block;
+        background: url('/assets/UVMS_logo.svg');
+        height: 32px;
+        width: 103.375px;
+        background-size: 103.375px 32px;
+        margin-top: distance(-0.5);
+      }
     }
   }
 
   ul.navbar-nav {
-    display: inline-block;
+    display: grid;
+    place-items: center;
+    grid-auto-flow: column;
+    justify-content: start;
     list-style: none;
-    padding-left: 0px;
+    padding-left: distance(6);
+
     li.nav-item {
       display: inline-block;
       margin-right: $large_distance;
@@ -42,11 +53,11 @@
       }
 
       &.active a {
-        border-bottom: 3px solid $color_orange;
+        border-bottom: 2px solid white;
       }
 
       a:hover {
-        color: $color_orange;
+        color: white;
       }
 
       .secret {
@@ -71,7 +82,6 @@
     .timezone-selector {
       padding: 0px;
       min-width: 200px;
-      margin-bottom: distance(-0.5);
 
       .mat-select-value-text {
         color: white;

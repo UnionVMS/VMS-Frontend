@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, Input, TemplateRef, ElementRef, ViewChild } from '@angular/core';
 import { AssetTypes } from '@data/asset';
 import { MapSavedFiltersTypes } from '@data/map-saved-filters';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,6 +20,8 @@ export class SavedFiltersComponent {
   public savedFilterNames = [];
   public creatingNewFilter = false;
   public newFilterName = '';
+
+  @ViewChild('createNewFilterNameInput') createNewFilterNameInput: ElementRef;
 
   constructor(private readonly dialog: MatDialog) {}
 
@@ -47,6 +49,18 @@ export class SavedFiltersComponent {
         alert('Filter query missing!');
       }
     }
+  }
+
+  createNewFilter() {
+    this.creatingNewFilter = true;
+    setTimeout(() => {
+      this.createNewFilterNameInput.nativeElement.focus();
+    }, 100);
+  }
+
+  cancelFilter() {
+    this.creatingNewFilter = false;
+    this.newFilterName = '';
   }
 
   openDialog(templateRef: TemplateRef<any>, actionFunction: (id: string) => void, id: string) {

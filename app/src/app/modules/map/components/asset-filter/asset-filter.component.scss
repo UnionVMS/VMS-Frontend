@@ -2,13 +2,14 @@
 
 .content-container {
   display: grid;
-  .open-information-panel {
+  position: relative;
+
+  .ri-question-fill {
+    color: $color_turquoise;
+    font-size: distance(3);
+    position: absolute;
+    right: 0px;
     cursor: pointer;
-    background: $color_gray;
-    border-radius: 8px;
-    float: right;
-    padding: 0px 6px;
-    color: white;
-    font-size: 16px;
+    z-index: 10;
   }
 }

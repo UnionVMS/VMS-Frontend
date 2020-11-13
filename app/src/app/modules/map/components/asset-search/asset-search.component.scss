@@ -2,6 +2,17 @@
 
 .content-container {
   display: grid;
+  position: relative;
+
+  .ri-question-fill {
+    color: $color_turquoise;
+    font-size: distance(3);
+    position: absolute;
+    right: 0px;
+    cursor: pointer;
+    z-index: 10;
+  }
+
   .search-wrapper {
     display: grid;
   }

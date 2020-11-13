@@ -7,6 +7,7 @@ export const selectMapSettingsLoaded = (state: State) => state.map.mapSettingsLo
 export const selectFiltersActive = (state: State) => state.map.filtersActive;
 export const selectActiveLeftPanel = (state: State) => state.map.activeLeftPanel;
 export const selectActiveRightPanel = (state: State) => state.map.activeRightPanel;
+export const selectActiveInformationPanel = (state: State) => state.map.activeInformationPanel;
 
 export const getRealtimeReadyAndSettingsLoaded = createSelector(
   selectRealtimeMapReady,
@@ -27,4 +28,9 @@ export const getActiveLeftPanel = createSelector(
 export const getActiveRightPanel = createSelector(
   selectActiveRightPanel,
   (activeRightPanel) => activeRightPanel
+);
+
+export const getActiveInformationPanel = createSelector(
+  selectActiveInformationPanel,
+  (activeInformationPanel) => activeInformationPanel
 );

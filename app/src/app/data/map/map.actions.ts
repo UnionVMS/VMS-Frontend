@@ -29,3 +29,8 @@ export const setActiveRightPanel = createAction(
   '[Map] Set active right panel',
   props<{ activeRightPanel: ReadonlyArray<string> }>()
 );
+
+export const setActiveInformationPanel = createAction(
+  '[Map] Set active information panel',
+  props<{ activeInformationPanel: string | null }>()
+);

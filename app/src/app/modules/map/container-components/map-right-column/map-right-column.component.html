@@ -5,63 +5,80 @@
   </div>
   <ul id="realtime-right-column-menu">
     <li (click)="setActivePanelAndShowColumn(['information'])">
-      <i class="icon-information {{ activePanel[0] === 'information' ? 'active' : '' }}" aria-hidden="true"></i>
+      <i class="icon-information {{ activeInformationPanel !== null || activePanel[0] === 'information' ? 'active' : '' }}" aria-hidden="true"></i>
     </li>
     <li (click)="selectedAssets.length > 0 && setActivePanelAndShowColumn(['showAsset'])">
       <i
-        class="ri-ship-fill right-icon {{ activePanel[0] === 'showAsset' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
+        class="ri-ship-fill right-icon {{ activeInformationPanel === null && activePanel[0] === 'showAsset' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
         aria-hidden="true"
       ></i>
     </li>
     <li (click)="selectedAssets.length > 0 && setActivePanelAndShowColumn(['listAssets'])">
       <i
-        class="icon-ships {{ activePanel[0] === 'listAssets' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
+        class="icon-ships {{ activeInformationPanel === null && activePanel[0] === 'listAssets' ? 'active' : '' }} {{selectedAssets.length === 0 ? 'disabled' : '' }}"
         aria-hidden="true"
       ></i>
     </li>
     <ng-container *ngIf="activeLeftPanel[0] === 'workflows'">
       <li
         (click)="selectedIncident !== undefined && setActiveAssetToMatchIncident() && setActivePanelAndShowColumn(['incident'])"
-      ><i class="icon-incident {{ activePanel[0] === 'incident' ? 'active' : '' }} {{ selectedIncident === undefined ? 'disabled' : '' }}" aria-hidden="true"></i></li>
+      ><i class="icon-incident {{ activeInformationPanel === null && activePanel[0] === 'incident' ? 'active' : '' }} {{ selectedIncident === undefined ? 'disabled' : '' }}" aria-hidden="true"></i></li>
     </ng-container>
   </ul>
   <ul id="realtime-right-column-bottom-menu">
     <li (click)="setActivePanelAndShowColumn(['map-layers'])">
       <i
         title="Map layers."
-        class="icon-map-layers {{activePanel[0] === 'map-layers' ? 'active' : '' }}"
+        class="icon-map-layers {{ activeInformationPanel === null && activePanel[0] === 'map-layers' ? 'active' : '' }}"
         aria-hidden="true"
       ></i>
     </li>
     <li (click)="setActivePanelAndShowColumn(['distance-between-points'])">
       <i
         title="Messure distance."
-        class="icon-distance-between-points {{activePanel[0] === 'distance-between-points' ? 'active' : '' }}"
+        class="icon-distance-between-points {{ activeInformationPanel === null && activePanel[0] === 'distance-between-points' ? 'active' : '' }}"
         aria-hidden="true"
       ></i>
     </li>
     <li (click)="setActivePanelAndShowColumn(['asset-layers'])">
       <i
         title="Hide and show asset information on map."
-        class="icon-asset-layers {{activePanel[0] === 'asset-layers' ? 'active' : '' }}"
+        class="icon-asset-layers {{ activeInformationPanel === null && activePanel[0] === 'asset-layers' ? 'active' : '' }}"
         aria-hidden="true"
       ></i>
     </li>
     <li (click)="setActivePanelAndShowColumn(['map-locations'])">
       <i
         title="Saved map positions."
-        class="icon-map-locations {{activePanel[0] === 'map-locations' ? 'active' : '' }}"
+        class="icon-map-locations {{ activeInformationPanel === null && activePanel[0] === 'map-locations' ? 'active' : '' }}"
         aria-hidden="true"
       ></i>
     </li>
   </ul>
-  <div class="panel information-panel" *ngIf="activePanel[0] === 'information'">
-    <h3 i18n>Map Information</h3>
-    <map-statistics
-      [mapStatistics]="mapStatistics$ | async"
-      [setAssetFilter]="filterAssets"
-      [setActiveLeftPanel]="setActiveLeftPanel"
-    ></map-statistics>
+  <div class="panel information-panel" *ngIf="activeInformationPanel !== null || activePanel[0] === 'information'">
+    <ng-container *ngIf="activeInformationPanel === null && activePanel[1] === undefined">
+      <h3 i18n>Map Information</h3>
+      <map-statistics
+        [mapStatistics]="mapStatistics$ | async"
+        [setAssetFilter]="filterAssets"
+        [setActiveLeftPanel]="setActiveLeftPanel"
+        [setActiveRightPanel]="setActivePanel"
+      ></map-statistics>
+    </ng-container>
+    <ng-container *ngIf="activeInformationPanel === 'asset-filter' || activePanel[1] === 'asset-filter'">
+      <div class="panel-title">
+        <i class="ri-arrow-left-s-line panel-back-button" aria-hidden="true" (click)="setActivePanel(['information'])"></i>
+        <h3 i18n>Quick filter</h3>
+      </div>
+      <map-asset-filter-information-panel></map-asset-filter-information-panel>
+    </ng-container>
+    <ng-container *ngIf="activeInformationPanel === 'asset-search' || activePanel[1] === 'asset-search'">
+      <div class="panel-title">
+        <i class="ri-arrow-left-s-line panel-back-button" aria-hidden="true" (click)="setActivePanel(['information'])"></i>
+        <h3 i18n>Asset search</h3>
+      </div>
+      <map-asset-search-information-panel></map-asset-search-information-panel>
+    </ng-container>
   </div>
   <div class="panel showAsset-panel" *ngIf="activePanel[0] === 'showAsset'">
     <div class="panel-title">
@@ -213,13 +230,12 @@
   </div>
   <div class="panel map-locations-panel" *ngIf="activePanel[0] === 'map-locations' && mapSettings && map">
     <h3 i18n>Map positions</h3>
-    <map-locations
+    <map-locations-panel
       [centerMapOnPosition]="centerMapOnPosition"
       [mapLocations]="mapSettings.mapLocations"
-      [map]="map"
       [saveMapLocation]="saveMapLocation"
       [deleteMapLocation]="deleteMapLocation"
-    ></map-locations>
+    ></map-locations-panel>
   </div>
   <div class="panel map-layers-panel" *ngIf="activePanel[0] === 'map-layers'">
     <h3 i18n>Map layers</h3>

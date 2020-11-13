@@ -1,0 +1,126 @@
+<div class="content-container">
+  <b i18n>
+    The filter field is used for filtering ships that will be shown on the map.
+  </b>
+  <div class="information-block">
+    You can filter ships by name in this field.
+    The filter will try to find any ship containing that letter combination.
+    <h4>Example</h4>
+    <div class="example">
+      The filter query <b><u>as</u></b> will give you ships such as <b><u>As</u></b>kungen but also ships like B<b><u>as</u></b>to.
+    </div>
+  </div>
+
+  <b class="title" i18n>Advanced filters:</b>
+  <div class="information-block">
+    <div class="command">
+      <h3>!</h3>
+      <div i18n>
+        By starting with an exlamation mark the filter will instead try to find any ship <u>not</u> containing the given text.<br />
+        Will only work on searches of type text.
+      </div>
+    </div>
+    <h4>Example</h4>
+    <div class="example">
+      The filter query <b><u>!as</u></b> will give you all ships not shown in the previous example.
+    </div>
+  </div>
+  <div class="information-block">
+    <div class="command">
+      <h3>/f</h3>
+      <div i18n>
+        By starting with <b><u>/f</u></b> the filter will instead filter on flagstate.<br />
+        <b>Type:</b> text<br />
+      </div>
+    </div>
+    <h4>Example</h4>
+    <div class="example">
+      <ul>
+        <li><b><u>/f swe</u></b> will give you all swedish ships.</li>
+        <li><b><u>/f swe,dnk</u></b> will give you all swedish and danish ships.</li>
+        <li><b><u>/f !swe,dnk</u></b> will give you all ships that are not swedish or danish.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="information-block">
+    <div class="command">
+      <h3>/i</h3>
+      <div i18n>
+        By starting with <b><u>/i</u></b> the filter will instead filter on ircs.<br />
+        <b>Type:</b> text<br />
+      </div>
+    </div>
+  </div>
+
+  <div class="information-block">
+    <div class="command">
+      <h3>/c</h3>
+      <div i18n>
+        By starting with <b><u>/c</u></b> the filter will instead filter on cfr.<br />
+        <b>Type:</b> text<br />
+      </div>
+    </div>
+  </div>
+
+  <div class="information-block">
+    <div class="command">
+      <h3>/v</h3>
+      <div i18n>
+        By starting with <b><u>/v</u></b> the filter will instead filter on vessel type.<br />
+        <b>Type:</b> text<br />
+      </div>
+    </div>
+  </div>
+
+  <div class="information-block">
+    <div class="command">
+      <h3>/e</h3>
+      <div i18n>
+        By starting with <b><u>/e</u></b> the filter will instead filter on external marking.<br />
+        <b>Type:</b> text<br />
+      </div>
+    </div>
+  </div>
+
+  <div class="information-block">
+    <div class="command">
+      <h3>/l</h3>
+      <div i18n>
+        By starting with <b><u>/l</u></b> the filter will instead filter on ship length.<br />
+        <b>Type:</b> number<br />
+      </div>
+    </div>
+    <h4>Example</h4>
+    <div class="example">
+      <ul>
+        <li><b><u>/l 9.23</u></b> will give you all ships with the exact length of 9.23 meters.</li>
+        <li><b><u>/l 9</u></b> will give you all ships with the exact length of 9.00 meters.</li>
+        <li><b><u>/f ~9</u></b> will give you all ships that have a length between 9 and 10 meters, i.e. 9, 9.55, 9.99 and so forth.</li>
+        <li><b><u>/f >9</u></b> will give you all ships that have a length above 9 meters, i.e. 10, 19.23, 45.72 and so forth.</li>
+        <li><b><u>/f <9</u></b> will give you all ships that have a length below 9 meters, i.e. 8.99, 7 and so forth.</li>
+        <li><b><u>/f <9,>25</u></b> will give you all ships that have a length below 9 meters or above 25 meters.</li>
+        <li><b><u>/f <=9</u></b> will give you all ships that have a length less than or equal to 9 meters.</li>
+        <li><b><u>/f >=9</u></b> will give you all ships that have a length greater than or equal to 9 meters.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="information-block">
+    <div class="command">
+      <h3>&</h3>
+      <div i18n>
+        Is a separator, by using it you can filter on multiple things. All arguments given to the filter must be true for the ships to be visible.
+      </div>
+    </div>
+    <h4>Example</h4>
+    <div class="example">
+      <ul>
+        <li><b><u>/f swe & ask</u></b> will give you all swedish ships that have ask in the name.</li>
+        <li><b><u>ask & /f swe,dnk</u></b> will give you all swedish and danish ships that have ask in the name.</li>
+        <li><b><u>!ask & /f swe,dnk</u></b> will give you all swedish and danish ships that dosn't have ask in the name.</li>
+        <li><b><u>/l >10 & /l <20</u></b> will give you all ships that's bigger then 10 meters and smaller then 20 meters.</li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+@import 'variables.scss';
+
+.content-container {
+  display: grid;
+  grid-row-gap: distance(2);
+  padding: distance(1);
+
+  .title {
+    padding-top: distance(2);
+  }
+
+  .information-block {
+    background: white;
+    padding: distance(1);
+    line-height: distance(2.75);
+
+    .command {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      align-items: start;
+      grid-column-gap: distance(1);
+
+      h3 {
+        padding: 0px;
+      }
+    }
+
+    h4 {
+      padding: distance(1) 0px 0px;
+    }
+    .example {
+      background: rgba($color_light_turquoise, 0.1);
+      padding: distance(1);
+      ul {
+        padding-left: distance(2);
+        margin: 0px;
+      }
+    }
+  }
+}

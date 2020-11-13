@@ -106,4 +106,16 @@
   .warn {
     color: $color_warn;
   }
+
+  & > h3 {
+    margin: 0px;
+    padding: 0px;
+    padding-top: distance(3);
+    place-self: center;
+  }
+
+  .other-information-buttons {
+    display: grid;
+    grid-row-gap: distance(1);
+  }
 }
