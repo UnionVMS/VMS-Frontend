@@ -13,6 +13,18 @@
           "style": "sass"
         }
       },
+      "i18n": {
+        "sourceLocale": {
+          "baseHref": "/",
+          "code": "en"
+        },
+        "locales": {
+          "sv": {
+            "translation": "src/i18n/messages.sv.xlf",
+            "baseHref": "/sv/"
+          }
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -81,39 +93,8 @@
                   "maximumWarning": "6kb"
                 }
               ],
-              "outputPath": "dist/en/",
-            },
-            "sv": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                },
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "outputPath": "dist/sv/",
-              "i18nFile": "src/i18n/messages.sv.xlf",
-              "i18nFormat": "xlf",
-              "i18nLocale": "sv",
+              "outputPath": "dist/",
+              "localize": true
             },
             "dev": {
               "budgets": [
@@ -152,8 +133,7 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "vms-frontend:build",
-            "i18nFormat": "xlf",
-            "i18nLocale": "en"
+            "format": "xlf"
           }
         },
         "test": {

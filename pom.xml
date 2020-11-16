@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>eu.europa.ec.fisheries.uvms</groupId>
 	<artifactId>vms-web</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.1.2-SNAPSHOT</version>
 	<name>vms-web</name>
 	<packaging>war</packaging>
 
@@ -133,9 +133,13 @@
 							<directory>${basedir}/app/dist/en</directory>
 						</resource>
 						<resource>
+							<directory>${basedir}/app/dist/sv</directory>
+							<targetPath>sv</targetPath>
+						</resource>
+						<resource>
 							<directory>${basedir}/webContent</directory>
-								<include>**/*.xml</include>
-								<include>**/*.conf</include>
+							<include>**/*.xml</include>
+							<include>**/*.conf</include>
 							<filtering>true</filtering>
 						</resource>
 					</webResources>
