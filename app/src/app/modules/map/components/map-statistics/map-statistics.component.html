@@ -25,7 +25,7 @@
         >{{mapStatistics.assetFilter.showing}}</div>
         <div class="description" i18n>Showing</div>
       </div>
-      <div class="data-block">
+      <div class="data-block link" (click)="this.setAssetFilter([])">
         <div class="data">{{mapStatistics.assetFilter.total}}</div>
         <div class="description" i18n>Total</div>
       </div>

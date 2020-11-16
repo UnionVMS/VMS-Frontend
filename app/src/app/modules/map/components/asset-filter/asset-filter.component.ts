@@ -169,7 +169,8 @@ export class AssetFilterComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    if(this.filterQuerySaved.length > 0 && this.lastSentFilterQuery !== this.filterQuerySaved) {
+    if(this.lastSentFilterQuery !== this.filterQuerySaved) {
+      this.lastSentFilterQuery = this.filterQuerySaved;
       this.filterQuery = this.generateQueryStringFromFilter(this.filterQuerySaved);
     }
   }

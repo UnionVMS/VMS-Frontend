@@ -77,7 +77,7 @@ export const IncidentTypesTranslations = {
   OWNERSHIP_TRANSFER: $localize`:@@ts-issue-type-ownership-transfer:Ownership transfer`,
   LONG_TERM_PARKED: $localize`:@@ts-issue-type-long-term-parked:Long term parked`,
   PARKED: $localize`:@@ts-issue-type-parked:Parked`,
-  MANUAL_POSITION_MODE: $localize`:@@ts-issue-type-manual-position-mode:Manual position mode`
+  MANUAL_POSITION_MODE: $localize`:@@ts-issue-type-manual-position-mode:Manual position`
 };
 
 export const IncidentTypesInverted = Object.entries(IncidentTypes).reduce((acc, [a, b]) => ({ ...acc, [b]: a }), {});
