@@ -168,7 +168,14 @@ export const getAssetMovements = createSelector(
     if(activeLeftPanel[0] === 'filters') {
       let filterQuerys: ReadonlyArray<ReadonlyArray<AssetTypes.AssetFilterQuery>> = [];
       if(filtersActive.savedFilters) {
-        filterQuerys = savedFilterQuerys.map(savedFilter => savedFilter.filter);
+        filterQuerys = savedFilterQuerys.filter((filter) => filter.filter[0].type !== 'GUID').map(savedFilter => savedFilter.filter);
+      }
+
+      if(filtersActive.assetGroups) {
+        filterQuerys = [
+          ...filterQuerys,
+          ...savedFilterQuerys.filter((filter) => filter.filter[0].type === 'GUID').map(savedFilter => savedFilter.filter)
+        ];
       }
 
       if(filtersActive.filter) {
@@ -229,19 +236,6 @@ export const getAssetMovements = createSelector(
           });
         }
       });
-
-      // if(filtersActive.assetGroups && selectedAssetGroups.length > 0) {
-      //   // Filter on selected assetGroups
-      //   const selectedAssetIds = selectedAssetGroups.reduce((acc, assetGroup) => {
-      //     assetGroup.assetGroupFields.map(assetField => {
-      //       if(acc.indexOf(assetField.value) === -1) {
-      //         acc.push(assetField.value);
-      //       }
-      //     });
-      //     return acc;
-      //   }, []);
-      //   assetMovementKeys = assetMovementKeys.filter(key => selectedAssetIds.indexOf(key) !== -1);
-      // }
     }
     return assetMovementKeys.map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] }));
   }
