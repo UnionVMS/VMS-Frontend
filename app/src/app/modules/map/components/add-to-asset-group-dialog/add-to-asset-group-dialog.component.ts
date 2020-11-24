@@ -49,7 +49,7 @@ export class AddToAssetGroupDialogComponent {
         name: this.newGroupName.value,
         filter: [{
           inverse: false,
-          isNumber: false,
+          valueType: AssetTypes.AssetFilterValueTypes.STRING,
           type: 'GUID',
           values: this.data.selectedAssets.map(asset => asset.asset.id)
         }]
