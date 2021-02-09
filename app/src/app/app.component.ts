@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { State } from '@app/app-reducer';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 
 import { AuthActions, AuthSelectors } from '@data/auth/';
 import jwtDecode from 'jwt-decode';
@@ -11,8 +11,7 @@ import jwtDecode from 'jwt-decode';
 import { LoggedOutDialogComponent } from '@app/core/components/logged-out-dialog/logged-out-dialog.component';
 
 import {Title} from "@angular/platform-browser";
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { filter, map } from "rxjs/operators";
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
