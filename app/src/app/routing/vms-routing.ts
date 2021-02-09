@@ -49,11 +49,11 @@ export const vmsRoutes: Routes = [
     component: DefaultLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'settings/user', component: UserSettingsComponent, pathMatch: 'full'},
-      { path: 'contact/:contactId/edit', component: ContactFormPage, pathMatch: 'full' },
-      { path: 'contact/:assetId/create', component: ContactFormPage, pathMatch: 'full' },
-      { path: 'notes/:noteId/edit', component: NotesFormPage, pathMatch: 'full' },
-      { path: 'notes/:assetId/create', component: NotesFormPage, pathMatch: 'full' },
+      { path: 'settings/user', component: UserSettingsComponent, pathMatch: 'full', data: { title:  'Settings' }},
+      { path: 'contact/:contactId/edit', component: ContactFormPage, pathMatch: 'full', data: { title:  'Contact' }},
+      { path: 'contact/:assetId/create', component: ContactFormPage, pathMatch: 'full', data: { title:  'Contact' }},
+      { path: 'notes/:noteId/edit', component: NotesFormPage, pathMatch: 'full', data: { title:  'Notes' }},
+      { path: 'notes/:assetId/create', component: NotesFormPage, pathMatch: 'full', data: { title:  'Notes' }}, 
     ]
   },
   {
@@ -137,9 +137,9 @@ export const vmsRoutes: Routes = [
     component: FullLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'map/realtime', component: RealtimeComponent, pathMatch: 'full'},
-      { path: 'map/realtime/:assetId', component: RealtimeComponent, pathMatch: 'full'},
-      { path: 'map/reports', component: ReportsComponent, pathMatch: 'full'}
+      { path: 'map/realtime', component: RealtimeComponent, pathMatch: 'full', data: { title:  'Map/realtime' }},
+      { path: 'map/realtime/:assetId', component: RealtimeComponent, pathMatch: 'full', data: { title:  'Map/realtime' }},
+      { path: 'map/reports', component: ReportsComponent, pathMatch: 'full', data: { title:  'Map/reports' }}
     ]
   },
 ];

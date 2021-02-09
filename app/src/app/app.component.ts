@@ -10,6 +10,10 @@ import jwtDecode from 'jwt-decode';
 
 import { LoggedOutDialogComponent } from '@app/core/components/logged-out-dialog/logged-out-dialog.component';
 
+import {Title} from "@angular/platform-browser";
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { filter, map } from "rxjs/operators";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
@@ -17,8 +21,8 @@ import { LoggedOutDialogComponent } from '@app/core/components/logged-out-dialog
 export class AppComponent implements OnInit {
   public unmount$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private readonly store: Store<State>, public dialog: MatDialog) {}
-
+  constructor(private readonly store: Store<State>, public dialog: MatDialog, private readonly router: Router, private readonly titleService: Title) {}
+  
   mapStateToProps() {
     this.store.select(AuthSelectors.getLoggedOutPopupActive).pipe(takeUntil(this.unmount$)).subscribe((loggedOutPopupActive) => {
       if(loggedOutPopupActive) {
@@ -50,6 +54,13 @@ export class AppComponent implements OnInit {
       }
     }
 
+    // Listen to Routing event to set the title based on where you are in the app
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.titleService.setTitle(this.getNestedRouteTitles().join(' | '));
+    });
+      
     this.mapStateToProps();
   }
 
@@ -58,4 +69,32 @@ export class AppComponent implements OnInit {
       this.store.dispatch(AuthActions.unlockFishingActivity());
     }
   }
+
+  getNestedRouteTitles(): string[] {
+    let currentRoute = this.router.routerState.root.firstChild;
+    const titles: string[] = [];
+    while (currentRoute) {
+      if (currentRoute.snapshot.routeConfig.data?.title) {
+        let titleData: string[] = currentRoute.snapshot.routeConfig.data.title.split("—");
+        if(currentRoute.snapshot.routeConfig.data.title)
+          // Make exception for childTitles 
+          if(titleData.length > 1 && !titleData[0].includes('Mobile Terminal')){
+            titles.push(titleData[titleData.length -1]);
+          }else{
+            titles.push(currentRoute.snapshot.routeConfig.data.title);
+          }
+      }
+      currentRoute = currentRoute.firstChild;
+    }
+    return titles;
+  }
+
+  getLastRouteTitle(): string {
+    let currentRoute = this.router.routerState.root.firstChild;
+    while (currentRoute.firstChild) {
+      currentRoute = currentRoute.firstChild;
+    }
+    return currentRoute.snapshot.data?.title;
+  }
+
 }
