@@ -45,9 +45,7 @@
               </div>
             </div>
             <div class="position-speed-wrapper">
-              <div>
-                <i (click)="goToAsset(asset)">{{ formatLocation(asset.currentPosition.movement.location) }}</i>
-              </div> 
+              <div (click)="goToAsset(asset)">{{ formatLocation(asset.currentPosition.movement.location) }}</div>
             </div>
           </div>
         </div>
