@@ -51,6 +51,7 @@ import { MobileTerminalEffects } from '@data/mobile-terminal/mobile-terminal.eff
 import { NotesEffects } from '@data/notes/notes.effects';
 import { NotificationEffects } from '@data/notifications/notifications.effects';
 import { UserSettingsEffects } from '@data/user-settings/user-settings.effects';
+import { TitleEffects } from '@data/title.effects';
 
 
 /* Services */
@@ -85,6 +86,7 @@ const imports = [
     NotesEffects,
     NotificationEffects,
     UserSettingsEffects,
+    TitleEffects,
   ]),
   BrowserAnimationsModule,
   CoreModule,
