@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions,  createEffect, ofType } from '@ngrx/effects';
-import { tap, } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { routerNavigatedAction } from '@ngrx/router-store';
  
