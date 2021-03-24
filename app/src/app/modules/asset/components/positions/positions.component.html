@@ -1,4 +1,12 @@
+
+  <button mat-button
+  color="primary"
+  (click)="exportPositionsToCSV()"
+  i18n
+  >Export to CSV</button>
+
 <div class="positions-container mat-elevation-z8" *ngIf="positions">
+  
   <table mat-table [dataSource]="sortedPositions" class="position-table"
     matSort matSortActive="timestamp" matSortDisableClear matSortDirection="desc" (matSortChange)="sortData($event)">
 

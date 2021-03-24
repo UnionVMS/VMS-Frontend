@@ -4,9 +4,10 @@ import { compareTableSortString, compareTableSortNumber } from '@app/helpers/hel
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 
-import { State } from '@app/app-reducer';
-import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
-import { RouterTypes, RouterSelectors } from '@data/router';
+import { AssetTypes } from '@data/asset';
+
+// @ts-ignore
+import moment from 'moment-timezone';
 
 type ExtendedMovement = Readonly<AssetTypes.Movement & {
   formattedTimestamp: string;
@@ -31,9 +32,7 @@ export class PositionsComponent implements OnChanges {
 
   public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'formattedOceanRegion', 'status', 'source'];
 
-
   ngOnChanges() {
-    console.log("this: ",this);
     if(typeof this.positions === 'undefined') {
       this.formattedPositions = [];
     } else {
@@ -71,4 +70,45 @@ export class PositionsComponent implements OnChanges {
       }
     });
   }
+
+  exportPositionsToCSV() {
+    const nrOfColumns = this.displayedColumns.length;
+    const nrOfRows = this.sortedPositions.length;
+    const positionsForCSV = this.positions.map(position => ({
+      ...position,
+      timestamp: formatUnixtime(position.timestamp),
+      latitude: position.location.latitude,
+      longitude: position.location.longitude,
+      speed: position.speed.toFixed(2),
+      formattedOceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],
+      source: position.source
+    }));
+    let csv = this.displayedColumns.reduce((csvRow, column, index) => {
+      return csvRow + column + (nrOfColumns !== index + 1 ? ';' : '');
+    }, '') + '\r\n';
+
+    csv = csv + positionsForCSV.reduce((acc, pos, mtIndex) => {
+      return acc + this.displayedColumns.reduce((csvRow, column, index) => {
+        return csvRow +
+          (typeof pos[column] !== 'undefined' ? pos[column] : '') +
+          (nrOfColumns !== index + 1 ? ';' : '');
+      }, '') + (nrOfRows !== mtIndex + 1 ? '\r\n' : '');
+    }, '');
+
+    const exportedFilenmae = 'lastPositions.' + moment().format('YYYY-MM-DD.HH_mm') + '.csv';
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) { // feature detection
+      // Browsers that support HTML5 download attribute
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', exportedFilenmae);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+
 }
