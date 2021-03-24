@@ -12,6 +12,7 @@ type ExtendedMovement = Readonly<AssetTypes.Movement & {
   formattedTimestamp: string;
   formattedSpeed: string,
   formattedOceanRegion: string;
+  source: string;
 }>;
 
 @Component({
@@ -28,10 +29,11 @@ export class PositionsComponent implements OnChanges {
   public formattedPositions: ReadonlyArray<ExtendedMovement>;
   public sortedPositions: ReadonlyArray<ExtendedMovement>;
 
-  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'formattedOceanRegion', 'status'];
+  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'formattedOceanRegion', 'status', 'source'];
 
 
   ngOnChanges() {
+    console.log("this: ",this);
     if(typeof this.positions === 'undefined') {
       this.formattedPositions = [];
     } else {
@@ -40,7 +42,8 @@ export class PositionsComponent implements OnChanges {
         locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude),
         formattedTimestamp: formatUnixtime(position.timestamp),
         formattedSpeed: position.speed.toFixed(2),
-        formattedOceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId]
+        formattedOceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],
+        source: position.source
       }));
       this.sortData({ active: 'timestamp', direction: 'desc' });
     }
@@ -63,6 +66,7 @@ export class PositionsComponent implements OnChanges {
         case 'heading': return compareTableSortNumber(a.heading, b.heading, isAsc);
         case 'formattedOceanRegion': return compareTableSortString(a.formattedOceanRegion, b.formattedOceanRegion, isAsc);
         case 'status': return compareTableSortString(a.status, b.status, isAsc);
+        case 'source': return compareTableSortString(a.source, b.source, isAsc);
         default: return 0;
       }
     });
