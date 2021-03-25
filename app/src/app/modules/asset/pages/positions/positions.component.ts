@@ -49,7 +49,7 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
         this.store.dispatch(AssetActions.getLastFullPositionsForAsset({
           assetId: this.mergedRoute.params.assetId,
           amount: 20,
-          sources: ['INMARSAT_C'],
+          sources: ['INMARSAT_C', 'IRIDIUM', 'MANUAL', 'NAF', 'FLUX']
         }));
       }
     });
