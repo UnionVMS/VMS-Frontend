@@ -22,6 +22,7 @@ export class FullLayoutComponent implements OnInit {
   public timezone$: Observable<string>;
   public mergedRoute$: Observable<RouterTypes.MergedRoute>;
   public timeToLogout$: Observable<number|null>;
+  public userName$: Observable<string>;
 
   public setTimezone: (timezone: string) => void;
   public dismissNotification: (type: string, id: string) => void;
@@ -35,6 +36,7 @@ export class FullLayoutComponent implements OnInit {
     this.fishingActivityUnlocked$ = this.store.select(AuthSelectors.fishingActivityUnlocked);
     this.mergedRoute$ = this.store.select(RouterSelectors.getMergedRoute);
     this.timeToLogout$ = this.store.select(AuthSelectors.getTimeToLogout);
+    this.userName$ = this.store.select(AuthSelectors.getUserName);
   }
 
   mapDispatchToProps() {
