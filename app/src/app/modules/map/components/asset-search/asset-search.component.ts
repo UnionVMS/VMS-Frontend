@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import * as AssetTypes from '@data/asset/asset.types';
-import { convertDDMToDD, convertDDMToDDJustNumbers} from '@app/helpers/wgs84-formatter';
+import { convertDDMToDD, convertDDMToDDJustNumbers } from '@app/helpers/wgs84-formatter';
 
 type QueryParam = Readonly<{
   queryObject: AssetTypes.AssetFilterQuery;

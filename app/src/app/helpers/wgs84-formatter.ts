@@ -77,7 +77,7 @@ export const convertDDMToDD = (latitude: string, longitude: string) => {
 
 export const convertDDMToDDJustNumbers = (latitudeD: number, latitudeMS: number, longitudeD: number, longitudeMS: number) => {
   return {
-    latitude: (latitudeD + (latitudeMS / 60)).toFixed(2),
-    longitude: (longitudeD + (longitudeMS / 60)).toFixed(2) 
+    latitude: truncFloat(latitudeD + (latitudeMS / 60),2),
+    longitude: truncFloat(longitudeD + (longitudeMS / 60),2) 
   };
 };
