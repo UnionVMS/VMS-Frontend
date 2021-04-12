@@ -40,7 +40,7 @@ export class PositionsComponent implements OnChanges {
         ...position,
         locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude),
         formattedTimestamp: formatUnixtime(position.timestamp),
-        formattedSpeed: position.speed.toFixed(2),
+        formattedSpeed: typeof position.speed === 'number' ? position.speed.toFixed(2) : '',
         formattedOceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],
         source: position.source
       }));
@@ -79,7 +79,7 @@ export class PositionsComponent implements OnChanges {
       timestamp: formatUnixtime(position.timestamp),
       latitude: position.location.latitude,
       longitude: position.location.longitude,
-      speed: position.speed.toFixed(2),
+      speed: typeof position.speed === 'number' ? position.speed.toFixed(2) : '',
       formattedOceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],
       source: position.source
     }));
