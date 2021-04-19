@@ -1,7 +1,4 @@
 import { Component, Input, OnInit, OnChanges, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
-
-import { Router } from '@angular/router';
 
 // @ts-ignore
 import moment from 'moment-timezone';
@@ -22,6 +19,7 @@ export class TopMenuComponent implements OnInit, OnChanges, OnDestroy {
   @Input() fishingActivityUnlocked: boolean;
   @Input() timeToLogout: number | null;
   @Input() url: string;
+  @Input() userName: string;
 
   public baseUrl = window.location.origin;
   public timezones: string[];
