@@ -2,6 +2,7 @@ import {
   convertDDMToDD,
   convertDDToDDM,
   convertDDToDMS,
+  convertDDMToDDJustNumbers,
 } from './wgs84-formatter';
 import { truncFloat } from '@app/helpers/float';
 
@@ -41,5 +42,16 @@ describe('wg84-formatter', () => {
         expect(ddmPrecision2.longitude).toBe(longitude);
       }
     }
+  });
+  it('convertDDMToDDJustNumbers', () => {
+        const latitude = 57;
+        const latitudeDM = 56.680;
+        const longitude = 11;
+        const longitudeDM = 33.840;
+        const dd = convertDDMToDDJustNumbers(latitude, latitudeDM, longitude, longitudeDM);
+        const expectedLat = 57.94;
+        const expectedLong = 11.56;
+        expect(dd.latitude).toBe(expectedLat);
+        expect(dd.longitude).toBe(expectedLong);
   });
 });

@@ -53,7 +53,6 @@ export const convertDDToDMS = (latitude: number, longitude: number, decimals = 2
   };
 };
 
-
 export const convertDDMToDD = (latitude: string, longitude: string) => {
   const verticalDirection = latitude.substring(0, 1) === 'N' ? 1 : -1;
   const horizontalDirection = longitude.substring(0, 1) === 'E' ? 1 : -1;
@@ -73,5 +72,12 @@ export const convertDDMToDD = (latitude: string, longitude: string) => {
       intConversionNumber * parseInt(longitudePrimary, 10) +
       intConversionNumber * (parseFloat(longitudeMinute) / 60)
     ) / intConversionNumber )
+  };
+};
+
+export const convertDDMToDDJustNumbers = (latitudeD: number, latitudeMS: number, longitudeD: number, longitudeMS: number) => {
+  return {
+    latitude: truncFloat(latitudeD + (latitudeMS / 60),2),
+    longitude: truncFloat(longitudeD + (longitudeMS / 60),2) 
   };
 };

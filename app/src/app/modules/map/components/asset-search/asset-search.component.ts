@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { formatDate } from '../../../../helpers/helpers';
 import * as AssetTypes from '@data/asset/asset.types';
+import { convertDDMToDD, convertDDMToDDJustNumbers } from '@app/helpers/wgs84-formatter';
 
 type QueryParam = Readonly<{
   queryObject: AssetTypes.AssetFilterQuery;
@@ -35,7 +35,29 @@ export class AssetSearchComponent implements OnChanges {
       if(this.searchQuery.indexOf('/c') !== 0) {
         this.autocompleteFunction(this.searchQuery);
       }
-    } else if(event.key === 'Enter' && this.searchQuery.match(/^(\/c)\s*(\-?\d+(\.\d+)?),?\s*(\-?\d+(\.\d+)?)$/)) {
+    }else if(event.key === 'Enter' 
+    && this.searchQuery.match(/^(\/c)\s*(N|S)\s+(\d{2})(°)\s+(\d{2})(\.)(\d{1,})(')\s+(W|E)\s+(\d{2})(°)\s+(\d{2})(\.)(\d{1,})(')$/)) {
+      // Match: /c  N 47° 55.8' E 11° 36.18'
+      const searchQueryParts = this.searchQuery.split(/(?=[A-Z])/);
+      const lat = searchQueryParts[1];
+      const long = searchQueryParts[2];
+      const location = convertDDMToDD(lat, long);
+      const latitude = location.latitude;
+      const longitude = location.longitude;
+      this.centerMapOnPosition({ longitude, latitude });
+    }else if(event.key === 'Enter' 
+    && this.searchQuery.match(/^(\/c)\s*(\d{2})\s+(\d{2})[,.]{1}(\d+)\s+(\d{2})\s+(\d{2})[,.]{1}(\d+)/) ){ 
+      // Match: /c 57 56,680  11 33,840  
+      const searchQueryParts = this.searchQuery.trim().split(/\s+/);
+      const lat = parseFloat(searchQueryParts[1]);
+      const latitudeMS = parseFloat(searchQueryParts[2].replace(',','.'));
+      const long = parseFloat(searchQueryParts[3]);
+      const longitudeMS = parseFloat(searchQueryParts[4].replace(',','.'));
+      const location = convertDDMToDDJustNumbers(lat, latitudeMS, long, longitudeMS);
+      const latitude = location.latitude;
+      const longitude = location.longitude;
+      this.centerMapOnPosition({ longitude, latitude });
+    }else if(event.key === 'Enter' && this.searchQuery.match(/^(\/c)\s*(\-?\d+(\.\d+)?),?\s*(\-?\d+(\.\d+)?)$/)) {
       const searchQueryParts = this.searchQuery.split(/^(\/c)\s*(\-?\d+(\.\d+)?),?\s*(\-?\d+(\.\d+)?)$/);
       const latitude = parseFloat(searchQueryParts[2]);
       const longitude = parseFloat(searchQueryParts[4]);
