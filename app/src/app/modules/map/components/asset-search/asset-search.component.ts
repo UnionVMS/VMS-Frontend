@@ -36,7 +36,7 @@ export class AssetSearchComponent implements OnChanges {
         this.autocompleteFunction(this.searchQuery);
       }
     }else if(event.key === 'Enter' 
-    && this.searchQuery.match(/^(\/c)\s*(N|S)\s+(\d{2})(°)\s+(\d{2})(\.)(\d{1,})(')\s+(W|E)\s+(\d{2})(°)\s+(\d{2})(\.)(\d{1,})(')$/)) {
+    && this.searchQuery.match(/^(\/c)\s*(N|S)\s+(\d{1,3})(°)\s+(\d{1,3})(\.)(\d{1,})(')\s+(W|E)\s+(\d{1,3})(°)\s+(\d{1,3})(\.)(\d{1,})(')$/)) {
       // Match: /c  N 47° 55.8' E 11° 36.18'
       const searchQueryParts = this.searchQuery.split(/(?=[A-Z])/);
       const lat = searchQueryParts[1];
@@ -46,7 +46,7 @@ export class AssetSearchComponent implements OnChanges {
       const longitude = location.longitude;
       this.centerMapOnPosition({ longitude, latitude });
     }else if(event.key === 'Enter' 
-    && this.searchQuery.match(/^(\/c)\s*(\d{2})\s+(\d{2})[,.]{1}(\d+)\s+(\d{2})\s+(\d{2})[,.]{1}(\d+)/) ){ 
+    && this.searchQuery.match(/^(\/c)\s*(\d{1,3})\s+(\d{1,2})[,.]{1}(\d+)\s+(\d{1,3})\s+(\d{1,2})[,.]{1}(\d+)/) ){ 
       // Match: /c 57 56,680  11 33,840  
       const searchQueryParts = this.searchQuery.trim().split(/\s+/);
       const lat = parseFloat(searchQueryParts[1]);
