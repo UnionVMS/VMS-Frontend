@@ -36,7 +36,7 @@ export class AssetSearchComponent implements OnChanges {
         this.autocompleteFunction(this.searchQuery);
       }
     }else if(event.key === 'Enter' 
-    && this.searchQuery.match(/^(\/c)\s*(N|S)\s+(\d{1,3})(°)\s+(\d{1,3})(\.)(\d{1,})(')\s+(W|E)\s+(\d{1,3})(°)\s+(\d{1,3})(\.)(\d{1,})(')$/)) {
+    && this.searchQuery.match(/^(\/c)\s*(N|S)\s+(\d{1,3})(°)\s+(\d{1,2})(\.)(\d{1,})(')\s+(W|E)\s+(\d{1,3})(°)\s+(\d{1,2})(\.)(\d{1,})(')$/)) {
       // Match: /c  N 47° 55.8' E 11° 36.18'
       const searchQueryParts = this.searchQuery.split(/(?=[A-Z])/);
       const lat = searchQueryParts[1];
