@@ -27,7 +27,7 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
   public coordinateFormat: FormControl = new FormControl('DDM');
 
-  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'formattedOceanRegion', 'status'];
+  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'satelliteId', 'oceanRegion', 'status'];
 
   ngAfterViewInit() {
     setTimeout(() => {
