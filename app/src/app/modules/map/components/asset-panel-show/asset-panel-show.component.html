@@ -37,7 +37,7 @@
               <div>{{selectedAssetsLastPositions.ais.heading.toFixed(2)}}</div>
               <label i18n>Position:</label>
               <div>
-                <div (click)="goToAsset(asset)">{{ formatLocation(selectedAssetsLastPositions.ais.location) }}</div>
+                <div (click)="goToPosition(selectedAssetsLastPositions.ais.location)">{{ formatLocation(selectedAssetsLastPositions.ais.location) }}</div>
               </div>
             </div>
           </div>
@@ -61,7 +61,7 @@
               <div>{{selectedAssetsLastPositions.vms.heading.toFixed(2)}}</div>
               <label i18n>Position:</label>
               <div>
-                <div (click)="goToAsset(asset)">{{ formatLocation(selectedAssetsLastPositions.vms.location) }}</div>
+                <div (click)="goToPosition(selectedAssetsLastPositions.vms.location)">{{ formatLocation(selectedAssetsLastPositions.vms.location) }}</div>
               </div>
             </div>
           </div>
