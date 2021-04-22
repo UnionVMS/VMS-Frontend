@@ -17,6 +17,7 @@ export class DefaultLayoutComponent implements OnInit {
   public appVersion: string = version;
 
   public isAdmin$: Observable<boolean>;
+  public userName$: Observable<string>;
   public fishingActivityUnlocked$: Observable<boolean>;
   public timezone$: Observable<string>;
   public notifications$: Observable<NotificationsTypes.State>;
@@ -32,6 +33,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.notifications$ = this.store.select(NotificationsSelectors.getNotifications);
     this.timezone$ = this.store.select(UserSettingsSelectors.getTimezone);
     this.isAdmin$ = this.store.select(AuthSelectors.isAdmin);
+    this.userName$ = this.store.select(AuthSelectors.getUserName);
     this.fishingActivityUnlocked$ = this.store.select(AuthSelectors.fishingActivityUnlocked);
     this.mergedRoute$ = this.store.select(RouterSelectors.getMergedRoute);
     this.timeToLogout$ = this.store.select(AuthSelectors.getTimeToLogout);
