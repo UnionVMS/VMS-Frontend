@@ -78,8 +78,8 @@ export class PositionsComponent implements OnChanges {
     const positionsForCSV = this.sortedPositions.map(position => ({
       ...position,
       timestamp: formatUnixtime(position.timestamp),
-      latitude: position.location.latitude.toFixed(6),
-      longitude: position.location.longitude.toFixed(6),
+      latitude: position.location.latitude,
+      longitude: position.location.longitude,
       speed: typeof position.speed === 'number' ? position.speed.toFixed(2) : '',
       sourceSatelliteId: position.sourceSatelliteId,
       oceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],
