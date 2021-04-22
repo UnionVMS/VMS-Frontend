@@ -31,5 +31,10 @@ cd docker && docker-compose --file docker-compose-init.yml up --build && cd ..
 
 To run the project we need to start docker-sync again for this project if it's not already started using `docker-sync start` (if you just ran `docker-sync start` you don't need to do it again).
 
+In /docker/Dockerfile Change: CMD [ "npm", "start" ] to CMD [ "npm", "install" ]
+Run: `docker-compose up --build`
+Change back: CMD [ "npm", "install" ] to CMD [ "npm", "start" ]
+Run: `docker-compose up --build`
+
 Run the following command in the project root:  
 `docker-compose up --build`

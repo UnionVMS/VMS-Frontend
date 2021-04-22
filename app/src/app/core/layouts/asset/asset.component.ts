@@ -27,6 +27,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
   public timezone$: Observable<string>;
   public notifications$: Observable<NotificationsTypes.State>;
   public timeToLogout$: Observable<number|null>;
+  public userName$: Observable<string>;
 
   public dismissNotification: (type: string, id: string) => void;
   public setTimezone: (timezone: string) => void;
@@ -53,6 +54,7 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
     this.isAdmin$ = this.store.select(AuthSelectors.isAdmin);
     this.fishingActivityUnlocked$ = this.store.select(AuthSelectors.fishingActivityUnlocked);
     this.timeToLogout$ = this.store.select(AuthSelectors.getTimeToLogout);
+    this.userName$ = this.store.select(AuthSelectors.getUserName);
   }
 
   mapDispatchToProps() {
