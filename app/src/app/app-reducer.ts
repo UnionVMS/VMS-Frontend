@@ -1,14 +1,12 @@
 import {
   ActionReducer,
   ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
   MetaReducer
 } from '@ngrx/store';
 import { Observable, Subscriber } from 'rxjs';
 import { bufferTime } from 'rxjs/operators';
 import { environment } from '../environments/environment';
-import { routerReducer, RouterReducerState } from '@ngrx/router-store';
+import { routerReducer} from '@ngrx/router-store';
 
 import { AssetReducer, AssetTypes } from './data/asset/';
 import { AuthReducer, AuthTypes, AuthActions } from './data/auth/';
