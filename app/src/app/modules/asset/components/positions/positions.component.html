@@ -43,9 +43,14 @@
       <td mat-cell *matCellDef="let row">{{row.heading}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="formattedOceanRegion">
+    <ng-container matColumnDef="sourceSatelliteId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Source satellite Id</th>
+      <td mat-cell *matCellDef="let row">{{row.sourceSatelliteId}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="oceanRegion">
       <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Ocean region</th>
-      <td mat-cell *matCellDef="let row">{{row.formattedOceanRegion}}</td>
+      <td mat-cell *matCellDef="let row">{{row.oceanRegion}}</td>
     </ng-container>
 
     <ng-container matColumnDef="status">

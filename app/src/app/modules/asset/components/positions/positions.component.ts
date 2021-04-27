@@ -12,7 +12,7 @@ import moment from 'moment-timezone';
 type ExtendedMovement = Readonly<AssetTypes.Movement & {
   formattedTimestamp: string;
   formattedSpeed: string,
-  formattedOceanRegion: string;
+  oceanRegion: string;
   source: string;
 }>;
 
@@ -30,7 +30,7 @@ export class PositionsComponent implements OnChanges {
   public formattedPositions: ReadonlyArray<ExtendedMovement>;
   public sortedPositions: ReadonlyArray<ExtendedMovement>;
 
-  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'formattedOceanRegion', 'status', 'source'];
+  public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading','sourceSatelliteId', 'oceanRegion', 'status', 'source'];
 
   ngOnChanges() {
     if(typeof this.positions === 'undefined') {
@@ -41,7 +41,8 @@ export class PositionsComponent implements OnChanges {
         locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude),
         formattedTimestamp: formatUnixtime(position.timestamp),
         formattedSpeed: typeof position.speed === 'number' ? position.speed.toFixed(2) : '',
-        formattedOceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],
+        sourceSatelliteId: position.sourceSatelliteId,
+        oceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],
         source: position.source
       }));
       this.sortData({ active: 'timestamp', direction: 'desc' });
@@ -63,7 +64,7 @@ export class PositionsComponent implements OnChanges {
         case 'longitude': return compareTableSortNumber(a.location.longitude, b.location.longitude, isAsc);
         case 'speed': return compareTableSortNumber(a.speed, b.speed, isAsc);
         case 'heading': return compareTableSortNumber(a.heading, b.heading, isAsc);
-        case 'formattedOceanRegion': return compareTableSortString(a.formattedOceanRegion, b.formattedOceanRegion, isAsc);
+        case 'oceanRegion': return compareTableSortString(a.oceanRegion, b.oceanRegion, isAsc);
         case 'status': return compareTableSortString(a.status, b.status, isAsc);
         case 'source': return compareTableSortString(a.source, b.source, isAsc);
         default: return 0;
@@ -74,13 +75,14 @@ export class PositionsComponent implements OnChanges {
   exportPositionsToCSV() {
     const nrOfColumns = this.displayedColumns.length;
     const nrOfRows = this.sortedPositions.length;
-    const positionsForCSV = this.positions.map(position => ({
+    const positionsForCSV = this.sortedPositions.map(position => ({
       ...position,
       timestamp: formatUnixtime(position.timestamp),
       latitude: position.location.latitude,
       longitude: position.location.longitude,
       speed: typeof position.speed === 'number' ? position.speed.toFixed(2) : '',
-      formattedOceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],
+      sourceSatelliteId: position.sourceSatelliteId,
+      oceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],
       source: position.source
     }));
     let csv = this.displayedColumns.reduce((csvRow, column, index) => {
