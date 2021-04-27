@@ -44,6 +44,9 @@ export class AssetPanelShowComponent {
     this.centerMapOnPosition(asset.currentPosition.movement.location);
   }
 
+  public goToPosition(position: Position) {
+    this.centerMapOnPosition(position);
+  }
   // Extracting this code to separete function so we can override this code in unit-tests.
   private getTracksMillisecondCap() {
     const tracksMillisecondCap = this.tracksMinuteCap * 60 * 1000;
