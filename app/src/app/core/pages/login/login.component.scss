@@ -5,6 +5,8 @@ app-login {
     display: grid;
     height: 100%;
     form {
+      background: white;
+      padding: 40px;
       place-self: center;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -12,7 +14,7 @@ app-login {
       grid-row-gap: $large_distance;
       h4 {
         background: #E84E0F;
-        padding: 10px;
+        padding: 13px;
         color: white;
         grid-column: 1 / span 2;
         margin: 0px;

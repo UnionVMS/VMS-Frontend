@@ -1,7 +1,7 @@
 @import 'variables.scss';
 
 .layout-top-menu.navbar {
-  background: $color_light_turquoise;
+  background: $color_blue;
   color: white;
   height: $navbar_height;
   display: grid;
@@ -89,6 +89,15 @@
       .mat-select-arrow {
         color: white;
       }
+    }
+
+    .icon-user-name  {
+      display: inline-block;
+      background: url('/assets/svg-icons/person-fill.svg');
+      background-size: 20px 20px;
+      width: 20px;
+      min-height: 20px;
+      margin-right: distance(1);
     }
   }
 
