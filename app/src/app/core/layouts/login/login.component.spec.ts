@@ -43,7 +43,7 @@ describe('LoginLayoutComponent', () => {
   it('should have a continer with router-outlet in it', () => {
     const { fixture } = setup();
     const layoutElement: HTMLElement = fixture.nativeElement;
-    const routerOutlet = layoutElement.querySelector('.container router-outlet');
+    const routerOutlet = layoutElement.querySelector('.login-container router-outlet');
     expect(routerOutlet).not.toBeNull();
   });
 });
