@@ -1,8 +1,18 @@
 @import 'variables.scss';
 
 .content-container {
+  
   display: grid;
   height: 100%;
+  form {
+    background: white;
+    padding: 40px;
+    place-self: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: $medium_distance;
+    grid-row-gap: $large_distance;
+  }
   p {
      place-self: center;
   }
