@@ -1,15 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable, Subject } from 'rxjs';
-import { map, take, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
-import { formatDate } from '@app/helpers/helpers';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetSelectors, AssetTypes } from '@data/asset';
 import { ContactActions, ContactTypes, ContactSelectors } from '@data/contact';
-import { NotificationsTypes, NotificationsActions } from '@data/notifications';
 import { RouterTypes, RouterSelectors } from '@data/router';
 import { createContactFormValidator } from './form-validator';
 import { errorMessage } from '@app/helpers/validators/error-messages';

@@ -206,7 +206,8 @@ mat-dialog-container.mat-dialog-container {
       padding-top: distance(2);
       text-align: center;
       font-size: 16px;
-      line-spacing: 24pt;
+    //  line-spacing: 24pt;
+      line-height: distance(1.5);
     }
     .content-container {
       padding-top: distance(4);

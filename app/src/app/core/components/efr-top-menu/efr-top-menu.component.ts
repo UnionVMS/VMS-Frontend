@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, OnChanges, ViewEncapsulation } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
 
 
 // @ts-ignore
