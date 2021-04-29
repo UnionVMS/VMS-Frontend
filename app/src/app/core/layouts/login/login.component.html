@@ -9,10 +9,11 @@
   </div>
 </div>
 
-<div class="container">
-  <core-notifications
+<div class="login-container">
+    <core-notifications
     [notifications]="notifications$ | async"
     [dismiss]="dismissNotification"
   ></core-notifications>
+  
   <router-outlet></router-outlet>
 </div>

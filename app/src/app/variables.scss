@@ -52,7 +52,7 @@ $distance: 8px;
 
 $default_font_size: 14px;
 $h1_font_size: 20px;
-$navbar_height: distance(6);
+$navbar_height: distance(6.5);
 $efr_navbar_height: 60px;
 
 $map_overlay_background: rgba( $color_turquoise, 0.7);
@@ -94,7 +94,7 @@ $right_column_width: 320px;
 }
 
 .icon {
-  background: $color_turquoise;
+  background: $color_blue;
   color: white;
   font-size: distance(3);
   height: distance(5);
@@ -106,7 +106,7 @@ $right_column_width: 320px;
   }
 
   &.active {
-    background: white;
+    background: $color_background_gray;
     color: $color_turquoise;
   }
 }
@@ -125,7 +125,7 @@ $right_column_width: 320px;
 
 @mixin svg-icon($url) {
   display: grid;
-  background: $color_turquoise;
+  background: $color_blue;
   width: $x3large_distance;
   height: $x3large_distance;
   &::before {
@@ -143,7 +143,7 @@ $right_column_width: 320px;
   }
 
   &.active {
-    background: white;
+    background: $color_cold_gray;
   }
 
   &.active::before {
