@@ -1,6 +1,5 @@
 import { NgModule, Optional, Self } from '@angular/core';
 import { routerReducer, RouterStateSerializer, StoreRouterConfig, StoreRouterConnectingModule } from '@ngrx/router-store';
-import { reducers, metaReducers } from '@app/app-reducer';
 import { StoreModule } from '@ngrx/store';
 import { RouterState } from '@ngrx/router-store';
 import { MergedRouterStateSerializer } from '@data/router/merged-route-serializer';

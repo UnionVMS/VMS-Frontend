@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   mapStateToProps() {
     this.store.select(AuthSelectors.getLoggedOutPopupActive).pipe(takeUntil(this.unmount$)).subscribe((loggedOutPopupActive) => {
       if(loggedOutPopupActive) {
-        const dialogRef = this.dialog.open(LoggedOutDialogComponent, {
+        this.dialog.open(LoggedOutDialogComponent, {
           disableClose: true,
           backdropClass: 'blurry-backdrop'
         });
