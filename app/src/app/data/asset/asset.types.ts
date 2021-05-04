@@ -2,11 +2,12 @@ import { Position, TimePosition } from '../generic.types';
 import { MobileTerminal } from '@data/mobile-terminal/mobile-terminal.types';
 import { UrgentByType } from '@data/incident/incident.types';
 
+// AORE(1), AORW(0), POR(2), IOR(3);
 export const OceanRegionTranslation = {
-  AORE: 'East Atlantic',
-  AORW: 'West Atlantic',
-  POR: 'Pacific',
-  IOR: 'Indian'
+  AORE: 'East Atlantic (1)',
+  AORW: 'West Atlantic (0)',
+  POR: 'Pacific (2)',
+  IOR: 'Indian (3)'
 };
 
 export const MovementStatusTranslation = {
