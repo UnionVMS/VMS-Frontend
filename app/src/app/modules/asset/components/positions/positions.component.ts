@@ -24,6 +24,7 @@ type ExtendedMovement = Readonly<AssetTypes.Movement & {
 export class PositionsComponent implements OnChanges {
 
   @Input() positions: ReadonlyArray<AssetTypes.Movement>;
+  @Input() assetName: string;
   @Input() coordinateFormat: string;
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 
@@ -85,7 +86,8 @@ export class PositionsComponent implements OnChanges {
       oceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],
       source: position.source
     }));
-    let csv = this.displayedColumns.reduce((csvRow, column, index) => {
+    let csv = this.assetName + '\r\n';
+    csv += this.displayedColumns.reduce((csvRow, column, index) => {
       return csvRow + column + (nrOfColumns !== index + 1 ? ';' : '');
     }, '') + '\r\n';
 
@@ -112,5 +114,4 @@ export class PositionsComponent implements OnChanges {
       document.body.removeChild(link);
     }
   }
-
 }
