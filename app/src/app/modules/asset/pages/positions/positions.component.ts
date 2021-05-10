@@ -24,6 +24,7 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
   public mergedRoute: RouterTypes.MergedRoute;
   public positions$: Observable<ReadonlyArray<AssetTypes.Movement>>;
   public userTimezone$: Observable<string>;
+  public licence$: Observable<AssetTypes.AssetLicence>;
 
   public coordinateFormat: FormControl = new FormControl('DDM');
 
@@ -53,6 +54,7 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
         }));
       }
     });
+    this.licence$ = this.store.select(AssetSelectors.getLicenceForSelectedAsset);
   }
 
   mapDispatchToProps() {

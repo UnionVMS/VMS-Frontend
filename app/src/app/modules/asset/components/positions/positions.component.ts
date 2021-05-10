@@ -27,17 +27,25 @@ export class PositionsComponent implements OnChanges {
   @Input() assetName: string;
   @Input() coordinateFormat: string;
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
+  @Input() licence: AssetTypes.AssetLicence;
 
   public formattedPositions: ReadonlyArray<ExtendedMovement>;
   public sortedPositions: ReadonlyArray<ExtendedMovement>;
+  public validPositions: ReadonlyArray<AssetTypes.Movement>;
 
   public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading','sourceSatelliteId', 'oceanRegion', 'status', 'source'];
 
   ngOnChanges() {
-    if(typeof this.positions === 'undefined') {
+    if(this.licence){
+      this.validPositions = this.setValidPositions(this.licence);
+    }else{
+      this.validPositions = this.positions;
+    }
+    
+    if(typeof this.validPositions === 'undefined') {
       this.formattedPositions = [];
     } else {
-      this.formattedPositions = this.positions.map(position => ({
+      this.formattedPositions = this.validPositions.map(position => ({
         ...position,
         locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude),
         formattedTimestamp: formatUnixtime(position.timestamp),
@@ -56,7 +64,6 @@ export class PositionsComponent implements OnChanges {
       this.sortedPositions = positions;
       return;
     }
-
     this.sortedPositions = positions.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
@@ -71,6 +78,21 @@ export class PositionsComponent implements OnChanges {
         default: return 0;
       }
     });
+  }
+
+  setValidPositions(licence: AssetTypes.AssetLicence){
+    let validpositions = [];
+    if(typeof licence === 'undefined' || typeof licence === null){
+      return this.positions;
+    }
+    const licenseDate = licence.fromDate;
+    this.positions.forEach(function(position){
+    if (position.timestamp >= licenseDate) {
+      validpositions.push(position);
+      }
+    });
+    console.log("validpositions: ", validpositions);
+    return validpositions;
   }
 
   exportPositionsToCSV() {
