@@ -36,13 +36,8 @@ export class PositionsComponent implements OnChanges {
   public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading','sourceSatelliteId', 'oceanRegion', 'status', 'source'];
 
   ngOnChanges() {
-    if(this.licence){
-      this.validPositions = this.setValidPositions(this.licence);
-    }else{
-      this.validPositions = this.positions;
-    }
-    
-    if(typeof this.validPositions === 'undefined') {
+    this.validPositions = this.getValidPositions(this.licence, this.positions);
+    if (!Array.isArray(this.validPositions) || !this.validPositions.length) {
       this.formattedPositions = [];
     } else {
       this.formattedPositions = this.validPositions.map(position => ({
@@ -80,18 +75,19 @@ export class PositionsComponent implements OnChanges {
     });
   }
 
-  setValidPositions(licence: AssetTypes.AssetLicence){
+  getValidPositions(licence: AssetTypes.AssetLicence, positions:  ReadonlyArray<AssetTypes.Movement>){
     let validpositions = [];
-    if(typeof licence === 'undefined' || typeof licence === null){
-      return this.positions;
+    if(!licence && positions){
+      return positions;
     }
-    const licenseDate = licence.fromDate;
-    this.positions.forEach(function(position){
-    if (position.timestamp >= licenseDate) {
-      validpositions.push(position);
-      }
-    });
-    console.log("validpositions: ", validpositions);
+    if(licence && positions){
+      const licenseDate = licence.fromDate;
+      positions.forEach(function(position){
+        if (position.timestamp >= licenseDate) {
+          validpositions.push(position);
+        }
+      });
+    }
     return validpositions;
   }
 
