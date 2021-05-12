@@ -34,9 +34,9 @@ export class PositionsComponent implements OnChanges {
   public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading','sourceSatelliteId', 'oceanRegion', 'status', 'source'];
 
   ngOnChanges() {
+
     this.validPositions = this.getValidPositions(this.licence, this.positions);
     if (!Array.isArray(this.validPositions) || !this.validPositions.length) {
-
       this.formattedPositions = [];
     } else {
       this.formattedPositions = this.positions.map(position => ({
@@ -75,19 +75,18 @@ export class PositionsComponent implements OnChanges {
     });
   }
 
-  getValidPositions(licence: AssetTypes.AssetLicence, positions:  ReadonlyArray<AssetTypes.Movement>){
+  setValidPositions(licence: AssetTypes.AssetLicence){
     let validpositions = [];
-    if(!licence && positions){
-      return positions;
+    if(typeof licence === 'undefined' || typeof licence === null){
+      return this.positions;
     }
-    if(licence && positions){
-      const licenseDate = licence.fromDate;
-      positions.forEach(function(position){
-        if (position.timestamp >= licenseDate) {
-          validpositions.push(position);
-        }
-      });
-    }
+    const licenseDate = licence.fromDate;
+    this.positions.forEach(function(position){
+    if (position.timestamp >= licenseDate) {
+      validpositions.push(position);
+      }
+    });
+    console.log("validpositions: ", validpositions);
     return validpositions;
   }
 

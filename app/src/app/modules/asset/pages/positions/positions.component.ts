@@ -38,9 +38,6 @@ export class PositionsPageComponent implements OnInit, OnDestroy, AfterViewInit 
   mapStateToProps() {
     this.store.select(AssetSelectors.getAssetByUrl).pipe(takeUntil(this.unmount$)).subscribe((asset) => {
       if(typeof asset !== 'undefined') {
-        if(this.asset.id !== asset.id) {
-          this.store.dispatch(AssetActions.getLicenceForAsset({ assetId: asset.id }));
-        }
         this.asset = asset;
       }
     });
