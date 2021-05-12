@@ -104,7 +104,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    if(this.mapZoom < 10) {
+    console.log("this.mapZoom: ", this.mapZoom);
+    if(this.mapZoom < 8) {
       this.namesVisibleCalculated = false;
       this.speedsVisibleCalculated = false;
     } else {
@@ -494,7 +495,12 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     let text = null;
     let offsetY = 20;
     if (this.namesVisibleCalculated && asset.assetEssentials !== undefined) {
-      text = asset.assetEssentials.assetName;
+      if( asset.assetEssentials.assetName !== undefined){
+        text = asset.assetEssentials.assetName;
+      }
+      if( asset.assetEssentials.assetName === undefined && asset.assetEssentials.externalMarking !== undefined){
+        text = asset.assetEssentials.externalMarking;
+      }
     }
     if (this.speedsVisibleCalculated && asset.assetMovement.movement.speed !== null) {
       if (text !== null) {
