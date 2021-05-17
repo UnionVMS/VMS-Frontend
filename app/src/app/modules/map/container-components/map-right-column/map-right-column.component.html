@@ -195,7 +195,7 @@
         />
         <div class="asset-name" *ngIf="selectedAsset">
           {{ (selectedAsset.asset.ircs !== undefined ? selectedAsset.asset.ircs + ' &#183; ' : '') +
-          (selectedAsset.asset.name !== undefined ? selectedAsset.asset.name : "EM: " + selectedAsset.asset.externalMarking)  }}
+          (selectedAsset.asset.name !== undefined ? selectedAsset.asset.name : selectedAsset.asset.externalMarking)  }}
         </div>
       </div>
     </div>
