@@ -34,9 +34,7 @@ export class PositionsComponent implements OnChanges {
   public displayedColumns: string[] = ['timestamp', 'latitude', 'longitude', 'speed', 'heading','sourceSatelliteId', 'oceanRegion', 'status', 'source'];
 
   ngOnChanges() {
-
-    this.validPositions = this.getValidPositions(this.licence, this.positions);
-    if (!Array.isArray(this.validPositions) || !this.validPositions.length) {
+    if(typeof this.positions === 'undefined') {
       this.formattedPositions = [];
     } else {
       this.formattedPositions = this.positions.map(position => ({
@@ -73,21 +71,6 @@ export class PositionsComponent implements OnChanges {
         default: return 0;
       }
     });
-  }
-
-  setValidPositions(licence: AssetTypes.AssetLicence){
-    let validpositions = [];
-    if(typeof licence === 'undefined' || typeof licence === null){
-      return this.positions;
-    }
-    const licenseDate = licence.fromDate;
-    this.positions.forEach(function(position){
-    if (position.timestamp >= licenseDate) {
-      validpositions.push(position);
-      }
-    });
-    console.log("validpositions: ", validpositions);
-    return validpositions;
   }
 
   exportPositionsToCSV() {
