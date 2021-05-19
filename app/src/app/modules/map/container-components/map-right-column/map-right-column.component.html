@@ -96,7 +96,8 @@
         <ng-container *ngIf="activePanel[1] === 'managePolling'" i18n>Manage polling</ng-container>
       </h3>
       <div class="asset-name" *ngIf="selectedAsset">
-        {{ (selectedAsset.asset.ircs !== undefined ? selectedAsset.asset.ircs + ' &#183; ' : '') + selectedAsset.asset.name }}
+        {{ (selectedAsset.asset.ircs !== undefined ? selectedAsset.asset.ircs + ' &#183; ' : '') + 
+        (selectedAsset.asset.name !== undefined ? selectedAsset.asset.name : selectedAsset.asset.externalMarking)  }}
       </div>
     </div>
     <ng-container *ngIf="selectedAsset">
@@ -193,7 +194,8 @@
           alt="getCountryCode(selectedAsset)"
         />
         <div class="asset-name" *ngIf="selectedAsset">
-          {{ (selectedAsset.asset.ircs !== undefined ? selectedAsset.asset.ircs + ' &#183; ' : '') + selectedAsset.asset.name }}
+          {{ (selectedAsset.asset.ircs !== undefined ? selectedAsset.asset.ircs + ' &#183; ' : '') +
+          (selectedAsset.asset.name !== undefined ? selectedAsset.asset.name : selectedAsset.asset.externalMarking)  }}
         </div>
       </div>
     </div>
@@ -261,11 +263,11 @@
       [setVisibilityForFlags]="setVisibilityForFlags"
       [setVisibilityForTracks]="setVisibilityForTracks"
       [setVisibilityForForecast]="setVisibilityForForecast"
-      [flagsDisabled]="mapZoom < 10"
+      [flagsDisabled]="mapZoom < 8"
       [tracksDisabled]="false"
-      [namesDisabled]="mapZoom < 10"
-      [speedsDisabled]="mapZoom < 10"
-      [forecastsDisabled]="mapZoom < 10"
+      [namesDisabled]="mapZoom < 8"
+      [speedsDisabled]="mapZoom < 8"
+      [forecastsDisabled]="mapZoom < 8"
     ></map-layer-filter>
   </div>
 </div>
