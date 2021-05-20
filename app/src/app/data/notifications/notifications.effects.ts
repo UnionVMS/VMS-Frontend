@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Store, Action } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, EMPTY } from 'rxjs';
 import { mergeMap, delay } from 'rxjs/operators';
 
-import { State } from '@app/app-reducer.ts';
+import { State } from '@app/app-reducer';
 import { NotificationsActions, NotificationsTypes } from './';
 
 @Injectable()
 export class NotificationEffects {
   constructor( private readonly actions$: Actions, private readonly store: Store<State>) {}
 
-  @Effect()
-  autoDismissNotificaitons$ = this.actions$.pipe(
+  autoDismissNotificaitons$ = createEffect(() => this.actions$.pipe(
     ofType(NotificationsActions.addNotification),
     mergeMap((action) => {
       if(typeof action.autoDismissInMs !== 'undefined') {
@@ -21,5 +20,5 @@ export class NotificationEffects {
       }
       return EMPTY;
     }
-  ));
+  )));
 }

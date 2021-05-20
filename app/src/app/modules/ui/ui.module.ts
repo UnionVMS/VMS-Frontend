@@ -15,6 +15,14 @@ import { ToggleButtonComponent } from './components/button/toggle/toggle.compone
 import { TruncatedTextComponent } from './components/truncated-text/truncated-text.component';
 import { DatetimePickerComponent } from './components/datetime-picker/datetime-picker.component';
 
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+
+import {MatButtonModule} from '@angular/material/button';
+
+export class DatetimePickerModule { }
 @NgModule({
   imports: [
     CommonModule,
@@ -23,7 +31,18 @@ import { DatetimePickerComponent } from './components/datetime-picker/datetime-p
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatInputModule
+    MatInputModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
   ],
   declarations: [
     CloseButtonComponent,
@@ -44,6 +63,10 @@ import { DatetimePickerComponent } from './components/datetime-picker/datetime-p
     ToggleButtonComponent,
     TruncatedTextComponent,
     DatetimePickerComponent,
+  ],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ]
 })
 

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from '@app/app-reducer.ts';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, EMPTY, Observable } from 'rxjs';
-import { mergeMap, map, flatMap, withLatestFrom, catchError, filter } from 'rxjs/operators';
+import { State } from '@app/app-reducer';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { mergeMap, map, withLatestFrom, catchError, filter } from 'rxjs/operators';
 
-import { AuthReducer, AuthSelectors } from '../auth';
+import { AuthSelectors } from '../auth';
 import { NotificationsActions } from '@data/notifications';
 
-import { MapSettingsSelectors, MapSettingsTypes, MapSettingsActions } from './';
+import { MapSettingsSelectors, MapSettingsActions } from './';
 import { MapSettingsService } from '@data/map-settings/map-settings.service';
 import { UserSettingsService } from '@data/user-settings/user-settings.service';
 
@@ -30,8 +30,7 @@ export class MapSettingsEffects {
     this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
-  @Effect()
-  saveMapSettingsObserver$ = this.actions$.pipe(
+  saveMapSettingsObserver$ = createEffect(() => this.actions$.pipe(
     ofType(MapSettingsActions.saveSettings),
     withLatestFrom(this.store.select(AuthSelectors.getUser)),
     mergeMap(([action, user]: Array<any>) => {
@@ -42,14 +41,13 @@ export class MapSettingsEffects {
           NotificationsActions.addSuccess($localize`:@@ts-map-settings-saved:Map settings saved`, 6000),
           MapSettingsActions.replaceSettings({ settings: action.settings })
         ]),
-        flatMap(a => a),
+        mergeMap(a => a),
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );
     })
-  );
+  ));
 
-  @Effect()
-  saveMapLocationObserver$ = this.actions$.pipe(
+  saveMapLocationObserver$ = createEffect(() => this.actions$.pipe(
     ofType(MapSettingsActions.saveMapLocation),
     filter((action) => action.save),
     withLatestFrom(
@@ -66,10 +64,9 @@ export class MapSettingsEffects {
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );
     })
-  );
+  ));
 
-  @Effect()
-  deleteMapLocationObserver$ = this.actions$.pipe(
+  deleteMapLocationObserver$ = createEffect(() => this.actions$.pipe(
     ofType(MapSettingsActions.deleteMapLocation),
     withLatestFrom(
       this.store.select(AuthSelectors.getUser),
@@ -82,14 +79,13 @@ export class MapSettingsEffects {
         map((response: any, index: number) => [
           NotificationsActions.addSuccess($localize`:@@ts-map-location-saved:Map location removed`, 6000),
         ]),
-        flatMap(a => a),
+        mergeMap(a => a),
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );
     })
-  );
+  ));
 
-  @Effect()
-  getMovementSourcesObserver$ = this.actions$.pipe(
+  getMovementSourcesObserver$ = createEffect(() => this.actions$.pipe(
     ofType(MapSettingsActions.getMovementSources),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -102,6 +98,6 @@ export class MapSettingsEffects {
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );
     })
-  );
+  ));
 
 }

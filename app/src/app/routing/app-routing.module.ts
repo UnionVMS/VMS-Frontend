@@ -14,7 +14,6 @@ import { LogoutComponent } from '@app/core/pages/logout/logout.component';
 import { NotFoundComponent } from '@app/core/pages/404/404.component';
 
 // Import other routes
-import { efrRoutes } from './efr-routing';
 import { vmsRoutes } from './vms-routing';
 
 
@@ -36,7 +35,6 @@ const routes: Routes = [
     ]
   },
   ...vmsRoutes,
-  ...efrRoutes,
   { path: '**', component: NotFoundComponent },
 ];
 

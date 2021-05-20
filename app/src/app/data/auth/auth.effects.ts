@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of, EMPTY, interval, Subject } from 'rxjs';
-import { map, mergeMap, flatMap, catchError, filter, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { map, mergeMap, catchError, filter, takeUntil, withLatestFrom } from 'rxjs/operators';
 
-import { State } from '@app/app-reducer.ts';
+import { State } from '@app/app-reducer';
 
 import * as AuthActions from './auth.actions';
 import { AuthService } from './auth.service';
 import * as AuthSelectors from './auth.selectors';
 import * as MapSettingsActions from '../map-settings/map-settings.actions';
-import { MapSavedFiltersActions } from '../map-saved-filters/';
 import * as NotificationsActions from '../notifications/notifications.actions';
 import { MapActions } from '@data/map';
 import { UserSettingsActions, UserSettingsReducer } from '@data/user-settings';
@@ -34,8 +33,7 @@ export class AuthEffects {
     this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
-  @Effect()
-  login$ = this.actions$.pipe(
+  login$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.login),
     mergeMap((action: { username: string, password: string, type: string }) => {
       return this.authService.login(action.username, action.password).pipe(
@@ -52,12 +50,11 @@ export class AuthEffects {
         })
       );
     })
-  );
+  ));
 
   private readonly logoutTimePassed$: Subject<boolean> = new Subject<boolean>();
 
-  @Effect({ dispatch: false })
-  setLogoutCountdown$ = this.actions$.pipe(
+  setLogoutCountdown$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.loginSuccess),
     mergeMap((action: any) => {
       this.logoutTimePassed$.next(false);
@@ -78,11 +75,11 @@ export class AuthEffects {
         })
       );
     })
+  ),
+  { dispatch: false }
   );
 
-
-  @Effect()
-  getUserContext$ = this.actions$.pipe(
+  getUserContext$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.loginSuccess),
     mergeMap((action: any) => {
       return this.authService.getUserContext(action.payload.jwtToken.raw).pipe(
@@ -138,23 +135,21 @@ export class AuthEffects {
         // tslint:disable-next-line:comment-format
         //@ts-ignore
         // tslint:disable-next-line:no-shadowed-variable
-        flatMap( (action, index): object => action ),
+        mergeMap( (action, index): object => action ),
         catchError((err) => of(NotificationsActions.addError(err.toString())))
       );
     })
-  );
+  ));
 
-  @Effect()
-  unlockFishingActivity$ = this.actions$.pipe(
+  unlockFishingActivity$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.unlockFishingActivity),
     mergeMap((action) => {
       window.localStorage.fishingActivityUnlocked = true;
       return EMPTY;
     })
-  );
+  ),{ dispatch: false });
 
-  @Effect()
-  logout$ = this.actions$.pipe(
+  logout$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.logout),
     mergeMap((action) => {
       localStorage.removeItem('authToken');
@@ -164,5 +159,5 @@ export class AuthEffects {
       localStorage.removeItem('fishingActivityUnlocked');
       return EMPTY;
     })
-  );
+  ),{ dispatch: false });
 }

@@ -24,10 +24,6 @@ import { FullLayoutComponent } from './layouts/full/full.component';
 import { LoginLayoutComponent } from './layouts/login/login.component';
 import { MobileTerminalLayoutComponent } from './layouts/mobile-terminal/mobile-terminal.component';
 
-// Layouts: Efr
-import { EfrDefaultLayoutComponent } from './layouts/efr/efr-default/efr-default.component';
-import { FishingReportLayoutComponent } from './layouts/efr/fishing-report/fishing-report.component';
-
 // Pages
 import { LoginComponent } from './pages/login/login.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
@@ -35,7 +31,6 @@ import { LogoutComponent } from './pages/logout/logout.component';
 import { NotFoundComponent } from './pages/404/404.component';
 
 // Components
-import { EfrTopMenuComponent } from './components/efr-top-menu/efr-top-menu.component';
 import { LoggedOutDialogComponent } from './components/logged-out-dialog/logged-out-dialog.component';
 import { LogoutTimerComponent } from './components/logout-timer/logout-timer.component';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
@@ -63,15 +58,10 @@ import { TypescriptTranslationsComponent } from './components/typescript-transla
     LoginLayoutComponent,
     MobileTerminalLayoutComponent,
 
-    // Efr-layouts
-    FishingReportLayoutComponent,
-    EfrDefaultLayoutComponent,
-
     // Components
     LoginComponent,
     UnauthorizedComponent,
     LogoutComponent,
-    EfrTopMenuComponent,
     TopMenuComponent,
     TypescriptTranslationsComponent,
     NotificationsComponent,

@@ -24,7 +24,7 @@ export const loginFailed = createAction(
 export const loginSuccess = createAction(
   '[Auth] Login Successfull',
   ({ jwtToken }: { jwtToken: string }) => {
-    const tokenDecoded = jwtDecode(jwtToken);
+    const tokenDecoded: AuthTypes.JwtTokenData = jwtDecode(jwtToken);
     return {
       payload: {
         jwtToken: { raw: jwtToken, decoded: tokenDecoded },
@@ -37,7 +37,7 @@ export const loginSuccess = createAction(
 export const updateToken = createAction(
   '[Auth] Update token',
   ({ jwtToken }: { jwtToken: string }) => {
-    const tokenDecoded = jwtDecode(jwtToken);
+    const tokenDecoded: AuthTypes.JwtTokenData = jwtDecode(jwtToken);
     return {
       payload: {
         jwtToken: { raw: jwtToken, decoded: tokenDecoded },

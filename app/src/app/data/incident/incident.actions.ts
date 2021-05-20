@@ -1,4 +1,4 @@
-import { Action, createAction, props } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import * as IncidentTypes from './incident.types';
 import { NoteParameters } from '@data/notes/notes.types';
 

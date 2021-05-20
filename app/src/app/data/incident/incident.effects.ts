@@ -1,24 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ROUTER_NAVIGATED, RouterNavigationAction } from '@ngrx/router-store';
-import { Store, Action } from '@ngrx/store';
-import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
-import { of, EMPTY, merge, Observable, interval, Subject } from 'rxjs';
-import { map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter, takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { map, mergeMap,  withLatestFrom, filter} from 'rxjs/operators';
 
-import { State } from '@app/app-reducer.ts';
-import { AuthTypes, AuthSelectors } from '../auth';
-import { AssetSelectors } from '@data/asset';
+import { State } from '@app/app-reducer';
+import { AuthSelectors } from '../auth';
 import { NotesActions } from '@data/notes';
-
-import { MapSettingsSelectors } from '../map-settings';
 
 import { IncidentService } from './incident.service';
 import { IncidentActions, IncidentTypes } from './';
-import { AssetTypes, AssetActions } from '@data/asset';
-import * as RouterSelectors from '@data/router/router.selectors';
+import { AssetActions } from '@data/asset';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
-import { MobileTerminalTypes, MobileTerminalActions } from '@data/mobile-terminal';
 import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
 
 @Injectable()
@@ -37,9 +31,7 @@ export class IncidentEffects {
     this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
-
-  @Effect()
-  createNote$ = this.actions$.pipe(
+  createNote$ = createEffect(() => this.actions$.pipe(
     ofType(IncidentActions.createNote),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -53,12 +45,11 @@ export class IncidentEffects {
           })
         );
       }),
-      flatMap((rAction, index) => rAction)
+      mergeMap((rAction, index) => rAction)
     ))
-  );
+  ));
 
-  @Effect()
-  getAllOpenIncidents$ = this.actions$.pipe(
+  getAllOpenIncidents$ = createEffect(() => this.actions$.pipe(
     ofType(IncidentActions.getAllOpenIncidents),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -84,13 +75,12 @@ export class IncidentEffects {
             })
           ];
         }),
-        flatMap(a => a),
+        mergeMap(a => a),
       );
     })
-  );
+  ));
 
-  @Effect()
-  getIncidentsForAssetId$ = this.actions$.pipe(
+  getIncidentsForAssetId$ = createEffect(() => this.actions$.pipe(
     ofType(IncidentActions.getIncidentsForAssetId),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -105,10 +95,9 @@ export class IncidentEffects {
         })
       );
     }),
-  );
+  ));
 
-  @Effect()
-  getIncidentTypes$ = this.actions$.pipe(
+  getIncidentTypes$ = createEffect(() => this.actions$.pipe(
     ofType(IncidentActions.getIncidentTypes),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -120,10 +109,9 @@ export class IncidentEffects {
         })
       );
     }),
-  );
+  ));
 
-  @Effect()
-  getValidIncidentStatusForTypes$ = this.actions$.pipe(
+  getValidIncidentStatusForTypes$ = createEffect(() => this.actions$.pipe(
     ofType(IncidentActions.getValidIncidentStatusForTypes),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -135,10 +123,9 @@ export class IncidentEffects {
         })
       );
     }),
-  );
+  ));
 
-  @Effect()
-  updateIncidentType$ = this.actions$.pipe(
+  updateIncidentType$ = createEffect(() => this.actions$.pipe(
     ofType(IncidentActions.updateIncidentType),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -148,10 +135,9 @@ export class IncidentEffects {
         map((incident: IncidentTypes.Incident) => IncidentActions.updateIncidents({ incidents: { [incident.id]: incident } }))
       );
     }),
-  );
+  ));
 
-  @Effect()
-  updateIncidentStatus$ = this.actions$.pipe(
+  updateIncidentStatus$ = createEffect(() => this.actions$.pipe(
     ofType(IncidentActions.updateIncidentStatus),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -161,10 +147,9 @@ export class IncidentEffects {
         map((incident: IncidentTypes.Incident) => IncidentActions.updateIncidents({ incidents: { [incident.id]: incident } }))
       );
     }),
-  );
+  ));
 
-  @Effect()
-  updateIncidentExpiry$ = this.actions$.pipe(
+  updateIncidentExpiry$ = createEffect(() => this.actions$.pipe(
     ofType(IncidentActions.updateIncidentExpiry),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -174,10 +159,9 @@ export class IncidentEffects {
         map((incident: IncidentTypes.Incident) => IncidentActions.updateIncidents({ incidents: { [incident.id]: incident } }))
       );
     }),
-  );
+  ));
 
-  @Effect()
-  pollIncident$ = this.actions$.pipe(
+  pollIncident$ = createEffect(() => this.actions$.pipe(
     ofType(IncidentActions.pollIncident),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(
@@ -197,10 +181,9 @@ export class IncidentEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getLogForIncident$ = this.actions$.pipe(
+  getLogForIncident$ = createEffect(() => this.actions$.pipe(
     ofType(IncidentActions.getLogForIncident),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -229,6 +212,6 @@ export class IncidentEffects {
         })
       );
     }),
-  );
+  ));
 
 }
