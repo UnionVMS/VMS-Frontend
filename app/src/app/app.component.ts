@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     if(typeof window.localStorage.authToken !== 'undefined') {
-      const jwtToken = jwtDecode(window.localStorage.authToken);
+      const jwtToken : any = jwtDecode(window.localStorage.authToken);
       if(Date.now() > jwtToken.exp * 1000) {
         delete window.localStorage.authToken;
       } else {
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
         this.openUpFishingActivityIfApplicable();
       }
     } else if(typeof window.localStorage['ngStorage-token'] !== 'undefined') {
-      const jwtToken = jwtDecode(window.localStorage['ngStorage-token']);
+      const jwtToken : any = jwtDecode(window.localStorage['ngStorage-token']);
       if(Date.now() > jwtToken.exp * 1000) {
         delete window.localStorage['ngStorage-token'];
       } else {
