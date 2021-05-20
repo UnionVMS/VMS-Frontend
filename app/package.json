@@ -31,7 +31,6 @@
     "@ngrx/router-store": "^12.0.0",
     "@ngrx/store": "^12.0.0",
     "@ngrx/store-devtools": "^12.0.0",
-    "@types/chart.js": "^2.9.32",
     "chart.js": "^3.2.1",
     "core-js": "^3.12.1",
     "country-iso-3-to-2": "^1.1.0",
@@ -71,6 +70,7 @@
     "sass": "^1.32.13",
     "ts-node": "~9.1.1",
     "tslint": "~6.1.0",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "chart.js": "^3.2.1"
   }
 }
