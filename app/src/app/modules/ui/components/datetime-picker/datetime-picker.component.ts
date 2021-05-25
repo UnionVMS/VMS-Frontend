@@ -48,7 +48,7 @@ export class DatetimePickerComponent implements OnChanges, OnInit, AfterViewInit
   @ViewChild('datetimePickerContent') datetimePickerContent: ElementRef;
 
   setDate() {
-    if (this.dateTime !== null && this.dateTime.isValid()) {
+    if (typeof this.dateTime !== 'undefined' && this.dateTime !== null && this.dateTime.isValid()) {
       this.pressentableDateTime = new FormControl({ value: this.dateTime.format('YYYY-MM-DD HH:mm'), disabled: this.disabled });
       this.hour = new FormControl(this.dateTime.format('HH'));
       this.minute = new FormControl(this.dateTime.format('mm'));
