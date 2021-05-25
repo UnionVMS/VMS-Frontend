@@ -21,6 +21,7 @@ describe('AuthReducer', () => {
         sub: 'authentication',
         iat: 1554819413,
         exp: 1554823302,
+        features: 123,
         userName: 'vms_user'
       }
     },
@@ -33,7 +34,7 @@ describe('AuthReducer', () => {
     it('should return a acceptable user object.', () => {
       const state = AuthReducer.authReducer(undefined, AuthActions.loginSuccess({ jwtToken: authState.jwtToken.raw }));
 
-      expect(state.user).toEqual(authState);
+      expect(state.user.jwtToken.raw).toEqual(authState.jwtToken.raw);
     });
   });
 
