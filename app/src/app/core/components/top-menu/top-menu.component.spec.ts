@@ -55,10 +55,10 @@ describe('TopMenuComponent', () => {
     const links = layoutElement.querySelectorAll('.navbar a');
     // expect(links[0].textContent).toBe('F-Admin');
     expect(links[1].textContent).toContain('Asset');
-    expect(links[3].textContent).toContain('Realtime map');
-    expect(links[4].textContent).toContain('Reports map');
-    expect(links[5].textContent).toContain('My Settings');
-    expect(links[6].textContent).toContain('Logout');
+    expect(links[2].textContent).toContain('Realtime map');
+    expect(links[3].textContent).toContain('Reports map');
+    expect(links[4].textContent).toContain('My Settings');
+    expect(links[5].textContent).toContain('Logout');
     //expect(links[7].textContent).toBe('ADMIN');
 
     // check so admin link don´t show when isAdmin = false
