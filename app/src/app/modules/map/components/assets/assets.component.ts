@@ -104,7 +104,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    console.log("this.mapZoom: ", this.mapZoom);
     if(this.mapZoom < 8) {
       this.namesVisibleCalculated = false;
       this.speedsVisibleCalculated = false;
