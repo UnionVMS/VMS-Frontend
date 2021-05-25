@@ -37,7 +37,6 @@ export class AppComponent implements OnInit {
         delete window.localStorage.authToken;
       } else {
         this.store.dispatch(AuthActions.loginSuccess({ jwtToken: window.localStorage.authToken }));
-        this.openUpFishingActivityIfApplicable();
       }
     } else if(typeof window.localStorage['ngStorage-token'] !== 'undefined') {
       const jwtToken : any = jwtDecode(window.localStorage['ngStorage-token']);
@@ -46,16 +45,10 @@ export class AppComponent implements OnInit {
       } else {
         window.localStorage.authToken = window.localStorage['ngStorage-token'].replace(/^\"+|\"+$/g, '');
         this.store.dispatch(AuthActions.loginSuccess({ jwtToken: window.localStorage.authToken }));
-        this.openUpFishingActivityIfApplicable();
       }
     }
 
     this.mapStateToProps();
   }
 
-  openUpFishingActivityIfApplicable() {
-    if(window.localStorage.fishingActivityUnlocked === 'true') {
-      this.store.dispatch(AuthActions.unlockFishingActivity());
-    }
-  }
 }

@@ -141,14 +141,6 @@ export class AuthEffects {
     })
   ));
 
-  unlockFishingActivity$ = createEffect(() => this.actions$.pipe(
-    ofType(AuthActions.unlockFishingActivity),
-    mergeMap((action) => {
-      window.localStorage.fishingActivityUnlocked = true;
-      return EMPTY;
-    })
-  ),{ dispatch: false });
-
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.logout),
     mergeMap((action) => {
