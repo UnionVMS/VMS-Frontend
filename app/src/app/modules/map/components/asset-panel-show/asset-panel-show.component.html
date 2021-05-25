@@ -6,7 +6,9 @@
       src="/assets/flags/4x3/{{getCountryCode()}}.svg"
       [alt]="getCountryCode()"
     />
-    <span>{{ asset.asset.name + (asset.asset.externalMarking !== undefined ? ' — ' + asset.asset.externalMarking : '') }}</span>
+    <span>{{ (asset.asset.name !== undefined ? asset.asset.name  : '') +
+        (asset.asset.name !== undefined && asset.asset.externalMarking !== undefined ? ' — '  : '') +
+       (asset.asset.externalMarking !== undefined ? asset.asset.externalMarking : '') }}</span>
   </div>
   <div body class="body">
     <div class="information-wrapper">
@@ -32,9 +34,11 @@
             </div>
             <div class="position-fields">
               <label i18n>Speed:</label>
-              <div>{{selectedAssetsLastPositions.ais.speed.toFixed(2)}} <span i18n="Knots SI symbol">kn</span></div>
+              <div  *ngIf="selectedAssetsLastPositions.ais.speed">{{selectedAssetsLastPositions.ais.speed.toFixed(2)}} <span i18n="Knots SI symbol">kn</span></div>
+              <div  *ngIf="!selectedAssetsLastPositions.ais.speed">N/A <span i18n="Knots SI symbol">kn</span></div>
               <label i18n>Heading:</label>
-              <div>{{selectedAssetsLastPositions.ais.heading.toFixed(2)}}</div>
+              <div *ngIf="selectedAssetsLastPositions.ais.heading">{{selectedAssetsLastPositions.ais.heading.toFixed(2)}}</div>
+              <div *ngIf="!selectedAssetsLastPositions.ais.heading">N/A <span i18n="Knots SI symbol">kn</span></div>
               <label i18n>Position:</label>
               <div>
                 <div (click)="goToPosition(selectedAssetsLastPositions.ais.location)">{{ formatLocation(selectedAssetsLastPositions.ais.location) }}</div>

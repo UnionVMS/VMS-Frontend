@@ -1,9 +1,13 @@
 
-  <button mat-button
-  color="primary"
-  (click)="exportPositionsToCSV()"
-  i18n
-  >Export to CSV</button>
+<button mat-button
+*ngIf="positions != undefined && positions.length > 0"
+color="primary"
+(click)="exportPositionsToCSV()"
+i18n
+>Export to CSV</button>
+<p *ngIf="positions !== undefined && positions.length === 0"
+color="primary"
+i18n>No latest positions</p>
 
 <div class="positions-container mat-elevation-z8" *ngIf="positions">
   

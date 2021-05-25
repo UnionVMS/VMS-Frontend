@@ -1,5 +1,5 @@
 <map-panel-block
-  [blockTitle]="(asset.asset.externalMarking !== undefined ? asset.asset.externalMarking + ' — ' : '') + asset.asset.name"
+  [blockTitle]="(asset.asset.externalMarking !== undefined ? asset.asset.externalMarking : '') + (asset.asset.name !== undefined ? ' — ' + asset.asset.name : '')"
   [active]="asset.currentlyShowing"
   [setActiveFunction]="selectAssetWrapper()"
   [useArrowsAsToggle]="true"
