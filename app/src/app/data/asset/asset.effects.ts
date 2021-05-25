@@ -239,8 +239,18 @@ export class AssetEffects {
               }
               if(typeof messagesByType['Updated Asset'] !== 'undefined') {
                 actions.push(AssetActions.setEssentialProperties({
-                  assetEssentialProperties: messagesByType['Updated Asset'].reduce((acc, assetEssentials) => {
-                    acc[assetEssentials.assetId] = assetEssentials;
+                  assetEssentialProperties: messagesByType['Updated Asset'].reduce((acc, asset) => {
+                    acc[asset.id] = {
+                      assetId: asset.id,
+                      flagstate: asset.flagStateCode,
+                      assetName: asset.name,
+                      vesselType: asset.vesselType,
+                      ircs: asset.ircs,
+                      cfr: asset.cfr,
+                      externalMarking: asset.externalMarking,
+                      lengthOverAll: asset.lengthOverAll,
+                      hasLicence: asset.hasLicence
+                    };
                     return acc;
                   }, {})
                 }));
