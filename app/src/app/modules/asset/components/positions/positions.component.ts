@@ -101,7 +101,8 @@ export class PositionsComponent implements OnChanges {
 
     const exportedFilenmae = 'lastPositions.' + moment().format('YYYY-MM-DD.HH_mm') + '.csv';
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    // Added: \uFEFF as BOM "Byte Order Mark" to fix encioding problem on åäö
+    const blob = new Blob(["\uFEFF"+csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     if (link.download !== undefined) { // feature detection
       // Browsers that support HTML5 download attribute
