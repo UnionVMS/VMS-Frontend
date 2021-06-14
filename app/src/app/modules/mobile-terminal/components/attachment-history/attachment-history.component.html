@@ -1,6 +1,7 @@
 <div class="mobile-terminal-history--page-header">
   <h2>Terminal Attachment History</h2>
 </div>
+  <div *ngIf="mobileTerminalCurrentAssetHistoryArray">{{mobileTerminalCurrentAssetHistoryArray}}</div>
 
 <div class="mobile-terminal-history--list">
   <div class="mobile-terminal-history" *ngFor="let mobileTerminalHistory of mobileTerminalHistoryArray">
@@ -8,11 +9,19 @@
       <div class="field-column">
         <label>Attached to</label>
         <div class="value">
+          <p *ngIf="mobileTerminalHistory.snapshot.assetName" >
+            {{ mobileTerminalHistory.snapshot.assetName }}
+          </p>
+          <span *ngIf="!mobileTerminalHistory.snapshot.assetName">NONE</span>
+        </div>
+        <!--
+        <div class="value">
           <a *ngIf="mobileTerminalHistory.snapshot.assetId" routerLink="/asset/{{mobileTerminalHistory.snapshot.assetId}}">
             {{ getAssetName(mobileTerminalHistory.snapshot.assetId) }}
           </a>
           <span *ngIf="!mobileTerminalHistory.snapshot.assetId">NONE</span>
         </div>
+        -->
       </div>
       <div class="field-column">
         <label>Terminal</label>

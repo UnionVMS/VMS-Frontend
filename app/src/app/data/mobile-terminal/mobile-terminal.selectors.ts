@@ -17,6 +17,7 @@ export const selectSearchResults = (state: State) => state.mobileTerminal.search
 export const selectLastSearchHash = (state: State) => state.mobileTerminal.lastSearchHash;
 export const selectCreateWithSerialNo = (state: State) => state.mobileTerminal.createWithSerialNo;
 export const selectMobileTerminalHistoryFilter = (state: State) => state.mobileTerminal.mobileTerminalHistoryFilter;
+export const selectAssetHistoryForMobileTerminal = (state: State) => state.mobileTerminal.mobileTerminalAssetHistory;
 
 
 export const getCreateWithSerialNo = createSelector(selectCreateWithSerialNo, (createWithSerialNo) => createWithSerialNo);
@@ -145,4 +146,9 @@ export const getLastSearchResult = createSelector(
   (searchResults, lastSearchHash, mobileTerminals) => typeof searchResults[lastSearchHash] !== 'undefined'
     ? searchResults[lastSearchHash].map(mobileTerminalId => mobileTerminals[mobileTerminalId])
     : undefined
+);
+
+export const getAssetHistoryForMobileTerminal = createSelector(
+  selectAssetHistoryForMobileTerminal,
+  (mobileTerminalAssetHistory) => mobileTerminalAssetHistory || {}
 );

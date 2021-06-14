@@ -5,8 +5,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of, EMPTY, Observable } from 'rxjs';
 import { map, mergeMap, flatMap, catchError, withLatestFrom, filter } from 'rxjs/operators';
 
-import { State } from '@app/app-reducer.ts';
-import { AssetSelectors } from '../asset';
+import { State } from '@app/app-reducer';
+import { AssetSelectors, AssetTypes } from '../asset';
 import { MobileTerminalActions, MobileTerminalTypes, MobileTerminalSelectors } from './';
 import { MobileTerminalService } from './mobile-terminal.service';
 import * as NotificationsActions from '../notifications/notifications.actions';
@@ -300,5 +300,23 @@ export class MobileTerminalEffects {
     ))
   );
 
+  @Effect()
+  getAssetHistoryForMobileTerminal$ = this.actions$.pipe(
+    ofType(MobileTerminalActions.getAssetHistoryForMobileTerminal),
+    mergeMap((outerAction) => of(outerAction).pipe(
+      withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
+      mergeMap(([action, authToken]: Array<any>) => {
+        return this.mobileTerminalService.getAssetHistoryForMT(authToken, action.mobileTerminalId).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
+          map((response: AssetTypes.Asset[] ) => {
+            return MobileTerminalActions.setAssetHistoryForMobileTerminal({
+              mobileTerminalAssetHistory: { [action.mobileTerminalId]: response }
+            });
+          })
+        );
+      })
+    ))
+  );
 
 }

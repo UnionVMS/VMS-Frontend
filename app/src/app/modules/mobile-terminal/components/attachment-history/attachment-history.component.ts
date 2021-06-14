@@ -23,10 +23,12 @@ export class AttachmentHistoryComponent implements OnChanges {
   @Input() mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
   @Input() assets: Readonly<{ readonly [assetId: string]: AssetTypes.Asset}>;
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
-
+  @Input() mobileTerminalAssetHistory: MobileTerminalTypes.MobileTerminalAssetHistory;
   public mobileTerminalHistoryArray: ReadonlyArray<ExtendedMobileTerminalHistory>;
+  public mobileTerminalCurrentAssetHistoryArray: Array<AssetTypes.Asset>;
 
   ngOnChanges() {
+ 
     this.mobileTerminalHistoryArray = Object.keys(this.mobileTerminalHistoryList).map((id: string) => {
       const mobileTerminalHistory = this.mobileTerminalHistoryList[id];
       const uninstallDate = formatUnixtime(mobileTerminalHistory.snapshot.uninstallDate);
@@ -43,11 +45,24 @@ export class AttachmentHistoryComponent implements OnChanges {
           ...acc, [change.field]: change
         }), {}),
       };
-    }).filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
-      return typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined';
     }).sort((a, b) => b.updateTime - a.updateTime);
-  }
 
+    console.log("this.mobileTerminalAssetHistoryArray 1 : ", this.mobileTerminalAssetHistory);
+
+    this.mobileTerminalCurrentAssetHistoryArray = Object.keys(this.mobileTerminalAssetHistory).map((mobileTerminalId: string) => {
+      const mtHistory = this.mobileTerminalAssetHistory[mobileTerminalId];
+      console.log("this.mobileTerminalAssetHistory[mobileTerminalId] : ", mtHistory);
+      console.log("mobileTerminalHistoryList : ", this.mobileTerminalHistoryList);
+
+      console.log("mobileTerminalHistoryArray : ", this.mobileTerminalHistoryArray);
+      
+      return mtHistory[0];
+    });
+
+    
+
+  }
+  
   getAssetName(assetId: string) {
     return typeof this.assets !== 'undefined' && typeof this.assets[assetId] !== 'undefined' ? this.assets[assetId].name : assetId;
   }

@@ -27,6 +27,7 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
   public mobileTerminal: MobileTerminalTypes.MobileTerminal;
   public mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
   public mergedRoute: RouterTypes.MergedRoute;
+  public mobileTerminalAssetHistoryList$: Observable<MobileTerminalTypes.MobileTerminalAssetHistory>;
 
   mapStateToProps() {
     this.store.select(MobileTerminalSelectors.getMobileTerminalByUrl).pipe(
@@ -36,25 +37,28 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
     ).subscribe((mobileTerminal) => {
       this.mobileTerminal = mobileTerminal;
     });
-
+    
     this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryForUrlMobileTerminal).pipe(
       takeUntil(this.unmount$)
     ).subscribe((mobileTerminalHistory) => {
       this.mobileTerminalHistoryList = mobileTerminalHistory;
-      const assetIds = Object.values(this.mobileTerminalHistoryList).reduce((acc, mtHistory) => {
+      
+      if(this.mobileTerminalHistoryList && Object.keys(this.mobileTerminalHistoryList).length > 0) {
+        const assetIds = Object.values(this.mobileTerminalHistoryList).reduce((acc, mtHistory) => {
           if(typeof mtHistory.snapshot.assetId !== 'undefined' && !acc.includes(mtHistory.snapshot.assetId)) {
             acc.push(mtHistory.snapshot.assetId);
           }
           return acc;
         }, []
-      );
-      this.store.dispatch(AssetActions.searchAssets({ searchQuery: {
-        fields: assetIds.map(assetId => ({
-          searchField: 'GUID',
-          searchValue: assetId
-        })),
-        logicalAnd: false
-      }, userSearch: false }));
+        );
+        this.store.dispatch(AssetActions.searchAssets({ searchQuery: {
+          fields: assetIds.map(assetId => ({
+            searchField: 'GUID',
+            searchValue: assetId
+          })),
+          logicalAnd: false
+        }, userSearch: false }));
+      }
     });
 
     this.store.select(AssetSelectors.getCurrentAssetList).pipe(
@@ -71,9 +75,14 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(MobileTerminalActions.getMobileTerminalHistory({
           mobileTerminalId: this.mergedRoute.params.mobileTerminalId
         }));
+        this.store.dispatch(MobileTerminalActions.getAssetHistoryForMobileTerminal({
+          mobileTerminalId: this.mergedRoute.params.mobileTerminalId
+        }));
       }
     });
+    this.mobileTerminalAssetHistoryList$ = this.store.select(MobileTerminalSelectors.getAssetHistoryForMobileTerminal);
     this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
+  
   }
 
   mapDispatchToProps() {}

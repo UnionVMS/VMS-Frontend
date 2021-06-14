@@ -29,7 +29,8 @@ export const initialState: MobileTerminalTypes.State = {
       'active', 'archived', 'configChannel', 'defaultChannel', 'pollChannel',
       'expectedFrequency', 'expectedFrequencyInPort', 'frequencyGracePeriod',
     ]
-  }
+  },
+  mobileTerminalAssetHistory: null
 };
 
 export const allMobileTerminalFields = [
@@ -207,6 +208,13 @@ export const mobileTerminalReducer = createReducer(initialState,
         ...state.formFieldsValid.memberNumberAndDnidCombinationExists,
         [channelId]: dnidMemberNumberComboExists
       }
+    }
+  })),
+  on(MobileTerminalActions.setAssetHistoryForMobileTerminal, (state, { mobileTerminalAssetHistory }) => ({
+    ...state,
+    mobileTerminalAssetHistory: {
+      ...state.mobileTerminalAssetHistory,
+      ...mobileTerminalAssetHistory,
     }
   })),
 );

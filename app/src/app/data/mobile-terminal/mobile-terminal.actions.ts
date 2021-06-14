@@ -1,3 +1,5 @@
+import { AssetTypes } from '@data/asset';
+import { Asset } from '@data/asset/asset.types';
 import { createAction, props } from '@ngrx/store';
 import * as MobileTerminalTypes from './mobile-terminal.types';
 
@@ -37,6 +39,11 @@ export const getMobileTerminals = createAction(
 );
 
 export const getMobileTerminalHistory = createAction(
+  '[Mobile Terminals] Get history',
+  props<{ mobileTerminalId: string }>()
+);
+
+export const getAssettorMobileTerminalHistory = createAction(
   '[Mobile Terminals] Get history',
   props<{ mobileTerminalId: string }>()
 );
@@ -130,3 +137,14 @@ export const createWithSerialNo = createAction(
   '[Mobile Terminal] Create with serial no',
   props<{ serialNo: string | null }>()
 );
+
+export const getAssetHistoryForMobileTerminal = createAction(
+  '[Mobile Terminals] Get Assethistory',
+  props<{ mobileTerminalId: string }>()
+);
+
+export const setAssetHistoryForMobileTerminal = createAction(
+  '[Mobile Terminals] Set Assethistory',
+  props<{ mobileTerminalAssetHistory: MobileTerminalTypes.MobileTerminalAssetHistory}>()
+);
+
