@@ -39,7 +39,7 @@ export class PositionsComponent implements OnChanges {
     } else {
       this.formattedPositions = this.positions.map(position => ({
         ...position,
-        locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude),
+        locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude, 2),
         formattedTimestamp: formatUnixtime(position.timestamp),
         formattedSpeed: typeof position.speed === 'number' ? position.speed.toFixed(2) : '',
         sourceSatelliteId: position.sourceSatelliteId,
