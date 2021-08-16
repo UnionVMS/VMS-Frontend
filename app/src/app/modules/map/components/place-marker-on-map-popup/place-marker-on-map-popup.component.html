@@ -1,0 +1,9 @@
+<div #overlayElement [id]="markerInfo.id" class="popup-place-marker">
+    <b class="popup-place-marker-number">{{getMarkerNumber()}}</b>
+  
+    <div class="popup-place-marker-info">
+        <div><button type="button" (click)="closePlaceMarkerPopup()" i18n>Remove mark nr: <b>{{ getMarkerNumber() }}</b> </button> </div>
+        <p>{{ markerInfo.coordinates }}</p>
+    </div>
+</div>
+

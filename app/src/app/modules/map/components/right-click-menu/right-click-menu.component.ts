@@ -2,7 +2,6 @@ import { Component, Input, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { truncFloat } from '@app/helpers/float';
 import { convertDDToDDM, convertDDToDMS } from '@app/helpers/wgs84-formatter';
 import { toLonLat, transform } from 'ol/proj';
-import { get as getProjection } from 'ol/proj';
 
 type CoordinatePopupObject = Readonly<{
   id: string;
@@ -10,6 +9,12 @@ type CoordinatePopupObject = Readonly<{
   coordinates: Readonly<{
     readonly [format: string]: string
   }>;
+}>;
+
+type MarkerObject = Readonly<{
+  id: string,
+  baseCoordinates: ReadonlyArray<number>,
+  coordinates: string;
 }>;
 
 @Component({
@@ -32,6 +37,9 @@ export class RightClickMenuComponent implements OnInit, OnDestroy {
 
   public coordinatePopups: ReadonlyArray<CoordinatePopupObject> = [];
   public coordinatePopupsIndex = 0;
+
+  public markerPopups: ReadonlyArray<MarkerObject> = [];
+  public markerPopupsIndex = 0;
 
   public closePopup = () => {
     this.currentlyActive = false;
@@ -70,7 +78,26 @@ export class RightClickMenuComponent implements OnInit, OnDestroy {
     ];
   }
 
+  public addPositionMarker = () => {
+    this.closePopup();
+    const [ baseLongitude, baseLatitude ] = toLonLat(this.currentPosition);
+    const dms = convertDDToDMS(baseLatitude, baseLongitude, 2);
+    const id = '' + this.markerPopupsIndex++;
+    this.markerPopups = [ ...this.markerPopups,
+      {
+        id,
+        baseCoordinates: this.currentPosition,
+        coordinates:  dms.latitude + ', ' + dms.longitude
+      }
+    ];
+   
+  }
+
   public coordinatePopupsTrackByFunction = (index: number, obj: CoordinatePopupObject) => {
+    return obj.id;
+  }
+
+  public markerPopupsTrackByFunction = (index: number, obj: MarkerObject) => {
     return obj.id;
   }
 

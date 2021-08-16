@@ -91,6 +91,8 @@ import { SelectedAssetsPanelComponent } from './components/selected-assets-panel
 import { TracksComponent } from './components/tracks/tracks.component';
 import { TracksSegmentsComponent } from './components/tracks-segments/tracks-segments.component';
 import { TripPlayerComponent } from './components/trip-player/trip-player.component';
+import { PlaceMarkerComponent } from './components/place-marker-on-map-popup/place-marker-on-map-popup.component';
+
 
 
 @NgModule({
@@ -181,6 +183,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     TracksComponent,
     TracksSegmentsComponent,
     TripPlayerComponent,
+    PlaceMarkerComponent
   ]
 })
 

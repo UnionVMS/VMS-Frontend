@@ -1,5 +1,6 @@
 <div id="right-click-popup">
   <button type="button" mat-raised-button (click)="createCoordinatesPopup()" i18n>Show all coordinate information</button>
+  <button type="button" mat-raised-button (click)="addPositionMarker()" i18n>Place Marker</button>
 </div>
 <map-coordinates-popup
   *ngFor="let coordinatePopup of coordinatePopups;trackBy: coordinatePopupsTrackByFunction"
@@ -7,3 +8,9 @@
   [addOverlay]="addOverlay"
   [removeOverlay]="removeOverlay"
 ></map-coordinates-popup>
+<marker-on-map
+  *ngFor="let markerPopup of markerPopups;trackBy: markerPopupsTrackByFunction"
+  [markerInfo]="markerPopup"
+  [addOverlay]="addOverlay"
+  [removeOverlay]="removeOverlay"
+></marker-on-map>
