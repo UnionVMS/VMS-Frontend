@@ -22,6 +22,17 @@
   color: #000;
   max-width: 80%;
 }
+.tempname {
+  transform:translate(-0px, -45px);
+  visibility: hidden;
+  display: block;
+  text-align: left;
+  padding-left: 1px;
+  min-width: 200px;
+}
+.popup-place-marker:hover .tempname {
+  visibility: visible;
+}
 .popup-place-marker-info {
   background-color: #fff;
   color: #000;
