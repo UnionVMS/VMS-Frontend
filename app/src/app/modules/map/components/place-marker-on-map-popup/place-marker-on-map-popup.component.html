@@ -1,7 +1,7 @@
 <div #overlayElement [id]="markerInfo.id" class="popup-place-marker" (click)="clickTheMark()">
     
     <b class="popup-place-marker-number">{{getPopupMarkerNumber()}}</b>
-    <div class="tempname"><b>{{ markerInfo.name }}</b></div>
+    <div class="tempname"><p>{{ markerInfo.name }}</p></div>
     <div [ngStyle]="{'visibility':currentlyActive ? 'visible' : 'hidden'}" class="popup-place-marker-info">
         <ui-button-close [clickFunction]="closePopup"></ui-button-close>
         <p class="nametext">Name: <b>{{ markerInfo.name }}</b></p>
