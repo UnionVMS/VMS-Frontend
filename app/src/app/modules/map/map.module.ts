@@ -92,7 +92,6 @@ import { TracksComponent } from './components/tracks/tracks.component';
 import { TracksSegmentsComponent } from './components/tracks-segments/tracks-segments.component';
 import { TripPlayerComponent } from './components/trip-player/trip-player.component';
 import { PlaceMarkerComponent } from './components/place-marker-on-map-popup/place-marker-on-map-popup.component';
-import { MarkerInfoPopupComponent } from './components/marker-info-popup/marker-info-popup.component';
 
 
 
@@ -184,8 +183,7 @@ import { MarkerInfoPopupComponent } from './components/marker-info-popup/marker-
     TracksComponent,
     TracksSegmentsComponent,
     TripPlayerComponent,
-    PlaceMarkerComponent,
-    MarkerInfoPopupComponent
+    PlaceMarkerComponent
   ]
 })
 
