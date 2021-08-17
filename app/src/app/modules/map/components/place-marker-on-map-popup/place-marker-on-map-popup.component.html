@@ -1,9 +1,18 @@
-<div #overlayElement [id]="markerInfo.id" class="popup-place-marker">
-    <b class="popup-place-marker-number">{{getMarkerNumber()}}</b>
-  
-    <div class="popup-place-marker-info">
-        <div><button type="button" (click)="closePlaceMarkerPopup()" i18n>Remove mark nr: <b>{{ getMarkerNumber() }}</b> </button> </div>
-        <p>{{ markerInfo.coordinates }}</p>
-    </div>
-</div>
+<div #overlayElement [id]="markerInfo.id" class="popup-place-marker" (click)="clickTheMark()">
+    <b class="popup-place-marker-number">{{getPopupMarkerNumber()}}</b>
 
+    <div [ngStyle]="{'visibility':currentlyActive ? 'visible' : 'hidden'}" class="popup-place-marker-info">
+        <ui-button-close [clickFunction]="closePopup"></ui-button-close>
+        <p class="nametext">Name: <b>{{ markerInfo.name }}</b></p>
+        <p>{{ markerInfo.coordinates }}</p>
+
+        <mat-form-field appearance="fill">
+            <mat-label i18n>Change name</mat-label>
+            <input matInput (keyup.enter)="addName($event)">
+        </mat-form-field>
+   
+
+        <button type="button" (click)="closePlaceMarkerPopup()" i18n>Remove Mark {{ getPopupMarkerNumber() }} </button> 
+    </div>
+    
+</div>

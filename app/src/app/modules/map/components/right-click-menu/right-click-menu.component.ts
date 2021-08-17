@@ -11,11 +11,12 @@ type CoordinatePopupObject = Readonly<{
   }>;
 }>;
 
-type MarkerObject = Readonly<{
+type MarkerObject = {
   id: string,
   baseCoordinates: ReadonlyArray<number>,
   coordinates: string;
-}>;
+  name: string;
+};
 
 @Component({
   selector: 'map-right-click-menu',
@@ -87,7 +88,8 @@ export class RightClickMenuComponent implements OnInit, OnDestroy {
       {
         id,
         baseCoordinates: this.currentPosition,
-        coordinates:  dms.latitude + ', ' + dms.longitude
+        coordinates:  dms.latitude + ', ' + dms.longitude,
+        name: 'Mark '+(parseInt(id) +1)
       }
     ];
    
