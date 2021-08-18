@@ -8,7 +8,7 @@ import {
   map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter, takeUntil, take, skipWhile
 } from 'rxjs/operators';
 
-import { State } from '@app/app-reducer.ts';
+import { State } from '@app/app-reducer';
 import { AuthTypes, AuthSelectors } from '../auth';
 import { MapSettingsSelectors } from '../map-settings';
 
@@ -73,10 +73,16 @@ export class AssetEffects {
             searchValue: 'SWE'
           },
           {
+            searchField: 'mobileTerminals',
+            searchValue: 'true',
+          },
+          /*           
+          {
             searchField: 'lengthOverAll',
             searchValue: 12,
             operator: '>=',
-          },
+          }, 
+          */
           {
             searchField: 'vesselType',
             searchValue: 'fishing'
