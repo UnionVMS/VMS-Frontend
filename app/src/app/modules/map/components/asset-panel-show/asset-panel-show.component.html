@@ -37,7 +37,7 @@
               <div  *ngIf="selectedAssetsLastPositions.ais.speed">{{selectedAssetsLastPositions.ais.speed.toFixed(2)}} <span i18n="Knots SI symbol">kn</span></div>
               <div  *ngIf="!selectedAssetsLastPositions.ais.speed">N/A <span i18n="Knots SI symbol">kn</span></div>
               <label i18n>Heading:</label>
-              <div *ngIf="selectedAssetsLastPositions.ais.heading">{{selectedAssetsLastPositions.ais.heading.toFixed(2)}}</div>
+              <div *ngIf="selectedAssetsLastPositions.ais.heading">{{selectedAssetsLastPositions.ais.heading.toFixed(2)}}°</div>
               <div *ngIf="!selectedAssetsLastPositions.ais.heading">N/A <span i18n="Knots SI symbol">kn</span></div>
               <label i18n>Position:</label>
               <div>
@@ -62,7 +62,7 @@
               <label i18n>Speed:</label>
               <div>{{selectedAssetsLastPositions.vms.speed.toFixed(2)}} <span i18n="Knots SI symbol">kn</span></div>
               <label i18n>Heading:</label>
-              <div>{{selectedAssetsLastPositions.vms.heading.toFixed(2)}}</div>
+              <div>{{selectedAssetsLastPositions.vms.heading.toFixed(2)}}°</div>
               <label i18n>Position:</label>
               <div>
                 <div (click)="goToPosition(selectedAssetsLastPositions.vms.location)">{{ formatLocation(selectedAssetsLastPositions.vms.location) }}</div>
