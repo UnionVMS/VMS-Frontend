@@ -141,9 +141,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
               searchValue: 'SWE'
             },
             {
-              searchField: 'lengthOverAll',
-              searchValue: 12,
-              operator: '>=',
+              searchField: 'mobileTerminals',
+              searchValue: 'true',
             },
             {
               searchField: 'vesselType',

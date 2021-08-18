@@ -76,13 +76,6 @@ export class AssetEffects {
             searchField: 'mobileTerminals',
             searchValue: 'true',
           },
-          /*           
-          {
-            searchField: 'lengthOverAll',
-            searchValue: 12,
-            operator: '>=',
-          }, 
-          */
           {
             searchField: 'vesselType',
             searchValue: 'fishing'
