@@ -14,7 +14,6 @@ import { LogoutComponent } from '@app/core/pages/logout/logout.component';
 import { NotFoundComponent } from '@app/core/pages/404/404.component';
 
 // Import other routes
-import { efrRoutes } from './efr-routing';
 import { vmsRoutes } from './vms-routing';
 
 
@@ -36,12 +35,11 @@ const routes: Routes = [
     ]
   },
   ...vmsRoutes,
-  ...efrRoutes,
   { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
+  imports: [RouterModule.forRoot(routes, { enableTracing: true, relativeLinkResolution: 'legacy' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

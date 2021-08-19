@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:12-alpine
 
 # Setup angular cli
 RUN npm install -g @angular/cli ngx-i18nsupport

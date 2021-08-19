@@ -24,7 +24,7 @@ export const loginFailed = createAction(
 export const loginSuccess = createAction(
   '[Auth] Login Successfull',
   ({ jwtToken }: { jwtToken: string }) => {
-    const tokenDecoded = jwtDecode(jwtToken);
+    const tokenDecoded: any = jwtDecode(jwtToken);
     return {
       payload: {
         jwtToken: { raw: jwtToken, decoded: tokenDecoded },
@@ -37,7 +37,7 @@ export const loginSuccess = createAction(
 export const updateToken = createAction(
   '[Auth] Update token',
   ({ jwtToken }: { jwtToken: string }) => {
-    const tokenDecoded = jwtDecode(jwtToken);
+    const tokenDecoded: any = jwtDecode(jwtToken);
     return {
       payload: {
         jwtToken: { raw: jwtToken, decoded: tokenDecoded },
@@ -58,8 +58,4 @@ export const isAdmin = createAction(
 export const setRoleAndScope = createAction(
   '[Auth] Set role and scrope',
   props<{ role: AuthTypes.Role, scope: AuthTypes.Scope }>()
-);
-
-export const unlockFishingActivity = createAction(
-  '[Auth] Unlock fishing activity',
 );

@@ -16,8 +16,6 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
-import { DatetimePickerModule } from 'ngx-moment-tz-picker';
-
 /* Modules */
 import { UIModule } from '../ui/ui.module';
 
@@ -113,7 +111,6 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MatSliderModule,
     MatTooltipModule,
     RouterModule,
-    DatetimePickerModule
   ],
   declarations: [
     RealtimeComponent,

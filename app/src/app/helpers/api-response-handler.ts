@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { State } from '@app/app-reducer.ts';
+import { State } from '@app/app-reducer';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
 import * as AuthActions from '@data/auth/auth.actions';
 

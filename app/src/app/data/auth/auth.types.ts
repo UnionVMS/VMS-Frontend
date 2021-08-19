@@ -3,14 +3,28 @@ export type UserData = Readonly<{
 }>;
 
 export type JwtTokenData = Readonly<{
-  exp: number,
-  features: ReadonlyArray<number>,
-  iat: number,
-  iss: string,
-  jti: string;
-  sub: string,
-  userName: string,
+  exp?: number,
+  features?: ReadonlyArray<number>,
+  iat?: number,
+  iss?: string,
+  jti?: string;
+  sub?: string,
+  userName?: string,
 }>;
+/*
+
+export interface JwtPayload {
+  iss?: string;
+  sub?: string;
+  aud?: string[] | string;
+  exp?: number;
+  nbf?: number;
+  iat?: number;
+  jti?: string;
+}
+
+ */
+
 
 export type Role = Readonly<{
   name: string;

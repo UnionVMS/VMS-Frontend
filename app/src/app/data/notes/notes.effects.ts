@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Store, Action } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, EMPTY, Observable } from 'rxjs';
-import { map, mergeMap, flatMap, catchError, withLatestFrom, filter } from 'rxjs/operators';
+import { map, mergeMap, withLatestFrom, filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import { State } from '@app/app-reducer.ts';
+import { State } from '@app/app-reducer';
 import { getMergedRoute } from '@data/router/router.selectors';
 import { NotesActions, NotesTypes } from './';
 import { NotesService } from './notes.service';
@@ -31,8 +31,7 @@ export class NotesEffects {
     this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
-  @Effect()
-  getNotesForSelectedAssetObserver$ = this.actions$.pipe(
+  getNotesForSelectedAssetObserver$ = createEffect(() => this.actions$.pipe(
     ofType(NotesActions.getNotesForSelectedAsset),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
@@ -55,10 +54,9 @@ export class NotesEffects {
         }
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getSelectedNote$ = this.actions$.pipe(
+  getSelectedNote$ = createEffect(() => this.actions$.pipe(
     ofType(NotesActions.getSelectedNote),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
@@ -81,10 +79,9 @@ export class NotesEffects {
         }
       })
     ))
-  );
+  ));
 
-  @Effect()
-  deleteNote$ = this.actions$.pipe(
+  deleteNote$ = createEffect(() => this.actions$.pipe(
     ofType(NotesActions.deleteNote),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -98,10 +95,9 @@ export class NotesEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  saveNote$ = this.actions$.pipe(
+  saveNote$ = createEffect(() => this.actions$.pipe(
     ofType(NotesActions.saveNote),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
@@ -135,7 +131,8 @@ export class NotesEffects {
           })
         );
       }),
-      flatMap((rAction, index) => rAction)
+      mergeMap((rAction, index) => rAction)
     ))
-  );
+  ));
+
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from '@app/app-reducer.ts';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, EMPTY, Observable } from 'rxjs';
-import { mergeMap, map, flatMap, withLatestFrom, catchError, filter } from 'rxjs/operators';
+import { State } from '@app/app-reducer';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of, Observable } from 'rxjs';
+import { mergeMap, map, withLatestFrom, catchError, filter } from 'rxjs/operators';
 
-import { AuthReducer, AuthSelectors } from '../auth';
+import { AuthSelectors } from '../auth';
 
 import { NotificationsActions } from '../notifications';
 import { MapSavedFiltersActions, MapSavedFiltersSelectors } from './';
@@ -31,8 +31,7 @@ export class MapSavedFiltersEffects {
     this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
-  @Effect()
-  saveMapFiltersObserver$ = this.actions$.pipe(
+  saveMapFiltersObserver$ = createEffect(() => this.actions$.pipe(
     ofType(MapSavedFiltersActions.saveFilter),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(
@@ -55,15 +54,14 @@ export class MapSavedFiltersEffects {
               MapSavedFiltersActions.addSavedFilter({ filter: response })
             ];
           }),
-          flatMap(a => a),
+          mergeMap(a => a),
           catchError((err) => of({ type: 'API ERROR', payload: err }))
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getFiltersObserver$ = this.actions$.pipe(
+  getFiltersObserver$ = createEffect(() => this.actions$.pipe(
     ofType(MapSavedFiltersActions.getAll),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -77,10 +75,9 @@ export class MapSavedFiltersEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  deleteFiltersObserver$ = this.actions$.pipe(
+  deleteFiltersObserver$ = createEffect(() => this.actions$.pipe(
     ofType(MapSavedFiltersActions.deleteFilter),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -94,6 +91,6 @@ export class MapSavedFiltersEffects {
         );
       })
     ))
-  );
+  ));
 
 }

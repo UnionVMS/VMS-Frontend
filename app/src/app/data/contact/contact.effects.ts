@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Store, Action } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store} from '@ngrx/store';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, EMPTY, Observable } from 'rxjs';
-import { map, mergeMap, flatMap, catchError, withLatestFrom, filter } from 'rxjs/operators';
+import { map, mergeMap, withLatestFrom, filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import { State } from '@app/app-reducer.ts';
+import { State } from '@app/app-reducer';
 import { getMergedRoute } from '@data/router/router.selectors';
 import { ContactActions, ContactReducer, ContactTypes } from './';
 import { ContactService } from './contact.service';
 import * as NotificationsActions from '../notifications/notifications.actions';
-import { AuthTypes, AuthSelectors } from '../auth';
-import * as RouterSelectors from '@data/router/router.selectors';
+import { AuthSelectors } from '../auth';
 
 import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
 
@@ -31,8 +30,7 @@ export class ContactEffects {
     this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
-  @Effect()
-  getContactsForSelectedAssetObserver$ = this.actions$.pipe(
+  getContactsForSelectedAssetObserver$ = createEffect(() => this.actions$.pipe(
     ofType(ContactActions.getContactsForSelectedAsset),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
@@ -58,10 +56,9 @@ export class ContactEffects {
         }
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getSelectedContact$ = this.actions$.pipe(
+  getSelectedContact$ = createEffect(() => this.actions$.pipe(
     ofType(ContactActions.getSelectedContact),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
@@ -84,11 +81,9 @@ export class ContactEffects {
         }
       })
     ))
-  );
+  ));
 
-
-  @Effect()
-  saveContact$ = this.actions$.pipe(
+  saveContact$ = createEffect(() => this.actions$.pipe(
     ofType(ContactActions.saveContact),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
@@ -102,7 +97,6 @@ export class ContactEffects {
         } else {
           request = this.contactService.updateContact(authToken, action.contact);
         }
-
         return request.pipe(
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
@@ -116,8 +110,8 @@ export class ContactEffects {
           })
         );
       }),
-      flatMap((rAction, index) => rAction)
+      mergeMap((rAction, index) => rAction)
     ))
-  );
+  ));
 
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { version } from '@app/../../package.json';
+// import { version as appVersion } from '@app/../../package.json';
+import * as packageJsonInfo from '@app/../../package.json';
 import { Router } from '@angular/router';
-import { Subscription, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthSelectors } from '@data/auth';
 import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
@@ -20,7 +21,7 @@ import { RouterTypes, RouterSelectors } from '@data/router';
 })
 
 export class AssetLayoutComponent implements OnInit, OnDestroy {
-  public appVersion: string = version;
+  public appVersion: string = packageJsonInfo.version;
 
   public isAdmin$: Observable<boolean>;
   public fishingActivityUnlocked$: Observable<boolean>;
@@ -121,6 +122,5 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
   matchAssetInfoUrl() {
     return this.mergedRoute.url.match(/^\/asset\/([^/]+)$/g) !== null;
   }
-
 
 }
