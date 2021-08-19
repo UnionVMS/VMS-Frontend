@@ -7,7 +7,7 @@ export const truncFloat = (val: number, decimals: number, ignorePrecisionCheck =
     // If we truncate the float when we have less precision then the requested decimal value it will
     // in some cases be a rounding error.
     if(typeof valSplit[1] === 'undefined' || valSplit[1].length <= decimals) {
-      return val;
+      return val.toFixed(decimals);
     }
   }
 

@@ -176,7 +176,7 @@ export class IncidentEffects {
             if(typeof response.code !== 'undefined') {
               return [NotificationsActions.addError('Server error: Couldn\'t create a manual poll. Please contact system administrator.')];
             }
-            return [NotificationsActions.addNotice('Manual poll initiated. Response can take anywhere from a few minutes up to a couple of hours.')];
+            return [NotificationsActions.addNotice('Manual poll initiated. Response is expected within 8 minutes.')];
           })
         );
       })

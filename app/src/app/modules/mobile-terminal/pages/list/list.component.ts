@@ -193,7 +193,7 @@ export class ListPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const exportedFilenmae = 'mobileTerminals.' + moment().format('YYYY-MM-DD.HH_mm') + '.csv';
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob(["\uFEFF"+csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     if (link.download !== undefined) { // feature detection
       // Browsers that support HTML5 download attribute

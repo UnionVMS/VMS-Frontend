@@ -234,8 +234,18 @@ export class AssetEffects {
               }
               if(typeof messagesByType['Updated Asset'] !== 'undefined') {
                 actions.push(AssetActions.setEssentialProperties({
-                  assetEssentialProperties: messagesByType['Updated Asset'].reduce((acc, assetEssentials) => {
-                    acc[assetEssentials.assetId] = assetEssentials;
+                  assetEssentialProperties: messagesByType['Updated Asset'].reduce((acc, asset) => {
+                    acc[asset.id] = {
+                      assetId: asset.id,
+                      flagstate: asset.flagStateCode,
+                      assetName: asset.name,
+                      vesselType: asset.vesselType,
+                      ircs: asset.ircs,
+                      cfr: asset.cfr,
+                      externalMarking: asset.externalMarking,
+                      lengthOverAll: asset.lengthOverAll,
+                      hasLicence: asset.hasLicence
+                    };
                     return acc;
                   }, {})
                 }));
@@ -549,7 +559,7 @@ export class AssetEffects {
             if(typeof response.code !== 'undefined') {
               return [NotificationsActions.addError('Server error: Couldn\'t create a manual poll. Please contact system administrator.')];
             }
-            return [NotificationsActions.addNotice('Manual poll initiated. Response can take anywhere from a few minutes up to a couple of hours.')];
+            return [NotificationsActions.addNotice('Manual poll initiated. Response is expected within 8 minutes.')];
           })
         );
       })

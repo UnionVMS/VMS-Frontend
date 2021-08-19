@@ -39,7 +39,7 @@ export class PositionsComponent implements OnChanges {
     } else {
       this.formattedPositions = this.positions.map(position => ({
         ...position,
-        locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude),
+        locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude, 2),
         formattedTimestamp: formatUnixtime(position.timestamp),
         formattedSpeed: typeof position.speed === 'number' ? position.speed.toFixed(2) : '',
         sourceSatelliteId: position.sourceSatelliteId,
@@ -101,7 +101,8 @@ export class PositionsComponent implements OnChanges {
 
     const exportedFilenmae = 'lastPositions.' + moment().format('YYYY-MM-DD.HH_mm') + '.csv';
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    // Added: \uFEFF as BOM "Byte Order Mark" to fix encioding problem on åäö
+    const blob = new Blob(["\uFEFF"+csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     if (link.download !== undefined) { // feature detection
       // Browsers that support HTML5 download attribute
