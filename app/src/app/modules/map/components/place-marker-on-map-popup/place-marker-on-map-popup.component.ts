@@ -52,5 +52,31 @@ export class PlaceMarkerComponent implements AfterViewInit{
 
   ngAfterViewInit() {
     this.addOverlay(this.markerInfo.id, this.overlayElement.nativeElement, this.markerInfo.baseCoordinates);
+    this.overlayElement.nativeElement.addEventListener('wheel', function (event) {
+      const toElement=document.querySelector('canvas')
+      toElement.dispatchEvent(new event.constructor(event.type, event));
+      event.preventDefault();
+      event.stopPropagation();
+    });
+
   }
 }
+
+/** 
+ * 
+ * 
+ *       this.elementRef.nativeElement.querySelector('my-element')
+                                    .addEventListener('click', this.onClick.bind(this));
+
+
+function redirectEvent(eventType, fromElementSelector, toElementSelector) {
+  const fromElement=document.querySelector(fromElementSelector)
+  const toElement=document.querySelector(toElementSelector)
+  fromElement.addEventListener(eventType, function (event) {
+    toElement.dispatchEvent(new event.constructor(event.type, event));
+    event.preventDefault();
+    event.stopPropagation();
+    //event.stopImmediatePropagation();
+  });
+}
+*/
