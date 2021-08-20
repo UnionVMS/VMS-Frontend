@@ -1,5 +1,9 @@
 @import 'variables.scss';
 
+.hit-target{
+  height: 70px;
+  width: 80px;
+}
 .popup-place-marker {
   transform:translate(-20px, -45px);
   background-image: url('/assets/marker.png');
@@ -30,6 +34,7 @@
   padding-left: 1px;
   white-space: nowrap;
   min-width: 50px;
+  max-width: 40%;
 }
 .popup-place-marker:hover .tempname {
   visibility: visible;
@@ -40,22 +45,25 @@
   color: #000;
   text-align: center;
   padding: 5px 0;
-  border-radius: 6px;
   z-index: 1;
-  visibility: hidden;
   min-width: 700%;
   min-height: 200%;
+  border-top-left-radius: 10px;
   ui-button-close {
     transform:translate(-0px, -5px);
     float: right;
   }
   button {
-    display: grid;
+    display: block;
     background-color: $color_system_red;
     border: none;
     color: white;
+    padding: 10px 0;
+    margin: auto;
+    float: left;
     min-width: 100%;
-    
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
   }
   button:hover {
     background-color: red;

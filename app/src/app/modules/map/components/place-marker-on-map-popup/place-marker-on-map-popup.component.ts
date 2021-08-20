@@ -52,13 +52,15 @@ export class PlaceMarkerComponent implements AfterViewInit{
 
   ngAfterViewInit() {
     this.addOverlay(this.markerInfo.id, this.overlayElement.nativeElement, this.markerInfo.baseCoordinates);
+    // This propagate the wheel event to canvas aka "the map" cos OL shut down all eventlisteners when mouse on overlay
+    
     this.overlayElement.nativeElement.addEventListener('wheel', function (event) {
-      const toElement=document.querySelector('canvas')
-      toElement.dispatchEvent(new event.constructor(event.type, event));
-      event.preventDefault();
-      event.stopPropagation();
+      document.querySelector('canvas').dispatchEvent(new WheelEvent('wheel', event));
     });
+  }
 
+  ngOnDestroy() {
+    this.overlayElement.nativeElement.removeEventListener('wheel', WheelEvent );
   }
 }
 
