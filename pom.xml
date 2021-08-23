@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>eu.europa.ec.fisheries.uvms</groupId>
 	<artifactId>vms-web</artifactId>
-	<version>1.1.16-SNAPSHOT</version>
+	<version>1.1.17-SNAPSHOT</version>
 	<name>vms-web</name>
 	<packaging>war</packaging>
 
@@ -25,8 +25,8 @@
 					<artifactId>frontend-maven-plugin</artifactId>
 					<version>1.7.5</version>
 					<configuration>
-						<nodeVersion>v10.15.3</nodeVersion>
-						<npmVersion>6.4.0</npmVersion>
+						<nodeVersion>v14.17.0</nodeVersion>
+						<npmVersion>6.14.13</npmVersion>
 						<workingDirectory>${basedir}/app</workingDirectory>
 						<installDirectory>${basedir}</installDirectory>
 					</configuration>

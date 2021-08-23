@@ -20,8 +20,6 @@ export class TitleEffects {
         this.titleService.setTitle(titleText.replace(textReplace, '') + ' UVMS')
       })
     ),
-    {
-      dispatch: false,
-    }
+  { dispatch: false }
   );   
 }

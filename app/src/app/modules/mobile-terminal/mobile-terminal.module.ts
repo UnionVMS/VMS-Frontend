@@ -21,8 +21,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
-import { DatetimePickerModule } from 'ngx-moment-tz-picker';
-
 /* Pages */
 import { AttachmentHistoryPageComponent } from './pages/attachment-history/attachment-history.component';
 import { AttachPageComponent } from './pages/attach/attach.component';
@@ -43,7 +41,6 @@ import { ShowComponent } from './components/show/show.component';
 @NgModule({
   imports: [
     CommonModule,
-    DatetimePickerModule,
     RouterModule,
     UIModule,
     MatAutocompleteModule,

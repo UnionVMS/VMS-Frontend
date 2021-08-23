@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store, Action } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, EMPTY, Observable } from 'rxjs';
-import { map, mergeMap, flatMap, catchError, withLatestFrom, filter } from 'rxjs/operators';
+import { map, mergeMap, catchError, withLatestFrom, filter } from 'rxjs/operators';
 
-import { State } from '@app/app-reducer.ts';
+import { State } from '@app/app-reducer';
 import { AssetSelectors } from '../asset';
 import { MobileTerminalActions, MobileTerminalTypes, MobileTerminalSelectors } from './';
 import { MobileTerminalService } from './mobile-terminal.service';
@@ -32,8 +32,7 @@ export class MobileTerminalEffects {
     this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
-  @Effect()
-  search$ = this.actions$.pipe(
+  search$ = createEffect(() => this.actions$.pipe(
     ofType(MobileTerminalActions.search),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]) => {
@@ -62,7 +61,7 @@ export class MobileTerminalEffects {
             return result;
           }
         }),
-        flatMap((rAction, index) => rAction),
+        mergeMap((rAction, index) => rAction),
         catchError((err) => {
           if(typeof err === 'object' && typeof err.message !== 'undefined') {
             return of(NotificationsActions.addError(err.message));
@@ -71,10 +70,9 @@ export class MobileTerminalEffects {
         })
       );
     })
-  );
+  ));
 
-  @Effect()
-  getSelectedMobileTerminal$ = this.actions$.pipe(
+  getSelectedMobileTerminal$ = createEffect(() => this.actions$.pipe(
     ofType(MobileTerminalActions.getSelectedMobileTerminal),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
@@ -95,10 +93,9 @@ export class MobileTerminalEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getMobileTerminal$ = this.actions$.pipe(
+  getMobileTerminal$ = createEffect(() => this.actions$.pipe(
     ofType(MobileTerminalActions.getMobileTerminal),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -112,10 +109,9 @@ export class MobileTerminalEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getMobileTerminalHistoryForAsset$ = this.actions$.pipe(
+  getMobileTerminalHistoryForAsset$ = createEffect(() => this.actions$.pipe(
     ofType(MobileTerminalActions.getMobileTerminalHistoryForAsset),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -131,11 +127,9 @@ export class MobileTerminalEffects {
         );
       })
     ))
-  );
+  ));
 
-
-  @Effect()
-  getMobileTerminalHistory$ = this.actions$.pipe(
+  getMobileTerminalHistory$ = createEffect(() => this.actions$.pipe(
     ofType(MobileTerminalActions.getMobileTerminalHistory),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -151,11 +145,9 @@ export class MobileTerminalEffects {
         );
       })
     ))
-  );
+  ));
 
-
-  @Effect()
-  getProposedMemberNumber$ = this.actions$.pipe(
+  getProposedMemberNumber$ = createEffect(() => this.actions$.pipe(
     ofType(MobileTerminalActions.getProposedMemberNumber),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -169,10 +161,9 @@ export class MobileTerminalEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getTransponders$ = this.actions$.pipe(
+  getTransponders$ = createEffect(() => this.actions$.pipe(
     ofType(MobileTerminalActions.getTransponders),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -186,10 +177,9 @@ export class MobileTerminalEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getPlugins$ = this.actions$.pipe(
+  getPlugins$ = createEffect(() => this.actions$.pipe(
     ofType(MobileTerminalActions.getPlugins),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -203,10 +193,9 @@ export class MobileTerminalEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  saveMobileTerminal$ = this.actions$.pipe(
+  saveMobileTerminal$ = createEffect(() => this.actions$.pipe(
     ofType(MobileTerminalActions.saveMobileTerminal),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
@@ -239,13 +228,11 @@ export class MobileTerminalEffects {
           })
         );
       }),
-      flatMap((rAction, index) => rAction)
+      mergeMap((rAction, index) => rAction)
     ))
-  );
+  ));
 
-
-  @Effect()
-  checkIfSerialNumberExists$ = this.actions$.pipe(
+  checkIfSerialNumberExists$ = createEffect(() => this.actions$.pipe(
     ofType(MobileTerminalActions.getSerialNumberExists),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -265,11 +252,11 @@ export class MobileTerminalEffects {
         );
       })
     ))
+  ),
+  { dispatch: false }
   );
 
-
-  @Effect()
-  checkIfMemberNumberAndDnidCombinationExists$ = this.actions$.pipe(
+  checkIfMemberNumberAndDnidCombinationExists$ = createEffect(() => this.actions$.pipe(
     ofType(MobileTerminalActions.getMemberNumberAndDnidCombinationExists),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
@@ -298,7 +285,10 @@ export class MobileTerminalEffects {
         );
       })
     ))
+  ),
+  { dispatch: false }
   );
+  
 
 
 }

@@ -35,7 +35,7 @@ export class AssetSearchComponent implements OnChanges {
       if(this.searchQuery.indexOf('/c') !== 0) {
         this.autocompleteFunction(this.searchQuery);
       }
-    }else if(event.key === 'Enter' 
+    }else if(event.key === 'Enter'
     && this.searchQuery.match(/^(\/c)\s*(N|S)\s+(\d{1,3})(°)\s+(\d{1,2})(\.)(\d{1,})(')\s+(W|E)\s+(\d{1,3})(°)\s+(\d{1,2})(\.)(\d{1,})(')$/)) {
       // Match: /c  N 47° 55.8' E 11° 36.18'
       const searchQueryParts = this.searchQuery.split(/(?=[A-Z])/);
@@ -45,9 +45,9 @@ export class AssetSearchComponent implements OnChanges {
       const latitude = location.latitude;
       const longitude = location.longitude;
       this.centerMapOnPosition({ longitude, latitude });
-    }else if(event.key === 'Enter' 
-    && this.searchQuery.match(/^(\/c)\s*(\d{1,3})\s+(\d{1,2})[,.]{1}(\d+)\s+(\d{1,3})\s+(\d{1,2})[,.]{1}(\d+)/) ){ 
-      // Match: /c 57 56,680  11 33,840  
+    }else if(event.key === 'Enter'
+    && this.searchQuery.match(/^(\/c)\s*(\d{1,3})\s+(\d{1,2})[,.]{1}(\d+)\s+(\d{1,3})\s+(\d{1,2})[,.]{1}(\d+)/) ){
+      // Match: /c 57 56,680  11 33,840
       const searchQueryParts = this.searchQuery.trim().split(/\s+/);
       const lat = parseFloat(searchQueryParts[1]);
       const latitudeMS = parseFloat(searchQueryParts[2].replace(',','.'));
@@ -70,6 +70,8 @@ export class AssetSearchComponent implements OnChanges {
     const selectedAsset = this.autocompleteResult.find((asset) => asset.assetEssentials.assetId === selectedId);
     const selectAsset = this.selectAsset(selectedAsset.assetEssentials.assetId);
     this.centerMapOnPosition(selectedAsset.assetMovement.movement.location);
+    this.setActiveInformationPanel(null);
+    this.setActiveRightPanel(['showAsset']);
   }
 
   ngOnChanges() {
