@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, EMPTY, merge, Observable } from 'rxjs';
-import { map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter } from 'rxjs/operators';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { map, mergeMap, withLatestFrom, filter } from 'rxjs/operators';
 
-import { State } from '@app/app-reducer.ts';
+import { State } from '@app/app-reducer';
 
-import { AuthTypes, AuthSelectors } from '../auth';
+import { AuthSelectors } from '../auth';
 
 import { MapLayersService } from './map-layers.service';
 import { MapLayersActions, MapLayersTypes } from './';
@@ -28,8 +28,7 @@ export class MapLayersEffects {
     this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
-  @Effect()
-  getAreas$ = this.actions$.pipe(
+  getAreas$ = createEffect(() => this.actions$.pipe(
     ofType(MapLayersActions.getAreas),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -44,10 +43,9 @@ export class MapLayersEffects {
         }))
       );
     })
-  );
+  ));
 
-  @Effect()
-  getUserAreas$ = this.actions$.pipe(
+  getUserAreas$ = createEffect(() => this.actions$.pipe(
     ofType(MapLayersActions.getUserAreas),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(
@@ -74,5 +72,5 @@ export class MapLayersEffects {
         );
       })
     ))
-  );
+  ));
 }

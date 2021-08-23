@@ -12,29 +12,32 @@ describe('wg84-formatter', () => {
     for (let i = 0; i < 60; i++) {
       for (let j = 0; j < 99; j++) {
         let latMinutes = `${i}.${j}`;
+        let latMinutes4d = `${i}.${j}00`;
         if(j === 0) {
-          latMinutes = `${i}`;
+          latMinutes = `${i}.00`;
+          latMinutes4d = `${i}.0000`;
         } else if(j < 10) {
           latMinutes = `${i}.0${j}`;
-        } else if(j % 10 === 0) {
-          latMinutes = `${i}.${j / 10}`;
+          latMinutes4d = `${i}.0${j}00`;
         }
         const latitude = `N 20° ${latMinutes}'`;
+        const latitude4d = `N 20° ${latMinutes4d}'`;
 
         j++;
         let longMinutes = `${i}.${j}`;
+        let longMinutes4d = `${i}.${j}00`;
         if(j < 10) {
           longMinutes = `${i}.0${j}`;
-        } else if(j % 10 === 0) {
-          longMinutes = `${i}.${j / 10}`;
+          longMinutes4d = `${i}.0${j}00`;
         }
         const longitude = `E 21° ${longMinutes}'`;
+        const longitude4d = `E 21° ${longMinutes4d}'`;
 
-        const dd = convertDDMToDD(latitude, longitude);
+        const dd = convertDDMToDD(latitude4d, longitude4d);
         const ddm = convertDDToDDM(dd.latitude, dd.longitude, 4);
 
-        expect(ddm.latitude).toBe(latitude);
-        expect(ddm.longitude).toBe(longitude);
+        expect(ddm.latitude).toBe(latitude4d);
+        expect(ddm.longitude).toBe(longitude4d);
 
         const ddmPrecision2 = convertDDToDDM(dd.latitude, dd.longitude, 2);
 

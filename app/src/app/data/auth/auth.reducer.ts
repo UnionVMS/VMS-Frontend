@@ -43,10 +43,6 @@ export const authReducer = createReducer(initialState,
     ...state,
     timeToLogout
   })),
-  on(AuthActions.unlockFishingActivity, (state) => ({
-    ...state,
-    fishingActivityUnlocked: true
-  })),
   on(AuthActions.activateLoggedOutPopup, (state) => ({
     ...state,
     loggedOutPopupActive: true

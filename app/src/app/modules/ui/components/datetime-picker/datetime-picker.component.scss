@@ -1,0 +1,85 @@
+.datetime-picker-content {
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  mat-form-field {
+    display: block;
+  }
+
+  .popup-wrapper {
+    /* Wrapp in an position absolute so it's visible even if the wrapping element has overflow: hidden */
+    position: absolute;
+
+    .popup {
+      display: none;
+      width: 296px;
+      position: absolute;
+      top: 0;
+      left: 0px;
+      box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+      background-color: #FFFFFF;
+      color: rgba(0,0,0,.87);
+      z-index: 1000;
+
+      &.top {
+        top: auto;
+        bottom: 65px;
+      }
+
+      &.right {
+        left: auto;
+        right: 0px;
+      }
+
+      &.active {
+        display: block;
+      }
+
+      .time-box {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        grid-column-gap: 8px;
+        padding: 12px;
+        border-top: 1px solid rgba(0,0,0,.12);
+        border-bottom: 1px solid rgba(0,0,0,.12);
+
+        .hours, .minutes {
+          display: grid;
+          grid-row-gap: 8px;
+
+          .button {
+            cursor: pointer;
+            text-align: center;
+            font-weight: bolder;
+            width: 32px;
+          }
+
+          input {
+            border: 1px solid #000;
+            width: 32px;
+            padding: 3px 5px;
+            text-align: center;
+          }
+        }
+
+        .hours {
+          justify-self: end;
+          justify-items: end;
+        }
+        .colon {
+          place-self: center;
+          font-size: 30px;
+          margin-top: -3px;
+        }
+      }
+
+      .button-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  }
+}

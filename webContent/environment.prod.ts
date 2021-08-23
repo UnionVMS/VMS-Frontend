@@ -3,7 +3,6 @@ export const environment = {
   useStoreDevTools: false,
   baseApiUrl: '/unionvms/',
   baseGeoUrl: '/geoserver/',
-  baseErsApiUrl: '/efr-backend/',
   strictTests: false,
   fishingActivityDefaultUnlocked: false,
 };

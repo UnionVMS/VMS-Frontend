@@ -5,14 +5,12 @@ import { take, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
-import VectorLayer from 'ol/layer/Vector';
 import TileLayer from 'ol/layer/Tile';
 import { XYZ } from 'ol/source';
 import { fromLonLat } from 'ol/proj';
 import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/control.js';
-import { format } from 'ol/coordinate.js';
 import Select from 'ol/interaction/Select.js';
-import { click, pointerMove } from 'ol/events/condition.js';
+import { click } from 'ol/events/condition.js';
 import Overlay from 'ol/Overlay';
 
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
@@ -20,8 +18,7 @@ import { AuthSelectors } from '@data/auth';
 import { MapActions, MapSelectors } from '@data/map';
 import { MapLayersActions, MapLayersSelectors, MapLayersTypes } from '@data/map-layers';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
-import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersTypes } from '@data/map-saved-filters';
-import { NotificationsActions } from '@data/notifications';
+import { MapSavedFiltersSelectors, MapSavedFiltersTypes } from '@data/map-saved-filters';
 import { RouterSelectors } from '@data/router';
 import { UserSettingsSelectors } from '@data/user-settings';
 

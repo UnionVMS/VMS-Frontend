@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { ROUTER_NAVIGATED, RouterNavigationAction } from '@ngrx/router-store';
 import { Store, Action } from '@ngrx/store';
-import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of, EMPTY, merge, Observable, interval, Subject, forkJoin } from 'rxjs';
 import {
-  map, mergeMap, mergeAll, flatMap, catchError, withLatestFrom, bufferTime, filter, takeUntil, take, skipWhile
+  map, mergeMap, mergeAll, catchError, withLatestFrom, bufferTime, filter, takeUntil, take, skipWhile
 } from 'rxjs/operators';
 
-import { State } from '@app/app-reducer.ts';
-import { AuthTypes, AuthSelectors } from '../auth';
+import { State } from '@app/app-reducer';
+import { AuthSelectors } from '../auth';
 import { MapSettingsSelectors } from '../map-settings';
 
 import { AssetService } from './asset.service';
 import { AssetSelectors, AssetTypes, AssetActions } from './';
-import { IncidentActions, IncidentTypes } from '@data/incident';
+import { IncidentActions } from '@data/incident';
 import * as MapActions from '@data/map/map.actions';
 import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
-import { MobileTerminalTypes, MobileTerminalActions } from '@data/mobile-terminal';
+import { MobileTerminalActions } from '@data/mobile-terminal';
 
 import { replacePlaceholdersInTranslation } from '@app/helpers/helpers';
 import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
@@ -39,8 +39,7 @@ export class AssetEffects {
     this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
-  @Effect()
-  assetSearchObserver$ = this.actions$.pipe(
+  assetSearchObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.searchAssets),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -59,10 +58,9 @@ export class AssetEffects {
         })
       );
     })
-  );
+  ));
 
-  @Effect()
-  getNumberOfVMSAssetsInSystemObserver$ = this.actions$.pipe(
+  getNumberOfVMSAssetsInSystemObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.getNumberOfVMSAssetsInSystem),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -94,16 +92,15 @@ export class AssetEffects {
         })
       );
     })
-  );
+  ));
 
-  @Effect()
-  assetMovementUnsubscribeObserver$ = this.actions$.pipe(
+  assetMovementUnsubscribeObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.unsubscribeToMovements),
     mergeMap((action) => {
       this.assetService.unsubscribeToMovements();
       return of(MapActions.setReady({ ready: false }));
     })
-  );
+  ));
 
   private readonly removeOldAssetsIntervalDone$: Subject<boolean> = new Subject<boolean>();
 
@@ -160,9 +157,7 @@ export class AssetEffects {
     })
   ));
 
-
-  @Effect()
-  assetMovementSubscribeObserver$ = this.actions$.pipe(
+  assetMovementSubscribeObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.subscribeToMovements),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -324,15 +319,14 @@ export class AssetEffects {
           // tslint:disable-next-line:comment-format
           //@ts-ignore
           // tslint:disable-next-line:no-shadowed-variable
-          flatMap( (action, index): object => action ),
+          mergeMap( (action, index): object => action ),
           catchError((err) => of(AssetActions.failedToSubscribeToMovements({ error: err })))
         ),
       );
     })
-  );
+  ));
 
-  @Effect()
-  assetEssentialsObserver$ = this.actions$.pipe(
+  assetEssentialsObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.checkForAssetEssentials),
     withLatestFrom(
       this.store.select(AuthSelectors.getAuthToken),
@@ -364,10 +358,9 @@ export class AssetEffects {
         return EMPTY;
       }
     })
-  );
+  ));
 
-  @Effect()
-  selectAssetObserver$ = this.actions$.pipe(
+  selectAssetObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.selectAsset),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -379,10 +372,9 @@ export class AssetEffects {
         })
       );
     })
-  );
+  ));
 
-  @Effect()
-  selectAssetTrackFromTimeObserver$ = this.actions$.pipe(
+  selectAssetTrackFromTimeObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.getAssetTrackTimeInterval),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -396,10 +388,9 @@ export class AssetEffects {
         })
       );
     })
-  );
+  ));
 
-  @Effect()
-  selectAssetTracksFromTimeObserver$ = this.actions$.pipe(
+  selectAssetTracksFromTimeObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.getTracksByTimeInterval),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -435,13 +426,12 @@ export class AssetEffects {
             AssetActions.setAssetTrips({ assetMovements: assetMovementsOrdered }),
           ];
         }),
-        flatMap(a => a),
+        mergeMap(a => a),
       );
     })
-  );
+  ));
 
-  @Effect()
-  getLastFullPositionsForAssetObserver$ = this.actions$.pipe(
+  getLastFullPositionsForAssetObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.getLastFullPositionsForAsset),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -458,10 +448,9 @@ export class AssetEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getLastPositionsForSelectedAssetbserver$ = this.actions$.pipe(
+  getLastPositionsForSelectedAssetbserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.getLastPositionsForSelectedAsset),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -488,10 +477,9 @@ export class AssetEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getLicenceForAsset$ = this.actions$.pipe(
+  getLicenceForAsset$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.getLicenceForAsset),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -507,10 +495,9 @@ export class AssetEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getAssetUnitTonnage$ = this.actions$.pipe(
+  getAssetUnitTonnage$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.getUnitTonnage),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -524,10 +511,9 @@ export class AssetEffects {
         })
       );
     })
-  );
+  ));
 
-  @Effect()
-  getSelectedAsset$ = this.actions$.pipe(
+  getSelectedAsset$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.getSelectedAsset),
     mergeMap((action) => of(action).pipe(
       withLatestFrom(
@@ -552,14 +538,13 @@ export class AssetEffects {
             }
             return returnActions;
           }),
-          flatMap(a => a)
+          mergeMap(a => a)
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  pollAsset$ = this.actions$.pipe(
+  pollAsset$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.pollAsset),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(
@@ -579,10 +564,9 @@ export class AssetEffects {
         );
       })
     ))
-  );
+  ));
 
-  @Effect()
-  getLastPollsForAsset$ = this.actions$.pipe(
+  getLastPollsForAsset$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.getLatestPollsForAsset),
     mergeMap((outerAction) => of(outerAction).pipe(
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -597,11 +581,9 @@ export class AssetEffects {
         );
       })
     ))
-  );
+  ));
 
-
-  @Effect()
-  saveAsset$ = this.actions$.pipe(
+  saveAsset$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.saveAsset),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -625,11 +607,10 @@ export class AssetEffects {
         })
       );
     }),
-    flatMap((action, index) => action)
-  );
+    mergeMap((action, index) => action)
+  ));
 
-  @Effect()
-  createManualMovement$ = this.actions$.pipe(
+  createManualMovement$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.createManualMovement),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
@@ -657,6 +638,6 @@ export class AssetEffects {
         })
       );
     }),
-    flatMap(a => a)
-  );
+    mergeMap(a => a)
+  ));
 }

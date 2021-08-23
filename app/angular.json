@@ -53,7 +53,7 @@
               "node_modules/@fortawesome/fontawesome-free/scss/brands.scss",
               "node_modules/remixicon/fonts/remixicon.css",
               "src/styles.scss",
-              "src/app/modules/map/map.scss",
+              "src/app/modules/map/map.scss"
             ],
             "scripts": [
               "node_modules/chart.js/dist/Chart.js"
@@ -71,12 +71,11 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
-                },
+                }
               ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -107,7 +106,7 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.dev.ts"
-                },
+                }
               ]
             }
           }
@@ -152,7 +151,7 @@
               "node_modules/@fortawesome/fontawesome-free/scss/brands.scss",
               "node_modules/remixicon/fonts/remixicon.css",
               "src/styles.scss",
-              "src/app/modules/map/map.scss",
+              "src/app/modules/map/map.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -215,5 +214,8 @@
       }
     }
   },
-  "defaultProject": "vms-frontend"
+  "defaultProject": "vms-frontend",
+  "cli": {
+    "analytics": false
+  }
 }

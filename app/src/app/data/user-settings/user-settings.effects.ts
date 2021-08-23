@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from '@app/app-reducer.ts';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, EMPTY } from 'rxjs';
-import { mergeMap, map, flatMap, withLatestFrom, catchError, filter, tap } from 'rxjs/operators';
+import { State } from '@app/app-reducer';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { mergeMap, map, withLatestFrom, catchError, filter, tap } from 'rxjs/operators';
 // @ts-ignore
 import moment from 'moment-timezone';
 
-import { AuthReducer, AuthSelectors } from '../auth';
+import { AuthSelectors } from '../auth';
 import { NotificationsActions } from '@data/notifications';
 
-import { UserSettingsSelectors, UserSettingsTypes, UserSettingsActions } from './';
+import { UserSettingsSelectors, UserSettingsActions } from './';
 import { UserSettingsService } from '@data/user-settings/user-settings.service';
 
 import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
@@ -30,8 +30,7 @@ export class UserSettingsEffects {
     this.apiUpdateTokenHandler = apiUpdateTokenHandler(this.store);
   }
 
-  @Effect()
-  setTimezoneObserver$ = this.actions$.pipe(
+  setTimezoneObserver$ = createEffect(() => this.actions$.pipe(
     ofType(UserSettingsActions.setTimezone),
     tap((action: { timezone: string, save?: boolean }) => { moment.tz.setDefault(action.timezone); }),
     filter((action: { timezone: string, save?: boolean }) => typeof action.save !== 'undefined' && action.save === true),
@@ -44,14 +43,13 @@ export class UserSettingsEffects {
         map((response: any, index: number) => [
           NotificationsActions.addSuccess($localize`:@@ts-user-settings-saved:User settings saved`),
         ]),
-        flatMap(a => a),
+        mergeMap(a => a),
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );
     })
-  );
+  ));
 
-  @Effect()
-  setExperimentalFeaturesEnabledObserver$ = this.actions$.pipe(
+  setExperimentalFeaturesEnabledObserver$ = createEffect(() => this.actions$.pipe(
     ofType(UserSettingsActions.setExperimentalFeaturesEnabled),
     filter((action: { experimentalFeaturesEnabled: boolean, save?: boolean }) =>
       typeof action.save !== 'undefined' && action.save === true
@@ -65,9 +63,10 @@ export class UserSettingsEffects {
         map((response: any, index: number) => [
           NotificationsActions.addSuccess($localize`:@@ts-user-settings-saved:User settings saved`, 6000),
         ]),
-        flatMap(a => a),
+        mergeMap(a => a),
         catchError((err) => of({ type: 'API ERROR', payload: err }))
       );
     })
-  );
+  ));
+
 }

@@ -497,11 +497,10 @@ export const assetReducer = createReducer(initialState,
       );
 
       let newTracks = [ ...assetTrack.tracks ];
-      let newLineSegments = [ ...assetTrack.lineSegments ];
+      let newLineSegments;// [ ...assetTrack.lineSegments ];
       if(indexOfFirstPositionAfterGivenTime > 0) {
         newTracks = assetTrack.tracks.slice(indexOfFirstPositionAfterGivenTime);
         let filteringDone = false;
-        // tslint:disable-next-line:no-shadowed-variable
         newLineSegments = assetTrack.lineSegments.reduce((
           lineSegments: ReadonlyArray<Types.LineSegment>,
           lineSegment: Types.LineSegment
@@ -523,6 +522,8 @@ export const assetReducer = createReducer(initialState,
           }
           return lineSegments;
         }, []);
+      }else{
+        newLineSegments = [ ...assetTrack.lineSegments ];
       }
       assetTracks[assetId] = {
         ...state.assetTracks[assetId],
