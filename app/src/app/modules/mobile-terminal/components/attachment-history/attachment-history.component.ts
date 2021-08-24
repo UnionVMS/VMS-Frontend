@@ -1,3 +1,4 @@
+import { TmplAstRecursiveVisitor } from '@angular/compiler';
 import { Component, Input, OnChanges } from '@angular/core';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
@@ -44,11 +45,17 @@ export class AttachmentHistoryComponent implements OnChanges {
         }), {}),
       };
     }).filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
-      return typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined';
+      if(typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined'
+      || mobileTerminalHistory.assetName){
+        return true;
+      }
     }).sort((a, b) => b.updateTime - a.updateTime);
   }
 
-  getAssetName(assetId: string) {
+  getAssetName(assetName: string, assetId: string) {
+    if(assetName){
+      return assetName;
+    }
     return typeof this.assets !== 'undefined' && typeof this.assets[assetId] !== 'undefined' ? this.assets[assetId].name : assetId;
   }
 
