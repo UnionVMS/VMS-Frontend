@@ -33,6 +33,14 @@
         padding: 2px;
         font-weight: 500;
       }
+
+      .inactiveAsset {
+        background-color: $color_warn;
+        color: white;
+        align-self: center;
+        padding: 2px;
+        font-weight: 500;
+      }
     }
   }
 

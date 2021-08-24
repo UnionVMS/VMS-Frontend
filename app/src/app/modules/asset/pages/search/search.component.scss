@@ -76,6 +76,10 @@
           text-decoration: underline;
         }
       }
+
+      .asset-inactive {
+        background-color: rgba( $color_gray, 0.3);
+      }
     }
   }
 }
