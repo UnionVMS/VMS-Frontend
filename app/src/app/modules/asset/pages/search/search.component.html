@@ -86,3 +86,16 @@
     </div>
   </div>
 </div>
+
+<ng-template #toolbox>
+  <div class="toolbox-wrapper">
+    <div class="toolbox">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="exportAssetsToCSV()"
+        i18n
+      >Export Assets to CSV</button>
+    </div>
+  </div>
+</ng-template>
