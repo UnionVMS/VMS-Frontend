@@ -500,6 +500,11 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       if( asset.assetEssentials.assetName === undefined && asset.assetEssentials.externalMarking !== undefined){
         text = asset.assetEssentials.externalMarking;
       }
+      if(asset.assetEssentials.assetName === 'NO NAME' 
+      && asset.assetEssentials.flagstate === 'POL'
+      && asset.assetEssentials.externalMarking !== undefined){
+        text = asset.assetEssentials.externalMarking;
+      }
     }
     if (this.speedsVisibleCalculated && asset.assetMovement.movement.speed !== null) {
       if (text !== null) {
