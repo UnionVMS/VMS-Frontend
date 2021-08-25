@@ -30,9 +30,12 @@
           <ng-container *ngIf="note.createdBy === username">
             <button mat-menu-item (click)="editNote(note.id)" i18n>Edit note</button>
             <button mat-menu-item (click)="openDeleteDialog(note)" class="notes-list--menu-delete-button" i18n>Delete note</button>
+            <!--
             <button mat-menu-item disabled="disabled" i18n>Add file</button>
+            <button mat-menu-item disabled="disabled" i18n>Print note</button>
+             -->
           </ng-container>
-          <button mat-menu-item disabled="disabled" i18n>Print note</button>
+          
         </mat-menu>
       </div>
     </div>
