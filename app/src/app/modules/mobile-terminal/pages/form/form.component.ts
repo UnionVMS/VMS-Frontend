@@ -442,17 +442,10 @@ export class FormPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.memberNumberAndDnidCombinationExists(channel.memberNumber, channel.dnid, channel.id);
       }
     }
-/**
 
-This mess up validation of channels
-
-
-['memberNumber', 'dnid'].map(
+    ['memberNumber', 'dnid'].map(
       (field) => this.formValidator.get(['channels', channelNr, field]).updateValueAndValidity({ onlySelf: true })
     );
-
-
-*/
   }
 
   updateValue(path: string[], value: any) {
