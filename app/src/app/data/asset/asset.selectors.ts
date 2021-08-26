@@ -12,7 +12,6 @@ export const getAssetState = createFeatureSelector<AssetTypes.State>('asset');
 export const selectAssets = (state: State) => state.asset.assets;
 export const selectAssetMovements = (state: State) => state.asset.assetMovements;
 export const selectAssetForecasts = (state: State) => state.asset.forecasts;
-export const selectAssetsEssentials = (state: State) => state.asset.assetsEssentials;
 export const selectAssetsLists = (state: State) => state.asset.assetLists;
 export const selectAssetsTracks = (state: State) => state.asset.assetTracks;
 export const selectAssetTrips = (state: State) => state.asset.assetTrips;
@@ -126,22 +125,17 @@ export const getLastUserAssetSearch = createSelector(
   (lastUserAssetSearch: string) => lastUserAssetSearch
 );
 
-export const getAssetsEssentials = createSelector(
-  selectAssetsEssentials,
-  (assetsEssentials) => assetsEssentials
-);
-
-export const getAssetEssentialsForAssetGroups = createSelector(
-  selectAssetsEssentials,
+export const getAssetsForAssetGroups = createSelector(
+  selectAssets,
   MapSavedFiltersSelectors.getAssetGroupFilters,
-  (assetEssentials, assetGroupFilters) => {
+  (assets, assetGroupFilters) => {
     const assetIds = [ ...new Set(assetGroupFilters.reduce((acc: ReadonlyArray<string>, assetGroupFilter) => {
       const filter = assetGroupFilter.filter.find(f => f.type === 'GUID');
       return [ ...acc, ...filter.values ];
     }, []))];
     return assetIds.reduce((acc, id) => {
-      if(assetEssentials[id] !== undefined) {
-        return { ...acc, [id]: assetEssentials[id]};
+      if(assets[id] !== undefined) {
+        return { ...acc, [id]: assets[id]};
       }
       return acc;
     }, {});
@@ -150,14 +144,14 @@ export const getAssetEssentialsForAssetGroups = createSelector(
 
 export const getAssetMovements = createSelector(
   getAssetsMovementsDependingOnLeftPanel,
-  selectAssetsEssentials,
+  selectAssets,
   selectFilterQuery,
   MapSavedFiltersSelectors.getActiveFilters,
   MapSelectors.getFiltersActive,
   MapSelectors.getActiveLeftPanel,
   (
     assetMovements: { readonly [uid: string]: AssetTypes.AssetMovement },
-    assetsEssentials: { readonly [uid: string]: AssetTypes.AssetEssentialProperties },
+    assets: { readonly [uid: string]: AssetTypes.Asset },
     currentFilterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>,
     savedFilterQuerys: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>,
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
@@ -193,9 +187,9 @@ export const getAssetMovements = createSelector(
             }
             assetMovementKeys = assetMovementKeys.filter(key => {
               if(
-                typeof assetsEssentials[key] === 'undefined' ||
-                assetsEssentials[key][columnName] === null ||
-                typeof assetsEssentials[key][columnName] === 'undefined'
+                typeof assets[key] === 'undefined' ||
+                assets[key][columnName] === null ||
+                typeof assets[key][columnName] === 'undefined'
               ) {
                 return false;
               }
@@ -206,12 +200,12 @@ export const getAssetMovements = createSelector(
                     return acc;
                   }
                   if(
-                    (value.operator === 'less than' && assetsEssentials[key][columnName] < value.value) ||
-                    (value.operator === 'greater than' && assetsEssentials[key][columnName] > value.value) ||
-                    (value.operator === 'almost equal' && Math.floor(assetsEssentials[key][columnName]) === Math.floor(value.value)) ||
-                    (value.operator === 'equal' && assetsEssentials[key][columnName] === value.value) ||
-                    (value.operator === 'less than or equal' && assetsEssentials[key][columnName] <= value.value) ||
-                    (value.operator === 'greater than or equal' && assetsEssentials[key][columnName] >= value.value)
+                    (value.operator === 'less than' && assets[key][columnName] < value.value) ||
+                    (value.operator === 'greater than' && assets[key][columnName] > value.value) ||
+                    (value.operator === 'almost equal' && Math.floor(assets[key][columnName]) === Math.floor(value.value)) ||
+                    (value.operator === 'equal' && assets[key][columnName] === value.value) ||
+                    (value.operator === 'less than or equal' && assets[key][columnName] <= value.value) ||
+                    (value.operator === 'greater than or equal' && assets[key][columnName] >= value.value)
                   ) {
                     return true;
                   } else {
@@ -220,12 +214,12 @@ export const getAssetMovements = createSelector(
                 }, false);
               } else if(query.valueType === AssetTypes.AssetFilterValueTypes.BOOLEAN) {
                 if(query.inverse) {
-                  return query.values.some(value => assetsEssentials[key][columnName] !== value);
+                  return query.values.some(value => assets[key][columnName] !== value);
                 } else {
-                  return query.values.some(value => assetsEssentials[key][columnName] === value);
+                  return query.values.some(value => assets[key][columnName] === value);
                 }
               } else {
-                const valueToCheck = assetsEssentials[key][columnName].toLowerCase();
+                const valueToCheck = assets[key][columnName].toLowerCase();
                 if(query.inverse) {
                   return query.values.some(value => valueToCheck.indexOf(value.toLowerCase()) === -1);
                 } else {
@@ -237,26 +231,26 @@ export const getAssetMovements = createSelector(
         }
       });
     }
-    return assetMovementKeys.map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] }));
+    return assetMovementKeys.map(key => ({ assetMovement: assetMovements[key], asset: assets[key] }));
   }
 );
 
 export const getMapStatistics = createSelector(
   getAssetMovements,
   getAssetsMovementsDependingOnLeftPanel,
-  selectAssetsEssentials,
+  selectAssets,
   IncidentSelectors.getUrgentByType,
   selectNumberOfVMSAssetsInSystem,
   (
     assetMovements,
     onMapDepndingOnLeftPanel: { readonly [uid: string]: AssetTypes.AssetMovement },
-    assetsEssentials: { readonly [uid: string]: AssetTypes.AssetEssentialProperties },
+    assets: { readonly [uid: string]: AssetTypes.Asset },
     urgentByType: IncidentTypes.UrgentByType,
     numberOfVMSAssetsInSystem: number
   ) => {
     const sweVMSAssetsOnMapStatistics = Object.keys(onMapDepndingOnLeftPanel).reduce((acc, assetId) => {
-      const currentAsset = assetsEssentials[assetId];
-      if(currentAsset && currentAsset.flagstate === 'SWE' && currentAsset.vesselType === 'Fishing' && currentAsset.lengthOverAll >= 12) {
+      const currentAsset = assets[assetId];
+      if(currentAsset && currentAsset.flagStateCode === 'SWE' && currentAsset.vesselType === 'Fishing' && currentAsset.lengthOverAll >= 12) {
         return {
           ...acc,
           count: acc.count + 1,
@@ -362,23 +356,23 @@ export const getPositionsForInspection = createSelector(
 
 export const getSearchAutocomplete = createSelector(
   selectSearchQuery,
-  selectAssetsEssentials,
+  selectAssets,
   selectAssetMovements,
-  (searchQuery, assetsEssentials, assetMovements) => {
+  (searchQuery, assets, assetMovements) => {
     if(searchQuery.length < 2) {
       return [];
     }
-    return Object.keys(assetsEssentials)
+    return Object.keys(assets)
       .filter(key =>
-        assetsEssentials[key] !== undefined &&
-        assetsEssentials[key].assetName !== null &&
-        assetsEssentials[key].assetName !== undefined &&
+        assets[key] !== undefined &&
+        assets[key].name !== null &&
+        assets[key].name !== undefined &&
         searchQuery !== undefined &&
-        assetsEssentials[key].assetName.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+        assets[key].name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
       )
-      .map(key => ({ assetMovement: assetMovements[key], assetEssentials: assetsEssentials[key] } as Readonly<{
+      .map(key => ({ assetMovement: assetMovements[key], asset: assets[key] } as Readonly<{
         assetMovement: AssetTypes.AssetMovement,
-        assetEssentials: AssetTypes.AssetEssentialProperties
+        asset: AssetTypes.Asset
       }>));
   }
 );

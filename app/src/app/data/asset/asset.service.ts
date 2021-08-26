@@ -149,14 +149,6 @@ export class AssetService {
     );
   }
 
-  getAssetEssentialProperties(authToken: string, listOfAssetIds: ReadonlyArray<string>) {
-    return this.http.post(
-      environment.baseApiUrl + `asset/rest/asset/microAssets`,
-      listOfAssetIds,
-      getDefaultHttpOptions(authToken)
-    );
-  }
-
   getUnitTonnage(authToken: string) {
     return this.http.get(
       environment.baseApiUrl + `asset/rest/customcodes/listcodesforconstant/UNIT_TONNAGE`,

@@ -1,9 +1,9 @@
 import { AssetMovementWithEssentials } from '../asset.types';
 import AssetMovementStub from './assetMovement.stub';
-import AssetEssentialsStub from './assetEssentials.stub';
+import AssetStub from './asset.stub';
 
 const AssetMovementWithEssentialsStub: AssetMovementWithEssentials = {
-  assetEssentials: AssetEssentialsStub,
+  asset: AssetStub,
   assetMovement: AssetMovementStub,
 };
 

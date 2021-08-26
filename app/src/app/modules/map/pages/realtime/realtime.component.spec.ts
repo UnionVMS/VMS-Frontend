@@ -130,7 +130,7 @@ describe('RealtimeComponent', () => {
             [AssetMovementWithEssentialsStub.assetMovement.asset]: AssetMovementWithEssentialsStub.assetMovement
           },
           assetsEssentials: {
-            [AssetMovementWithEssentialsStub.assetEssentials.assetId]: AssetMovementWithEssentialsStub.assetEssentials
+            [AssetMovementWithEssentialsStub.asset.id]: AssetMovementWithEssentialsStub.asset
           }
         }
       });
@@ -202,8 +202,8 @@ describe('RealtimeComponent', () => {
       expect(component.selectedAssets).toEqual([]);
       currentState = { ...currentState, asset: {
         ...currentState.asset,
-        selectedAsset: AssetMovementWithEssentialsStub.assetEssentials.assetId,
-        selectedAssets: [AssetMovementWithEssentialsStub.assetEssentials.assetId],
+        selectedAsset: AssetMovementWithEssentialsStub.asset.id,
+        selectedAssets: [AssetMovementWithEssentialsStub.asset.id],
         assets: { [AssetStub.id]: AssetStub },
         assetMovements: { [AssetMovementWithEssentialsStub.assetMovement.asset]: AssetMovementWithEssentialsStub.assetMovement }
       } };
@@ -250,7 +250,7 @@ describe('RealtimeComponent', () => {
       expect(forecasts).toEqual({});
       currentState = { ...currentState, asset: {
         ...currentState.asset,
-        forecasts: [AssetMovementWithEssentialsStub.assetEssentials.assetId],
+        forecasts: [AssetMovementWithEssentialsStub.asset.id],
         assetMovements: { [AssetMovementWithEssentialsStub.assetMovement.asset]: AssetMovementWithEssentialsStub.assetMovement }
       } };
       store.setState(currentState);

@@ -176,20 +176,8 @@ export enum AssetFilterValueTypes {
   BOOLEAN = 'BOOLEAN'
 }
 
-export type AssetEssentialProperties = Readonly<{
-  assetId: string;
-  flagstate: string;
-  assetName: string;
-  vesselType: string;
-  ircs: string;
-  cfr: string;
-  externalMarking: string;
-  lengthOverAll: number;
-  hasLicence?: boolean;
-}>;
-
 export type AssetMovementWithEssentials = Readonly<{
-  assetEssentials: AssetEssentialProperties;
+  asset: Asset;
   assetMovement: AssetMovement;
 }>;
 
@@ -325,7 +313,6 @@ export type State = Readonly<{
   assetTripGranularity: number;
   assetTripTimestamp: number;
   assets: Readonly<{ readonly [uid: string]: Asset }>;
-  assetsEssentials: Readonly<{ readonly [uid: string]: AssetEssentialProperties }>;
   assetLists: Readonly<{ readonly [identifier: string]: AssetList }>;
   currentAssetList: string;
   lastUserAssetSearch: string;

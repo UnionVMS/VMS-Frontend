@@ -166,7 +166,7 @@ export class AssetEffects {
           filter((response: any, index: number) => this.apiErrorHandler(response, index)),
           map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((response: {
-            assetList: ReadonlyArray<AssetTypes.AssetEssentialProperties>,
+            assetList: ReadonlyArray<AssetTypes.Asset>,
             movements: ReadonlyArray<AssetTypes.Movement>
           }) => {
             return new Observable((observer) => {
@@ -182,15 +182,6 @@ export class AssetEffects {
                   }, {})
                 })
               );
-
-              observer.next(
-                AssetActions.setEssentialProperties({
-                  assetEssentialProperties: response.assetList.reduce((acc, assetEssentials) => {
-                    acc[assetEssentials.assetId] = assetEssentials;
-                    return acc;
-                  }, {})
-                })
-              );
               observer.next(MapActions.setReady({ ready: true }));
               observer.complete();
             });
@@ -199,11 +190,11 @@ export class AssetEffects {
         ),
         this.assetService.mapSubscription(authToken).pipe(
           bufferTime(1000),
-          withLatestFrom(this.store.select(AssetSelectors.getAssetsEssentials)),
+          withLatestFrom(this.store.select(AssetSelectors.getAssets)),
           // We need to add any at the end because the buffer is types as Unknown[], we know it to be the first data
           // structure defined but that does not help apparenlty
-          mergeMap(([messages, assetsEssentials]: Array<
-            Array<{ type: string, data: any }> | { readonly [uid: string]: AssetTypes.AssetEssentialProperties } | any
+          mergeMap(([messages, assets]: Array<
+            Array<{ type: string, data: any }> | { readonly [uid: string]: AssetTypes.Asset } | any
           >) => {
             if(messages.length !== 0) {
               const messagesByType = messages.reduce((messagesByTypeAcc, message) => {
@@ -228,40 +219,22 @@ export class AssetEffects {
                   return acc;
                 }, {})};
                 actions.push(AssetActions.assetsMoved(assetsMovedData));
-                actions.push(AssetActions.checkForAssetEssentials({
+                actions.push(AssetActions.checkForAssets({
                   assetIds: messagesByType.Movement.map((movement: AssetTypes.AssetMovement) => movement.asset)
-                }));
-              }
-              if(typeof messagesByType['Updated Asset'] !== 'undefined') {
-                actions.push(AssetActions.setEssentialProperties({
-                  assetEssentialProperties: messagesByType['Updated Asset'].reduce((acc, asset) => {
-                    acc[asset.id] = {
-                      assetId: asset.id,
-                      flagstate: asset.flagStateCode,
-                      assetName: asset.name,
-                      vesselType: asset.vesselType,
-                      ircs: asset.ircs,
-                      cfr: asset.cfr,
-                      externalMarking: asset.externalMarking,
-                      lengthOverAll: asset.lengthOverAll,
-                      hasLicence: asset.hasLicence
-                    };
-                    return acc;
-                  }, {})
                 }));
               }
               if(typeof messagesByType['Merged Asset'] !== 'undefined') {
                 messagesByType['Merged Asset'].map(message => {
-                  const oldAsset = assetsEssentials[message.oldAssetId];
-                  const newAsset = assetsEssentials[message.newAssetId];
+                  const oldAsset = assets[message.oldAssetId];
+                  const newAsset = assets[message.newAssetId];
                   let oldAssetName = message.oldAssetId;
                   let newAssetName = message.newAssetId;
 
                   if(typeof oldAsset !== 'undefined') {
-                    oldAssetName = oldAsset.assetName;
+                    oldAssetName = oldAsset.name;
                   }
                   if(typeof newAsset !== 'undefined') {
-                    newAssetName = newAsset.assetName;
+                    newAssetName = newAsset.name;
                   }
 
                   const noticeMessage = replacePlaceholdersInTranslation(
@@ -326,40 +299,6 @@ export class AssetEffects {
     })
   ));
 
-  assetEssentialsObserver$ = createEffect(() => this.actions$.pipe(
-    ofType(AssetActions.checkForAssetEssentials),
-    withLatestFrom(
-      this.store.select(AuthSelectors.getAuthToken),
-      this.store.select(AssetSelectors.getAssetsEssentials)
-    ),
-    mergeMap(([action, authToken, currentAssetsEssentials]: Array<any>) => {
-      const assetIdsWithoutEssentials: ReadonlyArray<string> = action.assetIds.reduce((acc, assetId) => {
-        if(currentAssetsEssentials[assetId] === undefined) {
-          acc.push(assetId);
-        }
-        return acc;
-      }, []);
-      if(assetIdsWithoutEssentials.length > 0) {
-        return this.assetService.getAssetEssentialProperties(
-          authToken, assetIdsWithoutEssentials
-        ).pipe(
-          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
-          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
-          map((assetsEssentials: Array<AssetTypes.AssetEssentialProperties>) => {
-            return AssetActions.setEssentialProperties({
-              assetEssentialProperties: assetsEssentials.reduce((acc, assetEssentials) => {
-                acc[assetEssentials.assetId] = assetEssentials;
-                return acc;
-              }, {})
-            });
-          })
-        );
-      } else {
-        return EMPTY;
-      }
-    })
-  ));
-
   selectAssetObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.selectAsset),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
@@ -420,7 +359,7 @@ export class AssetEffects {
           return [
             AssetActions.setTracks({ tracksByAsset: movementsByAsset.movements }),
             AssetActions.setAssetPositionsWithoutAffectingTracks({ movementsByAsset: lastAssetMovements }),
-            AssetActions.checkForAssetEssentials({
+            AssetActions.checkForAssets({
               assetIds: Object.values(lastAssetMovements).map((movement: AssetTypes.AssetMovement) => movement.asset)
             }),
             AssetActions.setAssetTrips({ assetMovements: assetMovementsOrdered }),

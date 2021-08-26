@@ -33,7 +33,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public setGivenFilterActive: (filterTypeName: string, status: boolean) => void;
   public filterAssets: (filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>) => void;
 
-  public assetEssentialsForAssetGroups: Readonly<{ readonly [assetId: string]: AssetTypes.AssetEssentialProperties }>;
+  public assetForAssetGroups: Readonly<{ readonly [assetId: string]: AssetTypes.Asset }>;
   public currentFilterQuery$: Observable<ReadonlyArray<AssetTypes.AssetFilterQuery>>;
   public saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
   public deleteFilter: (filterId: string) => void;
@@ -52,7 +52,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public searchAutocomplete: (searchQuery: string) => void;
   public searchAutocompleteResult$: Observable<ReadonlyArray<Readonly<{
     assetMovement: AssetTypes.AssetMovement,
-    assetEssentials: AssetTypes.AssetEssentialProperties
+    asset: AssetTypes.Asset
   }>>>;
   public selectAsset: (assetId: string) => void;
   public userTimezone$: Observable<string>;
@@ -112,7 +112,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
         const filter = assetGroupFilter.filter.find(f => f.type === 'GUID');
         return [ ...acc, ...filter.values ];
       }, []))];
-      this.store.dispatch(AssetActions.checkForAssetEssentials({ assetIds }));
+      this.store.dispatch(AssetActions.checkForAssets({ assetIds }));
     });
     this.searchAutocompleteResult$ = this.store.select(AssetSelectors.getSearchAutocomplete);
     this.store.select(IncidentSelectors.getIncidentsByTypeAndStatus).pipe(takeUntil(this.unmount$)).subscribe(
@@ -122,10 +122,10 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.store.select(IncidentSelectors.getSelectedIncident).pipe(takeUntil(this.unmount$)).subscribe(
       incident => { this.selectedIncident = incident; }
     );
-    this.store.select(AssetSelectors.getAssetEssentialsForAssetGroups)
+    this.store.select(AssetSelectors.getAssetsForAssetGroups)
       .pipe(takeUntil(this.unmount$))
-      .subscribe((assetEssentials) => {
-        this.assetEssentialsForAssetGroups = assetEssentials;
+      .subscribe((asset) => {
+        this.assetForAssetGroups = asset;
       });
     this.store.select(MapSettingsSelectors.getMapSettings).pipe(takeUntil(this.unmount$)).subscribe((mapSettings) => {
       this.mapSettings = mapSettings;

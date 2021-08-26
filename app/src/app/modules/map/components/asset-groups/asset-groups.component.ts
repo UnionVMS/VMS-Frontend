@@ -11,7 +11,7 @@ import { EditAssetGroupDialogComponent } from '@modules/map/components/edit-asse
 })
 export class AssetGroupsComponent {
   @Input() assetGroups: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>;
-  @Input() assetEssentials: Readonly<{ readonly [assetId: string]: AssetTypes.AssetEssentialProperties }>;
+  @Input() assets: Readonly<{ readonly [assetId: string]: AssetTypes.Asset }>;
   @Input() selectedAssetGroups: Array<string>;
   @Input() setAssetGroup: (assetGroup: string) => void;
   @Input() clearAssetGroup: (assetGroup: string) => void;
@@ -39,7 +39,7 @@ export class AssetGroupsComponent {
 
   openEditDialog(assetGroupFilter: MapSavedFiltersTypes.SavedFilter) {
     const dialogRef = this.dialog.open(EditAssetGroupDialogComponent, {
-      data: { assetGroupFilter, assetEssentials: this.assetEssentials }
+      data: { assetGroupFilter, assets: this.assets }
     });
 
     dialogRef.afterClosed().subscribe(result => {

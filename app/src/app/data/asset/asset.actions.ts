@@ -27,8 +27,8 @@ export const assetsMoved = createAction(
   props<{ assetMovements: { [assetId: string]: AssetTypes.AssetMovement } }>()
 );
 
-export const checkForAssetEssentials = createAction(
-  '[Asset] Check for essentials',
+export const checkForAssets = createAction(
+  '[Asset] Check for assets',
   props<{ assetIds: ReadonlyArray<string> }>()
 );
 
@@ -234,11 +234,6 @@ export const setLastFullPositions = createAction(
 export const setLastPositionsForSelectedAsset = createAction(
   '[Asset] Set last positions for selected asset',
   props<{ assetId: string, aisPosition: AssetTypes.Movement, vmsPosition: AssetTypes.Movement }>()
-);
-
-export const setEssentialProperties = createAction(
-  '[Asset] Set essential properties',
-  props<{ assetEssentialProperties: { [uid: string]: AssetTypes.AssetEssentialProperties } }>()
 );
 
 export const setFilterQuery = createAction(
