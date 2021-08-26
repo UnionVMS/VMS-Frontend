@@ -4,6 +4,7 @@ import * as Types from './map-layers.types';
 
 export const initialState: Types.State = {
   mapLayers: {},
+  cascadedLayers: {},
   activeLayers: []
 };
 
@@ -32,4 +33,13 @@ export const mapLayersReducer = createReducer(initialState,
     ...state,
     activeLayers: state.activeLayers.filter(currentLayerName => currentLayerName !== layerName)
   })),
+  on(MapLayersActions.addCascadedLayers, (state, { cascadedLayers }) => {
+    return ({
+      ...state,
+      cascadedLayers: {
+        ...state.cascadedLayers,
+        ...cascadedLayers
+      }
+    });
+  }),
 );

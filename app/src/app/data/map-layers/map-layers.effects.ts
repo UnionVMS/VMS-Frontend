@@ -13,6 +13,8 @@ import { MapLayersActions, MapLayersTypes } from './';
 
 import { apiErrorHandler, apiUpdateTokenHandler } from '@app/helpers/api-response-handler';
 
+import WMSCapabilities from 'ol/format/WMSCapabilities';
+
 @Injectable()
 export class MapLayersEffects {
 
@@ -72,5 +74,23 @@ export class MapLayersEffects {
         );
       })
     ))
+  ));
+
+  getWMSLayers$ = createEffect(() => this.actions$.pipe(
+    ofType(MapLayersActions.getCascadedLayers),
+    withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
+    mergeMap(([_, authToken]: Array<any>) => {
+      return this.mapLayersService.getWMSCapabilities(authToken).pipe(
+        map((response) => { return new WMSCapabilities().read(response).Capability.Layer.Layer }),
+        map((layers: any) => MapLayersActions.addCascadedLayers({
+          cascadedLayers: layers.reduce((acc, layer) => {
+            if (layer.cascaded === 1) {
+              acc[layer.Name] = { name: layer.Name, title: layer.Title, abstract: layer.Abstract };
+            }
+            return acc;
+          }, {})
+        }))
+      );
+    })
   ));
 }

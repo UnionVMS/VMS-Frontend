@@ -50,6 +50,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public licence$: Observable<AssetTypes.AssetLicence>;
   public licenceLoaded = false;
   public mapLayers$: Observable<Array<MapLayersTypes.MapLayer>>;
+  public cascadedLayers$: Observable<Array<MapLayersTypes.CascadedLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
   public userTimezone$: Observable<string>;
   public mapStatistics$: Observable<any>;
@@ -165,6 +166,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       });
     this.mapStatistics$ = this.store.select(AssetSelectors.getMapStatistics);
     this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers);
+    this.cascadedLayers$ = this.store.select(MapLayersSelectors.getCascadedLayers);
     this.activeMapLayers$ = this.store.select(MapLayersSelectors.getActiveLayers);
     this.licence$ = this.store.select(AssetSelectors.getLicenceForSelectedMapAsset).pipe(tap((licence) => {
       this.licenceLoaded = true;
