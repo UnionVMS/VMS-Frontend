@@ -76,7 +76,7 @@ export class MapLayersEffects {
     ))
   ));
 
-  getWMSLayers$ = createEffect(() => this.actions$.pipe(
+  getCascadedLayers$ = createEffect(() => this.actions$.pipe(
     ofType(MapLayersActions.getCascadedLayers),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([_, authToken]: Array<any>) => {
