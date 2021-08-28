@@ -12,12 +12,12 @@ import Map from 'ol/Map';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Point from 'ol/geom/Point';
+import LineString from 'ol/geom/LineString';
 import Feature from 'ol/Feature';
 import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style';
 import { fromLonLat } from 'ol/proj';
 
 import { AssetTypes } from '@data/asset';
-import { NotesTypes } from '@data/notes';
 import { createManualMovementFormValidator } from './form-validator';
 import { ManualMovementFormDialogComponent } from '@modules/map/components/manual-movement-form-dialog/manual-movement-form-dialog.component';
 
@@ -37,6 +37,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   @Input() map: Map;
   @Input() userTimezone: string;
   @Input() createNote: (note: string) => void;
+  @Input() lastPosition: AssetTypes.Movement;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -224,6 +225,13 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
       } else {
         cachedFeature.setGeometry(position);
         cachedFeature.getStyle()[0].getImage().setRotation(heading);
+      }
+      if (!isNaN(location.latitude) && !isNaN(location.longitude)) {
+        const coordinates = [fromLonLat([location.longitude, location.latitude])];
+        if (this.lastPosition) {
+          coordinates.push(fromLonLat([this.lastPosition.location.longitude, this.lastPosition.location.latitude]));
+        }
+        this.map.getView().fit(new LineString(coordinates), { minResolution: 10, padding: [50, 400, 50, 400], duration: 1000 });
       }
     } else if(cachedFeature !== null) {
       this.vectorSource.removeFeature(cachedFeature);
