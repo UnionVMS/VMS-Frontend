@@ -10,7 +10,7 @@
     <map-manual-movement-form-tooltip header></map-manual-movement-form-tooltip>
     <map-manual-movement-form
       body
-      *ngIf="map !== undefined"
+      *ngIf="map !== undefined && lastPositions !== undefined"
       [createManualMovement]="createManualMovementCurried"
       [createNote]="createNoteCurried"
       [map]="map"
