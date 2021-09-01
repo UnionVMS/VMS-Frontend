@@ -1,7 +1,19 @@
-<div id="map-layers-panel" class="content-container" *ngIf="mapLayers.length > 0">
+<div id="map-layers-panel" class="content-container">
+  <h3 i18n>Areas</h3>
   <mat-checkbox
     *ngFor="let mapLayer of mapLayers"
     [checked]="this.activeMapLayers.includes(mapLayer.typeName)"
-    (change)="toggleMapLayer(mapLayer)"
+    (change)="toggleMapLayer(mapLayer.typeName)"
   >{{mapLayer.areaTypeDesc}}</mat-checkbox>
+  <h3 i18n>Layers</h3>
+  <mat-checkbox
+    [checked]="this.activeMapLayers.includes('openstreetmap')"
+    (change)="toggleOpenStreetMap()"
+  >OpenStreetMap</mat-checkbox>
+  <mat-checkbox
+    *ngFor="let layer of cascadedLayers"
+    [checked]="this.activeMapLayers.includes(layer.name)"
+    (change)="toggleMapLayer(layer.name)"
+    matTooltip={{layer.abstract}}
+  >{{layer.title}}</mat-checkbox>
 </div>

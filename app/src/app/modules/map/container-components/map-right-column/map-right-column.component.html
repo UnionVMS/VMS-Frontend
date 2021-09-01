@@ -96,7 +96,7 @@
         <ng-container *ngIf="activePanel[1] === 'managePolling'" i18n>Manage polling</ng-container>
       </h3>
       <div class="asset-name" *ngIf="selectedAsset">
-        {{ (selectedAsset.asset.ircs !== undefined ? selectedAsset.asset.ircs + ' &#183; ' : '') + 
+        {{ (selectedAsset.asset.ircs !== undefined ? selectedAsset.asset.ircs + ' &#183; ' : '') +
         (selectedAsset.asset.name !== undefined ? selectedAsset.asset.name : selectedAsset.asset.externalMarking)  }}
       </div>
     </div>
@@ -244,6 +244,7 @@
     <map-layers-panel
       [activeMapLayers]="activeMapLayers$ | async"
       [mapLayers]="mapLayers$ | async"
+      [cascadedLayers]="cascadedLayers$ | async"
       [addActiveLayerFunction]="addActiveLayer"
       [removeActiveLayerFunction]="removeActiveLayer"
     ></map-layers-panel>
