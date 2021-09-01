@@ -12,18 +12,20 @@ import Map from 'ol/Map';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Point from 'ol/geom/Point';
+import LineString from 'ol/geom/LineString';
 import Feature from 'ol/Feature';
-import { Circle as CircleStyle, Fill, Stroke, Style, Icon, Text } from 'ol/style';
-import { fromLonLat } from 'ol/proj';
+import { Circle as CircleStyle, Fill, Style, Icon } from 'ol/style';
+import { fromLonLat, transform } from 'ol/proj';
+import Event from 'ol/events';
+import { Modify } from 'ol/interaction';
 
 import { AssetTypes } from '@data/asset';
-import { NotesTypes } from '@data/notes';
 import { createManualMovementFormValidator } from './form-validator';
 import { ManualMovementFormDialogComponent } from '@modules/map/components/manual-movement-form-dialog/manual-movement-form-dialog.component';
 
 import { errorMessage } from '@app/helpers/validators/error-messages';
 import { deg2rad } from '@app/helpers/helpers';
-import { convertDDMToDD } from '@app/helpers/wgs84-formatter';
+import { convertDDMToDD, convertDDToDDM } from '@app/helpers/wgs84-formatter';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
 @Component({
@@ -37,6 +39,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
   @Input() map: Map;
   @Input() userTimezone: string;
   @Input() createNote: (note: string) => void;
+  @Input() lastPosition: AssetTypes.Movement;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
@@ -221,9 +224,24 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
 
         previewFeature.setId(this.featureId);
         this.vectorSource.addFeature(previewFeature);
+
+        const modify = new Modify({source: this.vectorSource});
+
+        modify.on('modifyend', (evt: Event) => {
+          const newCoords = transform(evt.mapBrowserEvent.coordinate, 'EPSG:3857', 'EPSG:4326');
+          this.setFormLocation(newCoords[1], newCoords[0]);
+        });
+        this.map.addInteraction(modify);
       } else {
         cachedFeature.setGeometry(position);
         cachedFeature.getStyle()[0].getImage().setRotation(heading);
+      }
+      if (!isNaN(location.latitude) && !isNaN(location.longitude)) {
+        const coordinates = [fromLonLat([location.longitude, location.latitude])];
+        if (this.lastPosition) {
+          coordinates.push(fromLonLat([this.lastPosition.location.longitude, this.lastPosition.location.latitude]));
+        }
+        this.map.getView().fit(new LineString(coordinates), { minResolution: 15, padding: [50, 400, 50, 400], duration: 1000 });
       }
     } else if(cachedFeature !== null) {
       this.vectorSource.removeFeature(cachedFeature);
@@ -238,6 +256,21 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     if (!allowedKeys.includes(event.key)) {
       event.preventDefault();
     }
+  }
+
+  setFormLocation(latitude: number, longitude: number) {
+    const newLocation = convertDDToDDM(latitude, longitude);
+    const [latDir, lat, latMin, latDec] = newLocation.latitude.replace('°','').replace('.',' ').replace("'",' ').split(' ');
+    this.formValidator.controls.latitudeDirection.setValue(latDir, { emitEvent: false });
+    this.formValidator.controls.latitude.setValue(lat, { emitEvent: false });
+    this.formValidator.controls.latitudeMinute.setValue(latMin, { emitEvent: false });
+    this.formValidator.controls.latitudeDecimals.setValue(latDec, { emitEvent: false });
+    const [lonDir, lon, lonMin, lonDec] = newLocation.longitude.replace('°','').replace('.',' ').replace("'",' ').split(' ');
+    this.formValidator.controls.longitudeDirection.setValue(lonDir, { emitEvent: false });
+    this.formValidator.controls.longitude.setValue(lon, { emitEvent: false });
+    this.formValidator.controls.longitudeMinute.setValue(lonMin, { emitEvent: false });
+    this.formValidator.controls.longitudeDecimals.setValue(lonDec, { emitEvent: false });
+    this.renderPreview();
   }
 
   // pasteLatitude(event: ClipboardEvent) {

@@ -134,6 +134,7 @@
       <map-asset-positions
         *ngIf="activePanel[1] === 'positions'"
         [asset]="selectedAsset.asset"
+        [lastPositions]="selectedAssetsLastPositions[selectedAsset.asset.id]"
         [positions]="lastFullPositionsForSelectedAsset$ | async"
         [createManualMovement]="createManualMovement"
         [createNote]="createNote"
