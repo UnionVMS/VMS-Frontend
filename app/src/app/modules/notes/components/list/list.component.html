@@ -11,7 +11,7 @@
         <span class="user">{{note.createdBy}}</span>
         <span class="date">{{note.createdOnFormatted}} <span class="timezone">({{userTimezone}})</span></span>
       </div>
-      <div class="note-text" *ngIf="!notesInEditMode.includes(note.id)">{{note.note}}</div>
+      <div class="note-text" *ngIf="!notesInEditMode.includes(note.id)" [innerHtml]="note.note"></div>
       <notes-form
         *ngIf="notesInEditMode.includes(note.id)"
         [note]="note"
@@ -35,7 +35,7 @@
             <button mat-menu-item disabled="disabled" i18n>Print note</button>
              -->
           </ng-container>
-          
+
         </mat-menu>
       </div>
     </div>
