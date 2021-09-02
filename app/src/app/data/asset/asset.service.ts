@@ -20,7 +20,7 @@ export class AssetService {
 
   getInitalAssetMovements(authToken: string) {
     return this.http.post(
-      environment.baseApiUrl + 'movement/rest/movement/latest',
+      environment.baseApiUrl + 'movement/rest/movement/latest/8h',
       [],
       getDefaultHttpOptions(authToken)
     );
