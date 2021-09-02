@@ -43,6 +43,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     this.registerOnSelectFunction(this.layerTitle, (event) => {
       if (
         typeof event.selected[0] !== 'undefined' &&
+        typeof event.selected[0].id_ !== 'undefined' &&
         this.vectorSource.getFeatureById(event.selected[0].id_) !== null
       ) {
         this.selectAsset(event.selected[0].id_.substring(5));

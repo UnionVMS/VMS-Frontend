@@ -4,6 +4,7 @@ import { environment } from '@src/environments/environment';
 
 import Map from 'ol/Map';
 import TileLayer from 'ol/layer/Tile';
+import { XYZ } from 'ol/source';
 import TileWMS from 'ol/source/TileWMS';
 
 @Component({
@@ -16,6 +17,7 @@ export class MapLayersComponent implements OnChanges, OnDestroy {
   @Input() authToken: string;
   @Input() activeMapLayers: Array<string>;
   @Input() mapLayers: Array<MapLayersTypes.MapLayer>;
+  @Input() cascadedLayers: Array<MapLayersTypes.CascadedLayer>;
   @Input() menuActive: boolean;
 
   private readonly layers: { [layerName: string]: TileLayer} = {};
@@ -32,7 +34,17 @@ export class MapLayersComponent implements OnChanges, OnDestroy {
     // Add layers
     this.activeMapLayers.map((layerName) => {
       if(typeof this.layers[layerName] === 'undefined') {
-        this.addTileLayer(layerName);
+        if(layerName === 'openstreetmap') {
+          this.addOpenStreetMapLayer();
+        } else {
+          const mapLayer = this.mapLayers.find((currentMapLayer) => currentMapLayer.typeName === layerName);
+          if (mapLayer !== undefined) {
+            this.addTileLayer(layerName, mapLayer.geoName, mapLayer.style, mapLayer.cqlFilter);
+          } else {
+            const mapLayer = this.cascadedLayers.find((currentMapLayer) => currentMapLayer.name === layerName);
+            this.addTileLayer(layerName, mapLayer.name);
+          }
+        }
       }
     });
   }
@@ -44,9 +56,7 @@ export class MapLayersComponent implements OnChanges, OnDestroy {
     });
   }
 
-  addTileLayer(layerName: string) {
-    const mapLayer = this.mapLayers.find((currentMapLayer) => currentMapLayer.typeName === layerName);
-
+  addTileLayer(layerName: string, geoName: string, style?: string, filter?: string) {
     const authToken = this.authToken;
     const customTileLoaderFunction = (imageTile, src) => {
       const xhr = new XMLHttpRequest();
@@ -87,10 +97,10 @@ export class MapLayersComponent implements OnChanges, OnDestroy {
       source: new TileWMS({
         url: environment.baseGeoUrl + 'wms',
         params: {
-          LAYERS: mapLayer.geoName,
+          LAYERS: geoName,
           TILED: true,
-          STYLES: mapLayer.style,
-          cql_filter: mapLayer.cqlFilter
+          STYLES: style,
+          cql_filter: filter
         },
         tileLoadFunction: customTileLoaderFunction,
         serverType: 'geoserver',
@@ -102,4 +112,14 @@ export class MapLayersComponent implements OnChanges, OnDestroy {
     this.map.addLayer(layer);
   }
 
+  addOpenStreetMapLayer() {
+    const layer = new TileLayer({
+      source: new XYZ({
+        url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        crossOrigin: 'anonymous'
+      })
+    })
+    this.layers['openstreetmap'] = layer;
+    this.map.addLayer(layer);
+  }
 }
