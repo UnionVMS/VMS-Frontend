@@ -183,7 +183,6 @@ export class AssetEffects {
                   }, {})
                 })
               );
-
               observer.next(
                 AssetActions.setAssets({
                   assets: response.assetList.reduce((acc, asset) => {
@@ -199,7 +198,7 @@ export class AssetEffects {
           mergeAll()
         ),
         this.assetService.mapSubscription(authToken).pipe(
-          bufferTime(5000),
+          bufferTime(1000),
           withLatestFrom(this.store.select(AssetSelectors.getAssets)),
           // We need to add any at the end because the buffer is types as Unknown[], we know it to be the first data
           // structure defined but that does not help apparenlty
@@ -234,8 +233,6 @@ export class AssetEffects {
                 }));
                 console.log("assetsMovedData ", assetsMovedData);
               }
-            
-            /*
               if(typeof messagesByType['Updated Asset'] !== 'undefined') {
                 actions.push(AssetActions.setAssets({
                   assets: messagesByType['Updated Asset'].reduce((acc, asset) => {
@@ -246,8 +243,7 @@ export class AssetEffects {
                   }, {})
                 }));
               }
-                    */ 
-             
+            /*
               if(typeof messagesByType['Updated Asset'] !== 'undefined') {
                 actions.push(AssetActions.setAssets({
                   assets: messagesByType['Updated Asset'].reduce((acc, asset: AssetTypes.Asset) => {
@@ -266,7 +262,7 @@ export class AssetEffects {
                   }, {})
                 }));
               }
-          
+           */ 
               if(typeof messagesByType['Merged Asset'] !== 'undefined') {
                 messagesByType['Merged Asset'].map(message => {
                   const oldAsset = assets[message.oldAssetId];
@@ -280,7 +276,6 @@ export class AssetEffects {
                   if(typeof newAsset !== 'undefined') {
                     newAssetName = newAsset.name;
                   }
-
                   const noticeMessage = replacePlaceholdersInTranslation(
                     // tslint:disable-next-line max-line-length
                     $localize`:@@ts-asset-notice-merged:Asset '${oldAssetName}' merged with '${newAssetName}', and has been removed from the map.`,
@@ -360,9 +355,7 @@ export class AssetEffects {
     }
     })
   ));
-
 */
-
   assetsObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.checkForAssets),
     withLatestFrom(
@@ -396,7 +389,6 @@ export class AssetEffects {
       }
     })
   ));
- 
 
   selectAssetTrackFromTimeObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.getAssetTrackTimeInterval),
