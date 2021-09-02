@@ -1,10 +1,10 @@
-import { AssetMovementWithEssentials } from '../asset.types';
+import { AssetMovementWithAsset } from '../asset.types';
 import AssetMovementStub from './assetMovement.stub';
 import AssetStub from './asset.stub';
 
-const AssetMovementWithEssentialsStub: AssetMovementWithEssentials = {
+const AssetMovementWithAssetStub: AssetMovementWithAsset = {
   asset: AssetStub,
   assetMovement: AssetMovementStub,
 };
 
-export default AssetMovementWithEssentialsStub;
+export default AssetMovementWithAssetStub;

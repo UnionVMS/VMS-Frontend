@@ -64,7 +64,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public registerOnSelectFunction: (name: string, selectFunction: (event) => void) => void;
   public saveMapLocation: (key: number, mapLocation: MapSettingsTypes.MapLocation, save?: boolean) => void;
 
-  public assetMovements: Array<AssetTypes.AssetMovementWithEssentials>;
+  public assetMovements: Array<AssetTypes.AssetMovementWithAsset>;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private readonly onClickFunctions: { [name: string]: Function } = {};

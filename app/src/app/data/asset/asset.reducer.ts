@@ -463,6 +463,13 @@ export const assetReducer = createReducer(initialState,
     ...state,
     searchQuery
   })),
+  on(AssetActions.setAssets, (state, { assets }) => ({
+    ...state,
+    assets: {
+      ...state.assets,
+      ...assets
+    }
+  })),
   on(AssetActions.setFilterQuery, (state, { filterQuery }) => ({
     ...state,
     filterQuery

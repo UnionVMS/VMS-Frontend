@@ -21,7 +21,7 @@ export class AssetSearchComponent implements OnChanges {
   // tslint:enable:ban-types
   @Input() setActiveInformationPanel: (activeInformationPanel: string | null) => void;
   @Input() setActiveRightPanel: (activeRightPanel: ReadonlyArray<string>) => void;
-  @Input() autocompleteResult: Array<AssetTypes.AssetMovementWithEssentials>;
+  @Input() autocompleteResult: Array<AssetTypes.AssetMovementWithAsset>;
 
   public searchResults = [];
   public searchQuery = '';

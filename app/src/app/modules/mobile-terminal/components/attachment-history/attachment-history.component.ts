@@ -44,9 +44,21 @@ export class AttachmentHistoryComponent implements OnChanges {
           ...acc, [change.field]: change
         }), {}),
       };
-    }).filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
-      if(typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined'
-      || mobileTerminalHistory.assetName){
+    }).reduce(function(acc, curr) {
+      let assetNameExists = acc.findIndex((mobileTerminalHistory) => {
+        return mobileTerminalHistory.assetName === curr.assetName;
+      })
+      if (assetNameExists === -1) {
+        acc.push(curr)
+      }
+      if (!curr.assetName) {
+        acc.push(curr)
+      }
+      return acc;
+    
+    }, []).filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
+
+      if(typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined'){
         return true;
       }
     }).sort((a, b) => b.updateTime - a.updateTime);

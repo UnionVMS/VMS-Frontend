@@ -126,7 +126,7 @@ export type Asset = Readonly<{
   portOfRegistration: string;
   powerOfAuxEngine: any;
   powerOfMainEngine: any;
-  hasLicence: boolean;
+  hasLicence?: boolean;
   licenceType: any;
   mainFishingGearCode: any;
   subFishingGearCode: any;
@@ -176,7 +176,7 @@ export enum AssetFilterValueTypes {
   BOOLEAN = 'BOOLEAN'
 }
 
-export type AssetMovementWithEssentials = Readonly<{
+export type AssetMovementWithAsset = Readonly<{
   asset: Asset;
   assetMovement: AssetMovement;
 }>;
@@ -312,7 +312,7 @@ export type State = Readonly<{
   assetTrips: AssetTrips;
   assetTripGranularity: number;
   assetTripTimestamp: number;
-  assets: Readonly<{ readonly [uid: string]: Asset }>;
+  assets: Readonly<{ readonly [assetId: string]: Asset }>;
   assetLists: Readonly<{ readonly [identifier: string]: AssetList }>;
   currentAssetList: string;
   lastUserAssetSearch: string;

@@ -18,7 +18,7 @@ import { fromLonLat } from 'ol/proj';
 })
 export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetTypes.AssetMovementWithEssentials>;
+  @Input() assets: Array<AssetTypes.AssetMovementWithAsset>;
   @Input() map: Map;
   @Input() selectAsset: (assetId: string) => void;
   @Input() registerOnSelectFunction: (key: string, selectFunction: (event) => void) => void;
@@ -113,7 +113,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  createFeatureFromAsset(asset: AssetTypes.AssetMovementWithEssentials) {
+  createFeatureFromAsset(asset: AssetTypes.AssetMovementWithAsset) {
     if(typeof getContryISO2(asset.asset.flagStateCode) === 'undefined') {
       return false;
     }

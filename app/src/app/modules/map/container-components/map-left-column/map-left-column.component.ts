@@ -33,7 +33,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public setGivenFilterActive: (filterTypeName: string, status: boolean) => void;
   public filterAssets: (filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>) => void;
 
-  public assetForAssetGroups: Readonly<{ readonly [assetId: string]: AssetTypes.Asset }>;
+  public assetsForAssetGroups: Readonly<{ readonly [assetId: string]: AssetTypes.Asset }>;
   public currentFilterQuery$: Observable<ReadonlyArray<AssetTypes.AssetFilterQuery>>;
   public saveFilter: (filter: MapSavedFiltersTypes.SavedFilter) => void;
   public deleteFilter: (filterId: string) => void;
@@ -124,8 +124,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     );
     this.store.select(AssetSelectors.getAssetsForAssetGroups)
       .pipe(takeUntil(this.unmount$))
-      .subscribe((asset) => {
-        this.assetForAssetGroups = asset;
+      .subscribe((assets) => {
+        this.assetsForAssetGroups = assets;
       });
     this.store.select(MapSettingsSelectors.getMapSettings).pipe(takeUntil(this.unmount$)).subscribe((mapSettings) => {
       this.mapSettings = mapSettings;

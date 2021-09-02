@@ -288,3 +288,8 @@ export const untrackAsset = createAction(
   '[Asset] Untrack asset',
   props<{ assetId: string }>()
 );
+
+export const setAssets = createAction(
+  '[Asset] Set assets',
+  props<{ assets: { [uid: string]: AssetTypes.Asset } }>()
+);

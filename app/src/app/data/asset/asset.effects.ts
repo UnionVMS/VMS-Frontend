@@ -178,6 +178,16 @@ export class AssetEffects {
                     } else {
                       acc[movement.asset] = { movement, asset: movement.asset };
                     }
+                    
+                    return acc;
+                  }, {})
+                })
+              );
+
+              observer.next(
+                AssetActions.setAssets({
+                  assets: response.assetList.reduce((acc, asset) => {
+                    acc[asset.id] = asset;
                     return acc;
                   }, {})
                 })
@@ -189,7 +199,7 @@ export class AssetEffects {
           mergeAll()
         ),
         this.assetService.mapSubscription(authToken).pipe(
-          bufferTime(1000),
+          bufferTime(5000),
           withLatestFrom(this.store.select(AssetSelectors.getAssets)),
           // We need to add any at the end because the buffer is types as Unknown[], we know it to be the first data
           // structure defined but that does not help apparenlty
@@ -222,7 +232,41 @@ export class AssetEffects {
                 actions.push(AssetActions.checkForAssets({
                   assetIds: messagesByType.Movement.map((movement: AssetTypes.AssetMovement) => movement.asset)
                 }));
+                console.log("assetsMovedData ", assetsMovedData);
               }
+            
+            /*
+              if(typeof messagesByType['Updated Asset'] !== 'undefined') {
+                actions.push(AssetActions.setAssets({
+                  assets: messagesByType['Updated Asset'].reduce((acc, asset) => {
+                    acc[asset.id] = {
+                      ...asset
+                    };
+                    return acc;
+                  }, {})
+                }));
+              }
+                    */ 
+             
+              if(typeof messagesByType['Updated Asset'] !== 'undefined') {
+                actions.push(AssetActions.setAssets({
+                  assets: messagesByType['Updated Asset'].reduce((acc, asset: AssetTypes.Asset) => {
+                    acc[asset.id] = {
+                      id: asset.id,
+                      flagStateCode: asset.flagStateCode,
+                      name: asset.name,
+                      vesselType: asset.vesselType,
+                      ircs: asset.ircs,
+                      cfr: asset.cfr,
+                      externalMarking: asset.externalMarking,
+                      lengthOverAll: asset.lengthOverAll,
+                      hasLicence: asset.hasLicence
+                    };
+                    return acc;
+                  }, {})
+                }));
+              }
+          
               if(typeof messagesByType['Merged Asset'] !== 'undefined') {
                 messagesByType['Merged Asset'].map(message => {
                   const oldAsset = assets[message.oldAssetId];
@@ -298,11 +342,14 @@ export class AssetEffects {
       );
     })
   ));
-
+/*
   selectAssetObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.selectAsset),
-    withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
-    mergeMap(([action, authToken]: Array<any>) => {
+    withLatestFrom(this.store.select(AuthSelectors.getAuthToken),
+    this.store.select(AssetSelectors.getAssets)),
+    mergeMap(([action, authToken, assets]: Array<any>) => {
+      if(assets[action.assetId] === undefined ){
+      
       return this.assetService.getAsset(authToken, action.assetId).pipe(
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
@@ -310,8 +357,46 @@ export class AssetEffects {
           return AssetActions.setFullAsset({ asset });
         })
       );
+    }
     })
   ));
+
+*/
+
+  assetsObserver$ = createEffect(() => this.actions$.pipe(
+    ofType(AssetActions.checkForAssets),
+    withLatestFrom(
+      this.store.select(AuthSelectors.getAuthToken),
+      this.store.select(AssetSelectors.getAssets)
+    ),
+    mergeMap(([action, authToken, currentAssetList]: Array<any>) => {
+      const assetIds: ReadonlyArray<string> = action.assetIds.reduce((acc: any[], assetId: string) => {
+        if(currentAssetList[assetId] === undefined) {
+          acc.push(assetId);
+        }
+        return acc;
+      }, []);
+      if(assetIds.length > 0) {
+        return this.assetService.getAssetList(
+          authToken, assetIds
+        ).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
+          map((assets: Array<AssetTypes.Asset>) => {
+            return AssetActions.setAssets({
+              assets: assets.reduce((acc, asset) => {
+                acc[asset.id] = asset;
+                return acc;
+              }, {})
+            });
+          })
+        );
+      } else {
+        return EMPTY;
+      }
+    })
+  ));
+ 
 
   selectAssetTrackFromTimeObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.getAssetTrackTimeInterval),

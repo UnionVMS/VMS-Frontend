@@ -67,7 +67,7 @@ export const getAssetsMovementsDependingOnLeftPanel = createSelector(
 export const getAssets = createSelector(
   getAssetState,
   (state: AssetTypes.State) => {
-    return Object.values(state.assets);
+    return state.assets;
   }
 );
 
@@ -179,11 +179,11 @@ export const getAssetMovements = createSelector(
       filterQuerys.map((filterQuery) => {
         if(filterQuery.length > 0) {
           filterQuery.map(query => {
-            let columnName = 'assetName';
-            if(['flagstate', 'ircs', 'cfr', 'vesselType', 'externalMarking', 'lengthOverAll', 'hasLicence'].indexOf(query.type) !== -1) {
+            let columnName = 'name';
+            if(['flagStateCode', 'ircs', 'cfr', 'vesselType', 'externalMarking', 'lengthOverAll', 'hasLicence'].indexOf(query.type) !== -1) {
               columnName = query.type;
             } else if(query.type === 'GUID') {
-              columnName = 'assetId';
+              columnName = 'id';
             }
             assetMovementKeys = assetMovementKeys.filter(key => {
               if(

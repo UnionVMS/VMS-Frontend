@@ -26,7 +26,7 @@ export class AssetPositionsComponent implements OnInit, OnChanges {
   @Input() map: Map;
   @Input() userTimezone: string;
   @Input() getLastFullPositionsForAsset: (
-    assetId: string, amount: number, sources: ReadonlyArray<string>, excludeGivenSources?: boolean
+    id: string, amount: number, sources: ReadonlyArray<string>, excludeGivenSources?: boolean
   ) => void;
 
   public formActive = true;
@@ -62,7 +62,7 @@ export class AssetPositionsComponent implements OnInit, OnChanges {
   }
 
   public createManualMovementCurried = (movement: AssetTypes.Movement) => {
-    setTimeout(() => this.getLastFullPositionsForAsset(this.asset.id, 20, this.sourcesToExclude, true), 1000);
+    setTimeout(() => this.getLastFullPositionsForAsset(this.asset.id, 20, this.sourcesToExclude, true), 3000);
     return this.createManualMovement({
       movement,
       asset: {
