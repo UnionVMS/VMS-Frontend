@@ -169,7 +169,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
     this.vectorSource.removeFeature(cachedFeature);
 
-    this.createNote(this.formValidator.value.note);
+    this.createNote(this.generateNote(this.formValidator.value.note, locationDDM, this.formValidator.value.timestamp));
 
     this.autoUpdateDatetime = true;
     // Remove subscriptions for previous form.
@@ -187,6 +187,11 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.autoUpdateDatetime = false;
     }, 100);
+  }
+
+  generateNote(note: string, locationDDM, timestamp) {
+    return '<i>Manual Position: ' + locationDDM.latitude + ' ' + locationDDM.longitude + ', ' +
+           formatUnixtime(Math.floor(timestamp.format('x'))) + ' (' + this.userTimezone + ')</i></br></br>' + note;
   }
 
   renderPreview() {
