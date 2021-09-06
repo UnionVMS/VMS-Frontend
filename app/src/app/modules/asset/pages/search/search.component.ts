@@ -39,7 +39,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   public loadingData = false;
   public tableReadyForDisplay = false;
   public dataLoadedSubscription: Subscription;
-  public displayedColumns: string[] = ['externalMarking', 'ircs', 'name', 'cfr', 'flagstate', 'mmsi'];
+  public displayedColumns: string[] = ['externalMarking', 'ircs', 'name', 'cfr', 'flagStateCode', 'mmsi'];
   public assetSearchObject = {
     search: '',
     searchType: 'Swedish Assets',
@@ -235,7 +235,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         case 'name': return compareTableSortString(a.name, b.name, isAsc);
         case 'ircs': return compareTableSortString(a.ircs, b.ircs, isAsc);
         case 'mmsi': return compareTableSortNumber(a.mmsi as unknown as number, b.mmsi as unknown as number, isAsc);
-        case 'flagstate': return compareTableSortString(a.flagStateCode, b.flagStateCode, isAsc);
+        case 'flagStateCode': return compareTableSortString(a.flagStateCode, b.flagStateCode, isAsc);
         case 'externalMarking': return compareTableSortString(a.externalMarking, b.externalMarking, isAsc);
         case 'cfr': return compareTableSortString(a.cfr, b.cfr, isAsc);
         default: return 0;
@@ -247,22 +247,28 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     const nrOfColumns = this.displayedColumns.length;
     const nrOfRows = this.sortedAssets.length;
     let csv = this.displayedColumns.reduce((csvRow, column, index) => {
-      return csvRow + column + (nrOfColumns !== index + 1 ? ';' : '');
+      console.log("column: ", column);
+      let columnName = column.toUpperCase();
+      if(column === 'flagStateCode'){
+        columnName = 'F.S.';
+      }
+      if(column === 'externalMarking'){
+        columnName = 'Ext. Mark';
+      }
+      if(column === 'name'){
+        columnName = 'Name';
+      }
+      return csvRow + columnName + (nrOfColumns !== index + 1 ? ';' : '');
     }, '') + '\r\n';
 
     csv = csv + this.sortedAssets.reduce((acc, asset, mtIndex) => {
       return acc + this.displayedColumns.reduce((csvRow, column, index) => {
         const fieldName = (column === 'status' ? 'statusText' : column);
-        let fieldNameMaped;
-        if(fieldName === 'flagstate'){
-          fieldNameMaped = 'F.S.';
-        } 
         return csvRow +
           (typeof asset[fieldName] !== 'undefined' ? asset[fieldName] : '') +
           (nrOfColumns !== index + 1 ? ';' : '');
       }, '') + (nrOfRows !== mtIndex + 1 ? '\r\n' : '');
     }, '');
-
     const exportedFilenmae = 'assets.' + moment().format('YYYY-MM-DD.HH_mm') + '.csv';
 
     const blob = new Blob(["\uFEFF"+csv], { type: 'text/csv;charset=utf-8;' });
