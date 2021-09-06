@@ -247,7 +247,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     const nrOfColumns = this.displayedColumns.length;
     const nrOfRows = this.sortedAssets.length;
     let csv = this.displayedColumns.reduce((csvRow, column, index) => {
-      console.log("column: ", column);
       let columnName = column.toUpperCase();
       if(column === 'flagStateCode'){
         columnName = 'F.S.';
