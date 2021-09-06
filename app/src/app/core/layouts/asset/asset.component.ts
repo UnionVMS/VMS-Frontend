@@ -107,8 +107,19 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
   }
 
   getTitleName() {
+    console.log("this.selectedAsset: ", this.selectedAsset);
+    let nameOrExtMarking: string;
+    if(typeof this.selectedAsset !== 'undefined' ){
+      if(typeof this.selectedAsset.name !== 'undefined' ){
+        nameOrExtMarking = this.selectedAsset.name;
+      }else if(typeof this.selectedAsset.externalMarking !== 'undefined' ){
+        nameOrExtMarking = "Ext. mark: " + this.selectedAsset.externalMarking;
+      }else{
+        nameOrExtMarking = 'Unknown Asset';
+      }
+    }
     return replacePlaceholdersInTranslation(this.pageTitle, {
-      assetName: typeof this.selectedAsset !== 'undefined' ? this.selectedAsset.name : 'Assets'
+      assetName: typeof this.selectedAsset !== 'undefined' ?  nameOrExtMarking : 'Assets'
     });
   }
 
