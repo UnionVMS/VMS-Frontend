@@ -1,18 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { take, takeUntil, withLatestFrom, skipWhile } from 'rxjs/operators';
+import { take, takeUntil, skipWhile } from 'rxjs/operators';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
-import VectorLayer from 'ol/layer/Vector';
-import TileLayer from 'ol/layer/Tile';
-import { XYZ } from 'ol/source';
 import { fromLonLat } from 'ol/proj';
 import { defaults as defaultControls, ScaleLine, MousePosition } from 'ol/control.js';
-import { format } from 'ol/coordinate.js';
 import Select from 'ol/interaction/Select.js';
-import { click, pointerMove } from 'ol/events/condition.js';
+import { click } from 'ol/events/condition.js';
 import Overlay from 'ol/Overlay';
 
 import { registerProjectionDefinitions } from '@app/helpers/projection-definitions';
@@ -24,7 +20,7 @@ import { IncidentActions } from '@data/incident';
 import { MapActions, MapSelectors } from '@data/map';
 import { MapLayersActions, MapLayersSelectors, MapLayersTypes } from '@data/map-layers';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
-import { MapSavedFiltersActions, MapSavedFiltersSelectors, MapSavedFiltersTypes } from '@data/map-saved-filters';
+import { MapSavedFiltersActions } from '@data/map-saved-filters';
 import { NotificationsActions } from '@data/notifications';
 import { RouterSelectors } from '@data/router';
 import { UserSettingsSelectors } from '@data/user-settings';
@@ -46,6 +42,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   }>;
   public authToken$: Observable<string|null>;
   public mapLayers$: Observable<Array<MapLayersTypes.MapLayer>>;
+  public cascadedLayers$: Observable<Array<MapLayersTypes.CascadedLayer>>;
   public activeMapLayers$: Observable<Array<string>>;
   public clearMeasurements$: Subject<boolean>;
 
@@ -167,6 +164,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     });
     this.authToken$ = this.store.select(AuthSelectors.getAuthToken);
     this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers);
+    this.cascadedLayers$ = this.store.select(MapLayersSelectors.getCascadedLayers);
     this.activeMapLayers$ = this.store.select(MapLayersSelectors.getActiveLayers);
     this.movementSources$ = this.store.select(MapSettingsSelectors.getMovementSources);
     this.choosenMovementSources$ = this.store.select(MapSettingsSelectors.getChoosenMovementSources);
@@ -271,6 +269,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.store.dispatch(IncidentActions.getValidIncidentStatusForTypes());
     this.store.dispatch(IncidentActions.getAllOpenIncidents());
     this.store.dispatch(MapLayersActions.getAreas());
+    this.store.dispatch(MapLayersActions.getCascadedLayers());
+    this.store.dispatch(MapLayersActions.addActiveLayer({ layerName: 'openstreetmap' }));
     this.store.select(RouterSelectors.getMergedRoute).pipe(take(1)).subscribe((mergedRoute) => {
       if(typeof mergedRoute.params !== 'undefined' && typeof mergedRoute.params.assetId !== 'undefined') {
         this.assetIdFromUrl = mergedRoute.params.assetId;
@@ -303,14 +303,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.map = new Map({
       controls: defaultControls().extend([scaleLineControl, mousePositionControl]),
       target: 'realtime-map',
-      layers: [
-        new TileLayer({
-          source: new XYZ({
-            url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            crossOrigin: 'anonymous'
-          })
-        })
-      ],
       view: new View({
         center: fromLonLat([this.mapSettings.settings.startPosition.longitude, this.mapSettings.settings.startPosition.latitude]),
         zoom: this.mapZoom

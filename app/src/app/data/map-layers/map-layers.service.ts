@@ -23,4 +23,16 @@ export class MapLayersService {
       getDefaultHttpOptions(authToken)
     );
   }
+
+  getWMSCapabilities(authToken: string) {
+    return this.http.get(
+      environment.baseGeoUrl + 'ows?service=wms&version=1.3.0&request=GetCapabilities',
+      {
+        headers: new HttpHeaders({
+          Authorization: authToken
+        }),
+        responseType: 'text'
+      }
+    );
+  }
 }

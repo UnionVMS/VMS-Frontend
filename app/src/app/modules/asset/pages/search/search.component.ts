@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, Subject } from 'rxjs';
 import { takeWhile, endWith, takeUntil, filter, take } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { getAlpha3Codes, langs, getNames, registerLocale, alpha2ToAlpha3 } from 'i18n-iso-countries';
 import { Sort } from '@angular/material/sort';
-
+// @ts-ignore
+import moment from 'moment-timezone';
 // import sv from 'i18n-iso-countries/langs/sv.json';
 // import en from 'i18n-iso-countries/langs/en.json';
 // import fi from 'i18n-iso-countries/langs/fi.json';
@@ -28,8 +29,9 @@ import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
   styleUrls: ['./search.component.scss']
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
+  @ViewChild('toolbox') toolbox;
 
-  constructor(private readonly store: Store<State>) { }
+  constructor(private readonly store: Store<State>, private readonly viewContainerRef: ViewContainerRef) { }
 
   public unmount$: Subject<boolean> = new Subject<boolean>();
   public assets: ReadonlyArray<AssetTypes.Asset>;
@@ -198,6 +200,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.mapStateToProps();
     this.mapDispatchToProps();
   }
+  
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.viewContainerRef.createEmbeddedView(this.toolbox);
+    }, 1);
+  }
 
   ngOnDestroy() {
     this.unmount$.next(true);
@@ -232,5 +240,37 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         default: return 0;
       }
     });
+  }
+
+  exportAssetsToCSV() {
+    const nrOfColumns = this.displayedColumns.length;
+    const nrOfRows = this.sortedAssets.length;
+    let csv = this.displayedColumns.reduce((csvRow, column, index) => {
+      return csvRow + column + (nrOfColumns !== index + 1 ? ';' : '');
+    }, '') + '\r\n';
+
+    csv = csv + this.sortedAssets.reduce((acc, asset, mtIndex) => {
+      return acc + this.displayedColumns.reduce((csvRow, column, index) => {
+        const fieldName = (column === 'status' ? 'statusText' : column);
+        return csvRow +
+          (typeof asset[fieldName] !== 'undefined' ? asset[fieldName] : '') +
+          (nrOfColumns !== index + 1 ? ';' : '');
+      }, '') + (nrOfRows !== mtIndex + 1 ? '\r\n' : '');
+    }, '');
+
+    const exportedFilenmae = 'assets.' + moment().format('YYYY-MM-DD.HH_mm') + '.csv';
+
+    const blob = new Blob(["\uFEFF"+csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) { // feature detection
+      // Browsers that support HTML5 download attribute
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', exportedFilenmae);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 }

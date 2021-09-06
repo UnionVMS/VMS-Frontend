@@ -11,14 +11,23 @@ export class MapLayersPanelComponent {
 
   @Input() activeMapLayers: Array<string>;
   @Input() mapLayers: Array<MapLayersTypes.MapLayer>;
+  @Input() cascadedLayers: Array<MapLayersTypes.CascadedLayer>;
   @Input() addActiveLayerFunction: (layerName: string) => void;
   @Input() removeActiveLayerFunction: (layerName: string) => void;
 
-  toggleMapLayer(mapLayer: MapLayersTypes.MapLayer) {
-    if(!this.activeMapLayers.includes(mapLayer.typeName)) {
-      this.addActiveLayerFunction(mapLayer.typeName);
+  toggleMapLayer(layerName: string) {
+    if(!this.activeMapLayers.includes(layerName)) {
+      this.addActiveLayerFunction(layerName);
     } else {
-      this.removeActiveLayerFunction(mapLayer.typeName);
+      this.removeActiveLayerFunction(layerName);
+    }
+  }
+
+  toggleOpenStreetMap() {
+    if(!this.activeMapLayers.includes('openstreetmap')) {
+      this.addActiveLayerFunction('openstreetmap');
+    } else {
+      this.removeActiveLayerFunction('openstreetmap');
     }
   }
 }

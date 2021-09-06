@@ -14,6 +14,7 @@
       <a *ngIf="experimentalFeaturesEnabled && asset.source !== 'NATIONAL'" class="edit-link" routerLink="/asset/{{asset.id}}/edit" i18n>Edit asset</a>
       <span *ngIf="experimentalFeaturesEnabled && asset.source === 'NATIONAL'" class="edit-link" i18n>Read only asset</span>
       <div *ngIf="this.currentIncident !== undefined" class="currentIncidentStatus">{{this.currentIncident}}</div>
+      <div *ngIf="!asset.active" class="inactiveAsset" i18n>INACTIVE</div>
     </div>
   </div>
 

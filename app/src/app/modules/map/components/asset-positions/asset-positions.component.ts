@@ -20,6 +20,7 @@ type ExtendedMovement = Readonly<AssetTypes.Movement & {
 })
 export class AssetPositionsComponent implements OnInit, OnChanges {
   @Input() asset: AssetTypes.Asset;
+  @Input() lastPositions: AssetTypes.LastPositions;
   @Input() positions: ReadonlyArray<AssetTypes.Movement>;
   @Input() createManualMovement: (manualMovement: AssetTypes.ManualMovement) => void;
   @Input() createNote: (note: NotesTypes.NoteParameters) => void;

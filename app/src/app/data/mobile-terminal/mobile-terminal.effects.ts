@@ -238,7 +238,7 @@ export class MobileTerminalEffects {
       withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
       mergeMap(([pipedAction, authToken]: Array<any>) => {
         if(pipedAction.isSelf === true) {
-          return new Observable((observer) => {
+          return new Observable<any>((observer) => {
             observer.next(MobileTerminalActions.setSerialNumberExists({ serialNumberExists: false }));
             observer.complete();
           });
@@ -252,8 +252,7 @@ export class MobileTerminalEffects {
         );
       })
     ))
-  ),
-  { dispatch: false }
+  )
   );
 
   checkIfMemberNumberAndDnidCombinationExists$ = createEffect(() => this.actions$.pipe(
@@ -265,7 +264,7 @@ export class MobileTerminalEffects {
       ),
       mergeMap(([pipedAction, authToken, memberAndDnidCombinationExists]: Array<any>) => {
         if(pipedAction.isSelf === true) {
-          return new Observable((observer) => {
+          return new Observable<any>((observer) => {
             observer.next(MobileTerminalActions.setMemberNumberAndDnidCombinationExists({
               channelId: pipedAction.channelId,
               dnidMemberNumberComboExists: false
@@ -285,8 +284,7 @@ export class MobileTerminalEffects {
         );
       })
     ))
-  ),
-  { dispatch: false }
+  )
   );
   
 
