@@ -139,10 +139,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         searchQuery = { ...searchQuery,
           fields: [ ...searchQuery.fields,
             {
-              searchField: 'flagStateCode',
-              searchValue: 'SWE'
-            },
-            {
               searchField: 'mobileTerminals',
               searchValue: 'true',
             },
