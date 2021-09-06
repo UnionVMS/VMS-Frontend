@@ -253,6 +253,10 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     csv = csv + this.sortedAssets.reduce((acc, asset, mtIndex) => {
       return acc + this.displayedColumns.reduce((csvRow, column, index) => {
         const fieldName = (column === 'status' ? 'statusText' : column);
+        let fieldNameMaped;
+        if(fieldName === 'flagstate'){
+          fieldNameMaped = 'F.S.';
+        } 
         return csvRow +
           (typeof asset[fieldName] !== 'undefined' ? asset[fieldName] : '') +
           (nrOfColumns !== index + 1 ? ';' : '');
