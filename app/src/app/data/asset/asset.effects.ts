@@ -67,13 +67,8 @@ export class AssetEffects {
       const searchQuery: AssetTypes.AssetListSearchQuery = {
         fields: [
           {
-            searchField: 'flagStateCode',
-            searchValue: 'SWE'
-          },
-          {
-            searchField: 'lengthOverAll',
-            searchValue: 12,
-            operator: '>=',
+            searchField: 'mobileTerminals',
+            searchValue: 'true',
           },
           {
             searchField: 'vesselType',
