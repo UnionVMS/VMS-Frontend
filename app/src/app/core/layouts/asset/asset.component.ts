@@ -107,7 +107,6 @@ export class AssetLayoutComponent implements OnInit, OnDestroy {
   }
 
   getTitleName() {
-    console.log("this.selectedAsset: ", this.selectedAsset);
     let nameOrExtMarking: string;
     if(typeof this.selectedAsset !== 'undefined' ){
       if(typeof this.selectedAsset.name !== 'undefined' ){
