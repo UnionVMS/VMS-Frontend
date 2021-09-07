@@ -242,7 +242,17 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     const nrOfColumns = this.displayedColumns.length;
     const nrOfRows = this.sortedAssets.length;
     let csv = this.displayedColumns.reduce((csvRow, column, index) => {
-      return csvRow + column + (nrOfColumns !== index + 1 ? ';' : '');
+      let columnName = column.toUpperCase();
+      if(column === 'flagStateCode'){
+        columnName = 'F.S.';
+      }
+      if(column === 'externalMarking'){
+        columnName = 'Ext. Mark';
+      }
+      if(column === 'name'){
+        columnName = 'Name';
+      }
+      return csvRow + columnName + (nrOfColumns !== index + 1 ? ';' : '');
     }, '') + '\r\n';
 
     csv = csv + this.sortedAssets.reduce((acc, asset, mtIndex) => {
