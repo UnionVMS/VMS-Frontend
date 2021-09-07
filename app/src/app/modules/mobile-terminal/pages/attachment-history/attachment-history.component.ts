@@ -37,20 +37,20 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
       takeUntil(this.unmount$)
     ).subscribe((mobileTerminalHistory) => {
       this.mobileTerminalHistoryList = mobileTerminalHistory;
-        const assetIds = Object.values(this.mobileTerminalHistoryList).reduce((acc, mtHistory) => {
-          if(typeof mtHistory.snapshot.assetId !== 'undefined' && !acc.includes(mtHistory.snapshot.assetId)) {
-            acc.push(mtHistory.snapshot.assetId);
-          }
-          return acc;
-        }, []
-        );
-        this.store.dispatch(AssetActions.searchAssets({ searchQuery: {
-          fields: assetIds.map(assetId => ({
-            searchField: 'GUID',
-            searchValue: assetId
-          })),
-          logicalAnd: false
-        }, userSearch: false }));
+      const assetIds = Object.values(this.mobileTerminalHistoryList).reduce((acc, mtHistory) => {
+        if(typeof mtHistory.snapshot.assetId !== 'undefined' && !acc.includes(mtHistory.snapshot.assetId)) {
+          acc.push(mtHistory.snapshot.assetId);
+        }
+        return acc;
+      }, []
+      );
+      this.store.dispatch(AssetActions.searchAssets({ searchQuery: {
+        fields: assetIds.map(assetId => ({
+          searchField: 'GUID',
+          searchValue: assetId
+        })),
+        logicalAnd: false
+      }, userSearch: false }));
     });
 
     this.store.select(AssetSelectors.getCurrentAssetList).pipe(
