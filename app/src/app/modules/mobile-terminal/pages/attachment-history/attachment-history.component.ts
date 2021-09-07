@@ -44,13 +44,15 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
         return acc;
       }, []
       );
-      this.store.dispatch(AssetActions.searchAssets({ searchQuery: {
-        fields: assetIds.map(assetId => ({
-          searchField: 'GUID',
-          searchValue: assetId
-        })),
-        logicalAnd: false
-      }, userSearch: false }));
+      if(assetIds.length > 0){
+        this.store.dispatch(AssetActions.searchAssets({ searchQuery: {
+          fields: assetIds.map(assetId => ({
+            searchField: 'GUID',
+            searchValue: assetId
+          })),
+          logicalAnd: false
+        }, userSearch: false }));
+      }
     });
 
     this.store.select(AssetSelectors.getCurrentAssetList).pipe(
