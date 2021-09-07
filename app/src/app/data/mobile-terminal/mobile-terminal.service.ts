@@ -95,11 +95,5 @@ export class MobileTerminalService {
       getDefaultHttpOptions(authToken)
     );
   }
-
-  getAssetHistoryForMT(authToken: string, mobileTerminalId: string) {
-    return this.http.get(
-      environment.baseApiUrl + 'asset/rest/mobileterminal/history/getAssetHistoryForMT/' + mobileTerminalId,
-      getDefaultHttpOptions(authToken)
-    );
-  }
+  
 }

@@ -1,4 +1,3 @@
-import { TmplAstRecursiveVisitor } from '@angular/compiler';
 import { Component, Input, OnChanges } from '@angular/core';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
@@ -24,9 +23,7 @@ export class AttachmentHistoryComponent implements OnChanges {
   @Input() mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
   @Input() assets: Readonly<{ readonly [assetId: string]: AssetTypes.Asset}>;
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
-  @Input() mobileTerminalAssetHistory: MobileTerminalTypes.MobileTerminalAssetHistory;
   public mobileTerminalHistoryArray: ReadonlyArray<ExtendedMobileTerminalHistory>;
-  public mobileTerminalCurrentAssetHistoryArray: Array<AssetTypes.Asset>;
   
   private assetNameCounter = 0;
   private lastAssetName = '';

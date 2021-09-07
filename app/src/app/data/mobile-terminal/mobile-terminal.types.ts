@@ -111,10 +111,6 @@ export type MobileTerminalHistory = Readonly<{
   assetName: string;
 }>;
 
-export type MobileTerminalAssetHistory = Readonly<{
-  readonly [mobileTerminalId: string]: Array<AssetTypes.Asset>;
-}>;
-
 export type MobileTerminalHistoryList = Readonly<{
   readonly [historyId: string]: MobileTerminalHistory;
 }>;
@@ -136,5 +132,4 @@ export type State = Readonly<{
   mobileTerminalHistory: Readonly<{ readonly [mobileTerminalId: string]: MobileTerminalHistoryList; }>;
   mobileTerminalHistoryForAsset: Readonly<{ readonly [assetId: string]: MobileTerminalHistoryList; }>;
   mobileTerminalHistoryFilter: MobileTerminalHistoryFilter;
-  mobileTerminalAssetHistory: MobileTerminalAssetHistory;
 }>;

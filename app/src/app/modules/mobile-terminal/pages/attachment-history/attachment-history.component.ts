@@ -1,11 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { take, takeUntil, first, skipWhile, filter } from 'rxjs/operators';
-import { FormGroup } from '@angular/forms';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
@@ -27,7 +23,6 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
   public mobileTerminal: MobileTerminalTypes.MobileTerminal;
   public mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
   public mergedRoute: RouterTypes.MergedRoute;
-  public mobileTerminalAssetHistoryList$: Observable<MobileTerminalTypes.MobileTerminalAssetHistory>;
 
   mapStateToProps() {
     this.store.select(MobileTerminalSelectors.getMobileTerminalByUrl).pipe(
@@ -42,8 +37,6 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
       takeUntil(this.unmount$)
     ).subscribe((mobileTerminalHistory) => {
       this.mobileTerminalHistoryList = mobileTerminalHistory;
-      
-      if(this.mobileTerminalHistoryList && Object.keys(this.mobileTerminalHistoryList).length > 0) {
         const assetIds = Object.values(this.mobileTerminalHistoryList).reduce((acc, mtHistory) => {
           if(typeof mtHistory.snapshot.assetId !== 'undefined' && !acc.includes(mtHistory.snapshot.assetId)) {
             acc.push(mtHistory.snapshot.assetId);
@@ -58,7 +51,6 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
           })),
           logicalAnd: false
         }, userSearch: false }));
-      }
     });
 
     this.store.select(AssetSelectors.getCurrentAssetList).pipe(
@@ -75,14 +67,9 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(MobileTerminalActions.getMobileTerminalHistory({
           mobileTerminalId: this.mergedRoute.params.mobileTerminalId
         }));
-        this.store.dispatch(MobileTerminalActions.getAssetHistoryForMobileTerminal({
-          mobileTerminalId: this.mergedRoute.params.mobileTerminalId
-        }));
       }
     });
-    this.mobileTerminalAssetHistoryList$ = this.store.select(MobileTerminalSelectors.getAssetHistoryForMobileTerminal);
     this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
-  
   }
 
   mapDispatchToProps() {}
