@@ -148,7 +148,6 @@ export class AuthEffects {
       localStorage.removeItem('ngStorage-token');
       localStorage.removeItem('ngStorage-roleName');
       localStorage.removeItem('ngStorage-scopeName');
-      localStorage.removeItem('fishingActivityUnlocked');
       return EMPTY;
     })
   ),{ dispatch: false });

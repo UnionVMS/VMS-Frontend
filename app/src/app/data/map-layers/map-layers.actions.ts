@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { MapLayer } from './map-layers.types';
+import { MapLayer, CascadedLayer } from './map-layers.types';
 
 export const addAreas = createAction(
   '[Map Layers] Add areas',
@@ -27,4 +27,13 @@ export const addActiveLayer = createAction(
 export const removeActiveLayer = createAction(
   '[Map Layers] Remove layer',
   props<{ layerName: string }>()
+);
+
+export const getCascadedLayers = createAction(
+  '[Map Layers] Get cascaded Layers'
+);
+
+export const addCascadedLayers = createAction(
+  '[Map Layers] Add cascaded Layers',
+  props<{ cascadedLayers: Readonly<{ readonly [name: string]: CascadedLayer }> }>()
 );

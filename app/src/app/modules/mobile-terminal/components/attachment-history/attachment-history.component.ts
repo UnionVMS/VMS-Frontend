@@ -1,3 +1,4 @@
+import { TmplAstRecursiveVisitor } from '@angular/compiler';
 import { Component, Input, OnChanges } from '@angular/core';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
@@ -26,15 +27,19 @@ export class AttachmentHistoryComponent implements OnChanges {
   @Input() mobileTerminalAssetHistory: MobileTerminalTypes.MobileTerminalAssetHistory;
   public mobileTerminalHistoryArray: ReadonlyArray<ExtendedMobileTerminalHistory>;
   public mobileTerminalCurrentAssetHistoryArray: Array<AssetTypes.Asset>;
+  
+  private assetNameCounter = 0;
+  private lastAssetName = '';
 
   ngOnChanges() {
- 
+    
     this.mobileTerminalHistoryArray = Object.keys(this.mobileTerminalHistoryList).map((id: string) => {
       const mobileTerminalHistory = this.mobileTerminalHistoryList[id];
       const uninstallDate = formatUnixtime(mobileTerminalHistory.snapshot.uninstallDate);
       const installDate = formatUnixtime(mobileTerminalHistory.snapshot.installDate);
       const updatedDate = formatUnixtime(mobileTerminalHistory.updateTime);
       const oceanRegions = ['eastAtlanticOceanRegion', 'indianOceanRegion', 'pacificOceanRegion', 'westAtlanticOceanRegion'];
+      
       return {
         ...mobileTerminalHistory,
         id,
@@ -45,25 +50,27 @@ export class AttachmentHistoryComponent implements OnChanges {
           ...acc, [change.field]: change
         }), {}),
       };
+    }).filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
+      if(typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined'){
+        if(mobileTerminalHistory.assetName){
+          if(this.lastAssetName !== mobileTerminalHistory.assetName){
+            this.assetNameCounter = 0;
+          }
+          this.lastAssetName = mobileTerminalHistory.assetName;
+          this.assetNameCounter = this.assetNameCounter +1;
+        }
+        return true;
+      }
+      if(mobileTerminalHistory.assetName && this.assetNameCounter === 0){
+
+      }
     }).sort((a, b) => b.updateTime - a.updateTime);
-
-    console.log("this.mobileTerminalAssetHistoryArray 1 : ", this.mobileTerminalAssetHistory);
-
-    this.mobileTerminalCurrentAssetHistoryArray = Object.keys(this.mobileTerminalAssetHistory).map((mobileTerminalId: string) => {
-      const mtHistory = this.mobileTerminalAssetHistory[mobileTerminalId];
-      console.log("this.mobileTerminalAssetHistory[mobileTerminalId] : ", mtHistory);
-      console.log("mobileTerminalHistoryList : ", this.mobileTerminalHistoryList);
-
-      console.log("mobileTerminalHistoryArray : ", this.mobileTerminalHistoryArray);
-      
-      return mtHistory[0];
-    });
-
-    
-
   }
-  
-  getAssetName(assetId: string) {
+
+  getAssetName(assetName: string, assetId: string) {
+    if(assetName){
+      return assetName;
+    }
     return typeof this.assets !== 'undefined' && typeof this.assets[assetId] !== 'undefined' ? this.assets[assetId].name : assetId;
   }
 

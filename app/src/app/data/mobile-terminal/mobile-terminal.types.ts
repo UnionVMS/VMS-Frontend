@@ -105,9 +105,10 @@ export type MobileTerminalHistory = Readonly<{
   changeType: MobileTerminalChangeType;
   changes: ReadonlyArray<MobileTerminalHistoryChange>;
   channelChanges: Readonly<{ readonly [channelId: string]: ChannelChange }>;
-  snapshot: MobileTerminal,
+  snapshot: MobileTerminal;
   updateTime: number;
   updatedBy: string;
+  assetName: string;
 }>;
 
 export type MobileTerminalAssetHistory = Readonly<{

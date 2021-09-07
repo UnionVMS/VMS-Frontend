@@ -17,7 +17,7 @@
         <!--
         <div class="value">
           <a *ngIf="mobileTerminalHistory.snapshot.assetId" routerLink="/asset/{{mobileTerminalHistory.snapshot.assetId}}">
-            {{ getAssetName(mobileTerminalHistory.snapshot.assetId) }}
+            {{ getAssetName(mobileTerminalHistory.assetName, mobileTerminalHistory.snapshot.assetId) }}
           </a>
           <span *ngIf="!mobileTerminalHistory.snapshot.assetId">NONE</span>
         </div>
