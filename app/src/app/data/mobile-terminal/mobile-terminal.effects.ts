@@ -286,25 +286,4 @@ export class MobileTerminalEffects {
     ))
   )
   );
-  
-
-  @Effect()
-  getAssetHistoryForMobileTerminal$ = this.actions$.pipe(
-    ofType(MobileTerminalActions.getAssetHistoryForMobileTerminal),
-    mergeMap((outerAction) => of(outerAction).pipe(
-      withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
-      mergeMap(([action, authToken]: Array<any>) => {
-        return this.mobileTerminalService.getAssetHistoryForMT(authToken, action.mobileTerminalId).pipe(
-          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
-          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
-          map((response: AssetTypes.Asset[] ) => {
-            return MobileTerminalActions.setAssetHistoryForMobileTerminal({
-              mobileTerminalAssetHistory: { [action.mobileTerminalId]: response }
-            });
-          })
-        );
-      })
-    ))
-  );
-
 }
