@@ -62,7 +62,7 @@ export class AttachmentHistoryComponent implements OnChanges {
         return true;
       }
       if(mobileTerminalHistory.assetName && this.assetNameCounter === 0){
-
+        return true;
       }
     }).sort((a, b) => b.updateTime - a.updateTime);
   }
