@@ -34,7 +34,6 @@ export class AttachmentHistoryComponent implements OnChanges {
       const uninstallDate = formatUnixtime(mobileTerminalHistory.snapshot.uninstallDate);
       const installDate = formatUnixtime(mobileTerminalHistory.snapshot.installDate);
       const updatedDate = formatUnixtime(mobileTerminalHistory.updateTime);
-      const oceanRegions = ['eastAtlanticOceanRegion', 'indianOceanRegion', 'pacificOceanRegion', 'westAtlanticOceanRegion'];
       
       return {
         ...mobileTerminalHistory,
@@ -52,11 +51,10 @@ export class AttachmentHistoryComponent implements OnChanges {
      && typeof mobileTerminalHistory.assetName !== 'undefined' ){
         if(mobileTerminalHistory.assetName){
           this.assetNames.push(mobileTerminalHistory.assetName);
-          console.log("this.assetNames2: ", this.assetNames);
         }
         return true;
       }
-    })//.sort((a, b) => b.updateTime - a.updateTime);
+    })
   }
 
   getAssetName(assetName: string, assetId: string) {
