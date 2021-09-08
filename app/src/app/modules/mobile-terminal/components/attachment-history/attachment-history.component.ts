@@ -25,17 +25,15 @@ export class AttachmentHistoryComponent implements OnChanges {
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
   public mobileTerminalHistoryArray: ReadonlyArray<ExtendedMobileTerminalHistory>;
   
-  private assetNameCounter = 0;
-  private lastAssetName = '';
+  private assetNames = [];
 
   ngOnChanges() {
-    
+    this.assetNames = [];
     this.mobileTerminalHistoryArray = Object.keys(this.mobileTerminalHistoryList).map((id: string) => {
       const mobileTerminalHistory = this.mobileTerminalHistoryList[id];
       const uninstallDate = formatUnixtime(mobileTerminalHistory.snapshot.uninstallDate);
       const installDate = formatUnixtime(mobileTerminalHistory.snapshot.installDate);
       const updatedDate = formatUnixtime(mobileTerminalHistory.updateTime);
-      const oceanRegions = ['eastAtlanticOceanRegion', 'indianOceanRegion', 'pacificOceanRegion', 'westAtlanticOceanRegion'];
       
       return {
         ...mobileTerminalHistory,
@@ -47,21 +45,16 @@ export class AttachmentHistoryComponent implements OnChanges {
           ...acc, [change.field]: change
         }), {}),
       };
-    }).filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
-      if(typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined'){
+    }).sort((a, b) => b.updateTime - a.updateTime)
+    .filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
+     if(!this.assetNames.includes(mobileTerminalHistory.assetName ) 
+     && typeof mobileTerminalHistory.assetName !== 'undefined' ){
         if(mobileTerminalHistory.assetName){
-          if(this.lastAssetName !== mobileTerminalHistory.assetName){
-            this.assetNameCounter = 0;
-          }
-          this.lastAssetName = mobileTerminalHistory.assetName;
-          this.assetNameCounter = this.assetNameCounter +1;
+          this.assetNames.push(mobileTerminalHistory.assetName);
         }
         return true;
       }
-      if(mobileTerminalHistory.assetName && this.assetNameCounter === 0){
-        return true;
-      }
-    }).sort((a, b) => b.updateTime - a.updateTime);
+    })
   }
 
   getAssetName(assetName: string, assetId: string) {

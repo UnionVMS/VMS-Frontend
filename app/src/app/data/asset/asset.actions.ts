@@ -130,7 +130,6 @@ export const setNumberOfVMSAssetsInSystem = createAction(
   props<{ numberOfVMSAssetsInSystem: number }>()
 );
 
-
 export const removeAssets = createAction(
   '[Asset] Remove asset',
   props<{ assetIds: Array<string>}>()
