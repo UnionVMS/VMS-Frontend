@@ -25,10 +25,10 @@ export class AttachmentHistoryComponent implements OnChanges {
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
   public mobileTerminalHistoryArray: ReadonlyArray<ExtendedMobileTerminalHistory>;
   
-  private lastAssetName = '';
+  private assetNames = [];
 
   ngOnChanges() {
-    
+    this.assetNames = [];
     this.mobileTerminalHistoryArray = Object.keys(this.mobileTerminalHistoryList).map((id: string) => {
       const mobileTerminalHistory = this.mobileTerminalHistoryList[id];
       const uninstallDate = formatUnixtime(mobileTerminalHistory.snapshot.uninstallDate);
@@ -46,17 +46,17 @@ export class AttachmentHistoryComponent implements OnChanges {
           ...acc, [change.field]: change
         }), {}),
       };
-    }).filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
-      if(typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined'){
+    }).sort((a, b) => b.updateTime - a.updateTime)
+    .filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
+     if(!this.assetNames.includes(mobileTerminalHistory.assetName ) 
+     && typeof mobileTerminalHistory.assetName !== 'undefined' ){
         if(mobileTerminalHistory.assetName){
-          this.lastAssetName = mobileTerminalHistory.assetName;
+          this.assetNames.push(mobileTerminalHistory.assetName);
+          console.log("this.assetNames2: ", this.assetNames);
         }
         return true;
       }
-      if(mobileTerminalHistory.assetName !== this.lastAssetName){
-        return true;
-      }
-    }).sort((a, b) => b.updateTime - a.updateTime);
+    })//.sort((a, b) => b.updateTime - a.updateTime);
   }
 
   getAssetName(assetName: string, assetId: string) {
