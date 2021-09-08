@@ -25,7 +25,6 @@ export class AttachmentHistoryComponent implements OnChanges {
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
   public mobileTerminalHistoryArray: ReadonlyArray<ExtendedMobileTerminalHistory>;
   
-  private assetNameCounter = 0;
   private lastAssetName = '';
 
   ngOnChanges() {
@@ -50,15 +49,11 @@ export class AttachmentHistoryComponent implements OnChanges {
     }).filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
       if(typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined'){
         if(mobileTerminalHistory.assetName){
-          if(this.lastAssetName !== mobileTerminalHistory.assetName){
-            this.assetNameCounter = 0;
-          }
           this.lastAssetName = mobileTerminalHistory.assetName;
-          this.assetNameCounter = this.assetNameCounter +1;
         }
         return true;
       }
-      if(mobileTerminalHistory.assetName && this.assetNameCounter === 0){
+      if(mobileTerminalHistory.assetName !== this.lastAssetName){
         return true;
       }
     }).sort((a, b) => b.updateTime - a.updateTime);
