@@ -1,3 +1,5 @@
+import { AssetTypes } from "@data/asset";
+
 export type Channel = Readonly<{
   active: boolean;
   archived: boolean;
@@ -129,5 +131,5 @@ export type State = Readonly<{
   createWithSerialNo: string;
   mobileTerminalHistory: Readonly<{ readonly [mobileTerminalId: string]: MobileTerminalHistoryList; }>;
   mobileTerminalHistoryForAsset: Readonly<{ readonly [assetId: string]: MobileTerminalHistoryList; }>;
-  mobileTerminalHistoryFilter: MobileTerminalHistoryFilter
+  mobileTerminalHistoryFilter: MobileTerminalHistoryFilter;
 }>;

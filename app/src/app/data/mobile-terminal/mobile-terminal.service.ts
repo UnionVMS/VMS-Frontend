@@ -95,5 +95,5 @@ export class MobileTerminalService {
       getDefaultHttpOptions(authToken)
     );
   }
-
+  
 }

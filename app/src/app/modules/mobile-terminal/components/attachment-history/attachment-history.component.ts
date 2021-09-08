@@ -1,4 +1,3 @@
-import { TmplAstRecursiveVisitor } from '@angular/compiler';
 import { Component, Input, OnChanges } from '@angular/core';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
@@ -24,16 +23,20 @@ export class AttachmentHistoryComponent implements OnChanges {
   @Input() mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
   @Input() assets: Readonly<{ readonly [assetId: string]: AssetTypes.Asset}>;
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
-
   public mobileTerminalHistoryArray: ReadonlyArray<ExtendedMobileTerminalHistory>;
+  
+  private assetNameCounter = 0;
+  private lastAssetName = '';
 
   ngOnChanges() {
+    
     this.mobileTerminalHistoryArray = Object.keys(this.mobileTerminalHistoryList).map((id: string) => {
       const mobileTerminalHistory = this.mobileTerminalHistoryList[id];
       const uninstallDate = formatUnixtime(mobileTerminalHistory.snapshot.uninstallDate);
       const installDate = formatUnixtime(mobileTerminalHistory.snapshot.installDate);
       const updatedDate = formatUnixtime(mobileTerminalHistory.updateTime);
       const oceanRegions = ['eastAtlanticOceanRegion', 'indianOceanRegion', 'pacificOceanRegion', 'westAtlanticOceanRegion'];
+      
       return {
         ...mobileTerminalHistory,
         id,
@@ -45,8 +48,17 @@ export class AttachmentHistoryComponent implements OnChanges {
         }), {}),
       };
     }).filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
-      if(typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined'
-      || mobileTerminalHistory.assetName){
+      if(typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined'){
+        if(mobileTerminalHistory.assetName){
+          if(this.lastAssetName !== mobileTerminalHistory.assetName){
+            this.assetNameCounter = 0;
+          }
+          this.lastAssetName = mobileTerminalHistory.assetName;
+          this.assetNameCounter = this.assetNameCounter +1;
+        }
+        return true;
+      }
+      if(mobileTerminalHistory.assetName && this.assetNameCounter === 0){
         return true;
       }
     }).sort((a, b) => b.updateTime - a.updateTime);

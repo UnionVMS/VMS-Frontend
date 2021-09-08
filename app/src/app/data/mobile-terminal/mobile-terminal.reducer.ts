@@ -208,5 +208,5 @@ export const mobileTerminalReducer = createReducer(initialState,
         [channelId]: dnidMemberNumberComboExists
       }
     }
-  })),
+  }))
 );
