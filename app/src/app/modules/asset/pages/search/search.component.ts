@@ -79,9 +79,9 @@ export class SearchPageComponent implements OnInit, OnDestroy {
             searchQueryIncluded = false;
           }
           // @ts-ignore:next-line
-        } else if([3, 4].includes(searchQuery.fields.length) && searchQuery.fields[0].searchValue === 'SWE') {
+        } else if([1, 2].includes(searchQuery.fields.length) && searchQuery.fields[0].searchField === 'mobileTerminals') {
           this.assetSearchObject = { ...this.assetSearchObject, searchType: 'VMS' };
-          if(searchQuery.fields.length === 3) {
+          if(searchQuery.fields.length === 2) {
             searchQueryIncluded = false;
           }
         } else {
@@ -95,7 +95,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
             searchQueryIncluded = false;
           }
         }
-
         if(searchQueryIncluded) {
           const searchStringQuery = searchQuery.fields[searchQuery.fields.length - 1] as AssetTypes.AssetListSearchQuery;
           let search: string;
