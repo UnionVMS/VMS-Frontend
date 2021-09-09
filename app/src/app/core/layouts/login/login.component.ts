@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { version } from '@app/../../package.json';
+// import { version as appVersion } from '@app/../../package.json';
+import * as packageJsonInfo from '@app/../../package.json';
 import { Subscription, Observable } from 'rxjs';
 import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
 
@@ -11,7 +12,7 @@ import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from
 })
 
 export class LoginLayoutComponent implements OnInit {
-  public appVersion: string = version;
+  public appVersion: string = packageJsonInfo.version;
   public notifications$: Observable<NotificationsTypes.State>;
   public dismissNotification: (type: string, id: string) => void;
 

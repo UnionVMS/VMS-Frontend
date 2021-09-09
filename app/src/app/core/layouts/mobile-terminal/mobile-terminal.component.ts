@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { version } from '@app/../../package.json';
+// import { version as appVersion } from '@app/../../package.json';
+import * as packageJsonInfo from '@app/../../package.json';
 import { Router } from '@angular/router';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { takeUntil, skipWhile, take } from 'rxjs/operators';
@@ -21,7 +22,7 @@ import { RouterTypes, RouterSelectors } from '@data/router';
 })
 
 export class MobileTerminalLayoutComponent implements OnInit, OnDestroy {
-  public appVersion: string = version;
+  public appVersion: string = packageJsonInfo.version;
 
   public isAdmin$: Observable<boolean>;
   public fishingActivityUnlocked$: Observable<boolean>;

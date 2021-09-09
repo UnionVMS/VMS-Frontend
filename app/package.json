@@ -52,6 +52,7 @@
     "@angular/cli": "^12.2.4",
     "@angular/compiler-cli": "^12.2.4",
     "@angular/language-service": "^12.2.4",
+    "@babel/core": "^7.15.5",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "~13.13.0",
@@ -69,6 +70,9 @@
     "sass": "^1.26.11",
     "ts-node": "~8.8.2",
     "tslint": "~6.1.0",
-    "typescript": "^4.3.5"
+    "typescript": "~4.2.3 || ~4.3.2"
+  },
+  "exports":{
+    "packageJsonInfo":"./package.json"
   }
 }
