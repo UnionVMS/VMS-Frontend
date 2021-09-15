@@ -51,8 +51,9 @@
 
   .mobile-terminal-form--channel-title {
     display: grid;
-    grid-template-columns: 1fr auto;
-
+    grid-template-areas: "a a";
+    gap: 10px;
+    grid-auto-columns: minmax(10%, 100px);
     button {
       place-self: center;
     }
