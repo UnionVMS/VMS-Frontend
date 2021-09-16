@@ -230,34 +230,14 @@ export class AssetEffects {
               }
               if(typeof messagesByType['Updated Asset'] !== 'undefined') {
                 actions.push(AssetActions.setAssets({
-                  assets: messagesByType['Updated Asset'].reduce((acc, asset) => {
-                    acc[asset.id] = {
-                      ...asset
-                    };
-                    return acc;
-                  }, {})
-                }));
-              }
-            /*
-              if(typeof messagesByType['Updated Asset'] !== 'undefined') {
-                actions.push(AssetActions.setAssets({
                   assets: messagesByType['Updated Asset'].reduce((acc, asset: AssetTypes.Asset) => {
                     acc[asset.id] = {
-                      id: asset.id,
-                      flagStateCode: asset.flagStateCode,
-                      name: asset.name,
-                      vesselType: asset.vesselType,
-                      ircs: asset.ircs,
-                      cfr: asset.cfr,
-                      externalMarking: asset.externalMarking,
-                      lengthOverAll: asset.lengthOverAll,
-                      hasLicence: asset.hasLicence
+                      asset
                     };
                     return acc;
                   }, {})
                 }));
               }
-           */ 
               if(typeof messagesByType['Merged Asset'] !== 'undefined') {
                 messagesByType['Merged Asset'].map(message => {
                   const oldAsset = assets[message.oldAssetId];
@@ -283,11 +263,6 @@ export class AssetEffects {
               }
 
               if(typeof messagesByType.Incident !== 'undefined') {
-                // messagesByType.Incident.map(message => {
-                //   actions.push(NotificationsActions.addNotice(
-                //     `New incident #${message.id} for ${message.assetName}.`
-                //   ));
-                // });
                 actions.push(IncidentActions.updateIncidents({
                   incidents: messagesByType.Incident.reduce((acc, message) => {
                     acc[message.id] = message;
@@ -297,11 +272,6 @@ export class AssetEffects {
               }
 
               if(typeof messagesByType.IncidentUpdate !== 'undefined') {
-                // messagesByType.IncidentUpdate.map(message => {
-                //   actions.push(NotificationsActions.addNotice(
-                //     `Incident #${message.id} for asset ${message.assetName} updated.`
-                //   ));
-                // });
                 actions.push(IncidentActions.updateIncidents({
                   incidents: messagesByType.IncidentUpdate.reduce((acc, message) => {
                     acc[message.id] = message;
@@ -332,7 +302,7 @@ export class AssetEffects {
       );
     })
   ));
-/*
+
   selectAssetObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.selectAsset),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken),
@@ -350,7 +320,7 @@ export class AssetEffects {
     }
     })
   ));
-*/
+
   assetsObserver$ = createEffect(() => this.actions$.pipe(
     ofType(AssetActions.checkForAssets),
     withLatestFrom(
