@@ -309,15 +309,14 @@ export class AssetEffects {
     this.store.select(AssetSelectors.getAssets)),
     mergeMap(([action, authToken, assets]: Array<any>) => {
       if(assets[action.assetId] === undefined ){
-      
-      return this.assetService.getAsset(authToken, action.assetId).pipe(
-        filter((response: any, index: number) => this.apiErrorHandler(response, index)),
-        map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
-        map((asset: any) => {
-          return AssetActions.setFullAsset({ asset });
-        })
-      );
-    }
+        return this.assetService.getAsset(authToken, action.assetId).pipe(
+          filter((response: any, index: number) => this.apiErrorHandler(response, index)),
+          map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
+          map((asset: any) => {
+            return AssetActions.setFullAsset({ asset });
+          })
+        );
+      }
     })
   ));
 
