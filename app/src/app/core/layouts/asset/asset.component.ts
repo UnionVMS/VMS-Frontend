@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@angular/core';
 import { Store } from '@ngrx/store';
-// import { version as appVersion } from '@app/../../package.json';
-import * as packageJsonInfo from '@app/../../package.json';
+import packageJsonInfo from '@app/../../package.json';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

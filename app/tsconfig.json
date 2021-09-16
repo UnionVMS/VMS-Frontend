@@ -24,11 +24,11 @@
       "es2020",
       "dom"
     ],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true,
-    "allowSyntheticDefaultImports": true
+    "strictInjectionParameters": true
   }
 }
