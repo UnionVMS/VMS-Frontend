@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@angular/core';
 import { Store } from '@ngrx/store';
-import packageJsonInfo from '@app/../../package.json';
+import packageJson from '@app/../../package.json';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthSelectors } from '@data/auth';
 import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
-import { UserSettingsActions, UserSettingsSelectors, UserSettingsTypes } from '@data/user-settings';
+import { UserSettingsActions, UserSettingsSelectors } from '@data/user-settings';
 import { AssetSelectors, AssetTypes } from '@data/asset';
 import { replacePlaceholdersInTranslation } from '@app/helpers/helpers';
 
@@ -20,8 +20,7 @@ import { RouterTypes, RouterSelectors } from '@data/router';
 })
 
 export class AssetLayoutComponent implements OnInit, OnDestroy {
-  public appVersion: string = packageJsonInfo.version;
-
+  public appVersion: string = packageJson.version;
   public isAdmin$: Observable<boolean>;
   public fishingActivityUnlocked$: Observable<boolean>;
   public timezone$: Observable<string>;

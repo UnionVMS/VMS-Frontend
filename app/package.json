@@ -37,14 +37,14 @@
     "country-iso-3-to-2": "^1.0.1",
     "event-source-polyfill": "^1.0.20",
     "i18n-iso-countries": "^5.5.0",
-    "jwt-decode": "^3.0.0-beta.2",
-    "moment-timezone": "^0.5.28",
+    "jwt-decode": "^3.1.2",
+    "moment-timezone": "^0.5.32",
     "ol": "^6.3.1",
     "proj4": "^2.6.1",
-    "remixicon": "^2.4.0",
-    "rxjs": "^6.5.3",
+    "remixicon": "^2.5.0",
+    "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
-    "uuid": "^8.1.0",
+    "uuid": "^8.3.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -60,7 +60,7 @@
     "is-docker": "^2.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
-    "karma": "^6.3.2",
+    "karma": "^6.3.4",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "^2.0.3",
     "karma-coverage-istanbul-reporter": "~3.0.2",
@@ -70,6 +70,6 @@
     "sass": "^1.26.11",
     "ts-node": "~8.8.2",
     "tslint": "~6.1.0",
-    "typescript": "~4.2.3 || ~4.3.2"
+    "typescript": "~4.3.5"
   }
 }
