@@ -75,11 +75,11 @@
       </div>
       <div class="row">
         <div class="title"><span class="text" i18n>Length over all</span></div>
-        <div class="value">{{asset.lengthOverAll}}</div>
+        <div *ngIf="asset.lengthOverAll" class="value">{{formatFixed2(asset.lengthOverAll)}} m</div>
       </div>
       <div class="row">
         <div class="title"><span class="text" i18n>Length between perpendiculars</span></div>
-        <div class="value">{{asset.lengthBetweenPerpendiculars}}</div>
+        <div *ngIf="asset.lengthBetweenPerpendiculars" class="value">{{formatFixed2(asset.lengthBetweenPerpendiculars)}} m</div>
       </div>
     </div>
   </div>
