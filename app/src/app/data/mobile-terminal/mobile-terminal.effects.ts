@@ -286,7 +286,4 @@ export class MobileTerminalEffects {
     ))
   )
   );
-  
-
-
 }

@@ -28,6 +28,7 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
   public mobileTerminalHistoryFilter$: Observable<MobileTerminalTypes.MobileTerminalHistoryFilter>;
   public mergedRoute: RouterTypes.MergedRoute;
 
+
   public addMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
   public removeMobileTerminalHistoryFilters: (historyFilter: MobileTerminalTypes.MobileTerminalHistoryFilter) => void;
 

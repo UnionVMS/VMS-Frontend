@@ -1,11 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewContainerRef, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { take, takeUntil, first, skipWhile, filter } from 'rxjs/operators';
-import { FormGroup } from '@angular/forms';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { State } from '@app/app-reducer';
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
@@ -36,25 +32,27 @@ export class AttachmentHistoryPageComponent implements OnInit, OnDestroy {
     ).subscribe((mobileTerminal) => {
       this.mobileTerminal = mobileTerminal;
     });
-
+    
     this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryForUrlMobileTerminal).pipe(
       takeUntil(this.unmount$)
     ).subscribe((mobileTerminalHistory) => {
       this.mobileTerminalHistoryList = mobileTerminalHistory;
       const assetIds = Object.values(this.mobileTerminalHistoryList).reduce((acc, mtHistory) => {
-          if(typeof mtHistory.snapshot.assetId !== 'undefined' && !acc.includes(mtHistory.snapshot.assetId)) {
-            acc.push(mtHistory.snapshot.assetId);
-          }
-          return acc;
-        }, []
+        if(typeof mtHistory.snapshot.assetId !== 'undefined' && !acc.includes(mtHistory.snapshot.assetId)) {
+          acc.push(mtHistory.snapshot.assetId);
+        }
+        return acc;
+      }, []
       );
-      this.store.dispatch(AssetActions.searchAssets({ searchQuery: {
-        fields: assetIds.map(assetId => ({
-          searchField: 'GUID',
-          searchValue: assetId
-        })),
-        logicalAnd: false
-      }, userSearch: false }));
+      if(assetIds.length > 0){
+        this.store.dispatch(AssetActions.searchAssets({ searchQuery: {
+          fields: assetIds.map(assetId => ({
+            searchField: 'GUID',
+            searchValue: assetId
+          })),
+          logicalAnd: false
+        }, userSearch: false }));
+      }
     });
 
     this.store.select(AssetSelectors.getCurrentAssetList).pipe(

@@ -1,4 +1,3 @@
-import { TmplAstRecursiveVisitor } from '@angular/compiler';
 import { Component, Input, OnChanges } from '@angular/core';
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
@@ -24,16 +23,18 @@ export class AttachmentHistoryComponent implements OnChanges {
   @Input() mobileTerminalHistoryList: MobileTerminalTypes.MobileTerminalHistoryList;
   @Input() assets: Readonly<{ readonly [assetId: string]: AssetTypes.Asset}>;
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
-
   public mobileTerminalHistoryArray: ReadonlyArray<ExtendedMobileTerminalHistory>;
+  
+  private assetNames = [];
 
   ngOnChanges() {
+    this.assetNames = [];
     this.mobileTerminalHistoryArray = Object.keys(this.mobileTerminalHistoryList).map((id: string) => {
       const mobileTerminalHistory = this.mobileTerminalHistoryList[id];
       const uninstallDate = formatUnixtime(mobileTerminalHistory.snapshot.uninstallDate);
       const installDate = formatUnixtime(mobileTerminalHistory.snapshot.installDate);
       const updatedDate = formatUnixtime(mobileTerminalHistory.updateTime);
-      const oceanRegions = ['eastAtlanticOceanRegion', 'indianOceanRegion', 'pacificOceanRegion', 'westAtlanticOceanRegion'];
+      
       return {
         ...mobileTerminalHistory,
         id,
@@ -44,24 +45,16 @@ export class AttachmentHistoryComponent implements OnChanges {
           ...acc, [change.field]: change
         }), {}),
       };
-    }).reduce(function(acc, curr) {
-      let assetNameExists = acc.findIndex((mobileTerminalHistory) => {
-        return mobileTerminalHistory.assetName === curr.assetName;
-      })
-      if (assetNameExists === -1) {
-        acc.push(curr)
-      }
-      if (!curr.assetName) {
-        acc.push(curr)
-      }
-      return acc;
-    
-    }, []).filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
-
-      if(typeof mobileTerminalHistory.changesAsObject.assetId !== 'undefined'){
+    }).sort((a, b) => b.updateTime - a.updateTime)
+    .filter((mobileTerminalHistory: ExtendedMobileTerminalHistory) => {
+     if(!this.assetNames.includes(mobileTerminalHistory.assetName ) 
+     && typeof mobileTerminalHistory.assetName !== 'undefined' ){
+        if(mobileTerminalHistory.assetName){
+          this.assetNames.push(mobileTerminalHistory.assetName);
+        }
         return true;
       }
-    }).sort((a, b) => b.updateTime - a.updateTime);
+    })
   }
 
   getAssetName(assetName: string, assetId: string) {

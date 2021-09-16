@@ -323,11 +323,14 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     const mapMountedObserver = new MutationObserver((mutations, mutationObserver) => {
       // `mutations` is an array of mutations that occurred
       // `mutationObserver` is the MutationObserver instance
-      const canvasList = document.getElementById('realtime-map').getElementsByTagName('canvas');
-      if (canvasList.length === 1) {
-        this.map.updateSize();
-        mutationObserver.disconnect(); // stop observing
-        return;
+      if(document.getElementById('realtime-map') 
+      && document.getElementById('realtime-map').getElementsByTagName('canvas') ){
+        const canvasList = document.getElementById('realtime-map').getElementsByTagName('canvas');
+        if (canvasList.length === 1) {
+          this.map.updateSize();
+          mutationObserver.disconnect(); // stop observing
+          return;
+        }
       }
     });
 

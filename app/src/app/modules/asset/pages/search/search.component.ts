@@ -39,7 +39,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   public loadingData = false;
   public tableReadyForDisplay = false;
   public dataLoadedSubscription: Subscription;
-  public displayedColumns: string[] = ['externalMarking', 'ircs', 'name', 'cfr', 'flagstate', 'mmsi'];
+  public displayedColumns: string[] = ['externalMarking', 'ircs', 'name', 'cfr', 'flagStateCode', 'mmsi'];
   public assetSearchObject = {
     search: '',
     searchType: 'Swedish Assets',
@@ -79,9 +79,9 @@ export class SearchPageComponent implements OnInit, OnDestroy {
             searchQueryIncluded = false;
           }
           // @ts-ignore:next-line
-        } else if([3, 4].includes(searchQuery.fields.length) && searchQuery.fields[0].searchValue === 'SWE') {
+        } else if([1, 2].includes(searchQuery.fields.length) && searchQuery.fields[0].searchField === 'mobileTerminals') {
           this.assetSearchObject = { ...this.assetSearchObject, searchType: 'VMS' };
-          if(searchQuery.fields.length === 3) {
+          if(searchQuery.fields.length === 2) {
             searchQueryIncluded = false;
           }
         } else {
@@ -95,7 +95,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
             searchQueryIncluded = false;
           }
         }
-
         if(searchQueryIncluded) {
           const searchStringQuery = searchQuery.fields[searchQuery.fields.length - 1] as AssetTypes.AssetListSearchQuery;
           let search: string;
@@ -139,13 +138,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         searchQuery = { ...searchQuery,
           fields: [ ...searchQuery.fields,
             {
-              searchField: 'flagStateCode',
-              searchValue: 'SWE'
-            },
-            {
-              searchField: 'lengthOverAll',
-              searchValue: 12,
-              operator: '>=',
+              searchField: 'mobileTerminals',
+              searchValue: 'true',
             },
             {
               searchField: 'vesselType',
@@ -235,7 +229,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         case 'name': return compareTableSortString(a.name, b.name, isAsc);
         case 'ircs': return compareTableSortString(a.ircs, b.ircs, isAsc);
         case 'mmsi': return compareTableSortNumber(a.mmsi as unknown as number, b.mmsi as unknown as number, isAsc);
-        case 'flagstate': return compareTableSortString(a.flagStateCode, b.flagStateCode, isAsc);
+        case 'flagStateCode': return compareTableSortString(a.flagStateCode, b.flagStateCode, isAsc);
         case 'externalMarking': return compareTableSortString(a.externalMarking, b.externalMarking, isAsc);
         case 'cfr': return compareTableSortString(a.cfr, b.cfr, isAsc);
         default: return 0;
@@ -247,7 +241,17 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     const nrOfColumns = this.displayedColumns.length;
     const nrOfRows = this.sortedAssets.length;
     let csv = this.displayedColumns.reduce((csvRow, column, index) => {
-      return csvRow + column + (nrOfColumns !== index + 1 ? ';' : '');
+      let columnName = column.toUpperCase();
+      if(column === 'flagStateCode'){
+        columnName = 'F.S.';
+      }
+      if(column === 'externalMarking'){
+        columnName = 'Ext. Mark';
+      }
+      if(column === 'name'){
+        columnName = 'Name';
+      }
+      return csvRow + columnName + (nrOfColumns !== index + 1 ? ';' : '');
     }, '') + '\r\n';
 
     csv = csv + this.sortedAssets.reduce((acc, asset, mtIndex) => {
@@ -258,7 +262,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
           (nrOfColumns !== index + 1 ? ';' : '');
       }, '') + (nrOfRows !== mtIndex + 1 ? '\r\n' : '');
     }, '');
-
     const exportedFilenmae = 'assets.' + moment().format('YYYY-MM-DD.HH_mm') + '.csv';
 
     const blob = new Blob(["\uFEFF"+csv], { type: 'text/csv;charset=utf-8;' });

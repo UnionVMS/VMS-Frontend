@@ -169,7 +169,7 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
     this.vectorSource.removeFeature(cachedFeature);
 
-    this.createNote(this.formValidator.value.note);
+    this.createNote(this.generateNote(this.formValidator.value.note, locationDDM, this.formValidator.value.timestamp));
 
     this.autoUpdateDatetime = true;
     // Remove subscriptions for previous form.
@@ -189,9 +189,15 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
+  generateNote(note: string, locationDDM, timestamp) {
+    return '<i>Manual Position: ' + locationDDM.latitude + ' ' + locationDDM.longitude + ', ' +
+           formatUnixtime(Math.floor(timestamp.format('x'))) + ' (' + this.userTimezone + ')</i></br></br>' + note;
+  }
+
   renderPreview() {
     const cachedFeature = this.vectorSource.getFeatureById(this.featureId);
-    if(this.formValidator.value.latitude > '' && this.formValidator.value.longitude > '') {
+    if(this.formValidator.value.latitude > '' && this.formValidator.value.longitude > '' &&
+        this.formValidator.value.latitudeMinute > '' && this.formValidator.value.longitudeMinute > '') {
       const locationDDM = this.extractLocationFromForm();
       const location = convertDDMToDD(locationDDM.latitude, locationDDM.longitude);
       const position = new Point(fromLonLat([location.longitude, location.latitude]));
@@ -236,13 +242,11 @@ export class ManualMovementFormComponent implements OnInit, OnDestroy {
         cachedFeature.setGeometry(position);
         cachedFeature.getStyle()[0].getImage().setRotation(heading);
       }
-      if (!isNaN(location.latitude) && !isNaN(location.longitude)) {
-        const coordinates = [fromLonLat([location.longitude, location.latitude])];
-        if (this.lastPosition) {
-          coordinates.push(fromLonLat([this.lastPosition.location.longitude, this.lastPosition.location.latitude]));
-        }
-        this.map.getView().fit(new LineString(coordinates), { minResolution: 15, padding: [50, 400, 50, 400], duration: 1000 });
+      const coordinates = [fromLonLat([location.longitude, location.latitude])];
+      if (this.lastPosition) {
+        coordinates.push(fromLonLat([this.lastPosition.location.longitude, this.lastPosition.location.latitude]));
       }
+      this.map.getView().fit(new LineString(coordinates), { minResolution: 15, padding: [50, 400, 50, 400], duration: 1000 });
     } else if(cachedFeature !== null) {
       this.vectorSource.removeFeature(cachedFeature);
     }
