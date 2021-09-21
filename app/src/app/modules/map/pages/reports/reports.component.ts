@@ -373,11 +373,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
     const observer = new MutationObserver((mutations, mutationObserver) => {
       // `mutations` is an array of mutations that occurred
       // `mutationObserver` is the MutationObserver instance
-      const canvasList = document.getElementById('reports-map').getElementsByTagName('canvas');
-      if (canvasList.length === 1) {
-        this.map.updateSize();
-        mutationObserver.disconnect(); // stop observing
-        return;
+      if(document.getElementById('reports-map') 
+      && document.getElementById('reports-map').getElementsByTagName('canvas')){
+        const canvasList = document.getElementById('reports-map').getElementsByTagName('canvas');
+        if (canvasList.length === 1) {
+          this.map.updateSize();
+          mutationObserver.disconnect(); // stop observing
+          return;
+        }
       }
     });
 

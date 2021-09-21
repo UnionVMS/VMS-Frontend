@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-// import { version as appVersion } from '@app/../../package.json';
-import * as packageJsonInfo from '@app/../../package.json';
+import packageJson from '@app/../../package.json';
 import { Observable } from 'rxjs';
 import { NotificationsActions, NotificationsSelectors, NotificationsTypes } from '@data/notifications';
 import { UserSettingsActions, UserSettingsSelectors, UserSettingsTypes } from '@data/user-settings';
@@ -15,7 +14,7 @@ import { RouterTypes, RouterSelectors } from '@data/router';
 })
 
 export class DefaultLayoutComponent implements OnInit {
-  public appVersion: string = packageJsonInfo.version;
+  public appVersion: string = packageJson.version;
 
   public isAdmin$: Observable<boolean>;
   public userName$: Observable<string>;

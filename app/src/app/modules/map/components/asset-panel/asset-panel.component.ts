@@ -54,8 +54,8 @@ export class AssetPanelComponent {
     } else {
       this.getAssetTrackTimeInterval(
         asset.asset.id,
-        this.getTracksMillisecondCap(),
-        moment().format('x')
+        parseInt(this.getTracksMillisecondCap()),
+        parseInt(moment().format('x'))
       );
     }
   }
