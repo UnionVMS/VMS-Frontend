@@ -20,7 +20,7 @@ export class AssetService {
 
   getInitalAssetMovements(authToken: string) {
     return this.http.post(
-      environment.baseApiUrl + 'movement/rest/movement/update',
+      environment.baseApiUrl + 'movement/rest/movement/realtime',
       [],
       getDefaultHttpOptions(authToken)
     );
