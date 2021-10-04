@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
 import { AddToAssetGroupDialogComponent } from '../add-to-asset-group-dialog/add-to-asset-group-dialog.component';
 import { MapSavedFiltersTypes } from '@data/map-saved-filters';
+import { Position } from '@data/generic.types';
 
 @Component({
   selector: 'map-selected-assets-panel',

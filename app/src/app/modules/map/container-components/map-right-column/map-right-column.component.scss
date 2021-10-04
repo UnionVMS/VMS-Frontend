@@ -106,7 +106,7 @@
 
   .panel {
     display: grid;
-    transition: opacity $panel_animation_time/2 ease-out;
+    transition: opacity $panel_animation_time*0.5 ease-out;
     height: calc(100vh - #{$navbar_height});
     grid-template-rows: auto 1fr;
 
