@@ -39,7 +39,7 @@ import { TracksComponent } from '../../components/tracks/tracks.component';
 
 import { AssetReducer, AssetActions, AssetTypes } from '@data/asset';
 import AssetStub from '@data/asset/stubs/asset.stub';
-import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWithEssentials.stub';
+import AssetMovementWithAssetStub from '@data/asset/stubs/assetMovementWithEssentials.stub';
 import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
 import { IncidentReducer } from '@data/incident';
 import { MapActions, MapReducer } from '@data/map';
@@ -121,20 +121,20 @@ describe('RealtimeComponent', () => {
 
       store.setState(currentState);
       component.mapStateToProps();
-      expect(component['assetMovements']).not.toEqual([AssetMovementWithEssentialsStub]);
+      expect(component['assetMovements']).not.toEqual([AssetMovementWithAssetStub]);
       store.setState({
         ...currentState,
         asset: {
           ...currentState.asset,
           assetMovements: {
-            [AssetMovementWithEssentialsStub.assetMovement.asset]: AssetMovementWithEssentialsStub.assetMovement
+            [AssetMovementWithAssetStub.assetMovement.asset]: AssetMovementWithAssetStub.assetMovement
           },
-          assetsEssentials: {
-            [AssetMovementWithEssentialsStub.assetEssentials.assetId]: AssetMovementWithEssentialsStub.assetEssentials
+          assets: {
+            [AssetMovementWithAssetStub.asset.id]: AssetMovementWithAssetStub.asset
           }
         }
       });
-      expect(component['assetMovements']).toEqual([AssetMovementWithEssentialsStub]);
+      expect(component['assetMovements']).toEqual([AssetMovementWithAssetStub]);
     });
 
     it('should update mapSettings when state is updated.', () => {
@@ -202,17 +202,17 @@ describe('RealtimeComponent', () => {
       expect(component.selectedAssets).toEqual([]);
       currentState = { ...currentState, asset: {
         ...currentState.asset,
-        selectedAsset: AssetMovementWithEssentialsStub.assetEssentials.assetId,
-        selectedAssets: [AssetMovementWithEssentialsStub.assetEssentials.assetId],
+        selectedAsset: AssetMovementWithAssetStub.asset.id,
+        selectedAssets: [AssetMovementWithAssetStub.asset.id],
         assets: { [AssetStub.id]: AssetStub },
-        assetMovements: { [AssetMovementWithEssentialsStub.assetMovement.asset]: AssetMovementWithEssentialsStub.assetMovement }
+        assetMovements: { [AssetMovementWithAssetStub.assetMovement.asset]: AssetMovementWithAssetStub.assetMovement }
       } };
       store.setState(currentState);
       expect(component.selectedAssets).toEqual(
         [{
           asset: AssetStub,
           assetTracks: undefined,
-          currentPosition: AssetMovementWithEssentialsStub.assetMovement,
+          currentPosition: AssetMovementWithAssetStub.assetMovement,
           currentlyShowing: true
         } as AssetTypes.AssetData]
       );
@@ -250,12 +250,12 @@ describe('RealtimeComponent', () => {
       expect(forecasts).toEqual({});
       currentState = { ...currentState, asset: {
         ...currentState.asset,
-        forecasts: [AssetMovementWithEssentialsStub.assetEssentials.assetId],
-        assetMovements: { [AssetMovementWithEssentialsStub.assetMovement.asset]: AssetMovementWithEssentialsStub.assetMovement }
+        forecasts: [AssetMovementWithAssetStub.asset.id],
+        assetMovements: { [AssetMovementWithAssetStub.assetMovement.asset]: AssetMovementWithAssetStub.assetMovement }
       } };
       store.setState(currentState);
       expect(forecasts).toEqual(
-        { [AssetMovementWithEssentialsStub.assetMovement.asset]: AssetMovementWithEssentialsStub.assetMovement }
+        { [AssetMovementWithAssetStub.assetMovement.asset]: AssetMovementWithAssetStub.assetMovement }
       );
       forecastsSubscription.unsubscribe();
     });

@@ -27,8 +27,8 @@ export const assetsMoved = createAction(
   props<{ assetMovements: { [assetId: string]: AssetTypes.AssetMovement } }>()
 );
 
-export const checkForAssetEssentials = createAction(
-  '[Asset] Check for essentials',
+export const checkForAssets = createAction(
+  '[Asset] Check for assets',
   props<{ assetIds: ReadonlyArray<string> }>()
 );
 
@@ -235,11 +235,6 @@ export const setLastPositionsForSelectedAsset = createAction(
   props<{ assetId: string, aisPosition: AssetTypes.Movement, vmsPosition: AssetTypes.Movement }>()
 );
 
-export const setEssentialProperties = createAction(
-  '[Asset] Set essential properties',
-  props<{ assetEssentialProperties: { [uid: string]: AssetTypes.AssetEssentialProperties } }>()
-);
-
 export const setFilterQuery = createAction(
   '[Asset] Set Filter Query',
   props<{ filterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery> }>()
@@ -291,4 +286,9 @@ export const unsubscribeToMovements = createAction(
 export const untrackAsset = createAction(
   '[Asset] Untrack asset',
   props<{ assetId: string }>()
+);
+
+export const setAssets = createAction(
+  '[Asset] Set assets',
+  props<{ assets: { [uid: string]: AssetTypes.Asset } }>()
 );

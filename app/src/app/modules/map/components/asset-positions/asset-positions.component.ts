@@ -27,7 +27,7 @@ export class AssetPositionsComponent implements OnInit, OnChanges {
   @Input() map: Map;
   @Input() userTimezone: string;
   @Input() getLastFullPositionsForAsset: (
-    assetId: string, amount: number, sources: ReadonlyArray<string>, excludeGivenSources?: boolean
+    id: string, amount: number, sources: ReadonlyArray<string>, excludeGivenSources?: boolean
   ) => void;
 
   public formActive = true;

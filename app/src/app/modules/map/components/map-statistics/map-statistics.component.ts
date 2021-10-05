@@ -18,7 +18,7 @@ export class MapStatisticsComponent implements OnChanges {
   public incidentTypeStatistics: ReadonlyArray<{ type: string, amount: number }>;
 
   private readonly vmsFilter = [
-    { type: 'flagstate', values: ['SWE'], inverse: false, valueType: AssetTypes.AssetFilterValueTypes.STRING },
+    { type: 'flagStateCode', values: ['SWE'], inverse: false, valueType: AssetTypes.AssetFilterValueTypes.STRING },
     { type: 'vesselType', values: ['Fishing'], inverse: false, valueType: AssetTypes.AssetFilterValueTypes.STRING },
     {
       type: 'lengthOverAll',

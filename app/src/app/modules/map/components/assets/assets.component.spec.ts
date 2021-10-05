@@ -43,13 +43,13 @@ describe('AssetsComponent', () => {
     component['namesVisibleCalculated'] = true;
     component['speedsVisibleCalculated'] = false;
     let text = component.getTextStyleForName(AssetMovementWithEssentialsStub);
-    expect(text.getText()).toEqual(AssetMovementWithEssentialsStub.assetEssentials.assetName);
+    expect(text.getText()).toEqual(AssetMovementWithEssentialsStub.asset.name);
     expect(text.getOffsetY()).toEqual(20);
 
     component['speedsVisibleCalculated'] = true;
     text = component.getTextStyleForName(AssetMovementWithEssentialsStub);
     expect(text.getText()).toEqual(
-      AssetMovementWithEssentialsStub.assetEssentials.assetName + '\n' +
+      AssetMovementWithEssentialsStub.asset.name + '\n' +
       AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts'
     );
     expect(text.getOffsetY()).toEqual(30);
@@ -64,7 +64,7 @@ describe('AssetsComponent', () => {
     const { component } = setup();
 
     const feature = component.createFeatureFromAsset(AssetMovementWithEssentialsStub);
-    expect(feature.getId()).toEqual(AssetMovementWithEssentialsStub.assetEssentials.assetId);
+    expect(feature.getId()).toEqual(AssetMovementWithEssentialsStub.asset.id);
     expect(feature.getGeometry().getCoordinates()).toEqual(fromLonLat([
       AssetMovementWithEssentialsStub.assetMovement.movement.location.longitude,
       AssetMovementWithEssentialsStub.assetMovement.movement.location.latitude
@@ -110,7 +110,7 @@ describe('AssetsComponent', () => {
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
     expect(updatedFeatureWithName.getId()).toEqual(updatedFeature.getId());
-    expect(updatedFeatureWithName.getStyle().getText().getText()).toEqual(updatedAsset.assetEssentials.assetName);
+    expect(updatedFeatureWithName.getStyle().getText().getText()).toEqual(updatedAsset.asset.name);
 
     component['speedsVisibleCalculated'] = true;
     const updatedFeatureWithSpeed = component.updateFeatureFromAsset(updatedFeatureWithName, updatedAsset);
@@ -118,7 +118,7 @@ describe('AssetsComponent', () => {
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
     expect(updatedFeatureWithSpeed.getId()).toEqual(updatedFeatureWithName.getId());
     expect(updatedFeatureWithSpeed.getStyle().getText().getText())
-      .toEqual(updatedAsset.assetEssentials.assetName + '\n' + updatedAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
+      .toEqual(updatedAsset.asset.name + '\n' + updatedAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
 
     const fasterAsset =  { ...updatedAsset,
       assetMovement: { ...updatedAsset.assetMovement,
@@ -132,7 +132,7 @@ describe('AssetsComponent', () => {
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
     expect(updatedFeatureWithExtraSpeed.getStyle().getText().getText())
-      .toEqual(fasterAsset.assetEssentials.assetName + '\n' + fasterAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
+      .toEqual(fasterAsset.asset.name + '\n' + fasterAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
   });
 
   it('should init correctly', () => {
@@ -149,11 +149,11 @@ describe('AssetsComponent', () => {
     expect(selectAssetSpy).toHaveBeenCalledTimes(0);
     registeredFunction({
       type: 'select',
-      selected: [{ id_: AssetMovementWithEssentialsStub.assetEssentials.assetId }],
+      selected: [{ id_: AssetMovementWithEssentialsStub.asset.id }],
       deselected: []
     });
     expect(selectAssetSpy).toHaveBeenCalledTimes(1);
-    expect(selectAssetSpy).toHaveBeenCalledWith(AssetMovementWithEssentialsStub.assetEssentials.assetId);
+    expect(selectAssetSpy).toHaveBeenCalledWith(AssetMovementWithEssentialsStub.asset.id);
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
   });
 

@@ -14,7 +14,6 @@ export const initialState: Types.State = {
   assetTripGranularity: 15,
   assetTripTimestamp: undefined,
   assets: {},
-  assetsEssentials: {},
   assetLists: {},
   currentAssetList: null,
   lastUserAssetSearch: null,
@@ -268,9 +267,6 @@ export const assetReducer = createReducer(initialState,
         if(typeof state.assetTracks[movement.asset] !== 'undefined') {
           acc.assetTracks[movement.asset] = state.assetTracks[movement.asset];
         }
-        if(typeof state.assetsEssentials[movement.asset] !== 'undefined') {
-          acc.assetsEssentials[movement.asset] = state.assetsEssentials[movement.asset];
-        }
         if(typeof state.assets[movement.asset] !== 'undefined') {
           acc.assets[movement.asset] = state.assets[movement.asset];
         }
@@ -467,11 +463,11 @@ export const assetReducer = createReducer(initialState,
     ...state,
     searchQuery
   })),
-  on(AssetActions.setEssentialProperties, (state, { assetEssentialProperties }) => ({
+  on(AssetActions.setAssets, (state, { assets }) => ({
     ...state,
-    assetsEssentials: {
-      ...state.assetsEssentials,
-      ...assetEssentialProperties
+    assets: {
+      ...state.assets,
+      ...assets
     }
   })),
   on(AssetActions.setFilterQuery, (state, { filterQuery }) => ({

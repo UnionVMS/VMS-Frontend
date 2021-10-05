@@ -18,7 +18,7 @@ import { fromLonLat } from 'ol/proj';
 })
 export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetTypes.AssetMovementWithEssentials>;
+  @Input() assets: Array<AssetTypes.AssetMovementWithAsset>;
   @Input() map: Map;
   @Input() selectAsset: (assetId: string) => void;
   @Input() registerOnSelectFunction: (key: string, selectFunction: (event) => void) => void;
@@ -50,10 +50,10 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
       }
     });
     this.vectorSource.addFeatures(this.assets.reduce((features, asset) => {
-      if (typeof asset.assetEssentials !== 'undefined' && asset.assetEssentials.flagstate !== 'UNK') {
+      if (typeof asset.asset !== 'undefined' && asset.asset.flagStateCode !== 'UNK') {
         const flagFeature = this.createFeatureFromAsset(asset);
         if(flagFeature !== false) {
-          this.renderedAssetIds.push(asset.assetEssentials.assetId);
+          this.renderedAssetIds.push(asset.asset.id);
           features.push(flagFeature);
         }
       }
@@ -76,18 +76,18 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
       });
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
-          if(typeof asset.assetEssentials !== 'undefined') {
-            const assetFeature = this.vectorSource.getFeatureById('flag_' + asset.assetEssentials.assetId);
+          if(typeof asset.asset !== 'undefined') {
+            const assetFeature = this.vectorSource.getFeatureById('flag_' + asset.asset.id);
             if (assetFeature !== null) {
-              if(newRenderedAssetIds.indexOf(asset.assetEssentials.assetId) === -1) {
-                newRenderedAssetIds.push(asset.assetEssentials.assetId);
+              if(newRenderedAssetIds.indexOf(asset.asset.id) === -1) {
+                newRenderedAssetIds.push(asset.asset.id);
               }
               this.updateFeatureFromAsset(assetFeature, asset.assetMovement);
-            } else if (asset.assetEssentials.flagstate !== 'UNK') {
+            } else if (asset.asset.flagStateCode !== 'UNK') {
               const flagFeature = this.createFeatureFromAsset(asset);
               if(flagFeature !== false) {
-                if(newRenderedAssetIds.indexOf(asset.assetEssentials.assetId) === -1) {
-                  newRenderedAssetIds.push(asset.assetEssentials.assetId);
+                if(newRenderedAssetIds.indexOf(asset.asset.id) === -1) {
+                  newRenderedAssetIds.push(asset.asset.id);
                 }
                 acc.push(flagFeature);
               }
@@ -114,8 +114,8 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  createFeatureFromAsset(asset: AssetTypes.AssetMovementWithEssentials) {
-    if(typeof getContryISO2(asset.assetEssentials.flagstate) === 'undefined') {
+  createFeatureFromAsset(asset: AssetTypes.AssetMovementWithAsset) {
+    if(typeof getContryISO2(asset.asset.flagStateCode) === 'undefined') {
       return false;
     }
     const flagFeature = new Feature(new Point(fromLonLat([
@@ -123,7 +123,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     ])));
     const flagStyle = new Style({
       image: new Icon({
-        img: this.getImage(getContryISO2(asset.assetEssentials.flagstate).toLowerCase()),
+        img: this.getImage(getContryISO2(asset.asset.flagStateCode).toLowerCase()),
         imgSize: [16, 12],
         anchor: [0.5, 2.6],
         rotateWithView: true
@@ -140,7 +140,7 @@ export class FlagstatesComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     flagFeature.setStyle([markerStyle, flagStyle]);
-    flagFeature.setId('flag_' + asset.assetEssentials.assetId);
+    flagFeature.setId('flag_' + asset.asset.id);
     return flagFeature;
   }
 

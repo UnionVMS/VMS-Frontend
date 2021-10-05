@@ -21,13 +21,13 @@ export class EditAssetGroupDialogComponent {
     public dialogRef: MatDialogRef<EditAssetGroupDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       assetGroupFilter: Readonly<MapSavedFiltersTypes.SavedFilter>
-      assetEssentials: Readonly<{ readonly [assetId: string]: AssetTypes.AssetEssentialProperties }>
+      assets: Readonly<{ readonly [assetId: string]: AssetTypes.Asset }>
     }
   ) {
     this.assetGroupFilterQuery = data.assetGroupFilter.filter.find(filterQuery => filterQuery.type === 'GUID');
     this.miniAssets = this.assetGroupFilterQuery.values.map(assetId => ({
       assetId,
-      assetName: data.assetEssentials[assetId] ? data.assetEssentials[assetId].assetName : null
+      assetName: data.assets[assetId] ? data.assets[assetId].name : null
     }));
     this.filterName = new FormControl(data.assetGroupFilter.name, Validators.required);
   }

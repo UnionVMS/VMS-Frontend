@@ -1,13 +1,6 @@
 import { waitForAsync, TestBed } from '@angular/core/testing';
 
-import { deg2rad } from '@app/helpers/helpers';
-import { fromLonLat } from 'ol/proj';
-
 import { DistanceBetweenPointsComponent } from './distance-between-points.component';
-import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWithEssentials.stub';
-import AssetEssentialsStub from '@data/asset/stubs/assetEssentials.stub';
-
-import getContryISO2 from 'country-iso-3-to-2';
 
 describe('DistanceBetweenPointsComponent', () => {
   beforeEach(waitForAsync(() => {

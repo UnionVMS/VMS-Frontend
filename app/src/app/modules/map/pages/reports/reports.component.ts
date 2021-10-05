@@ -92,7 +92,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
   public setTimeInterval: (from: number, to: number) => void;
 
-  public assetMovements: Array<AssetTypes.AssetMovementWithEssentials>;
+  public assetMovements: Array<AssetTypes.AssetMovementWithAsset>;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private readonly onClickFunctions: { [name: string]: Function } = {};

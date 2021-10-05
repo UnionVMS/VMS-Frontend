@@ -67,7 +67,7 @@ export class IncidentEffects {
               unresolvedIncidents: incidents.unresolved,
               recentlyResolvedIncidents: incidents.recentlyResolved
             }}),
-            AssetActions.checkForAssetEssentials({
+            AssetActions.checkForAssets({
               assetIds: [ ...new Set([
                 ...Object.values(incidents.unresolved).map((incident) => incident.assetId),
                 ...Object.values(incidents.recentlyResolved).map((incident) => incident.assetId)

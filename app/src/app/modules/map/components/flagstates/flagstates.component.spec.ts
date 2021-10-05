@@ -5,7 +5,7 @@ import { fromLonLat } from 'ol/proj';
 
 import { FlagstatesComponent } from './flagstates.component';
 import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWithEssentials.stub';
-import AssetEssentialsStub from '@data/asset/stubs/assetEssentials.stub';
+import AssetStub from '@data/asset/stubs/asset.stub';
 
 import getContryISO2 from 'country-iso-3-to-2';
 
@@ -34,23 +34,6 @@ describe('FlagstatesComponent', () => {
   it('should create', () => {
     const { component } = setup();
     expect(component).toBeTruthy();
-  });
-
-  it('should create feature from asset correctly', () => {
-    const { component } = setup();
-
-    const feature = component.createFeatureFromAsset(AssetMovementWithEssentialsStub);
-    expect(feature.getId()).toEqual(`flag_${AssetMovementWithEssentialsStub.assetEssentials.assetId}`);
-    expect(feature.getGeometry().getCoordinates()).toEqual(fromLonLat([
-      AssetMovementWithEssentialsStub.assetMovement.movement.location.longitude,
-      AssetMovementWithEssentialsStub.assetMovement.movement.location.latitude
-    ]));
-    expect(component['flagCanvasByCountry'][getContryISO2(AssetMovementWithEssentialsStub.assetEssentials.flagstate).toLowerCase()])
-      .not.toBeUndefined();
-
-    const assetWithBadFlag = { ...AssetMovementWithEssentialsStub, assetEssentials: { ...AssetEssentialsStub, flagstate: 'gibberish' }};
-    const shouldFailsFeature = component.createFeatureFromAsset(assetWithBadFlag);
-    expect(shouldFailsFeature).toBeFalsy();
   });
 
   it('should update feature correctly', () => {
