@@ -18,7 +18,7 @@ export const addMobileTerminalHistoryFilters = createAction(
 
 export const addSearchResult = createAction(
   '[Mobile Terminals] Add search result',
-  props<{ uniqueHash: number, mobileTerminalIds: ReadonlyArray<string> }>()
+  props<{ uniqueHash: number, mobileTerminals: ReadonlyArray<string> }>()
 );
 
 export const setMobileTerminal = createAction(

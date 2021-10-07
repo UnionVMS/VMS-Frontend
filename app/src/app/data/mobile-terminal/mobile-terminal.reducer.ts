@@ -116,11 +116,11 @@ export const mobileTerminalReducer = createReducer(initialState,
       mobileTerminalHistoryFilter
     };
   }),
-  on(MobileTerminalActions.addSearchResult, (state, { uniqueHash, mobileTerminalIds }) => ({
+  on(MobileTerminalActions.addSearchResult, (state, { uniqueHash, mobileTerminals }) => ({
     ...state,
     searchResults: {
       ...state.searchResults,
-      [uniqueHash]: mobileTerminalIds
+      [uniqueHash]: mobileTerminals
     },
     lastSearchHash: uniqueHash
   })),

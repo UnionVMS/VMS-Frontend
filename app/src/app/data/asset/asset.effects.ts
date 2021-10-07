@@ -226,7 +226,6 @@ export class AssetEffects {
                 actions.push(AssetActions.checkForAssets({
                   assetIds: messagesByType.Movement.map((movement: AssetTypes.AssetMovement) => movement.asset)
                 }));
-                console.log("assetsMovedData ", assetsMovedData);
               }
               if(typeof messagesByType['Updated Asset'] !== 'undefined') {
                 actions.push(AssetActions.setAssets({
@@ -493,9 +492,9 @@ export class AssetEffects {
           map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((asset: AssetTypes.Asset) => {
             const returnActions: Array<any> = [AssetActions.setFullAsset({ asset })];
-            if(typeof asset.mobileTerminalIds !== 'undefined' && asset.mobileTerminalIds.length > 0) {
+            if(typeof asset.mobileTerminals !== 'undefined' && asset.mobileTerminals.length > 0) {
               returnActions.push(MobileTerminalActions.search({
-                query: { mobileterminalIds: asset.mobileTerminalIds },
+                query: { mobileterminals: asset.mobileTerminals },
                 includeArchived: false,
               }));
             }

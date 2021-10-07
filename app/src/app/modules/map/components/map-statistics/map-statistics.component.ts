@@ -18,14 +18,8 @@ export class MapStatisticsComponent implements OnChanges {
   public incidentTypeStatistics: ReadonlyArray<{ type: string, amount: number }>;
 
   private readonly vmsFilter = [
-    { type: 'flagStateCode', values: ['SWE'], inverse: false, valueType: AssetTypes.AssetFilterValueTypes.STRING },
+    { type: 'mobileTerminals', values: ['true'], inverse: false, valueType: AssetTypes.AssetFilterValueTypes.BOOLEAN },
     { type: 'vesselType', values: ['Fishing'], inverse: false, valueType: AssetTypes.AssetFilterValueTypes.STRING },
-    {
-      type: 'lengthOverAll',
-      values: [{ operator: 'greater than or equal', value: 12 }],
-      inverse: false,
-      valueType: AssetTypes.AssetFilterValueTypes.NUMBER
-    }
   ];
 
   ngOnChanges() {
