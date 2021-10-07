@@ -186,9 +186,6 @@ export const getAssetMovements = createSelector(
               columnName = 'id';
             }
             assetMovementKeys = assetMovementKeys.filter(key => {
-              if( assets[key]['mobileTerminals'] && assets[key]['mobileTerminals'][0] !== null && assets[key]['mobileTerminals'].length > 0){
-                return true;
-              }
               if(
                 typeof assets[key] === 'undefined' ||
                 assets[key][columnName] === null ||
@@ -196,7 +193,9 @@ export const getAssetMovements = createSelector(
               ) {
                 return false;
               }
-              
+              if( assets[key]['mobileTerminals'] && assets[key]['mobileTerminals'][0] !== null && assets[key]['mobileTerminals'].length > 0){
+                return true;
+              }
               if(query.valueType === AssetTypes.AssetFilterValueTypes.NUMBER) {
                 return query.values.reduce((acc, value) => {
                   if(acc === true) {
@@ -253,8 +252,8 @@ export const getMapStatistics = createSelector(
   ) => {
     const sweVMSAssetsOnMapStatistics = Object.keys(onMapDepndingOnLeftPanel).reduce((acc, assetId) => {
       const currentAsset = assets[assetId];
-      if(currentAsset && currentAsset.flagStateCode === 'SWE' && currentAsset.mobileTerminals.length > 0 && currentAsset.mobileTerminals[0] !== null) {
-        console.log("currentAsset ", currentAsset.mobileTerminals); 
+      if(currentAsset && currentAsset.mobileTerminals && currentAsset.mobileTerminals.length > 0 
+        && currentAsset.mobileTerminals[0] !== null) {
         return {
           ...acc,
           count: acc.count + 1,
