@@ -131,7 +131,7 @@ export type Asset = Readonly<{
   mainFishingGearCode: any;
   subFishingGearCode: any;
   gearFishingType: any;
-  mobileTerminals: ReadonlyArray<string>;
+  mobileTerminalIds: ReadonlyArray<string>;
   ownerName: any;
   hasVms: any;
   ownerAddress: any;

@@ -492,9 +492,9 @@ export class AssetEffects {
           map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
           map((asset: AssetTypes.Asset) => {
             const returnActions: Array<any> = [AssetActions.setFullAsset({ asset })];
-            if(typeof asset.mobileTerminals !== 'undefined' && asset.mobileTerminals.length > 0) {
+            if(typeof asset.mobileTerminalIds !== 'undefined' && asset.mobileTerminalIds.length > 0) {
               returnActions.push(MobileTerminalActions.search({
-                query: { mobileterminals: asset.mobileTerminals },
+                query: { mobileTerminalIds: asset.mobileTerminalIds },
                 includeArchived: false,
               }));
             }

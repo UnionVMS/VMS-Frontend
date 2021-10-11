@@ -54,7 +54,7 @@ export class MobileTerminalEffects {
               ...result,
               MobileTerminalActions.addSearchResult({
                 uniqueHash: hashCode(JSON.stringify(action.query) + action.includeArchived ? 't' : 'f'),
-                mobileTerminals: response.mobileTerminalList.map(mobileTerminal => mobileTerminal.id)
+                mobileTerminalIds: response.mobileTerminalList.map(mobileTerminal => mobileTerminal.id)
               })
             ];
           } else {

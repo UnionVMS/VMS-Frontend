@@ -180,7 +180,7 @@ export const getAssetMovements = createSelector(
         if(filterQuery.length > 0) {
           filterQuery.map(query => {
             let columnName = 'name';
-            if(['flagStateCode', 'ircs', 'cfr', 'vesselType', 'externalMarking', 'lengthOverAll', 'hasLicence', 'mobileterminals'].indexOf(query.type) !== -1) {
+            if(['flagStateCode', 'ircs', 'cfr', 'vesselType', 'externalMarking', 'lengthOverAll', 'hasLicence', 'mobileTerminalIds'].indexOf(query.type) !== -1) {
               columnName = query.type;
             } else if(query.type === 'GUID') {
               columnName = 'id';
@@ -193,7 +193,7 @@ export const getAssetMovements = createSelector(
               ) {
                 return false;
               }
-              if( assets[key]['mobileTerminals'] && assets[key]['mobileTerminals'][0] !== null && assets[key]['mobileTerminals'].length > 0){
+              if( assets[key]['mobileTerminalIds'] && assets[key]['mobileTerminalIds'][0] !== null && assets[key]['mobileTerminalIds'].length > 0){
                 return true;
               }
               if(query.valueType === AssetTypes.AssetFilterValueTypes.NUMBER) {
@@ -252,8 +252,8 @@ export const getMapStatistics = createSelector(
   ) => {
     const sweVMSAssetsOnMapStatistics = Object.keys(onMapDepndingOnLeftPanel).reduce((acc, assetId) => {
       const currentAsset = assets[assetId];
-      if(currentAsset && currentAsset.mobileTerminals && currentAsset.mobileTerminals.length > 0 
-        && currentAsset.mobileTerminals[0] !== null) {
+      if(currentAsset && currentAsset.mobileTerminalIds && currentAsset.mobileTerminalIds.length > 0 
+        && currentAsset.mobileTerminalIds[0] !== null) {
         return {
           ...acc,
           count: acc.count + 1,
