@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import Map from 'ol/Map';
 
 import { AssetTypes } from '@data/asset';
 import { IncidentTypes } from '@data/incident';
@@ -20,6 +19,7 @@ export class MapStatisticsComponent implements OnChanges {
   private readonly vmsFilter = [
     { type: 'mobileTerminals', values: ['true'], inverse: false, valueType: AssetTypes.AssetFilterValueTypes.BOOLEAN },
     { type: 'vesselType', values: ['Fishing'], inverse: false, valueType: AssetTypes.AssetFilterValueTypes.STRING },
+    { type: 'flagStateCode', values: ['SWE'], inverse: false, valueType: AssetTypes.AssetFilterValueTypes.STRING },
   ];
 
   ngOnChanges() {
