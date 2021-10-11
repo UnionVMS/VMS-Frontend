@@ -118,6 +118,10 @@ export class AssetFilterComponent implements OnChanges {
       return { queryObject: {
         ...queryObject, type: 'hasLicence', valueType: AssetTypes.AssetFilterValueTypes.BOOLEAN
       }, queryString: queryString.substring(3) };
+    } else if(queryString.indexOf('/m ') === 0) {
+      return { queryObject: { 
+        ...queryObject, type: 'mobileTerminals', valueType: AssetTypes.AssetFilterValueTypes.BOOLEAN 
+      }, queryString: queryString.substring(3) };
     }
     return { queryObject, queryString };
   }
@@ -146,7 +150,7 @@ export class AssetFilterComponent implements OnChanges {
   }
 
   generateQueryStringFromFilter(filters: ReadonlyArray<AssetTypes.AssetFilterQuery>) {
-    const typeList = { flagStateCode: 'f', ircs: 'i', cfr: 'c', vesselType: 'v', externalMarking: 'e', lengthOverAll: 'l', hasLicence: 'p' };
+    const typeList = { flagStateCode: 'f', ircs: 'i', cfr: 'c', vesselType: 'v', externalMarking: 'e', lengthOverAll: 'l', hasLicence: 'p', mobileTerminals: 'm' };
     const operatorList = {
       'less than': '< ', 'greater than': '> ', 'almost equal': '~ ', equal: '',
       'greater than or equal': '>=', 'less than or equal': '<=',

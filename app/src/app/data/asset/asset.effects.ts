@@ -226,7 +226,6 @@ export class AssetEffects {
                 actions.push(AssetActions.checkForAssets({
                   assetIds: messagesByType.Movement.map((movement: AssetTypes.AssetMovement) => movement.asset)
                 }));
-                console.log("assetsMovedData ", assetsMovedData);
               }
               if(typeof messagesByType['Updated Asset'] !== 'undefined') {
                 actions.push(AssetActions.setAssets({
@@ -495,7 +494,7 @@ export class AssetEffects {
             const returnActions: Array<any> = [AssetActions.setFullAsset({ asset })];
             if(typeof asset.mobileTerminalIds !== 'undefined' && asset.mobileTerminalIds.length > 0) {
               returnActions.push(MobileTerminalActions.search({
-                query: { mobileterminalIds: asset.mobileTerminalIds },
+                query: { mobileTerminalIds: asset.mobileTerminalIds },
                 includeArchived: false,
               }));
             }
