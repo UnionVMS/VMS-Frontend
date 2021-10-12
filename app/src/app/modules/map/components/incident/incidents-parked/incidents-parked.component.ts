@@ -56,15 +56,16 @@ export class IncidentsParkedComponent implements OnChanges {
   }
 
   private readonly incidentSortFunction = (a: IncidentTypes.Incident, b: IncidentTypes.Incident) => {
-    return b.createDate - a.createDate;
+    return a.createDate - b.createDate;
   }
 
   private readonly incidentPendingSortFunction = (a: IncidentTypes.Incident, b: IncidentTypes.Incident) => {
-    if (!a.expiryDate) {
-        return 1;
-    }
-    else if (!b.expiryDate) {
-        return -1;
+    if (!a.expiryDate && b.expiryDate) {
+      return 1;
+    }else if (!b.expiryDate && a.expiryDate) {
+      return -1;
+    }else if (!b.expiryDate && !a.expiryDate) {
+      return 0;
     }
     return a.expiryDate - b.expiryDate;
   }
