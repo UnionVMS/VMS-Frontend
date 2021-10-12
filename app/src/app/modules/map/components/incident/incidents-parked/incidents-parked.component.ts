@@ -41,21 +41,33 @@ export class IncidentsParkedComponent implements OnChanges {
     this.pending = [];
 
     this.incidents.unresolvedIncidents.map((incident: IncidentTypes.Incident) => {
-      if(incident.status === IncidentTypes.SeasonalFishingStatuses.PARKED) {
+      if(incident.status === IncidentTypes.ParkedStatuses.PARKED) {
         this.pending = [ ...this.pending, incident ];
-      } else if(incident.status === IncidentTypes.SeasonalFishingStatuses.RECEIVING_AIS_POSITIONS) {
+      } else if(incident.status === IncidentTypes.ParkedStatuses.RECEIVING_AIS_POSITIONS) {
         this.sending = [ ...this.sending, incident ];
-      } else if(incident.status === IncidentTypes.SeasonalFishingStatuses.OVERDUE) {
+      } else if(incident.status === IncidentTypes.ParkedStatuses.OVERDUE) {
         this.overdue = [ ...this.overdue, incident ];
       }
     });
-    this.pending = [ ...this.pending ].sort(this.incidentSortFunction);
+    this.pending = [ ...this.pending ].sort(this.incidentPendingSortFunction);
     this.sending = [ ...this.sending ].sort(this.incidentSortFunction);
     this.overdue = [ ...this.overdue ].sort(this.incidentSortFunction);
+
   }
 
   private readonly incidentSortFunction = (a: IncidentTypes.Incident, b: IncidentTypes.Incident) => {
     return a.createDate - b.createDate;
+  }
+
+  private readonly incidentPendingSortFunction = (a: IncidentTypes.Incident, b: IncidentTypes.Incident) => {
+    if (!a.expiryDate && b.expiryDate) {
+      return 1;
+    }else if (!b.expiryDate && a.expiryDate) {
+      return -1;
+    }else if (!b.expiryDate && !a.expiryDate) {
+      return b.createDate - a.createDate;
+    }
+    return a.expiryDate - b.expiryDate;
   }
 
   incidentIsSelected(incident: IncidentTypes.Incident) {

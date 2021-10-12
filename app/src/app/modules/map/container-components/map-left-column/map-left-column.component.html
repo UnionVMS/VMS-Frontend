@@ -80,51 +80,53 @@
   </div>
   <div class="panel workflow-panel" *ngIf="activePanel[0] === 'workflows'">
     <h3 i18n>Workflows</h3>
-    <map-incidents-asset-not-sending
-      [active]="activePanel[1] === 'ASSET_NOT_SENDING'"
-      [incidents]="incidentsByTypeAndStatus.assetNotSending"
-      [selectedIncident]="selectedIncident"
-      [selectIncident]="selectIncident"
-      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING'])"
-      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING', 'RESOLVED'])"
-      [userTimezone]="userTimezone$ | async"
-    ></map-incidents-asset-not-sending>
-    <map-incidents-manual-position-mode
-      [incidents]="incidentsByTypeAndStatus.manualPositionMode"
-      [selectedIncident]="selectedIncident"
-      [active]="activePanel[1] === 'MANUAL_POSITION_MODE'"
-      [selectIncident]="selectIncident"
-      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'MANUAL_POSITION_MODE'])"
-      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'MANUAL_POSITION_MODE', 'RESOLVED'])"
-      [userTimezone]="userTimezone$ | async"
-    ></map-incidents-manual-position-mode>
-    <map-incidents-seasonal-fishing
-      [active]="activePanel[1] === 'SEASONAL_FISHING'"
-      [incidents]="incidentsByTypeAndStatus.seasonalFishing"
-      [selectedIncident]="selectedIncident"
-      [selectIncident]="selectIncident"
-      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING'])"
-      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING', 'RESOLVED'])"
-      [userTimezone]="userTimezone$ | async"
-    ></map-incidents-seasonal-fishing>
-    <map-incidents-parked
-      [active]="activePanel[1] === 'PARKED'"
-      [incidents]="incidentsByTypeAndStatus.parked"
-      [selectedIncident]="selectedIncident"
-      [selectIncident]="selectIncident"
-      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'PARKED'])"
-      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'PARKED', 'RESOLVED'])"
-      [userTimezone]="userTimezone$ | async"
-    ></map-incidents-parked>
-    <map-incidents-ownership-transfer
-      [active]="activePanel[1] === 'OWNERSHIP_TRANSFER'"
-      [incidents]="incidentsByTypeAndStatus.ownershipTransfer"
-      [selectedIncident]="selectedIncident"
-      [selectIncident]="selectIncident"
-      [setActiveFunction]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER'])"
-      [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER', 'RESOLVED'])"
-      [userTimezone]="userTimezone$ | async"
-    ></map-incidents-ownership-transfer>
+    <div class="workflow-panel-bg">
+      <map-incidents-asset-not-sending class="panel workflow-panel-main"
+        [active]="activePanel[1] === 'ASSET_NOT_SENDING'"
+        [incidents]="incidentsByTypeAndStatus.assetNotSending"
+        [selectedIncident]="selectedIncident"
+        [selectIncident]="selectIncident"
+        [setActiveFunction]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING'])"
+        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING', 'RESOLVED'])"
+        [userTimezone]="userTimezone$ | async"
+      ></map-incidents-asset-not-sending> 
+      <map-incidents-manual-position-mode class="panel workflow-panel-sub"
+        [incidents]="incidentsByTypeAndStatus.manualPositionMode"
+        [selectedIncident]="selectedIncident"
+        [active]="activePanel[1] === 'MANUAL_POSITION_MODE'"
+        [selectIncident]="selectIncident"
+        [setActiveFunction]="toggleLastInPanelTree(['workflows', 'MANUAL_POSITION_MODE'])"
+        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'MANUAL_POSITION_MODE', 'RESOLVED'])"
+        [userTimezone]="userTimezone$ | async"
+      ></map-incidents-manual-position-mode>
+      <map-incidents-seasonal-fishing class="panel workflow-panel-sub"
+        [active]="activePanel[1] === 'SEASONAL_FISHING'"
+        [incidents]="incidentsByTypeAndStatus.seasonalFishing"
+        [selectedIncident]="selectedIncident"
+        [selectIncident]="selectIncident"
+        [setActiveFunction]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING'])"
+        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING', 'RESOLVED'])"
+        [userTimezone]="userTimezone$ | async"
+      ></map-incidents-seasonal-fishing>
+      <map-incidents-parked class="panel workflow-panel-sub"
+        [active]="activePanel[1] === 'PARKED'"
+        [incidents]="incidentsByTypeAndStatus.parked"
+        [selectedIncident]="selectedIncident"
+        [selectIncident]="selectIncident"
+        [setActiveFunction]="toggleLastInPanelTree(['workflows', 'PARKED'])"
+        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'PARKED', 'RESOLVED'])"
+        [userTimezone]="userTimezone$ | async"
+      ></map-incidents-parked>
+      <map-incidents-ownership-transfer class="panel workflow-panel-sub"
+        [active]="activePanel[1] === 'OWNERSHIP_TRANSFER'"
+        [incidents]="incidentsByTypeAndStatus.ownershipTransfer"
+        [selectedIncident]="selectedIncident"
+        [selectIncident]="selectIncident"
+        [setActiveFunction]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER'])"
+        [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'OWNERSHIP_TRANSFER', 'RESOLVED'])"
+        [userTimezone]="userTimezone$ | async"
+      ></map-incidents-ownership-transfer>
+  </div>
     <!-- <map-panel-block
       i18n-blockTitle
       blockTitle="Fishing Report"
