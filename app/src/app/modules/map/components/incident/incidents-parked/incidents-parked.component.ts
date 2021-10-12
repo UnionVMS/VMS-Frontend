@@ -65,7 +65,7 @@ export class IncidentsParkedComponent implements OnChanges {
     }else if (!b.expiryDate && a.expiryDate) {
       return -1;
     }else if (!b.expiryDate && !a.expiryDate) {
-      return 0;
+      return b.createDate - a.createDate;
     }
     return a.expiryDate - b.expiryDate;
   }
