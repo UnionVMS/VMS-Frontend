@@ -96,9 +96,20 @@
     }
   }
 
+  .workflow-panel-bg {
+    margin-right: 8px;
+    background-color: #cacaca;
+    padding: 5px;
+    border-radius: 0px 7px 7px 0px;
+  }
   .workflow-panel {
     grid-template-rows: repeat(10, auto) 1fr;
+    .workflow-panel-sub {
+      padding-left: 30px;
+    }
   }
+
+
 
   &.panel-hidden {
     width: 0px;
