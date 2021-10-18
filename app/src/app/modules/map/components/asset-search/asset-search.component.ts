@@ -96,7 +96,8 @@ export class AssetSearchComponent implements OnChanges {
             return acc;
           }
           if (typeof acc[index] === 'undefined' || acc[index].id !== assetWrapper.asset.id) {
-            acc[index] = { id: assetWrapper.asset.id, value: assetWrapper.asset.name };
+            let setIrcs = !assetWrapper.asset.ircs ? "" : ' --- ' + assetWrapper.asset.ircs;
+            acc[index] = { id: assetWrapper.asset.id, value: assetWrapper.asset.name + setIrcs };
           }
           lastIndex = index;
           return acc;
