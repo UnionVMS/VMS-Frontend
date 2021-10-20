@@ -14,7 +14,6 @@ import { MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
 import { Position } from '@data/generic.types';
 import { IncidentTypeFormDialogComponent } from '@modules/map/components/incident/incident-type-form-dialog/incident-type-form-dialog.component';
 import { NotesTypes } from '@data/notes';
-import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 
 @Component({
   selector: 'map-left-column',
@@ -27,6 +26,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   @Input() noWorkflow = false;
   @Input() columnHidden: boolean;
   @Input() hideLeftColumn: (hidden: boolean) => void;
+
+  constructor(public dialog: MatDialog, private readonly store: Store<any>) { }
 
   public activePanel: ReadonlyArray<string>;
   public setActivePanel: (activeLeftPanel: ReadonlyArray<string>) => void;
@@ -62,7 +63,6 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public selectedAsset: Readonly<AssetTypes.AssetData>;
   public userTimezone$: Observable<string>;
   public mapSettings: MapSettingsTypes.Settings;
-
 
   public incidentsByTypeAndStatus: IncidentTypes.IncidentsByTypeAndStatus;
   public incidentTypes$: Observable<IncidentTypes.IncidentTypesCollection>;
@@ -109,8 +109,6 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public createNoteCurried = (note: string) => {
     return this.createIncidentNote(this.selectedIncident.id, { note, assetId: this.selectedAsset.asset.id });
   }
-
-  constructor(public dialog: MatDialog, private readonly store: Store<any>) { }
 
   mapStateToProps() {
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
