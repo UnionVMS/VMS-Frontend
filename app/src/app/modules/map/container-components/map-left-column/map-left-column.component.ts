@@ -264,7 +264,6 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     return (event.container.element.nativeElement.firstElementChild.firstElementChild.firstElementChild as HTMLElement);
   }
   drop(event: CdkDragDrop<string[]>, type: string ) {
-    console.log("event: ", event);
     this.openIncidentTypeFormDialog(type);
     this.getHTMLElementFromEvent(event).style.backgroundColor = "#FFFFFF";
   }
