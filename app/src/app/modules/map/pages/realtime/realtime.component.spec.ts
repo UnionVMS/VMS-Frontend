@@ -46,7 +46,7 @@ import { MapActions, MapReducer } from '@data/map';
 import { MapSettingsReducer, MapSettingsActions } from '@data/map-settings';
 import { MapSavedFiltersReducer } from '@data/map-saved-filters';
 
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 /* tslint:disable:no-string-literal */
 describe('RealtimeComponent', () => {
@@ -60,6 +60,7 @@ describe('RealtimeComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatCheckboxModule,
+        MatDialog
       ],
       declarations: [
         RealtimeComponent,
@@ -76,11 +77,12 @@ describe('RealtimeComponent', () => {
         MapRightColumnComponent,
         SavedFiltersComponent,
         TracksComponent,
-        MatDialog
       ],
       providers: [
         { provide: Router, useValue: { navigate: () => {} } },
         provideMockStore(),
+        {provide:MatDialogRef , useValue:{} },
+        { provide: MAT_DIALOG_DATA, useValue: {} }
       ]
     })
     .compileComponents();
