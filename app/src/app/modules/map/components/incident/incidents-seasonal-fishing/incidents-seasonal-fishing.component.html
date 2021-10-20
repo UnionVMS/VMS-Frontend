@@ -5,7 +5,6 @@
   [setActiveFunction]="setActiveFunction"
   [useArrowsAsToggle]="true"
 >
-
   <div header class="urgency-indicator">
     <span class="high" *ngIf="overdue.length > 0">{{overdue.length}}</span>
     <span class="medium" *ngIf="sending.length > 0">{{sending.length}}</span>
@@ -24,7 +23,7 @@
       <ng-container *ngIf="overdue.length > 0">
         <h3 i18n>Seasonal fishing date overdue</h3>
         <ng-container *ngFor="let incident of overdue; trackBy: trackByIncidents">
-          <map-incident-card
+          <map-incident-card cdkDrag
             [incident]="incident"
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"
@@ -37,7 +36,7 @@
       <ng-container *ngIf="sending.length > 0">
         <h3 i18n>Parked (seasonal) and sending AIS</h3>
         <ng-container *ngFor="let incident of sending; trackBy: trackByIncidents">
-          <map-incident-card
+          <map-incident-card cdkDrag
             [incident]="incident"
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"
@@ -49,7 +48,7 @@
       <ng-container *ngIf="pending.length > 0">
         <h3 i18n>Seasonal fishing — parked</h3>
         <ng-container *ngFor="let incident of pending; trackBy: trackByIncidents">
-          <map-incident-card
+          <map-incident-card cdkDrag
             [incident]="incident"
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"

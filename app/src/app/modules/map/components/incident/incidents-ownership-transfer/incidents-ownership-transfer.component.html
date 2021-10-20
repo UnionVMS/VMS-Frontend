@@ -18,7 +18,7 @@
       <ng-container *ngIf="receivingVms.length > 0">
         <h3 i18n>Receiving VMS (last 24h)</h3>
         <ng-container *ngFor="let incident of receivingVms; trackBy: trackByIncidents">
-          <map-incident-card
+          <map-incident-card cdkDrag
             [incident]="incident"
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"
@@ -29,7 +29,7 @@
       <ng-container *ngIf="notReceivingVms.length > 0">
         <h3 i18n>Not Receiving VMS (last 24h)</h3>
         <ng-container *ngFor="let incident of notReceivingVms; trackBy: trackByIncidents">
-          <map-incident-card
+          <map-incident-card cdkDrag
             [incident]="incident"
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"

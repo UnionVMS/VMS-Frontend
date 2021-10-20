@@ -15,6 +15,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 /* Modules */
 import { UIModule } from '../ui/ui.module';
@@ -91,6 +92,7 @@ import { TracksSegmentsComponent } from './components/tracks-segments/tracks-seg
 import { TripPlayerComponent } from './components/trip-player/trip-player.component';
 
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -111,6 +113,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MatSliderModule,
     MatTooltipModule,
     RouterModule,
+    DragDropModule,
   ],
   declarations: [
     RealtimeComponent,

@@ -22,7 +22,7 @@
       <ng-container *ngIf="incidentsWithAttemptedContact.length > 0">
         <h3 i18n>Attempted contact</h3>
         <ng-container *ngFor="let incident of incidentsWithAttemptedContact; trackBy: trackByIncidents">
-          <map-incident-card
+          <map-incident-card cdkDrag
             [incident]="incident"
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"
@@ -34,7 +34,7 @@
       <ng-container *ngIf="unmanagedIncidents.length > 0">
       <h3 i18n>Not contacted</h3>
         <ng-container *ngFor="let incident of unmanagedIncidents; trackBy: trackByIncidents">
-          <map-incident-card
+          <map-incident-card cdkDrag
             [incident]="incident"
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"

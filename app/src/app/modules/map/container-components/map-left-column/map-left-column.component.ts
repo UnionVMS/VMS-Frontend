@@ -1,7 +1,9 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap, first } from 'rxjs/operators';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material/dialog';
 
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
 import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/incident';
@@ -10,7 +12,9 @@ import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors 
 import { UserSettingsSelectors } from '@data/user-settings';
 import { MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
 import { Position } from '@data/generic.types';
-
+import { IncidentTypeFormDialogComponent } from '@modules/map/components/incident/incident-type-form-dialog/incident-type-form-dialog.component';
+import { NotesTypes } from '@data/notes';
+import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 
 @Component({
   selector: 'map-left-column',
@@ -55,11 +59,13 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     asset: AssetTypes.Asset
   }>>>;
   public selectAsset: (assetId: string) => void;
+  public selectedAsset: Readonly<AssetTypes.AssetData>;
   public userTimezone$: Observable<string>;
   public mapSettings: MapSettingsTypes.Settings;
 
 
   public incidentsByTypeAndStatus: IncidentTypes.IncidentsByTypeAndStatus;
+  public incidentTypes$: Observable<IncidentTypes.IncidentTypesCollection>;
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
@@ -94,7 +100,17 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.setActivePanel(activeLeftPanel);
   }
 
-  constructor(private readonly store: Store<any>) { }
+  public updateIncidentType: (incindentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) => void;
+  public changeType = (type: IncidentTypes.IncidentTypes) => {
+    return this.updateIncidentType(this.selectedIncident.id, type);
+  }
+  public createIncidentNote: (incidentId: number, note: NotesTypes.NoteParameters) => void;
+
+  public createNoteCurried = (note: string) => {
+    return this.createIncidentNote(this.selectedIncident.id, { note, assetId: this.selectedAsset.asset.id });
+  }
+
+  constructor(public dialog: MatDialog, private readonly store: Store<any>) { }
 
   mapStateToProps() {
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
@@ -131,6 +147,12 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       this.mapSettings = mapSettings;
     });
     this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
+    this.incidentTypes$ = this.store.select(IncidentSelectors.getIncidentTypes);
+    this.store.select(AssetSelectors.extendedDataForSelectedAssets).pipe(takeUntil(this.unmount$)).subscribe((selectedAssets) => {
+      this.selectedAsset = selectedAssets.find(selectedAsset => selectedAsset.currentlyShowing);
+    });
+    this.updateIncidentType = (incidentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) =>
+    this.store.dispatch(IncidentActions.updateIncidentType({ incidentId, incidentType, expiryDate }));
   }
 
   mapDispatchToProps() {
@@ -179,6 +201,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.clearNotificationsForIncident = (incident: IncidentTypes.Incident) =>
       this.store.dispatch(IncidentActions.clearNotificationsForIncident({ incident }));
     this.clearSelectedIncident = () => this.store.dispatch(IncidentActions.clearSelectedIncident());
+    this.createIncidentNote = (incidentId: number, note: NotesTypes.NoteParameters) =>
+      this.store.dispatch(IncidentActions.createNote({ incidentId, note }));
   }
 
   mapFunctionsToProps() {
@@ -219,4 +243,36 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   emptyClick() {
     return null;
   }
+
+  openIncidentTypeFormDialog(type: string) {
+    let incidentTypesFromStore: readonly IncidentTypes.IncidentTypes[];
+    this.incidentTypes$.pipe(first()).subscribe(incidentTypes => {
+      incidentTypesFromStore =  incidentTypes;
+    });
+    const dialogRef = this.dialog.open(IncidentTypeFormDialogComponent, {
+      data: { type: type, types: incidentTypesFromStore, incident: this.selectedIncident }
+    });
+    dialogRef.afterClosed().pipe(first()).subscribe(detachResult => {
+      if(typeof detachResult !== 'undefined' && detachResult !== false) {
+        this.changeType(detachResult.type);
+        this.createIncidentNote(this.selectedIncident.id, { note: detachResult.note, assetId: this.selectedAsset.asset.id });
+      }
+    });
+  }
+
+  private getHTMLElementFromEvent(event: CdkDragDrop<string[]>){
+    return (event.container.element.nativeElement.firstElementChild.firstElementChild.firstElementChild as HTMLElement);
+  }
+  drop(event: CdkDragDrop<string[]>, type: string ) {
+    console.log("event: ", event);
+    this.openIncidentTypeFormDialog(type);
+    this.getHTMLElementFromEvent(event).style.backgroundColor = "#FFFFFF";
+  }
+  enter(event: CdkDragDrop<string[]> ) {
+    this.getHTMLElementFromEvent(event).style.backgroundColor = "Azure";
+  }
+  exit(event: CdkDragDrop<string[]> ) {
+    this.getHTMLElementFromEvent(event).style.backgroundColor = "#FFFFFF";
+  }
+  
 }
