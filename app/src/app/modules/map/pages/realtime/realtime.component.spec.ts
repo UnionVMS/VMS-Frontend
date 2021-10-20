@@ -46,7 +46,7 @@ import { MapActions, MapReducer } from '@data/map';
 import { MapSettingsReducer, MapSettingsActions } from '@data/map-settings';
 import { MapSavedFiltersReducer } from '@data/map-saved-filters';
 
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 /* tslint:disable:no-string-literal */
 describe('RealtimeComponent', () => {
@@ -60,6 +60,7 @@ describe('RealtimeComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatCheckboxModule,
+        MatDialogModule,
       ],
       declarations: [
         RealtimeComponent,
