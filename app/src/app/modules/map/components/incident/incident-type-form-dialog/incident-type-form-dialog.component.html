@@ -28,6 +28,6 @@
     [mat-dialog-close]="save()"
     color="accent"
     i18n
-    [disabled]="data.type === formValidator.value.type || !formValidator.valid"
+    [disabled]="data.incident.type === formValidator.value.type || !formValidator.valid"
   >Move to {{getTypeName(formValidator.value.type)}}</button>
 </div>
