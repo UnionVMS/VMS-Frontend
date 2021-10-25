@@ -44,7 +44,6 @@ describe('AssetsComponent', () => {
     component['speedsVisibleCalculated'] = false;
     let text = component.getTextStyleForName(AssetMovementWithEssentialsStub);
     expect(text.getText()).toEqual(AssetMovementWithEssentialsStub.asset.name);
-    expect(text.getOffsetY()).toEqual(20);
 
     component['speedsVisibleCalculated'] = true;
     text = component.getTextStyleForName(AssetMovementWithEssentialsStub);
@@ -52,12 +51,10 @@ describe('AssetsComponent', () => {
       AssetMovementWithEssentialsStub.asset.name + '\n' +
       AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts'
     );
-    expect(text.getOffsetY()).toEqual(30);
 
     component['namesVisibleCalculated'] = false;
     text = component.getTextStyleForName(AssetMovementWithEssentialsStub);
     expect(text.getText()).toEqual(AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts');
-    expect(text.getOffsetY()).toEqual(20);
   });
 
   it('should create feature from asset correctly', () => {
@@ -75,7 +72,6 @@ describe('AssetsComponent', () => {
 
     const textStyle = feature.getStyle().getText();
     expect(textStyle.getText()).toEqual(AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts');
-    expect(textStyle.getOffsetY()).toEqual(20);
   });
 
   it('should create feature from asset correctly', () => {
