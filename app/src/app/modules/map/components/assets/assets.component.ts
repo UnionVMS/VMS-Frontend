@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
+import { AssetTypes } from '@data/asset';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 
 import Map from 'ol/Map';
@@ -10,7 +9,6 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { Fill, Stroke, Style, Icon, Text } from 'ol/style';
 import { fromLonLat } from 'ol/proj';
-import Select from 'ol/interaction/Select.js';
 import { getName as getCountryName, registerLocale } from 'i18n-iso-countries';
 // @ts-ignore
 import enLocale from 'i18n-iso-countries/langs/en.json';
@@ -51,6 +49,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
   private namesVisibleCalculated: boolean;
   private speedsVisibleCalculated: boolean;
+
+  private numberOfVesselsOnPosition: { [position: string]: number} = {};
 
   private readonly knownVesselTypes = [
     'Fishing', 'Law Enforcement', 'Military', 'WIG', 'Pleasure Craft', 'Sailing', 'SAR',
@@ -492,11 +492,15 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   getTextStyleForName(asset: AssetTypes.AssetMovementWithAsset) {
     let text = null;
     let offsetY = 20;
+
+    let currentPosition = asset.assetMovement.movement.location.latitude + '' + ':' +
+      asset.assetMovement.movement.location.longitude + '';
+
     if (this.namesVisibleCalculated && asset.asset !== undefined) {
-      if( asset.asset.name !== undefined){
+      if(asset.asset.name !== undefined){
         text = asset.asset.name;
       }
-      if( asset.asset.name === undefined && asset.asset.externalMarking !== undefined){
+      if(asset.asset.name === undefined && asset.asset.externalMarking !== undefined){
         text = asset.asset.externalMarking;
       }
       if(asset.asset.name === 'NO NAME' 
@@ -504,11 +508,22 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       && asset.asset.externalMarking !== undefined){
         text = asset.asset.externalMarking;
       }
+
+    // this.numberOfVesselsOnPosition[currentPosition] is used for offsetting text if several assets is in the same location
+    if(asset.assetMovement.movement.location.latitude && asset.assetMovement.movement.location.longitude 
+      && currentPosition){
+        if(!this.numberOfVesselsOnPosition[currentPosition] ){
+          this.numberOfVesselsOnPosition[currentPosition] = 1;
+        }else if(this.numberOfVesselsOnPosition[currentPosition] >= 1 ){
+          offsetY = offsetY + (20 * this.numberOfVesselsOnPosition[currentPosition]);
+          this.numberOfVesselsOnPosition[currentPosition] = this.numberOfVesselsOnPosition[currentPosition] + 1;
+        }
+      }
     }
     if (this.speedsVisibleCalculated && asset.assetMovement.movement.speed !== null) {
       if (text !== null) {
         text += '\n' + asset.assetMovement.movement.speed.toFixed(2) + ' kts';
-        offsetY = 30;
+        offsetY = offsetY + (10 * this.numberOfVesselsOnPosition[currentPosition]);
       } else {
         text = asset.assetMovement.movement.speed.toFixed(2) + ' kts';
       }
@@ -516,7 +531,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         ? asset.assetMovement.movement.speed.toFixed(2)
         : null;
     }
-
     return new Text({
       font: '13px Calibri,sans-serif',
       fill: new Fill({ color: '#000' }),
