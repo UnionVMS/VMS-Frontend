@@ -107,6 +107,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     if(this.mapZoom < 8) {
       this.namesVisibleCalculated = false;
       this.speedsVisibleCalculated = false;
+      // to reset numberOfVesselsOnPosition
+      this.numberOfVesselsOnPosition = {};
     } else {
       this.namesVisibleCalculated = this.namesVisible;
       this.speedsVisibleCalculated = this.speedsVisible;
@@ -492,7 +494,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   getTextStyleForName(asset: AssetTypes.AssetMovementWithAsset) {
     let text = null;
     let offsetY = 20;
-
     let currentPosition = asset.assetMovement.movement.location.latitude + '' + ':' +
       asset.assetMovement.movement.location.longitude + '';
 
