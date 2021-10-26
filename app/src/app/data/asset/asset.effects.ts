@@ -43,7 +43,7 @@ export class AssetEffects {
     ofType(AssetActions.searchAssets),
     withLatestFrom(this.store.select(AuthSelectors.getAuthToken)),
     mergeMap(([action, authToken]: Array<any>) => {
-      return this.assetService.listAssets(authToken, action.searchQuery).pipe(
+      return this.assetService.listAssets(authToken, action.searchQuery, action.includeInactivated).pipe(
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
         map((response: any) => {
@@ -53,7 +53,8 @@ export class AssetEffects {
               acc[asset.historyId] = asset;
               return acc;
             }, {}),
-            userSearch: action.userSearch === true
+            userSearch: action.userSearch === true,
+            includeInactivated: action.includeInactivated
           });
         })
       );

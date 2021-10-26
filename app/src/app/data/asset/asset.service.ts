@@ -132,9 +132,14 @@ export class AssetService {
     );
   }
 
-  listAssets(authToken: string, searchQuery: AssetTypes.AssetListSearchQuery) {
+  listAssets(authToken: string, searchQuery: AssetTypes.AssetListSearchQuery, includeInactivated?: boolean) {
+    let includeInactivatedDefault = true;
+    if(typeof includeInactivated !== 'undefined'){
+      includeInactivatedDefault = includeInactivated;
+    }
+    
     return this.http.post(
-      environment.baseApiUrl + `asset/rest/asset/list?includeInactivated=true`,
+      environment.baseApiUrl + `asset/rest/asset/list?includeInactivated=` + includeInactivatedDefault,
       searchQuery,
       getDefaultHttpOptions(authToken)
     );

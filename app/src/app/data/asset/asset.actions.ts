@@ -160,7 +160,7 @@ export const saveAsset = createAction(
 
 export const searchAssets = createAction(
   '[Asset] search',
-  props<{ searchQuery: AssetTypes.AssetListSearchQuery, userSearch?: boolean }>()
+  props<{ searchQuery: AssetTypes.AssetListSearchQuery, userSearch?: boolean, includeInactivated?: boolean }>()
 );
 
 export const clearAssetSearch = createAction('[Asset] Clear search');
@@ -217,7 +217,7 @@ export const setAssetGroups = createAction(
 
 export const setAssetList = createAction(
   '[Asset] Set list',
-  props<{ searchQuery: AssetTypes.AssetListSearchQuery, assets: { [uid: string]: AssetTypes.Asset }, userSearch: boolean }>()
+  props<{ searchQuery: AssetTypes.AssetListSearchQuery, assets: { [uid: string]: AssetTypes.Asset }, userSearch: boolean, includeInactivated: boolean }>()
 );
 
 export const setCurrentAssetList = createAction(
