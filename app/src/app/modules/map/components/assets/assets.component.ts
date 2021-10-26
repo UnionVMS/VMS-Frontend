@@ -104,11 +104,11 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
+    // to reset numberOfVesselsOnPosition
+    this.numberOfVesselsOnPosition = {};
     if(this.mapZoom < 8) {
       this.namesVisibleCalculated = false;
       this.speedsVisibleCalculated = false;
-      // to reset numberOfVesselsOnPosition
-      this.numberOfVesselsOnPosition = {};
     } else {
       this.namesVisibleCalculated = this.namesVisible;
       this.speedsVisibleCalculated = this.speedsVisible;
