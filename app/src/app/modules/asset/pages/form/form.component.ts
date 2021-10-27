@@ -36,7 +36,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public allCountryCodes = Object.entries(this.allCountries).reduce((obj, [key, value]) => ({ ...obj, [value]: alpha2ToAlpha3(key) }), { });
   public flagstates = Object.values(this.allCountries).sort();
 
-
   constructor(private readonly store: Store<State>) {}
 
   mapStateToProps() {
