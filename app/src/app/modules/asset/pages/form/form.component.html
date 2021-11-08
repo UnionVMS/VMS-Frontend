@@ -47,7 +47,7 @@
       <mat-form-field id="asset-form--imo">
         <mat-label i18n>IMO</mat-label>
         <input matInput formControlName="imo">
-        <mat-error *ngFor="let error of getErrors(['identificationFields', 'imo'])">{{ errorMessage(error) }}</mat-error>
+        <mat-error *ngFor="let error of getErrors(['identificationFields', 'imo'])">Need to be a number with 7 digits or none</mat-error>
       </mat-form-field>
 
       <mat-form-field id="asset-form--portOfRegistration">
