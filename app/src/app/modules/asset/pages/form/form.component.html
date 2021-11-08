@@ -10,8 +10,8 @@
 
       <mat-form-field id="asset-form--flagstate">
         <mat-label i18n>Flagstate</mat-label>
-        <mat-select formControlName="flagState" required>
-          <mat-option *ngFor="let flagstate of flagstates" id="mat-option-{{flagstate}}" [value]="flagstate">{{flagstate}}</mat-option>
+        <mat-select formControlName="flagState" [typeaheadDebounceInterval]="700"  required>
+          <mat-option *ngFor="let flagstate of flagstates" id="mat-option-{{flagstate}}" [value]="flagstate">{{allCountryCodes[flagstate]}} {{flagstate}} </mat-option>
         </mat-select>
         <mat-error *ngFor="let error of getErrors(['essentailFields', 'flagState'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>

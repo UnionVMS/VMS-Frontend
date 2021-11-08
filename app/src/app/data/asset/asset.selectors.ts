@@ -193,7 +193,11 @@ export const getAssetMovements = createSelector(
               ) {
                 return false;
               }
-              if( assets[key]['mobileTerminalIds'] && assets[key]['mobileTerminalIds'][0] !== null && assets[key]['mobileTerminalIds'].length > 0){
+              if( assets[key]['mobileTerminalIds'] && assets[key]['mobileTerminalIds'][0] !== null 
+              && assets[key]['mobileTerminalIds'].length > 0 && query.type === 'mobileTerminals' && query.values[0] === true){
+                return true;
+              }
+              if( !assets[key]['mobileTerminalIds'] && query.type === 'mobileTerminals' && query.values[0] === false){
                 return true;
               }
               if(query.valueType === AssetTypes.AssetFilterValueTypes.NUMBER) {

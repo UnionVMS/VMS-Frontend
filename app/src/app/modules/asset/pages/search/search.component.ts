@@ -5,6 +5,7 @@ import { takeWhile, endWith, takeUntil, filter, take } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { getAlpha3Codes, langs, getNames, registerLocale, alpha2ToAlpha3 } from 'i18n-iso-countries';
 import { Sort } from '@angular/material/sort';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 // @ts-ignore
 import moment from 'moment-timezone';
 // import sv from 'i18n-iso-countries/langs/sv.json';
@@ -44,6 +45,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     search: '',
     searchType: 'Swedish Assets',
     flagState: [],
+    includeInactivated: true
   };
   public search: () => void;
   public clearSearch: () => void;
@@ -184,8 +186,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
           ]
         };
       }
-
-      this.store.dispatch(AssetActions.searchAssets({ searchQuery, userSearch: true }));
+      this.store.dispatch(AssetActions.searchAssets({ searchQuery, userSearch: true, includeInactivated: this.assetSearchObject.includeInactivated }));
     };
 
     this.clearSearch = () => this.store.dispatch(AssetActions.clearAssetSearch());
@@ -212,6 +213,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       search: '',
       searchType: 'Swedish Assets',
       flagState: [],
+      includeInactivated: true
     };
     this.clearSearch();
   }

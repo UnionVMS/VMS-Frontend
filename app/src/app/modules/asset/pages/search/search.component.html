@@ -1,5 +1,12 @@
 <div class="page-container">
+  
   <form class="asset-search-form">
+    
+    <mat-slide-toggle
+      name="includeInactiveAssets"
+      [(ngModel)]="assetSearchObject.includeInactivated">
+      Include Inactive Assets: {{assetSearchObject.includeInactivated}}
+    </mat-slide-toggle>
 
     <mat-form-field class="free-search">
       <mat-label i18n>Search for Name, External Marking, CFR, IRCS or MMSI</mat-label>
@@ -23,7 +30,6 @@
         </mat-form-field>
       </mat-radio-button>
     </mat-radio-group>
-
 
     <div class="form-button-wrapper">
       <button mat-button color="primary" type="button" (click)="clear()" i18n>Clear</button>
