@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
-import { getAlpha3Codes, langs, getNames, alpha2ToAlpha3 } from 'i18n-iso-countries';
+import { getAlpha3Codes, langs, getNames, alpha2ToAlpha3, getName } from 'i18n-iso-countries';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 // import enLang from 'i18n-iso-countries/langs/en.json';
 // countries.registerLocale(enLang);
@@ -33,8 +33,8 @@ export class FormPageComponent implements OnInit, OnDestroy {
   public mergedRoute: RouterTypes.MergedRoute;
 
   public allCountries = getNames('en');
-  public allCountryCodes = Object.entries(this.allCountries).reduce((obj, [key, value]) => ({ ...obj, [value]: alpha2ToAlpha3(key) }), { });
-  public flagstates = Object.values(this.allCountries).sort();
+  public flagStatesAndNames =  Object.values(Object.entries(this.allCountries).reduce((obj, [key, value]) => 
+  ({ ...obj, [value]: alpha2ToAlpha3(key) + " " + getName(key, 'en') }), { })).sort();
 
   constructor(private readonly store: Store<State>) {}
 
@@ -72,7 +72,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.save = () => {
       this.store.dispatch(AssetActions.saveAsset({ asset: {
         ...this.asset,
-        flagStateCode: this.allCountryCodes[this.formValidator.value.essentailFields.flagState],
+        flagStateCode: (this.formValidator.value.essentailFields.flagState).substring(0,3),
         externalMarking: this.formValidator.value.essentailFields.externalMarking,
         name: this.formValidator.value.essentailFields.name,
         cfr: this.formValidator.value.identificationFields.cfr,
