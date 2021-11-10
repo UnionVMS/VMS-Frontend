@@ -51,6 +51,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private speedsVisibleCalculated: boolean;
 
   private numberOfVesselsOnPosition: { [position: string]: number} = {};
+  private reRender: boolean;
 
   private readonly knownVesselTypes = [
     'Fishing', 'Law Enforcement', 'Military', 'WIG', 'Pleasure Craft', 'Sailing', 'SAR',
@@ -104,8 +105,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    // to reset numberOfVesselsOnPosition
-    this.numberOfVesselsOnPosition = {};
     if(this.mapZoom < 8) {
       this.namesVisibleCalculated = false;
       this.speedsVisibleCalculated = false;
@@ -113,13 +112,14 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       this.namesVisibleCalculated = this.namesVisible;
       this.speedsVisibleCalculated = this.speedsVisible;
     }
+ 
     // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
     if (typeof this.vectorSource !== 'undefined') {
       const assetsToRender = this.assets.reduce((acc, asset) => {
         acc[asset.assetMovement.asset] = true;
         return acc;
       }, {});
-      const reRenderAssets = Object.keys(this.renderedAssetIds).some((assetId) => assetsToRender[assetId] !== true);
+      let reRenderAssets = Object.keys(this.renderedAssetIds).some((assetId) => assetsToRender[assetId] !== true);
 
       if(reRenderAssets) {
         // Instead of removing them one by one which triggers recalculations inside open layers after every removal
@@ -187,12 +187,49 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
           }
         }
       });
-      this.previouslySelectedAssetIds = currentlySelectedIds;
 
+      if(Math.floor(this.mapZoom) === 16 || Math.floor(this.mapZoom) === 17){
+        this.forceRerendederVectorSource(newRenderedAssetIds, reRenderAssets);
+        this.reRender = true;
+      }
+      if(Math.floor(this.mapZoom) < 16 && this.reRender){
+        this.forceRerendederVectorSource(newRenderedAssetIds, reRenderAssets);
+      }
+
+      this.previouslySelectedAssetIds = currentlySelectedIds;
       this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
       this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;
       this.renderedAssetIds = newRenderedAssetIds;
     }
+  }
+
+  private forceRerendederVectorSource(newRenderedAssetIds: {[assetId: string]: boolean }, 
+    reRenderAssets: boolean ){
+      
+    // to reset numberOfVesselsOnPosition
+    this.numberOfVesselsOnPosition = {};
+    this.vectorSource.clear();
+    this.assetLastUpdateHash = {};
+    this.assetSpeedsPreviouslyRendered = {};
+    this.vectorSource.addFeatures(
+      this.assets.reduce((acc, asset) => {
+        if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
+          newRenderedAssetIds[asset.assetMovement.asset] = true;
+        }
+        if(reRenderAssets) {
+          acc.push(this.createFeatureFromAsset(asset));
+          return acc;
+        }
+        const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
+  
+        if (assetFeature !== null) {
+          this.updateFeatureFromAsset(assetFeature, asset);
+        } else {
+          acc.push(this.createFeatureFromAsset(asset));
+        }
+        return acc;
+      }, [])
+    );
   }
 
   addTargetImageOnAsset(assetFeature, src) {
@@ -219,7 +256,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       assetFeature.setStyle(style);
     }
   }
-
 
   ngOnDestroy() {
     this.unregisterOnSelectFunction(this.layerTitle);
@@ -458,6 +494,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         this.speedsVisibleCalculated &&
         asset.assetMovement.movement.speed !== null &&
         this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] !== asset.assetMovement.movement.speed.toFixed(2)
+      
       )
     ) {
       const style = assetFeature.getStyle();
@@ -512,10 +549,10 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
     // this.numberOfVesselsOnPosition[currentPosition] is used for offsetting text if several assets is in the same location
     if(asset.assetMovement.movement.location.latitude && asset.assetMovement.movement.location.longitude 
-      && currentPosition){
+      && currentPosition ){
         if(!this.numberOfVesselsOnPosition[currentPosition] ){
           this.numberOfVesselsOnPosition[currentPosition] = 1;
-        }else if(this.numberOfVesselsOnPosition[currentPosition] >= 1 ){
+        }else if(this.numberOfVesselsOnPosition[currentPosition] >= 1 && Math.floor(this.mapZoom) >= 16){
           offsetY = offsetY + (20 * this.numberOfVesselsOnPosition[currentPosition]);
           this.numberOfVesselsOnPosition[currentPosition] = this.numberOfVesselsOnPosition[currentPosition] + 1;
         }
