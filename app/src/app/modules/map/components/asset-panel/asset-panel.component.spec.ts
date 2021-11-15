@@ -68,7 +68,7 @@ describe('AssetPanelComponent', () => {
     expect(untrackAssetSpy).toHaveBeenCalledTimes(1);
     expect(untrackAssetSpy).toHaveBeenCalledWith(selectedAsset.asset.id);
 
-    component['getTracksMillisecondCap'] = () => 1555490596000 - component.tracksMinuteCap * 60 * 1000;
+    component['getTracksMillisecondCap'] = () => (1555490596000 - component.tracksMinuteCap * 60 * 1000).toString();
 
     selectedAsset = { ...selectedAsset, assetTracks: undefined };
     expect(getAssetTrackTimeIntervalSpy).toHaveBeenCalledTimes(0);

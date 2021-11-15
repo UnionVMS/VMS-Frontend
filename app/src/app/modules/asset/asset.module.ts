@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 /* Pages */
@@ -46,6 +47,7 @@ import { ShowNotesComponent } from './components/show-notes/show-notes.component
     FormsModule,
     ReactiveFormsModule,
     MatRadioModule,
+    MatSlideToggleModule,
   ],
   declarations: [
     // Page-components

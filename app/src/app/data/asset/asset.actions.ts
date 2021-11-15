@@ -27,8 +27,8 @@ export const assetsMoved = createAction(
   props<{ assetMovements: { [assetId: string]: AssetTypes.AssetMovement } }>()
 );
 
-export const checkForAssetEssentials = createAction(
-  '[Asset] Check for essentials',
+export const checkForAssets = createAction(
+  '[Asset] Check for assets',
   props<{ assetIds: ReadonlyArray<string> }>()
 );
 
@@ -160,7 +160,7 @@ export const saveAsset = createAction(
 
 export const searchAssets = createAction(
   '[Asset] search',
-  props<{ searchQuery: AssetTypes.AssetListSearchQuery, userSearch?: boolean }>()
+  props<{ searchQuery: AssetTypes.AssetListSearchQuery, userSearch?: boolean, includeInactivated?: boolean }>()
 );
 
 export const clearAssetSearch = createAction('[Asset] Clear search');
@@ -217,7 +217,7 @@ export const setAssetGroups = createAction(
 
 export const setAssetList = createAction(
   '[Asset] Set list',
-  props<{ searchQuery: AssetTypes.AssetListSearchQuery, assets: { [uid: string]: AssetTypes.Asset }, userSearch: boolean }>()
+  props<{ searchQuery: AssetTypes.AssetListSearchQuery, assets: { [uid: string]: AssetTypes.Asset }, userSearch: boolean, includeInactivated: boolean }>()
 );
 
 export const setCurrentAssetList = createAction(
@@ -233,11 +233,6 @@ export const setLastFullPositions = createAction(
 export const setLastPositionsForSelectedAsset = createAction(
   '[Asset] Set last positions for selected asset',
   props<{ assetId: string, aisPosition: AssetTypes.Movement, vmsPosition: AssetTypes.Movement }>()
-);
-
-export const setEssentialProperties = createAction(
-  '[Asset] Set essential properties',
-  props<{ assetEssentialProperties: { [uid: string]: AssetTypes.AssetEssentialProperties } }>()
 );
 
 export const setFilterQuery = createAction(
@@ -291,4 +286,9 @@ export const unsubscribeToMovements = createAction(
 export const untrackAsset = createAction(
   '[Asset] Untrack asset',
   props<{ assetId: string }>()
+);
+
+export const setAssets = createAction(
+  '[Asset] Set assets',
+  props<{ assets: { [uid: string]: AssetTypes.Asset } }>()
 );

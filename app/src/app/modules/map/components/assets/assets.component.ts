@@ -22,7 +22,7 @@ registerLocale(enLocale);
 })
 export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() assets: Array<AssetTypes.AssetMovementWithEssentials>;
+  @Input() assets: Array<AssetTypes.AssetMovementWithAsset>;
   @Input() map: Map;
   @Input() namesVisible: boolean;
   @Input() speedsVisible: boolean;
@@ -77,7 +77,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     this.vectorLayer = new VectorLayer({
       title: this.layerTitle,
       source: this.vectorSource,
-      zIndex: 20,
+      zIndex: 22,
       renderBuffer: 200,
     });
     this.map.addLayer(this.vectorLayer);
@@ -231,9 +231,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  createFeatureFromAsset(asset: AssetTypes.AssetMovementWithEssentials) {
+  createFeatureFromAsset(asset: AssetTypes.AssetMovementWithAsset) {
     const assetMovement = asset.assetMovement;
-    const assetEssentials = asset.assetEssentials;
     const assetFeature = new Feature(new Point(fromLonLat([
       assetMovement.movement.location.longitude, assetMovement.movement.location.latitude
     ])));
@@ -264,29 +263,29 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       asset.assetMovement.movement.location.longitude,
       asset.assetMovement.movement.heading,
       asset.assetMovement.decayPercentage,
-      typeof asset.assetEssentials === 'undefined'
+      typeof asset.asset === 'undefined'
     ];
     this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
     return assetFeature;
   }
 
-  getOldSystemShipColor(asset: AssetTypes.AssetMovementWithEssentials) {
+  getOldSystemShipColor(asset: AssetTypes.AssetMovementWithAsset) {
     if(
-      typeof asset.assetEssentials === 'undefined' ||
-      asset.assetEssentials.vesselType === null ||
-      typeof asset.assetEssentials.vesselType === 'undefined'
+      typeof asset.asset === 'undefined' ||
+      asset.asset.vesselType === null ||
+      typeof asset.asset.vesselType === 'undefined'
     ) {
       return '#FFFFFF';
     }
 
-    const typeName = asset.assetEssentials.vesselType;
+    const typeName = asset.asset.vesselType;
 
     if(typeName === 'Fishing') {
       return '#F1FF62';
     }
 
     if(['Law Enforcement', 'Military', 'WIG', 'Other'].includes(typeName)) {
-      if(typeName === 'Law Enforcement' && asset.assetEssentials.assetName.includes('KBV')) {
+      if(typeName === 'Law Enforcement' && asset.asset.name.includes('KBV')) {
         return '#0000FF';
       }
       return '#73C2FB';
@@ -308,36 +307,36 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       return '#32CD32';
     }
 
-    if(asset.assetEssentials.vesselType === 'No such code : 0') {
+    if(asset.asset.vesselType === 'No such code : 0') {
       return '#FFFFFF';
     }
 
     return '#F82ACE';
   }
 
-  getShipColorByLength(asset: AssetTypes.AssetMovementWithEssentials) {
+  getShipColorByLength(asset: AssetTypes.AssetMovementWithAsset) {
     if(
-      typeof asset.assetEssentials === 'undefined' ||
-      asset.assetEssentials.lengthOverAll === null ||
-      typeof asset.assetEssentials.lengthOverAll === 'undefined'
+      typeof asset.asset === 'undefined' ||
+      asset.asset.lengthOverAll === null ||
+      typeof asset.asset.lengthOverAll === 'undefined'
     ) {
       return '#FFFFFF';
     }
     let color;
-    if(asset.assetEssentials.lengthOverAll < 20) {
-      color = (Math.round((asset.assetEssentials.lengthOverAll) / 20 * 200) + 55).toString(16).toUpperCase();
+    if(asset.asset.lengthOverAll < 20) {
+      color = (Math.round((asset.asset.lengthOverAll) / 20 * 200) + 55).toString(16).toUpperCase();
       if(color.length === 1) {
         color = `0${color}`;
       }
       return `#${color}0000`;
-    } else if(asset.assetEssentials.lengthOverAll < 30) {
-      color = (Math.round((asset.assetEssentials.lengthOverAll - 20) / 10 * 200) + 55).toString(16).toUpperCase();
+    } else if(asset.asset.lengthOverAll < 30) {
+      color = (Math.round((asset.asset.lengthOverAll - 20) / 10 * 200) + 55).toString(16).toUpperCase();
       if(color.length === 1) {
         color = `0${color}`;
       }
       return `#00${color}00`;
     } else {
-      color = ((asset.assetEssentials.lengthOverAll - 30) / 10 * 200) + 55;
+      color = ((asset.asset.lengthOverAll - 30) / 10 * 200) + 55;
       if(color > 255) {
         color = 255;
       }
@@ -349,12 +348,12 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  getShipColorByShiptype(asset: AssetTypes.AssetMovementWithEssentials) {
+  getShipColorByShiptype(asset: AssetTypes.AssetMovementWithAsset) {
     if(
-      typeof asset.assetEssentials === 'undefined' ||
-      asset.assetEssentials.vesselType === null ||
-      typeof asset.assetEssentials.vesselType === 'undefined' ||
-      asset.assetEssentials.vesselType === 'No such code : 0'
+      typeof asset.asset === 'undefined' ||
+      asset.asset.vesselType === null ||
+      typeof asset.asset.vesselType === 'undefined' ||
+      asset.asset.vesselType === 'No such code : 0'
     ) {
       return '#FFFFFF';
     }
@@ -366,7 +365,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       }, {});
     }
 
-    const vesselType = asset.assetEssentials.vesselType.toUpperCase();
+    const vesselType = asset.asset.vesselType.toUpperCase();
     if(typeof this.allocatedColors.shiptype[vesselType] === 'undefined') {
       if(this.allocatedIndex.shiptype + 1 >= this.colors.length) {
         this.allocatedColors.shiptype[vesselType] = '#' + intToRGB(hashCode(vesselType));
@@ -377,13 +376,13 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     return this.allocatedColors.shiptype[vesselType];
   }
 
-  getShipColorByFlagstate(asset: AssetTypes.AssetMovementWithEssentials) {
+  getShipColorByFlagstate(asset: AssetTypes.AssetMovementWithAsset) {
     if(
-      typeof asset.assetEssentials === 'undefined' ||
-      asset.assetEssentials.flagstate === null ||
-      typeof asset.assetEssentials.flagstate === 'undefined' ||
-      asset.assetEssentials.flagstate === 'UNK' ||
-      asset.assetEssentials.flagstate === 'ERR'
+      typeof asset.asset === 'undefined' ||
+      asset.asset.flagStateCode === null ||
+      typeof asset.asset.flagStateCode === 'undefined' ||
+      asset.asset.flagStateCode === 'UNK' ||
+      asset.asset.flagStateCode === 'ERR'
     ) {
       return '#FFFFFF';
     }
@@ -396,18 +395,18 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       }, {});
     }
 
-    if(typeof this.allocatedColors.flagstate[asset.assetEssentials.flagstate] === 'undefined') {
+    if(typeof this.allocatedColors.flagstate[asset.asset.flagStateCode] === 'undefined') {
       if(this.allocatedIndex.flagstate + 1 >= this.colors.length) {
-        this.allocatedColors.flagstate[asset.assetEssentials.flagstate] =
-          '#' + intToRGB(hashCode(getCountryName(asset.assetEssentials.flagstate, 'en') || asset.assetEssentials.flagstate));
+        this.allocatedColors.flagstate[asset.asset.flagStateCode] =
+          '#' + intToRGB(hashCode(getCountryName(asset.asset.flagStateCode, 'en') || asset.asset.flagStateCode));
       } else {
-        this.allocatedColors.flagstate[asset.assetEssentials.flagstate] = this.colors[this.allocatedIndex.flagstate++];
+        this.allocatedColors.flagstate[asset.asset.flagStateCode] = this.colors[this.allocatedIndex.flagstate++];
       }
     }
-    return this.allocatedColors.flagstate[asset.assetEssentials.flagstate];
+    return this.allocatedColors.flagstate[asset.asset.flagStateCode];
   }
 
-  getShipColor(asset: AssetTypes.AssetMovementWithEssentials) {
+  getShipColor(asset: AssetTypes.AssetMovementWithAsset) {
     switch (this.shipColorLogic) {
       case 'shiptype':
       return this.getShipColorByShiptype(asset);
@@ -422,13 +421,13 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  updateFeatureFromAsset(assetFeature: Feature, asset: AssetTypes.AssetMovementWithEssentials) {
+  updateFeatureFromAsset(assetFeature: Feature, asset: AssetTypes.AssetMovementWithAsset) {
     const currentAssetPosition = [
       asset.assetMovement.movement.location.latitude,
       asset.assetMovement.movement.location.longitude,
       asset.assetMovement.movement.heading,
       asset.assetMovement.decayPercentage,
-      typeof asset.assetEssentials === 'undefined'
+      typeof asset.asset === 'undefined'
     ];
 
     const oldStuff = this.assetLastUpdateHash[asset.assetMovement.asset];
@@ -490,20 +489,20 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     return assetFeature;
   }
 
-  getTextStyleForName(asset: AssetTypes.AssetMovementWithEssentials) {
+  getTextStyleForName(asset: AssetTypes.AssetMovementWithAsset) {
     let text = null;
     let offsetY = 20;
-    if (this.namesVisibleCalculated && asset.assetEssentials !== undefined) {
-      if( asset.assetEssentials.assetName !== undefined){
-        text = asset.assetEssentials.assetName;
+    if (this.namesVisibleCalculated && asset.asset !== undefined) {
+      if( asset.asset.name !== undefined){
+        text = asset.asset.name;
       }
-      if( asset.assetEssentials.assetName === undefined && asset.assetEssentials.externalMarking !== undefined){
-        text = asset.assetEssentials.externalMarking;
+      if( asset.asset.name === undefined && asset.asset.externalMarking !== undefined){
+        text = asset.asset.externalMarking;
       }
-      if(asset.assetEssentials.assetName === 'NO NAME' 
-      && asset.assetEssentials.flagstate === 'POL'
-      && asset.assetEssentials.externalMarking !== undefined){
-        text = asset.assetEssentials.externalMarking;
+      if(asset.asset.name === 'NO NAME' 
+      && asset.asset.flagStateCode === 'POL'
+      && asset.asset.externalMarking !== undefined){
+        text = asset.asset.externalMarking;
       }
     }
     if (this.speedsVisibleCalculated && asset.assetMovement.movement.speed !== null) {

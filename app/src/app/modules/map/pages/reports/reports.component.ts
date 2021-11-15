@@ -92,7 +92,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   public setCurrentControlPanel: (controlPanelName: string|null) => void;
   public setTimeInterval: (from: number, to: number) => void;
 
-  public assetMovements: Array<AssetTypes.AssetMovementWithEssentials>;
+  public assetMovements: Array<AssetTypes.AssetMovementWithAsset>;
   public mapZoom = 10;
   // tslint:disable-next-line:ban-types
   private readonly onClickFunctions: { [name: string]: Function } = {};
@@ -373,11 +373,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
     const observer = new MutationObserver((mutations, mutationObserver) => {
       // `mutations` is an array of mutations that occurred
       // `mutationObserver` is the MutationObserver instance
-      const canvasList = document.getElementById('reports-map').getElementsByTagName('canvas');
-      if (canvasList.length === 1) {
-        this.map.updateSize();
-        mutationObserver.disconnect(); // stop observing
-        return;
+      if(document.getElementById('reports-map') 
+      && document.getElementById('reports-map').getElementsByTagName('canvas')){
+        const canvasList = document.getElementById('reports-map').getElementsByTagName('canvas');
+        if (canvasList.length === 1) {
+          this.map.updateSize();
+          mutationObserver.disconnect(); // stop observing
+          return;
+        }
       }
     });
 

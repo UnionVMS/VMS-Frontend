@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { Observable } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
 
 import { AssetTypes } from '@data/asset';
 // import { SimulateMovement } from '@data/asset/tools/movement-simulator';
@@ -21,7 +20,7 @@ export class AssetService {
 
   getInitalAssetMovements(authToken: string) {
     return this.http.post(
-      environment.baseApiUrl + 'movement/rest/micro/latest',
+      environment.baseApiUrl + 'movement/rest/movement/realtime',
       [],
       getDefaultHttpOptions(authToken)
     );
@@ -84,7 +83,7 @@ export class AssetService {
   // /unionvms/movement/rest/micro/track/movement/{id}
   getAssetTrack(authToken: string, movementId: string) {
     return this.http.get(
-      environment.baseApiUrl + 'movement/rest/micro/track/movement/' + movementId,
+      environment.baseApiUrl + 'movement/rest/movement/track/movement/' + movementId,
       getDefaultHttpOptions(authToken)
     );
   }
@@ -93,7 +92,7 @@ export class AssetService {
   getAssetTrackTimeInterval(authToken: string, assetId: string, startDate: number, endDate: number, sources: ReadonlyArray<string>) {
     // const datetime = "2019-03-28 12:00:00 +0100";
     return this.http.post(
-      environment.baseApiUrl + `movement/rest/micro/track/asset/${assetId}?startDate=${startDate}&endDate=${endDate}`,
+      environment.baseApiUrl + `movement/rest/movement/track/asset/${assetId}?startDate=${startDate}&endDate=${endDate}`,
       sources,
       getDefaultHttpOptions(authToken)
     );
@@ -133,10 +132,23 @@ export class AssetService {
     );
   }
 
-  listAssets(authToken: string, searchQuery: AssetTypes.AssetListSearchQuery) {
+  listAssets(authToken: string, searchQuery: AssetTypes.AssetListSearchQuery, includeInactivated?: boolean) {
+    let includeInactivatedDefault = true;
+    if(typeof includeInactivated !== 'undefined'){
+      includeInactivatedDefault = includeInactivated;
+    }
+    
     return this.http.post(
-      environment.baseApiUrl + `asset/rest/asset/list?includeInactivated=true`,
+      environment.baseApiUrl + `asset/rest/asset/list?includeInactivated=` + includeInactivatedDefault,
       searchQuery,
+      getDefaultHttpOptions(authToken)
+    );
+  }
+
+  getAssetList(authToken: string, listOfAssetIds: ReadonlyArray<string>) {
+    return this.http.post(
+      environment.baseApiUrl + `asset/rest/asset/assetList`,
+      listOfAssetIds,
       getDefaultHttpOptions(authToken)
     );
   }
@@ -145,14 +157,6 @@ export class AssetService {
     return this.http.post(
       environment.baseApiUrl + `asset/rest/asset/listcount/`,
       searchQuery,
-      getDefaultHttpOptions(authToken)
-    );
-  }
-
-  getAssetEssentialProperties(authToken: string, listOfAssetIds: ReadonlyArray<string>) {
-    return this.http.post(
-      environment.baseApiUrl + `asset/rest/asset/microAssets`,
-      listOfAssetIds,
       getDefaultHttpOptions(authToken)
     );
   }

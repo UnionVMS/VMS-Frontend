@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { UIModule } from '@modules/ui/ui.module';
 
@@ -49,6 +49,7 @@ import { TypescriptTranslationsComponent } from './components/typescript-transla
     MatDialogModule,
     MatButtonModule,
     MatRippleModule,
+    MatSlideToggleModule,
   ],
   declarations: [
     // Layouts

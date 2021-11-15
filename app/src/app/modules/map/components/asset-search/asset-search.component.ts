@@ -21,7 +21,7 @@ export class AssetSearchComponent implements OnChanges {
   // tslint:enable:ban-types
   @Input() setActiveInformationPanel: (activeInformationPanel: string | null) => void;
   @Input() setActiveRightPanel: (activeRightPanel: ReadonlyArray<string>) => void;
-  @Input() autocompleteResult: Array<AssetTypes.AssetMovementWithEssentials>;
+  @Input() autocompleteResult: Array<AssetTypes.AssetMovementWithAsset>;
 
   public searchResults = [];
   public searchQuery = '';
@@ -67,8 +67,8 @@ export class AssetSearchComponent implements OnChanges {
 
   optionSelected = (event) => {
     const selectedId = event.option._element.nativeElement.id;
-    const selectedAsset = this.autocompleteResult.find((asset) => asset.assetEssentials.assetId === selectedId);
-    const selectAsset = this.selectAsset(selectedAsset.assetEssentials.assetId);
+    const selectedAsset = this.autocompleteResult.find((asset) => asset.asset.id === selectedId);
+    const selectAsset = this.selectAsset(selectedAsset.asset.id);
     this.centerMapOnPosition(selectedAsset.assetMovement.movement.location);
     this.setActiveInformationPanel(null);
     this.setActiveRightPanel(['showAsset']);
@@ -81,8 +81,8 @@ export class AssetSearchComponent implements OnChanges {
       } else {
         let lastIndex = 0;
         this.searchResults = this.autocompleteResult.sort((a, b) => {
-          const nameA = a.assetEssentials.assetName.toUpperCase(); // ignore upper and lowercase
-          const nameB = b.assetEssentials.assetName.toUpperCase(); // ignore upper and lowercase
+          const nameA = a.asset.name.toUpperCase(); // ignore upper and lowercase
+          const nameB = b.asset.name.toUpperCase(); // ignore upper and lowercase
           if (nameA < nameB) {
             return -1;
           }
@@ -95,8 +95,9 @@ export class AssetSearchComponent implements OnChanges {
           if(index >= 10) {
             return acc;
           }
-          if (typeof acc[index] === 'undefined' || acc[index].id !== assetWrapper.assetEssentials.assetId) {
-            acc[index] = { id: assetWrapper.assetEssentials.assetId, value: assetWrapper.assetEssentials.assetName };
+          if (typeof acc[index] === 'undefined' || acc[index].id !== assetWrapper.asset.id) {
+            let setIrcs = !assetWrapper.asset.ircs ? "" : ' --- ' + assetWrapper.asset.ircs;
+            acc[index] = { id: assetWrapper.asset.id, value: assetWrapper.asset.name + setIrcs };
           }
           lastIndex = index;
           return acc;
