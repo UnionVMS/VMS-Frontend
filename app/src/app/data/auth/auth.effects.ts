@@ -86,13 +86,16 @@ export class AuthEffects {
         filter((response: any, index: number) => this.apiErrorHandler(response, index)),
         map((response) => { this.apiUpdateTokenHandler(response); return response.body; }),
         map((context: any) => {
-          const mapSettings = context.contextSet.contexts[0].preferences.preferences.find(
+          const userContext = context.contextSet.contexts.find(
+            (context) => typeof context.scope !== 'undefined'
+          )
+          const mapSettings = userContext.preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSMapSettings'
           );
-          const mapLocations = context.contextSet.contexts[0].preferences.preferences.find(
+          const mapLocations = userContext.preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSMapLocations'
           );
-          const userSettings = context.contextSet.contexts[0].preferences.preferences.find(
+          const userSettings = userContext.preferences.preferences.find(
             (settings) => settings.applicationName === 'VMSFrontend'
           );
 
@@ -100,14 +103,14 @@ export class AuthEffects {
 
           response.push(AuthActions.setRoleAndScope({
             role: {
-              name: context.contextSet.contexts[0].role.roleName,
-              features: context.contextSet.contexts[0].role.features,
+              name: userContext.role.roleName,
+              features: userContext.role.features,
             },
             scope: {
-              name: context.contextSet.contexts[0].scope.scopeName,
-              datasets: context.contextSet.contexts[0].scope.datasets,
-              activeFrom: context.contextSet.contexts[0].scope.activeFrom,
-              activeTo: context.contextSet.contexts[0].scope.activeTo,
+              name: userContext.scope.scopeName,
+              datasets: userContext.scope.datasets,
+              activeFrom: userContext.scope.activeFrom,
+              activeTo: userContext.scope.activeTo,
             }
           }));
 
