@@ -1,20 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable } from 'rxjs';
-import { takeWhile, endWith, map, take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
-import { getAlpha3Codes, langs } from 'i18n-iso-countries';
+import { getAlpha3Codes, langs, getNames, alpha2ToAlpha3, getName } from 'i18n-iso-countries';
 import { errorMessage } from '@app/helpers/validators/error-messages';
 // import enLang from 'i18n-iso-countries/langs/en.json';
 // countries.registerLocale(enLang);
 
 import { createAssetFormValidator } from './form-validator';
 
-const allFlagstates = Object.keys(getAlpha3Codes());
-
 import { State } from '@app/app-reducer';
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
-import { NotificationsTypes, NotificationsActions } from '@data/notifications';
 import { RouterTypes, RouterSelectors } from '@data/router';
 
 @Component({
@@ -23,20 +20,26 @@ import { RouterTypes, RouterSelectors } from '@data/router';
   styleUrls: ['./form.component.scss']
 })
 export class FormPageComponent implements OnInit, OnDestroy {
-
-  constructor(private readonly store: Store<State>) { }
-
+    
+  public allFlagstates = Object.keys(getAlpha3Codes());
   public asset = {} as AssetTypes.Asset;
   public assetSubscription: Subscription;
   public unitTonnagesSubscription: Subscription;
   public unitTonnages: ReadonlyArray<AssetTypes.UnitTonnage>;
-  public flagstates = allFlagstates.sort();
+  
   public assetObject = {} as AssetTypes.Asset;
   public formValidator: FormGroup;
   public save: () => void;
   public mergedRoute: RouterTypes.MergedRoute;
 
+  public allCountries = getNames('en');
+  public flagStatesAndNames =  Object.values(Object.entries(this.allCountries).reduce((obj, [key, value]) => 
+  ({ ...obj, [value]: alpha2ToAlpha3(key) + " " + getName(key, 'en') }), { })).sort();
+
+  constructor(private readonly store: Store<State>) {}
+
   mapStateToProps() {
+    
     this.unitTonnagesSubscription = this.store.select(AssetSelectors.getUnitTonnages).subscribe((unitTonnages) => {
       this.unitTonnages = unitTonnages;
       if(
@@ -69,7 +72,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.save = () => {
       this.store.dispatch(AssetActions.saveAsset({ asset: {
         ...this.asset,
-        flagStateCode: this.formValidator.value.essentailFields.flagState,
+        flagStateCode: (this.formValidator.value.essentailFields.flagState).substring(0,3),
         externalMarking: this.formValidator.value.essentailFields.externalMarking,
         name: this.formValidator.value.essentailFields.name,
         cfr: this.formValidator.value.identificationFields.cfr,
@@ -93,6 +96,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.mapDispatchToProps();
     this.store.dispatch(AssetActions.getUnitTonnage());
     this.store.dispatch(AssetActions.getSelectedAsset());
+    
   }
 
   ngOnDestroy() {
