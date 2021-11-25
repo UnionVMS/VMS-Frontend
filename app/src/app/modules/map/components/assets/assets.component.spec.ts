@@ -169,11 +169,11 @@ describe('AssetsComponent', () => {
       }
     };
     component.assets = [fastAsset];
-    expect(component['vectorSource'].getFeatures()[0].getStyle().getText().getText())
+    expect(component['vectorSource'].getFeatures()[0].getStyle()[0].getText().getText())
       .toEqual(AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts');
     component.ngOnChanges();
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
-    expect(component['vectorSource'].getFeatures()[0].getStyle().getText().getText())
+    expect(component['vectorSource'].getFeatures()[0].getStyle()[0].getText().getText())
       .toEqual(fastAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
   });
 
