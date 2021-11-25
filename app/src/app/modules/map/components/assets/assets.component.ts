@@ -51,6 +51,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private speedsVisibleCalculated: boolean;
 
   private numberOfVesselsOnPosition: { [position: string]: number} = {};
+  private reRenderAssetIds : string[] = [];
   private reRender: boolean;
 
   private readonly knownVesselTypes = [
@@ -95,7 +96,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         }
       }
     });
-
     this.vectorSource.addFeatures(this.assets.map((asset) => {
       this.renderedAssetIds[asset.assetMovement.asset] = true;
       return this.createFeatureFromAsset(asset);
@@ -121,12 +121,15 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       }, {});
       let reRenderAssets = Object.keys(this.renderedAssetIds).some((assetId) => assetsToRender[assetId] !== true);
 
+      reRenderAssets = this.reRenderAssetIds ? true : false;
       if(reRenderAssets) {
+        this.numberOfVesselsOnPosition = {};
         // Instead of removing them one by one which triggers recalculations inside open layers after every removal
         // we clear the entire map of assets and redraw them, this scales linearly instead of exponentialy it appears.
         this.vectorSource.clear();
         this.assetLastUpdateHash = {};
         this.assetSpeedsPreviouslyRendered = {};
+
       }
 
       if(this.assets.length === 0) {
@@ -134,9 +137,15 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       }
 
       const newRenderedAssetIds = reRenderAssets ? {} : this.renderedAssetIds;
-
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
+          if(Math.floor(this.mapZoom) > 16 && this.reRenderAssetIds && this.reRenderAssetIds.length > 0){
+            this.reRender = true;
+          }
+          if(Math.floor(this.mapZoom) < 16 && this.reRender){
+            this.reRender = false;
+          }
+
           if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
             newRenderedAssetIds[asset.assetMovement.asset] = true;
           }
@@ -145,7 +154,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
             return acc;
           }
           const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
-
           if (assetFeature !== null) {
             this.updateFeatureFromAsset(assetFeature, asset);
           } else {
@@ -187,49 +195,11 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
           }
         }
       });
-
-      if(Math.floor(this.mapZoom) === 16 || Math.floor(this.mapZoom) === 17){
-        this.forceRerendederVectorSource(newRenderedAssetIds, reRenderAssets);
-        this.reRender = true;
-      }
-      if(Math.floor(this.mapZoom) < 16 && this.reRender){
-        this.forceRerendederVectorSource(newRenderedAssetIds, reRenderAssets);
-      }
-
       this.previouslySelectedAssetIds = currentlySelectedIds;
       this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
       this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;
       this.renderedAssetIds = newRenderedAssetIds;
     }
-  }
-
-  private forceRerendederVectorSource(newRenderedAssetIds: {[assetId: string]: boolean }, 
-    reRenderAssets: boolean ){
-      
-    // to reset numberOfVesselsOnPosition
-    this.numberOfVesselsOnPosition = {};
-    this.vectorSource.clear();
-    this.assetLastUpdateHash = {};
-    this.assetSpeedsPreviouslyRendered = {};
-    this.vectorSource.addFeatures(
-      this.assets.reduce((acc, asset) => {
-        if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
-          newRenderedAssetIds[asset.assetMovement.asset] = true;
-        }
-        if(reRenderAssets) {
-          acc.push(this.createFeatureFromAsset(asset));
-          return acc;
-        }
-        const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
-  
-        if (assetFeature !== null) {
-          this.updateFeatureFromAsset(assetFeature, asset);
-        } else {
-          acc.push(this.createFeatureFromAsset(asset));
-        }
-        return acc;
-      }, [])
-    );
   }
 
   addTargetImageOnAsset(assetFeature, src) {
@@ -283,17 +253,33 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         color: this.getShipColor(asset)
       })
     };
+
+    const stylePropertiesTarget: any = {
+      image: new Icon({
+        src: '/assets/target.png',
+        opacity: 1,
+        color: '#FF0000'
+      })
+    };
+    
     if (this.namesVisibleCalculated || this.speedsVisibleCalculated) {
       styleProperties.text = this.getTextStyleForName(asset);
     }
 
-    const assetStyle = new Style(styleProperties);
-
-    assetFeature.setStyle(assetStyle);
+    const assetStyleVessel = new Style(styleProperties);
+    const assetStyleTarget = new Style(stylePropertiesTarget);
+    let styleArray = [assetStyleVessel];
+    // add target image to style array if asset is selected
+    if(this.selectedAssets.length && asset && asset.asset && asset.asset.id){
+      this.selectedAssets.forEach(selectedAsset => {
+        selectedAsset.asset.id === asset.asset.id ? styleArray.push(assetStyleTarget) : null
+      });
+    }
+    assetFeature.setStyle(styleArray);
     assetFeature.setId(assetMovement.asset);
 
     if(asset.assetMovement.decayPercentage !== undefined) {
-      assetFeature.getStyle().getImage().setOpacity(asset.assetMovement.decayPercentage);
+      assetFeature.getStyle()[0].getImage().setOpacity(asset.assetMovement.decayPercentage);
     }
 
     const currentAssetPosition = [
@@ -467,7 +453,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       asset.assetMovement.decayPercentage,
       typeof asset.asset === 'undefined'
     ];
-
     const oldStuff = this.assetLastUpdateHash[asset.assetMovement.asset];
     if(
       oldStuff === undefined ||
@@ -512,6 +497,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         }
       }
     }
+    
     if(oldStuff === undefined || oldStuff[4] !== currentAssetPosition[4]) {
       const style = assetFeature.getStyle();
       let actualStyle = style;
@@ -552,9 +538,13 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       && currentPosition ){
         if(!this.numberOfVesselsOnPosition[currentPosition] ){
           this.numberOfVesselsOnPosition[currentPosition] = 1;
-        }else if(this.numberOfVesselsOnPosition[currentPosition] >= 1 && Math.floor(this.mapZoom) >= 16){
+        }else if(this.numberOfVesselsOnPosition[currentPosition] === 1 && Math.floor(this.mapZoom) >= 16){
           offsetY = offsetY + (20 * this.numberOfVesselsOnPosition[currentPosition]);
           this.numberOfVesselsOnPosition[currentPosition] = this.numberOfVesselsOnPosition[currentPosition] + 1;
+        }else if(this.numberOfVesselsOnPosition[currentPosition] > 1 && Math.floor(this.mapZoom) >= 16){
+          offsetY = offsetY + (20 * this.numberOfVesselsOnPosition[currentPosition]);
+          this.numberOfVesselsOnPosition[currentPosition] = this.numberOfVesselsOnPosition[currentPosition] + 1;
+          this.reRenderAssetIds.push(asset.asset.id);
         }
       }
     }
