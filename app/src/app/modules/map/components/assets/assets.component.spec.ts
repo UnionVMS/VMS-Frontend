@@ -66,11 +66,11 @@ describe('AssetsComponent', () => {
       AssetMovementWithEssentialsStub.assetMovement.movement.location.longitude,
       AssetMovementWithEssentialsStub.assetMovement.movement.location.latitude
     ]));
-    expect(feature.getStyle().getImage().getRotation()).toEqual(deg2rad(
+    expect(feature.getStyle()[0].getImage().getRotation()).toEqual(deg2rad(
       AssetMovementWithEssentialsStub.assetMovement.movement.heading
     ));
 
-    const textStyle = feature.getStyle().getText();
+    const textStyle = feature.getStyle()[0].getText();
     expect(textStyle.getText()).toEqual(AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts');
   });
 
@@ -99,21 +99,21 @@ describe('AssetsComponent', () => {
     expect(updatedFeature.getGeometry().getCoordinates()).toEqual(fromLonLat([
       updatedAsset.assetMovement.movement.location.longitude, updatedAsset.assetMovement.movement.location.latitude
     ]));
-    expect(updatedFeature.getStyle().getImage().getRotation()).toEqual(deg2rad(updatedAsset.assetMovement.movement.heading));
+    expect(updatedFeature.getStyle()[0].getImage().getRotation()).toEqual(deg2rad(updatedAsset.assetMovement.movement.heading));
 
     component['namesVisibleCalculated'] = true;
     const updatedFeatureWithName = component.updateFeatureFromAsset(updatedFeature, updatedAsset);
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
     expect(updatedFeatureWithName.getId()).toEqual(updatedFeature.getId());
-    expect(updatedFeatureWithName.getStyle().getText().getText()).toEqual(updatedAsset.asset.name);
+    expect(updatedFeatureWithName.getStyle()[0].getText().getText()).toEqual(updatedAsset.asset.name);
 
     component['speedsVisibleCalculated'] = true;
     const updatedFeatureWithSpeed = component.updateFeatureFromAsset(updatedFeatureWithName, updatedAsset);
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
     expect(updatedFeatureWithSpeed.getId()).toEqual(updatedFeatureWithName.getId());
-    expect(updatedFeatureWithSpeed.getStyle().getText().getText())
+    expect(updatedFeatureWithSpeed.getStyle()[0].getText().getText())
       .toEqual(updatedAsset.asset.name + '\n' + updatedAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
 
     const fasterAsset =  { ...updatedAsset,
@@ -127,7 +127,7 @@ describe('AssetsComponent', () => {
     const updatedFeatureWithExtraSpeed = component.updateFeatureFromAsset(updatedFeatureWithSpeed, fasterAsset);
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
-    expect(updatedFeatureWithExtraSpeed.getStyle().getText().getText())
+    expect(updatedFeatureWithExtraSpeed.getStyle()[0].getText().getText())
       .toEqual(fasterAsset.asset.name + '\n' + fasterAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
   });
 
