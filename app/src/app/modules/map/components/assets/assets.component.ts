@@ -45,7 +45,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private assetLastUpdateHash: { [assetId: string]: Array<number|boolean>} = {};
   // Instead of an array we use object for faster lookup in ngOnChange loop.
   private renderedAssetIds: { [ assetId: string]: boolean } = {};
-  private previouslySelectedAssetIds = [];
 
   private namesVisibleCalculated: boolean;
   private speedsVisibleCalculated: boolean;
@@ -53,6 +52,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private numberOfVesselsOnPosition: { [position: string]: number} = {};
   private reRenderAssetIds : string[] = [];
   private reRender: boolean;
+
+  private readonly BASE_STYLE : number = 0;
+  private readonly TARGET_STYLE : number = 1;
 
   private readonly knownVesselTypes = [
     'Fishing', 'Law Enforcement', 'Military', 'WIG', 'Pleasure Craft', 'Sailing', 'SAR',
@@ -129,7 +131,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         this.vectorSource.clear();
         this.assetLastUpdateHash = {};
         this.assetSpeedsPreviouslyRendered = {};
-
       }
 
       if(this.assets.length === 0) {
@@ -145,7 +146,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
           if(Math.floor(this.mapZoom) < 16 && this.reRender){
             this.reRender = false;
           }
-
           if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
             newRenderedAssetIds[asset.assetMovement.asset] = true;
           }
@@ -163,68 +163,42 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         }, [])
       );
 
-      const currentlySelectedIds = [];
-      // Invert colors for selected asset and change previously selected assets icon back to normal.
       this.selectedAssets.map((selectedAsset) => {
-        currentlySelectedIds.push(selectedAsset.asset.id);
-        if(!this.previouslySelectedAssetIds.some((previousAssetId) => previousAssetId === selectedAsset.asset.id)) {
-          const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
-          if(selectedAssetFeature) {
-            this.addTargetImageOnAsset(
-              selectedAssetFeature,
-              '/assets/target.png'
-            );
-
+        const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
+        if(selectedAssetFeature) {
+            this.addTargetImageOnAsset(selectedAssetFeature);
             // We need to reset position to force rerender of asset.
             selectedAssetFeature.setGeometry(new Point(fromLonLat([
               selectedAsset.currentPosition.movement.location.longitude,
               selectedAsset.currentPosition.movement.location.latitude
             ])));
-          }
+        }else{
+          this.removeTargetImageOnAsset(selectedAsset.asset.id);
         }
       });
 
-      this.previouslySelectedAssetIds.map((previouslySelectedAssetId) => {
-        if(!currentlySelectedIds.some((assetId) => assetId === previouslySelectedAssetId)) {
-          const previouslySelectedAssetFeature = this.vectorSource.getFeatureById(previouslySelectedAssetId);
-          if(typeof previouslySelectedAssetFeature !== 'undefined' && previouslySelectedAssetFeature !== null) {
-            const previouslySelectedAsset = this.assets.find((asset) => asset.assetMovement.asset === previouslySelectedAssetId);
-            this.removeTargetImageOnAsset(
-              previouslySelectedAssetFeature,
-            );
-          }
-        }
-      });
-      this.previouslySelectedAssetIds = currentlySelectedIds;
       this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
       this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;
       this.renderedAssetIds = newRenderedAssetIds;
     }
   }
 
-  addTargetImageOnAsset(assetFeature, src) {
+  addTargetImageOnAsset(assetFeature) {
     let style = assetFeature.getStyle();
-    if(!Array.isArray(style)) {
-      style = [style];
-    }
 
-    style.push(new Style({
+    style[this.TARGET_STYLE] = new Style({
       image: new Icon({
-        src,
+        src : '/assets/target.png',
         color: '#FF0000',
         opacity: 1
       })
-    }));
+    });
 
     assetFeature.setStyle(style);
   }
 
   removeTargetImageOnAsset(assetFeature) {
-    let style = assetFeature.getStyle();
-    if(Array.isArray(style)) {
-      style = style[0];
-      assetFeature.setStyle(style);
-    }
+    assetFeature.setStyle(assetFeature.getStyle()[this.BASE_STYLE]);
   }
 
   ngOnDestroy() {
@@ -266,20 +240,20 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       styleProperties.text = this.getTextStyleForName(asset);
     }
 
-    const assetStyleVessel = new Style(styleProperties);
-    const assetStyleTarget = new Style(stylePropertiesTarget);
-    let styleArray = [assetStyleVessel];
+    const assetBaseStyle = new Style(styleProperties);
+    // styleArray always consists of two array indexes
+    const styleArray = [assetBaseStyle, new Style()];
     // add target image to style array if asset is selected
     if(this.selectedAssets.length && asset && asset.asset && asset.asset.id){
       this.selectedAssets.forEach(selectedAsset => {
-        selectedAsset.asset.id === asset.asset.id ? styleArray.push(assetStyleTarget) : null
+        selectedAsset.asset.id === asset.asset.id ? styleArray[this.TARGET_STYLE] = new Style(stylePropertiesTarget) : null;
       });
     }
     assetFeature.setStyle(styleArray);
     assetFeature.setId(assetMovement.asset);
 
     if(asset.assetMovement.decayPercentage !== undefined) {
-      assetFeature.getStyle()[0].getImage().setOpacity(asset.assetMovement.decayPercentage);
+      assetFeature.getStyle()[this.BASE_STYLE].getImage().setOpacity(asset.assetMovement.decayPercentage);
     }
 
     const currentAssetPosition = [
@@ -462,15 +436,11 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         [asset.assetMovement.movement.location.longitude, asset.assetMovement.movement.location.latitude]
       )));
       const style = assetFeature.getStyle();
-      if(Array.isArray(style)) {
-        style[0].getImage().setRotation(deg2rad(asset.assetMovement.movement.heading));
-      } else {
-        style.getImage().setRotation(deg2rad(asset.assetMovement.movement.heading));
-      }
+      style[this.BASE_STYLE].getImage().setRotation(deg2rad(asset.assetMovement.movement.heading));
       this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
     }
     if(oldStuff === undefined || oldStuff[3] !== currentAssetPosition[3]) {
-      assetFeature.getStyle().getImage().setOpacity(asset.assetMovement.decayPercentage);
+      assetFeature.getStyle()[this.BASE_STYLE].getImage().setOpacity(asset.assetMovement.decayPercentage);
     }
     if (
       this.namesWereVisibleLastRerender !== this.namesVisibleCalculated ||
@@ -479,31 +449,19 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         this.speedsVisibleCalculated &&
         asset.assetMovement.movement.speed !== null &&
         this.assetSpeedsPreviouslyRendered[asset.assetMovement.asset] !== asset.assetMovement.movement.speed.toFixed(2)
-      
       )
     ) {
       const style = assetFeature.getStyle();
       if (this.namesVisibleCalculated || this.speedsVisibleCalculated) {
-        if(Array.isArray(style)) {
-          style[0].setText(this.getTextStyleForName(asset));
-        } else {
-          style.setText(this.getTextStyleForName(asset));
-        }
+        style[this.BASE_STYLE].setText(this.getTextStyleForName(asset));
       } else {
-        if(Array.isArray(style)) {
-          style[0].setText(null);
-        } else {
-          style.setText(null);
-        }
+        style[this.BASE_STYLE].setText(null);
       }
     }
     
     if(oldStuff === undefined || oldStuff[4] !== currentAssetPosition[4]) {
       const style = assetFeature.getStyle();
-      let actualStyle = style;
-      if(Array.isArray(style)) {
-        actualStyle = style[0];
-      }
+      let actualStyle = style[this.BASE_STYLE];
       actualStyle.setImage(new Icon({
         src: '/assets/Vessel.png',
         opacity: actualStyle.getImage().getOpacity(),
