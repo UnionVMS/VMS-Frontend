@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { AssetTypes } from '@data/asset';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 
@@ -50,8 +50,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private speedsVisibleCalculated: boolean;
 
   private numberOfVesselsOnPosition: { [position: string]: number} = {};
-  private reRenderAssetIds : string[] = [];
-  private reRender: boolean;
+  private reRender: boolean = false;
 
   private readonly BASE_STYLE : number = 0;
   private readonly TARGET_STYLE : number = 1;
@@ -91,10 +90,14 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         typeof event.selected[0].id_ !== 'undefined' &&
         this.vectorSource.getFeatureById(event.selected[0].id_) !== null
       ) {
-        if(this.selectedAssets.find(selectedAsset => event.selected[0].id_ === selectedAsset.asset.id)) {
-          this.deselectAsset(event.selected[0].id_);
+        const assetId = event.selected[0].id_;
+        const assetFeature = this.vectorSource.getFeatureById(assetId);
+        if(this.selectedAssets.find(selectedAsset => assetId === selectedAsset.asset.id)) {
+          this.deselectAsset(assetId);
+          this.removeTargetImageOnAsset(assetFeature);
         } else {
-          this.selectAsset(event.selected[0].id_);
+          this.selectAsset(assetId);
+          this.addTargetImageOnAsset(assetFeature); 
         }
       }
     });
@@ -102,11 +105,10 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       this.renderedAssetIds[asset.assetMovement.asset] = true;
       return this.createFeatureFromAsset(asset);
     }));
-
     this.vectorLayer.getSource().changed();
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     if(this.mapZoom < 8) {
       this.namesVisibleCalculated = false;
       this.speedsVisibleCalculated = false;
@@ -123,7 +125,15 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       }, {});
       let reRenderAssets = Object.keys(this.renderedAssetIds).some((assetId) => assetsToRender[assetId] !== true);
 
-      reRenderAssets = this.reRenderAssetIds ? true : false;
+      if( changes.mapZoom && Math.floor(changes.mapZoom.currentValue) >= 16 && Math.floor(changes.mapZoom.previousValue) < 16){
+        this.reRender = true;
+      }else if( changes.mapZoom && Math.floor(changes.mapZoom.currentValue) < 16  && Math.floor(changes.mapZoom.previousValue) >= 16){
+        this.reRender = true;
+      }else{
+        this.reRender = false;
+      }
+      reRenderAssets = reRenderAssets ? true : this.reRender;
+
       if(reRenderAssets) {
         this.numberOfVesselsOnPosition = {};
         // Instead of removing them one by one which triggers recalculations inside open layers after every removal
@@ -138,14 +148,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       }
 
       const newRenderedAssetIds = reRenderAssets ? {} : this.renderedAssetIds;
+
       this.vectorSource.addFeatures(
         this.assets.reduce((acc, asset) => {
-          if(Math.floor(this.mapZoom) > 16 && this.reRenderAssetIds && this.reRenderAssetIds.length > 0){
-            this.reRender = true;
-          }
-          if(Math.floor(this.mapZoom) < 16 && this.reRender){
-            this.reRender = false;
-          }
           if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
             newRenderedAssetIds[asset.assetMovement.asset] = true;
           }
@@ -153,8 +158,9 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
             acc.push(this.createFeatureFromAsset(asset));
             return acc;
           }
-          const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
-          if (assetFeature !== null) {
+         
+          if (this.vectorSource.getFeatureById(asset.assetMovement.asset)) {
+            const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
             this.updateFeatureFromAsset(assetFeature, asset);
           } else {
             acc.push(this.createFeatureFromAsset(asset));
@@ -172,11 +178,8 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
               selectedAsset.currentPosition.movement.location.longitude,
               selectedAsset.currentPosition.movement.location.latitude
             ])));
-        }else{
-          this.removeTargetImageOnAsset(selectedAsset.asset.id);
         }
       });
-
       this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
       this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;
       this.renderedAssetIds = newRenderedAssetIds;
@@ -198,7 +201,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   removeTargetImageOnAsset(assetFeature) {
-    assetFeature.setStyle(assetFeature.getStyle()[this.BASE_STYLE]);
+    assetFeature.setStyle([assetFeature.getStyle()[this.BASE_STYLE], new Style()]);
   }
 
   ngOnDestroy() {
@@ -502,7 +505,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         }else if(this.numberOfVesselsOnPosition[currentPosition] > 1 && Math.floor(this.mapZoom) >= 16){
           offsetY = offsetY + (20 * this.numberOfVesselsOnPosition[currentPosition]);
           this.numberOfVesselsOnPosition[currentPosition] = this.numberOfVesselsOnPosition[currentPosition] + 1;
-          this.reRenderAssetIds.push(asset.asset.id);
         }
       }
     }

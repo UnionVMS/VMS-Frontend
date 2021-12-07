@@ -194,7 +194,7 @@ export class AssetEffects {
           mergeAll()
         ),
         this.assetService.mapSubscription(authToken).pipe(
-          bufferTime(1000),
+          bufferTime(7000),
           withLatestFrom(this.store.select(AssetSelectors.getAssets)),
           // We need to add any at the end because the buffer is types as Unknown[], we know it to be the first data
           // structure defined but that does not help apparenlty
