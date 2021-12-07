@@ -4,6 +4,7 @@ import { deg2rad } from '@app/helpers/helpers';
 import { fromLonLat } from 'ol/proj';
 
 import { AssetsComponent } from './assets.component';
+import { SimpleChange } from '@angular/core';
 import AssetMovementWithEssentialsStub from '@data/asset/stubs/assetMovementWithEssentials.stub';
 
 /* tslint:disable:no-string-literal */
@@ -157,6 +158,18 @@ describe('AssetsComponent', () => {
   });
 
   it('should update correctly', () => {
+    const mapZoomChanges = {
+      "mapZoom": new SimpleChange(6, 7.742854173197309, false)
+    }
+    /*
+    {
+      "mapZoom": {
+          "previousValue": 6,
+          "currentValue": 7.742854173197309,
+          "firstChange": false
+      }
+    };
+    */
     const { component } = setup();
     component.map.addLayer = (layer) => {};
     component.registerOnSelectFunction = (name, func) => {};
@@ -164,7 +177,7 @@ describe('AssetsComponent', () => {
 
     component.assets = [AssetMovementWithEssentialsStub];
     expect(component['vectorSource'].getFeatures().length).toEqual(0);
-    component.ngOnChanges();
+    component.ngOnChanges(mapZoomChanges);
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
     const fastAsset = { ...AssetMovementWithEssentialsStub,
       assetMovement: { ...AssetMovementWithEssentialsStub.assetMovement,
@@ -174,7 +187,7 @@ describe('AssetsComponent', () => {
     component.assets = [fastAsset];
     expect(component['vectorSource'].getFeatures()[0].getStyle()[BASE_STYLE].getText().getText())
       .toEqual(AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts');
-    component.ngOnChanges();
+    component.ngOnChanges(mapZoomChanges);
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
     expect(component['vectorSource'].getFeatures()[0].getStyle()[BASE_STYLE].getText().getText())
       .toEqual(fastAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
