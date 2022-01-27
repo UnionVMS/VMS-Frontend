@@ -12,6 +12,7 @@ import { AssetReducer, AssetTypes } from './data/asset/';
 import { AuthReducer, AuthTypes, AuthActions } from './data/auth/';
 import { ContactReducer, ContactTypes } from './data/contact/';
 import { IncidentReducer, IncidentTypes } from './data/incident/';
+import { ActivityReducer, ActivityTypes } from './data/activity/';
 import { MapReducer, MapTypes } from './data/map/';
 import { MapSettingsReducer, MapSettingsTypes } from './data/map-settings/';
 import { MapLayersReducer, MapLayersTypes } from './data/map-layers/';
@@ -28,6 +29,7 @@ export type State = Readonly<{
   auth: AuthTypes.State;
   contact: ContactTypes.State;
   incident: IncidentTypes.State;
+  activity: ActivityTypes.State;
   map: MapTypes.State;
   mapLayers: MapLayersTypes.State;
   mapSettings: MapSettingsTypes.State;
@@ -44,6 +46,7 @@ export const reducers: ActionReducerMap<State> = {
   auth: AuthReducer.authReducer,
   contact: ContactReducer.contactReducer,
   incident: IncidentReducer.incidentReducer,
+  activity: ActivityReducer.activityReducer,
   map: MapReducer.mapReducer,
   mapLayers: MapLayersReducer.mapLayersReducer,
   mapSettings: MapSettingsReducer.mapSettingsReducer,

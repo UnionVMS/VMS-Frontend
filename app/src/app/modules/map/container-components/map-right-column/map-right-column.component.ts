@@ -8,6 +8,7 @@ import getContryISO2 from 'country-iso-3-to-2';
 import { Position } from '@data/generic.types';
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
 import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/incident';
+import { ActivityTypes, ActivitySelectors } from '@data/activity';
 import { MapActions, MapSelectors } from '@data/map';
 import { NotesActions, NotesTypes } from '@data/notes';
 import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors } from '@data/map-saved-filters';
@@ -39,6 +40,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public selectedAsset: Readonly<AssetTypes.AssetData>;
   public selectedAssets: ReadonlyArray<AssetTypes.AssetData>;
   public selectedAssetsLastPositions: AssetTypes.LastPositionsList;
+  public selectedAssetsLastActivities: Readonly<{ readonly [assetId: string]: ActivityTypes.Activity}>;
   public selectedIncident: Readonly<IncidentTypes.Incident>;
   public choosenMovementSources: ReadonlyArray<string>;
   public assetGroupFilters: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>;
@@ -163,6 +165,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     this.store.select(AssetSelectors.getSelectedAssetsLastPositions)
       .pipe(takeUntil(this.unmount$)).subscribe(selectedAssetsLastPositions => {
         this.selectedAssetsLastPositions = selectedAssetsLastPositions;
+      });
+      this.store.select(ActivitySelectors.getAssetActivities)
+      .pipe(takeUntil(this.unmount$)).subscribe(selectedAssetsLastActivities => {
+        this.selectedAssetsLastActivities = selectedAssetsLastActivities;
       });
     this.mapStatistics$ = this.store.select(AssetSelectors.getMapStatistics);
     this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers);

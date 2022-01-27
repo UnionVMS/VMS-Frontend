@@ -15,6 +15,7 @@ import { MapSettingsSelectors } from '../map-settings';
 import { AssetService } from './asset.service';
 import { AssetSelectors, AssetTypes, AssetActions } from './';
 import { IncidentActions } from '@data/incident';
+import { ActivityActions, ActivityTypes } from '@data/activity';
 import * as MapActions from '@data/map/map.actions';
 import * as RouterSelectors from '@data/router/router.selectors';
 import * as NotificationsActions from '@data/notifications/notifications.actions';
@@ -174,7 +175,7 @@ export class AssetEffects {
                     } else {
                       acc[movement.asset] = { movement, asset: movement.asset };
                     }
-                    
+
                     return acc;
                   }, {})
                 })
@@ -195,10 +196,12 @@ export class AssetEffects {
         ),
         this.assetService.mapSubscription(authToken).pipe(
           bufferTime(1000),
-          withLatestFrom(this.store.select(AssetSelectors.getAssets)),
+          withLatestFrom(
+            this.store.select(AssetSelectors.getAssets),
+            this.store.select(AuthSelectors.hasActivityFeature)),
           // We need to add any at the end because the buffer is types as Unknown[], we know it to be the first data
           // structure defined but that does not help apparenlty
-          mergeMap(([messages, assets]: Array<
+          mergeMap(([messages, assets, hasActivityFeature]: Array<
             Array<{ type: string, data: any }> | { readonly [uid: string]: AssetTypes.Asset } | any
           >) => {
             if(messages.length !== 0) {
@@ -278,6 +281,17 @@ export class AssetEffects {
                     return acc;
                   }, {})
                 }));
+              }
+
+              if(typeof messagesByType.Activity !== 'undefined' && hasActivityFeature) {
+                  actions.push(ActivityActions.addActivities({
+                    assetActivities: messagesByType.Activity.reduce((
+                      acc: { [assetId: string]: ActivityTypes.Activity }, activity: ActivityTypes.Activity
+                    ) => {
+                      acc[activity.vesselId] = activity;
+                      return acc;
+                    }, {})
+                  }));
               }
 
               if(actions.length > 0) {

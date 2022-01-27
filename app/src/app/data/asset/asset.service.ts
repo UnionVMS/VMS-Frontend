@@ -57,6 +57,7 @@ export class AssetService {
       that.mapEventSource.addEventListener('TicketUpdate', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('Incident', (message) => observer.next(translateMessage(message)));
       that.mapEventSource.addEventListener('IncidentUpdate', (message) => observer.next(translateMessage(message)));
+      that.mapEventSource.addEventListener('Activity', (message) => observer.next(translateMessage(message)));
 
       // BUTTERFLY
       // SimulateMovement(observer, '19406db3-0ce8-4e2c-a1c7-ae8a68910827', 3000);

@@ -17,6 +17,7 @@ import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
 import { IncidentActions } from '@data/incident';
+import { ActivityActions } from '@data/activity';
 import { MapActions, MapSelectors } from '@data/map';
 import { MapLayersActions, MapLayersSelectors, MapLayersTypes } from '@data/map-layers';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
@@ -195,6 +196,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       take(1)
     ).subscribe((user) => {
       this.store.dispatch(MapLayersActions.getUserAreas());
+      this.store.dispatch(ActivityActions.getInitialActivities());
     });
     this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
     this.experimentalFeaturesEnabled$ = this.store.select(UserSettingsSelectors.getExperimentalFeaturesEnabled);
@@ -323,7 +325,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     const mapMountedObserver = new MutationObserver((mutations, mutationObserver) => {
       // `mutations` is an array of mutations that occurred
       // `mutationObserver` is the MutationObserver instance
-      if(document.getElementById('realtime-map') 
+      if(document.getElementById('realtime-map')
       && document.getElementById('realtime-map').getElementsByTagName('canvas') ){
         const canvasList = document.getElementById('realtime-map').getElementsByTagName('canvas');
         if (canvasList.length === 1) {

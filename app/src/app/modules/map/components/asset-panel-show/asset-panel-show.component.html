@@ -71,6 +71,34 @@
           </div>
         </div>
 
+        <div class="asset-information--activity" *ngIf="selectedAssetsLastActivity !== undefined">
+          <h3 i18n>Last Activity</h3>
+          <div class="asset-information--activity--content">
+            <div class="activity-type">
+              {{ selectedAssetsLastActivity.activityType.replace('_', ' ') | titlecase }} ({{ selectedAssetsLastActivity.FAReportType.replace('_', ' ') | titlecase }})
+            </div>
+            <div>{{ formatDate(selectedAssetsLastActivity.startDate) }}</div>
+            <div class="activity-fields" *ngFor="let port of selectedAssetsLastActivity.port">
+              <label i18n>Port:</label>
+              <div>{{ port }}</div>
+            </div>
+            <div class="activity-fields" *ngFor="let gear of selectedAssetsLastActivity.fishingGears">
+              <label i18n>Gear ({{ gear.gearRoleCode | titlecase }}):</label>
+              <div>{{ gear.gearTypeCode }}</div>
+            </div>
+            <div class="activity-fields" *ngFor="let activity of selectedAssetsLastActivity.relatedActivities">
+              <label>{{ activity.activityType.replace('_', ' ') | titlecase }}:</label>
+              <div>{{ formatDate(activity.occurence) }}</div>
+            </div>
+            <div class="activity-fields" *ngFor="let species of selectedAssetsLastActivity.species">
+              <label>Species: ({{ species.typeCode | titlecase }}):</label>
+              <div>{{ species.code }} ({{ species.sizeClass }})</div>
+              <label>Weight: ({{ species.weightMeans | titlecase }}):</label>
+              <div>{{ species.weight }}</div>
+            </div>
+          </div>
+        </div>
+
         <div class="asset-information--other-fields">
           <h3>Other:</h3>
           <ng-container *ngIf="asset.asset.mmsi">
