@@ -21,6 +21,7 @@ describe('TracksActivitiesComponent', () => {
       addLayer: (vectorLayer) => {},
       removeLayer: (vectorLayer) => {}
     };
+    component.activityTracks = {};
 
     fixture.detectChanges();
   });
