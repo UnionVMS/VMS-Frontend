@@ -16,6 +16,11 @@ describe('TracksActivitiesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TracksActivitiesComponent);
     component = fixture.componentInstance;
+
+    component.map = {
+      removeLayer: (vectorLayer) => {}
+    };
+
     fixture.detectChanges();
   });
 
