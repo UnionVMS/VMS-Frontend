@@ -18,6 +18,7 @@ describe('TracksActivitiesComponent', () => {
     component = fixture.componentInstance;
 
     component.map = {
+      addLayer: (vectorLayer) => {},
       removeLayer: (vectorLayer) => {}
     };
 
