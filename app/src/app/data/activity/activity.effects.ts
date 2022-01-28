@@ -41,15 +41,38 @@ export class ActivityEffects {
         //map((response) => { this.apiUpdateTokenHandler(response); return response; }),
         map((response: any) => {
           return ActivityActions.addActivities({
-            assetActivities: response.resultList.reduce((acc, activity) => {
+            activities: response.resultList.reduce((acc, activity) => {
               if (typeof acc[activity.vesselId] === 'undefined'
-                || activity.occurence >= acc[activity.vesselId].occurence
                 || activity.startDate >= acc[activity.vesselId].startDate)
               {
                 acc[activity.vesselId] = activity;
               }
               return acc;
             }, {})
+          });
+        })
+      );
+    })
+  ));
+
+  getActivityTrackObserver$ = createEffect(() => this.actions$.pipe(
+    ofType(ActivityActions.getActivityTrack),
+    withLatestFrom(
+      this.store.select(AuthSelectors.getAuthToken),
+      this.store.select(AuthSelectors.getUser),
+      this.store.select(AuthSelectors.hasActivityFeature)
+      ),
+    mergeMap(([action, authToken, user, hasActivityFeature]: Array<any>) => {
+      if (!hasActivityFeature) {
+        return EMPTY;
+      }
+      const startDate = moment(action.startDate).utc().format('YYYY-MM-DDTHH:mm:ss');
+      return this.activityService.getActivities(action.assetId, startDate, authToken, user.scope.name, user.role.name).pipe(
+        //map((response) => { this.apiUpdateTokenHandler(response); return response; }),
+        map((response: any) => {
+          return ActivityActions.addActivityTrack({
+            assetId: action.assetId,
+            activities: response.resultList
           });
         })
       );

@@ -2,6 +2,7 @@ export type Activity = Readonly<{
   vesselId: string;
   activityType: string;
   FAReportType: string;
+  faReportID: number;
   occurence: number;
   startDate: number;
   latitude: number;
@@ -15,7 +16,7 @@ export type Activity = Readonly<{
 
 export type ActivityPart = Readonly<{
   activityType: string;
-  occurence: string;
+  occurence: number;
   latitude: number;
   longitude: number;
 }>;
@@ -43,5 +44,6 @@ export type Species = Readonly<{
 }>;
 
 export type State = Readonly<{
-  assetActivities: Readonly<{ readonly [assetId: string]: Activity }>;
+  latestActivities: Readonly<{ readonly [assetId: string]: Activity }>;
+  activityTracks: Readonly<{ readonly [assetId: string]: ReadonlyArray<Activity> }>;
 }>;

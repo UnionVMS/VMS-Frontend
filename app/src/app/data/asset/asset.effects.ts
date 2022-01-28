@@ -285,7 +285,7 @@ export class AssetEffects {
 
               if(typeof messagesByType.Activity !== 'undefined' && hasActivityFeature) {
                   actions.push(ActivityActions.addActivities({
-                    assetActivities: messagesByType.Activity.reduce((
+                    activities: messagesByType.Activity.reduce((
                       acc: { [assetId: string]: ActivityTypes.Activity }, activity: ActivityTypes.Activity
                     ) => {
                       acc[activity.vesselId] = activity;

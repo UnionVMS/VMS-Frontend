@@ -91,9 +91,9 @@
               <div>{{ formatDate(activity.occurence) }}</div>
             </div>
             <div class="activity-fields" *ngFor="let species of selectedAssetsLastActivity.species">
-              <label>Species: ({{ species.typeCode | titlecase }}):</label>
+              <label i18n>Species: ({{ species.typeCode | titlecase }}):</label>
               <div>{{ species.code }} ({{ species.sizeClass }})</div>
-              <label>Weight: ({{ species.weightMeans | titlecase }}):</label>
+              <label i18n>Weight: ({{ species.weightMeans | titlecase }}):</label>
               <div>{{ species.weight }}</div>
             </div>
           </div>

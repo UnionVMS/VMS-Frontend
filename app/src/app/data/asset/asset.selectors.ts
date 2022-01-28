@@ -150,7 +150,7 @@ export const getAssetMovements = createSelector(
   MapSavedFiltersSelectors.getActiveFilters,
   MapSelectors.getFiltersActive,
   MapSelectors.getActiveLeftPanel,
-  ActivitySelectors.getAssetActivities,
+  ActivitySelectors.getLatestActivities,
   (
     assetMovements: { readonly [uid: string]: AssetTypes.AssetMovement },
     assets: { readonly [uid: string]: AssetTypes.Asset },
