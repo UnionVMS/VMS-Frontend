@@ -32,6 +32,7 @@ export class TracksPanelComponent implements OnChanges {
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
   @Input() selectedMovement: string;
   @Input() selectMovement: (movementId: string) => void;
+  @Input() panelExpanded: boolean;
 
   public formattedPositions: ReadonlyArray<ExtendedMovement>;
   public sortedPositions: ReadonlyArray<ExtendedMovement>;
@@ -40,6 +41,11 @@ export class TracksPanelComponent implements OnChanges {
   public displayedColumns: string[] = ['timestamp', 'source']; //, 'oceanRegion', 'status', 'source'];
 
   ngOnChanges() {
+    if (this.panelExpanded) {
+      this.displayedColumns = ['timestamp', 'source', 'speed', 'heading', 'latitude', 'longitude'];
+    } else {
+      this.displayedColumns = ['timestamp', 'source'];
+    }
     if(typeof this.track === 'undefined' || typeof this.track.tracks === 'undefined') {
       this.formattedPositions = [];
     } else {

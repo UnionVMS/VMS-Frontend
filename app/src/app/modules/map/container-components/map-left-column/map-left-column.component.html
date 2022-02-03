@@ -1,7 +1,11 @@
-<div class="content-container {{ columnHidden ? 'panel-hidden' : ''}}">
-  <div id="minimize-left-column" (click)="hideLeftColumn(!columnHidden)">
+<div class="content-container {{ columnHidden ? 'panel-hidden' : ''}} {{ columnExpanded ? 'panel-expanded' : ''}}">
+  <div id="minimize-left-column" (click)="hideLeftColumn(!columnHidden)" *ngIf="!columnExpanded">
     <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="columnHidden"></i>
     <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="!columnHidden"></i>
+  </div>
+  <div id="expand-left-column" (click)="expandColumn(!columnExpanded)" *ngIf="!columnHidden && activePanel[0] === 'tracks'">
+    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="!columnExpanded"></i>
+    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="columnExpanded"></i>
   </div>
   <ul id="realtime-left-column-menu">
     <li
@@ -206,6 +210,7 @@
       [userTimezone]="userTimezone$ | async"
       [selectedMovement]="selectedMovement"
       [selectMovement]="selectMovement"
+      [panelExpanded]="columnExpanded"
     ></map-tracks-panel>
   </div>
 </div>

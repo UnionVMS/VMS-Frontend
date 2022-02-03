@@ -8,7 +8,7 @@
   width: $left_column_width;
   transition: width $panel_animation_time ease-out;
 
-  #minimize-left-column, #realtime-left-column-menu {
+  #minimize-left-column, #realtime-left-column-menu, #expand-left-column {
     transition: left $panel_animation_time ease-out;
   }
 
@@ -16,6 +16,34 @@
     position: absolute;
     left: 320px;
     top: 360px;
+    z-index: 200;
+    overflow: hidden;
+
+    background: $color_cold_gray;
+    height: distance(5);
+    width: distance(3);
+    border-top-right-radius: distance(3);
+    border-bottom-right-radius: distance(3);
+
+    cursor: pointer;
+
+    &:hover {
+      background: #FFFFFF;
+    }
+
+    display: grid;
+    i {
+      margin-right: distance(0.5);
+      place-self: center;
+      font-size: distance(3);
+      overflow: hidden;
+    }
+  }
+
+  #expand-left-column {
+    position: absolute;
+    left: 320px;
+    top: 300px;
     z-index: 200;
     overflow: hidden;
 
@@ -119,12 +147,19 @@
 
   &.panel-hidden {
     width: 0px;
-    #minimize-left-column, #realtime-left-column-menu {
+    #minimize-left-column, #realtime-left-column-menu, #expand-left-column {
       left: 0px;
     }
 
     .panel {
       opacity: 0;
+    }
+  }
+
+  &.panel-expanded {
+    width: $left_column_width * 2.5;
+    #minimize-left-column, #realtime-left-column-menu, #expand-left-column {
+      left: $left_column_width * 2.5;
     }
   }
 }

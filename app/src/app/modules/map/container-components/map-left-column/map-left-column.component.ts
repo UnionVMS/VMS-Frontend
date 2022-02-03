@@ -26,6 +26,9 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   @Input() selectedMovement: string;
   @Input() selectMovement: (movementId: string) => void;
 
+  public columnExpanded: boolean = false;
+
+
   public activePanel: ReadonlyArray<string>;
   public setActivePanel: (activeLeftPanel: ReadonlyArray<string>) => void;
   public setActiveRightPanel: (activeRightPanel: ReadonlyArray<string>) => void;
@@ -230,5 +233,9 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   emptyClick() {
     return null;
+  }
+
+  public expandColumn = (expanded: boolean) => {
+    this.columnExpanded = expanded;
   }
 }
