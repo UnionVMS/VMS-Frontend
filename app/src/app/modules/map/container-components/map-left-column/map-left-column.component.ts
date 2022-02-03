@@ -23,6 +23,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   @Input() noWorkflow = false;
   @Input() columnHidden: boolean;
   @Input() hideLeftColumn: (hidden: boolean) => void;
+  @Input() selectedMovement: string;
+  @Input() selectMovement: (movementId: string) => void;
 
   public activePanel: ReadonlyArray<string>;
   public setActivePanel: (activeLeftPanel: ReadonlyArray<string>) => void;
@@ -62,6 +64,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public incidentsByTypeAndStatus: IncidentTypes.IncidentsByTypeAndStatus;
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
+
+  public selectedAsset: Readonly<AssetTypes.AssetData>;
 
   public selectedIncident: Readonly<IncidentTypes.Incident>;
   public dispatchSelectIncident: (incidentId: number) => void;
@@ -119,6 +123,12 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       (incidentsByTypeAndStatus: IncidentTypes.IncidentsByTypeAndStatus) => {
         this.incidentsByTypeAndStatus = incidentsByTypeAndStatus;
     });
+    this.store.select(AssetSelectors.extendedDataForSelectedAssets).pipe(takeUntil(this.unmount$)).subscribe((selectedAssets) => {
+      this.selectedAsset = selectedAssets.find(selectedAsset => selectedAsset.currentlyShowing);
+      if ((typeof this.selectedAsset === 'undefined' || typeof this.selectedAsset.assetTracks === 'undefined') && this.activePanel[0] === 'tracks') {
+        this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel: ['filters'] }));
+      }
+    });
     this.store.select(IncidentSelectors.getSelectedIncident).pipe(takeUntil(this.unmount$)).subscribe(
       incident => { this.selectedIncident = incident; }
     );
@@ -138,9 +148,11 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       if(activeLeftPanel[0] === 'filters') {
         this.setActiveRightPanel(['information']);
       }
-      this.store.dispatch(AssetActions.clearSelectedAssets());
+      if(activeLeftPanel[0] !== 'tracks') {
+        this.store.dispatch(AssetActions.clearSelectedAssets());
+        this.store.dispatch(AssetActions.removeTracks());
+      }
       this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
-      this.store.dispatch(AssetActions.removeTracks());
     };
     this.setActiveInformationPanel = (activeInformationPanel: string | null) => {
       if(this.mapSettings.autoHelp === true) {

@@ -170,6 +170,11 @@ export const selectAsset = createAction(
   props<{ assetId: string }>()
 );
 
+export const selectMovement = createAction(
+  '[Asset] Select movement',
+  props<{ movementId: string | null }>()
+);
+
 export const selectIncident = createAction(
   '[Asset] Select incident',
   props<{ incident: IncidentTypes.Incident, incidentType: string }>()

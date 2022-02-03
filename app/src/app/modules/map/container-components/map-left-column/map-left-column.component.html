@@ -11,6 +11,11 @@
       *ngIf="!noWorkflow"
       (click)="setActivePanelAndShowColumn(['workflows'])"
     ><i class="icon-workflow {{activePanel[0] === 'workflows' ? 'active' : '' }}" aria-hidden="true"></i></li>
+    <ng-container *ngIf="selectedAsset && selectedAsset.assetTracks">
+      <li
+        (click)="setActivePanelAndShowColumn(['tracks'])"
+      ><i class="icon-tracks {{activePanel[0] === 'tracks' ? 'active' : '' }}" aria-hidden="true"></i></li>
+    </ng-container>
   </ul>
   <div class="panel filter-panel" *ngIf="activePanel[0] === 'filters'">
     <h3 i18n>Filter map</h3>
@@ -89,7 +94,7 @@
         [setActiveFunction]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING'])"
         [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING', 'RESOLVED'])"
         [userTimezone]="userTimezone$ | async"
-      ></map-incidents-asset-not-sending> 
+      ></map-incidents-asset-not-sending>
       <map-incidents-manual-position-mode class="panel workflow-panel-sub"
         [incidents]="incidentsByTypeAndStatus.manualPositionMode"
         [selectedIncident]="selectedIncident"
@@ -193,5 +198,14 @@
       [useArrowsAsToggle]="true"
     >
     </map-panel-block> -->
+  </div>
+  <div class="panel" *ngIf="activePanel[0] === 'tracks'">
+    <h3 i18n>Tracks</h3>
+    <map-tracks-panel class="panel tracks-panel"
+      [track]="selectedAsset.assetTracks"
+      [userTimezone]="userTimezone$ | async"
+      [selectedMovement]="selectedMovement"
+      [selectMovement]="selectMovement"
+    ></map-tracks-panel>
   </div>
 </div>

@@ -21,6 +21,7 @@ export const selectCurrentAssetList = (state: State) => state.asset.currentAsset
 export const selectLastUserAssetSearch = (state: State) => state.asset.lastUserAssetSearch;
 export const selectSelectedAssets = (state: State) => state.asset.selectedAssets;
 export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
+export const selectSelectedMovement = (state: State) => state.asset.selectedMovement;
 export const selectLastFullPositions = (state: State) => state.asset.lastFullPositions;
 export const selectLastPollsForAsset = (state: State) => state.asset.lastPollsForAsset;
 export const selectFilterQuery = (state: State) => state.asset.filterQuery;
@@ -193,7 +194,7 @@ export const getAssetMovements = createSelector(
               ) {
                 return false;
               }
-              if( assets[key]['mobileTerminalIds'] && assets[key]['mobileTerminalIds'][0] !== null 
+              if( assets[key]['mobileTerminalIds'] && assets[key]['mobileTerminalIds'][0] !== null
               && assets[key]['mobileTerminalIds'].length > 0 && query.type === 'mobileTerminals' && query.values[0] === true){
                 return true;
               }
@@ -256,7 +257,7 @@ export const getMapStatistics = createSelector(
   ) => {
     const sweVMSAssetsOnMapStatistics = Object.keys(onMapDepndingOnLeftPanel).reduce((acc, assetId) => {
       const currentAsset = assets[assetId];
-      if(currentAsset && currentAsset.mobileTerminalIds && currentAsset.mobileTerminalIds.length > 0 
+      if(currentAsset && currentAsset.mobileTerminalIds && currentAsset.mobileTerminalIds.length > 0
         && currentAsset.mobileTerminalIds[0] !== null) {
         return {
           ...acc,
@@ -404,6 +405,11 @@ export const getSelectedAsset = createSelector(
   selectSelectedAsset,
   selectAssets,
   (selectedAssetId, assets) => assets[selectedAssetId]
+);
+
+export const getSelectedMovement = createSelector(
+  selectSelectedMovement,
+  (selectedMovement) => selectedMovement
 );
 
 export const getLastFullPositionsForUrlAsset = createSelector(

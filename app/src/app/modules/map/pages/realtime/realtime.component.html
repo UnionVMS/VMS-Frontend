@@ -7,6 +7,8 @@
     [centerMapOnPosition]="centerMapOnPosition"
     [hideLeftColumn]="hideLeftColumn"
     [columnHidden]="leftColumnHidden"
+    [selectedMovement]="selectedMovement"
+    [selectMovement]="selectMovement"
   ></map-left-column>
   <div class="map-container">
     <div id="realtime-map"></div>
@@ -45,6 +47,8 @@
         [registerOnClickFunction]="registerOnClickFunction"
         [unregisterOnClickFunction]="unregisterOnClickFunction"
         [userTimezone]="userTimezone$ | async"
+        [selectedMovement]="selectedMovement"
+        [selectMovement]="selectMovement"
       ></map-tracks>
       <map-flagstates
         *ngIf="mapSettings.settings.flagsVisible && mapZoom > 9 && registerOnSelectFunction !== undefined"

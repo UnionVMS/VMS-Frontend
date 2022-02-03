@@ -25,6 +25,8 @@ import { formatUnixtime } from '@app/helpers/datetime-formatter';
 export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() assetTracks: Array<AssetTypes.AssetTrack>;
+  @Input() selectedMovement: string;
+  @Input() selectMovement: (movementId: string) => void;
   @Input() map: Map;
   @Input() registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   @Input() unregisterOnClickFunction: (name: string) => void;
@@ -40,6 +42,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   private readonly renderedFeatureIdsByAssetId: { [assetId: string]: Array<string> } = {};
   private readonly lookupIndexLatLonFeature: { [latLon: string]: Feature[] } = {};
   private previousUserTimezone = '';
+  private selectedFeature: Feature = null;
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -91,6 +94,8 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         this.featuresHovered.push(featureId);
         currentHoveredFeatures.push(featureId);
         this.renderFeature(featureId, closestFeature);
+        const idParts = featureId.split('_');
+        this.selectMovement(idParts[3]);
         changed = true;
 
         const featuresToRemove = this.featuresHovered.filter(id => !currentHoveredFeatures.includes(id));
@@ -102,6 +107,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
               feature.getStyle().setText(null);
             }
           }
+          this.selectMovement(null);
         });
         this.featuresHovered = currentHoveredFeatures;
       } else if(this.featuresHovered.length > 0) {
@@ -192,6 +198,21 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         });
       }
 
+      if (this.selectedMovement !== null) {
+        const selectedAssetId = this.assetTracks.find((track) => track.tracks.find((movement) => movement.id === this.selectedMovement))
+        if (this.selectedFeature !== null) {
+          this.selectedFeature.getStyle().setImage(null);
+          this.selectedFeature.getStyle().setText(null);
+        }
+        this.selectedFeature = this.vectorSource.getFeatureById('assetId_' + selectedAssetId.assetId + '_movementId_' + this.selectedMovement);
+        this.renderFeature('assetId_' + selectedAssetId.assetId + '_movementId_' + this.selectedMovement, this.selectedFeature);
+      } else {
+        if (this.selectedFeature !== null) {
+          this.selectedFeature.getStyle().setImage(null);
+          this.selectedFeature.getStyle().setText(null);
+          this.selectedFeature = null;
+        }
+      }
       this.vectorSource.addFeatures(features);
       // this.removeDeletedFeatures();
       this.vectorLayer.getSource().changed();

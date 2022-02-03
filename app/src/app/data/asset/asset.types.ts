@@ -308,6 +308,7 @@ export type Poll = Readonly<{
 export type State = Readonly<{
   selectedAssets: ReadonlyArray<string>;
   selectedAsset: string|null;
+  selectedMovement: string|null;
   selectedAssetsLastPositions: LastPositionsList;
   assetTrips: AssetTrips;
   assetTripGranularity: number;

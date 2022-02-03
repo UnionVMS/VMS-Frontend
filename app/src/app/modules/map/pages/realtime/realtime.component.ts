@@ -46,6 +46,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public activeMapLayers$: Observable<Array<string>>;
   public clearMeasurements$: Subject<boolean>;
 
+  public selectedMovement: string;
+
   public assetIdFromUrl: string;
 
   public mapReady = false;
@@ -79,13 +81,14 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public userTimezone$: Observable<string>;
   public experimentalFeaturesEnabled$: Observable<boolean>;
 
+  public selectMovement: (movementId: string) => void;
+
   public activePanel = '';
   public activeRightPanel: ReadonlyArray<string>;
   public activeLeftPanel: ReadonlyArray<string>;
   public rightColumnHidden = false;
   public leftColumnHidden = false;
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
-
 
   // Map functions to props:
   public centerMapOnPosition: (position: Position, zoom?: number) => void;
@@ -157,6 +160,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.store.select(AssetSelectors.extendedDataForSelectedAssets).pipe(takeUntil(this.unmount$)).subscribe((selectedAssets) => {
       this.selectedAssets = selectedAssets;
     });
+    this.store.select(AssetSelectors.getSelectedMovement).pipe(takeUntil(this.unmount$)).subscribe((selectedMovement) => {
+      this.selectedMovement = selectedMovement;
+    });
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
     this.store.select(MapSettingsSelectors.getMapSettingsState).pipe(takeUntil(this.unmount$)).subscribe((mapSettings) => {
@@ -225,6 +231,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.selectAsset({ assetId }));
       this.store.dispatch(AssetActions.getLastPositionsForSelectedAsset({ assetId }));
     };
+    this.selectMovement = (movementId: string) =>
+      this.store.dispatch(AssetActions.selectMovement({ movementId }));
     this.setChoosenMovementSources = (movementSources) =>
       this.store.dispatch(MapSettingsActions.setChoosenMovementSources({ movementSources }));
     this.saveMapLocation = (key: number, mapLocation: MapSettingsTypes.MapLocation, save?: boolean) =>
@@ -323,7 +331,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     const mapMountedObserver = new MutationObserver((mutations, mutationObserver) => {
       // `mutations` is an array of mutations that occurred
       // `mutationObserver` is the MutationObserver instance
-      if(document.getElementById('realtime-map') 
+      if(document.getElementById('realtime-map')
       && document.getElementById('realtime-map').getElementsByTagName('canvas') ){
         const canvasList = document.getElementById('realtime-map').getElementsByTagName('canvas');
         if (canvasList.length === 1) {
