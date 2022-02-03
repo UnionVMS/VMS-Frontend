@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnChanges } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { formatUnixtime } from '@app/helpers/datetime-formatter';
+import { formatUnixtimeSeconds } from '@app/helpers/datetime-formatter';
 import { compareTableSortNumber, compareTableSortString } from '@app/helpers/helpers';
 import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 import { AssetTypes } from '@data/asset';
@@ -42,7 +42,7 @@ export class TracksPanelComponent implements OnChanges {
 
   ngOnChanges() {
     if (this.panelExpanded) {
-      this.displayedColumns = ['timestamp', 'source', 'speed', 'heading', 'latitude', 'longitude'];
+      this.displayedColumns = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'source'];
     } else {
       this.displayedColumns = ['timestamp', 'source'];
     }
@@ -52,7 +52,7 @@ export class TracksPanelComponent implements OnChanges {
       this.formattedPositions = this.track.tracks.map(position => ({
         ...position,
         locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude, 2),
-        formattedTimestamp: formatUnixtime(position.timestamp),
+        formattedTimestamp: formatUnixtimeSeconds(position.timestamp),
         formattedSpeed: typeof position.speed === 'number' ? position.speed.toFixed(2) : '',
         sourceSatelliteId: position.sourceSatelliteId,
         oceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],

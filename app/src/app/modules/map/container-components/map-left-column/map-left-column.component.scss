@@ -8,7 +8,7 @@
   width: $left_column_width;
   transition: width $panel_animation_time ease-out;
 
-  #minimize-left-column, #realtime-left-column-menu, #expand-left-column {
+  #minimize-left-column, #realtime-left-column-menu {
     transition: left $panel_animation_time ease-out;
   }
 
@@ -21,7 +21,6 @@
 
     background: $color_cold_gray;
     height: distance(5);
-    width: distance(3);
     border-top-right-radius: distance(3);
     border-bottom-right-radius: distance(3);
 
@@ -32,6 +31,7 @@
     }
 
     display: grid;
+    grid-template-columns: auto auto;
     i {
       margin-right: distance(0.5);
       place-self: center;
@@ -40,32 +40,12 @@
     }
   }
 
-  #expand-left-column {
-    position: absolute;
-    left: 320px;
-    top: 300px;
-    z-index: 200;
-    overflow: hidden;
-
-    background: $color_cold_gray;
-    height: distance(5);
+  .minimize-left-column-small {
     width: distance(3);
-    border-top-right-radius: distance(3);
-    border-bottom-right-radius: distance(3);
+  }
 
-    cursor: pointer;
-
-    &:hover {
-      background: #FFFFFF;
-    }
-
-    display: grid;
-    i {
-      margin-right: distance(0.5);
-      place-self: center;
-      font-size: distance(3);
-      overflow: hidden;
-    }
+  .minimize-left-column-large {
+    width: distance(6);
   }
 
   #realtime-left-column-menu {
@@ -147,7 +127,7 @@
 
   &.panel-hidden {
     width: 0px;
-    #minimize-left-column, #realtime-left-column-menu, #expand-left-column {
+    #minimize-left-column, #realtime-left-column-menu {
       left: 0px;
     }
 
@@ -158,7 +138,7 @@
 
   &.panel-expanded {
     width: $left_column_width * 2.5;
-    #minimize-left-column, #realtime-left-column-menu, #expand-left-column {
+    #minimize-left-column, #realtime-left-column-menu {
       left: $left_column_width * 2.5;
     }
   }

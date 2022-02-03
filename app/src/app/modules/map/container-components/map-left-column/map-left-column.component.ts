@@ -28,7 +28,6 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   public columnExpanded: boolean = false;
 
-
   public activePanel: ReadonlyArray<string>;
   public setActivePanel: (activeLeftPanel: ReadonlyArray<string>) => void;
   public setActiveRightPanel: (activeRightPanel: ReadonlyArray<string>) => void;
@@ -101,6 +100,10 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.setActivePanel(activeLeftPanel);
   }
 
+  public expandColumn = (expanded: boolean) => {
+    this.columnExpanded = expanded;
+  }
+
   constructor(private readonly store: Store<any>) { }
 
   mapStateToProps() {
@@ -128,8 +131,12 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     });
     this.store.select(AssetSelectors.extendedDataForSelectedAssets).pipe(takeUntil(this.unmount$)).subscribe((selectedAssets) => {
       this.selectedAsset = selectedAssets.find(selectedAsset => selectedAsset.currentlyShowing);
-      if ((typeof this.selectedAsset === 'undefined' || typeof this.selectedAsset.assetTracks === 'undefined') && this.activePanel[0] === 'tracks') {
+      if ((typeof this.selectedAsset === 'undefined' ||
+          typeof this.selectedAsset.assetTracks === 'undefined') &&
+          this.activePanel[0] === 'tracks'
+      ) {
         this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel: ['filters'] }));
+        this.expandColumn(false);
       }
     });
     this.store.select(IncidentSelectors.getSelectedIncident).pipe(takeUntil(this.unmount$)).subscribe(
@@ -154,6 +161,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       if(activeLeftPanel[0] !== 'tracks') {
         this.store.dispatch(AssetActions.clearSelectedAssets());
         this.store.dispatch(AssetActions.removeTracks());
+        this.expandColumn(false);
       }
       this.store.dispatch(MapActions.setActiveLeftPanel({ activeLeftPanel }));
     };
@@ -233,9 +241,5 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   emptyClick() {
     return null;
-  }
-
-  public expandColumn = (expanded: boolean) => {
-    this.columnExpanded = expanded;
   }
 }

@@ -46,8 +46,6 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public activeMapLayers$: Observable<Array<string>>;
   public clearMeasurements$: Subject<boolean>;
 
-  public selectedMovement: string;
-
   public assetIdFromUrl: string;
 
   public mapReady = false;
@@ -81,6 +79,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public userTimezone$: Observable<string>;
   public experimentalFeaturesEnabled$: Observable<boolean>;
 
+  public selectedMovement: string;
   public selectMovement: (movementId: string) => void;
 
   public activePanel = '';

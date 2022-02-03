@@ -1,11 +1,10 @@
 <div class="content-container {{ columnHidden ? 'panel-hidden' : ''}} {{ columnExpanded ? 'panel-expanded' : ''}}">
-  <div id="minimize-left-column" (click)="hideLeftColumn(!columnHidden)" *ngIf="!columnExpanded">
-    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="columnHidden"></i>
-    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="!columnHidden"></i>
-  </div>
-  <div id="expand-left-column" (click)="expandColumn(!columnExpanded)" *ngIf="!columnHidden && activePanel[0] === 'tracks'">
-    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="!columnExpanded"></i>
-    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="columnExpanded"></i>
+  <div id="minimize-left-column" class="{{ !columnHidden && !columnExpanded  && activePanel[0] === 'tracks' ? 'minimize-left-column-large' : 'minimize-left-column-small'}}">
+    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="columnHidden" (click)="hideLeftColumn(false)"></i>
+    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="!columnHidden && activePanel[0] !== 'tracks'" (click)="hideLeftColumn(true)"></i>
+    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="columnExpanded" (click)="expandColumn(false)"></i>
+    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="!columnHidden && !columnExpanded  && activePanel[0] === 'tracks'" (click)="hideLeftColumn(true)"></i>
+    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="!columnHidden && !columnExpanded && activePanel[0] === 'tracks'" (click)="expandColumn(true)"></i>
   </div>
   <ul id="realtime-left-column-menu">
     <li
