@@ -3,6 +3,7 @@ import * as AssetTypes from './asset.types';
 import { State } from '@app/app-reducer';
 import { MapSavedFiltersSelectors, MapSavedFiltersTypes } from '@data/map-saved-filters';
 import { IncidentTypes, IncidentSelectors } from '@data/incident';
+import { ActivityTypes, ActivitySelectors } from '@data/activity';
 import { MapSelectors } from '@data/map';
 import { getMergedRoute } from '@data/router/router.selectors';
 
@@ -150,13 +151,15 @@ export const getAssetMovements = createSelector(
   MapSavedFiltersSelectors.getActiveFilters,
   MapSelectors.getFiltersActive,
   MapSelectors.getActiveLeftPanel,
+  ActivitySelectors.getLatestActivities,
   (
     assetMovements: { readonly [uid: string]: AssetTypes.AssetMovement },
     assets: { readonly [uid: string]: AssetTypes.Asset },
     currentFilterQuery: ReadonlyArray<AssetTypes.AssetFilterQuery>,
     savedFilterQuerys: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>,
     filtersActive: Readonly<{ readonly [filterTypeName: string]: boolean }>,
-    activeLeftPanel: ReadonlyArray<string>
+    activeLeftPanel: ReadonlyArray<string>,
+    activities: { readonly [uid: string]: ActivityTypes.Activity },
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
 
@@ -200,6 +203,18 @@ export const getAssetMovements = createSelector(
               }
               if( !assets[key]['mobileTerminalIds'] && query.type === 'mobileTerminals' && query.values[0] === false){
                 return true;
+              }
+              if (query.type === 'activity') {
+                if (typeof activities[key] === 'undefined') {
+                  return false;
+                } else {
+                  const valueToCheck = activities[key]['activityType'].toLowerCase();
+                  if(query.inverse) {
+                    return query.values.some(value => valueToCheck.indexOf(value.toLowerCase()) === -1);
+                  } else {
+                    return query.values.some(value => valueToCheck.indexOf(value.toLowerCase()) !== -1);
+                  }
+                }
               }
               if(query.valueType === AssetTypes.AssetFilterValueTypes.NUMBER) {
                 return query.values.reduce((acc, value) => {

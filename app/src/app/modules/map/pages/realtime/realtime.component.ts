@@ -17,6 +17,7 @@ import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
 import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
 import { AuthSelectors } from '@data/auth';
 import { IncidentActions } from '@data/incident';
+import { ActivityActions, ActivitySelectors } from '@data/activity';
 import { MapActions, MapSelectors } from '@data/map';
 import { MapLayersActions, MapLayersSelectors, MapLayersTypes } from '@data/map-layers';
 import { MapSettingsActions, MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
@@ -68,6 +69,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   private readonly onSelectFunctions: { [name: string]: (event) => void } = {};
 
   public assetTracks$: Observable<any>;
+  public activityTracks$: Observable<any>;
   public forecasts$: Observable<any>;
   public movementSources$: Observable<ReadonlyArray<string>>;
   public choosenMovementSources$: Observable<ReadonlyArray<string>>;
@@ -163,6 +165,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.selectedMovement = selectedMovement;
     });
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
+    this.activityTracks$ = this.store.select(ActivitySelectors.getActivityTracks);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
     this.store.select(MapSettingsSelectors.getMapSettingsState).pipe(takeUntil(this.unmount$)).subscribe((mapSettings) => {
       this.mapSettings = mapSettings;
@@ -200,6 +203,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       take(1)
     ).subscribe((user) => {
       this.store.dispatch(MapLayersActions.getUserAreas());
+      this.store.dispatch(ActivityActions.getInitialActivities());
     });
     this.userTimezone$ = this.store.select(UserSettingsSelectors.getTimezone);
     this.experimentalFeaturesEnabled$ = this.store.select(UserSettingsSelectors.getExperimentalFeaturesEnabled);

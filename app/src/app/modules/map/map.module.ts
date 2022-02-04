@@ -87,6 +87,7 @@ import { RightClickMenuComponent } from './components/right-click-menu/right-cli
 import { SavedFiltersComponent } from './components/saved-filters/saved-filters.component';
 import { SourcePickerComponent } from './components/source-picker/source-picker.component';
 import { SelectedAssetsPanelComponent } from './components/selected-assets-panel/selected-assets-panel.component';
+import { TracksActivitiesComponent } from './components/tracks-activities/tracks-activities.component';
 import { TracksComponent } from './components/tracks/tracks.component';
 import { TracksPanelComponent } from './components/tracks-panel/tracks-panel.component';
 import { TracksSegmentsComponent } from './components/tracks-segments/tracks-segments.component';
@@ -178,10 +179,11 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     SavedFiltersComponent,
     SourcePickerComponent,
     SelectedAssetsPanelComponent,
+    TracksActivitiesComponent,
     TracksComponent,
+    TracksPanelComponent,
     TracksSegmentsComponent,
     TripPlayerComponent,
-    TracksPanelComponent,
   ]
 })
 
