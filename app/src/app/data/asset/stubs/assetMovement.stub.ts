@@ -11,6 +11,7 @@ const AssetMovementStub: AssetMovement = {
     id: '4eea28b6-0844-4a6b-f5be-6b655a4e0343',
     timestamp: 1583509117000,
     speed: 11.2,
+    calculatedSpeed: 11,
     source: 'AIS',
     movementType: 'POS',
     updated: 1583509117000,

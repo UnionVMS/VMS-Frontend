@@ -163,7 +163,7 @@ export const getAssetMovements = createSelector(
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
 
-    if(activeLeftPanel[0] === 'filters') {
+    if(activeLeftPanel[0] === 'filters' || activeLeftPanel[0] === 'tracks') {
       let filterQuerys: ReadonlyArray<ReadonlyArray<AssetTypes.AssetFilterQuery>> = [];
       if(filtersActive.savedFilters) {
         filterQuerys = savedFilterQuerys.filter((filter) => filter.filter[0].type !== 'GUID').map(savedFilter => savedFilter.filter);

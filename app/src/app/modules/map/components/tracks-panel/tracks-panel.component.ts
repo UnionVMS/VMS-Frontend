@@ -43,6 +43,8 @@ export class TracksPanelComponent implements OnChanges {
   private defaultSorting: Sort = { active: 'timestamp', direction: 'desc' };
   private currentSorting: Sort = this.defaultSorting;
 
+  private latestPanelExpanded: boolean;
+
   ngOnChanges() {
     if(this.panelExpanded) {
       this.displayedColumns = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'source'];
@@ -50,6 +52,10 @@ export class TracksPanelComponent implements OnChanges {
       this.displayedColumns = ['timestamp', 'source'];
       this.currentSorting = this.defaultSorting;
     }
+    if (this.latestPanelExpanded !== this.panelExpanded) {
+      this.expandedElement = null;
+    }
+    this.latestPanelExpanded = this.panelExpanded;
     if(typeof this.track === 'undefined' || typeof this.track.tracks === 'undefined') {
       this.formattedPositions = [];
     } else {
