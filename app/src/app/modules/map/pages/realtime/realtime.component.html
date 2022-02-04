@@ -7,7 +7,7 @@
     [centerMapOnPosition]="centerMapOnPosition"
     [hideLeftColumn]="hideLeftColumn"
     [columnHidden]="leftColumnHidden"
-    [selectedMovement]="selectedMovement"
+    [selectedMovement]="selectedMovement$ | async"
     [selectMovement]="selectMovement"
   ></map-left-column>
   <div class="map-container">
@@ -54,7 +54,7 @@
         [registerOnClickFunction]="registerOnClickFunction"
         [unregisterOnClickFunction]="unregisterOnClickFunction"
         [userTimezone]="userTimezone$ | async"
-        [selectedMovement]="selectedMovement"
+        [selectedMovement]="selectedMovement$ | async"
         [selectMovement]="selectMovement"
       ></map-tracks>
       <map-flagstates

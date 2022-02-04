@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -108,6 +109,7 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatSortModule,
     MatTableModule,
     MatTabsModule,
     MatProgressSpinnerModule,

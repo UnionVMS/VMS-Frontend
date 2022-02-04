@@ -1,54 +1,45 @@
+@import 'variables.scss';
+
 .positions-container {
   display: grid;
-}
 
-table {
-  width: 100%;
-}
+  .row-element td {
+    border-bottom-width: 0;
+  }
 
-tr.example-detail-row {
-  height: 0;
-}
+  .row-details {
+    overflow: hidden;
 
-.selected {
-  background: whitesmoke;
-}
+    .row-details-fields {
+      display: grid;
+      padding-bottom: distance(1);
+      grid-template-columns: 1fr auto;
+      grid-column-gap: distance(0.5);
 
-tr.example-element-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
-}
+      div {
+        text-align: right;
+      }
+    }
 
-tr.example-element-row:not(.example-expanded-row):active {
-  background: #efefef;
-}
+    .row-details-fields-expanded {
+      padding-right: distance(1);
+      grid-template-columns: auto auto auto auto;
 
-.example-element-row td {
-  border-bottom-width: 0;
-}
+      div {
+        text-align: left;
+      }
+    }
+  }
 
-.example-element-detail {
-  overflow: hidden;
-  display: flex;
-}
+  .row-details-hidden {
+    height: 0px;
+  }
 
-.example-element-diagram {
-  min-width: 80px;
-  padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
-  height: 104px;
-}
+  .selected {
+    background: whitesmoke;
+  }
 
-.example-element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
-}
-
-.example-element-description {
-  padding: 16px;
-}
-
-.example-element-description-attribution {
-  opacity: 0.5;
+  legend {
+    font-size: $default_font_size;
+  }
 }

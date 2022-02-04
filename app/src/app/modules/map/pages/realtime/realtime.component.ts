@@ -81,7 +81,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public userTimezone$: Observable<string>;
   public experimentalFeaturesEnabled$: Observable<boolean>;
 
-  public selectedMovement: string;
+  public selectedMovement$: Observable<any>;
   public selectMovement: (movementId: string) => void;
 
   public activePanel = '';
@@ -161,9 +161,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     this.store.select(AssetSelectors.extendedDataForSelectedAssets).pipe(takeUntil(this.unmount$)).subscribe((selectedAssets) => {
       this.selectedAssets = selectedAssets;
     });
-    this.store.select(AssetSelectors.getSelectedMovement).pipe(takeUntil(this.unmount$)).subscribe((selectedMovement) => {
-      this.selectedMovement = selectedMovement;
-    });
+    this.selectedMovement$ = this.store.select(AssetSelectors.getSelectedMovement);
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.activityTracks$ = this.store.select(ActivitySelectors.getActivityTracks);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);

@@ -40,6 +40,7 @@ export type Movement = Readonly<{
   id: string;
   timestamp: number;
   speed: number | null;
+  calculatedSpeed: number | null;
   source: string;
   movementType: string;
   updated: number;

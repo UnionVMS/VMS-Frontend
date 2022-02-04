@@ -206,10 +206,10 @@
     <h3 i18n>Tracks</h3>
     <map-tracks-panel class="panel tracks-panel"
       [track]="selectedAsset.assetTracks"
-      [userTimezone]="userTimezone$ | async"
       [selectedMovement]="selectedMovement"
       [selectMovement]="selectMovement"
       [panelExpanded]="columnExpanded"
+      [userTimezone]="userTimezone$ | async"
     ></map-tracks-panel>
   </div>
 </div>

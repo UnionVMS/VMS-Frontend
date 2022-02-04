@@ -9,6 +9,7 @@ import { AssetTypes } from '@data/asset';
 type ExtendedMovement = Readonly<AssetTypes.Movement & {
   formattedTimestamp: string;
   formattedSpeed: string,
+  formattedCalculatedSpeed: string,
   oceanRegion: string;
   source: string;
 }>;
@@ -28,23 +29,26 @@ type ExtendedMovement = Readonly<AssetTypes.Movement & {
 export class TracksPanelComponent implements OnChanges {
 
   @Input() track: Readonly<AssetTypes.AssetTrack>;
-  @Input() coordinateFormat: string;
-  @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
   @Input() selectedMovement: string;
   @Input() selectMovement: (movementId: string) => void;
   @Input() panelExpanded: boolean;
+  @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 
   public formattedPositions: ReadonlyArray<ExtendedMovement>;
   public sortedPositions: ReadonlyArray<ExtendedMovement>;
-  expandedElement: ExtendedMovement | null;
+  public expandedElement: ExtendedMovement | null;
 
-  public displayedColumns: string[] = ['timestamp', 'source']; //, 'oceanRegion', 'status', 'source'];
+  public displayedColumns: string[] = ['timestamp', 'source'];
+
+  private defaultSorting: Sort = { active: 'timestamp', direction: 'desc' };
+  private currentSorting: Sort = this.defaultSorting;
 
   ngOnChanges() {
-    if (this.panelExpanded) {
+    if(this.panelExpanded) {
       this.displayedColumns = ['timestamp', 'latitude', 'longitude', 'speed', 'heading', 'source'];
     } else {
       this.displayedColumns = ['timestamp', 'source'];
+      this.currentSorting = this.defaultSorting;
     }
     if(typeof this.track === 'undefined' || typeof this.track.tracks === 'undefined') {
       this.formattedPositions = [];
@@ -54,15 +58,17 @@ export class TracksPanelComponent implements OnChanges {
         locationDDM: convertDDToDDM(position.location.latitude, position.location.longitude, 2),
         formattedTimestamp: formatUnixtimeSeconds(position.timestamp),
         formattedSpeed: typeof position.speed === 'number' ? position.speed.toFixed(2) : '',
+        formattedCalculatedSpeed: typeof position.calculatedSpeed === 'number' ? position.speed.toFixed(2) : '',
         sourceSatelliteId: position.sourceSatelliteId,
         oceanRegion: AssetTypes.OceanRegionTranslation[position.sourceSatelliteId],
         source: position.source
       }));
-      this.sortData({ active: 'timestamp', direction: 'desc' });
+      this.sortData(this.currentSorting);
     }
   }
 
   sortData(sort: Sort) {
+    this.currentSorting = sort;
     const positions = this.formattedPositions.slice();
     if (!sort.active || sort.direction === '') {
       this.sortedPositions = positions;
@@ -77,8 +83,6 @@ export class TracksPanelComponent implements OnChanges {
         case 'longitude': return compareTableSortNumber(a.location.longitude, b.location.longitude, isAsc);
         case 'speed': return compareTableSortNumber(a.speed, b.speed, isAsc);
         case 'heading': return compareTableSortNumber(a.heading, b.heading, isAsc);
-        case 'oceanRegion': return compareTableSortString(a.oceanRegion, b.oceanRegion, isAsc);
-        case 'status': return compareTableSortString(a.status, b.status, isAsc);
         case 'source': return compareTableSortString(a.source, b.source, isAsc);
         default: return 0;
       }
