@@ -85,6 +85,26 @@ export const isAdmin = createSelector(
   }
 );
 
+export const hasActivityFeature = createSelector(
+  getAuthState,
+  (state: AuthTypes.State) => {
+    let returnBoolean = false;
+    if(
+      state.user !== null &&
+      typeof state.user.jwtToken !== 'undefined' &&
+      typeof state.user.jwtToken.decoded !== 'undefined' &&
+      typeof state.user.jwtToken.decoded.features !== 'undefined'
+    ) {
+      state.user.jwtToken.decoded.features.some((e) => {
+        if ( e === 100027 ) {
+          returnBoolean = true;
+        }
+      });
+    }
+    return returnBoolean;
+  }
+)
+
 export const fishingActivityUnlocked = createSelector(
   getAuthState,
   (state: AuthTypes.State) => {

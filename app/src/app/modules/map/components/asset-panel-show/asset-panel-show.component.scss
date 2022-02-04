@@ -106,6 +106,36 @@
             }
           }
         }
+
+        .asset-information--activity {
+          grid-column: 1 / span 2;
+
+          h3 {
+            padding: distance(1) 0px distance(0.5);
+            font-size: 14px;
+          }
+
+          .asset-information--activity--content {
+            background: rgba($color_light_turquoise, 0.1);
+            padding: distance(1);
+            display: grid;
+            grid-row-gap: distance(0.5);
+
+            .activity-type {
+              font-weight: bolder;
+            }
+
+            .activity-fields {
+              display: grid;
+              grid-template-columns: 1fr auto;
+              grid-column-gap: distance(0.5);
+
+              div {
+                text-align: right;
+              }
+            }
+          }
+        }
       }
     }
   }

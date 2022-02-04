@@ -10,6 +10,7 @@ import getContryISO2 from 'country-iso-3-to-2';
 
 // @ts-ignore
 import moment from 'moment-timezone';
+import { ActivityTypes } from '@data/activity';
 
 @Component({
   selector: 'map-asset-panel-show',
@@ -19,6 +20,7 @@ import moment from 'moment-timezone';
 export class AssetPanelShowComponent {
   @Input() asset: AssetTypes.AssetData;
   @Input() selectedAssetsLastPositions: AssetTypes.LastPositions;
+  @Input() selectedAssetsLastActivity: ActivityTypes.Activity;
 
   @Input() deselectAsset: (assetId: string) => void;
   @Input() getAssetTrack: (assetId: string, movementId: string) => void;

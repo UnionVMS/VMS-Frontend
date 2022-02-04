@@ -38,6 +38,13 @@
         [assetTracks]="assetTracks$|async"
         [map]="map"
       ></map-tracks-segments>
+      <map-tracks-activities
+        *ngIf="mapSettings.settings.tracksVisible"
+        [activityTracks]="activityTracks$ | async"
+        [map]="map"
+        [mapZoom]="mapZoom"
+        [userTimezone]="userTimezone$ | async"
+      ></map-tracks-activities>
       <map-tracks
         *ngIf="mapSettings.settings.tracksVisible && mapZoom > 5"
         [assetTracks]="assetTracks$|async"

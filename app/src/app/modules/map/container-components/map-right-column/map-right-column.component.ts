@@ -8,6 +8,7 @@ import getContryISO2 from 'country-iso-3-to-2';
 import { Position } from '@data/generic.types';
 import { AssetActions, AssetTypes, AssetSelectors } from '@data/asset';
 import { IncidentActions, IncidentTypes, IncidentSelectors } from '@data/incident';
+import { ActivityTypes, ActivitySelectors, ActivityActions } from '@data/activity';
 import { MapActions, MapSelectors } from '@data/map';
 import { NotesActions, NotesTypes } from '@data/notes';
 import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors } from '@data/map-saved-filters';
@@ -39,6 +40,7 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
   public selectedAsset: Readonly<AssetTypes.AssetData>;
   public selectedAssets: ReadonlyArray<AssetTypes.AssetData>;
   public selectedAssetsLastPositions: AssetTypes.LastPositionsList;
+  public selectedAssetsLastActivities: Readonly<{ readonly [assetId: string]: ActivityTypes.Activity}>;
   public selectedIncident: Readonly<IncidentTypes.Incident>;
   public choosenMovementSources: ReadonlyArray<string>;
   public assetGroupFilters: ReadonlyArray<MapSavedFiltersTypes.SavedFilter>;
@@ -164,6 +166,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unmount$)).subscribe(selectedAssetsLastPositions => {
         this.selectedAssetsLastPositions = selectedAssetsLastPositions;
       });
+      this.store.select(ActivitySelectors.getLatestActivities)
+      .pipe(takeUntil(this.unmount$)).subscribe(selectedAssetsLastActivities => {
+        this.selectedAssetsLastActivities = selectedAssetsLastActivities;
+      });
     this.mapStatistics$ = this.store.select(AssetSelectors.getMapStatistics);
     this.mapLayers$ = this.store.select(MapLayersSelectors.getMapLayers);
     this.cascadedLayers$ = this.store.select(MapLayersSelectors.getCascadedLayers);
@@ -201,8 +207,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(AssetActions.clearSelectedAssets());
     this.clearForecasts = () =>
       this.store.dispatch(AssetActions.clearForecasts());
-    this.clearTracks = () =>
+    this.clearTracks = () => {
       this.store.dispatch(AssetActions.clearTracks());
+      this.store.dispatch(ActivityActions.removeTracks());
+    }
     this.deselectAsset = (assetId) => {
       if(this.selectedAssets.length === 1) {
         this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['information'] }));
@@ -219,8 +227,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
       this.store.dispatch(IncidentActions.selectIncident({ incidentId }));
     this.getAssetTrack = (assetId: string, movementId: string) =>
       this.store.dispatch(AssetActions.getAssetTrack({ assetId, movementId }));
-    this.getAssetTrackTimeInterval = (assetId, startDate, endDate) =>
+    this.getAssetTrackTimeInterval = (assetId, startDate, endDate) => {
       this.store.dispatch(AssetActions.getAssetTrackTimeInterval({ assetId, startDate, endDate, sources: this.choosenMovementSources }));
+      this.store.dispatch(ActivityActions.getActivityTrack({ assetId, startDate }));
+    }
     this.getIncidentsForAssetId = (assetId) =>
       this.store.dispatch(IncidentActions.getIncidentsForAssetId({ assetId }));
     this.getLogForIncident = (incidentId: number) =>
@@ -231,8 +241,10 @@ export class MapRightColumnComponent implements OnInit, OnDestroy {
     };
     this.getLatestPollsForAsset = (assetId: string) =>
       this.store.dispatch(AssetActions.getLatestPollsForAsset({ assetId }));
-    this.untrackAsset = (assetId: string) =>
+    this.untrackAsset = (assetId: string) => {
       this.store.dispatch(AssetActions.untrackAsset({ assetId }));
+      this.store.dispatch(ActivityActions.removeActivityTrack({ assetId }));
+    }
     this.saveMapLocation = (key: number, mapLocation: MapSettingsTypes.MapLocation, save?: boolean) =>
       this.store.dispatch(MapSettingsActions.saveMapLocation({ key, mapLocation, save }));
     this.deleteMapLocation = (key: number) =>
