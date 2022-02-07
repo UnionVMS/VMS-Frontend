@@ -38,6 +38,7 @@ import { SavedFiltersComponent } from '../../components/saved-filters/saved-filt
 import { TracksComponent } from '../../components/tracks/tracks.component';
 
 import { AssetReducer, AssetActions, AssetTypes } from '@data/asset';
+import { ActivityReducer } from '@data/activity';
 import AssetStub from '@data/asset/stubs/asset.stub';
 import AssetMovementWithAssetStub from '@data/asset/stubs/assetMovementWithEssentials.stub';
 import AssetTrackStub from '@data/asset/stubs/assetTracks.stub';
@@ -112,7 +113,8 @@ describe('RealtimeComponent', () => {
           map: { ...MapReducer.initialState, realtime: { ready: true } },
           incident: IncidentReducer.initialState,
           auth: { user: null },
-          asset: { ...AssetReducer.initialState }
+          asset: { ...AssetReducer.initialState },
+          activity: { ...ActivityReducer.initialState }
         }
       };
     };

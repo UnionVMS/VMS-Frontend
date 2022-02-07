@@ -38,6 +38,7 @@ import { NotesModule } from './modules/notes/notes.module';
 
 
 /* Effects */
+import { ActivityEffects } from '@data/activity/activity.effects';
 import { AssetEffects } from '@data/asset/asset.effects';
 import { AuthEffects } from '@data/auth/auth.effects';
 import { ContactEffects } from '@data/contact/contact.effects';
@@ -72,6 +73,7 @@ const imports = [
   AppRoutingModule,
   HttpClientModule,
   EffectsModule.forRoot([
+    ActivityEffects,
     AuthEffects,
     AssetEffects,
     ContactEffects,

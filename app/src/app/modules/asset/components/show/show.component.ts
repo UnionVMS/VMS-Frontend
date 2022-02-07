@@ -6,7 +6,6 @@ import { formatUnixdate } from '@app/helpers/datetime-formatter';
 import { AssetTypes } from '@data/asset';
 import { IncidentTypes } from '@data/incident';
 
-
 @Component({
   selector: 'asset-show',
   templateUrl: './show.component.html',
@@ -62,4 +61,9 @@ export class ShowComponent implements OnChanges {
     }
     return countryCode.toLowerCase();
   }
+
+  public formatFixed2(nr: number){
+    return nr.toFixed(2);
+  };
+
 }

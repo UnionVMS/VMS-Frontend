@@ -66,6 +66,8 @@ export class ShowByAssetPageComponent implements OnInit, OnDestroy, AfterViewIni
           this.mobileTerminalHistoryNotUpToDate = false;
           this.store.dispatch(MobileTerminalActions.getMobileTerminalHistoryForAsset({ assetId: this.selectedAsset.id }));
         }
+      }else{
+        this.store.dispatch(MobileTerminalActions.search({ query: {}, includeArchived: true, saveAsSearchResult: true }));
       }
     });
     this.mobileTerminalHistoryFilter$ = this.store.select(MobileTerminalSelectors.getMobileTerminalHistoryFilter);
