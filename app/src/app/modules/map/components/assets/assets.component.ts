@@ -106,80 +106,99 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     this.vectorLayer.getSource().changed();
   }
 
-  ngOnChanges() {
-    if(this.mapZoom < 8) {
-      this.namesVisibleCalculated = false;
-      this.speedsVisibleCalculated = false;
-    } else {
-      this.namesVisibleCalculated = this.namesVisible;
-      this.speedsVisibleCalculated = this.speedsVisible;
+  ngOnChanges(event) {
+    let doChange = false
+    if( event.assets ){
+      let cur  = JSON.stringify(event.assets.currentValue);
+      let prev = JSON.stringify(event.assets.previousValue);
+      doChange = cur !== prev;
+    }else if( event.mapZoom && this.mapZoom > 10 ) {
+      let cur  = JSON.stringify(Math.floor(event.mapZoom.currentValue));
+      let prev = JSON.stringify(Math.floor(event.mapZoom.previousValue));
+      doChange = cur !== prev;
     }
- 
-    // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
-    if (typeof this.vectorSource !== 'undefined') {
-      const assetsToRender = this.assets.reduce((acc, asset) => {
-        acc[asset.assetMovement.asset] = true;
-        return acc;
-      }, {});
-      let reRenderAssets = Object.keys(this.renderedAssetIds).some((assetId) => assetsToRender[assetId] !== true);
-
-      reRenderAssets = this.reRenderAssetIds ? true : false;
-      if(reRenderAssets) {
-        this.numberOfVesselsOnPosition = {};
-        // Instead of removing them one by one which triggers recalculations inside open layers after every removal
-        // we clear the entire map of assets and redraw them, this scales linearly instead of exponentialy it appears.
-        this.vectorSource.clear();
-        this.assetLastUpdateHash = {};
-        this.assetSpeedsPreviouslyRendered = {};
+    if(doChange){
+      
+      if(this.mapZoom < 10) {
+        this.namesVisibleCalculated = false;
+        this.speedsVisibleCalculated = false;
+      } else {
+        this.namesVisibleCalculated = this.namesVisible;
+        this.speedsVisibleCalculated = this.speedsVisible;
       }
-
-      if(this.assets.length === 0) {
-        return false;
-      }
-
-      const newRenderedAssetIds = reRenderAssets ? {} : this.renderedAssetIds;
-      this.vectorSource.addFeatures(
-        this.assets.reduce((acc, asset) => {
-          if(Math.floor(this.mapZoom) > 16 && this.reRenderAssetIds && this.reRenderAssetIds.length > 0){
-            this.reRender = true;
-          }
-          if(Math.floor(this.mapZoom) < 16 && this.reRender){
-            this.reRender = false;
-          }
-          if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
-            newRenderedAssetIds[asset.assetMovement.asset] = true;
-          }
-          if(reRenderAssets) {
-            acc.push(this.createFeatureFromAsset(asset));
-            return acc;
-          }
-          const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
-          if (assetFeature !== null) {
-            this.updateFeatureFromAsset(assetFeature, asset);
-          } else {
-            acc.push(this.createFeatureFromAsset(asset));
-          }
+  
+      // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
+      if (typeof this.vectorSource !== 'undefined') {
+        const assetsToRender = this.assets.reduce((acc, asset) => {
+          acc[asset.assetMovement.asset] = true;
           return acc;
-        }, [])
-      );
+        }, {});
+        let reRenderAssets = Object.keys(this.renderedAssetIds).some((assetId) => assetsToRender[assetId] !== true);
 
-      this.selectedAssets.map((selectedAsset) => {
-        const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
-        if(selectedAssetFeature) {
-            this.addTargetImageOnAsset(selectedAssetFeature);
-            // We need to reset position to force rerender of asset.
-            selectedAssetFeature.setGeometry(new Point(fromLonLat([
-              selectedAsset.currentPosition.movement.location.longitude,
-              selectedAsset.currentPosition.movement.location.latitude
-            ])));
-        }else{
-          this.removeTargetImageOnAsset(selectedAsset.asset.id);
+        reRenderAssets = this.reRenderAssetIds ? true : false;
+        if(reRenderAssets) {
+          this.numberOfVesselsOnPosition = {};
+          // Instead of removing them one by one which triggers recalculations inside open layers after every removal
+          // we clear the entire map of assets and redraw them, this scales linearly instead of exponentialy it appears.
+          this.vectorSource.clear();
+          this.assetLastUpdateHash = {};
+          this.assetSpeedsPreviouslyRendered = {};
         }
-      });
 
-      this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
-      this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;
-      this.renderedAssetIds = newRenderedAssetIds;
+        if(this.assets.length === 0) {
+          return false;
+        }
+
+        const newRenderedAssetIds = reRenderAssets ? {} : this.renderedAssetIds;
+
+        if(reRenderAssets) {
+
+        this.vectorSource.addFeatures(
+          this.assets.reduce((acc, asset) => {
+            if(this.numberOfVesselsOnPosition && Object.keys(this.numberOfVesselsOnPosition).length > 0 ){
+              if(Math.floor(this.mapZoom) > 16 && this.reRenderAssetIds && this.reRenderAssetIds.length > 0){
+                this.reRender = true;
+              }
+              if(Math.floor(this.mapZoom) < 16 && this.reRender){
+                this.reRender = false;
+              }
+            }
+            if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
+              newRenderedAssetIds[asset.assetMovement.asset] = true;
+            }
+            if(reRenderAssets) {
+              acc.push(this.createFeatureFromAsset(asset));
+              return acc;
+            }
+            const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
+            if (assetFeature !== null) {
+              this.updateFeatureFromAsset(assetFeature, asset);
+            } else {
+              acc.push(this.createFeatureFromAsset(asset));
+            }
+            return acc;
+          }, [])
+        );
+        reRenderAssets = null;
+      };
+        this.selectedAssets.map((selectedAsset) => {
+          const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
+          if(selectedAssetFeature) {
+              this.addTargetImageOnAsset(selectedAssetFeature);
+              // We need to reset position to force rerender of asset.
+              selectedAssetFeature.setGeometry(new Point(fromLonLat([
+                selectedAsset.currentPosition.movement.location.longitude,
+                selectedAsset.currentPosition.movement.location.latitude
+              ])));
+          }else{
+            this.removeTargetImageOnAsset(selectedAsset.asset.id);
+          }
+        });
+
+        this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
+        this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;
+        this.renderedAssetIds = newRenderedAssetIds;
+      }
     }
   }
 
