@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { AssetTypes } from '@data/asset';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 
@@ -106,15 +106,15 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     this.vectorLayer.getSource().changed();
   }
 
-  ngOnChanges(event) {
+  ngOnChanges(change: SimpleChanges) {
     let doChange = false
-    if( event.assets ){
-      let cur  = JSON.stringify(event.assets.currentValue);
-      let prev = JSON.stringify(event.assets.previousValue);
+    if( change.assets ){
+      let cur  = JSON.stringify(change.assets.currentValue);
+      let prev = JSON.stringify(change.assets.previousValue);
       doChange = cur !== prev;
-    }else if( event.mapZoom && this.mapZoom > 10 ) {
-      let cur  = JSON.stringify(Math.floor(event.mapZoom.currentValue));
-      let prev = JSON.stringify(Math.floor(event.mapZoom.previousValue));
+    }else if( change.mapZoom && this.mapZoom > 10 ) {
+      let cur  = JSON.stringify(Math.floor(change.mapZoom.currentValue));
+      let prev = JSON.stringify(Math.floor(change.mapZoom.previousValue));
       doChange = cur !== prev;
     }
     if(doChange){

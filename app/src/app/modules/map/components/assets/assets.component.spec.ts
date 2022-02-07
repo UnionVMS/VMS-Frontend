@@ -1,4 +1,5 @@
 import { waitForAsync, TestBed } from '@angular/core/testing';
+import { SimpleChanges, SimpleChange} from '@angular/core';
 
 import { deg2rad } from '@app/helpers/helpers';
 import { fromLonLat } from 'ol/proj';
@@ -164,7 +165,11 @@ describe('AssetsComponent', () => {
 
     component.assets = [AssetMovementWithEssentialsStub];
     expect(component['vectorSource'].getFeatures().length).toEqual(0);
-    component.ngOnChanges();
+    let change : SimpleChange = new SimpleChange(6,7,false);
+    let changes : SimpleChanges = {
+      "mapZoom": change
+    };
+    component.ngOnChanges(changes);
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
     const fastAsset = { ...AssetMovementWithEssentialsStub,
       assetMovement: { ...AssetMovementWithEssentialsStub.assetMovement,
@@ -174,7 +179,7 @@ describe('AssetsComponent', () => {
     component.assets = [fastAsset];
     expect(component['vectorSource'].getFeatures()[0].getStyle()[BASE_STYLE].getText().getText())
       .toEqual(AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts');
-    component.ngOnChanges();
+    component.ngOnChanges(changes);
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
     expect(component['vectorSource'].getFeatures()[0].getStyle()[BASE_STYLE].getText().getText())
       .toEqual(fastAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
