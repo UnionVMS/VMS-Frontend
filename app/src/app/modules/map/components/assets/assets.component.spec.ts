@@ -165,7 +165,7 @@ describe('AssetsComponent', () => {
 
     component.assets = [AssetMovementWithEssentialsStub];
     expect(component['vectorSource'].getFeatures().length).toEqual(0);
-    let change : SimpleChange = new SimpleChange(6,7,false);
+    let change : SimpleChange = new SimpleChange(16,17,false);
     let changes : SimpleChanges = {
       "mapZoom": change
     };
