@@ -153,8 +153,6 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.store.select(AssetSelectors.extendedDataForSelectedAssets).pipe(takeUntil(this.unmount$)).subscribe((selectedAssets) => {
       this.selectedAsset = selectedAssets.find(selectedAsset => selectedAsset.currentlyShowing);
     });
-    this.updateIncidentType = (incidentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) =>
-    this.store.dispatch(IncidentActions.updateIncidentType({ incidentId, incidentType, expiryDate }));
   }
 
   mapDispatchToProps() {
