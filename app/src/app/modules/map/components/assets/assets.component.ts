@@ -159,7 +159,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         currentlySelectedIds.push(selectedAsset.asset.id);
         if(!this.previouslySelectedAssetIds.some((previousAssetId) => previousAssetId === selectedAsset.asset.id)) {
           
-          if(this.vectorSource.getFeatureById(selectedAsset.asset.id)){
+          if(typeof this.vectorSource.getFeatureById(selectedAsset.asset.id) !== 'undefined'){
             const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
             if(selectedAssetFeature) {
               this.addTargetImageOnAsset(
