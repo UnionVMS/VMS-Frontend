@@ -101,6 +101,9 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   }
 
   public updateIncidentType: (incindentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) => void;
+  public updateIncidentStatus: (incindentId: number, status: string, expiryDate?: number) => void;
+  public updateIncidentExpiry: (incidentId: number, expiryDate: number) => void;
+  
   public changeType = (type: IncidentTypes.IncidentTypes) => {
     return this.updateIncidentType(this.selectedIncident.id, type);
   }
@@ -109,6 +112,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public createNoteCurried = (note: string) => {
     return this.createIncidentNote(this.selectedIncident.id, { note, assetId: this.selectedAsset.asset.id });
   }
+
 
   mapStateToProps() {
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
@@ -201,6 +205,13 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.clearSelectedIncident = () => this.store.dispatch(IncidentActions.clearSelectedIncident());
     this.createIncidentNote = (incidentId: number, note: NotesTypes.NoteParameters) =>
       this.store.dispatch(IncidentActions.createNote({ incidentId, note }));
+
+    this.updateIncidentType = (incidentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) =>
+      this.store.dispatch(IncidentActions.updateIncidentType({ incidentId, incidentType, expiryDate }));
+    this.updateIncidentStatus = (incidentId: number, status: string, expiryDate?: number) =>
+      this.store.dispatch(IncidentActions.updateIncidentStatus({ incidentId, status, expiryDate }));
+    this.updateIncidentExpiry = (incidentId: number, expiryDate: number) =>
+      this.store.dispatch(IncidentActions.updateIncidentExpiry({ incidentId, expiryDate }));
   }
 
   mapFunctionsToProps() {
@@ -254,6 +265,9 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
       if(typeof detachResult !== 'undefined' && detachResult !== false) {
         this.changeType(detachResult.type);
         this.createIncidentNote(this.selectedIncident.id, { note: detachResult.note, assetId: this.selectedAsset.asset.id });
+        if(detachResult.expiryDate){
+          this.updateIncidentExpiry(this.selectedIncident.id, detachResult.expiryDate);
+        }
       }
     });
   }
