@@ -22,6 +22,7 @@ export const selectCurrentAssetList = (state: State) => state.asset.currentAsset
 export const selectLastUserAssetSearch = (state: State) => state.asset.lastUserAssetSearch;
 export const selectSelectedAssets = (state: State) => state.asset.selectedAssets;
 export const selectSelectedAsset = (state: State) => state.asset.selectedAsset;
+export const selectSelectedMovement = (state: State) => state.asset.selectedMovement;
 export const selectLastFullPositions = (state: State) => state.asset.lastFullPositions;
 export const selectLastPollsForAsset = (state: State) => state.asset.lastPollsForAsset;
 export const selectFilterQuery = (state: State) => state.asset.filterQuery;
@@ -162,7 +163,7 @@ export const getAssetMovements = createSelector(
   ) => {
     let assetMovementKeys = Object.keys(assetMovements);
 
-    if(activeLeftPanel[0] === 'filters') {
+    if(activeLeftPanel[0] === 'filters' || activeLeftPanel[0] === 'tracks') {
       let filterQuerys: ReadonlyArray<ReadonlyArray<AssetTypes.AssetFilterQuery>> = [];
       if(filtersActive.savedFilters) {
         filterQuerys = savedFilterQuerys.filter((filter) => filter.filter[0].type !== 'GUID').map(savedFilter => savedFilter.filter);
@@ -419,6 +420,11 @@ export const getSelectedAsset = createSelector(
   selectSelectedAsset,
   selectAssets,
   (selectedAssetId, assets) => assets[selectedAssetId]
+);
+
+export const getSelectedMovement = createSelector(
+  selectSelectedMovement,
+  (selectedMovement) => selectedMovement
 );
 
 export const getLastFullPositionsForUrlAsset = createSelector(

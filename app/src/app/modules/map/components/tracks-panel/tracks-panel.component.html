@@ -1,0 +1,96 @@
+<div class="positions-container mat-elevation-z8" *ngIf="track && track.tracks">
+
+  <table mat-table [dataSource]="sortedPositions" class="position-table"
+    matSort matSortActive="timestamp" matSortDisableClear matSortDirection="desc" multiTemplateDataRows (matSortChange)="sortData($event)">
+
+    <ng-container matColumnDef="timestamp">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Timestamp</th>
+      <td mat-cell *matCellDef="let row">{{ row.formattedTimestamp }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="latitude">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Latitude</th>
+      <td mat-cell *matCellDef="let row">{{ row.location.latitude.toFixed(6) }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="longitude">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Longitude</th>
+      <td mat-cell *matCellDef="let row">{{ row.location.longitude.toFixed(6) }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="speed">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Speed</th>
+      <td mat-cell *matCellDef="let row">{{ row.formattedSpeed }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="heading">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Heading</th>
+      <td mat-cell *matCellDef="let row">{{ row.heading }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="source">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Source</th>
+      <td mat-cell *matCellDef="let row">{{row.source}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedColumn">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+        <div class="row-details"
+             [@detailExpand]="expandedElement && element.id === expandedElement.id ? 'expanded' : 'collapsed'">
+          <div *ngIf="!panelExpanded" class="row-details-fields">
+            <legend i18n>Latitude:</legend>
+            <div>{{element.location.latitude.toFixed(6)}} ({{element.locationDDM.latitude}})</div>
+            <legend i18n>Longitude:</legend>
+            <div>{{element.location.longitude.toFixed(6)}} ({{element.locationDDM.longitude}})</div>
+            <legend i18n>Speed:</legend>
+            <div>{{element.formattedSpeed}} kts</div>
+            <ng-container *ngIf="element.formattedCalculatedSpeed">
+              <legend i18n>Calc. speed:</legend>
+              <div>{{element.formattedCalculatedSpeed}} kts</div>
+            </ng-container>
+            <ng-container *ngIf="element.heading">
+              <legend i18n>Heading:</legend>
+              <div>{{element.heading}}°</div>
+            </ng-container>
+            <ng-container *ngIf="element.status">
+              <legend i18n>Status:</legend>
+              <div>{{element.status}}</div>
+            </ng-container>
+            <ng-container *ngIf="element.oceanRegion">
+              <legend i18n>Ocean region:</legend>
+              <div>{{element.oceanRegion}}</div>
+            </ng-container>
+          </div>
+          <div *ngIf="panelExpanded" class="row-details-fields row-details-fields-expanded">
+            <legend i18n>Latitude:</legend>
+            <div>{{element.locationDDM.latitude}}</div>
+            <legend i18n>Longitude:</legend>
+            <div>{{element.locationDDM.longitude}}</div>
+            <ng-container *ngIf="element.formattedCalculatedSpeed">
+              <legend i18n>Calc. speed:</legend>
+              <div>{{element.formattedCalculatedSpeed}} kts</div>
+            </ng-container>
+            <ng-container *ngIf="element.status">
+              <legend i18n>Status:</legend>
+              <div>{{element.status}}</div>
+            </ng-container>
+            <ng-container *ngIf="element.oceanRegion">
+              <legend i18n>Ocean region:</legend>
+              <div>{{element.oceanRegion}}</div>
+            </ng-container>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+      class="row-element"
+      [class.selected]="selectedMovement === row.id"
+      (click)="expandedElement = expandedElement && expandedElement.id === row.id ? null : row"
+      (mouseover)="selectMovement(row.id)"
+      (mouseleave)="selectMovement(null)">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedColumn']" class="row-details-hidden"></tr>
+  </table>
+</div>

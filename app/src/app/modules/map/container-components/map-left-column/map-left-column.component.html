@@ -1,7 +1,10 @@
-<div class="content-container {{ columnHidden ? 'panel-hidden' : ''}}">
-  <div id="minimize-left-column" (click)="hideLeftColumn(!columnHidden)">
-    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="columnHidden"></i>
-    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="!columnHidden"></i>
+<div class="content-container {{ columnHidden ? 'panel-hidden' : ''}} {{ columnExpanded ? 'panel-expanded' : ''}}">
+  <div id="minimize-left-column" class="{{ !columnHidden && !columnExpanded  && activePanel[0] === 'tracks' ? 'minimize-left-column-large' : 'minimize-left-column-small'}}">
+    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="columnHidden" (click)="hideLeftColumn(false)"></i>
+    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="!columnHidden && activePanel[0] !== 'tracks'" (click)="hideLeftColumn(true)"></i>
+    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="columnExpanded" (click)="expandColumn(false)"></i>
+    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="!columnHidden && !columnExpanded  && activePanel[0] === 'tracks'" (click)="hideLeftColumn(true)"></i>
+    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="!columnHidden && !columnExpanded && activePanel[0] === 'tracks'" (click)="expandColumn(true)"></i>
   </div>
   <ul id="realtime-left-column-menu">
     <li
@@ -11,6 +14,11 @@
       *ngIf="!noWorkflow"
       (click)="setActivePanelAndShowColumn(['workflows'])"
     ><i class="icon-workflow {{activePanel[0] === 'workflows' ? 'active' : '' }}" aria-hidden="true"></i></li>
+    <ng-container *ngIf="selectedAsset && selectedAsset.assetTracks">
+      <li
+        (click)="setActivePanelAndShowColumn(['tracks'])"
+      ><i class="icon-tracks {{activePanel[0] === 'tracks' ? 'active' : '' }}" aria-hidden="true"></i></li>
+    </ng-container>
   </ul>
   <div class="panel filter-panel" *ngIf="activePanel[0] === 'filters'">
     <h3 i18n>Filter map</h3>
@@ -213,5 +221,15 @@
       [useArrowsAsToggle]="true"
     >
     </map-panel-block> -->
+  </div>
+  <div class="panel" *ngIf="activePanel[0] === 'tracks'">
+    <h3 i18n>Tracks</h3>
+    <map-tracks-panel class="panel tracks-panel"
+      [track]="selectedAsset.assetTracks"
+      [selectedMovement]="selectedMovement"
+      [selectMovement]="selectMovement"
+      [panelExpanded]="columnExpanded"
+      [userTimezone]="userTimezone$ | async"
+    ></map-tracks-panel>
   </div>
 </div>

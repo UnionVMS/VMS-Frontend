@@ -1,0 +1,45 @@
+@import 'variables.scss';
+
+.positions-container {
+  display: grid;
+
+  .row-element td {
+    border-bottom-width: 0;
+  }
+
+  .row-details {
+    overflow: hidden;
+
+    .row-details-fields {
+      display: grid;
+      padding-bottom: distance(1);
+      grid-template-columns: 1fr auto;
+      grid-column-gap: distance(0.5);
+
+      div {
+        text-align: right;
+      }
+    }
+
+    .row-details-fields-expanded {
+      padding-right: distance(1);
+      grid-template-columns: auto auto auto auto;
+
+      div {
+        text-align: left;
+      }
+    }
+  }
+
+  .row-details-hidden {
+    height: 0px;
+  }
+
+  .selected {
+    background: whitesmoke;
+  }
+
+  legend {
+    font-size: $default_font_size;
+  }
+}

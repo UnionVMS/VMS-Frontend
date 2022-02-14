@@ -15,6 +15,13 @@ export const formatUnixtime = (unixtime: number | null) => {
   return moment(unixtime).format('YYYY-MM-DD HH:mm');
 };
 
+export const formatUnixtimeSeconds = (unixtime: number | null) => {
+  if (typeof unixtime === 'undefined' || unixtime === null) {
+    return '';
+  }
+  return moment(unixtime).format('YYYY-MM-DD HH:mm:ss');
+};
+
 export const formatUnixtimeWithoutDate = (unixtime: number | null) => {
   if (typeof unixtime === 'undefined' || unixtime === null) {
     return '';
