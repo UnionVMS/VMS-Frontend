@@ -31,8 +31,6 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   public columnExpanded: boolean = false;
 
-  constructor(public dialog: MatDialog, private readonly store: Store<any>) { }
-
   public activePanel: ReadonlyArray<string>;
   public setActivePanel: (activeLeftPanel: ReadonlyArray<string>) => void;
   public setActiveRightPanel: (activeRightPanel: ReadonlyArray<string>) => void;
