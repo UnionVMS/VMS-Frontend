@@ -21,7 +21,6 @@
 
     background: $color_cold_gray;
     height: distance(5);
-    width: distance(3);
     border-top-right-radius: distance(3);
     border-bottom-right-radius: distance(3);
 
@@ -32,12 +31,21 @@
     }
 
     display: grid;
+    grid-template-columns: auto auto;
     i {
       margin-right: distance(0.5);
       place-self: center;
       font-size: distance(3);
       overflow: hidden;
     }
+  }
+
+  .minimize-left-column-small {
+    width: distance(3);
+  }
+
+  .minimize-left-column-large {
+    width: distance(6);
   }
 
   #realtime-left-column-menu {
@@ -60,6 +68,9 @@
       }
       .icon-workflow {
         @include svg-left-icon('/assets/svg-icons/workflow.svg');
+      }
+      .icon-tracks {
+        @include svg-left-icon('/assets/svg-icons/route-line.svg');
       }
 
     }
@@ -109,6 +120,9 @@
     }
   }
 
+  .tracks-panel {
+    padding: distance(1);
+  }
 
 
   &.panel-hidden {
@@ -119,6 +133,13 @@
 
     .panel {
       opacity: 0;
+    }
+  }
+
+  &.panel-expanded {
+    width: $left_column_width * 2.5;
+    #minimize-left-column, #realtime-left-column-menu {
+      left: $left_column_width * 2.5;
     }
   }
 }

@@ -40,6 +40,7 @@ export type Movement = Readonly<{
   id: string;
   timestamp: number;
   speed: number | null;
+  calculatedSpeed: number | null;
   source: string;
   movementType: string;
   updated: number;
@@ -308,6 +309,7 @@ export type Poll = Readonly<{
 export type State = Readonly<{
   selectedAssets: ReadonlyArray<string>;
   selectedAsset: string|null;
+  selectedMovement: string|null;
   selectedAssetsLastPositions: LastPositionsList;
   assetTrips: AssetTrips;
   assetTripGranularity: number;

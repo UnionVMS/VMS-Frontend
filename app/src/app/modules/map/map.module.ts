@@ -9,6 +9,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
@@ -88,6 +90,7 @@ import { SourcePickerComponent } from './components/source-picker/source-picker.
 import { SelectedAssetsPanelComponent } from './components/selected-assets-panel/selected-assets-panel.component';
 import { TracksActivitiesComponent } from './components/tracks-activities/tracks-activities.component';
 import { TracksComponent } from './components/tracks/tracks.component';
+import { TracksPanelComponent } from './components/tracks-panel/tracks-panel.component';
 import { TracksSegmentsComponent } from './components/tracks-segments/tracks-segments.component';
 import { TripPlayerComponent } from './components/trip-player/trip-player.component';
 
@@ -106,6 +109,8 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatSortModule,
+    MatTableModule,
     MatTabsModule,
     MatProgressSpinnerModule,
     MatRadioModule,
@@ -176,10 +181,11 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     SavedFiltersComponent,
     SourcePickerComponent,
     SelectedAssetsPanelComponent,
+    TracksActivitiesComponent,
     TracksComponent,
+    TracksPanelComponent,
     TracksSegmentsComponent,
     TripPlayerComponent,
-    TracksActivitiesComponent,
   ]
 })
 
