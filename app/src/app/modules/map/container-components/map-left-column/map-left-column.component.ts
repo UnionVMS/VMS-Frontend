@@ -71,8 +71,6 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
-  public selectedAsset: Readonly<AssetTypes.AssetData>;
-
   public selectedIncident: Readonly<IncidentTypes.Incident>;
   public dispatchSelectIncident: (incidentId: number) => void;
   public selectIncident: (incident: IncidentTypes.Incident) => void;
