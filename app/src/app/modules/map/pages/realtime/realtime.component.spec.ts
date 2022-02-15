@@ -302,6 +302,7 @@ describe('RealtimeComponent', () => {
       const store = TestBed.inject(MockStore);
       const currentState = {
         asset: AssetReducer.initialState,
+        activity: ActivityReducer.initialState,
         mapSettings: MapSettingsReducer.initialState,
         mapSavedFilters: MapSavedFiltersReducer.initialState,
         map: { ...MapReducer.initialState, realtime: { ready: true }, mapSettingsLoaded: true },
