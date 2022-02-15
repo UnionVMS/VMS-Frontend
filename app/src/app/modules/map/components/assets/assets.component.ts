@@ -109,7 +109,6 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(change: SimpleChanges) {
     let doChange = false
-    console.log("change", change);
     if( change.assets ){
       let cur  = JSON.stringify(change.assets.currentValue);
       let prev = JSON.stringify(change.assets.previousValue);
