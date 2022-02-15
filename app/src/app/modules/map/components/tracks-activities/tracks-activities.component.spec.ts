@@ -19,7 +19,8 @@ describe('TracksActivitiesComponent', () => {
 
     component.map = {
       addLayer: (vectorLayer) => {},
-      removeLayer: (vectorLayer) => {}
+      removeLayer: (vectorLayer) => {},
+      once: () => {}
     };
     component.activityTracks = {};
 
