@@ -119,7 +119,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     this.columnExpanded = expanded;
   }
 
-  constructor(private readonly store: Store<any>) { }
+  constructor(public dialog: MatDialog, private readonly store: Store<any>) { }
 
   mapStateToProps() {
     this.store.select(MapSelectors.getActiveLeftPanel).pipe(takeUntil(this.unmount$)).subscribe((activePanel) => {
