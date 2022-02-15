@@ -33,7 +33,10 @@ export class IncidentTypeFormDialogComponent {
   }
 
   save() {
-    return { type: this.formValidator.value.type, note: this.formValidator.value.note };
+    const expiryDate = this.formValidator.value.expiryDate !== null
+      ? this.formValidator.value.expiryDate.format('x')
+      : null;
+    return { type: this.formValidator.value.type, note: this.formValidator.value.note, expiryDate: expiryDate };
   }
 
   getErrors(path: string[]) {
@@ -43,5 +46,10 @@ export class IncidentTypeFormDialogComponent {
 
   errorMessage(error: string) {
     return errorMessage(error);
+  }
+
+  updateTimestamp(dateTime: moment.Moment) {
+    const formControl = this.formValidator.get('expiryDate');
+    formControl.setValue(dateTime);
   }
 }

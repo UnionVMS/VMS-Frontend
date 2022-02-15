@@ -24,7 +24,7 @@
       <ng-container *ngIf="overdue.length > 0">
         <h3 i18n>Parked date overdue</h3>
         <ng-container *ngFor="let incident of overdue; trackBy: trackByIncidents">
-          <map-incident-card
+          <map-incident-card cdkDrag
             [incident]="incident"
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"
@@ -37,7 +37,7 @@
       <ng-container *ngIf="sending.length > 0">
         <h3 i18n>Parked and sending AIS</h3>
         <ng-container *ngFor="let incident of sending; trackBy: trackByIncidents">
-          <map-incident-card
+          <map-incident-card cdkDrag
             [incident]="incident"
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"
@@ -49,7 +49,7 @@
       <ng-container *ngIf="pending.length > 0">
         <h3 i18n>Parked</h3>
         <ng-container *ngFor="let incident of pending; trackBy: trackByIncidents">
-          <map-incident-card
+          <map-incident-card cdkDrag
             [incident]="incident"
             [selectIncident]="selectIncident"
             [incidentIsSelected]="incidentIsSelected(incident)"
