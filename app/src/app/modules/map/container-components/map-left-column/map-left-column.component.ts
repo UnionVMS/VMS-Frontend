@@ -10,6 +10,7 @@ import { MapSavedFiltersActions, MapSavedFiltersTypes, MapSavedFiltersSelectors 
 import { UserSettingsSelectors } from '@data/user-settings';
 import { MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
 import { Position } from '@data/generic.types';
+import { ActivitySelectors } from '@data/activity';
 
 
 @Component({
@@ -25,6 +26,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   @Input() hideLeftColumn: (hidden: boolean) => void;
   @Input() selectedMovement: string;
   @Input() selectMovement: (movementId: string) => void;
+  @Input() selectedActivity: string;
+  @Input() selectActivity: (movementId: string) => void;
 
   public columnExpanded: boolean = false;
 
@@ -68,6 +71,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
   public selectedAsset: Readonly<AssetTypes.AssetData>;
+
+  public activityTracks$: Observable<any>;
 
   public selectedIncident: Readonly<IncidentTypes.Incident>;
   public dispatchSelectIncident: (incidentId: number) => void;
@@ -139,6 +144,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
         this.expandColumn(false);
       }
     });
+    this.activityTracks$ = this.store.select(ActivitySelectors.getActivityTracks);
     this.store.select(IncidentSelectors.getSelectedIncident).pipe(takeUntil(this.unmount$)).subscribe(
       incident => { this.selectedIncident = incident; }
     );

@@ -20,12 +20,14 @@ export class TracksActivitiesComponent implements OnInit, OnDestroy, OnChanges {
   @Input() map: Map;
   @Input() mapZoom: number;
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
+  @Input() selectedActivity: string;
+  @Input() selectActivity: (activityId: string) => void;
 
   private vectorSource: VectorSource;
   private vectorLayer: VectorLayer;
   private readonly layerTitle = 'Activity Tracks Layer';
 
-  private namesVisible: boolean;
+  private selectedFeature: Feature = null;
 
   ngOnInit(): void {
     this.vectorSource = new VectorSource();
@@ -41,15 +43,24 @@ export class TracksActivitiesComponent implements OnInit, OnDestroy, OnChanges {
     const lineStrings = this.createActivityLineStrings();
     this.vectorSource.addFeatures(lineStrings);
 
+    this.map.once('postrender', () => {
+      this.map.on('pointermove', (event) => {
+        const pixel = this.map.getEventPixel(event.originalEvent);
+        this.vectorLayer.getFeatures(pixel).then(features => {
+          const feature = features.length ? features[0] : null;
+          if (feature !== null && typeof feature.getId() !== 'undefined') {
+            this.selectActivity(feature.getId());
+          } else if (this.selectedFeature !== null) {
+            this.selectActivity(null);
+          }
+        });
+      });
+    });
+
     this.vectorLayer.getSource().changed();
   }
 
   ngOnChanges() {
-    if(this.mapZoom < 8) {
-      this.namesVisible = false;
-    } else {
-      this.namesVisible = true;
-    }
     if (typeof this.vectorSource !== 'undefined') {
       this.vectorSource.clear();
       const features = this.createActivityFeatures();
@@ -57,6 +68,18 @@ export class TracksActivitiesComponent implements OnInit, OnDestroy, OnChanges {
       const lineStrings = this.createActivityLineStrings();
       this.vectorSource.addFeatures(lineStrings);
       this.vectorLayer.getSource().changed();
+
+      if (this.selectedFeature !== null) {
+        this.selectedFeature.getStyle().getImage().setRadius(3,5);
+        this.selectedFeature.getStyle().getImage().setOpacity(1);
+      }
+      if (this.selectedActivity !== null) {
+        this.selectedFeature = this.vectorSource.getFeatureById(this.selectedActivity);
+        this.selectedFeature.getStyle().getImage().setRadius(8);
+        this.selectedFeature.getStyle().getImage().setOpacity(0.6);
+      } else {
+        this.selectedFeature = null;
+      }
     }
   }
 
@@ -65,32 +88,19 @@ export class TracksActivitiesComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   createActivityFeatures() {
-    const features = Object.values(this.activityTracks).reduce((features, activities) => {
+    return Object.values(this.activityTracks).reduce((features, activities) => {
       features = features.concat(activities.reduce((activityFeatures, activity) => {
         if (typeof activity.longitude !== 'undefined' && typeof activity.latitude !== 'undefined' ) {
-          activityFeatures.push(this.createNewActivityFeature(activity.longitude, activity.latitude, activity.activityType, activity.startDate));
+          activityFeatures.push(this.createNewActivityFeature(activity.faReportID, activity.longitude, activity.latitude, activity.activityType, activity.startDate));
         }
         activityFeatures = activityFeatures.concat(activity.relatedActivities.reduce((relatedFeatures, relatedActivity) => {
-          relatedFeatures.push(this.createNewActivityFeature(relatedActivity.longitude, relatedActivity.latitude, relatedActivity.activityType, relatedActivity.occurence));
+          relatedFeatures.push(this.createNewActivityFeature(activity.faReportID, relatedActivity.longitude, relatedActivity.latitude, relatedActivity.activityType, relatedActivity.occurence));
           return relatedFeatures;
         }, []));
         return activityFeatures
       }, []));
       return features;
     }, []);
-
-    const filteredFeatures = features.reduce((acc, feature: Feature) => {
-      if (typeof acc[feature.getId()] !== 'undefined') {
-        if (this.namesVisible) {
-          acc[feature.getId()].getStyle().getText().setText(acc[feature.getId()].getStyle().getText().getText() + ' / ' + feature.getStyle().getText().getText());
-        }
-      } else {
-        acc[feature.getId()] = feature;
-      }
-      return acc;
-    }, {});
-
-    return Object.values(filteredFeatures);
   }
 
   createActivityLineStrings() {
@@ -116,7 +126,7 @@ export class TracksActivitiesComponent implements OnInit, OnDestroy, OnChanges {
     }, []);
   }
 
-  createNewActivityFeature(longitude: number, latitude: number, text: string, timestamp: number) {
+  createNewActivityFeature(id: number, longitude: number, latitude: number, text: string, timestamp: number) {
     const feature = new Feature(new Point(fromLonLat([
       longitude, latitude
     ])));
@@ -127,7 +137,9 @@ export class TracksActivitiesComponent implements OnInit, OnDestroy, OnChanges {
       })
     }));
 
-    if (this.namesVisible) {
+    feature.setId(id + '-' + text);
+
+    if (feature.getId() === this.selectedActivity) {
       feature.getStyle().setText(new Text({
         font: '13px Calibri,sans-serif',
         fill: new Fill({ color: '#000000' }),
@@ -137,8 +149,6 @@ export class TracksActivitiesComponent implements OnInit, OnDestroy, OnChanges {
         text: text.toLowerCase().replace(/^_*(.)|_+(.)/g, (s, c, d) => c ? c.toUpperCase() : ' ' + d.toUpperCase()) + ' ' + formatUnixtime(timestamp)
       }));
     }
-
-    feature.setId(latitude + ';' + longitude);
 
     return feature;
   }

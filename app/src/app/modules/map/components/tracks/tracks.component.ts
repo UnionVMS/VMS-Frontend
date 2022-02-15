@@ -197,7 +197,9 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       }
       if (this.selectedMovement !== null) {
         this.selectedFeature = this.vectorSource.getFeatureById(this.selectedMovement);
-        this.renderFeature(this.selectedMovement, this.selectedFeature);
+        if (this.selectedFeature) {
+          this.renderFeature(this.selectedMovement, this.selectedFeature);
+        }
       } else {
         this.selectedFeature = null;
       }

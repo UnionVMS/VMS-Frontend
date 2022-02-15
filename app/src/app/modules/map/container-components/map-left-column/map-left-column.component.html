@@ -206,8 +206,11 @@
     <h3 i18n>Tracks</h3>
     <map-tracks-panel class="panel tracks-panel"
       [track]="selectedAsset.assetTracks"
+      [activityTracks]="activityTracks$ | async"
       [selectedMovement]="selectedMovement"
       [selectMovement]="selectMovement"
+      [selectedActivity]="selectedActivity"
+      [selectActivity]="selectActivity"
       [panelExpanded]="columnExpanded"
       [userTimezone]="userTimezone$ | async"
     ></map-tracks-panel>

@@ -1,6 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import * as ActivityType from './activity.types';
 
+export const selectActivity = createAction(
+  '[Activity] Select activity',
+  props<{ activityId: string | null }>()
+);
+
 export const addActivities = createAction(
   '[Activity] Add activities',
   props<{ activities: { [assetId: string]: ActivityType.Activity }}>()

@@ -84,6 +84,9 @@ export class RealtimeComponent implements OnInit, OnDestroy {
   public selectedMovement$: Observable<any>;
   public selectMovement: (movementId: string) => void;
 
+  public selectedActivity$: Observable<any>;
+  public selectActivity: (movementId: string) => void;
+
   public activePanel = '';
   public activeRightPanel: ReadonlyArray<string>;
   public activeLeftPanel: ReadonlyArray<string>;
@@ -162,6 +165,7 @@ export class RealtimeComponent implements OnInit, OnDestroy {
       this.selectedAssets = selectedAssets;
     });
     this.selectedMovement$ = this.store.select(AssetSelectors.getSelectedMovement);
+    this.selectedActivity$ = this.store.select(ActivitySelectors.getSelectedActivity);
     this.assetTracks$ = this.store.select(AssetSelectors.getAssetTracks);
     this.activityTracks$ = this.store.select(ActivitySelectors.getActivityTracks);
     this.forecasts$ = this.store.select(AssetSelectors.getForecasts);
@@ -215,6 +219,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
         this.store.dispatch(MapActions.setActiveRightPanel({ activeRightPanel: ['showAsset'] }));
       }
       this.store.dispatch(AssetActions.deselectAsset({ assetId }));
+      this.store.dispatch(AssetActions.untrackAsset({ assetId }));
+      this.store.dispatch(ActivityActions.removeActivityTrack({ assetId }));
     };
     this.getIncidentsForAssetId = (assetId) =>
       this.store.dispatch(IncidentActions.getIncidentsForAssetId({ assetId }));
@@ -234,6 +240,8 @@ export class RealtimeComponent implements OnInit, OnDestroy {
     };
     this.selectMovement = (movementId: string) =>
       this.store.dispatch(AssetActions.selectMovement({ movementId }));
+    this.selectActivity = (activityId: string) =>
+      this.store.dispatch(ActivityActions.selectActivity({ activityId }));
     this.setChoosenMovementSources = (movementSources) =>
       this.store.dispatch(MapSettingsActions.setChoosenMovementSources({ movementSources }));
     this.saveMapLocation = (key: number, mapLocation: MapSettingsTypes.MapLocation, save?: boolean) =>

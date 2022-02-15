@@ -44,6 +44,7 @@ export type Species = Readonly<{
 }>;
 
 export type State = Readonly<{
+  selectedActivity: string|null;
   latestActivities: Readonly<{ readonly [assetId: string]: Activity }>;
   activityTracks: Readonly<{ readonly [assetId: string]: ReadonlyArray<Activity> }>;
 }>;

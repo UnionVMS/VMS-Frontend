@@ -4,11 +4,16 @@ import * as ActivityActions from './activity.actions';
 import * as Types from './activity.types';
 
 export const initialState: Types.State = {
+  selectedActivity: null,
   latestActivities: {},
   activityTracks: {}
 };
 
 export const activityReducer = createReducer(initialState,
+  on(ActivityActions.selectActivity, (state, { activityId }) => ({
+    ...state,
+    selectedActivity: activityId
+  })),
   on(ActivityActions.addActivities, (state, { activities }) => {
       const newLatestActivities = Object.keys(activities).reduce((currentAssetActivities, assetId) => {
         if (typeof currentAssetActivities[assetId] === 'undefined'
