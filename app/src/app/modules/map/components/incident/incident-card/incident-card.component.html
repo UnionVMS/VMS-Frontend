@@ -1,7 +1,7 @@
 <div
   [title]="formattedIncident.assetName"
   class="incident{{ incidentIsSelected ? ' selected' : ''}}"
-  (click)="selectIncident(incident)"
+  (mousedown)="selectIncident(incident)"
 >
   <div class="status urgancy-{{urgency}}"></div>
   <div class="incident-content{{ countdown !== undefined ? ' with-countdown' : ''}}">

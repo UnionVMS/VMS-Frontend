@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // ngrx apparently removed payload from the Action interface since they tought it was optional
 // This is against flux patterns which dictates that a Action consists of a type and a payload.
@@ -85,6 +86,7 @@ const imports = [
     NotificationEffects,
     UserSettingsEffects,
     TitleEffects,
+    DragDropModule
   ]),
   BrowserAnimationsModule,
   CoreModule,

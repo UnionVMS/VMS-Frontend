@@ -47,7 +47,7 @@ import { MapActions, MapReducer } from '@data/map';
 import { MapSettingsReducer, MapSettingsActions } from '@data/map-settings';
 import { MapSavedFiltersReducer } from '@data/map-saved-filters';
 
-import { formatDate } from '@app/helpers/helpers';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 /* tslint:disable:no-string-literal */
 describe('RealtimeComponent', () => {
@@ -60,7 +60,8 @@ describe('RealtimeComponent', () => {
         MatAutocompleteModule,
         MatFormFieldModule,
         MatInputModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatDialogModule,
       ],
       declarations: [
         RealtimeComponent,
@@ -81,6 +82,8 @@ describe('RealtimeComponent', () => {
       providers: [
         { provide: Router, useValue: { navigate: () => {} } },
         provideMockStore(),
+        { provide: MatDialogRef , useValue:{} },
+        { provide: MAT_DIALOG_DATA, useValue:{} }
       ]
     })
     .compileComponents();
@@ -299,6 +302,7 @@ describe('RealtimeComponent', () => {
       const store = TestBed.inject(MockStore);
       const currentState = {
         asset: AssetReducer.initialState,
+        activity: ActivityReducer.initialState,
         mapSettings: MapSettingsReducer.initialState,
         mapSavedFilters: MapSavedFiltersReducer.initialState,
         map: { ...MapReducer.initialState, realtime: { ready: true }, mapSettingsLoaded: true },

@@ -18,7 +18,17 @@
         <input matInput formControlName="note" required />
         <mat-error *ngFor="let error of getErrors(['note'])">{{ errorMessage(error) }}</mat-error>
       </mat-form-field>
+      <ngx-datetime-picker  
+        *ngIf="formValidator.value.type === 'PARKED'"
+        id="expiry-date-form--expiryDate"
+        [(dateTime)]="formValidator.value.expiryDate"
+        (dateTimeChange)="updateTimestamp($event)"
+        label="Expiry date"
+        [positionFromTop]="true"
+        [autoUpdateDatetime]="false"
+      ></ngx-datetime-picker>
     </form>
+       <!--</ngx-datetime-picker> [errorMessages]="getErrorMessages(['expiryDate'])" -->
   </div>
 </div>
 <div mat-dialog-actions align="center">
@@ -28,6 +38,6 @@
     [mat-dialog-close]="save()"
     color="accent"
     i18n
-    [disabled]="data.type === formValidator.value.type || !formValidator.valid"
+    [disabled]="data.incident.type === formValidator.value.type || !formValidator.valid"
   >Move to {{getTypeName(formValidator.value.type)}}</button>
 </div>
