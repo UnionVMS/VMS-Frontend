@@ -1,20 +1,14 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AssetTypes, AssetActions, AssetSelectors } from '@data/asset';
-import { deg2rad, intToRGB, hashCode, findLastIndex } from '@app/helpers/helpers';
+import { AssetTypes } from '@data/asset';
 
 import Map from 'ol/Map';
-import { Stroke, Style, Icon, Fill, Text, Circle } from 'ol/style.js';
+import { Style, Fill, Text, Circle } from 'ol/style.js';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { LineString, Point } from 'ol/geom';
+import { Point } from 'ol/geom';
 import Feature from 'ol/Feature';
 import { fromLonLat } from 'ol/proj';
-import Collection from 'ol/Collection';
-import Select from 'ol/interaction/Select.js';
-import { pointerMove } from 'ol/events/condition.js';
 import { toStringXY } from 'ol/coordinate';
-
 
 import { formatUnixtime } from '@app/helpers/datetime-formatter';
 
@@ -25,6 +19,8 @@ import { formatUnixtime } from '@app/helpers/datetime-formatter';
 export class TracksComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() assetTracks: Array<AssetTypes.AssetTrack>;
+  @Input() selectedMovement: string;
+  @Input() selectMovement: (movementId: string) => void;
   @Input() map: Map;
   @Input() registerOnClickFunction: (name: string, clickFunction: (event) => void) => void;
   @Input() unregisterOnClickFunction: (name: string) => void;
@@ -40,6 +36,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   private readonly renderedFeatureIdsByAssetId: { [assetId: string]: Array<string> } = {};
   private readonly lookupIndexLatLonFeature: { [latLon: string]: Feature[] } = {};
   private previousUserTimezone = '';
+  private selectedFeature: Feature = null;
 
   ngOnInit() {
     this.vectorSource = new VectorSource();
@@ -91,6 +88,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
         this.featuresHovered.push(featureId);
         currentHoveredFeatures.push(featureId);
         this.renderFeature(featureId, closestFeature);
+        this.selectMovement(featureId);
         changed = true;
 
         const featuresToRemove = this.featuresHovered.filter(id => !currentHoveredFeatures.includes(id));
@@ -102,6 +100,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
               feature.getStyle().setText(null);
             }
           }
+          this.selectMovement(null);
         });
         this.featuresHovered = currentHoveredFeatures;
       } else if(this.featuresHovered.length > 0) {
@@ -158,7 +157,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
           // Since we know that the tracks are ordered by time (oldest position first) we can do some optimizations.
           // If tracks is being removed since they passed the time span we don't have to search all of it we know it to be at the start.
           const firstPositionIndex = this.renderedFeatureIdsByAssetId[assetTrack.assetId]
-            .indexOf('assetId_' + assetTrack.assetId + '_movementId_' + assetTrack.tracks[0].id);
+            .indexOf(assetTrack.tracks[0].id);
           if(firstPositionIndex > 0) {
             const featureIdsToRemove = this.renderedFeatureIdsByAssetId[assetTrack.assetId].splice(0, firstPositionIndex);
             this.removeDeletedFeatures(featureIdsToRemove);
@@ -190,6 +189,17 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
           const feature = this.vectorSource.getFeatureById(featureId);
           this.renderFeature(featureId, feature);
         });
+      }
+
+      if (this.selectedFeature !== null) {
+        this.selectedFeature.getStyle().setImage(null);
+        this.selectedFeature.getStyle().setText(null);
+      }
+      if (this.selectedMovement !== null) {
+        this.selectedFeature = this.vectorSource.getFeatureById(this.selectedMovement);
+        this.renderFeature(this.selectedMovement, this.selectedFeature);
+      } else {
+        this.selectedFeature = null;
       }
 
       this.vectorSource.addFeatures(features);
@@ -227,8 +237,8 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       movement.location.longitude, movement.location.latitude
     ])));
     feature.setStyle(new Style({ image: null }));
-    const featureId = 'assetId_' + assetId + '_movementId_' + movement.id;
-    feature.setId(featureId);
+    const featureId = movement.id;
+    feature.setId(movement.id);
 
     this.renderedFeatureIdsByAssetId[assetId].push(featureId);
 
@@ -243,9 +253,14 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   renderFeature(featureId: string, feature: any) {
-    const idParts = featureId.split('_');
-    const assetTrack = this.assetTracks.find((aTrack) => idParts[1] === aTrack.assetId);
-    const track = assetTrack.tracks.find((tr) => idParts[3] === tr.id);
+    const movements = this.assetTracks.reduce((trackMovements, track) => {
+      const innerMovements = (track.tracks.reduce((movements, movement) => {
+        movements[movement.id] = movement;
+        return movements;
+      }, {}))
+      return { ...trackMovements, ...innerMovements};
+    }, {});
+    const movement = movements[featureId];
     const styles = feature.getStyle();
     let style = styles;
     if(Array.isArray(styles)) {
@@ -263,7 +278,7 @@ export class TracksComponent implements OnInit, OnDestroy, OnChanges {
       padding: [5, 5, 5, 5],
       offsetX: 30,
       textAlign: 'left',
-      text: formatUnixtime(track.timestamp) + ', ' + track.speed.toFixed(2) + ' kts, ' + track.source
+      text: formatUnixtime(movement.timestamp) + ', ' + movement.speed.toFixed(2) + ' kts, ' + movement.source
     }));
   }
 }

@@ -51,6 +51,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
   private numberOfVesselsOnPosition: { [position: string]: number} = {};
   private reRenderAssetIds : string[] = [];
+  private previouslySelectedAssetIds = [];
   private reRender: boolean;
 
   private readonly BASE_STYLE : number = 0;
@@ -108,9 +109,14 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(change: SimpleChanges) {
     let doChange = false
+    console.log("change", change);
     if( change.assets ){
       let cur  = JSON.stringify(change.assets.currentValue);
       let prev = JSON.stringify(change.assets.previousValue);
+      doChange = cur !== prev;
+    }else if( change.selectedAssets ) {
+      let cur  = JSON.stringify(Math.floor(change.selectedAssets.currentValue));
+      let prev = JSON.stringify(Math.floor(change.selectedAssets.previousValue));
       doChange = cur !== prev;
     }else if( change.mapZoom ) {
       let cur  = JSON.stringify(Math.floor(change.mapZoom.currentValue));
@@ -180,24 +186,30 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
           }, [])
         );
         reRenderAssets = null;
-      };
+        const currentlySelectedIds = [];
+        // Invert colors for selected asset and change previously selected assets icon back to normal.
         this.selectedAssets.map((selectedAsset) => {
-          const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
-          if(selectedAssetFeature) {
-              this.addTargetImageOnAsset(selectedAssetFeature);
-              // We need to reset position to force rerender of asset.
-              selectedAssetFeature.setGeometry(new Point(fromLonLat([
-                selectedAsset.currentPosition.movement.location.longitude,
-                selectedAsset.currentPosition.movement.location.latitude
-              ])));
-          }else{
-            this.removeTargetImageOnAsset(selectedAsset.asset.id);
-          }
+          currentlySelectedIds.push(selectedAsset.asset.id);
+          if(!this.previouslySelectedAssetIds.some((previousAssetId) => previousAssetId === selectedAsset.asset.id)) {
+            
+            const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
+            if(selectedAssetFeature) {
+                this.addTargetImageOnAsset(selectedAssetFeature);
+                // We need to reset position to force rerender of asset.
+                selectedAssetFeature.setGeometry(new Point(fromLonLat([
+                  selectedAsset.currentPosition.movement.location.longitude,
+                  selectedAsset.currentPosition.movement.location.latitude
+                ])));
+            }else{
+              this.removeTargetImageOnAsset(selectedAsset.asset.id);
+            }
+          };
         });
 
         this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
         this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;
         this.renderedAssetIds = newRenderedAssetIds;
+        }
       }
     }
   }

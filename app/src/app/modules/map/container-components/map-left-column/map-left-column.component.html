@@ -1,7 +1,10 @@
-<div class="content-container {{ columnHidden ? 'panel-hidden' : ''}}">
-  <div id="minimize-left-column" (click)="hideLeftColumn(!columnHidden)">
-    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="columnHidden"></i>
-    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="!columnHidden"></i>
+<div class="content-container {{ columnHidden ? 'panel-hidden' : ''}} {{ columnExpanded ? 'panel-expanded' : ''}}">
+  <div id="minimize-left-column" class="{{ !columnHidden && !columnExpanded  && activePanel[0] === 'tracks' ? 'minimize-left-column-large' : 'minimize-left-column-small'}}">
+    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="columnHidden" (click)="hideLeftColumn(false)"></i>
+    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="!columnHidden && activePanel[0] !== 'tracks'" (click)="hideLeftColumn(true)"></i>
+    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="columnExpanded" (click)="expandColumn(false)"></i>
+    <i class="ri-arrow-left-s-line" aria-hidden="true" *ngIf="!columnHidden && !columnExpanded  && activePanel[0] === 'tracks'" (click)="hideLeftColumn(true)"></i>
+    <i class="ri-arrow-right-s-line" aria-hidden="true" *ngIf="!columnHidden && !columnExpanded && activePanel[0] === 'tracks'" (click)="expandColumn(true)"></i>
   </div>
   <ul id="realtime-left-column-menu">
     <li
@@ -11,6 +14,11 @@
       *ngIf="!noWorkflow"
       (click)="setActivePanelAndShowColumn(['workflows'])"
     ><i class="icon-workflow {{activePanel[0] === 'workflows' ? 'active' : '' }}" aria-hidden="true"></i></li>
+    <ng-container *ngIf="selectedAsset && selectedAsset.assetTracks">
+      <li
+        (click)="setActivePanelAndShowColumn(['tracks'])"
+      ><i class="icon-tracks {{activePanel[0] === 'tracks' ? 'active' : '' }}" aria-hidden="true"></i></li>
+    </ng-container>
   </ul>
   <div class="panel filter-panel" *ngIf="activePanel[0] === 'filters'">
     <h3 i18n>Filter map</h3>
@@ -78,10 +86,14 @@
       </div>
     </div>
   </div>
-  <div class="panel workflow-panel" *ngIf="activePanel[0] === 'workflows'">
+  <div class="panel workflow-panel" *ngIf="activePanel[0] === 'workflows'" cdkDropListGroup>
     <h3 i18n>Workflows</h3>
     <div class="workflow-panel-bg">
       <map-incidents-asset-not-sending class="panel workflow-panel-main"
+        cdkDropList
+        (cdkDropListDropped)="drop($event, 'ASSET_NOT_SENDING')"
+        (cdkDropListEntered)="enter($event)"
+        (cdkDropListExited)="exit($event)"
         [active]="activePanel[1] === 'ASSET_NOT_SENDING'"
         [incidents]="incidentsByTypeAndStatus.assetNotSending"
         [selectedIncident]="selectedIncident"
@@ -90,7 +102,11 @@
         [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'ASSET_NOT_SENDING', 'RESOLVED'])"
         [userTimezone]="userTimezone$ | async"
       ></map-incidents-asset-not-sending> 
-      <map-incidents-manual-position-mode class="panel workflow-panel-sub"
+      <map-incidents-manual-position-mode class="panel workflow-panel-sub" 
+        cdkDropList
+        (cdkDropListDropped)="drop($event, 'MANUAL_POSITION_MODE')"
+        (cdkDropListEntered)="enter($event)"
+        (cdkDropListExited)="exit($event)"
         [incidents]="incidentsByTypeAndStatus.manualPositionMode"
         [selectedIncident]="selectedIncident"
         [active]="activePanel[1] === 'MANUAL_POSITION_MODE'"
@@ -99,7 +115,11 @@
         [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'MANUAL_POSITION_MODE', 'RESOLVED'])"
         [userTimezone]="userTimezone$ | async"
       ></map-incidents-manual-position-mode>
-      <map-incidents-seasonal-fishing class="panel workflow-panel-sub"
+      <map-incidents-seasonal-fishing class="panel workflow-panel-sub" 
+        cdkDropList
+        (cdkDropListDropped)="drop($event, 'SEASONAL_FISHING')"
+        (cdkDropListEntered)="enter($event)"
+        (cdkDropListExited)="exit($event)"
         [active]="activePanel[1] === 'SEASONAL_FISHING'"
         [incidents]="incidentsByTypeAndStatus.seasonalFishing"
         [selectedIncident]="selectedIncident"
@@ -108,7 +128,11 @@
         [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'SEASONAL_FISHING', 'RESOLVED'])"
         [userTimezone]="userTimezone$ | async"
       ></map-incidents-seasonal-fishing>
-      <map-incidents-parked class="panel workflow-panel-sub"
+      <map-incidents-parked class="panel workflow-panel-sub" 
+        cdkDropList 
+        (cdkDropListDropped)="drop($event, 'PARKED')"
+        (cdkDropListEntered)="enter($event)"
+        (cdkDropListExited)="exit($event)"
         [active]="activePanel[1] === 'PARKED'"
         [incidents]="incidentsByTypeAndStatus.parked"
         [selectedIncident]="selectedIncident"
@@ -117,7 +141,11 @@
         [showResolvedOnMap]="toggleLastInPanelTree(['workflows', 'PARKED', 'RESOLVED'])"
         [userTimezone]="userTimezone$ | async"
       ></map-incidents-parked>
-      <map-incidents-ownership-transfer class="panel workflow-panel-sub"
+      <map-incidents-ownership-transfer class="panel workflow-panel-sub" 
+        cdkDropList 
+        (cdkDropListDropped)="drop($event, 'OWNERSHIP_TRANSFER')"
+        (cdkDropListEntered)="enter($event)"
+        (cdkDropListExited)="exit($event)"
         [active]="activePanel[1] === 'OWNERSHIP_TRANSFER'"
         [incidents]="incidentsByTypeAndStatus.ownershipTransfer"
         [selectedIncident]="selectedIncident"
@@ -193,5 +221,15 @@
       [useArrowsAsToggle]="true"
     >
     </map-panel-block> -->
+  </div>
+  <div class="panel" *ngIf="activePanel[0] === 'tracks'">
+    <h3 i18n>Tracks</h3>
+    <map-tracks-panel class="panel tracks-panel"
+      [track]="selectedAsset.assetTracks"
+      [selectedMovement]="selectedMovement"
+      [selectMovement]="selectMovement"
+      [panelExpanded]="columnExpanded"
+      [userTimezone]="userTimezone$ | async"
+    ></map-tracks-panel>
   </div>
 </div>

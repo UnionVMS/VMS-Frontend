@@ -9,6 +9,7 @@ import { hashCode } from '@app/helpers/helpers';
 export const initialState: Types.State = {
   selectedAssets: [],
   selectedAsset: null,
+  selectedMovement: null,
   selectedAssetsLastPositions: {},
   assetTrips: {},
   assetTripGranularity: 15,
@@ -312,6 +313,10 @@ export const assetReducer = createReducer(initialState,
     }
     return returnState;
   }),
+  on(AssetActions.selectMovement, (state, { movementId }) => ({
+    ...state,
+    selectedMovement: movementId
+  })),
   on(AssetActions.selectIncident, (state, { incident, incidentType }) => {
     let returnState = { ...state, selectedAsset: incident.assetId };
     if(!state.selectedAssets.some((selectedAssetId) => selectedAssetId === incident.assetId )) {
