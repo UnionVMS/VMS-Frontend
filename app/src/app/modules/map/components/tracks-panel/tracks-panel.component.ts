@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnChanges } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { formatUnixtimeSeconds } from '@app/helpers/datetime-formatter';
 import { compareTableSortNumber, compareTableSortString } from '@app/helpers/helpers';
@@ -51,15 +52,25 @@ export class TracksPanelComponent implements OnChanges {
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 
   public formattedTrack: ReadonlyArray<ExtendedTrack>;
-  public sortedTrack: ReadonlyArray<ExtendedTrack>;
+  public sortedTrack: Array<ExtendedTrack>;
+  public sortedAndPaginatedTrack: ReadonlyArray<ExtendedTrack>;
   public expandedElement: ExtendedTrack | null;
 
   public displayedColumns: string[] = ['timestamp', 'type'];
 
+  public showVms: boolean = true;
+  public hasVms: boolean = false;
+  public showAis: boolean = true;
+  public hasAis: boolean = false;
+  public showActivities: boolean = true;
+  public hasActivities: boolean = false;
+
   private defaultSorting: Sort = { active: 'timestamp', direction: 'desc' };
-  private currentSorting: Sort = this.defaultSorting;
+  public currentSorting: Sort = this.defaultSorting;
 
   private latestPanelExpanded: boolean;
+  private currentPageSize: number = 100;
+  private currentPageIndex: number = 1;
 
   ngOnChanges() {
     if(this.panelExpanded) {
@@ -125,19 +136,29 @@ export class TracksPanelComponent implements OnChanges {
         }, []);
         this.formattedTrack = this.formattedTrack.concat(activities);
       }
-      this.sortData(this.currentSorting);
+      this.hasVms = this.formattedTrack.some(position => position.type === 'VMS');
+      this.hasAis = this.formattedTrack.some(position => position.type === 'AIS');
+      this.hasActivities = this.formattedTrack.some(position => position.type !== 'VMS' && position.type !== 'AIS');
+      this.sortAndFilterData(this.currentSorting);
     }
   }
 
-  sortData(sort: Sort) {
+  sortAndFilterData(sort: Sort) {
     this.currentSorting = sort;
     const positions = this.formattedTrack.slice();
+
+    const filteredPositions = positions.filter(position =>
+      this.showVms && position.type === 'VMS' ||
+      this.showAis && position.type == 'AIS' ||
+      this.showActivities && position.type != 'VMS' && position.type != 'AIS'
+    );
+
     if (!sort.active || sort.direction === '') {
-      this.sortedTrack = positions;
+      this.sortedTrack = filteredPositions;
       return;
     }
 
-    this.sortedTrack = positions.sort((a, b) => {
+    this.sortedTrack = filteredPositions.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'timestamp': return compareTableSortNumber(a.timestamp, b.timestamp, isAsc);
@@ -149,6 +170,8 @@ export class TracksPanelComponent implements OnChanges {
         default: return 0;
       }
     });
+    const track = this.sortedTrack.slice();
+    this.sortedAndPaginatedTrack = track.splice((this.currentPageIndex - 1) * this.currentPageSize, this.currentPageSize );
   }
 
   selectRow(row: ExtendedTrack) {
@@ -169,5 +192,12 @@ export class TracksPanelComponent implements OnChanges {
 
   formatDate(dateTime: number) {
     return formatUnixtimeSeconds(dateTime);
+  }
+
+  selectPage(event: PageEvent) {
+    this.currentPageIndex = event.pageIndex;
+    this.currentPageSize = event.pageSize;
+    const track = this.sortedTrack.slice();
+    this.sortedAndPaginatedTrack = track.splice((event.pageIndex - 1) * event.pageSize, event.pageSize );
   }
 }

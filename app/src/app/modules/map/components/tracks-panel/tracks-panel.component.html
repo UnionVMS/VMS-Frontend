@@ -1,7 +1,37 @@
+<div class="type-selection">
+  <mat-slide-toggle
+    *ngIf="hasVms"
+    color="primary"
+    name="showVms"
+    (change)="sortAndFilterData(currentSorting)"
+    [disabled]="(!showAis || !hasAis) && (!showActivities || !hasActivities)"
+    [(ngModel)]="showVms">
+    VMS
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    *ngIf="hasAis"
+    color="primary"
+    name="showAis"
+    (change)="sortAndFilterData(currentSorting)"
+    [disabled]="(!showVms || !hasVms) && (!showActivities || !hasActivities)"
+    [(ngModel)]="showAis">
+    AIS
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    *ngIf="hasActivities"
+    color="primary"
+    name="showActivities"
+    (change)="sortAndFilterData(currentSorting)"
+    [disabled]="(!showVms || !hasVms) && (!showAis || !hasAis)"
+    [(ngModel)]="showActivities">
+    Activities
+  </mat-slide-toggle>
+</div>
+
 <div class="positions-container mat-elevation-z8" *ngIf="track && track.tracks">
 
-  <table mat-table [dataSource]="sortedTrack" class="position-table"
-    matSort matSortActive="timestamp" matSortDisableClear matSortDirection="desc" multiTemplateDataRows (matSortChange)="sortData($event)">
+  <table mat-table [dataSource]="sortedAndPaginatedTrack" class="position-table"
+    matSort matSortActive="timestamp" matSortDisableClear matSortDirection="desc" multiTemplateDataRows (matSortChange)="sortAndFilterData($event)">
 
     <ng-container matColumnDef="timestamp">
       <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Timestamp</th>
@@ -117,4 +147,6 @@
     </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedColumn']" class="row-details-hidden"></tr>
   </table>
+
+  <mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" [pageSize]="100" (page)="selectPage($event)" [length]="sortedTrack?.length"></mat-paginator>
 </div>
