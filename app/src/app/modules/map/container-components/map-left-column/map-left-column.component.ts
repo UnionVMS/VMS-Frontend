@@ -14,6 +14,7 @@ import { MapSettingsSelectors, MapSettingsTypes } from '@data/map-settings';
 import { Position } from '@data/generic.types';
 import { IncidentTypeFormDialogComponent } from '@modules/map/components/incident/incident-type-form-dialog/incident-type-form-dialog.component';
 import { NotesTypes } from '@data/notes';
+import { ActivitySelectors } from '@data/activity';
 
 @Component({
   selector: 'map-left-column',
@@ -28,6 +29,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   @Input() hideLeftColumn: (hidden: boolean) => void;
   @Input() selectedMovement: string;
   @Input() selectMovement: (movementId: string) => void;
+  @Input() selectedActivity: string;
+  @Input() selectActivity: (movementId: string) => void;
 
   public columnExpanded: boolean = false;
 
@@ -71,6 +74,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
 
   private readonly unmount$: Subject<boolean> = new Subject<boolean>();
 
+  public activityTracks$: Observable<any>;
+
   public selectedIncident: Readonly<IncidentTypes.Incident>;
   public dispatchSelectIncident: (incidentId: number) => void;
   public selectIncident: (incident: IncidentTypes.Incident) => void;
@@ -105,7 +110,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   public updateIncidentType: (incindentId: number, incidentType: IncidentTypes.IncidentTypes, expiryDate?: number) => void;
   public updateIncidentStatus: (incindentId: number, status: string, expiryDate?: number) => void;
   public updateIncidentExpiry: (incidentId: number, expiryDate: number) => void;
-  
+
   public changeType = (type: IncidentTypes.IncidentTypes) => {
     return this.updateIncidentType(this.selectedIncident.id, type);
   }
@@ -154,6 +159,7 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
         this.expandColumn(false);
       }
     });
+    this.activityTracks$ = this.store.select(ActivitySelectors.getActivityTracks);
     this.store.select(IncidentSelectors.getSelectedIncident).pipe(takeUntil(this.unmount$)).subscribe(
       incident => { this.selectedIncident = incident; }
     );
@@ -303,5 +309,5 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
   exit(event: CdkDragDrop<string[]> ) {
     this.getHTMLElementFromEvent(event).style.backgroundColor = "#FFFFFF";
   }
-  
+
 }

@@ -9,6 +9,8 @@
     [columnHidden]="leftColumnHidden"
     [selectedMovement]="selectedMovement$ | async"
     [selectMovement]="selectMovement"
+    [selectedActivity]="selectedActivity$ | async"
+    [selectActivity]="selectActivity"
   ></map-left-column>
   <div class="map-container">
     <div id="realtime-map"></div>
@@ -46,6 +48,8 @@
         [map]="map"
         [mapZoom]="mapZoom"
         [userTimezone]="userTimezone$ | async"
+        [selectedActivity]="selectedActivity$ | async"
+        [selectActivity]="selectActivity"
       ></map-tracks-activities>
       <map-tracks
         *ngIf="mapSettings.settings.tracksVisible && mapZoom > 5"

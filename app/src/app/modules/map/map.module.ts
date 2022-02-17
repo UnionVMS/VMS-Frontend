@@ -11,10 +11,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -95,8 +97,6 @@ import { TracksPanelComponent } from './components/tracks-panel/tracks-panel.com
 import { TracksSegmentsComponent } from './components/tracks-segments/tracks-segments.component';
 import { TripPlayerComponent } from './components/trip-player/trip-player.component';
 
-
-
 @NgModule({
   imports: [
     CommonModule,
@@ -113,10 +113,12 @@ import { TripPlayerComponent } from './components/trip-player/trip-player.compon
     MatSelectModule,
     MatSortModule,
     MatTableModule,
+    MatPaginatorModule,
     MatTabsModule,
     MatProgressSpinnerModule,
     MatRadioModule,
     MatSliderModule,
+    MatSlideToggleModule,
     MatTooltipModule,
     RouterModule,
     DragDropModule,

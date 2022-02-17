@@ -1,5 +1,17 @@
 @import 'variables.scss';
 
+.type-selection {
+  width: 250px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: distance(1);
+  padding-bottom: distance(1);
+
+  .mat-slide-toggle {
+    font-weight: bold;
+  }
+}
+
 .positions-container {
   display: grid;
 

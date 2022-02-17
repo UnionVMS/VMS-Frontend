@@ -1,7 +1,37 @@
+<div class="type-selection">
+  <mat-slide-toggle
+    *ngIf="hasVms"
+    color="primary"
+    name="showVms"
+    (change)="sortAndFilterData(currentSorting)"
+    [disabled]="(!showAis || !hasAis) && (!showActivities || !hasActivities)"
+    [(ngModel)]="showVms">
+    VMS
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    *ngIf="hasAis"
+    color="primary"
+    name="showAis"
+    (change)="sortAndFilterData(currentSorting)"
+    [disabled]="(!showVms || !hasVms) && (!showActivities || !hasActivities)"
+    [(ngModel)]="showAis">
+    AIS
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    *ngIf="hasActivities"
+    color="primary"
+    name="showActivities"
+    (change)="sortAndFilterData(currentSorting)"
+    [disabled]="(!showVms || !hasVms) && (!showAis || !hasAis)"
+    [(ngModel)]="showActivities">
+    Activities
+  </mat-slide-toggle>
+</div>
+
 <div class="positions-container mat-elevation-z8" *ngIf="track && track.tracks">
 
-  <table mat-table [dataSource]="sortedPositions" class="position-table"
-    matSort matSortActive="timestamp" matSortDisableClear matSortDirection="desc" multiTemplateDataRows (matSortChange)="sortData($event)">
+  <table mat-table [dataSource]="sortedAndPaginatedTrack" class="position-table"
+    matSort matSortActive="timestamp" matSortDisableClear matSortDirection="desc" multiTemplateDataRows (matSortChange)="sortAndFilterData($event)">
 
     <ng-container matColumnDef="timestamp">
       <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Timestamp</th>
@@ -10,12 +40,12 @@
 
     <ng-container matColumnDef="latitude">
       <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Latitude</th>
-      <td mat-cell *matCellDef="let row">{{ row.location.latitude.toFixed(6) }}</td>
+      <td mat-cell *matCellDef="let row">{{ row.latitude.toFixed(6) }}</td>
     </ng-container>
 
     <ng-container matColumnDef="longitude">
       <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Longitude</th>
-      <td mat-cell *matCellDef="let row">{{ row.location.longitude.toFixed(6) }}</td>
+      <td mat-cell *matCellDef="let row">{{ row.longitude.toFixed(6) }}</td>
     </ng-container>
 
     <ng-container matColumnDef="speed">
@@ -28,20 +58,20 @@
       <td mat-cell *matCellDef="let row">{{ row.heading }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="source">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Source</th>
-      <td mat-cell *matCellDef="let row">{{row.source}}</td>
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Type</th>
+      <td mat-cell *matCellDef="let row">{{ row.type }}</td>
     </ng-container>
 
     <ng-container matColumnDef="expandedColumn">
       <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
         <div class="row-details"
              [@detailExpand]="expandedElement && element.id === expandedElement.id ? 'expanded' : 'collapsed'">
-          <div *ngIf="!panelExpanded" class="row-details-fields">
+          <div *ngIf="!panelExpanded && expandedElement && expandedElement.movement !== undefined" class="row-details-fields">
             <legend i18n>Latitude:</legend>
-            <div>{{element.location.latitude.toFixed(6)}} ({{element.locationDDM.latitude}})</div>
+            <div>{{element.latitude.toFixed(6)}} ({{element.locationDDM.latitude}})</div>
             <legend i18n>Longitude:</legend>
-            <div>{{element.location.longitude.toFixed(6)}} ({{element.locationDDM.longitude}})</div>
+            <div>{{element.longitude.toFixed(6)}} ({{element.locationDDM.longitude}})</div>
             <legend i18n>Speed:</legend>
             <div>{{element.formattedSpeed}} kts</div>
             <ng-container *ngIf="element.formattedCalculatedSpeed">
@@ -52,16 +82,20 @@
               <legend i18n>Heading:</legend>
               <div>{{element.heading}}°</div>
             </ng-container>
-            <ng-container *ngIf="element.status">
+            <ng-container *ngIf="element.movement && element.movement.source">
+              <legend i18n>Source:</legend>
+              <div>{{element.movement.source}}</div>
+            </ng-container>
+            <ng-container *ngIf="element.movement && element.movement.status">
               <legend i18n>Status:</legend>
-              <div>{{element.status}}</div>
+              <div>{{element.movement.status}}</div>
             </ng-container>
             <ng-container *ngIf="element.oceanRegion">
               <legend i18n>Ocean region:</legend>
               <div>{{element.oceanRegion}}</div>
             </ng-container>
           </div>
-          <div *ngIf="panelExpanded" class="row-details-fields row-details-fields-expanded">
+          <div *ngIf="panelExpanded && expandedElement && expandedElement.movement !== undefined" class="row-details-fields row-details-fields-expanded">
             <legend i18n>Latitude:</legend>
             <div>{{element.locationDDM.latitude}}</div>
             <legend i18n>Longitude:</legend>
@@ -70,13 +104,33 @@
               <legend i18n>Calc. speed:</legend>
               <div>{{element.formattedCalculatedSpeed}} kts</div>
             </ng-container>
-            <ng-container *ngIf="element.status">
+            <ng-container *ngIf="element.movement && element.movement.status">
               <legend i18n>Status:</legend>
-              <div>{{element.status}}</div>
+              <div>{{element.movement.status}}</div>
             </ng-container>
             <ng-container *ngIf="element.oceanRegion">
               <legend i18n>Ocean region:</legend>
               <div>{{element.oceanRegion}}</div>
+            </ng-container>
+          </div>
+          <div *ngIf="expandedElement && expandedElement.activity !== undefined" class="row-details-fields">
+            <ng-container *ngFor="let port of expandedElement.activity.port">
+              <label i18n>Port:</label>
+              <div>{{ port }}</div>
+            </ng-container>
+            <ng-container *ngFor="let gear of expandedElement.activity.fishingGears">
+              <label i18n>Gear ({{ gear.gearRoleCode | titlecase }}):</label>
+              <div>{{ gear.gearTypeCode }}</div>
+            </ng-container>
+            <ng-container *ngFor="let activity of expandedElement.activity.relatedActivities">
+              <label>{{ activity.activityType.replace('_', ' ') | titlecase }}:</label>
+              <div>{{ formatDate(activity.occurence) }}</div>
+            </ng-container>
+            <ng-container *ngFor="let species of expandedElement.activity.species">
+              <label i18n>Species: ({{ species.typeCode | titlecase }}):</label>
+              <div>{{ species.code }} ({{ species.sizeClass }})</div>
+              <label i18n>Weight: ({{ species.weightMeans | titlecase }}):</label>
+              <div>{{ species.weight }}</div>
             </ng-container>
           </div>
         </div>
@@ -86,11 +140,13 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"
       class="row-element"
-      [class.selected]="selectedMovement === row.id"
+      [class.selected]="selectedMovement === row.id || selectedActivity === row.id"
       (click)="expandedElement = expandedElement && expandedElement.id === row.id ? null : row"
-      (mouseover)="selectMovement(row.id)"
-      (mouseleave)="selectMovement(null)">
+      (mouseover)="selectRow(row)"
+      (mouseleave)="unselectRow(row)">
     </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedColumn']" class="row-details-hidden"></tr>
   </table>
+
+  <mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" [pageSize]="100" (page)="selectPage($event)" [length]="sortedTrack?.length"></mat-paginator>
 </div>
