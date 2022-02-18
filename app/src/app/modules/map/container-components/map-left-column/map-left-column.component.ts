@@ -261,11 +261,8 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().pipe(first()).subscribe(detachResult => {
       if(typeof detachResult !== 'undefined' && detachResult !== false) {
-        this.changeType(detachResult.type);
+        this.updateIncidentType(this.selectedIncident.id,detachResult.type, detachResult.expiryDate);
         this.createIncidentNote(this.selectedIncident.id, { note: detachResult.note, assetId: this.selectedAsset.asset.id });
-        if(detachResult.expiryDate){
-          this.updateIncidentExpiry(this.selectedIncident.id, detachResult.expiryDate);
-        }
       }
     });
   }
@@ -274,7 +271,9 @@ export class MapLeftColumnComponent implements OnInit, OnDestroy {
     return (event.container.element.nativeElement.firstElementChild.firstElementChild.firstElementChild as HTMLElement);
   }
   drop(event: CdkDragDrop<string[]>, type: string ) {
-    this.openIncidentTypeFormDialog(type);
+    if(event.container.id !== event.previousContainer.id){
+      this.openIncidentTypeFormDialog(type);
+    }
     this.getHTMLElementFromEvent(event).style.backgroundColor = "#FFFFFF";
   }
   enter(event: CdkDragDrop<string[]> ) {
