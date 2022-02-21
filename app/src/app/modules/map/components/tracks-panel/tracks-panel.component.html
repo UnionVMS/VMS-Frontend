@@ -30,7 +30,7 @@
 
 <div class="positions-container mat-elevation-z8" *ngIf="track && track.tracks">
 
-  <table mat-table [dataSource]="sortedAndPaginatedTrack" class="position-table"
+  <table mat-table [dataSource]="sortedTrack" class="position-table"
     matSort matSortActive="timestamp" matSortDisableClear matSortDirection="desc" multiTemplateDataRows (matSortChange)="sortAndFilterData($event)">
 
     <ng-container matColumnDef="timestamp">
@@ -148,5 +148,5 @@
     <tr mat-row *matRowDef="let row; columns: ['expandedColumn']" class="row-details-hidden"></tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" [pageSize]="100" (page)="selectPage($event)" [length]="sortedTrack?.length"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" [pageSize]="100"></mat-paginator>
 </div>
