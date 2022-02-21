@@ -114,14 +114,15 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       let prev = JSON.stringify(change.assets.previousValue);
       doChange = cur !== prev;
     }else if( change.selectedAssets ) {
-      let cur  = JSON.stringify(Math.floor(change.selectedAssets.currentValue));
-      let prev = JSON.stringify(Math.floor(change.selectedAssets.previousValue));
+      let cur  = JSON.stringify(change.selectedAssets.currentValue);
+      let prev = JSON.stringify(change.selectedAssets.previousValue);
       doChange = cur !== prev;
     }else if( change.mapZoom ) {
       let cur  = JSON.stringify(Math.floor(change.mapZoom.currentValue));
       let prev = JSON.stringify(Math.floor(change.mapZoom.previousValue));
       doChange = cur !== prev;
     }
+    
     if(doChange){
       
       if(this.mapZoom < 10) {
