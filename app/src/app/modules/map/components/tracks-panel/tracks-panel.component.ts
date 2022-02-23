@@ -1,7 +1,8 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnChanges } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { formatUnixtimeSeconds } from '@app/helpers/datetime-formatter';
 import { compareTableSortNumber, compareTableSortString } from '@app/helpers/helpers';
 import { convertDDToDDM } from '@app/helpers/wgs84-formatter';
@@ -51,9 +52,10 @@ export class TracksPanelComponent implements OnChanges {
   @Input() panelExpanded: boolean;
   @Input() userTimezone: string; // Ensure the component is updated when the timezone changes.
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   public formattedTrack: ReadonlyArray<ExtendedTrack>;
-  public sortedTrack: Array<ExtendedTrack>;
-  public sortedAndPaginatedTrack: ReadonlyArray<ExtendedTrack>;
+  public sortedTrack: MatTableDataSource<ExtendedTrack>;
   public expandedElement: ExtendedTrack | null;
 
   public displayedColumns: string[] = ['timestamp', 'type'];
@@ -69,8 +71,6 @@ export class TracksPanelComponent implements OnChanges {
   public currentSorting: Sort = this.defaultSorting;
 
   private latestPanelExpanded: boolean;
-  private currentPageSize: number = 100;
-  private currentPageIndex: number = 1;
 
   ngOnChanges() {
     if(this.panelExpanded) {
@@ -154,11 +154,12 @@ export class TracksPanelComponent implements OnChanges {
     );
 
     if (!sort.active || sort.direction === '') {
-      this.sortedTrack = filteredPositions;
+      this.sortedTrack = new MatTableDataSource<ExtendedTrack>(filteredPositions);
+      this.sortedTrack.paginator = this.paginator;
       return;
     }
 
-    this.sortedTrack = filteredPositions.sort((a, b) => {
+    this.sortedTrack = new MatTableDataSource<ExtendedTrack>(filteredPositions.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'timestamp': return compareTableSortNumber(a.timestamp, b.timestamp, isAsc);
@@ -169,9 +170,8 @@ export class TracksPanelComponent implements OnChanges {
         case 'type': return compareTableSortString(a.type, b.type, isAsc);
         default: return 0;
       }
-    });
-    const track = this.sortedTrack.slice();
-    this.sortedAndPaginatedTrack = track.splice((this.currentPageIndex - 1) * this.currentPageSize, this.currentPageSize );
+    }));
+    this.sortedTrack.paginator = this.paginator;
   }
 
   selectRow(row: ExtendedTrack) {
@@ -192,12 +192,5 @@ export class TracksPanelComponent implements OnChanges {
 
   formatDate(dateTime: number) {
     return formatUnixtimeSeconds(dateTime);
-  }
-
-  selectPage(event: PageEvent) {
-    this.currentPageIndex = event.pageIndex;
-    this.currentPageSize = event.pageSize;
-    const track = this.sortedTrack.slice();
-    this.sortedAndPaginatedTrack = track.splice((event.pageIndex - 1) * event.pageSize, event.pageSize );
   }
 }
