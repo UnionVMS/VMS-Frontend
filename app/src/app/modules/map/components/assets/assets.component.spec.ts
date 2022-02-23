@@ -1,5 +1,4 @@
 import { waitForAsync, TestBed } from '@angular/core/testing';
-import { SimpleChanges, SimpleChange} from '@angular/core';
 
 import { deg2rad } from '@app/helpers/helpers';
 import { fromLonLat } from 'ol/proj';
@@ -17,9 +16,6 @@ describe('AssetsComponent', () => {
     })
     .compileComponents();
   }));
-
-  const BASE_STYLE : number = 0;
-  const TARGET_STYLE : number = 1;
 
   const setup = () => {
     const fixture = TestBed.createComponent(AssetsComponent);
@@ -48,6 +44,7 @@ describe('AssetsComponent', () => {
     component['speedsVisibleCalculated'] = false;
     let text = component.getTextStyleForName(AssetMovementWithEssentialsStub);
     expect(text.getText()).toEqual(AssetMovementWithEssentialsStub.asset.name);
+    expect(text.getOffsetY()).toEqual(20);
 
     component['speedsVisibleCalculated'] = true;
     text = component.getTextStyleForName(AssetMovementWithEssentialsStub);
@@ -55,10 +52,12 @@ describe('AssetsComponent', () => {
       AssetMovementWithEssentialsStub.asset.name + '\n' +
       AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts'
     );
+    expect(text.getOffsetY()).toEqual(30);
 
     component['namesVisibleCalculated'] = false;
     text = component.getTextStyleForName(AssetMovementWithEssentialsStub);
     expect(text.getText()).toEqual(AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts');
+    expect(text.getOffsetY()).toEqual(20);
   });
 
   it('should create feature from asset correctly', () => {
@@ -70,12 +69,13 @@ describe('AssetsComponent', () => {
       AssetMovementWithEssentialsStub.assetMovement.movement.location.longitude,
       AssetMovementWithEssentialsStub.assetMovement.movement.location.latitude
     ]));
-    expect(feature.getStyle()[BASE_STYLE].getImage().getRotation()).toEqual(deg2rad(
+    expect(feature.getStyle().getImage().getRotation()).toEqual(deg2rad(
       AssetMovementWithEssentialsStub.assetMovement.movement.heading
     ));
 
-    const textStyle = feature.getStyle()[BASE_STYLE].getText();
+    const textStyle = feature.getStyle().getText();
     expect(textStyle.getText()).toEqual(AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts');
+    expect(textStyle.getOffsetY()).toEqual(20);
   });
 
   it('should create feature from asset correctly', () => {
@@ -103,21 +103,21 @@ describe('AssetsComponent', () => {
     expect(updatedFeature.getGeometry().getCoordinates()).toEqual(fromLonLat([
       updatedAsset.assetMovement.movement.location.longitude, updatedAsset.assetMovement.movement.location.latitude
     ]));
-    expect(updatedFeature.getStyle()[BASE_STYLE].getImage().getRotation()).toEqual(deg2rad(updatedAsset.assetMovement.movement.heading));
+    expect(updatedFeature.getStyle().getImage().getRotation()).toEqual(deg2rad(updatedAsset.assetMovement.movement.heading));
 
     component['namesVisibleCalculated'] = true;
     const updatedFeatureWithName = component.updateFeatureFromAsset(updatedFeature, updatedAsset);
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
     expect(updatedFeatureWithName.getId()).toEqual(updatedFeature.getId());
-    expect(updatedFeatureWithName.getStyle()[BASE_STYLE].getText().getText()).toEqual(updatedAsset.asset.name);
+    expect(updatedFeatureWithName.getStyle().getText().getText()).toEqual(updatedAsset.asset.name);
 
     component['speedsVisibleCalculated'] = true;
     const updatedFeatureWithSpeed = component.updateFeatureFromAsset(updatedFeatureWithName, updatedAsset);
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
     expect(updatedFeatureWithSpeed.getId()).toEqual(updatedFeatureWithName.getId());
-    expect(updatedFeatureWithSpeed.getStyle()[BASE_STYLE].getText().getText())
+    expect(updatedFeatureWithSpeed.getStyle().getText().getText())
       .toEqual(updatedAsset.asset.name + '\n' + updatedAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
 
     const fasterAsset =  { ...updatedAsset,
@@ -131,7 +131,7 @@ describe('AssetsComponent', () => {
     const updatedFeatureWithExtraSpeed = component.updateFeatureFromAsset(updatedFeatureWithSpeed, fasterAsset);
     component['namesWereVisibleLastRerender'] = component['namesVisibleCalculated'];
     component['speedsWereVisibleLastRerender'] = component['speedsVisibleCalculated'];
-    expect(updatedFeatureWithExtraSpeed.getStyle()[BASE_STYLE].getText().getText())
+    expect(updatedFeatureWithExtraSpeed.getStyle().getText().getText())
       .toEqual(fasterAsset.asset.name + '\n' + fasterAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
   });
 
@@ -165,11 +165,7 @@ describe('AssetsComponent', () => {
 
     component.assets = [AssetMovementWithEssentialsStub];
     expect(component['vectorSource'].getFeatures().length).toEqual(0);
-    let change : SimpleChange = new SimpleChange(16,17,false);
-    let changes : SimpleChanges = {
-      "mapZoom": change
-    };
-    component.ngOnChanges(changes);
+    component.ngOnChanges();
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
     const fastAsset = { ...AssetMovementWithEssentialsStub,
       assetMovement: { ...AssetMovementWithEssentialsStub.assetMovement,
@@ -177,11 +173,11 @@ describe('AssetsComponent', () => {
       }
     };
     component.assets = [fastAsset];
-    expect(component['vectorSource'].getFeatures()[0].getStyle()[BASE_STYLE].getText().getText())
+    expect(component['vectorSource'].getFeatures()[0].getStyle().getText().getText())
       .toEqual(AssetMovementWithEssentialsStub.assetMovement.movement.speed.toFixed(2) + ' kts');
-    component.ngOnChanges(changes);
+    component.ngOnChanges();
     expect(component['vectorSource'].getFeatures().length).toEqual(1);
-    expect(component['vectorSource'].getFeatures()[0].getStyle()[BASE_STYLE].getText().getText())
+    expect(component['vectorSource'].getFeatures()[0].getStyle().getText().getText())
       .toEqual(fastAsset.assetMovement.movement.speed.toFixed(2) + ' kts');
   });
 
