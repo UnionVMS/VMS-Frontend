@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { AssetTypes } from '@data/asset';
 import { deg2rad, intToRGB, hashCode } from '@app/helpers/helpers';
 
@@ -45,17 +45,10 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   private assetLastUpdateHash: { [assetId: string]: Array<number|boolean>} = {};
   // Instead of an array we use object for faster lookup in ngOnChange loop.
   private renderedAssetIds: { [ assetId: string]: boolean } = {};
+  private previouslySelectedAssetIds = [];
 
   private namesVisibleCalculated: boolean;
   private speedsVisibleCalculated: boolean;
-
-  private numberOfVesselsOnPosition: { [position: string]: number} = {};
-  private reRenderAssetIds : string[] = [];
-  private previouslySelectedAssetIds = [];
-  private reRender: boolean;
-
-  private readonly BASE_STYLE : number = 0;
-  private readonly TARGET_STYLE : number = 1;
 
   private readonly knownVesselTypes = [
     'Fishing', 'Law Enforcement', 'Military', 'WIG', 'Pleasure Craft', 'Sailing', 'SAR',
@@ -99,6 +92,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         }
       }
     });
+
     this.vectorSource.addFeatures(this.assets.map((asset) => {
       this.renderedAssetIds[asset.assetMovement.asset] = true;
       return this.createFeatureFromAsset(asset);
@@ -107,130 +101,122 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     this.vectorLayer.getSource().changed();
   }
 
-  ngOnChanges(change: SimpleChanges) {
-    let doChange = false
-    if( change.assets ){
-      let cur  = JSON.stringify(change.assets.currentValue);
-      let prev = JSON.stringify(change.assets.previousValue);
-      doChange = cur !== prev;
-    }else if( change.selectedAssets ) {
-      let cur  = JSON.stringify(change.selectedAssets.currentValue);
-      let prev = JSON.stringify(change.selectedAssets.previousValue);
-      doChange = cur !== prev;
-    }else if( change.mapZoom ) {
-      let cur  = JSON.stringify(Math.floor(change.mapZoom.currentValue));
-      let prev = JSON.stringify(Math.floor(change.mapZoom.previousValue));
-      doChange = cur !== prev;
+  ngOnChanges() {
+    if(this.mapZoom < 8) {
+      this.namesVisibleCalculated = false;
+      this.speedsVisibleCalculated = false;
+    } else {
+      this.namesVisibleCalculated = this.namesVisible;
+      this.speedsVisibleCalculated = this.speedsVisible;
     }
-    
-    if(doChange){
-      
-      if(this.mapZoom < 10) {
-        this.namesVisibleCalculated = false;
-        this.speedsVisibleCalculated = false;
-      } else {
-        this.namesVisibleCalculated = this.namesVisible;
-        this.speedsVisibleCalculated = this.speedsVisible;
+    // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
+    if (typeof this.vectorSource !== 'undefined') {
+      const assetsToRender = this.assets.reduce((acc, asset) => {
+        acc[asset.assetMovement.asset] = true;
+        return acc;
+      }, {});
+      const reRenderAssets = Object.keys(this.renderedAssetIds).some((assetId) => assetsToRender[assetId] !== true);
+
+      if(reRenderAssets) {
+        // Instead of removing them one by one which triggers recalculations inside open layers after every removal
+        // we clear the entire map of assets and redraw them, this scales linearly instead of exponentialy it appears.
+        this.vectorSource.clear();
+        this.assetLastUpdateHash = {};
+        this.assetSpeedsPreviouslyRendered = {};
       }
-  
-      // ngOnChange runs before ngOnInit when component mounts, we don't want to run this code then, only on updates.
-      if (typeof this.vectorSource !== 'undefined') {
-        const assetsToRender = this.assets.reduce((acc, asset) => {
-          acc[asset.assetMovement.asset] = true;
-          return acc;
-        }, {});
-        let reRenderAssets = Object.keys(this.renderedAssetIds).some((assetId) => assetsToRender[assetId] !== true);
 
-        reRenderAssets = this.reRenderAssetIds ? true : false;
-        if(reRenderAssets) {
-          this.numberOfVesselsOnPosition = {};
-          // Instead of removing them one by one which triggers recalculations inside open layers after every removal
-          // we clear the entire map of assets and redraw them, this scales linearly instead of exponentialy it appears.
-          this.vectorSource.clear();
-          this.assetLastUpdateHash = {};
-          this.assetSpeedsPreviouslyRendered = {};
-        }
+      if(this.assets.length === 0) {
+        return false;
+      }
 
-        if(this.assets.length === 0) {
-          return false;
-        }
+      const newRenderedAssetIds = reRenderAssets ? {} : this.renderedAssetIds;
 
-        const newRenderedAssetIds = reRenderAssets ? {} : this.renderedAssetIds;
-
-        if(reRenderAssets) {
-
-        this.vectorSource.addFeatures(
-          this.assets.reduce((acc, asset) => {
-            if(this.numberOfVesselsOnPosition && Object.keys(this.numberOfVesselsOnPosition).length > 0 ){
-              if(Math.floor(this.mapZoom) > 16 && this.reRenderAssetIds && this.reRenderAssetIds.length > 0){
-                this.reRender = true;
-              }
-              if(Math.floor(this.mapZoom) < 16 && this.reRender){
-                this.reRender = false;
-              }
-            }
-            if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
-              newRenderedAssetIds[asset.assetMovement.asset] = true;
-            }
-            if(reRenderAssets) {
-              acc.push(this.createFeatureFromAsset(asset));
-              return acc;
-            }
-            const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
-            if (assetFeature !== null) {
-              this.updateFeatureFromAsset(assetFeature, asset);
-            } else {
-              acc.push(this.createFeatureFromAsset(asset));
-            }
+      this.vectorSource.addFeatures(
+        this.assets.reduce((acc, asset) => {
+          if(newRenderedAssetIds[asset.assetMovement.asset] === undefined) {
+            newRenderedAssetIds[asset.assetMovement.asset] = true;
+          }
+          if(reRenderAssets) {
+            acc.push(this.createFeatureFromAsset(asset));
             return acc;
-          }, [])
-        );
-        reRenderAssets = null;
-        const currentlySelectedIds = [];
-        // Invert colors for selected asset and change previously selected assets icon back to normal.
-        this.selectedAssets.map((selectedAsset) => {
-          currentlySelectedIds.push(selectedAsset.asset.id);
-          if(!this.previouslySelectedAssetIds.some((previousAssetId) => previousAssetId === selectedAsset.asset.id)) {
-            
-            const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
-            if(selectedAssetFeature) {
-                this.addTargetImageOnAsset(selectedAssetFeature);
-                // We need to reset position to force rerender of asset.
-                selectedAssetFeature.setGeometry(new Point(fromLonLat([
-                  selectedAsset.currentPosition.movement.location.longitude,
-                  selectedAsset.currentPosition.movement.location.latitude
-                ])));
-            }else{
-              this.removeTargetImageOnAsset(selectedAsset.asset.id);
-            }
-          };
-        });
+          }
+          const assetFeature = this.vectorSource.getFeatureById(asset.assetMovement.asset);
 
-        this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
-        this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;
-        this.renderedAssetIds = newRenderedAssetIds;
+          if (assetFeature !== null) {
+            this.updateFeatureFromAsset(assetFeature, asset);
+          } else {
+            acc.push(this.createFeatureFromAsset(asset));
+          }
+          return acc;
+        }, [])
+      );
+
+      const currentlySelectedIds = [];
+      // Invert colors for selected asset and change previously selected assets icon back to normal.
+      this.selectedAssets.map((selectedAsset) => {
+        currentlySelectedIds.push(selectedAsset.asset.id);
+        if(!this.previouslySelectedAssetIds.some((previousAssetId) => previousAssetId === selectedAsset.asset.id)) {
+          
+          const selectedAssetFeature = this.vectorSource.getFeatureById(selectedAsset.asset.id);
+          if(selectedAssetFeature) {
+            this.addTargetImageOnAsset(
+              selectedAssetFeature,
+              '/assets/target.png'
+            );
+
+            // We need to reset position to force rerender of asset.
+            selectedAssetFeature.setGeometry(new Point(fromLonLat([
+              selectedAsset.currentPosition.movement.location.longitude,
+              selectedAsset.currentPosition.movement.location.latitude
+            ])));
+          }
         }
-      }
+      });
+
+      this.previouslySelectedAssetIds.map((previouslySelectedAssetId) => {
+        if(!currentlySelectedIds.some((assetId) => assetId === previouslySelectedAssetId)) {
+          const previouslySelectedAssetFeature = this.vectorSource.getFeatureById(previouslySelectedAssetId);
+          if(typeof previouslySelectedAssetFeature !== 'undefined' && previouslySelectedAssetFeature !== null) {
+            const previouslySelectedAsset = this.assets.find((asset) => asset.assetMovement.asset === previouslySelectedAssetId);
+            this.removeTargetImageOnAsset(
+              previouslySelectedAssetFeature,
+            );
+          }
+        }
+      });
+      this.previouslySelectedAssetIds = currentlySelectedIds;
+
+      this.namesWereVisibleLastRerender = this.namesVisibleCalculated;
+      this.speedsWereVisibleLastRerender = this.speedsVisibleCalculated;
+      this.renderedAssetIds = newRenderedAssetIds;
     }
   }
 
-  addTargetImageOnAsset(assetFeature) {
+  addTargetImageOnAsset(assetFeature, src) {
     let style = assetFeature.getStyle();
+    if(!Array.isArray(style)) {
+      style = [style];
+    }
 
-    style[this.TARGET_STYLE] = new Style({
+    style.push(new Style({
       image: new Icon({
-        src : '/assets/target.png',
+        src,
         color: '#FF0000',
         opacity: 1
       })
-    });
+    }));
 
     assetFeature.setStyle(style);
   }
 
   removeTargetImageOnAsset(assetFeature) {
-    assetFeature.setStyle(assetFeature.getStyle()[this.BASE_STYLE]);
+    let style = assetFeature.getStyle();
+    if(Array.isArray(style)) {
+      style = style[0];
+      assetFeature.setStyle(style);
+    }
   }
+
 
   ngOnDestroy() {
     this.unregisterOnSelectFunction(this.layerTitle);
@@ -258,33 +244,17 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         color: this.getShipColor(asset)
       })
     };
-
-    const stylePropertiesTarget: any = {
-      image: new Icon({
-        src: '/assets/target.png',
-        opacity: 1,
-        color: '#FF0000'
-      })
-    };
-    
     if (this.namesVisibleCalculated || this.speedsVisibleCalculated) {
       styleProperties.text = this.getTextStyleForName(asset);
     }
 
-    const assetBaseStyle = new Style(styleProperties);
-    // styleArray always consists of two array indexes
-    const styleArray = [assetBaseStyle, new Style()];
-    // add target image to style array if asset is selected
-    if(this.selectedAssets.length && asset && asset.asset && asset.asset.id){
-      this.selectedAssets.forEach(selectedAsset => {
-        selectedAsset.asset.id === asset.asset.id ? styleArray[this.TARGET_STYLE] = new Style(stylePropertiesTarget) : null;
-      });
-    }
-    assetFeature.setStyle(styleArray);
+    const assetStyle = new Style(styleProperties);
+
+    assetFeature.setStyle(assetStyle);
     assetFeature.setId(assetMovement.asset);
 
     if(asset.assetMovement.decayPercentage !== undefined) {
-      assetFeature.getStyle()[this.BASE_STYLE].getImage().setOpacity(asset.assetMovement.decayPercentage);
+      assetFeature.getStyle().getImage().setOpacity(asset.assetMovement.decayPercentage);
     }
 
     const currentAssetPosition = [
@@ -458,6 +428,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       asset.assetMovement.decayPercentage,
       typeof asset.asset === 'undefined'
     ];
+
     const oldStuff = this.assetLastUpdateHash[asset.assetMovement.asset];
     if(
       oldStuff === undefined ||
@@ -467,11 +438,15 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         [asset.assetMovement.movement.location.longitude, asset.assetMovement.movement.location.latitude]
       )));
       const style = assetFeature.getStyle();
-      style[this.BASE_STYLE].getImage().setRotation(deg2rad(asset.assetMovement.movement.heading));
+      if(Array.isArray(style)) {
+        style[0].getImage().setRotation(deg2rad(asset.assetMovement.movement.heading));
+      } else {
+        style.getImage().setRotation(deg2rad(asset.assetMovement.movement.heading));
+      }
       this.assetLastUpdateHash[asset.assetMovement.asset] = currentAssetPosition;
     }
     if(oldStuff === undefined || oldStuff[3] !== currentAssetPosition[3]) {
-      assetFeature.getStyle()[this.BASE_STYLE].getImage().setOpacity(asset.assetMovement.decayPercentage);
+      assetFeature.getStyle().getImage().setOpacity(asset.assetMovement.decayPercentage);
     }
     if (
       this.namesWereVisibleLastRerender !== this.namesVisibleCalculated ||
@@ -484,15 +459,25 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
     ) {
       const style = assetFeature.getStyle();
       if (this.namesVisibleCalculated || this.speedsVisibleCalculated) {
-        style[this.BASE_STYLE].setText(this.getTextStyleForName(asset));
+        if(Array.isArray(style)) {
+          style[0].setText(this.getTextStyleForName(asset));
+        } else {
+          style.setText(this.getTextStyleForName(asset));
+        }
       } else {
-        style[this.BASE_STYLE].setText(null);
+        if(Array.isArray(style)) {
+          style[0].setText(null);
+        } else {
+          style.setText(null);
+        }
       }
     }
-    
     if(oldStuff === undefined || oldStuff[4] !== currentAssetPosition[4]) {
       const style = assetFeature.getStyle();
-      let actualStyle = style[this.BASE_STYLE];
+      let actualStyle = style;
+      if(Array.isArray(style)) {
+        actualStyle = style[0];
+      }
       actualStyle.setImage(new Icon({
         src: '/assets/Vessel.png',
         opacity: actualStyle.getImage().getOpacity(),
@@ -506,14 +491,11 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
   getTextStyleForName(asset: AssetTypes.AssetMovementWithAsset) {
     let text = null;
     let offsetY = 20;
-    let currentPosition = asset.assetMovement.movement.location.latitude + '' + ':' +
-      asset.assetMovement.movement.location.longitude + '';
-
     if (this.namesVisibleCalculated && asset.asset !== undefined) {
-      if(asset.asset.name !== undefined){
+      if( asset.asset.name !== undefined){
         text = asset.asset.name;
       }
-      if(asset.asset.name === undefined && asset.asset.externalMarking !== undefined){
+      if( asset.asset.name === undefined && asset.asset.externalMarking !== undefined){
         text = asset.asset.externalMarking;
       }
       if(asset.asset.name === 'NO NAME' 
@@ -521,26 +503,11 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
       && asset.asset.externalMarking !== undefined){
         text = asset.asset.externalMarking;
       }
-
-    // this.numberOfVesselsOnPosition[currentPosition] is used for offsetting text if several assets is in the same location
-    if(asset.assetMovement.movement.location.latitude && asset.assetMovement.movement.location.longitude 
-      && currentPosition ){
-        if(!this.numberOfVesselsOnPosition[currentPosition] ){
-          this.numberOfVesselsOnPosition[currentPosition] = 1;
-        }else if(this.numberOfVesselsOnPosition[currentPosition] === 1 && Math.floor(this.mapZoom) >= 16){
-          offsetY = offsetY + (20 * this.numberOfVesselsOnPosition[currentPosition]);
-          this.numberOfVesselsOnPosition[currentPosition] = this.numberOfVesselsOnPosition[currentPosition] + 1;
-        }else if(this.numberOfVesselsOnPosition[currentPosition] > 1 && Math.floor(this.mapZoom) >= 16){
-          offsetY = offsetY + (20 * this.numberOfVesselsOnPosition[currentPosition]);
-          this.numberOfVesselsOnPosition[currentPosition] = this.numberOfVesselsOnPosition[currentPosition] + 1;
-          this.reRenderAssetIds.push(asset.asset.id);
-        }
-      }
     }
     if (this.speedsVisibleCalculated && asset.assetMovement.movement.speed !== null) {
       if (text !== null) {
         text += '\n' + asset.assetMovement.movement.speed.toFixed(2) + ' kts';
-        offsetY = offsetY + (10 * this.numberOfVesselsOnPosition[currentPosition]);
+        offsetY = 30;
       } else {
         text = asset.assetMovement.movement.speed.toFixed(2) + ' kts';
       }
@@ -548,6 +515,7 @@ export class AssetsComponent implements OnInit, OnDestroy, OnChanges {
         ? asset.assetMovement.movement.speed.toFixed(2)
         : null;
     }
+
     return new Text({
       font: '13px Calibri,sans-serif',
       fill: new Fill({ color: '#000' }),
