@@ -38,7 +38,7 @@
     "event-source-polyfill": "^1.0.20",
     "i18n-iso-countries": "^5.5.0",
     "jwt-decode": "^3.1.2",
-    "moment-timezone": "^0.5.32",
+    "moment-timezone": "^0.5.35",
     "ol": "~6.4.0",
     "proj4": "^2.6.1",
     "remixicon": "^2.5.0",
